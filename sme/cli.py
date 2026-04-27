@@ -49,6 +49,25 @@ def _load_adapter(name: str, **kwargs) -> SMEAdapter:
             kwargs.pop(k, None)
         return MemPalaceDaemonAdapter(**kwargs)
 
+    if name == "rlm":
+        from sme.adapters.rlm_adapter import RlmAdapter
+
+        # Drop kwargs RLM doesn't understand.
+        for k in (
+            "include_node_tables",
+            "include_edge_tables",
+            "auto_discover",
+            "kg_path",
+            "collection_name",
+            "default_query_mode",
+            "db_path",
+            "buffer_pool_size",
+            "kind",
+            "read_only",
+        ):
+            kwargs.pop(k, None)
+        return RlmAdapter(**kwargs)
+
     if name == "familiar":
         from sme.adapters.familiar import FamiliarAdapter
 
@@ -1372,9 +1391,9 @@ def main(argv: list[str] | None = None) -> int:
         "--adapter",
         required=True,
         help="adapter name (flat | mempalace | mempalace-daemon | familiar | "
-        "ladybugdb | full-context). full-context is the Karpathy-baseline "
-        "Condition D1 — pass --db <vault_dir> and it loads every .md file "
-        "as the prompt context with no retrieval.",
+        "rlm | ladybugdb | full-context | karpathy-compiled). full-context "
+        "is the Karpathy-baseline Condition D1 — pass --db <vault_dir> and "
+        "it loads every .md file as the prompt context with no retrieval.",
     )
     ret.add_argument(
         "--db",

@@ -468,10 +468,13 @@ productionize RLM into familiar's chat path. Without that data,
 the design spec's "RLM and familiar are complementary" hypothesis
 stays a hypothesis.
 
-### Live benchmark answers (2026-04-30)
+### Live benchmark answers (2026-04-30, ChromaDB-era backend)
 
 Two RLM runs against `jp-realm-v0.1` with different orchestrator
-sizes, same `mempalace_search` plumbing, same palace:
+sizes, same `mempalace_search` plumbing, same palace. *These readings
+predate the May 2026 palace migration from ChromaDB to postgres +
+pgvector + Apache AGE; see the "Step 1 retrieval-breadth probe"
+subsection below for the fresh readings.*
 
 | Run | Mean recall | Full recall | Hits (any) | Hit rate |
 |---|---|---|---|---|
@@ -526,6 +529,43 @@ than an inferred decoration.
 
 Baseline JSONs: [`baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json`](../baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json),
 [`baselines/jp_realm_v0_1_rlm_llama70b_20260426.json`](../baselines/jp_realm_v0_1_rlm_llama70b_20260426.json).
+
+### Step 1 retrieval-breadth probe (2026-05-15, postgres+pgvector+AGE backend)
+
+After the [upstream #3 discriminating-experiment proposal](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457514474),
+Step 1 of the staged plan re-ran the same corpus with the cheapest
+knob varying first: `--n-results 5 → 20` on the postgres+pgvector+AGE
+backend with `gemma3:4b` as the answer/orchestrator model (the same
+model familiar's current pipeline uses, so the synthesis layer is
+constant across conditions).
+
+| Run | n_results | Mean recall |
+|---|---|---|
+| familiar (current pipeline, gemma3:4b) | 5 | **88.33%** |
+| familiar (current pipeline, gemma3:4b) | 20 | **86.67%** |
+| rlm + gemma3:4b (via familiar host Ollama) | 5 | *(in flight)* |
+| rlm + gemma3:4b (via familiar host Ollama) | 20 | *(in flight)* |
+
+**Familiar saturates at n=5.** The 1.66pp drop at n=20 is within
+noise on n=30, but materially nothing lifts. That tells us
+familiar's rerank + temporal decay + extractive compression layer
+is already finding the right drawers from the top-5 vector
+candidates — widening the candidate pool isn't load-bearing for the
+ceiling. The rerank stage is where the work happens.
+
+**RLM readings pending will close the loop:** if RLM @ n=20 also
+saturates flat against RLM @ n=5, the ceiling is provably *not*
+retrieval-breadth-bound at either the deterministic-pipeline layer
+or the orchestrator layer. That promotes Step 2 (the prompt-
+discipline experiment from the upstream discriminating proposal) to
+the next move. If RLM @ n=20 lifts materially where familiar
+didn't, retrieval breadth is the LLM-orchestrator-specific lever —
+a finding the framework needs to record in the 9a sub-test spec.
+
+Baseline JSONs (filenames may change as the RLM runs land):
+[`baselines/jp_realm_v0_1_familiar_2026-05-15_n20.json`](../baselines/jp_realm_v0_1_familiar_2026-05-15_n20.json),
+the existing [`baselines/jp_realm_v0_1_familiar_2026-05-14_hybrid_gemma3.json`](../baselines/jp_realm_v0_1_familiar_2026-05-14_hybrid_gemma3.json)
+serves as the n=5 reading.
 
 ## What's next
 

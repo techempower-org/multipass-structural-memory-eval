@@ -127,16 +127,26 @@ daemon.
 
 **Wired endpoints:**
 
-- `query()` → `GET /search?q=…&kind=…&limit=…` with `X-API-Key`. Default
-  `kind="content"` excludes Stop-hook auto-save checkpoints; pass
-  `--kind all` to disable. Daemon-side `warnings` (e.g. broken HNSW
-  index) are surfaced into `QueryResult.error` as `WARN: …` so Cat 9
-  scoring can distinguish flagged retrieval from clean retrieval.
+- `query()` → `GET /search?q=…&limit=…` with `X-API-Key`. Daemon-side
+  `warnings` (e.g. degraded vector index) are surfaced into
+  `QueryResult.error` as `WARN: …` so Cat 9 scoring can distinguish
+  flagged retrieval from clean retrieval. *The adapter still passes a
+  `kind=` query parameter for backward compat, but as of mempalace fork
+  v1.7.1 ([`7ba28dc`](https://github.com/techempower-org/mempalace/commit/7ba28dc))
+  the daemon silently ignores it — Stop-hook checkpoints moved to a
+  dedicated collection, making the binary `kind=content`/`kind=all`
+  filter inert. The vestigial CLI flag will be removed pending the
+  scope-filter design call in
+  [techempower-org/mempalace#76](https://github.com/techempower-org/mempalace/issues/76).*
 - `get_graph_snapshot()` → tries `GET /graph` first (palace-daemon
   ≥1.6.0); on 404, falls back to walking `mempalace_list_wings`,
   `mempalace_list_rooms` per wing, and `mempalace_list_tunnels` via
   `POST /mcp`. The MCP fallback is slower (~30s on a 151K-drawer
-  palace) but works against any palace-daemon version.
+  palace) but works against any palace-daemon version. Note: passive
+  (room-shared-across-wings) tunnels are under-reported on the MCP
+  fallback path until
+  [techempower-org/mempalace#75](https://github.com/techempower-org/mempalace/issues/75)
+  lands — `/graph` already returns the correct count.
 
 **Auth resolution:** explicit `--api-url` / `--api-key` flags →
 `~/.config/palace-daemon/env` (`PALACE_DAEMON_URL`, `PALACE_API_KEY`)
@@ -149,15 +159,16 @@ daemon.
 sme-eval retrieve --adapter mempalace-daemon \
     --api-url http://your-daemon:8085 \
     --questions corpus.yaml \
-    --kind content \
     --json out.json
 
 # Or, if ~/.config/palace-daemon/env is populated, no flags needed
 sme-eval retrieve --adapter mempalace-daemon --questions corpus.yaml
 ```
 
-The same `--api-url` / `--api-key` / `--kind` flags work on the
-`cat4`, `cat5`, and `check` subcommands.
+The same `--api-url` / `--api-key` flags work on the `cat4`, `cat5`,
+and `check` subcommands. (The `--kind` flag still parses for backward
+compat but is operationally a no-op against current daemons — see the
+endpoint note above.)
 
 **Why this matters:** the engram-2 critique ("0.984 R@5 but 17% E2E
 QA accuracy") is about the integration-under-production-model slice
@@ -174,6 +185,14 @@ default install pattern), the existing `mempalace` adapter is
 correct — single process, no daemon, direct ChromaDB access is
 fine. The daemon adapter is *additive*, for users who've adopted
 palace-daemon's single-writer architecture.
+
+> **Backend note.** The `mempalace-daemon` adapter targets palace-daemon
+> regardless of the storage backend underneath. JP's production palace
+> migrated from ChromaDB to **postgres + pgvector + Apache AGE** in May
+> 2026; the daemon's HTTP surface is unchanged, so the adapter works
+> against either era without modification. The existing `mempalace`
+> adapter (direct, no daemon) still assumes ChromaDB and would need
+> updates to target a postgres-backed palace directly.
 
 ### familiar — by [jphein](https://github.com/jphein)
 
@@ -243,7 +262,9 @@ env vars point the openai backend at any compatible endpoint —
 local llama.cpp, hosted Llama 3.3 70B, anything OpenAI-shaped —
 without touching the cloud-chat-assistant config-file fallback path.
 
-**First two live readings on `jp-realm-v0.1` (30 questions):**
+**Live readings on `jp-realm-v0.1` (30 questions).**
+
+*April 2026 — ChromaDB-era palace backend:*
 
 | Run | Mean recall | Tool-call distribution |
 |---|---|---|
@@ -260,11 +281,48 @@ filed upstream. See the [onboarding
 guide](docs/ideas.md#rlmadapter--research-scaffold-2026-04-26) for
 the full discussion and the per-question deltas.
 
+*May 2026 — postgres+pgvector+AGE palace backend, Step 1 retrieval-breadth probe:*
+
+| Run | n_results | Mean recall |
+|---|---|---|
+| familiar (current pipeline, gemma3:4b) | 5 | **88.33%** |
+| familiar (current pipeline, gemma3:4b) | 20 | **86.67%** |
+| rlm + gemma3:4b (via familiar host Ollama) | 5 | *(in flight)* |
+| rlm + gemma3:4b (via familiar host Ollama) | 20 | *(in flight)* |
+
+Familiar saturates at n=5: the n_results 5→20 expansion gives a
+1.66pp drop (within noise on n=30) — the rerank/compression stage
+is finding the right drawers from the top-5 vector candidates, so
+widening the candidate pool doesn't help. RLM readings landing
+2026-05-15 will tell us whether the same saturation holds at the
+orchestrator layer, or whether retrieval breadth lifts the
+LLM-as-orchestrator ceiling that doesn't move with model size.
+See [upstream comment thread on #3](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457514474)
+for the discriminating-experiment context.
+
 **Invocation:**
 
 ```bash
 RLM_BASE_URL=https://your-endpoint RLM_MODEL=llama-3.3-70b RLM_API_KEY=...     PALACE_DAEMON_URL=http://your-daemon:8085 PALACE_API_KEY=...     sme-eval retrieve --adapter rlm     --questions sme/corpora/jp_realm_v0_1/questions.yaml     --json baselines/rlm_$(date +%Y%m%d).json
 ```
+
+## Upstream conversation (2026-05)
+
+Active threads across the SME ↔ mempalace fork boundary that this
+fork is currently driving:
+
+**On [M0nkeyFl0wer/multipass-structural-memory-eval](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval) (SME upstream):**
+
+- PR [#7](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/pull/7) — RlmAdapter + Qwen-7B/Llama-70B baselines; cat5 API-arg forwarding fix landed in [`7d081c3`](https://github.com/jphein/multipass-structural-memory-eval/commit/7d081c3); kind-filter integration test xfail'd in [`6184680`](https://github.com/jphein/multipass-structural-memory-eval/commit/6184680).
+- Issue [#3](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3) — Cat 9a invocation rate; discriminating experiment proposed ([RLM-forced / RLM-grounded / RLM-on-familiar](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457514474)) and n=200 git-derived probe corpus offered ([addendum](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457757792)) as a domain-relevant alternative to LongMemEval cross-validation.
+- Issue [#4](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/4) — Phantom Wall (Cat 8b); proposed [mixed PROV-O / SHACL alignment](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/4#issuecomment-4457514600) with primary-source verification flagged.
+- Issue [#8](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/8) — Adapter contract testkit; argued [strict with documented opt-out](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/8#issuecomment-4457514719) based on bugs caught/missed across the three recent adapters.
+- Issue [#9](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/9) — MemoryBench cross-validation; recommended [sub-repo bridge with upstream-PR target on the horizon](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/9#issuecomment-4457514825).
+
+**On [techempower-org/mempalace](https://github.com/techempower-org/mempalace) (mempalace fork):**
+
+- Issue [#75](https://github.com/techempower-org/mempalace/issues/75) — `mempalace_list_tunnels` MCP tool surfaces only explicit (agent-created) tunnels; passive (room-shared-across-wings) tunnels are computed in `graph_stats.top_tunnels` but have no direct MCP query path. Proposed `include_passive=True` parameter or sibling tool.
+- Issue [#76](https://github.com/techempower-org/mempalace/issues/76) — Design call: bring back a more general scope/collection filter on search now that the palace has multiple stores (drawers, session_recovery, …), given the binary `kind=` filter was retired in [`7ba28dc`](https://github.com/techempower-org/mempalace/commit/7ba28dc) after the checkpoint-collection split made it inert.
 
 ## License
 

@@ -1,0 +1,592 @@
+{
+  "adapter": "familiar",
+  "db_path": null,
+  "collection_name": null,
+  "corpus_version": "jp-realm-v0.1",
+  "n_results": 20,
+  "questions": [
+    {
+      "id": "q01_familiar_what",
+      "text": "What is familiar.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "familiar",
+        "palace"
+      ],
+      "matched_sources": [
+        "familiar",
+        "palace"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 477,
+      "elapsed_ms": 5057.7,
+      "retrieval_path": [],
+      "error": "WARN: palace_unreachable; low_confidence"
+    },
+    {
+      "id": "q02_realm_sigil_role",
+      "text": "What does realm-sigil do across JP's projects?",
+      "min_hops": 1,
+      "expected_sources": [
+        "sigil",
+        "version"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 477,
+      "elapsed_ms": 5019.8,
+      "retrieval_path": [],
+      "error": "WARN: palace_unreachable; low_confidence"
+    },
+    {
+      "id": "q03_status_realm_watch",
+      "text": "What is status.realm.watch and what does it monitor?",
+      "min_hops": 1,
+      "expected_sources": [
+        "status",
+        "realm"
+      ],
+      "matched_sources": [
+        "realm"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 477,
+      "elapsed_ms": 5010.0,
+      "retrieval_path": [],
+      "error": "WARN: palace_unreachable; low_confidence"
+    },
+    {
+      "id": "q04_os_realm_watch",
+      "text": "What is os.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "os.realm",
+        "quest"
+      ],
+      "matched_sources": [
+        "os.realm",
+        "quest"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2134,
+      "elapsed_ms": 3463.8,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q05_portal_realm",
+      "text": "What does the realm-portal VM serve?",
+      "min_hops": 1,
+      "expected_sources": [
+        "portal",
+        "VM"
+      ],
+      "matched_sources": [
+        "portal",
+        "VM"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1859,
+      "elapsed_ms": 4048.7,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q06_mempalace_fork",
+      "text": "What are the key features of JP's mempalace fork vs upstream?",
+      "min_hops": 1,
+      "expected_sources": [
+        "mempalace",
+        "fork"
+      ],
+      "matched_sources": [
+        "mempalace",
+        "fork"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3004,
+      "elapsed_ms": 3138.5,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q07_palace_daemon_role",
+      "text": "What is palace-daemon for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "daemon",
+        "HTTP"
+      ],
+      "matched_sources": [
+        "daemon",
+        "HTTP"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2871,
+      "elapsed_ms": 3027.3,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q08_kind_filter",
+      "text": "What does the kind=content search filter do?",
+      "min_hops": 1,
+      "expected_sources": [
+        "kind",
+        "checkpoint"
+      ],
+      "matched_sources": [
+        "kind",
+        "checkpoint"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3958,
+      "elapsed_ms": 3653.3,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q09_silent_save",
+      "text": "What is the /silent-save endpoint?",
+      "min_hops": 1,
+      "expected_sources": [
+        "silent-save",
+        "diary"
+      ],
+      "matched_sources": [
+        "silent-save",
+        "diary"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3760,
+      "elapsed_ms": 3124.0,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q10_hnsw_rebuild",
+      "text": "How do you rebuild the HNSW index when search recall is degraded?",
+      "min_hops": 1,
+      "expected_sources": [
+        "HNSW",
+        "rebuild"
+      ],
+      "matched_sources": [
+        "HNSW",
+        "rebuild"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2697,
+      "elapsed_ms": 2204.5,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q11_multipass_role",
+      "text": "What is multipass-structural-memory-eval?",
+      "min_hops": 1,
+      "expected_sources": [
+        "multipass",
+        "eval"
+      ],
+      "matched_sources": [
+        "multipass",
+        "eval"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3597,
+      "elapsed_ms": 1959.6,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q12_rlm_paper",
+      "text": "What is the rlm (Recursive Language Models) project about?",
+      "min_hops": 1,
+      "expected_sources": [
+        "rlm",
+        "recursive"
+      ],
+      "matched_sources": [
+        "rlm",
+        "recursive"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3173,
+      "elapsed_ms": 2339.8,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q13_graphpalace",
+      "text": "What is GraphPalace and how does its pheromone model work?",
+      "min_hops": 1,
+      "expected_sources": [
+        "GraphPalace",
+        "pheromone"
+      ],
+      "matched_sources": [
+        "GraphPalace",
+        "pheromone"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3291,
+      "elapsed_ms": 2593.4,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q14_hermes_agent",
+      "text": "What is hermes-agent?",
+      "min_hops": 1,
+      "expected_sources": [
+        "hermes",
+        "agent"
+      ],
+      "matched_sources": [
+        "hermes",
+        "agent"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3986,
+      "elapsed_ms": 2268.9,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q15_context_engine_emmimal",
+      "text": "What is the Emmimal context-engine framework?",
+      "min_hops": 1,
+      "expected_sources": [
+        "context-engine",
+        "rerank"
+      ],
+      "matched_sources": [
+        "context-engine",
+        "rerank"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2871,
+      "elapsed_ms": 2333.1,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q16_speech_to_cli",
+      "text": "What does speech-to-cli do?",
+      "min_hops": 1,
+      "expected_sources": [
+        "speech",
+        "voice"
+      ],
+      "matched_sources": [
+        "voice"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 477,
+      "elapsed_ms": 5022.8,
+      "retrieval_path": [],
+      "error": "WARN: palace_unreachable; low_confidence"
+    },
+    {
+      "id": "q17_vault_gate",
+      "text": "What is vault-gate and how does it unlock Vaultwarden?",
+      "min_hops": 1,
+      "expected_sources": [
+        "vault-gate",
+        "bw"
+      ],
+      "matched_sources": [
+        "vault-gate",
+        "bw"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1896,
+      "elapsed_ms": 1822.5,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q18_cc_switcher",
+      "text": "What is the cc tool used for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "claude-code-switcher",
+        "provider"
+      ],
+      "matched_sources": [
+        "claude-code-switcher",
+        "provider"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2479,
+      "elapsed_ms": 1867.3,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q19_outline_wiki",
+      "text": "What is JP's Outline wiki used for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "outline",
+        "documentation"
+      ],
+      "matched_sources": [
+        "outline",
+        "documentation"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2323,
+      "elapsed_ms": 1829.8,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q20_realm_optimizer",
+      "text": "What is realm-optimizer?",
+      "min_hops": 1,
+      "expected_sources": [
+        "optimizer",
+        "quest"
+      ],
+      "matched_sources": [
+        "optimizer",
+        "quest"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3056,
+      "elapsed_ms": 1513.7,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q21_gatekeeper_router",
+      "text": "What is the gatekeeper firewall and what does it run?",
+      "min_hops": 1,
+      "expected_sources": [
+        "gatekeeper",
+        "OpenWrt"
+      ],
+      "matched_sources": [
+        "gatekeeper",
+        "OpenWrt"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2512,
+      "elapsed_ms": 1810.4,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q22_ubox0_caddy",
+      "text": "What does ubox0 serve via Caddy?",
+      "min_hops": 1,
+      "expected_sources": [
+        "ubox0",
+        "Caddy"
+      ],
+      "matched_sources": [
+        "ubox0",
+        "Caddy"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2693,
+      "elapsed_ms": 1458.2,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q23_disks_services",
+      "text": "What services run on the disks host?",
+      "min_hops": 2,
+      "expected_sources": [
+        "disks",
+        "palace-daemon"
+      ],
+      "matched_sources": [
+        "disks"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 2628,
+      "elapsed_ms": 1910.8,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q24_katana_role",
+      "text": "What is the role of katana in JP's homelab?",
+      "min_hops": 1,
+      "expected_sources": [
+        "katana",
+        "GPU"
+      ],
+      "matched_sources": [
+        "katana"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 3753,
+      "elapsed_ms": 1431.6,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q25_vlans_collectd",
+      "text": "How is JP's network organized in VLANs?",
+      "min_hops": 2,
+      "expected_sources": [
+        "VLAN",
+        "collectd"
+      ],
+      "matched_sources": [
+        "VLAN"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 2050,
+      "elapsed_ms": 1676.7,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q26_caddy_dns_resolvers",
+      "text": "What was the Caddy ACME DNS-01 cert renewal issue and the fix?",
+      "min_hops": 1,
+      "expected_sources": [
+        "resolvers",
+        "dns-01"
+      ],
+      "matched_sources": [
+        "resolvers",
+        "dns-01"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3635,
+      "elapsed_ms": 1443.7,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q27_v02_retrieval_pipeline",
+      "text": "What does familiar v0.2's retrieval pipeline do?",
+      "min_hops": 2,
+      "expected_sources": [
+        "rerank",
+        "decay"
+      ],
+      "matched_sources": [
+        "rerank",
+        "decay"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3490,
+      "elapsed_ms": 1197.6,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q28_postgres_migration",
+      "text": "What is the planned palace storage migration to Postgres?",
+      "min_hops": 1,
+      "expected_sources": [
+        "Postgres",
+        "pgvector"
+      ],
+      "matched_sources": [
+        "Postgres",
+        "pgvector"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3468,
+      "elapsed_ms": 1301.0,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q29_p40_upgrade",
+      "text": "What is the planned P40 GPU upgrade for the familiar host?",
+      "min_hops": 1,
+      "expected_sources": [
+        "P40",
+        "VRAM"
+      ],
+      "matched_sources": [
+        "P40",
+        "VRAM"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3317,
+      "elapsed_ms": 1516.0,
+      "retrieval_path": [],
+      "error": null
+    },
+    {
+      "id": "q30_techempower",
+      "text": "What is JP's TechEmpower work?",
+      "min_hops": 1,
+      "expected_sources": [
+        "TechEmpower",
+        "technology"
+      ],
+      "matched_sources": [
+        "TechEmpower"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 2469,
+      "elapsed_ms": 1852.6,
+      "retrieval_path": [],
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 30,
+    "full_recall": 23,
+    "partial_hit": 29,
+    "mean_recall": 0.8666666666666667,
+    "mean_tokens": 2629.266666666667,
+    "tokens_per_correct_answer": 3429.478260869565,
+    "by_hop": {
+      "1": {
+        "n": 27,
+        "mean_recall": 0.8888888888888888,
+        "hit_rate": 0.9629629629629629,
+        "mean_tokens": 2618.8888888888887
+      },
+      "2": {
+        "n": 3,
+        "mean_recall": 0.6666666666666666,
+        "hit_rate": 1.0,
+        "mean_tokens": 2722.6666666666665
+      }
+    }
+  }
+}

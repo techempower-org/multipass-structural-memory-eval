@@ -1084,6 +1084,75 @@ class _OpenAILLMClient:
         return response.choices[0].message.content or ""
 
 
+def _build_retrieve_snapshot(
+    args: argparse.Namespace, qdoc: dict, per_question: list[dict]
+) -> dict:
+    """Build the JSON snapshot dict from the current per_question state.
+
+    Recomputes summary stats from scratch so the result is correct
+    after any partial state. Cheap (linear in per_question size) —
+    called after every completed question for incremental on-disk
+    snapshots, so the file is always a valid full-shape record of
+    what's been measured so far.
+    """
+    by_hop: dict[int, list[dict]] = {}
+    for pq in per_question:
+        by_hop.setdefault(pq["min_hops"], []).append(pq)
+
+    total_n = len(per_question)
+    total_recall = (
+        sum(pq["recall"] for pq in per_question) / total_n if total_n else 0.0
+    )
+    total_tokens = sum(pq["tokens"] for pq in per_question)
+    correct_count = sum(1 for pq in per_question if pq["recall"] >= 1.0)
+    tokens_per_correct = (
+        (total_tokens / correct_count) if correct_count else None
+    )
+
+    return {
+        "adapter": args.adapter,
+        "db_path": args.db,
+        "collection_name": args.collection_name,
+        "corpus_version": qdoc.get("version", "?"),
+        "n_results": args.n_results,
+        "questions": per_question,
+        "summary": {
+            "total": total_n,
+            "full_recall": correct_count,
+            "partial_hit": sum(1 for pq in per_question if pq["hit"]),
+            "mean_recall": total_recall,
+            "mean_tokens": total_tokens / total_n if total_n else 0.0,
+            "tokens_per_correct_answer": tokens_per_correct,
+            "by_hop": {
+                str(h): {
+                    "n": len(g),
+                    "mean_recall": sum(pq["recall"] for pq in g) / len(g),
+                    "hit_rate": sum(1 for pq in g if pq["hit"]) / len(g),
+                    "mean_tokens": sum(pq["tokens"] for pq in g) / len(g),
+                }
+                for h, g in by_hop.items()
+            },
+        },
+    }
+
+
+def _write_snapshot_atomic(path: str, data: dict) -> None:
+    """Write JSON to ``path`` atomically (temp file + rename).
+
+    POSIX ``rename(2)`` is atomic within the same filesystem, so
+    consumers never see a half-written file even if we crash or are
+    killed mid-write. Errors are logged and swallowed — a disk-full
+    or permission issue should not crash a multi-hour eval loop.
+    """
+    p = Path(path)
+    tmp = p.with_suffix(p.suffix + ".tmp")
+    try:
+        tmp.write_text(json.dumps(data, indent=2, default=str))
+        tmp.replace(p)
+    except OSError as e:
+        log.warning("incremental snapshot write to %s failed: %s", path, e)
+
+
 def cmd_retrieve(args: argparse.Namespace) -> int:
     """Run a question set through an adapter's query() and score it."""
     import yaml
@@ -1205,6 +1274,16 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
             }
         )
 
+        # Incremental snapshot: write the JSON output after every
+        # completed question so a timeout or crash mid-run still leaves
+        # a valid partial record on disk. The final summary block below
+        # will overwrite this same file with the run's complete state.
+        if args.json:
+            _write_snapshot_atomic(
+                args.json,
+                _build_retrieve_snapshot(args, qdoc, per_question),
+            )
+
     # Summary
     print()
     print("=" * 80)
@@ -1247,34 +1326,10 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     )
 
     if args.json:
-        out = {
-            "adapter": args.adapter,
-            "db_path": args.db,
-            "collection_name": args.collection_name,
-            "corpus_version": qdoc.get("version", "?"),
-            "n_results": args.n_results,
-            "questions": per_question,
-            "summary": {
-                "total": total_n,
-                "full_recall": correct_count,
-                "partial_hit": sum(1 for pq in per_question if pq["hit"]),
-                "mean_recall": total_recall,
-                "mean_tokens": total_tokens / total_n if total_n else 0.0,
-                "tokens_per_correct_answer": (
-                    tokens_per_correct if correct_count else None
-                ),
-                "by_hop": {
-                    str(h): {
-                        "n": len(g),
-                        "mean_recall": sum(pq["recall"] for pq in g) / len(g),
-                        "hit_rate": sum(1 for pq in g if pq["hit"]) / len(g),
-                        "mean_tokens": sum(pq["tokens"] for pq in g) / len(g),
-                    }
-                    for h, g in by_hop.items()
-                },
-            },
-        }
-        Path(args.json).write_text(json.dumps(out, indent=2, default=str))
+        _write_snapshot_atomic(
+            args.json,
+            _build_retrieve_snapshot(args, qdoc, per_question),
+        )
         print(f"\nJSON report written to {args.json}")
 
     adapter.close()

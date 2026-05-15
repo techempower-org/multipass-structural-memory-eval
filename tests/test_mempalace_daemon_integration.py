@@ -47,6 +47,20 @@ def test_snapshot_returns_at_least_one_wing(adapter):
     assert len(wing_names) >= 1
 
 
+@pytest.mark.xfail(
+    reason=(
+        "kind= filter retired in mempalace fork 7ba28dc (2026-04-27) after "
+        "the Phase A–E checkpoint-collection split moved Stop-hook "
+        "checkpoints to mempalace_session_recovery; the filter became inert "
+        "because mempalace_search only reads mempalace_drawers. The daemon "
+        "still accepts kind= as a query param for backward compat but "
+        "silently ignores it. See techempower-org/mempalace#76 for the "
+        "design question of whether to bring back a more general "
+        "scope/collection filter, and SME's vestigial DEFAULT_KIND / --kind "
+        "CLI flag for cleanup once that's decided."
+    ),
+    strict=False,
+)
 def test_kind_content_excludes_stop_hook_checkpoints(adapter):
     """Cross-check the README's behavioural claim: kind='content'
     excludes Stop-hook auto-save checkpoints (which start with

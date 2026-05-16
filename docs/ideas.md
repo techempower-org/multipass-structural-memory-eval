@@ -530,42 +530,76 @@ than an inferred decoration.
 Baseline JSONs: [`baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json`](../baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json),
 [`baselines/jp_realm_v0_1_rlm_llama70b_20260426.json`](../baselines/jp_realm_v0_1_rlm_llama70b_20260426.json).
 
-### Step 1 retrieval-breadth probe (2026-05-15, postgres+pgvector+AGE backend)
+### Step 1 retrieval-breadth probe (2026-05-15, postgres+pgvector+AGE backend) — COMPLETE
 
 After the [upstream #3 discriminating-experiment proposal](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457514474),
-Step 1 of the staged plan re-ran the same corpus with the cheapest
-knob varying first: `--n-results 5 → 20` on the postgres+pgvector+AGE
-backend with `gemma3:4b` as the answer/orchestrator model (the same
-model familiar's current pipeline uses, so the synthesis layer is
-constant across conditions).
+Step 1 of the staged plan ran `--n-results 5 → 20` on the
+postgres+pgvector+AGE backend across **four adapter conditions**
+(retrieval-only floor, deterministic-pipeline ceiling, and two
+RLM-orchestrator candidates from the [n=200 git-probe corpus addendum](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457757792)
+work):
 
-| Run | n_results | Mean recall |
-|---|---|---|
-| familiar (current pipeline, gemma3:4b) | 5 | **88.33%** |
-| familiar (current pipeline, gemma3:4b) | 20 | **86.67%** |
-| rlm + gemma3:4b (via familiar host Ollama) | 5 | *(in flight)* |
-| rlm + gemma3:4b (via familiar host Ollama) | 20 | *(in flight)* |
+| Adapter | n=5 | n=20 | Δ (breadth) | n=5 hit-rate |
+|---|---|---|---|---|
+| `mempalace-daemon` (retrieval-only) | 73.3% | **81.7%** | **+8.4pp** | 27/30 (90%) |
+| `familiar` (full pipeline, gemma3:4b synth) | **88.3%** | 86.7% | -1.7pp | 30/30 (100%) |
+| `rlm` + gemma4:e4b (4B agentic-tuned) | 41.7% | 41.7% | **0.0pp** | 17/30 (57%) |
+| `rlm` + qwen3.5:4b (4B Tau2-tuned) | 71.7% | 75.0% | +3.3pp | 28/30 (93%) |
+
+#### Three saturation patterns at three layers
 
 **Familiar saturates at n=5.** The 1.66pp drop at n=20 is within
-noise on n=30, but materially nothing lifts. That tells us
-familiar's rerank + temporal decay + extractive compression layer
-is already finding the right drawers from the top-5 vector
-candidates — widening the candidate pool isn't load-bearing for the
-ceiling. The rerank stage is where the work happens.
+noise on n=30. Familiar's rerank + temporal decay + extractive
+compression is already finding the right drawers from the top-5
+vector candidates — widening the candidate pool isn't load-bearing
+for the ceiling. **The rerank stage is where the work happens.**
 
-**RLM readings pending will close the loop:** if RLM @ n=20 also
-saturates flat against RLM @ n=5, the ceiling is provably *not*
-retrieval-breadth-bound at either the deterministic-pipeline layer
-or the orchestrator layer. That promotes Step 2 (the prompt-
-discipline experiment from the upstream discriminating proposal) to
-the next move. If RLM @ n=20 lifts materially where familiar
-didn't, retrieval breadth is the LLM-orchestrator-specific lever —
-a finding the framework needs to record in the 9a sub-test spec.
+**Mempalace-daemon (no rerank) DOES benefit from breadth.** +8.4pp
+from n=5 → n=20 at the no-orchestrator layer means the substrate
+itself has more relevant context at top-20 than at top-5 — but
+familiar's rerank already extracts it from the smaller pool. The
+"breadth saturation" claim is rerank-specific, not substrate-wide.
 
-Baseline JSONs (filenames may change as the RLM runs land):
-[`baselines/jp_realm_v0_1_familiar_2026-05-15_n20.json`](../baselines/jp_realm_v0_1_familiar_2026-05-15_n20.json),
-the existing [`baselines/jp_realm_v0_1_familiar_2026-05-14_hybrid_gemma3.json`](../baselines/jp_realm_v0_1_familiar_2026-05-14_hybrid_gemma3.json)
-serves as the n=5 reading.
+**Both RLM orchestrators also saturate at n=5.** gemma4 is literally
+flat (0.0pp). qwen3.5 lifts slightly (+3.3pp) but well below the
+daemon's +8.4pp. Wider retrieval candidate pools don't materially
+help the LLM-orchestrator's synthesis discipline.
+
+#### Base model choice dominates orchestrator effectiveness
+
+The headline finding: **same backend, same corpus, same wrapper
+code, same 4B parameter class — 30pp recall gap between gemma4:e4b
+and qwen3.5:4b**. Tool-use-trained Qwen 3.5 (whose published Tau2
+score leads Gemma 4 E4B by ~37.7 points) outperforms by almost
+exactly the predicted magnitude on this independent corpus. The
+Cat 9a ceiling isn't bound by parameter count (gemma4 ties
+Llama 3.3 70B's April 47% baseline), it's bound by orchestrator
+training.
+
+**gemma4-RLM saturates 31.6pp BELOW the daemon retrieval floor** —
+actively dropping signal the substrate already returns. **qwen3.5-RLM
+saturates near the daemon floor** (71-75% vs 73-82%) — first
+orchestrator we've measured that doesn't regress retrieval.
+
+#### Implication for Cat 9a (The Handshake) sub-test spec
+
+The 9a invocation-rate sub-test currently scores "did the LLM call
+the search tool at all" as a binary. The Step 1 readings suggest
+**a stronger second-axis metric for the spec**: did the LLM's
+synthesis of retrieved content match the expected source filename?
+The 31.6pp gap between gemma4-RLM (0.417) and daemon-only (0.733)
+quantifies how often the orchestrator retrieves the right drawer
+but fails to write its source into the answer. That's a different
+failure mode than "didn't invoke." 9a should disambiguate.
+
+Baseline JSONs:
+[`baselines/jp_realm_v0_1_daemon_2026-05-15_n5.json`](../baselines/jp_realm_v0_1_daemon_2026-05-15_n5.json) /
+[`_n20.json`](../baselines/jp_realm_v0_1_daemon_2026-05-15_n20.json),
+[`_familiar_2026-05-15_n20.json`](../baselines/jp_realm_v0_1_familiar_2026-05-15_n20.json),
+[`_rlm_2026-05-15_gemma4e4b_n5.json`](../baselines/jp_realm_v0_1_rlm_2026-05-15_gemma4e4b_n5.json) /
+[`_n20.json`](../baselines/jp_realm_v0_1_rlm_2026-05-15_gemma4e4b_n20.json),
+[`_rlm_2026-05-15_qwen35_4b_n5.json`](../baselines/jp_realm_v0_1_rlm_2026-05-15_qwen35_4b_n5.json) /
+[`_n20.json`](../baselines/jp_realm_v0_1_rlm_2026-05-15_qwen35_4b_n20.json).
 
 ## What's next
 

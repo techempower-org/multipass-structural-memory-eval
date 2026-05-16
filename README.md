@@ -281,24 +281,44 @@ filed upstream. See the [onboarding
 guide](docs/ideas.md#rlmadapter--research-scaffold-2026-04-26) for
 the full discussion and the per-question deltas.
 
-*May 2026 — postgres+pgvector+AGE palace backend, Step 1 retrieval-breadth probe:*
+*May 2026 — postgres+pgvector+AGE palace backend, Step 1 retrieval-breadth probe (complete):*
 
-| Run | n_results | Mean recall |
-|---|---|---|
-| familiar (current pipeline, gemma3:4b) | 5 | **88.33%** |
-| familiar (current pipeline, gemma3:4b) | 20 | **86.67%** |
-| rlm + gemma3:4b (via familiar host Ollama) | 5 | *(in flight)* |
-| rlm + gemma3:4b (via familiar host Ollama) | 20 | *(in flight)* |
+| Adapter | n=5 | n=20 | Δ (breadth) |
+|---|---|---|---|
+| `mempalace-daemon` (retrieval-only) | 73.3% | **81.7%** | **+8.4pp** |
+| `familiar` (full pipeline, gemma3:4b) | **88.3%** | 86.7% | -1.7pp |
+| `rlm` + gemma4:e4b | 41.7% | 41.7% | **0.0pp** |
+| `rlm` + qwen3.5:4b | 71.7% | 75.0% | +3.3pp |
 
-Familiar saturates at n=5: the n_results 5→20 expansion gives a
-1.66pp drop (within noise on n=30) — the rerank/compression stage
-is finding the right drawers from the top-5 vector candidates, so
-widening the candidate pool doesn't help. RLM readings landing
-2026-05-15 will tell us whether the same saturation holds at the
-orchestrator layer, or whether retrieval breadth lifts the
-LLM-as-orchestrator ceiling that doesn't move with model size.
+**Findings:**
+
+- **Backend migration lift**: daemon n=5 went from 70.0% (April,
+  ChromaDB-era) → 73.3% (May, postgres+pgvector+AGE). +3.3pp from
+  the hybrid-search substrate alone.
+- **Retrieval breadth helps at the substrate layer** (+8.4pp daemon
+  n=5 → n=20) but **saturates at every layer above it**: familiar's
+  rerank already finds the right drawers from top-5; both RLM
+  orchestrators also saturate near n=5.
+- **Base model choice dominates orchestrator behavior at fixed
+  parameter count**: gemma4:e4b and qwen3.5:4b are both 4B, same
+  wrapper code, same backend, same corpus — yet **30pp recall gap**
+  between them. Tool-use-training (Qwen 3.5's RL on tool
+  trajectories) shows up as both higher recall AND higher hit-rate
+  on Cat 9a-shaped tasks. Empirical validation of the published Tau2
+  benchmark gap (~37.7 points) on an independent corpus.
+- **gemma4-RLM saturates 31.6pp BELOW the daemon retrieval-only
+  floor** — the orchestrator is actively dropping signal the
+  substrate provides for free. By contrast, **qwen3.5-RLM saturates
+  near the daemon floor** (71-75% vs 73-82%) — first orchestrator
+  we've measured that doesn't regress retrieval.
+- **Hit-rate (any-match) is the cleanest summary**: gemma4 17-18/30
+  (~57%), qwen3.5 27-28/30 (~92%), daemon 27/30 (~90%), familiar
+  29-30/30 (~97%).
+
 See [upstream comment thread on #3](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3#issuecomment-4457514474)
-for the discriminating-experiment context.
+for the discriminating-experiment context, and the [Step 1 follow-up
+comment](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3)
+(to be posted alongside this commit).
 
 **Invocation:**
 

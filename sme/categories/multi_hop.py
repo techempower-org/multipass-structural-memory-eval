@@ -6,7 +6,7 @@ is a pure post-processing step over Cat 1/Cat 7 style results — it
 reuses the same questions and simply groups them by their annotated
 ``min_hops`` value.
 
-Spec expectation (from sme_spec_v5 Cat 2c):
+Spec expectation (from sme_spec_v8 Cat 2c):
 
     At 1-hop, graph advantage may be modest (1.5x). At 3-hop, it
     should be dramatic (5-10x). If it doesn't scale with depth,

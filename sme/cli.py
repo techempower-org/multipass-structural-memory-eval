@@ -1548,7 +1548,12 @@ def main(argv: list[str] | None = None) -> int:
         help="Run Category 8 (ontology coherence) against a system. "
         "Compares the system's declared ontology to its actual graph.",
     )
-    c8.add_argument("--adapter", required=True)
+    c8.add_argument(
+        "--adapter",
+        required=True,
+        help="adapter name (flat | mempalace | mempalace-daemon | familiar | "
+        "rlm | ladybugdb).",
+    )
     c8.add_argument("--db", required=True, help="path to the adapter's db")
     c8.add_argument(
         "--implied-ontology",
@@ -1589,7 +1594,12 @@ def main(argv: list[str] | None = None) -> int:
         "against a system. Reports canonical-collision dedup, required-"
         "field coverage, and edge-type monoculture signals.",
     )
-    c4.add_argument("--adapter", required=True)
+    c4.add_argument(
+        "--adapter",
+        required=True,
+        help="adapter name (flat | mempalace | mempalace-daemon | familiar | "
+        "rlm | ladybugdb).",
+    )
     _add_db_or_api_args(c4)
     c4.add_argument(
         "--auto-discover",
@@ -1639,7 +1649,12 @@ def main(argv: list[str] | None = None) -> int:
         "(gap detection). One command, unified card, designed for daily "
         "/ nightly diagnostic runs against your own graphs.",
     )
-    chk.add_argument("--adapter", required=True)
+    chk.add_argument(
+        "--adapter",
+        required=True,
+        help="adapter name (flat | mempalace | mempalace-daemon | familiar | "
+        "rlm | ladybugdb).",
+    )
     _add_db_or_api_args(chk)
     chk.add_argument(
         "--auto-discover",
@@ -1672,7 +1687,12 @@ def main(argv: list[str] | None = None) -> int:
         "system. External (L3) reading only: components, bridges, Betti-1 on "
         "the largest component, and candidate cross-component gaps.",
     )
-    c5.add_argument("--adapter", required=True)
+    c5.add_argument(
+        "--adapter",
+        required=True,
+        help="adapter name (flat | mempalace | mempalace-daemon | familiar | "
+        "rlm | ladybugdb).",
+    )
     _add_db_or_api_args(c5)
     c5.add_argument(
         "--auto-discover",
@@ -1785,7 +1805,12 @@ def main(argv: list[str] | None = None) -> int:
         "reach the memory system. Other sub-tests (9a, 9c–9g) are spec'd "
         "but need a real model runtime — see docs/sme_spec_v8.md.",
     )
-    c9.add_argument("--adapter", required=True)
+    c9.add_argument(
+        "--adapter",
+        required=True,
+        help="adapter name (flat | mempalace | mempalace-daemon | familiar | "
+        "rlm | ladybugdb).",
+    )
     _add_db_or_api_args(c9)
     c9.add_argument(
         "--subtest",

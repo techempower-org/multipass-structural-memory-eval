@@ -1,4 +1,4 @@
-"""Adapter interface for SME (spec v5).
+"""Adapter interface for SME (spec v8).
 
 Every memory system under test implements SMEAdapter. The benchmark suite
 never touches a database directly — it talks to this thin interface.

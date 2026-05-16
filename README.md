@@ -45,7 +45,7 @@ table.
 
 ## Status
 
-**Beta-level instrumentation, actively evolving.** Six adapters
+**Beta-level instrumentation, actively evolving.** Eight adapters
 (`flat-baseline`, `mempalace`, `mempalace-daemon`, `familiar`, `rlm`,
 `ladybugdb`, `full-context`, `karpathy-compiled`), nine CLI commands
 (`retrieve`, `analyze`, `cat8`, `cat2c`, `cat4`, `cat5`, `check`,

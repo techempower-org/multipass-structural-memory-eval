@@ -18,7 +18,7 @@
 
 Standard benchmarks (LongMemEval, LoCoMo, EverMemBench) test: "can you find a memory?" That's necessary but not sufficient. A filing cabinet can find a memory. The question is what the structure gives you beyond retrieval.
 
-SME adds six structural categories on top of factual retrieval, plus a graph-vs-no-graph baseline and an ontology coherence layer that measures whether the system's schema matches its claims. Eight categories total. No system will score 90%+ across all eight today. The framework reveals where each architecture excels and where it doesn't.
+SME adds seven structural categories on top of factual retrieval, plus a graph-vs-no-graph baseline and an ontology coherence layer that measures whether the system's schema matches its claims, plus a harness-integration category that measures whether the model actually reaches the memory at runtime. Nine categories total. No system will score 90%+ across all nine today. The framework reveals where each architecture excels and where it doesn't.
 
 ---
 

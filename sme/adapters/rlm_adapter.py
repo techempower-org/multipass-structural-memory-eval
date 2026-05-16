@@ -117,10 +117,27 @@ class RlmAdapter(SMEAdapter):
         verbose: bool = False,
         kind: str = "content",
         timeout_s: float = _DEFAULT_DAEMON_TIMEOUT,
+        invocation_mode: Optional[str] = None,
         **_unused: Any,
     ) -> None:
+        """invocation_mode controls system-prompt augmentation for the
+        SME #3 Step 2 discriminating experiment:
+          - None (default): vanilla RLM system prompt; LLM decides when
+            to invoke mempalace_search based on training. Matches Step 1
+            baseline behavior.
+          - "forced": prepend a directive requiring at least one
+            mempalace_search call before FINAL. Tests whether the
+            invocation-rate ceiling (gemma4: 60% zero-call) is the
+            dominant Cat 9a lever on substring-shaped corpora.
+          - "grounded": prepend a directive requiring the answer to
+            quote at least one retrieved source filename. Tests whether
+            the substring-scorer-vs-LLM-synthesis gap is the lever on
+            file-shaped corpora (n=200 git-derived probes, etc.).
+        """
+        self.invocation_mode = invocation_mode
         # Lazy-import RLM so multipass doesn't require it for non-rlm runs.
         from rlm import RLM
+        from rlm.utils.prompts import RLM_SYSTEM_PROMPT
 
         self.api_url = (api_url or os.environ.get("PALACE_DAEMON_URL", "http://disks.jphe.in:8085")).rstrip("/")
         self.api_key = api_key or os.environ.get("PALACE_API_KEY", "")
@@ -163,7 +180,38 @@ class RlmAdapter(SMEAdapter):
             elif backend == "azure_openai":
                 bk["api_key"] = os.environ.get("AZURE_OPENAI_API_KEY", "")
 
-        self._rlm = RLM(
+        # Build the system prompt. By default, use RLM's own. In
+        # invocation_mode="forced"/"grounded", prepend an extra
+        # paragraph of constraints BEFORE the standard RLM prompt
+        # (which still owns the {custom_tools_section} format
+        # placeholder that RLM fills at completion time).
+        custom_system_prompt: Optional[str] = None
+        if invocation_mode == "forced":
+            custom_system_prompt = (
+                "MANDATORY RETRIEVAL CONSTRAINT (test condition, do not ignore):\n"
+                "Before you provide FINAL(...) or FINAL_VAR(...), you MUST call\n"
+                "`mempalace_search(...)` at least once with a query relevant to the\n"
+                "user's question. Even if you believe you can answer from training\n"
+                "data, you MUST first invoke the search tool. Never produce FINAL\n"
+                "without at least one mempalace_search call in your history.\n"
+                "\n"
+                + RLM_SYSTEM_PROMPT
+            )
+        elif invocation_mode == "grounded":
+            custom_system_prompt = (
+                "MANDATORY GROUNDING CONSTRAINT (test condition, do not ignore):\n"
+                "Before you provide FINAL(...) or FINAL_VAR(...), you MUST (1) call\n"
+                "`mempalace_search(...)` at least once with a query relevant to the\n"
+                "user's question, AND (2) include in your final answer at least one\n"
+                "source filename or drawer_id from the retrieved results. Quote the\n"
+                "source verbatim from the mempalace_search return value. If no\n"
+                "retrieved drawer is relevant, say so explicitly in FINAL and quote\n"
+                "the search query you used.\n"
+                "\n"
+                + RLM_SYSTEM_PROMPT
+            )
+
+        rlm_kwargs: dict[str, Any] = dict(
             backend=backend,
             backend_kwargs=bk,
             environment=environment,
@@ -172,7 +220,7 @@ class RlmAdapter(SMEAdapter):
                     "tool": self._mempalace_search,
                     "description": (
                         "Search JP's palace for drawers semantically related to a query. "
-                        "Returns a list of dicts with text, wing, room, similarity. "
+                        "Returns a list of dicts with text, wing, room, source_file, similarity. "
                         "Default limit is 5. Use this to ground factual claims about JP, "
                         "his projects, his realm, and any past events."
                     ),
@@ -180,6 +228,9 @@ class RlmAdapter(SMEAdapter):
             },
             verbose=verbose,
         )
+        if custom_system_prompt is not None:
+            rlm_kwargs["custom_system_prompt"] = custom_system_prompt
+        self._rlm = RLM(**rlm_kwargs)
 
     # ------------------------------------------------------------------
     # mempalace_search — exposed to RLM's REPL via custom_tools.
@@ -202,6 +253,11 @@ class RlmAdapter(SMEAdapter):
         results = payload.get("results", []) or []
         # Trim what we return to RLM (it has limited context); keep the same
         # shape stable so the model's prompt isn't re-tokenized by surprise.
+        # NOTE: source_file is load-bearing — SME's substring scorer matches
+        # against expected_sources which are filenames; dropping source_file
+        # from the trimmed entry meant the LLM couldn't quote it AND the
+        # context_string used by the scorer didn't contain it, so retrieval
+        # that landed the right drawer would still score 0. Fixed 2026-05-16.
         trimmed: list[dict] = []
         for r in results[:limit]:
             entry = {
@@ -209,6 +265,7 @@ class RlmAdapter(SMEAdapter):
                 "text": (r.get("text") or "")[:500],
                 "wing": r.get("wing"),
                 "room": r.get("room"),
+                "source_file": r.get("source_file"),
                 "similarity": r.get("similarity"),
             }
             trimmed.append(entry)
@@ -256,6 +313,8 @@ class RlmAdapter(SMEAdapter):
             tags = []
             if r.get("drawer_id"):
                 tags.append(f"drawer_id={r['drawer_id']}")
+            if r.get("source_file"):
+                tags.append(f"source_file={r['source_file']}")
             if r.get("wing"):
                 tags.append(f"wing={r['wing']}")
             if r.get("room"):

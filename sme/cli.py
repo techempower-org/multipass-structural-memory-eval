@@ -1200,6 +1200,9 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     timeout = getattr(args, "familiar_timeout", None)
     if timeout is not None:
         adapter_kwargs["timeout_s"] = timeout
+    inv_mode = getattr(args, "invocation_mode", None)
+    if inv_mode:
+        adapter_kwargs["invocation_mode"] = inv_mode
     adapter = _load_adapter(args.adapter, **adapter_kwargs)
 
     # Run each question
@@ -1523,6 +1526,18 @@ def main(argv: list[str] | None = None) -> int:
         metavar="SECONDS",
         help="(familiar) HTTP timeout for /api/familiar/eval and "
         "/api/familiar/graph. Default 30s.",
+    )
+    ret.add_argument(
+        "--invocation-mode",
+        choices=["forced", "grounded"],
+        default=None,
+        help="(rlm) wrap the RLM system prompt with a Cat 9a Step 2 "
+        "discriminating-experiment constraint. 'forced' requires at "
+        "least one mempalace_search call before FINAL (tests if the "
+        "invocation-rate floor is the dominant lever). 'grounded' adds "
+        "the requirement to quote a source filename in the answer "
+        "(tests source-grounding hypothesis for file-shaped corpora). "
+        "Default unset = vanilla RLM system prompt.",
     )
     ret.set_defaults(func=cmd_retrieve)
 

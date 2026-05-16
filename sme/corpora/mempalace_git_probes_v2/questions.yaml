@@ -1,0 +1,1217 @@
+version: mempalace-git-probes-v2
+description: 200 retrieval probes deterministically derived from the techempower-org/mempalace fork git log via scripts/derive_probes_from_git.py.
+  Each probe is (commit subject, primary changed file). File-shaped expected_sources exercise the source_file substring scorer
+  — distinct from jp-realm-v0.1's substring-shaped expected_sources. Provenance lives in `why` (commit hash + subject).
+source_meta:
+  generator: scripts/derive_probes_from_git.py
+  since: 14 months ago
+  n_probes: 200
+questions:
+- id: q001_pgvector_cutover_runbook_md
+  text: Post-mortem section in pgvector-cutover-runbook
+  expected_sources:
+  - pgvector-cutover-runbook.md
+  min_hops: 1
+  why: 'bda430f docs(operators): post-mortem section in pgvector-cutover-runbook'
+- id: q002_2026_05_14_search_bench_hybrid_cutover_j
+  text: Mempalace search/recall/boost bench results — 2026-05-14 hybrid era
+  expected_sources:
+  - 2026-05-14-search-bench-hybrid-cutover.json
+  min_hops: 1
+  why: 'f98ce56 docs(bench): mempalace search/recall/boost bench results — 2026-05-14 hybrid era'
+- id: q003_postgres_py
+  text: Trigram index + complete schema in _create_table + test isolation
+  expected_sources:
+  - postgres.py
+  min_hops: 1
+  why: '5f9d087 fix(migrate,backend): trigram index + complete schema in _create_table + test isolation'
+- id: q004_migrate_to_postgres_py
+  text: Post-#995 API + canonical-room fixture + LIKE %% escape
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: '2f40880 fix(migrate_to_postgres): post-#995 API + canonical-room fixture + LIKE %% escape'
+- id: q005_searcher_py
+  text: Plainto_tsquery + ILIKE fallback for underscore identifiers
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '341b93e fix(searcher): plainto_tsquery + ILIKE fallback for underscore identifiers'
+- id: q006_cli_py
+  text: Mempalace rooms subcommand + example config.yaml
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: 'fa03f61 feat(cli): mempalace rooms subcommand + example config.yaml'
+- id: q007_cli_py
+  text: Add --mode session for per-session manifest drawers
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: 'b156ba9 feat(miner): add --mode session for per-session manifest drawers'
+- id: q008_searcher_py
+  text: Hybrid merger must bypass max_distance, not honor it
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '967315f fix(searcher): hybrid merger must bypass max_distance, not honor it'
+- id: q009_searcher_py
+  text: Py3.9 compat — drop PEP 604 union in _ner_from_query
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: 'b4f4f41 fix(searcher): py3.9 compat — drop PEP 604 union in _ner_from_query'
+- id: q010_searcher_py
+  text: Hybrid candidate strategy with graph integration (Phases 3+4)
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: 'f34597d feat(searcher,mcp): hybrid candidate strategy with graph integration (Phases 3+4)'
+- id: q011_searcher_py
+  text: Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '5399a5e feat(searcher): postgres tsvector BM25 + backend-aware union dispatch (Phase 2)'
+- id: q012_convo_miner_py
+  text: Emit only canonical rooms per hybrid-search-taxonomy spec
+  expected_sources:
+  - convo_miner.py
+  min_hops: 1
+  why: 'ef3643b feat(convo_miner): emit only canonical rooms per hybrid-search-taxonomy spec'
+- id: q013_knowledge_graph_age_py
+  text: Unblock CI on 3.9/3.13 — jargon leak + eager psycopg2 import
+  expected_sources:
+  - knowledge_graph_age.py
+  min_hops: 1
+  why: '6f467d0 fix(tests): unblock CI on 3.9/3.13 — jargon leak + eager psycopg2 import'
+- id: q014_postgres_py
+  text: Advisory-lock + IF NOT EXISTS guard for lazy HNSW index
+  expected_sources:
+  - postgres.py
+  min_hops: 1
+  why: '4566f8a fix(postgres): advisory-lock + IF NOT EXISTS guard for lazy HNSW index'
+- id: q015_2026_05_10_pgvector_age_migration_impl_m
+  text: Pgvector migration 2026-05-14 status snapshot — Phases 4.1/4.2 executed
+  expected_sources:
+  - 2026-05-10-pgvector-age-migration-impl.md
+  min_hops: 1
+  why: '459c122 docs(plan): pgvector migration 2026-05-14 status snapshot — Phases 4.1/4.2 executed'
+- id: q016_mcp_server_py
+  text: Backend-route _get_collection — postgres path alongside chroma (Step 1 of cutover)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'b6b1740 feat(mcp): backend-route _get_collection — postgres path alongside chroma (Step 1 of cutover)'
+- id: q017_knowledge_graph_age_py
+  text: Inline Cypher parameters instead of using AGE's $1 form
+  expected_sources:
+  - knowledge_graph_age.py
+  min_hops: 1
+  why: '74ddf6f fix(kg/age): inline Cypher parameters instead of using AGE''s $1 form'
+- id: q018_mempal_precompact_hook_sh
+  text: 'Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)'
+  expected_sources:
+  - mempal-precompact-hook.sh
+  min_hops: 1
+  why: '5a705ba fix(hooks/tests): make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)'
+- id: q019_repair_py
+  text: 'Preserve embeddings on rebuild — cherry-pick of upstream #1367 (embeddings portion only)'
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: 'aa84fa4 feat(repair): preserve embeddings on rebuild — cherry-pick of upstream #1367 (embeddings portion only)'
+- id: q020_pgvector_cutover_runbook_md
+  text: Update runbook with daemon-state + repair-required findings
+  expected_sources:
+  - pgvector-cutover-runbook.md
+  min_hops: 1
+  why: '18606af docs(operators): update runbook with daemon-state + repair-required findings'
+- id: q021_migrate_to_postgres_py
+  text: Call _prepare_palace_for_open before chromadb.PersistentClient
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: 'd35cdfc fix(migrate): call _prepare_palace_for_open before chromadb.PersistentClient'
+- id: q022_migrate_to_postgres_py
+  text: Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: '979fd33 fix(migrate): phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)'
+- id: q023_migrate_to_postgres_py
+  text: Use pg_available_extensions.name (not extname) in preflight
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: '5617385 fix(migrate): use pg_available_extensions.name (not extname) in preflight'
+- id: q024_pgvector_cutover_runbook_md
+  text: Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)
+  expected_sources:
+  - pgvector-cutover-runbook.md
+  min_hops: 1
+  why: '5405ff4 docs(operators): pgvector cutover runbook (Phases 4.1 + 4.2 wrap)'
+- id: q025_migrate_to_postgres_py
+  text: Phase_6_verify + phase_7_done — Phases 3.5 + 3.6
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: 'aec5903 feat(migrate): phase_6_verify + phase_7_done — Phases 3.5 + 3.6'
+- id: q026_migrate_to_postgres_py
+  text: Phase_5_kg — sqlite triples → AGE (Phase 3.4.c)
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: '579063e feat(migrate): phase_5_kg — sqlite triples → AGE (Phase 3.4.c)'
+- id: q027_2026_05_10_pgvector_age_migration_impl_m
+  text: Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c
+  expected_sources:
+  - 2026-05-10-pgvector-age-migration-impl.md
+  min_hops: 1
+  why: '516674c docs(plan): reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c'
+- id: q028_migrate_to_postgres_py
+  text: Phase_2_drawers — batched chromadb→pgvector copy (Phase 3.3)
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: '8e31237 feat(migrate): phase_2_drawers — batched chromadb→pgvector copy (Phase 3.3)'
+- id: q029_migrate_to_postgres_py
+  text: Phase_1_schema — extensions + checkpoint table (Phase 3.2)
+  expected_sources:
+  - migrate_to_postgres.py
+  min_hops: 1
+  why: '3f992d7 feat(migrate): phase_1_schema — extensions + checkpoint table (Phase 3.2)'
+- id: q030_cli_py
+  text: Scaffold migrate-to-postgres CLI + phase 0 preflight
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '16938fb feat(migrate): scaffold migrate-to-postgres CLI + phase 0 preflight'
+- id: q031_config_py
+  text: MEMPALACE_KG_BACKEND routing — sqlite default, age opt-in (Phase 2.4)
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: '5770979 feat(kg,mcp): MEMPALACE_KG_BACKEND routing — sqlite default, age opt-in (Phase 2.4)'
+- id: q032_knowledge_graph_age_py
+  text: As_of temporal filter on query_triples (Phase 2.3)
+  expected_sources:
+  - knowledge_graph_age.py
+  min_hops: 1
+  why: 'ea52b40 feat(kg/age): as_of temporal filter on query_triples (Phase 2.3)'
+- id: q033_knowledge_graph_age_py
+  text: Add_triple + query_triples + clear on KnowledgeGraphAGE
+  expected_sources:
+  - knowledge_graph_age.py
+  min_hops: 1
+  why: '5946bd6 feat(kg/age): add_triple + query_triples + clear on KnowledgeGraphAGE'
+- id: q034_2026_05_10_pgvector_age_migration_impl_m
+  text: 'Reconcile pgvector plan with what shipped via PR #21'
+  expected_sources:
+  - 2026-05-10-pgvector-age-migration-impl.md
+  min_hops: 1
+  why: 'e656fc5 docs(plan): reconcile pgvector plan with what shipped via PR #21'
+- id: q035_claude_md
+  text: Bump drawer count (160K → 183K) + link palace-taxonomy spec
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '47beae8 docs(claude): bump drawer count (160K → 183K) + link palace-taxonomy spec'
+- id: q036_claude_md
+  text: Inherit upstream Mission + Design Principles lede
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '090c604 docs(claude.md): inherit upstream Mission + Design Principles lede'
+- id: q037_mempal_precompact_hook_sh
+  text: Make .sh wrappers route through palace-daemon (back-compat shim)
+  expected_sources:
+  - mempal-precompact-hook.sh
+  min_hops: 1
+  why: 'eaf0e2c fix(hooks): make .sh wrappers route through palace-daemon (back-compat shim)'
+- id: q038_repair_py
+  text: Rebuild_index accepts progress callback; default prints ETA
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '251c5a0 feat(repair): rebuild_index accepts progress callback; default prints ETA'
+- id: q039_readme_md
+  text: 'Record #1459 + #1474 upstream merges; refresh open-PR queue'
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '76c5687 docs: record #1459 + #1474 upstream merges; refresh open-PR queue'
+- id: q040_deploy_docs_yml
+  text: Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet
+  expected_sources:
+  - deploy-docs.yml
+  min_hops: 1
+  why: '8cc1c7c feat(docs): wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet'
+- id: q041_convo_miner_py
+  text: Bulk pre-fetch already-mined set instead of N WHERE queries
+  expected_sources:
+  - convo_miner.py
+  min_hops: 1
+  why: '74cd1c3 perf(convo_miner): bulk pre-fetch already-mined set instead of N WHERE queries'
+- id: q042_claude_md
+  text: Retire row inventory + companion check 5
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: 'cf0c49c docs(claude.md): retire row inventory + companion check 5'
+- id: q043_claude_md
+  text: Track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '42815b8 docs: track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39'
+- id: q044_chroma_py
+  text: Catch-all metadata sanitizer in add/upsert
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: '5d95656 fix(backends/chroma): catch-all metadata sanitizer in add/upsert'
+- id: q045_repair_py
+  text: Coerce empty metadata to sentinel in both rebuild paths
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: 'a26e465 fix(repair): coerce empty metadata to sentinel in both rebuild paths'
+- id: q046_fork_changes_yaml
+  text: 'Backfill 6 YAML entries from stale PR #11 (work already on main)'
+  expected_sources:
+  - fork-changes.yaml
+  min_hops: 1
+  why: '5386490 docs: backfill 6 YAML entries from stale PR #11 (work already on main)'
+- id: q047_claude_md
+  text: Track repair-empty-meta fix + post-merge hook-routing change
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: 'cdee4dc docs: track repair-empty-meta fix + post-merge hook-routing change'
+- id: q048_hooks_json
+  text: Route Stop/PreCompact through palace-daemon/clients/hook.py
+  expected_sources:
+  - hooks.json
+  min_hops: 1
+  why: '42ded2e fix(hooks): route Stop/PreCompact through palace-daemon/clients/hook.py'
+- id: q049_claude_md
+  text: Post-AGE-skeleton housekeeping — YAML + FORK_CHANGELOG + row 37
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: 'f31c23e docs: post-AGE-skeleton housekeeping — YAML + FORK_CHANGELOG + row 37'
+- id: q050_knowledge_graph_age_py
+  text: KnowledgeGraphAGE skeleton + graph bootstrap
+  expected_sources:
+  - knowledge_graph_age.py
+  min_hops: 1
+  why: 'a3ee623 feat(kg): KnowledgeGraphAGE skeleton + graph bootstrap'
+- id: q051_claude_md
+  text: Post-pgvector-merge housekeeping — YAML + FORK_CHANGELOG + row inventory
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '9db1ea7 docs: post-pgvector-merge housekeeping — YAML + FORK_CHANGELOG + row inventory'
+- id: q052_readme_md
+  text: Pivot to four-layer model + Auto Dream vindication framing
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '55b36ca docs(readme): pivot to four-layer model + Auto Dream vindication framing'
+- id: q053_pgvector_665_decision_md
+  text: 'Record #665 composition stance for pgvector backend'
+  expected_sources:
+  - pgvector-665-decision.md
+  min_hops: 1
+  why: '4dfdc43 docs(internal): record #665 composition stance for pgvector backend'
+- id: q054_palace_py
+  text: Accept None as "use default collection" in get_collection
+  expected_sources:
+  - palace.py
+  min_hops: 1
+  why: '5c7f234 fix(palace): accept None as "use default collection" in get_collection'
+- id: q055_postgres_py
+  text: Add optional PostgreSQL backend
+  expected_sources:
+  - postgres.py
+  min_hops: 1
+  why: '5e90c72 feat(backends): add optional PostgreSQL backend'
+- id: q056_orchestrator_py
+  text: Auto-pull embedding model when missing instead of silently scoring 0
+  expected_sources:
+  - orchestrator.py
+  min_hops: 1
+  why: '3fbe930 fix(benchmarks): auto-pull embedding model when missing instead of silently scoring 0'
+- id: q057_readme_md
+  text: 'Address copilot-pull-request-reviewer feedback on PR #1447'
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '42f52c8 fix(benchmarks): address copilot-pull-request-reviewer feedback on PR #1447'
+- id: q058_readme_md
+  text: Explicit invitation for backend + model contributions
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '152fbb6 docs(benchmarks): explicit invitation for backend + model contributions'
+- id: q059_readme_md
+  text: Expand README into a full reproduction guide
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '7d094f6 docs(benchmarks): expand README into a full reproduction guide'
+- id: q060_candidates_yaml
+  text: Add modern-tier candidates that initial search missed
+  expected_sources:
+  - candidates.yaml
+  min_hops: 1
+  why: 'fa90f26 feat(benchmarks): add modern-tier candidates that initial search missed'
+- id: q061_metrics_py
+  text: 'Address gemini-code-assist review on PR #1447'
+  expected_sources:
+  - metrics.py
+  min_hops: 1
+  why: '67f6fc6 fix(benchmarks): address gemini-code-assist review on PR #1447'
+- id: q062_candidates_yaml
+  text: Refresh cloud lineup + document structured-outputs gotcha
+  expected_sources:
+  - candidates.yaml
+  min_hops: 1
+  why: 'b7c40ca docs(benchmarks): refresh cloud lineup + document structured-outputs gotcha'
+- id: q063_2026_05_10_pgvector_age_migration_impl_m
+  text: Pgvector + AGE migration implementation plan (4 phases, 92 steps)
+  expected_sources:
+  - 2026-05-10-pgvector-age-migration-impl.md
+  min_hops: 1
+  why: '3e2fac8 docs(plan): pgvector + AGE migration implementation plan (4 phases, 92 steps)'
+- id: q064_2026_05_10_pgvector_age_migration_design
+  text: Postgres + pgvector + apache age substrate migration design
+  expected_sources:
+  - 2026-05-10-pgvector-age-migration-design.md
+  min_hops: 1
+  why: '481f905 docs(spec): postgres + pgvector + apache age substrate migration design'
+- id: q065_2026_05_10_analysis_md
+  text: Add cloud-tier ceiling measurements
+  expected_sources:
+  - 2026-05-10-analysis.md
+  min_hops: 1
+  why: '9775683 docs(benchmarks): add cloud-tier ceiling measurements'
+- id: q066_2026_05_10_analysis_md
+  text: Update analysis with reproducibility + hallucination findings
+  expected_sources:
+  - 2026-05-10-analysis.md
+  min_hops: 1
+  why: '9f8523a docs(benchmarks): update analysis with reproducibility + hallucination findings'
+- id: q067_candidates_yaml
+  text: Add cloud-tier candidates + cherry-pick real-format fixture
+  expected_sources:
+  - candidates.yaml
+  min_hops: 1
+  why: '4ee1839 feat(benchmarks): add cloud-tier candidates + cherry-pick real-format fixture'
+- id: q068_2026_05_10_analysis_md
+  text: Commit first matrix run + analysis report
+  expected_sources:
+  - 2026-05-10-analysis.md
+  min_hops: 1
+  why: '8f3111f docs(benchmarks): commit first matrix run + analysis report'
+- id: q069_candidates_yaml
+  text: Always pass think=False, drop reasoning candidate
+  expected_sources:
+  - candidates.yaml
+  min_hops: 1
+  why: 'b90d270 fix(benchmarks): always pass think=False, drop reasoning candidate'
+- id: q070_llm_client_py
+  text: Add think parameter to classify()
+  expected_sources:
+  - llm_client.py
+  min_hops: 1
+  why: '608d4e6 feat(llm_client): add think parameter to classify()'
+- id: q071_summarize_py
+  text: Add CSV-to-markdown report renderer
+  expected_sources:
+  - summarize.py
+  min_hops: 1
+  why: '5f2c554 feat(benchmarks): add CSV-to-markdown report renderer'
+- id: q072_metrics_py
+  text: Use Ollama HTTP /api/ps for vram_resident_mb
+  expected_sources:
+  - metrics.py
+  min_hops: 1
+  why: '120e240 fix(benchmarks): use Ollama HTTP /api/ps for vram_resident_mb'
+- id: q073_dataset_jsonl
+  text: Add synthetic dataset for model evaluation harness
+  expected_sources:
+  - dataset.jsonl
+  min_hops: 1
+  why: '1c1e725 feat(benchmarks): add synthetic dataset for model evaluation harness'
+- id: q074_readme_md
+  text: Add small-model evaluation harness
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: 'c0b23b0 feat(benchmarks): add small-model evaluation harness'
+- id: q075_sync_py
+  text: Symmetric source_file resolve + perf optimizations
+  expected_sources:
+  - sync.py
+  min_hops: 1
+  why: '0ff4121 fix(sync): symmetric source_file resolve + perf optimizations'
+- id: q076_sync_py
+  text: Add gitignore-aware drawer prune (#1252)
+  expected_sources:
+  - sync.py
+  min_hops: 1
+  why: '1d3eecb feat(sync): add gitignore-aware drawer prune (#1252)'
+- id: q077_config_py
+  text: Tighten temporal handling and cleanup
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: '1fbcb73 fix(kg): tighten temporal handling and cleanup'
+- id: q078_knowledge_graph_py
+  text: Close sqlite connections during cleanup
+  expected_sources:
+  - knowledge_graph.py
+  min_hops: 1
+  why: '29c0c80 fix(kg): close sqlite connections during cleanup'
+- id: q079_config_py
+  text: Tighten canonical temporal datetime support
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: 'db69d1f fix(kg): tighten canonical temporal datetime support'
+- id: q080_knowledge_graph_py
+  text: Support Python 3.9 type annotations
+  expected_sources:
+  - knowledge_graph.py
+  min_hops: 1
+  why: '6694198 fix(kg): support Python 3.9 type annotations'
+- id: q081_config_py
+  text: Canonicalize temporal datetime support
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: '4adc99f fix(kg): canonicalize temporal datetime support'
+- id: q082_config_py
+  text: Accept ISO datetimes for temporal inputs
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: 'eebf48e fix(kg): accept ISO datetimes for temporal inputs'
+- id: q083_hooks_cli_py
+  text: Use Optional[Path] for py39 compat
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: 'd4c476b fix(hooks): use Optional[Path] for py39 compat'
+- id: q084_hooks_cli_py
+  text: 'Per-target PID guard with atomic claim (#1212, #1206)'
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '3a76360 fix(hooks): per-target PID guard with atomic claim (#1212, #1206)'
+- id: q085_readme_md
+  text: 'Address Copilot review on PATH visibility (PR #1414)'
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: 'c08ec00 fix: address Copilot review on PATH visibility (PR #1414)'
+- id: q086_readme_md
+  text: Recommend uv as the package manager
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: 'c35686c docs(install): recommend uv as the package manager'
+- id: q087_palace_py
+  text: Reserve byte 0 as lock sentinel for Windows portability
+  expected_sources:
+  - palace.py
+  min_hops: 1
+  why: 'd5ce97c fix(palace): reserve byte 0 as lock sentinel for Windows portability'
+- id: q088_cli_py
+  text: Identify lock holder + exit non-zero on contention
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: 'ef8d83c fix(mine): identify lock holder + exit non-zero on contention'
+- id: q089_hooks_cli_py
+  text: Detach Popen children so the hook can exit on Windows
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '71804c0 fix(hooks): detach Popen children so the hook can exit on Windows'
+- id: q090_readme_md
+  text: Record daemon-strict migration completion in fork-ahead table
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '86c4785 docs(readme): record daemon-strict migration completion in fork-ahead table'
+- id: q091_claude_md
+  text: Backfill missing commit refs + retire moot row 15 hedge
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '1975207 docs(claude): backfill missing commit refs + retire moot row 15 hedge'
+- id: q092_claude_md
+  text: Update last-sync reference to 2026-05-07
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: 'dfb85cc docs(claude): update last-sync reference to 2026-05-07'
+- id: q093_miner_py
+  text: Use token-boundary matching in detect_room
+  expected_sources:
+  - miner.py
+  min_hops: 1
+  why: 'ead2c5d fix(miner): use token-boundary matching in detect_room'
+- id: q094_claude_md
+  text: Record daemon-routing migration completion (rows 33+34)
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '848b1dc docs: record daemon-routing migration completion (rows 33+34)'
+- id: q095_cli_py
+  text: Daemon-route status, search, mine when PALACE_DAEMON_URL is set
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '22ef562 feat(cli): daemon-route status, search, mine when PALACE_DAEMON_URL is set'
+- id: q096_mcp_server_py
+  text: Daemon-route mcp_server.py via handle_request chokepoint
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '41359ba feat(mcp): daemon-route mcp_server.py via handle_request chokepoint'
+- id: q097_diary_ingest_py
+  text: Rebuild closets on hash change + backfill legacy state
+  expected_sources:
+  - diary_ingest.py
+  min_hops: 1
+  why: '2ff6283 fix(diary): rebuild closets on hash change + backfill legacy state'
+- id: q098_exporter_py
+  text: Refuse symlinks at file targets and skip tests on Windows
+  expected_sources:
+  - exporter.py
+  min_hops: 1
+  why: '7545238 fix(exporter): refuse symlinks at file targets and skip tests on Windows'
+- id: q099_diary_ingest_py
+  text: Detect same-size edits via content hash
+  expected_sources:
+  - diary_ingest.py
+  min_hops: 1
+  why: '0d1c1fb fix(diary): detect same-size edits via content hash'
+- id: q100_exporter_py
+  text: Refuse symlinks at export targets
+  expected_sources:
+  - exporter.py
+  min_hops: 1
+  why: '40e2c8b fix(exporter): refuse symlinks at export targets'
+- id: q101_closet_llm_py
+  text: Retry _call_llm on JSONDecodeError instead of bailing
+  expected_sources:
+  - closet_llm.py
+  min_hops: 1
+  why: '2a0ed0c fix(closet_llm): retry _call_llm on JSONDecodeError instead of bailing'
+- id: q102_repair_py
+  text: Run SQLite integrity preflight before chromadb open
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '5134a63 fix(repair): run SQLite integrity preflight before chromadb open'
+- id: q103_config_py
+  text: Use configured collection in recovery paths
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: 'ec6d2dd fix: use configured collection in recovery paths'
+- id: q104_miner_py
+  text: Harden Windows mine against ONNX bad_alloc + silent partial exits
+  expected_sources:
+  - miner.py
+  min_hops: 1
+  why: '5488e7b fix(miner): harden Windows mine against ONNX bad_alloc + silent partial exits'
+- id: q105_repair_py
+  text: Quote ChromaBackend annotation for Python 3.9 compatibility
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '7cf9b17 fix(repair): quote ChromaBackend annotation for Python 3.9 compatibility'
+- id: q106_mcp_server_py
+  text: Retry tool_search once on Chroma "Error finding id" transient (#1315)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'be95ea7 fix(mcp): retry tool_search once on Chroma "Error finding id" transient (#1315)'
+- id: q107_render_jsonl_py
+  text: Apply ruff format
+  expected_sources:
+  - render_jsonl.py
+  min_hops: 1
+  why: '7c679ba fix(tools/render_jsonl): apply ruff format'
+- id: q108_render_jsonl_py
+  text: Split chained statements per ruff 0.4.x
+  expected_sources:
+  - render_jsonl.py
+  min_hops: 1
+  why: '921ff5a fix(tools/render_jsonl): split chained statements per ruff 0.4.x'
+- id: q109_save_md
+  text: Add 30-day expiry callout + ship 4 auto-save tools
+  expected_sources:
+  - save.md
+  min_hops: 1
+  why: 'bddba59 docs: add 30-day expiry callout + ship 4 auto-save tools'
+- id: q110_contributing_md
+  text: Clarify contributor git identity setup
+  expected_sources:
+  - CONTRIBUTING.md
+  min_hops: 1
+  why: 'e28ac94 docs: clarify contributor git identity setup'
+- id: q111_2026_05_06_chunking_strategy_ablation_md
+  text: Run 2 results — heading-aware-md wins markdown probes
+  expected_sources:
+  - 2026-05-06-chunking-strategy-ablation.md
+  min_hops: 1
+  why: 'b2b4fb3 research(chunking): Run 2 results — heading-aware-md wins markdown probes'
+- id: q112_2026_05_06_chunking_strategy_ablation_md
+  text: Document A/B/C ablation findings + add markdown probes
+  expected_sources:
+  - 2026-05-06-chunking-strategy-ablation.md
+  min_hops: 1
+  why: '9f3d2d7 research(chunking): document A/B/C ablation findings + add markdown probes'
+- id: q113_chunk_strategy_ablation_py
+  text: Add chunk_strategy_ablation.py — A/B/C chunkers × chunk_size sweep
+  expected_sources:
+  - chunk_strategy_ablation.py
+  min_hops: 1
+  why: '6c89d9f research(scripts): add chunk_strategy_ablation.py — A/B/C chunkers × chunk_size sweep'
+- id: q114_claude_md
+  text: 'Record #1286 → #1377 outcome (closed → merged with co-author credit)'
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '991eba8 docs(CLAUDE): record #1286 → #1377 outcome (closed → merged with co-author credit)'
+- id: q115_mcp_server_py
+  text: Retry _get_collection once on transient failure (#1286)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'e334e25 fix(mcp): retry _get_collection once on transient failure (#1286)'
+- id: q116_repair_py
+  text: 'Address PR #1310 review feedback'
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: 'd92c741 fix(repair): address PR #1310 review feedback'
+- id: q117_repair_py
+  text: Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: 'a7c4ed2 fix(repair): add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)'
+- id: q118_convo_miner_py
+  text: Fix ruff bugbear and silent-except findings
+  expected_sources:
+  - convo_miner.py
+  min_hops: 1
+  why: 'ca5899e refactor: fix ruff bugbear and silent-except findings'
+- id: q119_closet_llm_py
+  text: Reject non-http(s) endpoints
+  expected_sources:
+  - closet_llm.py
+  min_hops: 1
+  why: 'b68485d fix(closet_llm): reject non-http(s) endpoints'
+- id: q120_layers_py
+  text: Clamp similarity to [0,1] to avoid negative values
+  expected_sources:
+  - layers.py
+  min_hops: 1
+  why: 'f2bed92 fix(layers): clamp similarity to [0,1] to avoid negative values'
+- id: q121_mcp_server_py
+  text: Clamp similarity to [0,1] to avoid negative values
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'eef053d fix(mcp_server): clamp similarity to [0,1] to avoid negative values'
+- id: q122_mcp_server_py
+  text: MCP server JSON output ensure_ascii=False for non-ASCII support
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '7b49478 fix: MCP server JSON output ensure_ascii=False for non-ASCII support'
+- id: q123_mcp_server_py
+  text: Add validation for missing name parameter in tools/call requests
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'a85d432 feat: add validation for missing name parameter in tools/call requests'
+- id: q124_mcp_server_py
+  text: Include null id in JSON-RPC invalid request error responses and add validation tests
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '55d79dc fix: include null id in JSON-RPC invalid request error responses and add validation tests'
+- id: q125_mcp_server_py
+  text: Handle null JSON-RPC request payloads safely
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '0fdb480 fix(mcp): handle null JSON-RPC request payloads safely'
+- id: q126_searcher_py
+  text: Clamp effective_distance to valid cosine range [0, 2]
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '5347c2c fix(searcher): clamp effective_distance to valid cosine range [0, 2]'
+- id: q127_searcher_py
+  text: Guard against None metadata/doc in search result loops
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '733e435 fix(searcher): guard against None metadata/doc in search result loops'
+- id: q128_fork_changes_yaml
+  text: Record hook_verbatim_mode toggle (row 32)
+  expected_sources:
+  - fork-changes.yaml
+  min_hops: 1
+  why: 'bb81d21 docs(fork-changes): record hook_verbatim_mode toggle (row 32)'
+- id: q129_normalize_py
+  text: Add hook_verbatim_mode toggle for transcript ingest
+  expected_sources:
+  - normalize.py
+  min_hops: 1
+  why: 'ef98961 feat(normalize): add hook_verbatim_mode toggle for transcript ingest'
+- id: q130_cli_py
+  text: 'Address Copilot review on PRs #6/#7/#8/#10 (#12)'
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '1e79856 fix: address Copilot review on PRs #6/#7/#8/#10 (#12)'
+- id: q131_hooks_cli_py
+  text: Preserve dashed project names + route through normalize_wing_name (#10)
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: 'd76134d fix(hooks): preserve dashed project names + route through normalize_wing_name (#10)'
+- id: q132_hooks_cli_py
+  text: Drop wing_ prefix from transcript-derived wings (#9)
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '86d4700 fix(hooks): drop wing_ prefix from transcript-derived wings (#9)'
+- id: q133_palace_py
+  text: Retire mempalace_session_recovery collection + read tool (#8)
+  expected_sources:
+  - palace.py
+  min_hops: 1
+  why: '0b945e1 refactor(mcp): retire mempalace_session_recovery collection + read tool (#8)'
+- id: q134_cli_py
+  text: Mempalace mined + purge --source-file (#7)
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '2e6ced9 feat(cli): mempalace mined + purge --source-file (#7)'
+- id: q135_hooks_cli_py
+  text: Drop checkpoint write path (verbatim-only, part 1) (#6)
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '69768fc fix(hooks): drop checkpoint write path (verbatim-only, part 1) (#6)'
+- id: q136_hooks_cli_py
+  text: Route mining through daemon when PALACE_DAEMON_URL is set (#2)
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '09d2ca6 fix(hooks): route mining through daemon when PALACE_DAEMON_URL is set (#2)'
+- id: q137_repair_py
+  text: Preflight SQLite integrity before rebuild
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '6b04298 fix(repair): preflight SQLite integrity before rebuild'
+- id: q138_migrate_py
+  text: Verify write roundtrip before bailout
+  expected_sources:
+  - migrate.py
+  min_hops: 1
+  why: 'bb40a52 fix(migrate): verify write roundtrip before bailout'
+- id: q139_repair_py
+  text: Preflight poisoned max_seq_id
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '37e7d39 fix(repair): preflight poisoned max_seq_id'
+- id: q140_chroma_py
+  text: Quarantine partial HNSW flush without metadata
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: 'eff844b fix(storage): quarantine partial HNSW flush without metadata'
+- id: q141_entity_registry_py
+  text: Fsync parent dir after rename for ext4 durability
+  expected_sources:
+  - entity_registry.py
+  min_hops: 1
+  why: '2e441d1 fix(entity_registry): fsync parent dir after rename for ext4 durability'
+- id: q142_entity_registry_py
+  text: Atomic write to prevent partial corruption on crash
+  expected_sources:
+  - entity_registry.py
+  min_hops: 1
+  why: '4f36145 fix(entity_registry): atomic write to prevent partial corruption on crash'
+- id: q143_chroma_py
+  text: Quarantine bloated HNSW link payloads
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: 'f9d939a fix(storage): quarantine bloated HNSW link payloads'
+- id: q144_fork_changes_yaml
+  text: Record cfg.init chunking-defaults fix
+  expected_sources:
+  - fork-changes.yaml
+  min_hops: 1
+  why: '5b8e867 docs(fork-changes): record cfg.init chunking-defaults fix'
+- id: q145_config_py
+  text: Don't write chunking defaults in cfg.init()
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: '6ce37c0 fix(config): don''t write chunking defaults in cfg.init()'
+- id: q146_mcp_server_py
+  text: 'Apply #1262/#1289/#1303 pattern to recovery collection'
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'ace5a57 fix(mcp_server): apply #1262/#1289/#1303 pattern to recovery collection'
+- id: q147_stdio_py
+  text: Extract Windows UTF-8 reconfigure into shared helper
+  expected_sources:
+  - _stdio.py
+  min_hops: 1
+  why: '285b3b4 refactor(stdio): extract Windows UTF-8 reconfigure into shared helper'
+- id: q148_mcp_server_py
+  text: Retry KG handlers once on concurrent close race
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'b8816e0 fix(mcp): retry KG handlers once on concurrent close race'
+- id: q149_claude_md
+  text: 'Post-sync update — row 15 merged via #1262/#1289/#1303'
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: 'bf71759 docs(CLAUDE): post-sync update — row 15 merged via #1262/#1289/#1303'
+- id: q150_cli_py
+  text: Per-stream stdio errors policy on Windows
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '03643eb fix(cli, fact-checker): per-stream stdio errors policy on Windows'
+- id: q151_cli_py
+  text: Reconfigure stdio to UTF-8 on Windows
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '32f4dfa fix(cli): reconfigure stdio to UTF-8 on Windows'
+- id: q152_fact_checker_py
+  text: Reconfigure stdio to UTF-8 on Windows
+  expected_sources:
+  - fact_checker.py
+  min_hops: 1
+  why: '7cee74c fix(fact-checker): reconfigure stdio to UTF-8 on Windows'
+- id: q153_chroma_py
+  text: Release SQLite file lock on close_palace/close (#1067)
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: '45df1a2 fix(backends/chroma): release SQLite file lock on close_palace/close (#1067)'
+- id: q154_mcp_server_py
+  text: Drain KG cache on tool_reconnect
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '0a62658 fix(mcp): drain KG cache on tool_reconnect'
+- id: q155_mcp_server_py
+  text: Replace eager _kg with lazy per-path cache (#1136)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'beac5d9 refactor(mcp): replace eager _kg with lazy per-path cache (#1136)'
+- id: q156_mcp_server_py
+  text: Drop §5.5 from kg_add docstring/schema
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '0e65c54 docs(mcp): drop §5.5 from kg_add docstring/schema'
+- id: q157_searcher_py
+  text: 'Address Copilot review on #1306'
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '3eb7980 fix(searcher): address Copilot review on #1306'
+- id: q158_mcp_server_py
+  text: Basename source_file in tool_get_drawer responses
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '7fc260f fix(mcp): basename source_file in tool_get_drawer responses'
+- id: q159_mcp_server_py
+  text: Omit palace_path from tool_status responses (+ docs)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'b2f259c fix(mcp): omit palace_path from tool_status responses (+ docs)'
+- id: q160_mcp_server_py
+  text: Case-insensitive agent name in diary_write/diary_read (#1243)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'e9222b4 fix(mcp): case-insensitive agent name in diary_write/diary_read (#1243)'
+- id: q161_chroma_py
+  text: 'Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)'
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: '10733f1 fix(backends/chroma): wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132,
+    #1263)'
+- id: q162_cli_py
+  text: Honor --palace flag in cmd_init (#1313)
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '01b3183 fix(cli): honor --palace flag in cmd_init (#1313)'
+- id: q163_mcp_server_py
+  text: Forward valid_to and source params in kg_add/kg_invalidate (#1314)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'e4e25ed fix(mcp): forward valid_to and source params in kg_add/kg_invalidate (#1314)'
+- id: q164_cli_py
+  text: Write compress output to mempalace_closets so palace can read them (#1244)
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: 'cbd6e5d fix(cli): write compress output to mempalace_closets so palace can read them (#1244)'
+- id: q165_hooks_cli_py
+  text: Use is_dir() for palace root check (review feedback)
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '2d50b21 fix(hooks): use is_dir() for palace root check (review feedback)'
+- id: q166_hooks_cli_py
+  text: Treat absent ~/.mempalace as auto-save off
+  expected_sources:
+  - hooks_cli.py
+  min_hops: 1
+  why: '8472d55 fix(hooks): treat absent ~/.mempalace as auto-save off'
+- id: q167_hooks_json
+  text: Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)
+  expected_sources:
+  - hooks.json
+  min_hops: 1
+  why: 'd07b730 fix(hooks): quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)'
+- id: q168_searcher_py
+  text: Add candidate_strategy="union" for vector∪BM25 reranking pool
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '6509071 feat(searcher): add candidate_strategy="union" for vector∪BM25 reranking pool'
+- id: q169_mcp_server_py
+  text: 'Address copilot review on #1303'
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'cd98d66 fix(mcp_server): address copilot review on #1303'
+- id: q170_mcp_server_py
+  text: Pass embedding_function= on collection reopen (#1299)
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: 'ac6c2b6 fix(mcp_server): pass embedding_function= on collection reopen (#1299)'
+- id: q171_chroma_py
+  text: Avoid false hnsw divergence fallback
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: '0e32b96 fix: avoid false hnsw divergence fallback'
+- id: q172_repair_py
+  text: Close active backend before rollback restore
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: 'f57f300 fix(repair): close active backend before rollback restore'
+- id: q173_cli_py
+  text: Restore backup on repair failure
+  expected_sources:
+  - cli.py
+  min_hops: 1
+  why: '2f509b4 fix(cli): restore backup on repair failure'
+- id: q174_repair_py
+  text: Rebuild collections through temp staging
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '7fa27bd fix(repair): rebuild collections through temp staging'
+- id: q175_chroma_py
+  text: Harden HNSW startup preflight
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: 'c3e1104 fix(chroma): harden HNSW startup preflight'
+- id: q176_mcp_server_py
+  text: 'Split get_or_create_collection on reopen (follow-up to #1262)'
+  expected_sources:
+  - mcp_server.py
+  min_hops: 1
+  why: '9dd56ec fix(mcp_server): split get_or_create_collection on reopen (follow-up to #1262)'
+- id: q177_repair_py
+  text: Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)
+  expected_sources:
+  - repair.py
+  min_hops: 1
+  why: '3b5ebcc fix(repair): decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)'
+- id: q178_chroma_py
+  text: Scale HNSW divergence floor with hnsw:sync_threshold
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: '4a0f330 fix(repair): scale HNSW divergence floor with hnsw:sync_threshold'
+- id: q179_claude_md
+  text: 'Upstream-PRs table — add #1262 + #1286, update sync status'
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '1f53b39 docs(CLAUDE): upstream-PRs table — add #1262 + #1286, update sync status'
+- id: q180_claude_md
+  text: Row 15 — third try, matches actual call-graph trace
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '830586b docs(CLAUDE): row 15 — third try, matches actual call-graph trace'
+- id: q181_claude_md
+  text: Row 15 — correct "stable metadata" wording, audit four call sites
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '260e2a2 docs(CLAUDE): row 15 — correct "stable metadata" wording, audit four call sites'
+- id: q182_claude_md
+  text: Row 15 reclassified — get-then-create guard not in fork main
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '393ac89 docs(CLAUDE): row 15 reclassified — get-then-create guard not in fork main'
+- id: q183_config_py
+  text: Reject partial ISO dates to avoid silent empty result sets
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: 'abe8576 fix(kg): reject partial ISO dates to avoid silent empty result sets'
+- id: q184_config_py
+  text: Validate ISO-8601 date formats at MCP boundary
+  expected_sources:
+  - config.py
+  min_hops: 1
+  why: '4d98b05 fix(kg): validate ISO-8601 date formats at MCP boundary'
+- id: q185_readme_md
+  text: 'Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)'
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '710b196 docs(README): cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)'
+- id: q186_readme_md
+  text: Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: 'eeec6a7 docs(README): add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI,
+    Warp)'
+- id: q187_readme_md
+  text: Close "what this fork has learned" with Karlton's two-hard-things; add InfoQ Grafana / pgvector-AGE / Plummer / Karlton
+    to Sources
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: 'c1d2989 docs(README): close "what this fork has learned" with Karlton''s two-hard-things; add InfoQ Grafana / pgvector-AGE
+    / Plummer / Karlton to Sources'
+- id: q188_readme_md
+  text: Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '4d9ad6e docs(README): note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped
+    CLI to What''s next'
+- id: q189_readme_md
+  text: Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE
+    leverage on P4/P5
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '9551a74 docs(README): add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E
+    in-flight; note Postgres+AGE leverage on P4/P5'
+- id: q190_readme_md
+  text: Flip principles to positive framing; promote verbatim-vs-derivative axis; add what-we've-learned + what's-next
+  expected_sources:
+  - README.md
+  min_hops: 1
+  why: '6a75e27 docs(README): flip principles to positive framing; promote verbatim-vs-derivative axis; add what-we''ve-learned
+    + what''s-next'
+- id: q191_closet_llm_py
+  text: Paginate closet_llm col.get (#1073)
+  expected_sources:
+  - closet_llm.py
+  min_hops: 1
+  why: 'db28bf1 fix: paginate closet_llm col.get (#1073)'
+- id: q192_entity_detector_py
+  text: Address release review feedback
+  expected_sources:
+  - entity_detector.py
+  min_hops: 1
+  why: '4cfbd60 fix: address release review feedback'
+- id: q193_chroma_py
+  text: Stop ChromaDB from crashing when reopening an existing palace
+  expected_sources:
+  - chroma.py
+  min_hops: 1
+  why: 'd7f4638 fix(storage): stop ChromaDB from crashing when reopening an existing palace'
+- id: q194_normalize_py
+  text: Discard user/gemini turns before session_metadata sentinel
+  expected_sources:
+  - normalize.py
+  min_hops: 1
+  why: 'e7fe6ca fix(normalize): discard user/gemini turns before session_metadata sentinel'
+- id: q195_normalize_py
+  text: Add Gemini CLI JSONL to module-level supported formats list
+  expected_sources:
+  - normalize.py
+  min_hops: 1
+  why: 'a3e3691 docs(normalize): add Gemini CLI JSONL to module-level supported formats list'
+- id: q196_claude_md
+  text: Capture today's fork-ahead arc in CLAUDE.md + YAML
+  expected_sources:
+  - CLAUDE.md
+  min_hops: 1
+  why: '84c3135 docs: capture today''s fork-ahead arc in CLAUDE.md + YAML'
+- id: q197_mcp_json
+  text: Restore daemon routing on .mcp.json without embedded credential
+  expected_sources:
+  - .mcp.json
+  min_hops: 1
+  why: '9f91e18 fix(plugin): restore daemon routing on .mcp.json without embedded credential'
+- id: q198_mcp_json
+  text: Scrub embedded API key + daemon URL from manifests
+  expected_sources:
+  - .mcp.json
+  min_hops: 1
+  why: '8119149 fix(plugin): scrub embedded API key + daemon URL from manifests'
+- id: q199_searcher_py
+  text: Record VecRecall closet-boost ablation finding
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: '3cb03f3 docs(searcher): record VecRecall closet-boost ablation finding'
+- id: q200_searcher_py
+  text: Hoist CLOSET_RANK_BOOSTS to module level for ablation
+  expected_sources:
+  - searcher.py
+  min_hops: 1
+  why: 'f558d3c refactor(searcher): hoist CLOSET_RANK_BOOSTS to module level for ablation'

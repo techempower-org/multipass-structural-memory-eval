@@ -278,8 +278,20 @@ class RlmAdapter(SMEAdapter):
 
     def ingest_corpus(self, corpus: list[dict]) -> dict:
         """No-op stub. RLM consumes a palace it didn't author; ingestion
-        happens upstream via `mempalace mine` / familiar reflect."""
-        return {"entities_created": 0, "edges_created": 0, "skipped": True}
+        happens upstream via `mempalace mine` / familiar reflect.
+
+        Returns the full SMEAdapter contract dict (with errors/warnings
+        empty lists) so downstream harness code reading those keys
+        doesn't KeyError. Prior to 2026-05-16 this returned an
+        incomplete dict missing both required keys.
+        """
+        return {
+            "entities_created": 0,
+            "edges_created": 0,
+            "errors": [],
+            "warnings": [],
+            "skipped": True,
+        }
 
     def get_graph_snapshot(self) -> tuple[list[Entity], list[Edge]]:
         """RLM doesn't maintain a graph view. Return empty lists — Cat 8

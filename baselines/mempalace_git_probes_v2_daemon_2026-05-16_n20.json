@@ -1,0 +1,4003 @@
+{
+  "adapter": "mempalace-daemon",
+  "db_path": null,
+  "collection_name": null,
+  "corpus_version": "mempalace-git-probes-v2",
+  "n_results": 20,
+  "questions": [
+    {
+      "id": "q001_pgvector_cutover_runbook_md",
+      "text": "Post-mortem section in pgvector-cutover-runbook",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3640,
+      "elapsed_ms": 913.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q002_2026_05_14_search_bench_hybrid_cutover_j",
+      "text": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-14-search-bench-hybrid-cutover.json"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3863,
+      "elapsed_ms": 815.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q003_postgres_py",
+      "text": "Trigram index + complete schema in _create_table + test isolation",
+      "min_hops": 1,
+      "expected_sources": [
+        "postgres.py"
+      ],
+      "matched_sources": [
+        "postgres.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3147,
+      "elapsed_ms": 969.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q004_migrate_to_postgres_py",
+      "text": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3398,
+      "elapsed_ms": 947.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q005_searcher_py",
+      "text": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3847,
+      "elapsed_ms": 773.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q006_cli_py",
+      "text": "Mempalace rooms subcommand + example config.yaml",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3114,
+      "elapsed_ms": 721.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q007_cli_py",
+      "text": "Add --mode session for per-session manifest drawers",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2808,
+      "elapsed_ms": 818.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=54"
+      ],
+      "error": null
+    },
+    {
+      "id": "q008_searcher_py",
+      "text": "Hybrid merger must bypass max_distance, not honor it",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3760,
+      "elapsed_ms": 760.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q009_searcher_py",
+      "text": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3883,
+      "elapsed_ms": 661.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q010_searcher_py",
+      "text": "Hybrid candidate strategy with graph integration (Phases 3+4)",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3005,
+      "elapsed_ms": 690.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=46"
+      ],
+      "error": null
+    },
+    {
+      "id": "q011_searcher_py",
+      "text": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3441,
+      "elapsed_ms": 688.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q012_convo_miner_py",
+      "text": "Emit only canonical rooms per hybrid-search-taxonomy spec",
+      "min_hops": 1,
+      "expected_sources": [
+        "convo_miner.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2729,
+      "elapsed_ms": 642.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q013_knowledge_graph_age_py",
+      "text": "Unblock CI on 3.9/3.13 \u2014 jargon leak + eager psycopg2 import",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5852,
+      "elapsed_ms": 671.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q014_postgres_py",
+      "text": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+      "min_hops": 1,
+      "expected_sources": [
+        "postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2339,
+      "elapsed_ms": 632.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q015_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 11277,
+      "elapsed_ms": 629.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q016_mcp_server_py",
+      "text": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3907,
+      "elapsed_ms": 679.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q017_knowledge_graph_age_py",
+      "text": "Inline Cypher parameters instead of using AGE's $1 form",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5761,
+      "elapsed_ms": 810.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=44"
+      ],
+      "error": null
+    },
+    {
+      "id": "q018_mempal_precompact_hook_sh",
+      "text": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mempal-precompact-hook.sh"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3952,
+      "elapsed_ms": 602.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q019_repair_py",
+      "text": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3000,
+      "elapsed_ms": 683.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q020_pgvector_cutover_runbook_md",
+      "text": "Update runbook with daemon-state + repair-required findings",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 12057,
+      "elapsed_ms": 694.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q021_migrate_to_postgres_py",
+      "text": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3068,
+      "elapsed_ms": 639.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q022_migrate_to_postgres_py",
+      "text": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2145,
+      "elapsed_ms": 898.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q023_migrate_to_postgres_py",
+      "text": "Use pg_available_extensions.name (not extname) in preflight",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 774,
+      "elapsed_ms": 694.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q024_pgvector_cutover_runbook_md",
+      "text": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3772,
+      "elapsed_ms": 596.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q025_migrate_to_postgres_py",
+      "text": "Phase_6_verify + phase_7_done \u2014 Phases 3.5 + 3.6",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1102,
+      "elapsed_ms": 733.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=48"
+      ],
+      "error": null
+    },
+    {
+      "id": "q026_migrate_to_postgres_py",
+      "text": "Phase_5_kg \u2014 sqlite triples \u2192 AGE (Phase 3.4.c)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2949,
+      "elapsed_ms": 635.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q027_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2902,
+      "elapsed_ms": 784.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=58"
+      ],
+      "error": null
+    },
+    {
+      "id": "q028_migrate_to_postgres_py",
+      "text": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3467,
+      "elapsed_ms": 677.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q029_migrate_to_postgres_py",
+      "text": "Phase_1_schema \u2014 extensions + checkpoint table (Phase 3.2)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2741,
+      "elapsed_ms": 653.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q030_cli_py",
+      "text": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 11678,
+      "elapsed_ms": 602.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q031_config_py",
+      "text": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [
+        "config.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3401,
+      "elapsed_ms": 652.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q032_knowledge_graph_age_py",
+      "text": "As_of temporal filter on query_triples (Phase 2.3)",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3739,
+      "elapsed_ms": 745.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q033_knowledge_graph_age_py",
+      "text": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3730,
+      "elapsed_ms": 728.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q034_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Reconcile pgvector plan with what shipped via PR #21",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3775,
+      "elapsed_ms": 569.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q035_claude_md",
+      "text": "Bump drawer count (160K \u2192 183K) + link palace-taxonomy spec",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2344,
+      "elapsed_ms": 718.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=46"
+      ],
+      "error": null
+    },
+    {
+      "id": "q036_claude_md",
+      "text": "Inherit upstream Mission + Design Principles lede",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3375,
+      "elapsed_ms": 775.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q037_mempal_precompact_hook_sh",
+      "text": "Make .sh wrappers route through palace-daemon (back-compat shim)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mempal-precompact-hook.sh"
+      ],
+      "matched_sources": [
+        "mempal-precompact-hook.sh"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3787,
+      "elapsed_ms": 622.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q038_repair_py",
+      "text": "Rebuild_index accepts progress callback; default prints ETA",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3039,
+      "elapsed_ms": 649.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q039_readme_md",
+      "text": "Record #1459 + #1474 upstream merges; refresh open-PR queue",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [
+        "README.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2582,
+      "elapsed_ms": 700.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q040_deploy_docs_yml",
+      "text": "Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet",
+      "min_hops": 1,
+      "expected_sources": [
+        "deploy-docs.yml"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3825,
+      "elapsed_ms": 701.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q041_convo_miner_py",
+      "text": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+      "min_hops": 1,
+      "expected_sources": [
+        "convo_miner.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 28995,
+      "elapsed_ms": 657.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q042_claude_md",
+      "text": "Retire row inventory + companion check 5",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 209,
+      "elapsed_ms": 566.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q043_claude_md",
+      "text": "Track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3831,
+      "elapsed_ms": 643.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q044_chroma_py",
+      "text": "Catch-all metadata sanitizer in add/upsert",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [
+        "chroma.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4085,
+      "elapsed_ms": 624.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q045_repair_py",
+      "text": "Coerce empty metadata to sentinel in both rebuild paths",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [
+        "repair.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3911,
+      "elapsed_ms": 601.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q046_fork_changes_yaml",
+      "text": "Backfill 6 YAML entries from stale PR #11 (work already on main)",
+      "min_hops": 1,
+      "expected_sources": [
+        "fork-changes.yaml"
+      ],
+      "matched_sources": [
+        "fork-changes.yaml"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3551,
+      "elapsed_ms": 638.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q047_claude_md",
+      "text": "Track repair-empty-meta fix + post-merge hook-routing change",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3643,
+      "elapsed_ms": 604.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q048_hooks_json",
+      "text": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks.json"
+      ],
+      "matched_sources": [
+        "hooks.json"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4184,
+      "elapsed_ms": 660.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q049_claude_md",
+      "text": "Post-AGE-skeleton housekeeping \u2014 YAML + FORK_CHANGELOG + row 37",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3963,
+      "elapsed_ms": 609.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q050_knowledge_graph_age_py",
+      "text": "KnowledgeGraphAGE skeleton + graph bootstrap",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3651,
+      "elapsed_ms": 662.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q051_claude_md",
+      "text": "Post-pgvector-merge housekeeping \u2014 YAML + FORK_CHANGELOG + row inventory",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4089,
+      "elapsed_ms": 588.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q052_readme_md",
+      "text": "Pivot to four-layer model + Auto Dream vindication framing",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1741,
+      "elapsed_ms": 680.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q053_pgvector_665_decision_md",
+      "text": "Record #665 composition stance for pgvector backend",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-665-decision.md"
+      ],
+      "matched_sources": [
+        "pgvector-665-decision.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3853,
+      "elapsed_ms": 608.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q054_palace_py",
+      "text": "Accept None as \"use default collection\" in get_collection",
+      "min_hops": 1,
+      "expected_sources": [
+        "palace.py"
+      ],
+      "matched_sources": [
+        "palace.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2666,
+      "elapsed_ms": 765.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=44"
+      ],
+      "error": null
+    },
+    {
+      "id": "q055_postgres_py",
+      "text": "Add optional PostgreSQL backend",
+      "min_hops": 1,
+      "expected_sources": [
+        "postgres.py"
+      ],
+      "matched_sources": [
+        "postgres.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4089,
+      "elapsed_ms": 988.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q056_orchestrator_py",
+      "text": "Auto-pull embedding model when missing instead of silently scoring 0",
+      "min_hops": 1,
+      "expected_sources": [
+        "orchestrator.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3457,
+      "elapsed_ms": 759.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q057_readme_md",
+      "text": "Address copilot-pull-request-reviewer feedback on PR #1447",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2983,
+      "elapsed_ms": 700.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q058_readme_md",
+      "text": "Explicit invitation for backend + model contributions",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1936,
+      "elapsed_ms": 667.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q059_readme_md",
+      "text": "Expand README into a full reproduction guide",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [
+        "README.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1131,
+      "elapsed_ms": 792.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=52"
+      ],
+      "error": null
+    },
+    {
+      "id": "q060_candidates_yaml",
+      "text": "Add modern-tier candidates that initial search missed",
+      "min_hops": 1,
+      "expected_sources": [
+        "candidates.yaml"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4655,
+      "elapsed_ms": 729.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q061_metrics_py",
+      "text": "Address gemini-code-assist review on PR #1447",
+      "min_hops": 1,
+      "expected_sources": [
+        "metrics.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1990,
+      "elapsed_ms": 755.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q062_candidates_yaml",
+      "text": "Refresh cloud lineup + document structured-outputs gotcha",
+      "min_hops": 1,
+      "expected_sources": [
+        "candidates.yaml"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3113,
+      "elapsed_ms": 795.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=54"
+      ],
+      "error": null
+    },
+    {
+      "id": "q063_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Pgvector + AGE migration implementation plan (4 phases, 92 steps)",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3672,
+      "elapsed_ms": 597.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q064_2026_05_10_pgvector_age_migration_design",
+      "text": "Postgres + pgvector + apache age substrate migration design",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-design.md"
+      ],
+      "matched_sources": [
+        "2026-05-10-pgvector-age-migration-design.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3724,
+      "elapsed_ms": 604.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q065_2026_05_10_analysis_md",
+      "text": "Add cloud-tier ceiling measurements",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-analysis.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2249,
+      "elapsed_ms": 696.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=51"
+      ],
+      "error": null
+    },
+    {
+      "id": "q066_2026_05_10_analysis_md",
+      "text": "Update analysis with reproducibility + hallucination findings",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-analysis.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1195,
+      "elapsed_ms": 647.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=44"
+      ],
+      "error": null
+    },
+    {
+      "id": "q067_candidates_yaml",
+      "text": "Add cloud-tier candidates + cherry-pick real-format fixture",
+      "min_hops": 1,
+      "expected_sources": [
+        "candidates.yaml"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3376,
+      "elapsed_ms": 768.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=53"
+      ],
+      "error": null
+    },
+    {
+      "id": "q068_2026_05_10_analysis_md",
+      "text": "Commit first matrix run + analysis report",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-analysis.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1431,
+      "elapsed_ms": 785.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=57"
+      ],
+      "error": null
+    },
+    {
+      "id": "q069_candidates_yaml",
+      "text": "Always pass think=False, drop reasoning candidate",
+      "min_hops": 1,
+      "expected_sources": [
+        "candidates.yaml"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1175,
+      "elapsed_ms": 730.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q070_llm_client_py",
+      "text": "Add think parameter to classify()",
+      "min_hops": 1,
+      "expected_sources": [
+        "llm_client.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3067,
+      "elapsed_ms": 684.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q071_summarize_py",
+      "text": "Add CSV-to-markdown report renderer",
+      "min_hops": 1,
+      "expected_sources": [
+        "summarize.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3168,
+      "elapsed_ms": 663.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q072_metrics_py",
+      "text": "Use Ollama HTTP /api/ps for vram_resident_mb",
+      "min_hops": 1,
+      "expected_sources": [
+        "metrics.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3384,
+      "elapsed_ms": 677.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q073_dataset_jsonl",
+      "text": "Add synthetic dataset for model evaluation harness",
+      "min_hops": 1,
+      "expected_sources": [
+        "dataset.jsonl"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1937,
+      "elapsed_ms": 680.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=46"
+      ],
+      "error": null
+    },
+    {
+      "id": "q074_readme_md",
+      "text": "Add small-model evaluation harness",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2697,
+      "elapsed_ms": 607.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q075_sync_py",
+      "text": "Symmetric source_file resolve + perf optimizations",
+      "min_hops": 1,
+      "expected_sources": [
+        "sync.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3508,
+      "elapsed_ms": 752.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=54"
+      ],
+      "error": null
+    },
+    {
+      "id": "q076_sync_py",
+      "text": "Add gitignore-aware drawer prune (#1252)",
+      "min_hops": 1,
+      "expected_sources": [
+        "sync.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 927,
+      "elapsed_ms": 692.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q077_config_py",
+      "text": "Tighten temporal handling and cleanup",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2981,
+      "elapsed_ms": 751.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=46"
+      ],
+      "error": null
+    },
+    {
+      "id": "q078_knowledge_graph_py",
+      "text": "Close sqlite connections during cleanup",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2541,
+      "elapsed_ms": 686.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q079_config_py",
+      "text": "Tighten canonical temporal datetime support",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2898,
+      "elapsed_ms": 682.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=51"
+      ],
+      "error": null
+    },
+    {
+      "id": "q080_knowledge_graph_py",
+      "text": "Support Python 3.9 type annotations",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2145,
+      "elapsed_ms": 703.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q081_config_py",
+      "text": "Canonicalize temporal datetime support",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2132,
+      "elapsed_ms": 634.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q082_config_py",
+      "text": "Accept ISO datetimes for temporal inputs",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2961,
+      "elapsed_ms": 632.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q083_hooks_cli_py",
+      "text": "Use Optional[Path] for py39 compat",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2601,
+      "elapsed_ms": 709.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=44"
+      ],
+      "error": null
+    },
+    {
+      "id": "q084_hooks_cli_py",
+      "text": "Per-target PID guard with atomic claim (#1212, #1206)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4105,
+      "elapsed_ms": 688.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q085_readme_md",
+      "text": "Address Copilot review on PATH visibility (PR #1414)",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2103,
+      "elapsed_ms": 703.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q086_readme_md",
+      "text": "Recommend uv as the package manager",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3261,
+      "elapsed_ms": 688.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=57"
+      ],
+      "error": null
+    },
+    {
+      "id": "q087_palace_py",
+      "text": "Reserve byte 0 as lock sentinel for Windows portability",
+      "min_hops": 1,
+      "expected_sources": [
+        "palace.py"
+      ],
+      "matched_sources": [
+        "palace.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2498,
+      "elapsed_ms": 694.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=51"
+      ],
+      "error": null
+    },
+    {
+      "id": "q088_cli_py",
+      "text": "Identify lock holder + exit non-zero on contention",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2472,
+      "elapsed_ms": 713.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=48"
+      ],
+      "error": null
+    },
+    {
+      "id": "q089_hooks_cli_py",
+      "text": "Detach Popen children so the hook can exit on Windows",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3207,
+      "elapsed_ms": 699.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q090_readme_md",
+      "text": "Record daemon-strict migration completion in fork-ahead table",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [
+        "README.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4089,
+      "elapsed_ms": 623.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q091_claude_md",
+      "text": "Backfill missing commit refs + retire moot row 15 hedge",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3347,
+      "elapsed_ms": 693.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q092_claude_md",
+      "text": "Update last-sync reference to 2026-05-07",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1759,
+      "elapsed_ms": 668.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q093_miner_py",
+      "text": "Use token-boundary matching in detect_room",
+      "min_hops": 1,
+      "expected_sources": [
+        "miner.py"
+      ],
+      "matched_sources": [
+        "miner.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3333,
+      "elapsed_ms": 589.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q094_claude_md",
+      "text": "Record daemon-routing migration completion (rows 33+34)",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3780,
+      "elapsed_ms": 594.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q095_cli_py",
+      "text": "Daemon-route status, search, mine when PALACE_DAEMON_URL is set",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3978,
+      "elapsed_ms": 606.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q096_mcp_server_py",
+      "text": "Daemon-route mcp_server.py via handle_request chokepoint",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3288,
+      "elapsed_ms": 630.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q097_diary_ingest_py",
+      "text": "Rebuild closets on hash change + backfill legacy state",
+      "min_hops": 1,
+      "expected_sources": [
+        "diary_ingest.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4195,
+      "elapsed_ms": 679.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q098_exporter_py",
+      "text": "Refuse symlinks at file targets and skip tests on Windows",
+      "min_hops": 1,
+      "expected_sources": [
+        "exporter.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 8034,
+      "elapsed_ms": 660.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q099_diary_ingest_py",
+      "text": "Detect same-size edits via content hash",
+      "min_hops": 1,
+      "expected_sources": [
+        "diary_ingest.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3002,
+      "elapsed_ms": 699.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q100_exporter_py",
+      "text": "Refuse symlinks at export targets",
+      "min_hops": 1,
+      "expected_sources": [
+        "exporter.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3697,
+      "elapsed_ms": 726.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=49"
+      ],
+      "error": null
+    },
+    {
+      "id": "q101_closet_llm_py",
+      "text": "Retry _call_llm on JSONDecodeError instead of bailing",
+      "min_hops": 1,
+      "expected_sources": [
+        "closet_llm.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3098,
+      "elapsed_ms": 773.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q102_repair_py",
+      "text": "Run SQLite integrity preflight before chromadb open",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [
+        "repair.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3540,
+      "elapsed_ms": 879.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q103_config_py",
+      "text": "Use configured collection in recovery paths",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4089,
+      "elapsed_ms": 952.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q104_miner_py",
+      "text": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+      "min_hops": 1,
+      "expected_sources": [
+        "miner.py"
+      ],
+      "matched_sources": [
+        "miner.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4074,
+      "elapsed_ms": 714.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q105_repair_py",
+      "text": "Quote ChromaBackend annotation for Python 3.9 compatibility",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3654,
+      "elapsed_ms": 650.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q106_mcp_server_py",
+      "text": "Retry tool_search once on Chroma \"Error finding id\" transient (#1315)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4901,
+      "elapsed_ms": 645.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q107_render_jsonl_py",
+      "text": "Apply ruff format",
+      "min_hops": 1,
+      "expected_sources": [
+        "render_jsonl.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2569,
+      "elapsed_ms": 657.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q108_render_jsonl_py",
+      "text": "Split chained statements per ruff 0.4.x",
+      "min_hops": 1,
+      "expected_sources": [
+        "render_jsonl.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3483,
+      "elapsed_ms": 745.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q109_save_md",
+      "text": "Add 30-day expiry callout + ship 4 auto-save tools",
+      "min_hops": 1,
+      "expected_sources": [
+        "save.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 496,
+      "elapsed_ms": 596.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q110_contributing_md",
+      "text": "Clarify contributor git identity setup",
+      "min_hops": 1,
+      "expected_sources": [
+        "CONTRIBUTING.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3211,
+      "elapsed_ms": 839.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q111_2026_05_06_chunking_strategy_ablation_md",
+      "text": "Run 2 results \u2014 heading-aware-md wins markdown probes",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-06-chunking-strategy-ablation.md"
+      ],
+      "matched_sources": [
+        "2026-05-06-chunking-strategy-ablation.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3391,
+      "elapsed_ms": 678.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q112_2026_05_06_chunking_strategy_ablation_md",
+      "text": "Document A/B/C ablation findings + add markdown probes",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-06-chunking-strategy-ablation.md"
+      ],
+      "matched_sources": [
+        "2026-05-06-chunking-strategy-ablation.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2100,
+      "elapsed_ms": 863.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q113_chunk_strategy_ablation_py",
+      "text": "Add chunk_strategy_ablation.py \u2014 A/B/C chunkers \u00d7 chunk_size sweep",
+      "min_hops": 1,
+      "expected_sources": [
+        "chunk_strategy_ablation.py"
+      ],
+      "matched_sources": [
+        "chunk_strategy_ablation.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3964,
+      "elapsed_ms": 762.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q114_claude_md",
+      "text": "Record #1286 \u2192 #1377 outcome (closed \u2192 merged with co-author credit)",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2553,
+      "elapsed_ms": 787.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q115_mcp_server_py",
+      "text": "Retry _get_collection once on transient failure (#1286)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3551,
+      "elapsed_ms": 768.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=57"
+      ],
+      "error": null
+    },
+    {
+      "id": "q116_repair_py",
+      "text": "Address PR #1310 review feedback",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2179,
+      "elapsed_ms": 771.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=59"
+      ],
+      "error": null
+    },
+    {
+      "id": "q117_repair_py",
+      "text": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3040,
+      "elapsed_ms": 591.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q118_convo_miner_py",
+      "text": "Fix ruff bugbear and silent-except findings",
+      "min_hops": 1,
+      "expected_sources": [
+        "convo_miner.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4725,
+      "elapsed_ms": 602.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q119_closet_llm_py",
+      "text": "Reject non-http(s) endpoints",
+      "min_hops": 1,
+      "expected_sources": [
+        "closet_llm.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1534,
+      "elapsed_ms": 765.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q120_layers_py",
+      "text": "Clamp similarity to [0,1] to avoid negative values",
+      "min_hops": 1,
+      "expected_sources": [
+        "layers.py"
+      ],
+      "matched_sources": [
+        "layers.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3722,
+      "elapsed_ms": 700.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q121_mcp_server_py",
+      "text": "Clamp similarity to [0,1] to avoid negative values",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3722,
+      "elapsed_ms": 542.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q122_mcp_server_py",
+      "text": "MCP server JSON output ensure_ascii=False for non-ASCII support",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2745,
+      "elapsed_ms": 760.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=49"
+      ],
+      "error": null
+    },
+    {
+      "id": "q123_mcp_server_py",
+      "text": "Add validation for missing name parameter in tools/call requests",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4660,
+      "elapsed_ms": 714.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q124_mcp_server_py",
+      "text": "Include null id in JSON-RPC invalid request error responses and add validation tests",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3400,
+      "elapsed_ms": 712.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=56"
+      ],
+      "error": null
+    },
+    {
+      "id": "q125_mcp_server_py",
+      "text": "Handle null JSON-RPC request payloads safely",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3437,
+      "elapsed_ms": 742.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q126_searcher_py",
+      "text": "Clamp effective_distance to valid cosine range [0, 2]",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3825,
+      "elapsed_ms": 619.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q127_searcher_py",
+      "text": "Guard against None metadata/doc in search result loops",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 26270,
+      "elapsed_ms": 809.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=54"
+      ],
+      "error": null
+    },
+    {
+      "id": "q128_fork_changes_yaml",
+      "text": "Record hook_verbatim_mode toggle (row 32)",
+      "min_hops": 1,
+      "expected_sources": [
+        "fork-changes.yaml"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3182,
+      "elapsed_ms": 804.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q129_normalize_py",
+      "text": "Add hook_verbatim_mode toggle for transcript ingest",
+      "min_hops": 1,
+      "expected_sources": [
+        "normalize.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2912,
+      "elapsed_ms": 755.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=51"
+      ],
+      "error": null
+    },
+    {
+      "id": "q130_cli_py",
+      "text": "Address Copilot review on PRs #6/#7/#8/#10 (#12)",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2047,
+      "elapsed_ms": 600.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q131_hooks_cli_py",
+      "text": "Preserve dashed project names + route through normalize_wing_name (#10)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3559,
+      "elapsed_ms": 681.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q132_hooks_cli_py",
+      "text": "Drop wing_ prefix from transcript-derived wings (#9)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3698,
+      "elapsed_ms": 635.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q133_palace_py",
+      "text": "Retire mempalace_session_recovery collection + read tool (#8)",
+      "min_hops": 1,
+      "expected_sources": [
+        "palace.py"
+      ],
+      "matched_sources": [
+        "palace.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4089,
+      "elapsed_ms": 616.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q134_cli_py",
+      "text": "Mempalace mined + purge --source-file (#7)",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3618,
+      "elapsed_ms": 630.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q135_hooks_cli_py",
+      "text": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3730,
+      "elapsed_ms": 634.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q136_hooks_cli_py",
+      "text": "Route mining through daemon when PALACE_DAEMON_URL is set (#2)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4381,
+      "elapsed_ms": 645.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q137_repair_py",
+      "text": "Preflight SQLite integrity before rebuild",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2948,
+      "elapsed_ms": 763.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q138_migrate_py",
+      "text": "Verify write roundtrip before bailout",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3537,
+      "elapsed_ms": 887.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q139_repair_py",
+      "text": "Preflight poisoned max_seq_id",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 6610,
+      "elapsed_ms": 648.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q140_chroma_py",
+      "text": "Quarantine partial HNSW flush without metadata",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 333,
+      "elapsed_ms": 1294.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q141_entity_registry_py",
+      "text": "Fsync parent dir after rename for ext4 durability",
+      "min_hops": 1,
+      "expected_sources": [
+        "entity_registry.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2674,
+      "elapsed_ms": 907.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=48"
+      ],
+      "error": null
+    },
+    {
+      "id": "q142_entity_registry_py",
+      "text": "Atomic write to prevent partial corruption on crash",
+      "min_hops": 1,
+      "expected_sources": [
+        "entity_registry.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3289,
+      "elapsed_ms": 749.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q143_chroma_py",
+      "text": "Quarantine bloated HNSW link payloads",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [
+        "chroma.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3482,
+      "elapsed_ms": 896.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q144_fork_changes_yaml",
+      "text": "Record cfg.init chunking-defaults fix",
+      "min_hops": 1,
+      "expected_sources": [
+        "fork-changes.yaml"
+      ],
+      "matched_sources": [
+        "fork-changes.yaml"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3896,
+      "elapsed_ms": 941.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=51"
+      ],
+      "error": null
+    },
+    {
+      "id": "q145_config_py",
+      "text": "Don't write chunking defaults in cfg.init()",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [
+        "config.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3559,
+      "elapsed_ms": 945.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q146_mcp_server_py",
+      "text": "Apply #1262/#1289/#1303 pattern to recovery collection",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2968,
+      "elapsed_ms": 785.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q147_stdio_py",
+      "text": "Extract Windows UTF-8 reconfigure into shared helper",
+      "min_hops": 1,
+      "expected_sources": [
+        "_stdio.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3624,
+      "elapsed_ms": 864.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q148_mcp_server_py",
+      "text": "Retry KG handlers once on concurrent close race",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3728,
+      "elapsed_ms": 1018.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=48"
+      ],
+      "error": null
+    },
+    {
+      "id": "q149_claude_md",
+      "text": "Post-sync update \u2014 row 15 merged via #1262/#1289/#1303",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3440,
+      "elapsed_ms": 636.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q150_cli_py",
+      "text": "Per-stream stdio errors policy on Windows",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3952,
+      "elapsed_ms": 1023.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q151_cli_py",
+      "text": "Reconfigure stdio to UTF-8 on Windows",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3696,
+      "elapsed_ms": 875.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q152_fact_checker_py",
+      "text": "Reconfigure stdio to UTF-8 on Windows",
+      "min_hops": 1,
+      "expected_sources": [
+        "fact_checker.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3696,
+      "elapsed_ms": 589.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q153_chroma_py",
+      "text": "Release SQLite file lock on close_palace/close (#1067)",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3934,
+      "elapsed_ms": 822.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q154_mcp_server_py",
+      "text": "Drain KG cache on tool_reconnect",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3789,
+      "elapsed_ms": 866.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q155_mcp_server_py",
+      "text": "Replace eager _kg with lazy per-path cache (#1136)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4306,
+      "elapsed_ms": 884.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q156_mcp_server_py",
+      "text": "Drop \u00a75.5 from kg_add docstring/schema",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5715,
+      "elapsed_ms": 1076.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q157_searcher_py",
+      "text": "Address Copilot review on #1306",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1518,
+      "elapsed_ms": 720.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q158_mcp_server_py",
+      "text": "Basename source_file in tool_get_drawer responses",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3126,
+      "elapsed_ms": 915.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q159_mcp_server_py",
+      "text": "Omit palace_path from tool_status responses (+ docs)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4352,
+      "elapsed_ms": 805.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q160_mcp_server_py",
+      "text": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3755,
+      "elapsed_ms": 867.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=44"
+      ],
+      "error": null
+    },
+    {
+      "id": "q161_chroma_py",
+      "text": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [
+        "chroma.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3709,
+      "elapsed_ms": 792.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q162_cli_py",
+      "text": "Honor --palace flag in cmd_init (#1313)",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3115,
+      "elapsed_ms": 890.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=52"
+      ],
+      "error": null
+    },
+    {
+      "id": "q163_mcp_server_py",
+      "text": "Forward valid_to and source params in kg_add/kg_invalidate (#1314)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3123,
+      "elapsed_ms": 691.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q164_cli_py",
+      "text": "Write compress output to mempalace_closets so palace can read them (#1244)",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3773,
+      "elapsed_ms": 785.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q165_hooks_cli_py",
+      "text": "Use is_dir() for palace root check (review feedback)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4243,
+      "elapsed_ms": 782.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q166_hooks_cli_py",
+      "text": "Treat absent ~/.mempalace as auto-save off",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks_cli.py"
+      ],
+      "matched_sources": [
+        "hooks_cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3507,
+      "elapsed_ms": 645.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q167_hooks_json",
+      "text": "Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)",
+      "min_hops": 1,
+      "expected_sources": [
+        "hooks.json"
+      ],
+      "matched_sources": [
+        "hooks.json"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3263,
+      "elapsed_ms": 941.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=53"
+      ],
+      "error": null
+    },
+    {
+      "id": "q168_searcher_py",
+      "text": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3471,
+      "elapsed_ms": 861.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q169_mcp_server_py",
+      "text": "Address copilot review on #1303",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1375,
+      "elapsed_ms": 623.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q170_mcp_server_py",
+      "text": "Pass embedding_function= on collection reopen (#1299)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3282,
+      "elapsed_ms": 685.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q171_chroma_py",
+      "text": "Avoid false hnsw divergence fallback",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 725,
+      "elapsed_ms": 743.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q172_repair_py",
+      "text": "Close active backend before rollback restore",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3373,
+      "elapsed_ms": 1260.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q173_cli_py",
+      "text": "Restore backup on repair failure",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2716,
+      "elapsed_ms": 967.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q174_repair_py",
+      "text": "Rebuild collections through temp staging",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [
+        "repair.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3003,
+      "elapsed_ms": 667.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q175_chroma_py",
+      "text": "Harden HNSW startup preflight",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 763,
+      "elapsed_ms": 613.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q176_mcp_server_py",
+      "text": "Split get_or_create_collection on reopen (follow-up to #1262)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [
+        "mcp_server.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4059,
+      "elapsed_ms": 594.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q177_repair_py",
+      "text": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3152,
+      "elapsed_ms": 672.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q178_chroma_py",
+      "text": "Scale HNSW divergence floor with hnsw:sync_threshold",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 316,
+      "elapsed_ms": 583.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q179_claude_md",
+      "text": "Upstream-PRs table \u2014 add #1262 + #1286, update sync status",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2863,
+      "elapsed_ms": 590.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q180_claude_md",
+      "text": "Row 15 \u2014 third try, matches actual call-graph trace",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2202,
+      "elapsed_ms": 712.4,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q181_claude_md",
+      "text": "Row 15 \u2014 correct \"stable metadata\" wording, audit four call sites",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2698,
+      "elapsed_ms": 784.5,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=43"
+      ],
+      "error": null
+    },
+    {
+      "id": "q182_claude_md",
+      "text": "Row 15 reclassified \u2014 get-then-create guard not in fork main",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4089,
+      "elapsed_ms": 620.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q183_config_py",
+      "text": "Reject partial ISO dates to avoid silent empty result sets",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3658,
+      "elapsed_ms": 926.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q184_config_py",
+      "text": "Validate ISO-8601 date formats at MCP boundary",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [
+        "config.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3390,
+      "elapsed_ms": 1278.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=41"
+      ],
+      "error": null
+    },
+    {
+      "id": "q185_readme_md",
+      "text": "Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3144,
+      "elapsed_ms": 639.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q186_readme_md",
+      "text": "Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5405,
+      "elapsed_ms": 725.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=55"
+      ],
+      "error": null
+    },
+    {
+      "id": "q187_readme_md",
+      "text": "Close \"what this fork has learned\" with Karlton's two-hard-things; add InfoQ Grafana / pgvector-AGE / Plummer / Karlton to Sources",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [
+        "README.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3278,
+      "elapsed_ms": 815.2,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q188_readme_md",
+      "text": "Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3640,
+      "elapsed_ms": 823.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=53"
+      ],
+      "error": null
+    },
+    {
+      "id": "q189_readme_md",
+      "text": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [
+        "README.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 11614,
+      "elapsed_ms": 716.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q190_readme_md",
+      "text": "Flip principles to positive framing; promote verbatim-vs-derivative axis; add what-we've-learned + what's-next",
+      "min_hops": 1,
+      "expected_sources": [
+        "README.md"
+      ],
+      "matched_sources": [
+        "README.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3143,
+      "elapsed_ms": 915.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=47"
+      ],
+      "error": null
+    },
+    {
+      "id": "q191_closet_llm_py",
+      "text": "Paginate closet_llm col.get (#1073)",
+      "min_hops": 1,
+      "expected_sources": [
+        "closet_llm.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3175,
+      "elapsed_ms": 1029.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q192_entity_detector_py",
+      "text": "Address release review feedback",
+      "min_hops": 1,
+      "expected_sources": [
+        "entity_detector.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1985,
+      "elapsed_ms": 901.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=42"
+      ],
+      "error": null
+    },
+    {
+      "id": "q193_chroma_py",
+      "text": "Stop ChromaDB from crashing when reopening an existing palace",
+      "min_hops": 1,
+      "expected_sources": [
+        "chroma.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2413,
+      "elapsed_ms": 753.0,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q194_normalize_py",
+      "text": "Discard user/gemini turns before session_metadata sentinel",
+      "min_hops": 1,
+      "expected_sources": [
+        "normalize.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2556,
+      "elapsed_ms": 984.8,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q195_normalize_py",
+      "text": "Add Gemini CLI JSONL to module-level supported formats list",
+      "min_hops": 1,
+      "expected_sources": [
+        "normalize.py"
+      ],
+      "matched_sources": [
+        "normalize.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 5455,
+      "elapsed_ms": 980.6,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=50"
+      ],
+      "error": null
+    },
+    {
+      "id": "q196_claude_md",
+      "text": "Capture today's fork-ahead arc in CLAUDE.md + YAML",
+      "min_hops": 1,
+      "expected_sources": [
+        "CLAUDE.md"
+      ],
+      "matched_sources": [
+        "CLAUDE.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4089,
+      "elapsed_ms": 613.9,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    },
+    {
+      "id": "q197_mcp_json",
+      "text": "Restore daemon routing on .mcp.json without embedded credential",
+      "min_hops": 1,
+      "expected_sources": [
+        ".mcp.json"
+      ],
+      "matched_sources": [
+        ".mcp.json"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2607,
+      "elapsed_ms": 672.7,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q198_mcp_json",
+      "text": "Scrub embedded API key + daemon URL from manifests",
+      "min_hops": 1,
+      "expected_sources": [
+        ".mcp.json"
+      ],
+      "matched_sources": [
+        ".mcp.json"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3228,
+      "elapsed_ms": 813.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=60"
+      ],
+      "error": null
+    },
+    {
+      "id": "q199_searcher_py",
+      "text": "Record VecRecall closet-boost ablation finding",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3948,
+      "elapsed_ms": 738.1,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=45"
+      ],
+      "error": null
+    },
+    {
+      "id": "q200_searcher_py",
+      "text": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 4034,
+      "elapsed_ms": 811.3,
+      "retrieval_path": [
+        "kind=content",
+        "available_in_scope=277030",
+        "total_before_filter=40"
+      ],
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 200,
+    "full_recall": 89,
+    "partial_hit": 89,
+    "mean_recall": 0.445,
+    "mean_tokens": 3646.38,
+    "tokens_per_correct_answer": 8194.112359550561,
+    "by_hop": {
+      "1": {
+        "n": 200,
+        "mean_recall": 0.445,
+        "hit_rate": 0.445,
+        "mean_tokens": 3646.38
+      }
+    }
+  }
+}

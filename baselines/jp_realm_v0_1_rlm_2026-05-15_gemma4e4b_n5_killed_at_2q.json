@@ -1,0 +1,66 @@
+{
+  "adapter": "rlm",
+  "db_path": null,
+  "collection_name": null,
+  "corpus_version": "jp-realm-v0.1",
+  "n_results": 5,
+  "questions": [
+    {
+      "id": "q01_familiar_what",
+      "text": "What is familiar.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "familiar",
+        "palace"
+      ],
+      "matched_sources": [
+        "familiar"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 144,
+      "elapsed_ms": 411492.4,
+      "retrieval_path": [
+        "rlm_completion (411492.3ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q02_realm_sigil_role",
+      "text": "What does realm-sigil do across JP's projects?",
+      "min_hops": 1,
+      "expected_sources": [
+        "sigil",
+        "version"
+      ],
+      "matched_sources": [
+        "sigil",
+        "version"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 397,
+      "elapsed_ms": 362356.4,
+      "retrieval_path": [
+        "rlm_completion (362356.3ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "full_recall": 1,
+    "partial_hit": 2,
+    "mean_recall": 0.75,
+    "mean_tokens": 270.5,
+    "tokens_per_correct_answer": 541.0,
+    "by_hop": {
+      "1": {
+        "n": 2,
+        "mean_recall": 0.75,
+        "hit_rate": 1.0,
+        "mean_tokens": 270.5
+      }
+    }
+  }
+}

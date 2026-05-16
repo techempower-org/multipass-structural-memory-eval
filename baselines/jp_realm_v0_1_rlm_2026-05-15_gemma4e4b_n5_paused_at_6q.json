@@ -1,0 +1,206 @@
+{
+  "adapter": "rlm",
+  "db_path": null,
+  "collection_name": null,
+  "corpus_version": "jp-realm-v0.1",
+  "n_results": 5,
+  "questions": [
+    {
+      "id": "q01_familiar_what",
+      "text": "What is familiar.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "familiar",
+        "palace"
+      ],
+      "matched_sources": [
+        "familiar",
+        "palace"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1536,
+      "elapsed_ms": 366996.4,
+      "retrieval_path": [
+        "rlm_completion (366996.4ms, 4 tool calls, 20 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q02_realm_sigil_role",
+      "text": "What does realm-sigil do across JP's projects?",
+      "min_hops": 1,
+      "expected_sources": [
+        "sigil",
+        "version"
+      ],
+      "matched_sources": [
+        "sigil",
+        "version"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2252,
+      "elapsed_ms": 378065.7,
+      "retrieval_path": [
+        "rlm_completion (378065.6ms, 4 tool calls, 20 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q03_status_realm_watch",
+      "text": "What is status.realm.watch and what does it monitor?",
+      "min_hops": 1,
+      "expected_sources": [
+        "status",
+        "realm"
+      ],
+      "matched_sources": [
+        "status",
+        "realm"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 436,
+      "elapsed_ms": 408362.0,
+      "retrieval_path": [
+        "rlm_completion (408361.9ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q04_os_realm_watch",
+      "text": "What is os.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "os.realm",
+        "quest"
+      ],
+      "matched_sources": [
+        "quest"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 544,
+      "elapsed_ms": 411662.2,
+      "retrieval_path": [
+        "rlm_completion (411662.2ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q05_portal_realm",
+      "text": "What does the realm-portal VM serve?",
+      "min_hops": 1,
+      "expected_sources": [
+        "portal",
+        "VM"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 35,
+      "elapsed_ms": 37650.5,
+      "retrieval_path": [
+        "rlm_completion (37650.5ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q06_mempalace_fork",
+      "text": "What are the key features of JP's mempalace fork vs upstream?",
+      "min_hops": 1,
+      "expected_sources": [
+        "mempalace",
+        "fork"
+      ],
+      "matched_sources": [
+        "mempalace",
+        "fork"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1227,
+      "elapsed_ms": 502085.0,
+      "retrieval_path": [
+        "rlm_completion (502085.0ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q07_palace_daemon_role",
+      "text": "What is palace-daemon for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "daemon",
+        "HTTP"
+      ],
+      "matched_sources": [
+        "daemon",
+        "HTTP"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 566,
+      "elapsed_ms": 419312.7,
+      "retrieval_path": [
+        "rlm_completion (419312.6ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q08_kind_filter",
+      "text": "What does the kind=content search filter do?",
+      "min_hops": 1,
+      "expected_sources": [
+        "kind",
+        "checkpoint"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 539,
+      "elapsed_ms": 441651.5,
+      "retrieval_path": [
+        "rlm_completion (441651.4ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q09_silent_save",
+      "text": "What is the /silent-save endpoint?",
+      "min_hops": 1,
+      "expected_sources": [
+        "silent-save",
+        "diary"
+      ],
+      "matched_sources": [
+        "silent-save"
+      ],
+      "recall": 0.5,
+      "hit": true,
+      "tokens": 344,
+      "elapsed_ms": 452360.3,
+      "retrieval_path": [
+        "rlm_completion (452360.3ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "full_recall": 5,
+    "partial_hit": 7,
+    "mean_recall": 0.6666666666666666,
+    "mean_tokens": 831.0,
+    "tokens_per_correct_answer": 1495.8,
+    "by_hop": {
+      "1": {
+        "n": 9,
+        "mean_recall": 0.6666666666666666,
+        "hit_rate": 0.7777777777777778,
+        "mean_tokens": 831.0
+      }
+    }
+  }
+}

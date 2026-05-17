@@ -556,21 +556,38 @@
         "rlm_completion (82709.8ms, 5 tool calls, 25 drawers)"
       ],
       "error": null
+    },
+    {
+      "id": "q033_knowledge_graph_age_py",
+      "text": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1432,
+      "elapsed_ms": 141585.5,
+      "retrieval_path": [
+        "rlm_completion (141585.4ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
     }
   ],
   "summary": {
-    "total": 32,
+    "total": 33,
     "full_recall": 4,
     "partial_hit": 4,
-    "mean_recall": 0.125,
-    "mean_tokens": 4579.6875,
-    "tokens_per_correct_answer": 36637.5,
+    "mean_recall": 0.12121212121212122,
+    "mean_tokens": 4484.30303030303,
+    "tokens_per_correct_answer": 36995.5,
     "by_hop": {
       "1": {
-        "n": 32,
-        "mean_recall": 0.125,
-        "hit_rate": 0.125,
-        "mean_tokens": 4579.6875
+        "n": 33,
+        "mean_recall": 0.12121212121212122,
+        "hit_rate": 0.12121212121212122,
+        "mean_tokens": 4484.30303030303
       }
     }
   }

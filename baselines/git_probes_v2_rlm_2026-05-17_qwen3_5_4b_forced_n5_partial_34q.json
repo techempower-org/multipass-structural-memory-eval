@@ -573,21 +573,40 @@
         "rlm_completion (141585.4ms, 1 tool calls, 5 drawers)"
       ],
       "error": null
+    },
+    {
+      "id": "q034_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Reconcile pgvector plan with what shipped via PR #21",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 2777,
+      "elapsed_ms": 188258.3,
+      "retrieval_path": [
+        "rlm_completion (188258.3ms, 4 tool calls, 20 drawers)"
+      ],
+      "error": null
     }
   ],
   "summary": {
-    "total": 33,
-    "full_recall": 4,
-    "partial_hit": 4,
-    "mean_recall": 0.12121212121212122,
-    "mean_tokens": 4484.30303030303,
-    "tokens_per_correct_answer": 36995.5,
+    "total": 34,
+    "full_recall": 5,
+    "partial_hit": 5,
+    "mean_recall": 0.14705882352941177,
+    "mean_tokens": 4434.088235294118,
+    "tokens_per_correct_answer": 30151.8,
     "by_hop": {
       "1": {
-        "n": 33,
-        "mean_recall": 0.12121212121212122,
-        "hit_rate": 0.12121212121212122,
-        "mean_tokens": 4484.30303030303
+        "n": 34,
+        "mean_recall": 0.14705882352941177,
+        "hit_rate": 0.14705882352941177,
+        "mean_tokens": 4434.088235294118
       }
     }
   }

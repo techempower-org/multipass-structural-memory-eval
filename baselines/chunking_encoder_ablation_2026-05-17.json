@@ -1,0 +1,2734 @@
+{
+  "conditions": {
+    "base-MiniLM+paragraph": {
+      "hits": 30,
+      "n": 48,
+      "r5": 0.625,
+      "per_q": [
+        {
+          "id": "q001_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q015_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "FORK_CHANGELOG.md",
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HANDOFF.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q020_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "2026-04-25-checkpoint-collection-split.md",
+            "FORK_CHANGELOG.md",
+            "2026-04-26-downstream-eval-findings.md",
+            "FORK_CHANGELOG.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q024_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "README.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q027_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-05-verbatim-only-design.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "HANDOFF.md",
+            "pgvector-665-decision.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q034_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q035_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "HYBRID_MODE.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "status.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q036_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "notification-replies-2026-05-13.md",
+            "FORK_CHANGELOG.md",
+            "README.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q039_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "README.md",
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q042_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "HANDOFF.md",
+            "mcp-tools.md",
+            "mcp-tools.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q043_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md",
+            "CLOSETS.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q047_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-05-05-verbatim-only-design.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q049_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "FORK_CHANGELOG.md",
+            "README.md",
+            "AGENTS.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q051_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "README.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q052_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "convergent-findings-kostadis-comparison.md",
+            "adaptmem-orthogonal-layers.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q053_pgvector_665_decision_md",
+          "expected": [
+            "pgvector-665-decision.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "FORK_CHANGELOG.md",
+            "pgvector-665-decision.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q057_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md",
+            "CHANGELOG.md",
+            "notification-replies-2026-05-13.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q058_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q059_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "memory-stack.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q063_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q064_2026_05_10_pgvector_age_migration_design",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "FORK_CHANGELOG.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q065_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "README.md",
+            "2026-05-10-analysis.md",
+            "README.md",
+            "2026-05-10-analysis.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q066_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q068_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "2026-05-10-analysis.md",
+            "HANDOFF.md",
+            "README.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q074_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q085_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "002-source-adapter-plugin-spec.md",
+            "CHANGELOG.md",
+            "CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q086_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "init.md",
+            "README.md",
+            "getting-started.md",
+            "FORK_CHANGELOG.md",
+            "CONTRIBUTING.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q090_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q091_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "CHANGELOG.md",
+            "pgvector-665-decision.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q092_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "pgvector-665-decision.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "2026-05-05-verbatim-only-design.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q094_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q109_save_md",
+          "expected": [
+            "save.md"
+          ],
+          "top5_files": [
+            "hooks.md",
+            "README.md",
+            "claude-code.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q110_contributing_md",
+          "expected": [
+            "CONTRIBUTING.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q111_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md",
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q112_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q114_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "pgvector-665-decision.md",
+            "README.md",
+            "README.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q149_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "README.md",
+            "pgvector-665-decision.md",
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q179_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q180_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "python-api.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "api-reference.md",
+            "CHANGELOG.md",
+            "HANDOFF.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q181_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HISTORY.md",
+            "FORK_CHANGELOG.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "SKILL.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q182_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "HANDOFF.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q185_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "adaptmem-orthogonal-layers.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q186_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "CHANGELOG.md",
+            "agents.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q187_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "pgvector-665-decision.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q188_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "help.md",
+            "README.md",
+            "README.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "three-patterns-for-agent-memory.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q189_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "FORK_CHANGELOG.md",
+            "HANDOFF.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q190_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "BENCHMARKS.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q196_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "AGENTS.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        }
+      ],
+      "wall_clock_s": 2.2,
+      "n_chunks": 1247
+    },
+    "base-MiniLM+heading-aware": {
+      "hits": 24,
+      "n": 48,
+      "r5": 0.5,
+      "per_q": [
+        {
+          "id": "q001_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q015_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q020_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "2026-05-05-verbatim-only-design.md",
+            "FORK_CHANGELOG.md",
+            "2026-04-26-downstream-eval-findings.md",
+            "2026-04-25-checkpoint-collection-split-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q024_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q027_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "pgvector-665-decision.md",
+            "HANDOFF.md",
+            "pgvector-665-decision.md",
+            "2026-05-05-verbatim-only-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q034_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HANDOFF.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q035_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "mcp-tools.md",
+            "HYBRID_MODE.md",
+            "mcp-tools.md",
+            "CONTRIBUTING.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q036_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "README.md",
+            "AGENTS.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q039_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "promises.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q042_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "HYBRID_MODE.md",
+            "2026-04-25-checkpoint-collection-split.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q043_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q047_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q049_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "FORK_CHANGELOG.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q051_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "README.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q052_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "three-mempalace-consumers.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q053_pgvector_665_decision_md",
+          "expected": [
+            "pgvector-665-decision.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "pgvector-665-decision.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q057_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "notification-replies-2026-05-13.md",
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md",
+            "CHANGELOG.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q058_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "ROADMAP.md",
+            "local-models.md",
+            "002-source-adapter-plugin-spec.md",
+            "CHANGELOG.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q059_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "memory-stack.md",
+            "README.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "002-source-adapter-plugin-spec.md",
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q063_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q064_2026_05_10_pgvector_age_migration_design",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q065_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q066_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q068_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HANDOFF.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q074_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "README.md",
+            "2026-05-10-analysis.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q085_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "mcp-tools.md",
+            "002-source-adapter-plugin-spec.md",
+            "CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q086_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CONTRIBUTING.md",
+            "contributing.md",
+            "init.md",
+            "getting-started.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q090_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "AGENTS.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q091_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "CHANGELOG.md",
+            "HISTORY.md",
+            "2026-05-05-verbatim-only-design.md",
+            "mcp-tools.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q092_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md",
+            "README.md",
+            "CHANGELOG.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q094_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q109_save_md",
+          "expected": [
+            "save.md"
+          ],
+          "top5_files": [
+            "hooks.md",
+            "hooks.md",
+            "README.md",
+            "README.md",
+            "claude-code.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q110_contributing_md",
+          "expected": [
+            "CONTRIBUTING.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "ROADMAP.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q111_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md",
+            "BENCHMARKS.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q112_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q114_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "BENCHMARKS.md",
+            "HANDOFF.md",
+            "BENCHMARKS.md",
+            "BENCHMARKS.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q149_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "FORK_CHANGELOG.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-04-25-checkpoint-collection-split-impl.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q179_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "promises.md",
+            "FORK_CHANGELOG.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q180_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "api-reference.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q181_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md",
+            "HISTORY.md",
+            "HANDOFF.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q182_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "2026-04-25-checkpoint-collection-split.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q185_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q186_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "CHANGELOG.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "claude-code.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q187_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "HANDOFF.md",
+            "pgvector-cutover-runbook.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q188_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "the-palace.md",
+            "mining.md",
+            "HYBRID_MODE.md",
+            "RESULTS.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q189_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q190_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q196_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "FORK_CHANGELOG.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        }
+      ],
+      "wall_clock_s": 2.6,
+      "n_chunks": 1820
+    },
+    "FT-300+paragraph": {
+      "hits": 28,
+      "n": 48,
+      "r5": 0.5833333333333334,
+      "per_q": [
+        {
+          "id": "q001_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "CHANGELOG.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q015_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q020_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-04-26-downstream-eval-findings.md",
+            "FORK_CHANGELOG.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q024_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "CHANGELOG.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q027_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-05-05-verbatim-only-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q034_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "pgvector-665-decision.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q035_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "HYBRID_MODE.md",
+            "HYBRID_MODE.md",
+            "CONTRIBUTING.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q036_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "FORK_CHANGELOG.md",
+            "README.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q039_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "README.md",
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q042_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q043_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "HANDOFF.md",
+            "2026-05-05-verbatim-only-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q047_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-05-05-verbatim-only-design.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "HANDOFF.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q049_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q051_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "AGENTS.md",
+            "CLAUDE.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q052_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "convergent-findings-kostadis-comparison.md",
+            "adaptmem-orthogonal-layers.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q053_pgvector_665_decision_md",
+          "expected": [
+            "pgvector-665-decision.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "postgres_backend.md",
+            "README.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q057_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md",
+            "CHANGELOG.md",
+            "README.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q058_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "002-source-adapter-plugin-spec.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q059_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-04-26-downstream-eval-findings.md",
+            "AGENTS.md",
+            "CLAUDE.md",
+            "README.md",
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q063_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "HANDOFF.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q064_2026_05_10_pgvector_age_migration_design",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q065_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q066_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-analysis.md",
+            "FORK_CHANGELOG.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q068_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "2026-05-10-analysis.md",
+            "README.md",
+            "README.md",
+            "2026-05-10-analysis.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q074_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "2026-05-15-multi-encoder-rrf.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q085_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "FORK_CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q086_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "init.md",
+            "README.md",
+            "FORK_CHANGELOG.md",
+            "getting-started.md",
+            "gemini_cli_setup.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q090_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "pgvector-665-decision.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q091_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "pgvector-665-decision.md",
+            "HYBRID_MODE.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q092_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "CLAUDE.md",
+            "AGENTS.md",
+            "README.md",
+            "CHANGELOG.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q094_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q109_save_md",
+          "expected": [
+            "save.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-05-verbatim-only-design.md",
+            "claude-code.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q110_contributing_md",
+          "expected": [
+            "CONTRIBUTING.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q111_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q112_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "CHANGELOG.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q114_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HISTORY.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q149_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HANDOFF.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q179_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "HANDOFF.md",
+            "HANDOFF.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q180_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "PLAN.md",
+            "python-api.md",
+            "FORK_CHANGELOG.md",
+            "2026-04-10-tool-output-mining.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q181_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HISTORY.md",
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md",
+            "HISTORY.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q182_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "HANDOFF.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q185_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "002-source-adapter-plugin-spec.md",
+            "adaptmem-orthogonal-layers.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q186_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CHANGELOG.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "claude-code.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q187_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "README.md",
+            "pgvector-665-decision.md",
+            "HANDOFF.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q188_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "three-mempalace-consumers.md",
+            "help.md",
+            "CHANGELOG.md",
+            "the-palace.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q189_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q190_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "adaptmem-orthogonal-layers.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q196_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        }
+      ],
+      "wall_clock_s": 2.0,
+      "n_chunks": 1247
+    },
+    "FT-300+heading-aware": {
+      "hits": 27,
+      "n": 48,
+      "r5": 0.5625,
+      "per_q": [
+        {
+          "id": "q001_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q015_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q020_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "2026-04-26-downstream-eval-findings.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q024_pgvector_cutover_runbook_md",
+          "expected": [
+            "pgvector-cutover-runbook.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q027_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-665-decision.md",
+            "pgvector-665-decision.md",
+            "HANDOFF.md",
+            "pgvector-665-decision.md",
+            "2026-05-05-verbatim-only-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q034_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q035_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "CONTRIBUTING.md",
+            "FORK_CHANGELOG.md",
+            "HYBRID_MODE.md",
+            "contributing.md",
+            "2026-05-05-verbatim-only-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q036_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "CLAUDE.md",
+            "AGENTS.md",
+            "README.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q039_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "README.md",
+            "README.md",
+            "CLAUDE.md",
+            "AGENTS.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q042_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "AGENTS.md",
+            "CLAUDE.md",
+            "HANDOFF.md",
+            "HYBRID_MODE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q043_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "HANDOFF.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q047_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-04-25-checkpoint-collection-split.md",
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q049_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "AGENTS.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q051_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "HANDOFF.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q052_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "compass_artifact_wf-ad108fcc-3960-4eab-ad5d-234bf365b2f4_text_markdown.md",
+            "three-mempalace-consumers.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q053_pgvector_665_decision_md",
+          "expected": [
+            "pgvector-665-decision.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q057_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "notification-replies-2026-05-13.md",
+            "notification-replies-2026-05-13.md",
+            "CHANGELOG.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q058_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CONTRIBUTING.md",
+            "local-models.md",
+            "2026-05-10-analysis.md",
+            "README.md",
+            "contributing.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q059_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "memory-stack.md",
+            "SKILL.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md",
+            "2026-04-26-downstream-eval-findings.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q063_2026_05_10_pgvector_age_migration_impl_m",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "top5_files": [
+            "pgvector-cutover-runbook.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-665-decision.md",
+            "pgvector-cutover-runbook.md",
+            "pgvector-cutover-runbook.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q064_2026_05_10_pgvector_age_migration_design",
+          "expected": [
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q065_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q066_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "2026-05-10-analysis.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q068_2026_05_10_analysis_md",
+          "expected": [
+            "2026-05-10-analysis.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "CHANGELOG.md",
+            "2026-05-10-analysis.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q074_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "2026-05-10-analysis.md",
+            "README.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q085_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md",
+            "CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q086_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CONTRIBUTING.md",
+            "contributing.md",
+            "README.md",
+            "benchmarks.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q090_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "CLAUDE.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q091_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HANDOFF.md",
+            "2026-05-05-verbatim-only-design.md",
+            "CHANGELOG.md",
+            "pgvector-665-decision.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q092_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "FORK_CHANGELOG.md",
+            "CHANGELOG.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q094_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "FORK_CHANGELOG.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "pgvector-cutover-runbook.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q109_save_md",
+          "expected": [
+            "save.md"
+          ],
+          "top5_files": [
+            "hooks.md",
+            "hooks.md",
+            "README.md",
+            "hooks.md",
+            "README.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q110_contributing_md",
+          "expected": [
+            "CONTRIBUTING.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            "README.md",
+            "contributing.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q111_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md",
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q112_2026_05_06_chunking_strategy_ablation_md",
+          "expected": [
+            "2026-05-06-chunking-strategy-ablation.md"
+          ],
+          "top5_files": [
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q114_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "BENCHMARKS.md",
+            "BENCHMARKS.md",
+            "README.md",
+            "BENCHMARKS.md",
+            "HANDOFF.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q149_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "notification-replies-2026-05-13.md",
+            "HANDOFF.md",
+            "README.md",
+            "2026-04-25-checkpoint-collection-split-impl.md",
+            "notification-replies-2026-05-13.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q179_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "pgvector-665-decision.md",
+            "promises.md",
+            "README.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q180_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "RESULTS.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-06-chunking-strategy-ablation.md",
+            "2026-04-10-tool-output-mining-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q181_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "HISTORY.md",
+            "FORK_CHANGELOG.md",
+            "FORK_CHANGELOG.md",
+            "HISTORY.md",
+            "CHANGELOG.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q182_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "2026-04-25-checkpoint-collection-split.md",
+            "FORK_CHANGELOG.md",
+            "notification-replies-2026-05-13.md",
+            "CLAUDE.md",
+            "AGENTS.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q185_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "002-source-adapter-plugin-spec.md",
+            "adaptmem-orthogonal-layers.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md",
+            "002-source-adapter-plugin-spec.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q186_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "CHANGELOG.md",
+            "compass_artifact_wf-28bac4e8-71d9-4175-837a-d4ad563aec8d_text_markdown.md",
+            "claude-code.md",
+            "mcp-integration.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q187_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "pgvector-665-decision.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-impl.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q188_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "CHANGELOG.md",
+            "the-palace.md",
+            "HYBRID_MODE.md",
+            "RESULTS.md",
+            "mining.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q189_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-impl.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md",
+            "2026-05-10-pgvector-age-migration-design.md"
+          ],
+          "hit": 0
+        },
+        {
+          "id": "q190_readme_md",
+          "expected": [
+            "README.md"
+          ],
+          "top5_files": [
+            "README.md",
+            "README.md",
+            "README.md",
+            "README.md",
+            "convergent-findings-kostadis-comparison.md"
+          ],
+          "hit": 1
+        },
+        {
+          "id": "q196_claude_md",
+          "expected": [
+            "CLAUDE.md"
+          ],
+          "top5_files": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "CLAUDE.md",
+            "AGENTS.md",
+            "AGENTS.md"
+          ],
+          "hit": 1
+        }
+      ],
+      "wall_clock_s": 2.6,
+      "n_chunks": 1820
+    }
+  },
+  "deltas": {
+    "base-MiniLM: heading-aware - paragraph": -0.125,
+    "FT-300: heading-aware - paragraph": -0.0208
+  },
+  "n_probes": 48,
+  "corpus_root": "/home/jp/Projects/memorypalace"
+}

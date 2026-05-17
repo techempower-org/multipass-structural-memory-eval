@@ -1,0 +1,178 @@
+{
+  "adapter": "rlm",
+  "db_path": null,
+  "collection_name": null,
+  "corpus_version": "mempalace-git-probes-v2",
+  "n_results": 5,
+  "questions": [
+    {
+      "id": "q001_pgvector_cutover_runbook_md",
+      "text": "Post-mortem section in pgvector-cutover-runbook",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 283,
+      "elapsed_ms": 453765.5,
+      "retrieval_path": [
+        "rlm_completion (453765.5ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q002_2026_05_14_search_bench_hybrid_cutover_j",
+      "text": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-14-search-bench-hybrid-cutover.json"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 200,
+      "elapsed_ms": 421727.8,
+      "retrieval_path": [
+        "rlm_completion (421727.7ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q003_postgres_py",
+      "text": "Trigram index + complete schema in _create_table + test isolation",
+      "min_hops": 1,
+      "expected_sources": [
+        "postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 102,
+      "elapsed_ms": 56245.6,
+      "retrieval_path": [
+        "rlm_completion (56245.5ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q004_migrate_to_postgres_py",
+      "text": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 632,
+      "elapsed_ms": 39477.4,
+      "retrieval_path": [
+        "rlm_completion (39477.4ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q005_searcher_py",
+      "text": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 165,
+      "elapsed_ms": 233285.6,
+      "retrieval_path": [
+        "rlm_completion (233285.5ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q006_cli_py",
+      "text": "Mempalace rooms subcommand + example config.yaml",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 308,
+      "elapsed_ms": 32639.1,
+      "retrieval_path": [
+        "rlm_completion (32639.0ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q007_cli_py",
+      "text": "Add --mode session for per-session manifest drawers",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 154,
+      "elapsed_ms": 407409.6,
+      "retrieval_path": [
+        "rlm_completion (407409.5ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q008_searcher_py",
+      "text": "Hybrid merger must bypass max_distance, not honor it",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 633,
+      "elapsed_ms": 541608.6,
+      "retrieval_path": [
+        "rlm_completion (541608.6ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q009_searcher_py",
+      "text": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 416,
+      "elapsed_ms": 95655.8,
+      "retrieval_path": [
+        "rlm_completion (95655.8ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "full_recall": 0,
+    "partial_hit": 0,
+    "mean_recall": 0.0,
+    "mean_tokens": 321.44444444444446,
+    "tokens_per_correct_answer": null,
+    "by_hop": {
+      "1": {
+        "n": 9,
+        "mean_recall": 0.0,
+        "hit_rate": 0.0,
+        "mean_tokens": 321.44444444444446
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+# Gemini Code Assist config for techempower-org/multipass-structural-memory-eval
+# Docs: https://developers.google.com/gemini-code-assist/docs/customize-gemini-behavior-github
+#
+# SME is a research framework — reviews should prioritize correctness
+# of measurement code (adapters, scoring, cross-validation harness)
+# over style nits in benchmark result JSONs.
+
+have_fun: false
+
+code_review:
+  disable: false
+  comment_severity_threshold: MEDIUM
+  max_review_comments: -1
+  pull_request_opened:
+    help: false
+    summary: true
+    code_review: true
+
+ignore_patterns:
+  # Benchmark result artifacts — not for code review
+  - "baselines/*.json"
+  - "baselines/*.jsonl"
+  - "sme/corpora/longmemeval/data/**"
+  # Generated docs
+  - "docs/benchmarks/*.json"
+  # Standard ignores
+  - "*.lock"
+  - "**/__pycache__/**"
+  - "**/.venv/**"
+  - "**/dist/**"
+  - "**/*.egg-info/**"

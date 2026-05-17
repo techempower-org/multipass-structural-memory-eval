@@ -124,6 +124,22 @@ def _make_mempalace_adapter(per_q_vault: Path) -> SMEAdapter:  # pragma: no cove
     )
 
 
+_pg_adapter_singleton: Optional[SMEAdapter] = None
+
+
+def _make_postgres_adapter(per_q_vault: Path) -> SMEAdapter:
+    """Reuse one PostgresIngestAdapter across all questions to amortize
+    connection + table setup. ingest_corpus() TRUNCATEs between calls."""
+    global _pg_adapter_singleton
+
+    from sme.adapters.postgres_ingest import PostgresIngestAdapter
+
+    if _pg_adapter_singleton is None:
+        _pg_adapter_singleton = PostgresIngestAdapter(n_results=5)
+    _pg_adapter_singleton.ingest_from_vault(per_q_vault)
+    return _pg_adapter_singleton
+
+
 def _make_karpathy_compiled_adapter(per_q_vault: Path) -> SMEAdapter:
     """Condition D2 wiring — per-question stub-compiled wiki.
 
@@ -153,6 +169,7 @@ _ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "flat": _make_flat_adapter,
     "karpathy-compiled": _make_karpathy_compiled_adapter,
     "mempalace": _make_mempalace_adapter,
+    "postgres": _make_postgres_adapter,
 }
 
 

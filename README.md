@@ -45,18 +45,53 @@ table.
 
 ## Status
 
-**Beta-level instrumentation, actively evolving.** Eight adapters
+**Beta-level instrumentation, actively evolving.** Ten adapters
 (`flat-baseline`, `mempalace`, `mempalace-daemon`, `familiar`, `rlm`,
-`ladybugdb`, `full-context`, `karpathy-compiled`), nine CLI commands
-(`retrieve`, `analyze`, `cat8`, `cat2c`, `cat4`, `cat5`, `check`,
-`cat9`, `compile-wiki`), Cat 4 and Cat 5 partially implemented, and
-a specification for the remaining categories. Diagnostic posture,
-not benchmark — the defensible findings are before/after deltas
-under identical conditions and within-system A/B/C ablations.
-Absolute recall numbers inherit a substring-on-filename matcher
-with known biases. See the [spec](docs/sme_spec_v8.md) and the
+`ladybugdb`, `full-context`, `karpathy-compiled`, `postgres`,
+`postgres-age` — the last two land in 2026-05-17's AGE-integration
+work), nine CLI commands (`retrieve`, `analyze`, `cat8`, `cat2c`,
+`cat4`, `cat5`, `check`, `cat9`, `compile-wiki`), Cat 4 and Cat 5
+partially implemented, and a specification for the remaining
+categories. Diagnostic posture, not benchmark — the defensible
+findings are before/after deltas under identical conditions and
+within-system A/B/C ablations. Absolute recall numbers inherit a
+substring-on-filename matcher with known biases. See the
+[spec](docs/sme_spec_v8.md) and the
 [onboarding guide](docs/ideas.md) for the full honest-limitations
 discussion.
+
+### Recent findings (2026-05-15 — 2026-05-17)
+
+- **Substrate-floor parity validated** — `postgres+pgvector` (our fork's
+  substrate) produces byte-identical retrieval to `chromadb` (upstream
+  reference) on LongMemEval-S 500q: **R@5 = 0.9660 exact match**, per-category
+  agreement across all 6 question types. Backend migration is recall-equivalent.
+  [Writeup](docs/benchmarks/2026-05-17-longmemeval-substrate-parity.md) ·
+  [Bench script](scripts/lme_substrate_parity_bench.py).
+- **adaptmem FT-300 reproduction** — independently reproduced nakata-app's
+  R@5 = 0.995 claim on katana GPU: **R@5 = 1.000** on the held-out 200q
+  test split, R@1 = 0.925 (+1.0pp), R@10 = 1.000. Encoder-FT on 300
+  in-domain query-session pairs saturates LongMemEval recall.
+  [Writeup](docs/benchmarks/2026-05-17-adaptmem-ft300-reproduction.md).
+- **Encoder-conditional chunking hypothesis confirmed** — 2x2 ablation
+  on 48 markdown probes shows FT-300 absorbs **~83% of the chunking-axis
+  R@5 sensitivity** (base-MiniLM: heading-aware loses to paragraph by
+  -12.5pp; FT-300: -2.1pp within noise). Mirrors nakata-app's [0, 0] CI
+  finding on his 20-probe set; refines into a K-conditional 3-regime
+  taxonomy (below-K-masked / saturated-K-flat / inside-K-differentiating).
+  [Writeup](docs/benchmarks/2026-05-17-encoder-conditional-chunking.md).
+- **AGE write-through spike** — graph signal adds **+9pp R@5** over
+  vector-only on n=200 git-derived probes (file-level vectors, regex
+  extractor, postgres+AGE write-through). Graph-only beats vector alone
+  by +5pp; RRF fusion adds another +4pp on top. Plus three Apache AGE
+  Cypher dialect gaps documented (no `SET` on edge properties, no
+  `ON CREATE SET`, no edge-type unions).
+  [Writeup](docs/benchmarks/2026-05-17-age-write-through-spike.md).
+- **Step 2-forced/grounded RLM benchmarks** — gemma4:e4b forced n=20
+  lifts +30.7pp over vanilla on jp-realm-v0.1 (matches Step 1's invocation-
+  discipline prediction); qwen3.5:4b forced n=5 = 0.883 = familiar pipeline
+  ceiling. Grounded mode is recall-neutral to recall-negative vs forced —
+  citation discipline adds cost without retrieval benefit at this n.
 
 ## Install
 
@@ -325,6 +360,39 @@ comment](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues
 ```bash
 RLM_BASE_URL=https://your-endpoint RLM_MODEL=llama-3.3-70b RLM_API_KEY=...     PALACE_DAEMON_URL=http://your-daemon:8085 PALACE_API_KEY=...     sme-eval retrieve --adapter rlm     --questions sme/corpora/jp_realm_v0_1/questions.yaml     --json baselines/rlm_$(date +%Y%m%d).json
 ```
+
+## "Walking the palace" — multi-project AGE integration (2026-05-17)
+
+The 2026-05-17 spike showing graph signal adds +9pp R@5 motivated a
+six-phase plan to integrate the mempalace knowledge base fully with
+Apache AGE so the metaphor of *the AI walking into a palace and finding
+wings, rooms, and drawers* becomes real Cypher traversal — not a
+narrative device.
+
+| Phase | What | Lives in |
+|---|---|---|
+| 1 | `KnowledgeGraphAGE` API parity (`add_entity`, `invalidate`, `query_entity`, `query_relationship`, `timeline`, `seed_from_entity_facts`) | `techempower-org/mempalace:feat/age-kg-parity` |
+| 2 | Write-through middleware on `PostgresCollection.add/upsert` — every drawer write extracts entities and creates `:MENTIONS` edges in AGE | same branch |
+| 3 | Palace structure as native AGE nodes — `Wing → CONTAINS → Room → CONTAINS → Drawer` + `Wing -[SHARED_VIA]- Wing` tunnels | same branch |
+| 4 | `backfill_age` — restartable, checkpointed one-shot to populate AGE from existing drawer table (~22h for the 274K-drawer production palace) | same branch |
+| 5 | `POST /search/age-fused` — vector ⊕ AGE graph RRF fusion endpoint | `techempower-org/palace-daemon:feat/age-fused-search` |
+| 6 | `mempalace_walk_palace` MCP tool — agent-facing walk primitive (`start_wing` / `start_room` / `start_entity` × depth) | `techempower-org/mempalace:feat/age-kg-parity` |
+
+The unified graph schema after all six phases:
+
+```
+Wing  -[:CONTAINS]->  Room  -[:CONTAINS]->  Drawer  -[:MENTIONS]->  Entity
+  ↑                                                                    ↑
+  +-[:SHARED_VIA {via_room}]- Wing (tunnels)        (kg_writethrough auto-populates)
+```
+
+Spike that motivated this: file-level corpus from `techempower-org/mempalace`
+HEAD (238 files, 77 .md + 161 .py), regex entity extractor, n=200 git-
+derived probes. **vector_only R@5 = 0.185**, **graph_only R@5 = 0.235** (+5pp),
+**fusion (RRF) R@5 = 0.275** (+9pp). The relative graph contribution is
+the result; absolute numbers are below chunked-vector baselines because
+the spike used file-level vectors intentionally to isolate the graph
+layer's contribution. [Full writeup](docs/benchmarks/2026-05-17-age-write-through-spike.md).
 
 ## Upstream conversation (2026-05)
 

@@ -119,7 +119,7 @@ def main() -> int:
 
     print()
     print("=" * 60)
-    print(f"  ENCODER: adaptmem (fine-tuned MiniLM-L6-v2)")
+    print("  ENCODER: adaptmem (fine-tuned MiniLM-L6-v2)")
     print(f"  TOTAL: {summary['total']}")
     print(f"  R@5 (recall_any@5): {summary['mean_recall_any_at_5']:.4f}")
     print(f"  Time: {time.time() - t_start:.1f}s")

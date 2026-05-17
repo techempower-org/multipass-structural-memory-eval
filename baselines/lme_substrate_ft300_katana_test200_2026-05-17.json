@@ -1,0 +1,51 @@
+{
+  "n_test": 200,
+  "n_evaluated": 200,
+  "n_skipped_empty": 0,
+  "r1": 0.925,
+  "r5": 1.0,
+  "r10": 1.0,
+  "per_question_type": {
+    "knowledge-update": {
+      "n": 28,
+      "r1": 1.0,
+      "r5": 1.0,
+      "r10": 1.0
+    },
+    "multi-session": {
+      "n": 50,
+      "r1": 0.94,
+      "r5": 1.0,
+      "r10": 1.0
+    },
+    "single-session-assistant": {
+      "n": 26,
+      "r1": 0.9615,
+      "r5": 1.0,
+      "r10": 1.0
+    },
+    "single-session-preference": {
+      "n": 12,
+      "r1": 0.6667,
+      "r5": 1.0,
+      "r10": 1.0
+    },
+    "single-session-user": {
+      "n": 29,
+      "r1": 0.8966,
+      "r5": 1.0,
+      "r10": 1.0
+    },
+    "temporal-reasoning": {
+      "n": 55,
+      "r1": 0.9273,
+      "r5": 1.0,
+      "r10": 1.0
+    }
+  },
+  "wall_clock_s": 18.49,
+  "mode": "adaptmem",
+  "model_path": "/tmp/minilm-lme-ft-300-katana",
+  "dataset": "/home/jp/Projects/multipass-structural-memory-eval/sme/corpora/longmemeval/data/longmemeval_s_cleaned.json",
+  "split_ids": "/tmp/split_ids_300_200_seed42.json"
+}

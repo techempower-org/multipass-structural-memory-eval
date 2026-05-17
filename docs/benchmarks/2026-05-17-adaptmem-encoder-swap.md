@@ -58,8 +58,19 @@ This is worth a paragraph in the SME methodology spec under "encoder selection" 
 
 The brute-force numpy cosine bench ran in **41.6s** (12.0 q/s) — vs **22 minutes** (0.38 q/s) for the postgres+pgvector parity bench on identical input. Roughly 32× speedup. For LongMemEval-shape per-question vaults (50–200 sessions each), 95%+ of postgres bench time is TRUNCATE+UPSERT+index-maintenance overhead, not actual KNN search. Indexed vector DBs only earn their keep when corpus reuse amortizes the index cost across many queries — exactly the production-palace setup, not per-question microbenches.
 
+## Important caveat — this is NOT nakata-app's published FT-300
+
+The model tested here is the adaptmem variant cached locally at `~/Projects/adaptmem-cache/`. Inspecting `corpus.tsv` shows 5000 Python-code training pairs. The published `nakata-app/adaptmem FT-300` (the 0.9950 R@5 number this task originally intended to validate) is presumably a different variant fine-tuned on conversational data.
+
+This run therefore measures:
+- ✅ "The code-domain adaptmem variant present on katana regresses on LongMemEval" — confirmed.
+- ❌ "nakata-app's published FT-300 doesn't reproduce" — **not** what was tested. That validation still requires the actual FT-300 weights.
+
+The methodology lesson (negative transfer is real; encoder-domain matching matters) holds regardless. But the headline shouldn't be "adaptmem regresses" — it should be "this specific code-tuned variant regresses, and we haven't yet pulled the published conversational variant."
+
 ## Artifacts
 
 - Bench script: `scripts/lme_substrate_adaptmem_bench.py`
 - Results: `baselines/lme_substrate_adaptmem_2026-05-17.json`
-- Adaptmem model used: `~/Projects/adaptmem-cache/model/` (90MB, fine-tuned MiniLM-L6-v2)
+- Adaptmem variant used: `~/Projects/adaptmem-cache/model/` (90MB, fine-tuned MiniLM-L6-v2 on `corpus.tsv` = 5000 Python code pairs)
+- Variant NOT yet tested: `nakata-app/adaptmem FT-300` (the conversational variant claimed to reach R@5 ≈ 0.9950)

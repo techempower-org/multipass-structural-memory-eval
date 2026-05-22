@@ -954,6 +954,11 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     print(f" n_results={args.n_results}  questions={len(questions)}")
     print("=" * 80)
 
+    query_params = inspect.signature(adapter.query).parameters
+    has_var_keyword = any(
+        p.kind == inspect.Parameter.VAR_KEYWORD for p in query_params.values()
+    )
+
     for q in questions:
         qid = q.get("id", "?")
         text = q.get("text", "")
@@ -962,10 +967,9 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
         t0 = time.time()
         try:
             query_kwargs: dict[str, Any] = {}
-            params = inspect.signature(adapter.query).parameters
-            if "n_results" in params:
+            if "n_results" in query_params or has_var_keyword:
                 query_kwargs["n_results"] = args.n_results
-            if "route" in params:
+            if "route" in query_params or has_var_keyword:
                 query_kwargs["route"] = not args.no_route
             result = adapter.query(text, **query_kwargs)
         except Exception as e:  # pragma: no cover

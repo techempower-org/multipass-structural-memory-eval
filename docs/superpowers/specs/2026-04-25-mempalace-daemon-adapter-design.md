@@ -7,7 +7,7 @@ Spec author: Claude (with JP)
 ## Goal
 
 Add a fork-specific `MemPalaceDaemonAdapter` that talks to a running
-[`palace-daemon`](https://github.com/jphein/palace-daemon) over HTTP, so SME can
+[`palace-daemon`](https://github.com/techempower-org/palace-daemon) over HTTP, so SME can
 run Cat 4/5/8/9 against a live MemPalace install without violating the daemon's
 single-writer invariant. The shipped `MemPalaceAdapter` opens ChromaDB directly
 via `chromadb.PersistentClient`; that's incompatible with the daemon-strict

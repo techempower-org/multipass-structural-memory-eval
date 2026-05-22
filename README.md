@@ -83,7 +83,7 @@ the documentation and code.
   Handshake) harness-integration spec. Reference material — read the
   onboarding guide first if you want to get a test run going.
 
-## Fork roadmap (jphein)
+## Fork roadmap (techempower-org)
 
 This is a fork; planned fork-specific work below. Upstream is
 [M0nkeyFl0wer/multipass-structural-memory-eval](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval) — bug fixes and category contributions still target upstream.
@@ -91,7 +91,7 @@ This is a fork; planned fork-specific work below. Upstream is
 ### Shipped: `mempalace-daemon` adapter
 
 `sme/adapters/mempalace_daemon.py` talks to a running
-[`palace-daemon`](https://github.com/jphein/palace-daemon) over HTTP.
+[`palace-daemon`](https://github.com/techempower-org/palace-daemon) over HTTP.
 No filesystem access, no ChromaDB import, no shared-process constraint
 with the daemon. Use this adapter when MemPalace is fronted by the
 daemon (the daemon is the single writer to the palace) — the existing
@@ -151,7 +151,7 @@ palace-daemon's single-writer architecture.
 ### Shipped: `familiar` adapter
 
 `sme/adapters/familiar.py` talks to a running
-[`familiar.realm.watch`](https://github.com/jphein/familiar.realm.watch)
+[`familiar.realm.watch`](https://github.com/techempower-org/familiar.realm.watch)
 v0.2.0+ instance over HTTP. Familiar wraps palace-daemon with a v0.2
 retrieval pipeline (rerank, temporal decay, extractive compression,
 grounding directives). This adapter measures familiar's full pipeline;

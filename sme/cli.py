@@ -9,6 +9,7 @@ come later when the category scoring is implemented.
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import logging
 import sys
@@ -953,6 +954,11 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     print(f" n_results={args.n_results}  questions={len(questions)}")
     print("=" * 80)
 
+    query_params = inspect.signature(adapter.query).parameters
+    has_var_keyword = any(
+        p.kind == inspect.Parameter.VAR_KEYWORD for p in query_params.values()
+    )
+
     for q in questions:
         qid = q.get("id", "?")
         text = q.get("text", "")
@@ -960,17 +966,12 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
         min_hops = q.get("min_hops", 0)
         t0 = time.time()
         try:
-            # MemPalaceAdapter.query takes n_results + route kwargs;
-            # other adapters don't — fall back through typing errors.
-            try:
-                result = adapter.query(
-                    text, n_results=args.n_results, route=not args.no_route
-                )
-            except TypeError:
-                try:
-                    result = adapter.query(text, n_results=args.n_results)
-                except TypeError:
-                    result = adapter.query(text)
+            query_kwargs: dict[str, Any] = {}
+            if "n_results" in query_params or has_var_keyword:
+                query_kwargs["n_results"] = args.n_results
+            if "route" in query_params or has_var_keyword:
+                query_kwargs["route"] = not args.no_route
+            result = adapter.query(text, **query_kwargs)
         except Exception as e:  # pragma: no cover
             result = type(
                 "QR", (), {"answer": "", "context_string": "", "error": str(e), "retrieved_entities": [], "retrieval_path": []}

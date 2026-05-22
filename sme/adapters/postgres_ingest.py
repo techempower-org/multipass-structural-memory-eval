@@ -21,6 +21,7 @@ each other.
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from pathlib import Path
 from typing import Optional
@@ -29,10 +30,7 @@ from sme.adapters.base import Entity, QueryResult, SMEAdapter
 
 log = logging.getLogger(__name__)
 
-DEFAULT_DSN = (
-    "postgresql://palace:X%25%40pPsI%26%25nUUqB6FeRoQnEt8HjUPEkL6"
-    "@10.0.6.120:5433/sme_lme_bench"
-)
+DEFAULT_DSN = os.environ.get("SME_POSTGRES_DSN", "")
 DEFAULT_TABLE = "lme_bench_drawers"
 
 
@@ -42,12 +40,21 @@ class PostgresIngestAdapter(SMEAdapter):
     def __init__(
         self,
         *,
-        dsn: str = DEFAULT_DSN,
+        dsn: Optional[str] = None,
         table_name: str = DEFAULT_TABLE,
         n_results: int = 5,
         mempalace_path: Optional[str] = None,
         read_only: bool = False,
     ) -> None:
+        dsn = dsn if dsn is not None else DEFAULT_DSN
+        if not dsn:
+            raise RuntimeError(
+                "PostgresIngestAdapter requires a Postgres DSN. Set the "
+                "SME_POSTGRES_DSN environment variable to a libpq connection "
+                "string (postgresql://... with your credentials and host) or "
+                "pass dsn= explicitly. No default credentials are bundled "
+                "with the adapter."
+            )
         mp_root = mempalace_path or "/home/jp/Projects/memorypalace"
         if mp_root not in sys.path:
             sys.path.insert(0, mp_root)

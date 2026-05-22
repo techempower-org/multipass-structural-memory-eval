@@ -23,6 +23,7 @@ Two retrieval modes exposed:
 from __future__ import annotations
 
 import logging
+import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional
@@ -38,6 +39,52 @@ from sme.extractors.regex import extract as regex_extract
 log = logging.getLogger(__name__)
 
 DEFAULT_GRAPH_NAME = "sme_spike_kg"
+
+# Postgres dollar-quote tag used to wrap the Cypher payload passed to the
+# AGE cypher() function. Has to be a token that is vanishingly unlikely to
+# appear inside extracted entity names or drawer ids — picked to be more
+# specific than the default `$$` which triggered the original injection
+# concern (issue #2). If a payload still manages to embed `$sme_cypher$`,
+# _cypher_str_lit raises rather than allowing the literal through.
+_CYPHER_DOLLAR_TAG = "sme_cypher"
+
+# Matches the dollar-tag delimiter so we can reject payloads that would
+# break out of the dollar-quoted block.
+_CYPHER_DOLLAR_TAG_RE = re.compile(rf"\${re.escape(_CYPHER_DOLLAR_TAG)}\$")
+
+
+def _cypher_str_lit(value: str) -> str:
+    """Render a string for safe interpolation inside a Cypher single-quoted
+    literal that itself sits inside a Postgres ``$sme_cypher$ ... $sme_cypher$``
+    dollar-quoted block.
+
+    Two layers need to be defended:
+
+    * The outer Postgres dollar-quote — if the value contains the dollar tag
+      (e.g. ``$sme_cypher$``), it would terminate the literal early and the
+      remainder of the value would be parsed as SQL. We reject such values.
+    * The inner Cypher string literal — single-quoted, so we escape the
+      Cypher metacharacters ``\\``, ``'``, newline, and carriage return.
+
+    Returns the value with the surrounding single quotes already attached,
+    e.g. ``_cypher_str_lit("Al's")`` -> ``"'Al\\'s'"``.
+    """
+    if not isinstance(value, str):
+        value = str(value)
+    if _CYPHER_DOLLAR_TAG_RE.search(value):
+        raise ValueError(
+            "value contains the Cypher dollar-quote tag "
+            f"${_CYPHER_DOLLAR_TAG}$ and cannot be safely interpolated"
+        )
+    # Backslash MUST be escaped before the single quote, otherwise the
+    # replacement-introduced backslashes get re-escaped on the next pass.
+    escaped = (
+        value.replace("\\", "\\\\")
+        .replace("'", "\\'")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+    )
+    return f"'{escaped}'"
 
 
 class PostgresAgeIngestAdapter(PostgresIngestAdapter):
@@ -68,7 +115,9 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
         # across 238 docs, and any syntax error in one entity name (special
         # chars in the dictionary) aborts the whole transaction. Per-statement
         # commits cost ~1ms each in latency but make error recovery trivial.
-        self._age_conn = psycopg2.connect(dsn)
+        # Parent class refuses to construct without a DSN, so by the time we
+        # get here `self.dsn` is the validated, non-empty string we need.
+        self._age_conn = psycopg2.connect(self.dsn)
         self._age_conn.autocommit = True
         self._init_age()
 
@@ -83,7 +132,7 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
             (self.graph_name,),
         )
         if cur.fetchone() is None:
-            cur.execute(f"SELECT create_graph('{self.graph_name}')")
+            cur.execute("SELECT create_graph(%s)", (self.graph_name,))
         # autocommit=True — no explicit commit
 
     def _cypher(self, query: str, fetch: bool = True) -> list:
@@ -91,13 +140,31 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
 
         With autocommit=True (set in __init__), each call is its own implicit
         transaction. A syntax error raises but doesn't poison subsequent calls.
+
+        ``query`` is the raw Cypher payload — any user-controlled values inside
+        it must already be escaped via _cypher_str_lit. We pass it through
+        a Postgres dollar-quote tagged with ``$sme_cypher$`` (rather than
+        ``$$``) and refuse to execute if the payload would terminate that tag.
         """
+        if _CYPHER_DOLLAR_TAG_RE.search(query):
+            raise ValueError(
+                "Cypher payload contains the dollar-quote tag "
+                f"${_CYPHER_DOLLAR_TAG}$ — refusing to execute. Values must "
+                "be passed through _cypher_str_lit, which rejects this tag."
+            )
         cur = self._age_conn.cursor()
         cur.execute("LOAD 'age'")
         cur.execute("SET search_path = ag_catalog, public")
-        cur.execute(
-            f"SELECT * FROM cypher('{self.graph_name}', $${query}$$) AS (r agtype)"
+        # ``cypher('name', $tag$ ... $tag$)`` — the graph name is bound via
+        # psycopg2 parameter substitution, and the Cypher body sits inside a
+        # uniquely-tagged dollar quote so a literal ``$$`` in the payload no
+        # longer terminates it.
+        stmt = (
+            "SELECT * FROM cypher(%s, $" + _CYPHER_DOLLAR_TAG + "$"
+            + query
+            + "$" + _CYPHER_DOLLAR_TAG + "$) AS (r agtype)"
         )
+        cur.execute(stmt, (self.graph_name,))
         if fetch:
             return [row[0] for row in cur.fetchall()]
         return []
@@ -115,8 +182,8 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
             (self.graph_name,),
         )
         if cur.fetchone() is not None:
-            cur.execute(f"SELECT drop_graph('{self.graph_name}', true)")
-        cur.execute(f"SELECT create_graph('{self.graph_name}')")
+            cur.execute("SELECT drop_graph(%s, true)", (self.graph_name,))
+        cur.execute("SELECT create_graph(%s)", (self.graph_name,))
 
     def ingest_corpus(self, corpus: list[dict]) -> dict:
         """TRUNCATE + bulk upsert + 3-pass AGE batched write-through.
@@ -140,32 +207,53 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
             for e in es:
                 all_entities.setdefault(e.name, e.type)
 
-        # Pass 1: CREATE Entity nodes (unique).
+        # Pass 1: CREATE Entity nodes (unique). Names and types are escaped
+        # through _cypher_str_lit so backslashes, newlines, and stray ``$$``
+        # in extracted entities no longer break the Cypher block (issue #2).
         for name, etype in all_entities.items():
-            name_esc = name.replace("'", "\\'")
-            etype_esc = etype.replace("'", "\\'")
+            try:
+                name_lit = _cypher_str_lit(name)
+                etype_lit = _cypher_str_lit(etype)
+            except ValueError as exc:
+                log.warning("skipping entity with unsafe name/type: %s", exc)
+                continue
             self._cypher(
-                f"CREATE (:Entity {{name: '{name_esc}', type: '{etype_esc}'}})",
+                f"CREATE (:Entity {{name: {name_lit}, type: {etype_lit}}})",
                 fetch=False,
             )
 
         # Pass 2: CREATE Drawer nodes.
         for drawer_id in drawer_entities:
-            d_esc = drawer_id.replace("'", "\\'")
+            try:
+                d_lit = _cypher_str_lit(drawer_id)
+            except ValueError as exc:
+                log.warning("skipping drawer with unsafe id: %s", exc)
+                continue
             self._cypher(
-                f"CREATE (:Drawer {{id: '{d_esc}'}})",
+                f"CREATE (:Drawer {{id: {d_lit}}})",
                 fetch=False,
             )
 
-        # Pass 3: CREATE MENTIONED_IN edges.
+        # Pass 3: CREATE MENTIONED_IN edges. ``count`` is an int from the
+        # extractor — coerce explicitly so a non-int slipping through can't
+        # break out of the numeric position in the Cypher fragment.
         for drawer_id, entities in drawer_entities.items():
-            d_esc = drawer_id.replace("'", "\\'")
+            try:
+                d_lit = _cypher_str_lit(drawer_id)
+            except ValueError as exc:
+                log.warning("skipping edges for drawer with unsafe id: %s", exc)
+                continue
             for name, _etype, count in entities:
-                name_esc = name.replace("'", "\\'")
+                try:
+                    name_lit = _cypher_str_lit(name)
+                except ValueError as exc:
+                    log.warning("skipping edge for unsafe entity name: %s", exc)
+                    continue
+                count_int = int(count)
                 self._cypher(
                     f"""
-                    MATCH (e:Entity {{name: '{name_esc}'}}), (d:Drawer {{id: '{d_esc}'}})
-                    CREATE (e)-[:MENTIONED_IN {{count: {count}}}]->(d)
+                    MATCH (e:Entity {{name: {name_lit}}}), (d:Drawer {{id: {d_lit}}})
+                    CREATE (e)-[:MENTIONED_IN {{count: {count_int}}}]->(d)
                     """,
                     fetch=False,
                 )
@@ -191,18 +279,27 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
         # ranks same as 1x); gain: works against current AGE.
         scores: defaultdict[str, float] = defaultdict(float)
         for qe in query_entities:
-            name_esc = qe.name.replace("'", "\\'")
+            try:
+                name_lit = _cypher_str_lit(qe.name)
+            except ValueError:
+                # Query entity contains the dollar tag — skip rather than
+                # attempt to interpolate. Same effect as a no-match result.
+                continue
+            cypher_body = (
+                f"MATCH (e:Entity {{name: {name_lit}}})-[r:MENTIONED_IN]->(d:Drawer) "
+                "RETURN d.id"
+            )
+            if _CYPHER_DOLLAR_TAG_RE.search(cypher_body):
+                continue
             cur = self._age_conn.cursor()
             try:
                 cur.execute("LOAD 'age'")
                 cur.execute("SET search_path = ag_catalog, public")
                 cur.execute(
-                    f"""
-                    SELECT * FROM cypher('{self.graph_name}', $$
-                        MATCH (e:Entity {{name: '{name_esc}'}})-[r:MENTIONED_IN]->(d:Drawer)
-                        RETURN d.id
-                    $$) AS (drawer_id agtype)
-                    """
+                    "SELECT * FROM cypher(%s, $" + _CYPHER_DOLLAR_TAG + "$"
+                    + cypher_body
+                    + "$" + _CYPHER_DOLLAR_TAG + "$) AS (drawer_id agtype)",
+                    (self.graph_name,),
                 )
                 for (raw,) in cur.fetchall():
                     s = str(raw).strip('"')

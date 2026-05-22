@@ -9,6 +9,7 @@ come later when the category scoring is implemented.
 from __future__ import annotations
 
 import argparse
+import inspect
 import json
 import logging
 import sys
@@ -960,17 +961,13 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
         min_hops = q.get("min_hops", 0)
         t0 = time.time()
         try:
-            # MemPalaceAdapter.query takes n_results + route kwargs;
-            # other adapters don't — fall back through typing errors.
-            try:
-                result = adapter.query(
-                    text, n_results=args.n_results, route=not args.no_route
-                )
-            except TypeError:
-                try:
-                    result = adapter.query(text, n_results=args.n_results)
-                except TypeError:
-                    result = adapter.query(text)
+            query_kwargs: dict[str, Any] = {}
+            params = inspect.signature(adapter.query).parameters
+            if "n_results" in params:
+                query_kwargs["n_results"] = args.n_results
+            if "route" in params:
+                query_kwargs["route"] = not args.no_route
+            result = adapter.query(text, **query_kwargs)
         except Exception as e:  # pragma: no cover
             result = type(
                 "QR", (), {"answer": "", "context_string": "", "error": str(e), "retrieved_entities": [], "retrieval_path": []}

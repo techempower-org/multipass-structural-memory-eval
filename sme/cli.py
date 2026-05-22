@@ -710,6 +710,7 @@ def cmd_check(args: argparse.Namespace) -> int:
                 "h1_skipped": cat5.h1_skipped,
                 "candidate_gaps_shown": len(cat5.candidate_gaps),
                 "candidate_gaps_considered": cat5.candidate_gaps_considered,
+                "flat_rarity_mode": cat5.flat_rarity_mode,
             },
         }
         Path(args.json).write_text(json.dumps(out, indent=2, default=str))
@@ -796,6 +797,7 @@ def cmd_cat5(args: argparse.Namespace) -> int:
                 for g in report.candidate_gaps
             ],
             "candidate_gaps_considered": report.candidate_gaps_considered,
+            "flat_rarity_mode": report.flat_rarity_mode,
             "gap_recall": report.gap_recall,
             "gap_precision": report.gap_precision,
             "detection_level": report.detection_level,

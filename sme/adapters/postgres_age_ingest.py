@@ -153,15 +153,15 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
                 "be passed through _cypher_str_lit, which rejects this tag."
             )
         cur = self._age_conn.cursor()
-        cur.execute("LOAD 'age'")
-        cur.execute("SET search_path = ag_catalog, public")
-        # ``cypher('name', $tag$ ... $tag$)`` — the graph name is bound via
-        # psycopg2 parameter substitution, and the Cypher body sits inside a
-        # uniquely-tagged dollar quote so a literal ``$$`` in the payload no
-        # longer terminates it.
+        # LOAD 'age' and SET search_path are session-scoped — already
+        # executed in _init_age(), no need to repeat per statement.
+        #
+        # Escape literal % so psycopg2 doesn't interpret them as
+        # format placeholders (the graph name uses %s substitution).
+        query_esc = query.replace("%", "%%")
         stmt = (
             "SELECT * FROM cypher(%s, $" + _CYPHER_DOLLAR_TAG + "$"
-            + query
+            + query_esc
             + "$" + _CYPHER_DOLLAR_TAG + "$) AS (r agtype)"
         )
         cur.execute(stmt, (self.graph_name,))
@@ -175,8 +175,6 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
         With autocommit=True each statement self-commits.
         """
         cur = self._age_conn.cursor()
-        cur.execute("LOAD 'age'")
-        cur.execute("SET search_path = ag_catalog, public")
         cur.execute(
             "SELECT 1 FROM ag_catalog.ag_graph WHERE name = %s",
             (self.graph_name,),
@@ -293,11 +291,10 @@ class PostgresAgeIngestAdapter(PostgresIngestAdapter):
                 continue
             cur = self._age_conn.cursor()
             try:
-                cur.execute("LOAD 'age'")
-                cur.execute("SET search_path = ag_catalog, public")
+                cypher_esc = cypher_body.replace("%", "%%")
                 cur.execute(
                     "SELECT * FROM cypher(%s, $" + _CYPHER_DOLLAR_TAG + "$"
-                    + cypher_body
+                    + cypher_esc
                     + "$" + _CYPHER_DOLLAR_TAG + "$) AS (drawer_id agtype)",
                     (self.graph_name,),
                 )

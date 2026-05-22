@@ -24,8 +24,6 @@ from pathlib import Path
 # Force line-buffered stdout so progress shows immediately when piped through tee.
 sys.stdout.reconfigure(line_buffering=True)
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "Projects/multipass-structural-memory-eval"))
-
 from sme.adapters.postgres_ingest import PostgresIngestAdapter
 
 

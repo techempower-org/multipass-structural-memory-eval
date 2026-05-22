@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sme-eval"
-version = "0.0.1"
+version = "0.2.0"
 description = "Structural Memory Evaluation: a benchmark framework that tests what a memory system knows about its own structure"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -14,7 +14,7 @@ authors = [
 ]
 keywords = ["knowledge-graph", "rag", "memory", "benchmark", "topology", "evaluation"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",

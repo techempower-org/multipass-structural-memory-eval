@@ -37,12 +37,14 @@ table.
 
 ## Status
 
-**Beta-level instrumentation, actively evolving.** Six adapters
+**Beta-level instrumentation, actively evolving.** Six CLI adapters
 (`flat-baseline`, `mempalace`, `mempalace-daemon`, `familiar`, `rlm`,
-`ladybugdb`), two fully implemented categories, four CLI commands
-(`retrieve`, `analyze`, `cat8`, `cat2c`), Cat 9b (call-through
-success) scaffolding from upstream PR #1, and a specification for
-the remaining seven. Diagnostic posture, not benchmark — the
+`ladybugdb`) wired into `sme/cli.py::_load_adapter()`, two fully
+implemented categories (Cat 4 ingestion integrity, Cat 5 gap
+detection), eight CLI commands (`analyze`, `retrieve`, `cat8`, `cat4`,
+`check`, `cat5`, `cat2c`, `cat9`), Cat 9b (call-through success)
+scaffolding from upstream PR #1, and a specification for the
+remaining seven categories. Diagnostic posture, not benchmark — the
 defensible findings are before/after deltas under identical
 conditions and within-system A/B/C ablations. Absolute recall
 numbers inherit a substring-on-filename matcher with known biases.

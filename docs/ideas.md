@@ -436,7 +436,7 @@ shape future adapter work and category implementations:
 (jphein/rlm fork of alexzhang13/rlm) as the read-side orchestrator:
 the LLM itself decides when to call `mempalace_search`, with what
 queries, and how to compose results. familiar's deterministic
-retrieve→rerank→decay→compress pipeline becomes the *baseline* this
+retrieve->rerank->decay->compress pipeline becomes the *baseline* this
 adapter is benchmarked against.
 
 **Design:** RLM gets `mempalace_search` registered as a
@@ -445,7 +445,7 @@ every search result into a per-query buffer. After `rlm.completion()`
 returns, the buffer's contents become `context_string` (in tool-call
 order) and `retrieved_entities` (one Entity per drawer). The Cat 1 /
 retrieve substring scorer measures whether `expected_sources` ended
-up in `context_string` — same contract as every other adapter.
+up in `context_string` -- same contract as every other adapter.
 
 **Test coverage** (`tests/test_rlm_adapter.py`, 5 tests): tool-call
 aggregation, capture-buffer reset across queries, error-dict
@@ -463,7 +463,7 @@ venv/bin/sme-eval retrieve --adapter rlm \
 
 A live benchmark will reveal whether RLM-orchestration recovers
 recall on questions familiar misses, plateaus at the same number,
-or regresses — the answer determines whether v0.4 should
+or regresses -- the answer determines whether v0.4 should
 productionize RLM into familiar's chat path. Without that data,
 the design spec's "RLM and familiar are complementary" hypothesis
 stays a hypothesis.
@@ -484,12 +484,12 @@ non-empty, i.e. at least one tool call returned drawers):
 
 | Run | Zero-capture | Non-zero-capture |
 |---|---|---|
-| `rlm` + Qwen 7B | 25/30 (83%) | 2/30 (7%) — remaining 3 errored |
+| `rlm` + Qwen 7B | 25/30 (83%) | 2/30 (7%) -- remaining 3 errored |
 | `rlm` + Llama 70B | 22/30 (73%) | 8/30 (27%) |
 
 > **Caveat on the fine-grained call-count histogram.** The original
 > baseline JSONs reported `len(_capture)` (drawer count) as
-> "tool calls" — a single `_mempalace_search` returning 5 drawers
+> "tool calls" -- a single `_mempalace_search` returning 5 drawers
 > showed up as "5 tool calls." That's been corrected in the adapter
 > (separate `_tool_call_count`), but the JSONs in this commit
 > predate the fix; only the binary "any/none" tool-invocation read
@@ -498,28 +498,28 @@ non-empty, i.e. at least one tool call returned drawers):
 
 The hypothesis is **rejected at 7B and at 70B**:
 
-- **Both RLM runs plateau at 46.67% recall** despite ~4× difference
+- **Both RLM runs plateau at 46.67% recall** despite ~4x difference
   in tool-invocation rate (7% vs 27%). The bigger model invokes the
   tool more, but aggregate recall doesn't move. Both runs ceiling
   at the orchestrator's willingness to invoke the tool, not at
   retrieval quality underneath.
 - **Both regress vs `familiar` v0.3.9** by ~32 percentage points.
-  The deterministic pipeline (retrieve → rerank → temporal decay →
-  extractive compression → grounding directives) consistently calls
+  The deterministic pipeline (retrieve -> rerank -> temporal decay ->
+  extractive compression -> grounding directives) consistently calls
   the retrieval system; the LLM-as-orchestrator path mostly doesn't.
 - **70B trades full-recalls for partial hits**: full recall drops
-  10 → 6, but hit rate (any match) climbs 60.0% → 73.3%. Same
+  10 -> 6, but hit rate (any match) climbs 60.0% -> 73.3%. Same
   aggregate recall, more elaborate-but-less-precise answers. Token
-  cost climbs ~3× (mean 149 → 426 tokens/q); tokens-per-correct-
-  answer ~5× (448 → 2130).
-- **2-hop performance doubles at 70B** (33% → 67% hit rate, n=3 —
+  cost climbs ~3x (mean 149 -> 426 tokens/q); tokens-per-correct-
+  answer ~5x (448 -> 2130).
+- **2-hop performance doubles at 70B** (33% -> 67% hit rate, n=3 --
   small but directional).
 
 **Implication for v0.4 unchanged:** RLM as outer orchestrator
 calling `familiar`'s grounded `/v1/chat/completions` is the right
 shape, NOT replacing `familiar`'s pipeline with rlm-on-N-billion.
 Scaling the orchestrator alone is not the fix. The 22/30 zero-call
-rate at 70B is the load-bearing pathology — and it's the data
+rate at 70B is the load-bearing pathology -- and it's the data
 behind [issue M0nkeyFl0wer/multipass-structural-memory-eval#3](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3)
 proposing Cat 9a (invocation rate) as a measured sub-test rather
 than an inferred decoration.

@@ -73,6 +73,13 @@ def _default_client() -> Optional[Any]:
     return OpenAI()
 
 
+_REASONING_PREFIXES = ("o1", "o3", "o4", "gpt-5")
+
+
+def _is_reasoning_model(model: str) -> bool:
+    return any(model.startswith(p) for p in _REASONING_PREFIXES)
+
+
 def generate_answer(
     question: str,
     context_string: str,
@@ -110,11 +117,13 @@ def generate_answer(
 
     prompt = READER_PROMPT_TEMPLATE.format(context=ctx, question=question)
     try:
-        resp = client.chat.completions.create(
+        kwargs: dict[str, Any] = dict(
             model=reader_model,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.0,
         )
+        if not _is_reasoning_model(reader_model):
+            kwargs["temperature"] = 0.0
+        resp = client.chat.completions.create(**kwargs)
         return (resp.choices[0].message.content or "").strip()
     except Exception as e:  # noqa: BLE001 — degrade gracefully
         log.warning("answer_generator: reader call failed: %s", e)

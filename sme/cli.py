@@ -153,6 +153,69 @@ def _load_adapter(name: str, **kwargs) -> SMEAdapter:
             kwargs["vault_dir"] = kwargs.pop("db_path")
         return FullContextAdapter(**kwargs)
 
+    if name == "omega":
+        from sme.adapters.omega import OmegaAdapter
+
+        for k in (
+            "include_node_tables",
+            "include_edge_tables",
+            "auto_discover",
+            "kg_path",
+            "collection_name",
+            "api_url",
+            "api_key",
+            "kind",
+            "default_query_mode",
+            "buffer_pool_size",
+            "mock_inference",
+            "timeout_s",
+        ):
+            kwargs.pop(k, None)
+        return OmegaAdapter(**kwargs)
+
+    if name == "hindsight":
+        from sme.adapters.hindsight import HindsightAdapter
+
+        for k in (
+            "include_node_tables",
+            "include_edge_tables",
+            "auto_discover",
+            "kg_path",
+            "collection_name",
+            "kind",
+            "default_query_mode",
+            "buffer_pool_size",
+            "mock_inference",
+            "timeout_s",
+            "db_path",
+        ):
+            kwargs.pop(k, None)
+        # CLI uses --api-url; hindsight constructor uses base_url
+        if "api_url" in kwargs:
+            kwargs["base_url"] = kwargs.pop("api_url")
+        return HindsightAdapter(**kwargs)
+
+    if name in ("mem0", "mem0_oss"):
+        from sme.adapters.mem0 import Mem0Adapter
+
+        for k in (
+            "include_node_tables",
+            "include_edge_tables",
+            "auto_discover",
+            "kg_path",
+            "collection_name",
+            "api_url",
+            "api_key",
+            "kind",
+            "default_query_mode",
+            "buffer_pool_size",
+            "mock_inference",
+            "timeout_s",
+            "db_path",
+        ):
+            kwargs.pop(k, None)
+        return Mem0Adapter(**kwargs)
+
     if name in ("karpathy-compiled", "karpathy_compiled"):
         # Karpathy-baseline Condition D2 — see
         # docs/cross_validation_2026.md § (4) and
@@ -1485,7 +1548,7 @@ def main(argv: list[str] | None = None) -> int:
         "--adapter",
         required=True,
         help="adapter name (flat | mempalace | mempalace-daemon | familiar | rlm | "
-        "ladybugdb | full-context). full-context is the Karpathy-baseline "
+        "ladybugdb | omega | hindsight | mem0 | full-context). full-context is the Karpathy-baseline "
         "Condition D1 — pass --db <vault_dir> and it loads every .md file "
         "as the prompt context with no retrieval.",
     )

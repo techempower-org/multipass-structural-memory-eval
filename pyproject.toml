@@ -47,8 +47,17 @@ ladybugdb = [
 neo4j = [
     "neo4j>=5.0",
 ]
+omega = [
+    "omega-memory>=1.0",
+]
+hindsight = [
+    "hindsight-client>=0.1",
+]
+mem0 = [
+    "mem0ai>=0.1",
+]
 all = [
-    "sme-eval[topology,viz,ladybugdb,neo4j]",
+    "sme-eval[topology,viz,ladybugdb,neo4j,omega,hindsight,mem0]",
 ]
 dev = [
     "pytest>=8.0",

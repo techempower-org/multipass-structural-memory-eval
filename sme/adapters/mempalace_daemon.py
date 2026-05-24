@@ -155,13 +155,21 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         n_results: int = 5,
         kind: Optional[str] = None,
         route: bool = False,  # accepted for CLI parity; daemon does its own
-        wing: Optional[str] = None,  # ignored; reserved for future expansion
-        room: Optional[str] = None,  # ignored; reserved for future expansion
+        wing: Optional[str] = None,
+        room: Optional[str] = None,
     ) -> QueryResult:
         chosen_kind = kind or self.kind
-        params = urllib.parse.urlencode(
-            {"q": question, "limit": n_results, "kind": chosen_kind}
-        )
+        query_params: dict[str, Any] = {
+            "q": question, "limit": n_results, "kind": chosen_kind,
+        }
+        # `wing` / `room` filters added by palace-daemon PR #22; the daemon
+        # silently ignores unknown query params on older builds, so it's
+        # safe to send them unconditionally.
+        if wing:
+            query_params["wing"] = wing
+        if room:
+            query_params["room"] = room
+        params = urllib.parse.urlencode(query_params)
         url = f"{self.api_url}/search?{params}"
         body = self._http_get(url)
         # body is a parsed dict here; errors are returned as QueryResult

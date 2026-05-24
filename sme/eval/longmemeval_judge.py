@@ -181,6 +181,13 @@ def _parse_judge_reply(content: str) -> tuple[str, str]:
     return label, rationale or "(no rationale)"
 
 
+_REASONING_PREFIXES = ("o1", "o3", "o4", "gpt-5")
+
+
+def _is_reasoning_model(model: str) -> bool:
+    return any(model.startswith(p) for p in _REASONING_PREFIXES)
+
+
 def _call_openai(
     *,
     client: Any,
@@ -197,11 +204,13 @@ def _call_openai(
     delay = 1.0
     for attempt in range(max_retries):
         try:
-            resp = client.chat.completions.create(
+            kwargs: dict[str, Any] = dict(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.0,
             )
+            if not _is_reasoning_model(model):
+                kwargs["temperature"] = 0.0
+            resp = client.chat.completions.create(**kwargs)
             choice = resp.choices[0]
             content = getattr(choice.message, "content", "") or ""
             usage_obj = getattr(resp, "usage", None)

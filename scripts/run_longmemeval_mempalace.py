@@ -80,25 +80,26 @@ log = logging.getLogger("run_longmemeval_mempalace")
 # LongMemEval question is loaded into wing=f"{LME_WING_PREFIX}{question_id}"
 # and the adapter is told to scope its search to that wing.
 LME_WING_PREFIX = "lme_"
-LME_ROOM = "longmemeval"
+LME_ROOM = "references"
 
 # Default reader / judge models for this script's argparse. Azure-friendly
 # (no date suffix on the judge; gpt-4.1-mini is not deployed on JP's Azure
 # resource). The library-level DEFAULT_READER_MODEL / DEFAULT_JUDGE_MODEL
 # in sme.eval.* are unchanged so direct-OpenAI users keep their defaults.
-DEFAULT_READER_MODEL = "gpt-4o-mini"
-DEFAULT_JUDGE_MODEL = "gpt-4o"
+DEFAULT_READER_MODEL = "o4-mini"
+DEFAULT_JUDGE_MODEL = "gpt-5.3-chat"
 
 # Rough cost estimates per 1M tokens (USD), used only for --dry-run
-# accounting. These mirror OpenAI's public 2026-05 pricing — update when
-# they move. The harness records actual usage at runtime; the dry-run
-# number is a planning tool, not a billing source of truth.
+# accounting. Update when pricing moves. The harness records actual usage
+# at runtime; the dry-run number is a planning tool, not a billing source.
 _MODEL_PRICING_USD_PER_M_TOKENS = {
-    "gpt-4.1-mini":     {"input": 0.40,  "output": 1.60},
-    "gpt-4.1":          {"input": 2.00,  "output": 8.00},
-    "gpt-4o-mini":      {"input": 0.15,  "output": 0.60},
-    "gpt-4o":           {"input": 2.50,  "output": 10.00},
-    "gpt-4o-2024-08-06": {"input": 2.50, "output": 10.00},
+    "gpt-4.1-mini":      {"input": 0.40,  "output": 1.60},
+    "gpt-4.1":           {"input": 2.00,  "output": 8.00},
+    "gpt-4o-mini":       {"input": 0.15,  "output": 0.60},
+    "gpt-4o":            {"input": 2.50,  "output": 10.00},
+    "gpt-4o-2024-08-06": {"input": 2.50,  "output": 10.00},
+    "o4-mini":           {"input": 1.10,  "output": 4.40},
+    "gpt-5.3-chat":      {"input": 2.00,  "output": 8.00},
 }
 
 

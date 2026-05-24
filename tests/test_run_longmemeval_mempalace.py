@@ -104,8 +104,8 @@ def args_factory(tmp_path):
             kind=None,
             familiar_url=familiar_url,
             familiar_inference=familiar_inference,
-            answer_model="gpt-4o-mini",
-            judge="gpt-4o",
+            answer_model="o4-mini",
+            judge="gpt-5.3-chat",
             max_questions=max_questions,
             skip_judge=skip_judge,
             skip_reader=skip_reader,
@@ -207,8 +207,8 @@ def test_dry_run_estimates_cost_without_calling_apis(dataset, args_factory):
     assert report["run_metadata"]["mode"] == "dry-run"
     cost = report["cost_estimate"]
     assert cost["n_questions"] == 2
-    assert cost["reader_model"] == "gpt-4o-mini"
-    assert cost["judge_model"] == "gpt-4o"
+    assert cost["reader_model"] == "o4-mini"
+    assert cost["judge_model"] == "gpt-5.3-chat"
     # Cost should be small but non-zero for both models.
     assert cost["reader_usd"] > 0
     assert cost["judge_usd"] > 0
@@ -248,8 +248,8 @@ def test_run_with_mocked_daemon_ingests_per_question(dataset, args_factory):
     assert by_wing["lme_test_001_temporal"] == 2
     assert by_wing["lme_test_002_abstain_abs"] == 1
 
-    # Every posted drawer landed in the LongMemEval room
-    assert all(p["room"] == "longmemeval" for p in ingest.posted)
+    # Every posted drawer landed in the references room
+    assert all(p["room"] == "references" for p in ingest.posted)
 
     # Per-question records were emitted by the harness
     assert report["run_metadata"]["adapter"] == "mempalace-daemon"
@@ -398,8 +398,8 @@ def test_arg_parser_requires_adapter_and_questions():
         "--api-url", "http://localhost:8085",
     ])
     assert parsed.adapter == "mempalace-daemon"
-    assert parsed.answer_model == "gpt-4o-mini"
-    assert parsed.judge == "gpt-4o"
+    assert parsed.answer_model == "o4-mini"
+    assert parsed.judge == "gpt-5.3-chat"
     assert parsed.dry_run is False
 
 

@@ -1,9 +1,13 @@
 # good-dog-corpus v0.1 — ground-truth questions
 #
-# 18 questions across the SME categories the corpus seeds (Cat 1 / 2c /
+# 24 questions across the SME categories the corpus seeds (Cat 1 / 2c /
 # 3 / 4 / 6 / 7). Authored 2026-05-01 against the 24 vault notes that
 # materialize the seeded contradiction pairs, supersession chains, and
-# alias clusters declared in `ontology.yaml`.
+# alias clusters declared in `ontology.yaml`. Expanded 2026-05-24 with
+# 6 additional Cat 3 / Cat 6 questions (q19-q24) for issue #21 — bringing
+# each consolidation-layer category to 6 questions for a more meaningful
+# signal-vs-noise margin on contradiction-surfacing and temporal-
+# supersession behaviour.
 #
 # `expected_sources` are substrings that should appear in the adapter's
 # `context_string` if retrieval is working. Each substring was verified
@@ -27,9 +31,9 @@ description: |
   Ground-truth question set for good-dog-corpus, exercising:
     Cat 1  (factual retrieval / The Lookup)         — 4 questions
     Cat 2c (multi-hop reasoning / The Stairway)     — 3 questions
-    Cat 3  (contradiction surfacing / The Dissonance) — 3 questions
+    Cat 3  (contradiction surfacing / The Dissonance) — 6 questions
     Cat 4  (alias resolution / The Threshold 4a)    — 3 questions
-    Cat 6  (temporal supersession / The Archive)    — 3 questions
+    Cat 6  (temporal supersession / The Archive)    — 6 questions
     Cat 7  (token efficiency / The Abacus)          — 2 questions
 
   Each question's `expected_sources` are substrings verified present in
@@ -116,6 +120,42 @@ questions:
     min_hops: 2
     sme_category: cat_3
 
+  # Added 2026-05-24 (#21): probes the Tufts academic counter-framing.
+  # A retrieval system that returns only the 2018 FDA framing — or only
+  # the Tufts BEG framing — is silently picking a side rather than
+  # surfacing the dissonance between them.
+  - id: q19_beg_diet_alternate_framing
+    text: "What did Tufts veterinary researchers argue was the more important diet feature than 'grain-free' in the canine DCM signal?"
+    expected_sources: ["Tufts", "BEG", "boutique", "pulses", "lentils"]
+    min_hops: 2
+    sme_category: cat_3
+    contradiction_pair_id: dcm_grain_free_2018
+
+  # Added 2026-05-24 (#21): cross-jurisdiction municipal-policy
+  # contradiction. Ontario maintains a pit-bull restriction under DOLA
+  # while Montreal repealed its breed-specific bylaw and Calgary never
+  # had one. A consolidation-aware system should surface that both
+  # framings are simultaneously current law in different jurisdictions
+  # — not pick one as "the" answer.
+  - id: q20_pit_bull_policy_jurisdictional_contradiction
+    text: "What is the current legal status of pit-bull-type dogs in Canadian municipalities — are they restricted or treated like other breeds?"
+    expected_sources: ["Ontario", "DOLA", "Montreal", "repeal", "Calgary", "behaviour-based"]
+    min_hops: 3
+    sme_category: cat_3
+
+  # Added 2026-05-24 (#21): probes whether the system distinguishes
+  # academic-research correction (Mech 1999) from clinical-practice
+  # codification (AVSAB 2008). Both contradict Schenkel 1947 but on
+  # different evidentiary registers — a system that collapses them
+  # to a single "dominance theory is wrong" answer is flattening the
+  # two-arm structure the corpus seeds.
+  - id: q21_dominance_research_vs_clinical_consensus
+    text: "What is the recommended alternative to dominance-based training in companion animal behaviour modification, and who issued that recommendation?"
+    expected_sources: ["AVSAB", "positive reinforcement", "reward-based", "dominance"]
+    min_hops: 2
+    sme_category: cat_3
+    contradiction_pair_id: dominance_theory_pre_vs_post_1999
+
   # =========================================================
   # Cat 4 — alias resolution (same-entity, different surface forms)
   # =========================================================
@@ -162,6 +202,43 @@ questions:
     min_hops: 2
     sme_category: cat_6
     contradiction_pair_id: dcm_grain_free_2018
+
+  # Added 2026-05-24 (#21): the Hill's vitamin D recall lifecycle is a
+  # clean 4-document supersession chain with explicit `supersedes`
+  # edges in the vault. q07 reads it as a Cat 2c walk; this Cat 6
+  # question asks the system to identify which stage of the chain is
+  # the *final* state — the regulatory followup, not any of the
+  # superseded earlier announcements.
+  - id: q22_hills_recall_final_state
+    text: "What was the final regulatory outcome of the 2019 Hill's Pet Nutrition vitamin D contamination episode?"
+    expected_sources: ["Hill's", "Warning Letter", "November", "Topeka", "vitamin premix"]
+    min_hops: 3
+    sme_category: cat_6
+
+  # Added 2026-05-24 (#21): the FDA framing shift is not just "old vs
+  # new" — there is an intermediate (June 2019 Third Status Report)
+  # where the ingredient-of-interest moves from grain-free labels to
+  # pulses (peas/lentils). A system that returns only the 2018 OR the
+  # 2022 framing fails this; the question asks for the ingredient
+  # reframing that happened *in between*.
+  - id: q23_dcm_ingredient_reframing
+    text: "How did the FDA's identification of the ingredient most associated with reported DCM cases change between the 2018 announcement and the June 2019 status report?"
+    expected_sources: ["grain-free", "pulses", "peas", "lentils", "June 2019", "Third Status Report"]
+    min_hops: 2
+    sme_category: cat_6
+    contradiction_pair_id: dcm_grain_free_2018
+
+  # Added 2026-05-24 (#21): probes the boundary between the academic
+  # self-correction (Mech 1999) and the clinical-practice consensus
+  # (AVSAB 2008) — i.e., the 9-year lag between research and
+  # professional-body guidance. A consolidation-aware system should be
+  # able to identify when the *clinical* consensus shifted, which is
+  # later than when the *academic* finding landed.
+  - id: q24_clinical_consensus_lag_after_mech
+    text: "After Mech's 1999 self-correction of the alpha-wolf model, when did the veterinary behavior profession formally recommend against using dominance theory in clinical practice?"
+    expected_sources: ["Mech", "1999", "AVSAB", "2008", "dominance"]
+    min_hops: 2
+    sme_category: cat_6
 
   # =========================================================
   # Cat 7 — token-efficiency probes (lighter expected sources)

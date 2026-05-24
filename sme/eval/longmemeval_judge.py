@@ -230,11 +230,29 @@ def _call_openai(
 
 
 def _default_client() -> Optional[Any]:
-    """Return a lazily-imported OpenAI client, or None if unavailable.
+    """Return a lazily-imported OpenAI or AzureOpenAI client, or None.
 
-    Treats both "package not installed" and "OPENAI_API_KEY not set" as
-    None — the caller decides how to surface the absence.
+    Prefers Azure when ``AZURE_API_KEY`` and ``AZURE_API_BASE`` are both
+    set; falls back to ``OPENAI_API_KEY`` → vanilla ``OpenAI()``. Returns
+    ``None`` if neither path is configured or the SDK isn't installed —
+    the caller surfaces this as an ERROR-labelled verdict.
     """
+    azure_key = os.environ.get("AZURE_API_KEY")
+    azure_base = os.environ.get("AZURE_API_BASE")
+    if azure_key and azure_base:
+        try:
+            from openai import AzureOpenAI  # type: ignore[import-not-found]
+        except ImportError:
+            log.info("longmemeval_judge: openai SDK not installed")
+            return None
+        api_version = os.environ.get(
+            "AZURE_API_VERSION", "2024-12-01-preview"
+        )
+        return AzureOpenAI(
+            azure_endpoint=azure_base,
+            api_key=azure_key,
+            api_version=api_version,
+        )
     if not os.environ.get("OPENAI_API_KEY"):
         return None
     try:

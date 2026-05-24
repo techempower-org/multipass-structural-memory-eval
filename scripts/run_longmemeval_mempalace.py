@@ -33,13 +33,16 @@ CLI:
         --dry-run                  # estimate cost without LLM/HTTP calls
         --skip-judge               # R@5-only pass (no reader, no judge)
 
-The default reader/judge models match issue #17:
+The default reader/judge models for this script are Azure-friendly
+(JP's homelab serves Azure-deployed OpenAI):
 
-    reader: gpt-4.1-mini
-    judge:  gpt-4o-2024-08-06
+    reader: gpt-4o-mini
+    judge:  gpt-4o
 
 A dry-run estimate uses these as the assumed models for cost arithmetic
-even though no LLM is called.
+even though no LLM is called. The library-level defaults in
+``sme.eval.answer_generator`` / ``sme.eval.longmemeval_judge`` keep the
+gpt-4.1-mini / gpt-4o-2024-08-06 pair for direct-OpenAI users.
 """
 
 from __future__ import annotations
@@ -79,9 +82,12 @@ log = logging.getLogger("run_longmemeval_mempalace")
 LME_WING_PREFIX = "lme_"
 LME_ROOM = "longmemeval"
 
-# Default reader / judge defaults match the issue #17 CLI subcommand.
-DEFAULT_READER_MODEL = "gpt-4.1-mini"
-DEFAULT_JUDGE_MODEL = "gpt-4o-2024-08-06"
+# Default reader / judge models for this script's argparse. Azure-friendly
+# (no date suffix on the judge; gpt-4.1-mini is not deployed on JP's Azure
+# resource). The library-level DEFAULT_READER_MODEL / DEFAULT_JUDGE_MODEL
+# in sme.eval.* are unchanged so direct-OpenAI users keep their defaults.
+DEFAULT_READER_MODEL = "gpt-4o-mini"
+DEFAULT_JUDGE_MODEL = "gpt-4o"
 
 # Rough cost estimates per 1M tokens (USD), used only for --dry-run
 # accounting. These mirror OpenAI's public 2026-05 pricing — update when
@@ -91,6 +97,7 @@ _MODEL_PRICING_USD_PER_M_TOKENS = {
     "gpt-4.1-mini":     {"input": 0.40,  "output": 1.60},
     "gpt-4.1":          {"input": 2.00,  "output": 8.00},
     "gpt-4o-mini":      {"input": 0.15,  "output": 0.60},
+    "gpt-4o":           {"input": 2.50,  "output": 10.00},
     "gpt-4o-2024-08-06": {"input": 2.50, "output": 10.00},
 }
 

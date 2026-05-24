@@ -104,8 +104,8 @@ def args_factory(tmp_path):
             kind=None,
             familiar_url=familiar_url,
             familiar_inference=familiar_inference,
-            answer_model="gpt-4.1-mini",
-            judge="gpt-4o-2024-08-06",
+            answer_model="gpt-4o-mini",
+            judge="gpt-4o",
             max_questions=max_questions,
             skip_judge=skip_judge,
             skip_reader=skip_reader,
@@ -207,8 +207,8 @@ def test_dry_run_estimates_cost_without_calling_apis(dataset, args_factory):
     assert report["run_metadata"]["mode"] == "dry-run"
     cost = report["cost_estimate"]
     assert cost["n_questions"] == 2
-    assert cost["reader_model"] == "gpt-4.1-mini"
-    assert cost["judge_model"] == "gpt-4o-2024-08-06"
+    assert cost["reader_model"] == "gpt-4o-mini"
+    assert cost["judge_model"] == "gpt-4o"
     # Cost should be small but non-zero for both models.
     assert cost["reader_usd"] > 0
     assert cost["judge_usd"] > 0
@@ -398,8 +398,8 @@ def test_arg_parser_requires_adapter_and_questions():
         "--api-url", "http://localhost:8085",
     ])
     assert parsed.adapter == "mempalace-daemon"
-    assert parsed.answer_model == "gpt-4.1-mini"
-    assert parsed.judge == "gpt-4o-2024-08-06"
+    assert parsed.answer_model == "gpt-4o-mini"
+    assert parsed.judge == "gpt-4o"
     assert parsed.dry_run is False
 
 

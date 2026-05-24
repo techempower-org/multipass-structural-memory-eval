@@ -39,12 +39,30 @@ READER_PROMPT_TEMPLATE = (
 
 
 def _default_client() -> Optional[Any]:
-    """Lazily construct an OpenAI client, or None if unavailable.
+    """Lazily construct an OpenAI or AzureOpenAI client, or None if unavailable.
 
-    Treats both "package not installed" and "OPENAI_API_KEY not set" as
-    None. Callers decide how to handle the absence — typically by
-    returning the empty string so the judge can mark the answer wrong.
+    Prefers Azure when ``AZURE_API_KEY`` and ``AZURE_API_BASE`` are both
+    set (JP's homelab uses Azure-deployed gpt-4o-mini / gpt-4o); falls
+    back to ``OPENAI_API_KEY`` → vanilla ``OpenAI()`` for upstream users.
+    Returns ``None`` if neither path is configured or the SDK isn't
+    installed — callers degrade gracefully from there.
     """
+    azure_key = os.environ.get("AZURE_API_KEY")
+    azure_base = os.environ.get("AZURE_API_BASE")
+    if azure_key and azure_base:
+        try:
+            from openai import AzureOpenAI  # type: ignore[import-not-found]
+        except ImportError:
+            log.info("answer_generator: openai SDK not installed")
+            return None
+        api_version = os.environ.get(
+            "AZURE_API_VERSION", "2024-12-01-preview"
+        )
+        return AzureOpenAI(
+            azure_endpoint=azure_base,
+            api_key=azure_key,
+            api_version=api_version,
+        )
     if not os.environ.get("OPENAI_API_KEY"):
         return None
     try:

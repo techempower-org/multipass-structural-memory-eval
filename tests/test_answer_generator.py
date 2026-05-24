@@ -8,8 +8,12 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+import sys
+from types import ModuleType
+
 from sme.eval.answer_generator import (
     DEFAULT_READER_MODEL,
+    _default_client,
     generate_answer,
 )
 
@@ -76,6 +80,8 @@ def test_generate_answer_honors_reader_model_override():
 
 def test_generate_answer_returns_empty_string_when_no_client_and_no_key(monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("AZURE_API_KEY", raising=False)
+    monkeypatch.delenv("AZURE_API_BASE", raising=False)
     out = generate_answer("q", "ctx", client=None)
     assert out == ""
 
@@ -119,3 +125,82 @@ def test_generate_answer_no_truncation_by_default():
     generate_answer("q", big_context, client=client)
     sent = client.calls[0]["messages"][0]["content"]
     assert "X" * 10000 in sent
+
+
+# --- Azure OpenAI client path -----------------------------------------------
+
+def _install_fake_openai_module(monkeypatch):
+    """Inject a stub ``openai`` module exposing OpenAI / AzureOpenAI.
+
+    Each returned class records its kwargs on a class attribute so the
+    test can assert what _default_client passed. We install at the
+    module level so ``from openai import AzureOpenAI`` inside
+    ``_default_client`` resolves to our stub.
+    """
+    fake = ModuleType("openai")
+
+    class _FakeOpenAI:
+        last_kwargs: dict | None = None
+
+        def __init__(self, **kwargs):
+            type(self).last_kwargs = kwargs
+
+    class _FakeAzureOpenAI:
+        last_kwargs: dict | None = None
+
+        def __init__(self, **kwargs):
+            type(self).last_kwargs = kwargs
+
+    fake.OpenAI = _FakeOpenAI
+    fake.AzureOpenAI = _FakeAzureOpenAI
+    monkeypatch.setitem(sys.modules, "openai", fake)
+    return _FakeOpenAI, _FakeAzureOpenAI
+
+
+def test_default_client_prefers_azure_when_both_env_vars_set(monkeypatch):
+    monkeypatch.setenv("AZURE_API_KEY", "azure-secret")
+    monkeypatch.setenv("AZURE_API_BASE", "https://example.azure.com/")
+    monkeypatch.setenv("AZURE_API_VERSION", "2099-12-01-preview")
+    # Even if OPENAI_API_KEY is set, Azure should win.
+    monkeypatch.setenv("OPENAI_API_KEY", "openai-secret")
+    _, FakeAzure = _install_fake_openai_module(monkeypatch)
+
+    client = _default_client()
+
+    assert isinstance(client, FakeAzure)
+    assert FakeAzure.last_kwargs == {
+        "azure_endpoint": "https://example.azure.com/",
+        "api_key": "azure-secret",
+        "api_version": "2099-12-01-preview",
+    }
+
+
+def test_default_client_azure_uses_default_api_version(monkeypatch):
+    monkeypatch.setenv("AZURE_API_KEY", "azure-secret")
+    monkeypatch.setenv("AZURE_API_BASE", "https://example.azure.com/")
+    monkeypatch.delenv("AZURE_API_VERSION", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    _, FakeAzure = _install_fake_openai_module(monkeypatch)
+
+    _default_client()
+
+    assert FakeAzure.last_kwargs["api_version"] == "2024-12-01-preview"
+
+
+def test_default_client_falls_back_to_openai_when_azure_partial(monkeypatch):
+    # Only one Azure var set → fall through to OPENAI_API_KEY path.
+    monkeypatch.setenv("AZURE_API_KEY", "azure-secret")
+    monkeypatch.delenv("AZURE_API_BASE", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "openai-secret")
+    FakeOpenAI, _ = _install_fake_openai_module(monkeypatch)
+
+    client = _default_client()
+
+    assert isinstance(client, FakeOpenAI)
+
+
+def test_default_client_returns_none_when_neither_configured(monkeypatch):
+    monkeypatch.delenv("AZURE_API_KEY", raising=False)
+    monkeypatch.delenv("AZURE_API_BASE", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    assert _default_client() is None

@@ -157,7 +157,7 @@ same eval questions can run across multiple backends. Adapters live in
 ### `mempalace-daemon` — by [jphein](https://github.com/jphein)
 
 `sme/adapters/mempalace_daemon.py` talks to a running
-[`palace-daemon`](https://github.com/jphein/palace-daemon) over HTTP —
+[`palace-daemon`](https://github.com/techempower-org/palace-daemon) over HTTP —
 by [`jphein`](https://github.com/jphein). No filesystem access, no
 ChromaDB import, no shared-process constraint with the daemon. Use
 this adapter when MemPalace is fronted by the daemon (the daemon is
@@ -217,7 +217,7 @@ palace-daemon's single-writer architecture.
 
 ### familiar — by [jphein](https://github.com/jphein)
 
-[`familiar.realm.watch`](https://github.com/jphein/familiar.realm.watch)
+[`familiar.realm.watch`](https://github.com/techempower-org/familiar.realm.watch)
 is a retrieval pipeline that wraps palace-daemon with reranking,
 temporal decay, extractive compression, and grounding directives.
 [`jphein`](https://github.com/jphein) built it; `sme/adapters/familiar.py`

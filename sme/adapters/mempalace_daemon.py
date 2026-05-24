@@ -1,6 +1,6 @@
 """MemPalace daemon HTTP adapter for SME.
 
-Talks to a running palace-daemon (https://github.com/jphein/palace-daemon)
+Talks to a running palace-daemon (https://github.com/techempower-org/palace-daemon)
 over HTTP. Unlike sme.adapters.mempalace.MemPalaceAdapter (which opens
 ChromaDB directly), this adapter does NO filesystem access and holds NO
 parallel handles to the palace SQLite — it only makes HTTP requests.

@@ -1298,6 +1298,96 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_longmem(args: argparse.Namespace) -> int:
+    """Run LongMemEval E2E QA scoring through an SME adapter.
+
+    Wraps ``scripts/cross_validate_longmemeval.py``'s programmatic
+    ``run()`` entry point so the cross-validation harness becomes a
+    first-class subcommand. Defaults follow issue #17:
+
+      - reader:  gpt-4.1-mini  (cheaper than the judge but capable enough
+                                for multi-session synthesis)
+      - judge:   gpt-4o-2024-08-06  (the LongMemEval canonical judge)
+
+    Both LLM calls degrade to no-op if ``OPENAI_API_KEY`` is unset and
+    ``--skip-judge`` is implied — substring R@5 still gets reported so
+    a partial reading is possible without API access.
+    """
+    import sys as _sys
+    _scripts_dir = str(Path(__file__).resolve().parent.parent / "scripts")
+    if _scripts_dir not in _sys.path:
+        _sys.path.insert(0, _scripts_dir)
+    import cross_validate_longmemeval as harness
+
+    harness_ns = argparse.Namespace(
+        dataset=Path(args.questions),
+        adapter=args.adapter,
+        max_questions=args.max_questions,
+        reader_model=args.answer_model,
+        judge_model=args.judge,
+        skip_judge=args.skip_judge,
+        skip_reader=args.skip_reader,
+        out=None,
+        work_dir=args.work_dir,
+        verbose=getattr(args, "verbose", False),
+    )
+
+    if args.adapter == "mempalace-daemon":
+        if not getattr(args, "api_url", None):
+            raise SystemExit(
+                "--api-url is required when --adapter mempalace-daemon "
+                "(e.g. http://localhost:8085)."
+            )
+        factory = harness._make_mempalace_daemon_adapter_factory(
+            api_url=args.api_url,
+            api_key=getattr(args, "api_key", None),
+            kind=getattr(args, "kind", None),
+        )
+        harness._ADAPTER_FACTORIES["mempalace-daemon"] = factory
+
+    report = harness.run(harness_ns)
+
+    out_path = args.json
+    if out_path is None:
+        import datetime as _dt
+        ts = _dt.datetime.now().strftime("%Y%m%dT%H%M%S")
+        out_path = Path(f"longmem_{args.adapter}_{ts}.json")
+    Path(out_path).write_text(json.dumps(report, indent=2, default=str))
+
+    summary = report["summary"]
+    dual = summary.get("dual_metric", {})
+    overall = dual.get("overall", {})
+
+    print()
+    print("=" * 78)
+    print(
+        f" LongMemEval E2E — adapter={args.adapter}  "
+        f"n={summary['total_questions']}"
+    )
+    print("=" * 78)
+    print(f"\n{'category':22s} {'n':>4} {'R@5':>8} {'QA-acc':>8} {'gap':>8}")
+    for cat, slot in dual.get("per_category", {}).items():
+        qa = slot.get("qa_accuracy")
+        gap = slot.get("retrieval_qa_gap")
+        qa_str = f"{qa:>7.2%}" if qa is not None else "    n/a"
+        gap_str = f"{gap:+.3f}" if gap is not None else "  n/a"
+        print(
+            f"{cat:22s} {slot['n']:>4} "
+            f"{slot['sme_recall_mean']:>7.2%} {qa_str} {gap_str:>8}"
+        )
+    overall_qa = overall.get("qa_accuracy")
+    overall_gap = overall.get("retrieval_qa_gap")
+    overall_qa_str = f"{overall_qa:>7.2%}" if overall_qa is not None else "    n/a"
+    overall_gap_str = f"{overall_gap:+.3f}" if overall_gap is not None else "  n/a"
+    print(
+        f"\n{'overall':22s} {overall['n']:>4} "
+        f"{overall['sme_recall_mean']:>7.2%} {overall_qa_str} {overall_gap_str:>8}"
+    )
+    print(f"\n  disagreements: {len(summary['disagreements'])}")
+    print(f"\nJSON report written to {out_path}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="sme-eval",
@@ -1790,6 +1880,84 @@ def main(argv: list[str] | None = None) -> int:
         help="recompile every note regardless of cache.",
     )
     cw.set_defaults(func=cmd_compile_wiki)
+
+    # --- longmemeval subcommand (issue #17 — E2E QA scoring) ----------
+
+    lm = sub.add_parser(
+        "longmemeval",
+        help="Run LongMemEval E2E QA through an SME adapter — reports "
+             "both R@5 retrieval recall and judge-scored QA accuracy "
+             "plus the retrieval/QA gap per category.",
+    )
+    lm.add_argument(
+        "--adapter",
+        required=True,
+        help="Adapter to run the LongMemEval haystack through. The harness "
+             "currently wires {full-context, flat, karpathy-compiled, "
+             "mempalace, mempalace-daemon}.",
+    )
+    lm.add_argument(
+        "--questions",
+        required=True,
+        metavar="JSON",
+        help="Path to longmemeval_oracle.json / longmemeval_s.json / _m.",
+    )
+    lm.add_argument(
+        "--answer-model",
+        default="gpt-4.1-mini",
+        help="Reader model (turns retrieved context into an answer the "
+             "judge can score). Default: gpt-4.1-mini.",
+    )
+    lm.add_argument(
+        "--judge",
+        default="gpt-4o-2024-08-06",
+        help="Judge model. Default: gpt-4o-2024-08-06 (LongMemEval canon).",
+    )
+    lm.add_argument(
+        "--max-questions",
+        type=int,
+        default=None,
+        help="Smoke-test cap on number of questions.",
+    )
+    lm.add_argument(
+        "--skip-judge",
+        action="store_true",
+        help="Skip reader + judge entirely. Reports R@5 only — useful "
+             "for an API-key-free retrieval-only run.",
+    )
+    lm.add_argument(
+        "--skip-reader",
+        action="store_true",
+        help="Feed the raw retrieved context to the judge instead of "
+             "running a reader pass. Diagnostic mode — not apples-to-apples "
+             "with published LongMemEval numbers.",
+    )
+    lm.add_argument(
+        "--json",
+        type=Path,
+        default=None,
+        metavar="PATH",
+        help="Where to write the report JSON.",
+    )
+    lm.add_argument(
+        "--work-dir",
+        type=Path,
+        default=None,
+        help="Where per-question vaults are materialized (default: tmpdir).",
+    )
+    lm.add_argument(
+        "--api-url",
+        help="(mempalace-daemon) HTTP base URL, e.g. http://localhost:8085.",
+    )
+    lm.add_argument(
+        "--api-key",
+        help="(mempalace-daemon) X-API-Key. Defaults to PALACE_API_KEY env.",
+    )
+    lm.add_argument(
+        "--kind",
+        help="(mempalace-daemon) /search kind filter. Default 'content'.",
+    )
+    lm.set_defaults(func=cmd_longmem)
 
     args = parser.parse_args(argv)
     logging.basicConfig(

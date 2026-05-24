@@ -37,7 +37,6 @@ import argparse
 import datetime as _dt
 import json
 import logging
-import os
 import sys
 import tempfile
 from pathlib import Path
@@ -54,6 +53,8 @@ from sme.corpora.longmemeval import (  # noqa: E402
     load_questions,
     materialize_sme_corpus,
 )
+from sme.eval.answer_generator import generate_answer  # noqa: E402
+from sme.eval.dual_metric import aggregate_dual_metric  # noqa: E402
 from sme.eval.longmemeval_judge import grade_answer  # noqa: E402
 
 log = logging.getLogger("cross_validate_longmemeval")
@@ -122,6 +123,40 @@ def _make_mempalace_adapter(per_q_vault: Path) -> SMEAdapter:  # pragma: no cove
         "use --adapter full-context for the no-retrieval baseline or "
         "--adapter flat for the chroma baseline."
     )
+
+
+def _make_mempalace_daemon_adapter_factory(
+    *, api_url: Optional[str] = None,
+    api_key: Optional[str] = None,
+    kind: Optional[str] = None,
+) -> AdapterFactory:  # pragma: no cover — network-dependent
+    """Return a factory that builds a MemPalaceDaemonAdapter per question.
+
+    Issue #19 will run the daemon against the full 500-question dataset;
+    this factory is the connective tissue. The daemon adapter is HTTP-
+    only — there's no per-question ingest step at construction time
+    because the daemon owns the corpus. We rely on the caller (the CLI
+    subcommand) to have ingested the LongMemEval haystack into the daemon
+    once up-front, and we simply query through it for each question.
+
+    Limitation: the daemon's wing/room scoping isn't per-question, so
+    cross-question contamination is possible. For #17's E2E QA pipeline
+    we accept this — the goal is to land the scoring pipeline; #19
+    addresses the ingest topology.
+    """
+    from sme.adapters.mempalace_daemon import MemPalaceDaemonAdapter
+
+    def _factory(_per_q_vault: Path) -> SMEAdapter:
+        kwargs: dict[str, Any] = {}
+        if api_url is not None:
+            kwargs["api_url"] = api_url
+        if api_key is not None:
+            kwargs["api_key"] = api_key
+        if kind is not None:
+            kwargs["kind"] = kind
+        return MemPalaceDaemonAdapter(**kwargs)
+
+    return _factory
 
 
 def _make_karpathy_compiled_adapter(per_q_vault: Path) -> SMEAdapter:
@@ -196,38 +231,17 @@ def generate_hypothesis(
     reader_model: str,
     client: Optional[Any] = None,
 ) -> str:
-    """One-shot reader call: feed retrieved context + question, get an
-    answer string the judge can score.
+    """Back-compat shim — delegates to sme.eval.answer_generator.generate_answer.
 
-    Mirrors LongMemEval's standard reader prompt — ask the model to
-    answer using only the provided sessions. Returns the empty string
-    on any failure so the harness can keep going (judge will then mark
-    INCORRECT, which is the right signal: we couldn't produce an answer).
+    Kept so older scripts and tests calling ``harness.generate_hypothesis``
+    keep working. New code should import ``generate_answer`` directly.
     """
-    if client is None:
-        if not os.environ.get("OPENAI_API_KEY"):
-            return ""
-        try:
-            from openai import OpenAI  # type: ignore[import-not-found]
-        except ImportError:
-            return ""
-        client = OpenAI()
-    prompt = (
-        "Answer the user's question using only the conversation history "
-        "below. If the answer is not present, say 'I don't know.'\n\n"
-        f"Conversation history:\n{context_string}\n\n"
-        f"Question: {question}\n\nAnswer:"
+    return generate_answer(
+        question=question,
+        context_string=context_string,
+        reader_model=reader_model,
+        client=client,
     )
-    try:
-        resp = client.chat.completions.create(
-            model=reader_model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.0,
-        )
-        return (resp.choices[0].message.content or "").strip()
-    except Exception as e:  # noqa: BLE001 — degrade gracefully
-        log.warning("reader call failed: %s", e)
-        return ""
 
 
 # --- Per-question loop ------------------------------------------------------
@@ -427,11 +441,13 @@ def aggregate(records: list[dict]) -> dict:
             },
         }
 
+    dual = aggregate_dual_metric(records)
     return {
         "per_category": per_cat,
         "total_questions": len(records),
         "judge_total_usage": total_usage,
         "disagreements": disagreements,
+        "dual_metric": dual,
         "ku_caveat": (
             "Per-category numbers are reported separately by design. "
             "KU (knowledge-update) and SME Cat 3 measure different "
@@ -461,7 +477,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
                    help="Smoke-test cap on number of questions.")
     p.add_argument("--reader-model", default="gpt-4o-mini",
                    help="Model used to turn retrieved context into an "
-                        "answer the judge can score.")
+                        "answer the judge can score. Default kept as "
+                        "gpt-4o-mini for back-compat with prior runs; "
+                        "the `sme-eval longmemeval` CLI defaults to "
+                        "gpt-4.1-mini per issue #17.")
     p.add_argument("--judge-model", default="gpt-4o-2024-08-06",
                    help="LongMemEval judge model.")
     p.add_argument("--skip-judge", action="store_true",

@@ -88,6 +88,11 @@ a clone of a public wiki, whatever. Start small: 10–30 files is
 enough for a first pass. Bigger corpora take longer to build and
 make authoring the ground-truth question set harder.
 
+**Or use a shipped corpus.** If you don't have content ready, the
+[good-dog-corpus](../sme/corpora/good-dog-corpus/) ships 24 notes
+across 6 domains with a pre-authored `questions.yaml` — you can
+skip straight to step 4.
+
 ### 3. Write a minimal question set
 
 Copy `sme/corpora/standard_v0_1/AUTHORING.md` and read the corpus
@@ -163,7 +168,12 @@ not any single run. Run all three conditions on the same questions:
   underlying index without the structural layer.
 
 The three-condition pattern (A/B/C) is the comparative-advantage
-section below. It's where the defensible findings come from.
+section below. It's where the defensible findings come from. For
+corpora small enough to fit in a frontier model's context window,
+add **Condition D** (Karpathy baseline) — `--adapter full-context`
+(D1: raw corpus) or `--adapter karpathy-compiled` (D2: LLM-compiled
+wiki) — to test whether structured retrieval outperforms dumping
+everything into context.
 
 ### 6. Run the Blueprint (Cat 8) against your graph
 
@@ -232,9 +242,19 @@ Reference implementations, in increasing order of complexity:
 - `sme/adapters/flat_baseline.py` — the simplest case, ChromaDB
   vector store with no structure. Read this first.
 - `sme/adapters/mempalace.py` — ChromaDB + SQLite-triples pattern.
+- `sme/adapters/mempalace_daemon.py` — HTTP adapter for palace-daemon
+  (single-writer architecture, no filesystem access needed).
+- `sme/adapters/familiar.py` — familiar.realm.watch retrieval pipeline
+  wrapping palace-daemon with reranking, temporal decay, and compression.
+- `sme/adapters/rlm_adapter.py` — LLM-as-orchestrator via RLM; the
+  model decides when/whether to call `mempalace_search`.
 - `sme/adapters/ladybugdb.py` — embedded graph DB with an optional
   HTTP API mode for systems that expose a `/search` endpoint and
   have writer-lock problems opening the DB file directly.
+- `sme/conditions/full_context.py` — Karpathy Condition D1: entire
+  corpus in context, no retrieval. The deliberate-floor baseline.
+- `sme/conditions/karpathy_compiled.py` — Karpathy Condition D2:
+  LLM-compiled wiki, denser context at the same budget.
 
 Optional method for Cat 9 (harness integration, not yet
 implemented but part of the adapter contract going forward):
@@ -531,10 +551,12 @@ Baseline JSONs: [`baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json`](../baseline
 
 ### Categories that aren't implemented yet
 
-Cats 1 (standalone), 3, 4, 5 (full), 6, and 7 (standalone with LLM
-judge) are spec'd but not wired as CLI commands. Cats 2c and 8 are
-implemented; Cats 1 and 7 are partially covered by `retrieve`; Cat 5
-has a partial implementation via `analyze --betti`. See the spec for
+Cats 1 (standalone), 3, 5 (full), 6, and 7 (standalone with LLM
+judge) are spec'd but not wired as CLI commands. Cats 2c, 4, and 8
+are implemented; Cats 1 and 7 are partially covered by `retrieve`;
+Cat 5 has a partial implementation via `analyze --betti`; Cat 9b
+(call-through success) has scaffolding. Cat 4a now includes B-Cubed
+scoring for alias resolution via `--gold-aliases`. See the spec for
 the full definitions — the category-sized work is there, waiting for
 someone who wants it.
 

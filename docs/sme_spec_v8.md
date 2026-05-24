@@ -2,11 +2,11 @@
 
 > **Status: this spec describes the target design.** Several CLI commands
 > referenced below are not yet implemented in `sme/cli.py`. The
-> implemented set (as of 2026-05-22) is: `analyze`, `retrieve`, `cat4`,
-> `cat5`, `cat8`, `cat2c`, `cat9`, and `check`. Commands marked 🚧 in
-> this document are planned but not built yet — call them out when
-> reviewing PRs that reference them. See the README's "Status" section
-> for the canonical list of shipped commands and adapters.
+> implemented set (as of 2026-05-24) is: `analyze`, `retrieve`, `cat4`,
+> `cat5`, `cat8`, `cat2c`, `cat9`, `check`, and `compile-wiki`. Commands
+> marked 🚧 in this document are planned but not built yet — call them
+> out when reviewing PRs that reference them. See the README's "Status"
+> section for the canonical list of shipped commands and adapters.
 >
 > **Version note.** Originally `sme_spec_v5.md`; content level matches v8
 > (Category 8 ontology coherence, multi-hop 2c sub-test, introspection/external
@@ -188,23 +188,33 @@ class SMEAdapter(ABC):
 
 Three required methods. That's the minimum viable adapter. `get_flat_retrieval` and `get_ontology_source` have defaults — SME fills in its own flat baseline and infers ontology from the graph if the adapter doesn't provide them.
 
-### Default Adapters
+### Shipped Adapters
 
 ```
 sme/adapters/
-  ├── flat_baseline.py   # Vector-only (numpy cosine sim, no dependencies)
-  ├── sqlite_triples.py  # SQLite triples + ChromaDB/sqlite-vec
-  ├── neo4j.py           # Neo4j via Bolt protocol
-  ├── ladybugdb.py       # LadybugDB (embedded graph + native vectors)
-  └── custom.py          # Template for implementing your own
+  ├── flat_baseline.py       # Vector-only (numpy cosine sim, no dependencies)
+  ├── mempalace.py           # ChromaDB + SQLite-triples (single-process)
+  ├── mempalace_daemon.py    # palace-daemon HTTP adapter (single-writer arch)
+  ├── familiar.py            # familiar.realm.watch retrieval pipeline
+  ├── rlm_adapter.py         # LLM-as-orchestrator via RLM
+  ├── ladybugdb.py           # LadybugDB (embedded graph + native vectors)
+  └── _graph_mapping.py      # Shared graph snapshot mapping (daemon/familiar)
+sme/conditions/
+  ├── full_context.py        # Karpathy D1 — full corpus in context
+  ├── karpathy_compiled.py   # Karpathy D2 — LLM-compiled wiki
+  └── wiki_compiler.py       # Compilation pipeline for D2
 ```
 
 | Adapter | Architecture | Who uses this pattern |
 |---|---|---|
 | `flat_baseline` | Embeddings only, no graph | Most RAG systems, vanilla LangChain |
-| `sqlite_triples` | SQLite (subject, predicate, object) + separate vector store | MemPalace, many Obsidian-based tools |
-| `neo4j` | Server graph DB with Cypher | Graphiti/Zep, enterprise KG systems |
-| `ladybugdb` | Embedded graph DB with native vectors, Cypher, no server | personal KG systems, knowledge-corpus graphs |
+| `mempalace` | ChromaDB + SQLite triples (single-process) | MemPalace upstream installs |
+| `mempalace-daemon` | palace-daemon HTTP API (no filesystem access) | MemPalace + palace-daemon single-writer architecture |
+| `familiar` | Retrieval pipeline over palace-daemon (reranking, decay, compression) | familiar.realm.watch |
+| `rlm` | LLM-as-orchestrator deciding when to call `mempalace_search` | RLM (jphein/rlm fork) |
+| `ladybugdb` | Embedded graph DB with native vectors, Cypher, no server | Personal KG systems, knowledge-corpus graphs |
+| `full-context` | Entire corpus concatenated into context (no retrieval) | Karpathy-baseline D1 |
+| `karpathy-compiled` | LLM-compiled wiki in context | Karpathy-baseline D2 |
 
 ### Graph Snapshot Views
 
@@ -917,7 +927,7 @@ Topology summary
 sme-eval analyze --adapter mempalace-daemon --api-url http://… --betti
 
 # Per-category readings
-sme-eval cat4  --adapter <name> …            # ingestion integrity
+sme-eval cat4  --adapter <name> …            # ingestion integrity (+ --gold-aliases for B-Cubed)
 sme-eval cat5  --adapter <name> …            # gap detection
 sme-eval cat8  --adapter <name> --implied-ontology …  # ontology coherence
 sme-eval cat9  --adapter <name> …            # harness integration (9b only)
@@ -926,6 +936,9 @@ sme-eval cat2c --graph results.json …        # multi-hop scorecard
 # Retrieval probe + check shortcut
 sme-eval retrieve --adapter <name> --questions corpus.yaml --json out.json
 sme-eval check    --adapter <name> …         # cat4 + cat5 combined
+
+# Karpathy condition D2 — compile a vault into an LLM-condensed wiki
+sme-eval compile-wiki --vault path/to/vault/ --output path/to/compiled/
 ```
 
 ### 🚧 Planned (not yet implemented)

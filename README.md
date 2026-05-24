@@ -18,7 +18,7 @@ memories.
 ## Contents
 
 [What this is](#what-this-is) · [Status](#status) · [Install](#install) ·
-[Next steps](#next-steps) · [Adapters](#adapters)
+[Corpora](#corpora) · [Next steps](#next-steps) · [Adapters](#adapters)
 
 ## What this is
 
@@ -45,17 +45,21 @@ table.
 
 ## Status
 
-**Beta-level instrumentation, actively evolving.** Seven adapters
+**Beta-level instrumentation, actively evolving (v0.2.0).** Nine adapters
 (`flat`, `mempalace`, `mempalace-daemon`, `familiar`, `rlm`,
-`ladybugdb`, `full-context`), nine CLI commands (`retrieve`, `analyze`,
-`cat8`, `cat2c`, `cat4`, `cat5`, `check`, `cat9`, `compile-wiki`),
-Cat 4 and Cat 5 partially implemented, Cat 9b (call-through success)
-scaffolding, and a specification for the remaining categories.
-Diagnostic posture, not benchmark — the defensible findings are
-before/after deltas under identical conditions and within-system
-A/B/C ablations. See the [spec](docs/sme_spec_v8.md) and the
-[onboarding guide](docs/ideas.md) for the full honest-limitations
-discussion.
+`ladybugdb`, `full-context`, `karpathy-compiled`, plus the `SMEAdapter`
+ABC template), nine CLI commands (`retrieve`, `analyze`, `cat8`, `cat2c`,
+`cat4`, `cat5`, `check`, `cat9`, `compile-wiki`), two evaluation corpora
+([`jp-realm-v0.1`](sme/corpora/jp_realm_v0_1/) and
+[`good-dog-corpus`](sme/corpora/good-dog-corpus/)), a
+[LongMemEval cross-validation harness](docs/cross_validation_2026.md),
+Karpathy-baseline conditions D1/D2 (full-corpus-in-context and
+LLM-compiled wiki), B-Cubed scoring for alias resolution (Cat 4a), and a
+specification for the remaining categories. Diagnostic posture, not
+benchmark — the defensible findings are before/after deltas under
+identical conditions and within-system A/B/C/D ablations. See the
+[spec](docs/sme_spec_v8.md) and the [onboarding guide](docs/ideas.md)
+for the full honest-limitations discussion.
 
 ## Install
 
@@ -75,6 +79,38 @@ the documentation and code.
 **Quick start:** run your first diagnostic in 5 minutes with the
 [onboarding guide](docs/ideas.md#quickstart-your-first-diagnostic-run).
 Need the spec? Start at [docs/sme_spec_v8.md](docs/sme_spec_v8.md).
+
+## Corpora
+
+SME ships two evaluation corpora and supports loading a third
+(LongMemEval) for cross-validation:
+
+- **[`jp-realm-v0.1`](sme/corpora/jp_realm_v0_1/)** — 30 questions
+  against a personal knowledge palace (tech-domain, biographical).
+  The original development corpus. Baseline readings for `familiar`,
+  `mempalace-daemon`, and `rlm` adapters live in [`baselines/`](baselines/).
+
+- **[`good-dog-corpus`](sme/corpora/good-dog-corpus/)** — 24 notes
+  across 6 domains (veterinary research, municipal policy, breed
+  standards, nutrition safety, behavioral research, community
+  journalism). Non-technical, real-world, ontology-first. Designed to
+  stress-test alias resolution, contradiction detection, and temporal
+  supersession. Ships with a full [ontology design
+  narrative](sme/corpora/good-dog-corpus/ONTOLOGY.md) explaining every
+  schema decision. See the
+  [good-dog-corpus README](sme/corpora/good-dog-corpus/README.md).
+
+- **[LongMemEval](sme/corpora/longmemeval/)** — loader for the 500-
+  question LongMemEval-cleaned dataset (Wu et al., ICLR 2025) with a
+  primary-source-verified category mapping to SME. Used for
+  [cross-validation](docs/cross_validation_2026.md) of SME's scoring
+  against the field's most-cited benchmark.
+
+The multi-corpus methodology is load-bearing: a single corpus shape
+gives misleading conclusions because brittle default behaviours hide
+on any single retrieval profile. See the [onboarding
+guide](docs/ideas.md#why-you-need-multiple-corpus-shapes) for the
+full argument.
 
 ## Next steps
 
@@ -105,6 +141,11 @@ Need the spec? Start at [docs/sme_spec_v8.md](docs/sme_spec_v8.md).
   battle-tested standards exist (SHACL, PROV-O, OpenLineage, B-Cubed,
   Ripser). Constitutional principle: SME stays lightweight and locally
   runnable — no server hosting required.
+
+- **[`docs/ingestigation.md`](docs/ingestigation.md) — Cat 4 deep
+  dive.** Renames and re-scopes Category 4 with a primary-source-verified
+  survey of existing tools (SHACL, W3C PROV-O, ProVe, Splink,
+  OpenLineage, Great Expectations) and proposed sub-test additions.
 
 ## Adapters
 
@@ -267,6 +308,47 @@ RLM_BASE_URL=https://your-endpoint RLM_MODEL=llama-3.3-70b RLM_API_KEY=... \
     sme-eval retrieve --adapter rlm \
     --questions sme/corpora/jp_realm_v0_1/questions.yaml \
     --json baselines/rlm_$(date +%Y%m%d).json
+```
+
+### `full-context` — Karpathy Condition D1
+
+`sme/conditions/full_context.py` concatenates every `.md` file under a
+vault directory and returns that as the query's `context_string`. No
+retrieval, no graph, no index. This is the deliberate-floor baseline
+answering the question: *at what corpus size does structured retrieval
+start outperforming flat context-window retrieval?*
+
+Structural categories (Cat 4/5/8) are not meaningful here — there is
+no graph. Retrieval categories (Cat 1/2c/3/6) produce maximum-recall,
+maximum-token-cost readings since the entire corpus is in context.
+
+```bash
+sme-eval retrieve --adapter full-context \
+    --db /path/to/vault/ \
+    --questions corpus.yaml \
+    --json d1.json
+```
+
+### `karpathy-compiled` — Karpathy Condition D2
+
+`sme/conditions/karpathy_compiled.py` reads a pre-compiled wiki
+produced by `sme-eval compile-wiki` — an LLM-condensed version of
+the raw vault, modelled on [Karpathy's personal LLM-Wiki
+setup](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).
+Trades one-time compilation cost for a denser, lower-noise context.
+The interesting question D2 answers — and D1 cannot — is whether
+LLM-compiled compression improves answer accuracy at the same context
+budget.
+
+```bash
+# Compile the vault first (one-time, cached by content hash)
+sme-eval compile-wiki --vault /path/to/vault/ --output /path/to/compiled/
+
+# Then run retrieval against the compiled wiki
+sme-eval retrieve --adapter karpathy-compiled \
+    --db /path/to/compiled/ \
+    --questions corpus.yaml \
+    --json d2.json
 ```
 
 ## License

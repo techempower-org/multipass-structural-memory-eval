@@ -86,8 +86,9 @@ Verified primary-source 2026-05-01 against the LongMemEval paper §3
 
 - `loader.py` — `LMEQuestion` / `LMESession` / `LMETurn` dataclasses, `load_questions(path)` iterator, `materialize_sme_corpus(questions, output_dir)` for on-disk vault rendering.
 - `tests/test_longmemeval_loader.py` — schema-fidelity tests against an inline 2-record fixture.
-- **Pending:** the cross-validation harness itself (loops over questions, runs an SME adapter, runs LongMemEval's GPT-4o judge on the same retrievals, reports per-category correlation). Issue #9 next concrete step after this PR lands.
-- **Pending:** B-Cubed scorer for Cat 4a (separate, ~50 LOC drop-in; see issue #9 deliverables list).
+- `scripts/cross_validate_longmemeval.py` — cross-validation harness (loops over questions, runs an SME adapter, runs LongMemEval's GPT-4o judge, reports per-category correlation).
+- B-Cubed scorer for Cat 4a — shipped as `sme/categories/_bcubed.py` with 16 tests.
+- **Pending:** first full reading writeup once the harness has produced numbers across all adapters.
 
 ## Citation
 

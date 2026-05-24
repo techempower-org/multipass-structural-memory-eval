@@ -135,21 +135,23 @@ The corpus itself is plain text. The reference tooling around it:
 
 ## Current state
 
-🐕 **Foundation stage.** Ontology drafted, content accumulating. Contributions welcome.
+🐕 **Content stage.** Ontology shipped, 24 vault notes across all 6
+domains, 18 annotated questions, first end-to-end reading path available.
 
 - [x] Ontology design (ONTOLOGY.md + ontology.yaml)
 - [x] README with end-to-end plan
+- [x] 5 veterinary research notes (DCM debate, recall lifecycle)
+- [x] 4 breed standard notes (GSD + APBT alias pairs across registries)
+- [x] 4 municipal policy notes (BSL enactment/repeal, Calgary model)
+- [x] 4 nutrition & safety notes (Hill's recall lifecycle chain)
+- [x] 4 behavioral research notes (Schenkel, Mech, AVSAB, Vieira de Castro)
+- [x] 3 community journalism notes (shelter adoption, pit bull repeal, FDA DCM)
+- [x] 18 annotated questions at 1/2/3 hop depths (`questions.yaml`)
+- [x] Ground truth YAML with expected sources per question
+- [x] `validate.py` corpus structural self-check
+- [x] `verify.py` corpus factual-integrity surface for human review
+- [x] Smoke test (`tests/test_questions_yaml_smoke.py`)
 - [ ] Executable ontology (`ontology.py`)
-- [ ] Source-discovery pass per domain (URLs, dates, license-status)
-- [ ] 10 veterinary research notes with 2 contradiction pairs
-- [ ] 8 breed standard notes with 4 alias pairs
-- [ ] 5 municipal policy notes
-- [ ] 5 nutrition & safety notes (recall lifecycle chains)
-- [ ] 5 behavioral research notes (training methodology evolution)
-- [ ] 5 community journalism notes
-- [ ] 12 annotated questions at 1/2/3 hop depths
-- [ ] Ground truth YAML with expected sources per question
-- [ ] `validate.py` corpus self-check
 - [ ] `INGESTION.md` reference pipeline + failure-mode catalogue
 - [ ] First end-to-end run: ingest corpus → build graph → SME categories report
 

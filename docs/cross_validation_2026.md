@@ -11,7 +11,7 @@ for SME's category readings against the most-cited industry benchmarks.
 
 ---
 
-## Status (as of 2026-05-01)
+## Status (as of 2026-05-24)
 
 ### Done
 
@@ -39,12 +39,32 @@ for SME's category readings against the most-cited industry benchmarks.
   against the good-dog-corpus seeded GSD / APBT alias pairs. 8 integration
   tests. Commit *(this PR)*.
 
-### Pending (this document plans them)
+- **`scripts/cross_validate_longmemeval.py`** — cross-validation harness
+  that runs each LongMemEval question through both SME's substring matcher
+  and LongMemEval's GPT-4o judge. Per-category correlation between the two
+  scorers is the output. Tests in `tests/test_cross_validate_longmemeval.py`.
 
-- Cross-validation harness — `scripts/cross_validate_longmemeval.py`
+- **Karpathy Condition D1 — `sme/conditions/full_context.py`** — full-
+  corpus-in-context adapter (the `FullContextAdapter`). No retrieval, no
+  graph. The deliberate-floor baseline for the scale question: at what
+  corpus size does structured retrieval outperform dumping everything into
+  context? Wired as `--adapter full-context` in the CLI. Tests in
+  `tests/test_full_context_adapter.py`. Commit `703f91e`.
+
+- **Karpathy Condition D2 — `sme/conditions/karpathy_compiled.py`** —
+  LLM-compiled wiki adapter (`KarpathyCompiledAdapter`). Reads pre-compiled
+  output from `sme-eval compile-wiki`. Trades one-time LLM compilation cost
+  for denser context. Wired as `--adapter karpathy-compiled`. Tests in
+  `tests/test_karpathy_compiled_adapter.py`. Commit `fc75d20`.
+
+- **`sme/conditions/wiki_compiler.py`** — compilation pipeline for D2.
+  Content-hash caching so re-runs only recompile changed notes. Wired as
+  `sme-eval compile-wiki`. Tests in `tests/test_wiki_compiler.py`.
+
+### Pending
+
 - MemoryBench provider registration (TypeScript bridge + adapter shim)
-- Karpathy-baseline condition D (full-corpus-in-context)
-- First reading writeup once the harness has produced numbers
+- First reading writeup once the harness has produced numbers on all adapters
 
 ---
 

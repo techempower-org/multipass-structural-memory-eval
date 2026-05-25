@@ -529,7 +529,8 @@ def _run_questions(
                 )
 
         # 2. Build per-question adapter and run via the existing harness
-        adapter_factory_for_harness = lambda vault, _q=q: factory_fn(_q, vault)
+        def adapter_factory_for_harness(vault, _q=q):
+            return factory_fn(_q, vault)
         rec = harness.run_one_question(
             q,
             adapter_factory=adapter_factory_for_harness,
@@ -663,7 +664,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
                    help="Path to longmemeval_oracle.json (or _s / _m).")
     p.add_argument("--api-url",
                    help="(mempalace-daemon) base URL, "
-                        "e.g. http://disks.jphe.in:8085.")
+                        "e.g. http://familiar.jphe.in:8085.")
     p.add_argument("--api-key",
                    help="(mempalace-daemon) X-API-Key. "
                         "Defaults to PALACE_API_KEY env.")

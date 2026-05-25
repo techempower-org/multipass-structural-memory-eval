@@ -5,8 +5,6 @@ from __future__ import annotations
 import json
 import urllib.error
 
-import pytest
-
 from sme.adapters.hindsight import HindsightAdapter
 
 

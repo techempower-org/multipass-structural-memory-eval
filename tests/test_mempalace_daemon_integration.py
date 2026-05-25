@@ -3,7 +3,7 @@
 Skipped automatically when PALACE_DAEMON_URL is not set in the
 environment, so CI without a daemon stays green. Run locally with:
 
-    PALACE_DAEMON_URL=http://disks.jphe.in:8085 \
+    PALACE_DAEMON_URL=http://familiar.jphe.in:8085 \
     PALACE_API_KEY=$(grep ^PALACE_API_KEY ~/.config/palace-daemon/env | cut -d= -f2) \
     pytest tests/test_mempalace_daemon_integration.py -v
 

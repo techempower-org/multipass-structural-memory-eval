@@ -324,7 +324,7 @@ class MemPalaceDaemonAdapter(SMEAdapter):
     network call happens in ``query()`` or ``get_graph_snapshot()``.
 
     Args:
-        api_url: Daemon base URL (e.g. ``http://disks.jphe.in:8085``).
+        api_url: Daemon base URL (e.g. ``http://familiar.jphe.in:8085``).
             Trailing slash stripped.
         api_key: Sent as ``X-API-Key`` header on every request.
         env_file: Path to an env file with ``PALACE_DAEMON_URL`` /
@@ -1705,7 +1705,7 @@ help text:
         "--api-url",
         metavar="URL",
         help="(ladybugdb, mempalace-daemon) HTTP base URL for API-mode "
-        "queries (e.g. http://disks.jphe.in:8085).",
+        "queries (e.g. http://familiar.jphe.in:8085).",
     )
 ```
 
@@ -1802,7 +1802,7 @@ Create `tests/test_mempalace_daemon_integration.py`:
 Skipped automatically when PALACE_DAEMON_URL is not set in the
 environment, so CI without a daemon stays green. Run locally with:
 
-    PALACE_DAEMON_URL=http://disks.jphe.in:8085 \
+    PALACE_DAEMON_URL=http://familiar.jphe.in:8085 \
     PALACE_API_KEY=$(grep ^PALACE_API_KEY ~/.config/palace-daemon/env | cut -d= -f2) \
     pytest tests/test_mempalace_daemon_integration.py -v
 

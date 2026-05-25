@@ -27,7 +27,7 @@ multi-writer corruption case the daemon was built to prevent).
 ## Why now
 
 Verified on 2026-04-25 against the live 151K-drawer palace at
-`disks.jphe.in:8085`:
+`familiar.jphe.in:8085`:
 
 - `/search?kind=content` already implements the README-roadmapped filter that
   excludes Stop-hook auto-save checkpoints. Default since 2026-04-25 in
@@ -281,7 +281,7 @@ Touched files: `sme/cli.py`. No new files.
 
 ```
 sme-eval retrieve --adapter mempalace-daemon \
-    --api-url http://disks.jphe.in:8085 --questions corpus.yaml --kind content
+    --api-url http://familiar.jphe.in:8085 --questions corpus.yaml --kind content
        │
        ▼
    cmd_retrieve  ─────────►  _load_adapter("mempalace-daemon", api_url=..., api_key=..., kind="content")

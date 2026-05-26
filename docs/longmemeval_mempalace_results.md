@@ -276,9 +276,12 @@ moves rates.
 
 Each live run writes one JSON file:
 
-- `baselines/longmemeval_<adapter>_<YYYYMMDD>.json` — full per-question
-  records (R@5, judge label, judge rationale, retrieval context length,
-  reader output, judge token usage) plus the aggregated summary.
+- `baselines/longmemeval_<adapter-or-route>_<date>.json` — full
+  per-question records (R@5, judge label, judge rationale, retrieval
+  context length, reader output, judge token usage) plus the aggregated
+  summary. Date format is `YYYYMMDD` for live judged runs (see
+  reproduction commands above) or `YYYY-MM-DD` for retrieval-only
+  baselines that ship without a judged-reader pass.
 
 The disagreement set lives under `summary.disagreements` in the same
 file.
@@ -326,7 +329,7 @@ graph. At capture time the daemon's substrate was:
 
 | n  | Category                | R@5    | QA-acc | Gap |
 |---:|-------------------------|-------:|-------:|----:|
-| 50 | cat_6 (temporal-reason) | **47.0%** | n/a    | n/a |
+| 50 | cat_6 (temporal-reasoning) | **47.0%** | n/a | n/a |
 
 `--skip-judge` mode — R@5 is substring-match against gold session id;
 no reader, no judge, no OpenAI cost. Output:
@@ -364,7 +367,7 @@ be cited as evidence of substrate-level retrieval lift.
     --api-key "$PALACE_API_KEY" \
     --max-questions 50 \
     --skip-judge \
-    --json baselines/longmemeval_entities_only_<date>.json
+    --json "baselines/longmemeval_entities_only_$(date +%Y-%m-%d).json"
 ```
 
 ### Next leg of the A/B

@@ -174,7 +174,7 @@ summary count goes here:
 ### Prerequisites
 
 - A running palace-daemon. JP's homelab daemon is at
-  `http://disks.jphe.in:8085`; `PALACE_API_KEY` lives in
+  `http://familiar.jphe.in:8085`; `PALACE_API_KEY` lives in
   `~/.config/palace-daemon/env`.
 - `OPENAI_API_KEY` exported in the environment (the reader and judge
   call OpenAI).
@@ -182,12 +182,26 @@ summary count goes here:
   `sme/corpora/longmemeval/data/longmemeval_oracle.json` (see that
   directory's README for the wget command).
 
+### Operational state (2026-05-25)
+
+JP's daemon is on `palace-daemon` 1.7.2 backed by postgres+pgvector+AGE.
+The AGE **entity** layer was backfilled on 2026-05-25 (142,315 entities
+added in ~61 min, 0 errors; `mempalace_kg_stats` reports 264,402
+entities total across all wings). The **triples / relationships** layer
+is effectively empty (`triples: 1`), so today `POST /search/age-fused`
+returns results whose ranking is driven by vector + BM25 + reranker —
+the AGE-graph half of the RRF fusion has nothing to contribute until
+relationships are extracted. The eval script in this doc routes through
+plain `/search` and that remains the right default; treat `/search/age-fused`
+as a sibling primitive that will become diagnostically useful once
+triples land. Tracked in the SME ↔ daemon follow-up memory.
+
 ### Dry-run first (no API calls — just cost estimate)
 
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://disks.jphe.in:8085 \
+    --api-url http://familiar.jphe.in:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --dry-run
 ```
@@ -200,7 +214,7 @@ you can sanity-check before launching the live run.
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://disks.jphe.in:8085 \
+    --api-url http://familiar.jphe.in:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --json baselines/longmemeval_mempalace_daemon_$(date +%Y%m%d).json
 ```
@@ -226,7 +240,7 @@ run's API budget:
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://disks.jphe.in:8085 \
+    --api-url http://familiar.jphe.in:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --max-questions 5 \
     --json /tmp/lme_smoke.json
@@ -237,7 +251,7 @@ run's API budget:
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://disks.jphe.in:8085 \
+    --api-url http://familiar.jphe.in:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --skip-judge \
     --json baselines/longmemeval_mempalace_daemon_r5only_$(date +%Y%m%d).json

@@ -111,6 +111,11 @@ class CollisionGroup:
     ids: list[str]
     names: list[str]
     entity_type: str
+    # Total degree (in + out edges) per entity ID in the group. When
+    # deduplicating, the highest-degree ID is usually the "real" one —
+    # the canonical entity that other extractions converged on, while
+    # low-degree duplicates are stragglers that missed canonicalization.
+    id_degrees: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -136,6 +141,7 @@ class IngestionIntegrityReport:
     dominant_edge_type: Optional[str] = None
     dominant_edge_type_fraction: float = 0.0
     per_edge_type_components: dict[str, int] = field(default_factory=dict)
+    per_edge_type_edge_counts: dict[str, int] = field(default_factory=dict)
 
 
 # --- Scorer -----------------------------------------------------------
@@ -164,6 +170,13 @@ def score_ingestion_integrity(
 
     # --- 4a canonical-collision dedup --------------------------------
 
+    # Degree counter per entity ID — surfaced on collision groups so
+    # operators can tell which ID is the "real" one when deduplicating.
+    degree_by_id: Counter[str] = Counter()
+    for edge in edges:
+        degree_by_id[edge.source_id] += 1
+        degree_by_id[edge.target_id] += 1
+
     key_to_ids: dict[str, list[str]] = defaultdict(list)
     key_to_names: dict[str, list[str]] = defaultdict(list)
     key_to_type: dict[str, str] = {}
@@ -186,6 +199,7 @@ def score_ingestion_integrity(
                     ids=ids,
                     names=key_to_names[key],
                     entity_type=key_to_type[key],
+                    id_degrees={eid: degree_by_id.get(eid, 0) for eid in ids},
                 )
             )
     collision_groups.sort(key=lambda g: len(g.ids), reverse=True)
@@ -242,6 +256,7 @@ def score_ingestion_integrity(
         dominant_edge_type=dominant_type,
         dominant_edge_type_fraction=dominant_fraction,
         per_edge_type_components=per_type_components,
+        per_edge_type_edge_counts=dict(type_counts),
     )
 
 
@@ -267,8 +282,15 @@ def format_report(report: IngestionIntegrityReport) -> str:
             names_preview += f", +{len(group.names) - 4} more"
         lines.append(
             f"    [{group.entity_type}] {names_preview} → "
-            f"{len(group.ids)} distinct IDs"
+            f"{len(group.ids)} distinct IDs:"
         )
+        if group.id_degrees:
+            max_degree = max(group.id_degrees.values())
+            for eid, deg in sorted(
+                group.id_degrees.items(), key=lambda kv: -kv[1]
+            ):
+                marker = "   ← keep" if deg == max_degree else ""
+                lines.append(f"                  {eid}  (deg={deg}){marker}")
     if len(report.collision_groups) > 5:
         lines.append(
             f"    ... +{len(report.collision_groups) - 5} more collision groups"
@@ -307,11 +329,25 @@ def format_report(report: IngestionIntegrityReport) -> str:
 
     if report.per_edge_type_components:
         lines.append("")
-        lines.append("  Per-edge-type component count (4c monoculture signal):")
-        for etype, ncomp in sorted(
-            report.per_edge_type_components.items(), key=lambda kv: -kv[1]
-        )[:10]:
-            lines.append(f"    {etype:30s} {ncomp:>6,}  components")
+        lines.append("  Per-edge-type edges + components (4c monoculture signal):")
+        sparse_threshold = 5
+        combined = sorted(
+            report.per_edge_type_components.items(),
+            key=lambda kv: -report.per_edge_type_edge_counts.get(kv[0], 0),
+        )
+        for etype, ncomp in combined[:10]:
+            ne = report.per_edge_type_edge_counts.get(etype, 0)
+            edge_word = "edge" if ne == 1 else "edges"
+            comp_word = "component" if ncomp == 1 else "components"
+            annotation = (
+                f"  [sparse — <{sparse_threshold} edges]"
+                if ne < sparse_threshold
+                else ""
+            )
+            lines.append(
+                f"    {etype:30s} {ne:>6,} {edge_word}, "
+                f"{ncomp:,} {comp_word}{annotation}"
+            )
 
     # --- Reading --------------------------------------------------
 

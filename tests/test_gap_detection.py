@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import pytest
 
-from sme.categories.gap_detection import score_gap_detection
+from sme.categories.gap_detection import format_report, score_gap_detection
 
 ripser = pytest.importorskip  # alias for readability below
 
@@ -186,3 +186,77 @@ def test_empty_graph_is_all_zeros():
     assert report.bridges == []
     assert report.candidate_gaps == []
     assert report.flat_rarity_mode is False
+
+
+# --- Isolated-by-type (#14) -------------------------------------------
+
+
+def test_isolated_by_type(gap_graph):
+    """Issue #14 — isolates broken out by entity_type."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    assert report.isolated_by_type == {"tag": 1}
+
+
+def test_format_report_shows_isolate_types(gap_graph):
+    """Issue #14 — format_report includes type breakdown for isolates."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    rendered = format_report(report)
+    assert "tag: 1" in rendered
+
+
+# --- Representative cycles (#16) -------------------------------------
+
+
+def test_representative_cycles(gap_graph):
+    """Issue #16 — representative cycles from largest component."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    assert len(report.representative_cycles) >= 1
+    cycle_nodes = [set(c) for c in report.representative_cycles]
+    five_cycle_nodes = {"A", "B", "C", "D", "E"}
+    assert any(five_cycle_nodes <= nodes for nodes in cycle_nodes)
+
+
+def test_format_report_shows_cycles(gap_graph):
+    """Issue #16 — format_report includes cycle descriptions."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    rendered = format_report(report)
+    assert "Representative cycles" in rendered
+    assert "-cycle]" in rendered
+
+
+# --- Component-size distribution (#17) --------------------------------
+
+
+def test_component_size_distribution(gap_graph):
+    """Issue #17 — component-size distribution buckets."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    assert report.component_size_distribution["1"] == 1
+    assert report.component_size_distribution["2-5"] == 1
+    assert report.component_size_distribution["6-20"] == 1
+    assert report.component_size_distribution[">20"] == 0
+
+
+def test_non_trivial_components(gap_graph):
+    """Issue #17 — non-trivial components with type distributions."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    assert len(report.non_trivial_components) == 2
+    assert report.non_trivial_components[0]["size"] == 6
+    assert report.non_trivial_components[1]["size"] == 5
+    assert report.non_trivial_components[0]["types"]["topic"] == 5
+    assert report.non_trivial_components[0]["types"]["note"] == 1
+
+
+def test_format_report_shows_distribution(gap_graph):
+    """Issue #17 — format_report includes distribution and type breakdown."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    rendered = format_report(report)
+    assert "Component-size distribution" in rendered
+    assert "Non-trivial components" in rendered
+    assert "[6 nodes]" in rendered

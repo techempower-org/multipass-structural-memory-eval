@@ -56,8 +56,11 @@ hindsight = [
 mem0 = [
     "mem0ai>=0.1",
 ]
+latency = [
+    "hdrhistogram>=0.10",
+]
 all = [
-    "sme-eval[topology,viz,ladybugdb,neo4j,omega,hindsight,mem0]",
+    "sme-eval[topology,viz,ladybugdb,neo4j,omega,hindsight,mem0,latency]",
 ]
 dev = [
     "pytest>=8.0",

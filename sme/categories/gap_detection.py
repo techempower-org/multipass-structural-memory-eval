@@ -79,12 +79,16 @@ class GapDetectionReport:
     betti_1_largest: int
     h1_max_persistence: float
     h1_skipped: bool = False
+    isolated_by_type: dict[str, int] = field(default_factory=dict)
     h1_skip_reason: str = ""
+    representative_cycles: list[list[str]] = field(default_factory=list)
 
     # Candidate gaps across components (top-K by score, post-filter)
     candidate_gaps: list[CandidateGap] = field(default_factory=list)
     # Pre-filter total, so a maintainer can tell "we filtered 21k → 20"
     candidate_gaps_considered: int = 0
+    component_size_distribution: dict[str, int] = field(default_factory=dict)
+    non_trivial_components: list[dict] = field(default_factory=list)
 
     # True when the rarity fallback fired (≤ 2 sized components, every
     # shared type weighted as 1.0). In this regime the score scales
@@ -271,7 +275,32 @@ def score_gap_detection(
     components = sorted(components_raw, key=len, reverse=True)
 
     isolated = [c for c in components if len(c) == 1]
+    isolated_by_type: dict[str, int] = {}
+    for comp in isolated:
+        node_id = next(iter(comp))
+        etype = G.nodes[node_id].get("entity_type", "unknown")
+        isolated_by_type[etype] = isolated_by_type.get(etype, 0) + 1
     largest = components[0] if components else set()
+
+    buckets: dict[str, int] = {"1": 0, "2-5": 0, "6-20": 0, ">20": 0}
+    non_trivial: list[dict] = []
+    for comp in components:
+        size = len(comp)
+        if size == 1:
+            buckets["1"] += 1
+        elif size <= 5:
+            buckets["2-5"] += 1
+        elif size <= 20:
+            buckets["6-20"] += 1
+        else:
+            buckets[">20"] += 1
+        if size > 1:
+            type_counts: dict[str, int] = {}
+            for node_id in comp:
+                etype = G.nodes[node_id].get("entity_type", "unknown")
+                type_counts[etype] = type_counts.get(etype, 0) + 1
+            non_trivial.append({"size": size, "types": type_counts})
+    non_trivial.sort(key=lambda c: c["size"], reverse=True)
 
     bridges = _structural_bridges(G)
 
@@ -297,6 +326,17 @@ def score_gap_detection(
                 "ripser not installed; install the [topology] extra to get "
                 "Betti-1 persistence readings"
             )
+
+    representative_cycles: list[list[str]] = []
+    if largest:
+        sub_undirected = nx.Graph()
+        sub_undirected.add_nodes_from(largest)
+        for u, v, _ in G.edges(keys=True):
+            if u in largest and v in largest and u != v:
+                sub_undirected.add_edge(u, v)
+        raw_cycles = nx.cycle_basis(sub_undirected)
+        raw_cycles.sort(key=lambda c: (len(c), c))
+        representative_cycles = raw_cycles[:10]
 
     candidates, considered, flat_rarity_mode = _candidate_gaps(
         analyzer,
@@ -342,15 +382,19 @@ def score_gap_detection(
         components=len(components),
         largest_component_size=len(largest),
         isolated_nodes=len(isolated),
+        isolated_by_type=isolated_by_type,
         bridges=bridges,
         betti_0_largest=betti_0,
         betti_1_largest=betti_1,
         h1_max_persistence=h1_max_persistence,
         h1_skipped=h1_skipped,
         h1_skip_reason=h1_skip_reason,
+        representative_cycles=representative_cycles,
         candidate_gaps=candidates,
         candidate_gaps_considered=considered,
         flat_rarity_mode=flat_rarity_mode,
+        component_size_distribution=buckets,
+        non_trivial_components=non_trivial,
         gap_recall=gap_recall,
         gap_precision=gap_precision,
     )
@@ -410,10 +454,37 @@ def format_report(report: GapDetectionReport) -> str:
         f"  Nodes:                 {report.nodes:,}",
         f"  Edges:                 {report.edges:,}",
         f"  Components:            {report.components:,}",
+    ]
+    if report.component_size_distribution:
+        lines.append("  Component-size distribution:")
+        for bucket, count in report.component_size_distribution.items():
+            if count > 0:
+                lines.append(f"      {bucket}: {count}")
+    if report.non_trivial_components:
+        lines.append(
+            f"  Non-trivial components ({len(report.non_trivial_components)}):"
+        )
+        for comp in report.non_trivial_components[:5]:
+            types_str = ", ".join(
+                f"{t}:{n}" for t, n in sorted(comp["types"].items())
+            )
+            lines.append(f"      [{comp['size']} nodes] {types_str}")
+        if len(report.non_trivial_components) > 5:
+            lines.append(
+                f"      ... +{len(report.non_trivial_components) - 5} more"
+            )
+    lines += [
         f"  Largest component:     {report.largest_component_size:,}",
         f"  Isolated nodes:        {report.isolated_nodes:,}",
-        f"  Structural bridges:    {len(report.bridges):,}",
     ]
+    if report.isolated_by_type:
+        for etype, count in sorted(
+            report.isolated_by_type.items(), key=lambda kv: -kv[1]
+        ):
+            lines.append(f"      {etype}: {count}")
+    lines.append(
+        f"  Structural bridges:    {len(report.bridges):,}"
+    )
     if report.bridges and len(report.bridges) <= 10:
         for u, v in report.bridges[:10]:
             lines.append(f"    {u} — {v}")
@@ -426,6 +497,18 @@ def format_report(report: GapDetectionReport) -> str:
     )
     if report.h1_skipped:
         lines.append(f"    (homology skipped: {report.h1_skip_reason})")
+
+    if report.representative_cycles:
+        lines.append(
+            f"  Representative cycles ({len(report.representative_cycles)}):"
+        )
+        for cycle in report.representative_cycles[:5]:
+            nodes_str = " → ".join(cycle) + " → " + cycle[0]
+            lines.append(f"      [{len(cycle)}-cycle] {nodes_str}")
+        if len(report.representative_cycles) > 5:
+            lines.append(
+                f"      ... +{len(report.representative_cycles) - 5} more"
+            )
 
     lines.append("")
     lines.append(

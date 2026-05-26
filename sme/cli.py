@@ -648,7 +648,7 @@ def _add_db_or_api_args(parser: argparse.ArgumentParser) -> None:
         default=None,
         metavar="URL",
         help="HTTP base URL for the graph's API (e.g. http://localhost:7740 "
-        "for ladybugdb, or http://disks.jphe.in:8085 for the mempalace "
+        "for ladybugdb, or http://familiar.jphe.in:8085 for the mempalace "
         "daemon). Enables graph-snapshot queries through the API instead "
         "of opening the file — works against locked or daemon-fronted DBs.",
     )
@@ -1547,7 +1547,7 @@ def main(argv: list[str] | None = None) -> int:
         metavar="URL",
         help="(ladybugdb, mempalace-daemon, familiar) HTTP base URL for API-mode "
         "queries (e.g. http://localhost:7720 for ladybugdb, or "
-        "http://disks.jphe.in:8085 for mempalace-daemon).",
+        "http://familiar.jphe.in:8085 for mempalace-daemon).",
     )
     ret.add_argument(
         "--api-key",

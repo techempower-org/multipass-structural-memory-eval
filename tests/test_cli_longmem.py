@@ -132,8 +132,6 @@ def test_longmem_subcommand_requires_api_url_for_daemon(dataset_path, tmp_path):
 
 def test_longmem_subcommand_defaults_to_gpt_4_1_mini(dataset_path, tmp_path):
     """Issue #17 default reader model is gpt-4.1-mini, not gpt-4o-mini."""
-    import argparse
-
     # Build the parser without running, by hijacking parse_args.
     captured = {}
 

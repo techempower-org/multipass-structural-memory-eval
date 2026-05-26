@@ -358,9 +358,7 @@ def test_mempalace_daemon_picks_up_env_api_key(dataset, args_factory,
 # --- Cost estimator unit tests ---------------------------------------------
 
 def test_estimate_run_cost_known_models():
-    questions = list(load_questions(_REPO_ROOT / "tests" / "_lme_fixture.json")) \
-        if (_REPO_ROOT / "tests" / "_lme_fixture.json").exists() else []
-    # Use the inline fixture instead of relying on a file
+    # Use the inline fixture instead of relying on a file.
     from sme.corpora.longmemeval.loader import _parse_record
     parsed = [_parse_record(r) for r in FIXTURE]
     est = runner.estimate_run_cost(

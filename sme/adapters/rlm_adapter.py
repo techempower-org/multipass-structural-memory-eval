@@ -96,7 +96,7 @@ class RlmAdapter(SMEAdapter):
     """RLM-orchestrated palace consumer.
 
     Args:
-        api_url: palace-daemon HTTP base URL (e.g. http://disks.jphe.in:8085)
+        api_url: palace-daemon HTTP base URL (e.g. http://familiar.jphe.in:8085)
         api_key: PALACE_API_KEY for the daemon (read from env if unset)
         backend: RLM backend identifier ("portkey", "openai", "anthropic", ...)
         backend_kwargs: passed through to RLM(...) — model_name, api_key, etc.
@@ -122,7 +122,7 @@ class RlmAdapter(SMEAdapter):
         # Lazy-import RLM so multipass doesn't require it for non-rlm runs.
         from rlm import RLM
 
-        self.api_url = (api_url or os.environ.get("PALACE_DAEMON_URL", "http://disks.jphe.in:8085")).rstrip("/")
+        self.api_url = (api_url or os.environ.get("PALACE_DAEMON_URL", "http://familiar.jphe.in:8085")).rstrip("/")
         self.api_key = api_key or os.environ.get("PALACE_API_KEY", "")
         self.kind = kind
         self.timeout_s = timeout_s
@@ -254,9 +254,12 @@ class RlmAdapter(SMEAdapter):
         ctx_lines = [f"── RLM-orchestrated retrieval ({len(self._capture)} drawers) ──"]
         for r in self._capture:
             tags = []
-            if r.get("drawer_id"): tags.append(f"drawer_id={r['drawer_id']}")
-            if r.get("wing"): tags.append(f"wing={r['wing']}")
-            if r.get("room"): tags.append(f"room={r['room']}")
+            if r.get("drawer_id"):
+                tags.append(f"drawer_id={r['drawer_id']}")
+            if r.get("wing"):
+                tags.append(f"wing={r['wing']}")
+            if r.get("room"):
+                tags.append(f"room={r['room']}")
             if isinstance(r.get("similarity"), (int, float)):
                 tags.append(f"similarity={r['similarity']:.3f}")
             ctx_lines.append("[" + " · ".join(tags) + "]")

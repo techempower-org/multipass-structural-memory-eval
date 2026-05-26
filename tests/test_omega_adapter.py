@@ -45,10 +45,8 @@ def fake_omega(monkeypatch):
 
 def test_construction_requires_omega_package(monkeypatch):
     monkeypatch.setitem(sys.modules, "omega", None)
-    # Force ImportError by injecting a sentinel that fails import
-    import importlib
-
-    # Remove and prevent import
+    # Force ImportError by injecting a sentinel that fails import.
+    # Remove and prevent import.
     monkeypatch.delitem(sys.modules, "omega", raising=False)
 
     real_import = __builtins__["__import__"] if isinstance(__builtins__, dict) else __builtins__.__import__

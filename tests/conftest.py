@@ -4,10 +4,21 @@ from __future__ import annotations
 
 import io
 import json
+import sys
+import types
 
 import pytest
 
 from sme.topology.fixtures import synthetic_duplicates_graph, synthetic_gap_graph
+
+# Inject a stub `rlm` module so test_rlm_adapter's `patch("rlm.RLM", ...)`
+# resolves on CI where the real research package isn't installed. The
+# adapter uses lazy `from rlm import RLM` inside __init__, so the patch
+# is always active by the time the adapter actually imports.
+if "rlm" not in sys.modules:
+    _stub_rlm = types.ModuleType("rlm")
+    _stub_rlm.RLM = type("RLM", (), {})  # placeholder; tests patch this
+    sys.modules["rlm"] = _stub_rlm
 
 
 @pytest.fixture

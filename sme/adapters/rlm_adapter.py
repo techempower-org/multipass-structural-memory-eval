@@ -96,7 +96,10 @@ class RlmAdapter(SMEAdapter):
     """RLM-orchestrated palace consumer.
 
     Args:
-        api_url: palace-daemon HTTP base URL (e.g. http://familiar.jphe.in:8085)
+        api_url: palace-daemon HTTP base URL (e.g. http://localhost:8085).
+            Required — pass explicitly or set PALACE_DAEMON_URL in the
+            environment. Raises ValueError when unset to match the
+            MemPalaceDaemonAdapter convention.
         api_key: PALACE_API_KEY for the daemon (read from env if unset)
         backend: RLM backend identifier ("portkey", "openai", "anthropic", ...)
         backend_kwargs: passed through to RLM(...) — model_name, api_key, etc.
@@ -144,7 +147,14 @@ class RlmAdapter(SMEAdapter):
         # `rlm.utils.prompts`.
         from rlm import RLM
 
-        self.api_url = (api_url or os.environ.get("PALACE_DAEMON_URL", "http://familiar.jphe.in:8085")).rstrip("/")
+        resolved_url = api_url or os.environ.get("PALACE_DAEMON_URL")
+        if not resolved_url:
+            raise ValueError(
+                "RlmAdapter needs api_url. Pass it explicitly or set "
+                "PALACE_DAEMON_URL in the environment. Example: "
+                "RlmAdapter(api_url='http://localhost:8085', api_key=...)"
+            )
+        self.api_url = resolved_url.rstrip("/")
         self.api_key = api_key or os.environ.get("PALACE_API_KEY", "")
         self.kind = kind
         self.timeout_s = timeout_s

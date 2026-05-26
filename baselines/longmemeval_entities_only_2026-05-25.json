@@ -1,0 +1,978 @@
+{
+  "run_metadata": {
+    "mode": "live",
+    "adapter": "mempalace-daemon",
+    "questions": "sme/corpora/longmemeval/data/longmemeval_oracle.json",
+    "n_questions": 50,
+    "answer_model": null,
+    "judge_model": null,
+    "skip_judge": true,
+    "skip_reader": false,
+    "ingested_per_question": true,
+    "wing_prefix": "lme_",
+    "timestamp_utc": "2026-05-25T20:25:45.161174+00:00"
+  },
+  "summary": {
+    "per_category": {
+      "cat_6": {
+        "n": 50,
+        "sme_recall_mean": 0.47,
+        "judge_correct_rate": null,
+        "judge_label_counts": {
+          "CORRECT": 0,
+          "PARTIAL": 0,
+          "INCORRECT": 0,
+          "ABSTAIN": 0,
+          "ERROR": 0,
+          "skipped": 50
+        }
+      }
+    },
+    "total_questions": 50,
+    "judge_total_usage": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0
+    },
+    "disagreements": [],
+    "dual_metric": {
+      "per_category": {
+        "cat_6": {
+          "n": 50,
+          "n_judged": 0,
+          "sme_recall_mean": 0.47,
+          "qa_accuracy": null,
+          "retrieval_qa_gap": null,
+          "judge_label_counts": {
+            "CORRECT": 0,
+            "PARTIAL": 0,
+            "INCORRECT": 0,
+            "ABSTAIN": 0,
+            "ERROR": 0,
+            "skipped": 50
+          }
+        }
+      },
+      "overall": {
+        "n": 50,
+        "n_judged": 0,
+        "sme_recall_mean": 0.47,
+        "qa_accuracy": null,
+        "retrieval_qa_gap": null,
+        "judge_label_counts": {
+          "CORRECT": 0,
+          "PARTIAL": 0,
+          "INCORRECT": 0,
+          "ABSTAIN": 0,
+          "ERROR": 0,
+          "skipped": 50
+        }
+      }
+    },
+    "ku_caveat": "Per-category numbers are reported separately by design. KU (knowledge-update) and SME Cat 3 measure different primitives \u2014 KU rewards returning the new value, Cat 3 rewards flagging the contradiction. A single overall correlation would mislead. See docs/related_work/longmemeval.md."
+  },
+  "per_question": [
+    {
+      "question_id": "gpt4_2655b836",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_4be1b6b4_2",
+        "answer_4be1b6b4_3",
+        "answer_4be1b6b4_1"
+      ],
+      "matched_sources": [
+        "answer_4be1b6b4_2"
+      ],
+      "sme_recall": 0.3333333333333333,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_2487a7cb",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_1c6b85ea_1",
+        "answer_1c6b85ea_2"
+      ],
+      "matched_sources": [
+        "answer_1c6b85ea_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_76048e76",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_b535969f_2",
+        "answer_b535969f_1"
+      ],
+      "matched_sources": [
+        "answer_b535969f_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3594,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_2312f94c",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_5328c3c2_1",
+        "answer_5328c3c2_2"
+      ],
+      "matched_sources": [
+        "answer_5328c3c2_1",
+        "answer_5328c3c2_2"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "0bb5a684",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_e936197f_1",
+        "answer_e936197f_2"
+      ],
+      "matched_sources": [
+        "answer_e936197f_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3438,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "08f4fc43",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_6ea1541e_2",
+        "answer_6ea1541e_1"
+      ],
+      "matched_sources": [
+        "answer_6ea1541e_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "2c63a862",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_d39b7977_1",
+        "answer_d39b7977_2"
+      ],
+      "matched_sources": [
+        "answer_d39b7977_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_385a5000",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_7a4a93f1_2",
+        "answer_7a4a93f1_1"
+      ],
+      "matched_sources": [
+        "answer_7a4a93f1_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "2a1811e2",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_1cc3cd0c_2",
+        "answer_1cc3cd0c_1"
+      ],
+      "matched_sources": [
+        "answer_1cc3cd0c_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3713,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "bbf86515",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_b3763b6b_1",
+        "answer_b3763b6b_2"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_5dcc0aab",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_099c1b6c_3",
+        "answer_099c1b6c_1",
+        "answer_099c1b6c_2",
+        "answer_099c1b6c_4",
+        "answer_099c1b6c_5"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 3433,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_0b2f1d21",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_c4e5d969_1",
+        "answer_c4e5d969_2"
+      ],
+      "matched_sources": [
+        "answer_c4e5d969_1",
+        "answer_c4e5d969_2"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "f0853d11",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_932ea3bf_2",
+        "answer_932ea3bf_1"
+      ],
+      "matched_sources": [
+        "answer_932ea3bf_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_6ed717ea",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_d50a8a33_2",
+        "answer_d50a8a33_1"
+      ],
+      "matched_sources": [
+        "answer_d50a8a33_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_70e84552",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_b3070ec4_1",
+        "answer_b3070ec4_2"
+      ],
+      "matched_sources": [
+        "answer_b3070ec4_1",
+        "answer_b3070ec4_2"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 3558,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "a3838d2b",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_4ffa04a2_1",
+        "answer_4ffa04a2_6",
+        "answer_4ffa04a2_5",
+        "answer_4ffa04a2_4",
+        "answer_4ffa04a2_2",
+        "answer_4ffa04a2_3"
+      ],
+      "matched_sources": [
+        "answer_4ffa04a2_1",
+        "answer_4ffa04a2_6",
+        "answer_4ffa04a2_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_93159ced",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_e5131a1b_1",
+        "answer_e5131a1b_2"
+      ],
+      "matched_sources": [
+        "answer_e5131a1b_1",
+        "answer_e5131a1b_2"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_2d58bcd6",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_3e11e0ae_2",
+        "answer_3e11e0ae_1"
+      ],
+      "matched_sources": [
+        "answer_3e11e0ae_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_65aabe59",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_30dfe889_2",
+        "answer_30dfe889_1"
+      ],
+      "matched_sources": [
+        "answer_30dfe889_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "982b5123",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_ab603dd5_2",
+        "answer_ab603dd5_1"
+      ],
+      "matched_sources": [
+        "answer_ab603dd5_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "b9cfe692",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_5e3bb940_1",
+        "answer_5e3bb940_3",
+        "answer_5e3bb940_2"
+      ],
+      "matched_sources": [
+        "answer_5e3bb940_2"
+      ],
+      "sme_recall": 0.3333333333333333,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_4edbafa2",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_0a00c163_1",
+        "answer_0a00c163_2"
+      ],
+      "matched_sources": [
+        "answer_0a00c163_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3436,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "c8090214",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_70dc7d08_1",
+        "answer_70dc7d08_2"
+      ],
+      "matched_sources": [
+        "answer_70dc7d08_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_483dd43c",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_fb793c87_2",
+        "answer_fb793c87_1"
+      ],
+      "matched_sources": [
+        "answer_fb793c87_2",
+        "answer_fb793c87_1"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "e4e14d04",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_cf425855_2",
+        "answer_cf425855_1"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4043,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "c9f37c46",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_cdba3d9f_1",
+        "answer_cdba3d9f_2"
+      ],
+      "matched_sources": [
+        "answer_cdba3d9f_1",
+        "answer_cdba3d9f_2"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_2c50253f",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_9af4e346_1",
+        "answer_9af4e346_2"
+      ],
+      "matched_sources": [
+        "answer_9af4e346_1",
+        "answer_9af4e346_2"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "dcfa8644",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_5e3eeb12_1",
+        "answer_5e3eeb12_2"
+      ],
+      "matched_sources": [
+        "answer_5e3eeb12_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_b4a80587",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_b9d9150e_2",
+        "answer_b9d9150e_1"
+      ],
+      "matched_sources": [
+        "answer_b9d9150e_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_9a159967",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_8a42fedf_1",
+        "answer_8a42fedf_3",
+        "answer_8a42fedf_2"
+      ],
+      "matched_sources": [
+        "answer_8a42fedf_3"
+      ],
+      "sme_recall": 0.3333333333333333,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "cc6d1ec1",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_be73098b_1",
+        "answer_be73098b_2"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 3770,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_8c8961ae",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_72d9aa58_2",
+        "answer_72d9aa58_1"
+      ],
+      "matched_sources": [
+        "answer_72d9aa58_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_d9af6064",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_da704e79_1",
+        "answer_da704e79_2"
+      ],
+      "matched_sources": [
+        "answer_da704e79_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_7de946e7",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_6a78e959_1",
+        "answer_6a78e959_2"
+      ],
+      "matched_sources": [
+        "answer_6a78e959_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "d01c6aa8",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_991d55e5_1",
+        "answer_991d55e5_2"
+      ],
+      "matched_sources": [
+        "answer_991d55e5_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "993da5e2",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_54f0d6f9_2",
+        "answer_54f0d6f9_1"
+      ],
+      "matched_sources": [
+        "answer_54f0d6f9_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "a3045048",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_016f6bd4_1",
+        "answer_016f6bd4_2"
+      ],
+      "matched_sources": [
+        "answer_016f6bd4_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 2886,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_d31cdae3",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_8464304d_1",
+        "answer_8464304d_2"
+      ],
+      "matched_sources": [
+        "answer_8464304d_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3415,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_cd90e484",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_aa930b56_2",
+        "answer_aa930b56_1"
+      ],
+      "matched_sources": [
+        "answer_aa930b56_2",
+        "answer_aa930b56_1"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_88806d6e",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_e60a93ff_2",
+        "answer_e60a93ff_1"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_4cd9eba1",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_5fcca8bc_2",
+        "answer_5fcca8bc_1"
+      ],
+      "matched_sources": [
+        "answer_5fcca8bc_2",
+        "answer_5fcca8bc_1"
+      ],
+      "sme_recall": 1.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_93f6379c",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_544fe66c_2",
+        "answer_544fe66c_1",
+        "answer_544fe66c_3"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "b29f3365",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_436d4309_1",
+        "answer_436d4309_2"
+      ],
+      "matched_sources": [
+        "answer_436d4309_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_2f56ae70",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_7a36e820_2",
+        "answer_7a36e820_1",
+        "answer_7a36e820_3"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "6613b389",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_aaf71ce2_2",
+        "answer_aaf71ce2_1",
+        "answer_aaf71ce2_3"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_78cf46a3",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_5a78688d_2",
+        "answer_5a78688d_1"
+      ],
+      "matched_sources": [
+        "answer_5a78688d_1"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3411,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_0a05b494",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_a68db5db_2",
+        "answer_a68db5db_1"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_1a1dc16d",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_faad7d7a_2",
+        "answer_faad7d7a_1"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_2f584639",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_11a8f823_2",
+        "answer_11a8f823_1"
+      ],
+      "matched_sources": [],
+      "sme_recall": 0.0,
+      "context_chars": 4083,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    },
+    {
+      "question_id": "gpt4_213fd887",
+      "question_type": "temporal-reasoning",
+      "sme_category": "cat_6",
+      "is_abstention": false,
+      "expected_sources": [
+        "answer_53582e7e_1",
+        "answer_53582e7e_2"
+      ],
+      "matched_sources": [
+        "answer_53582e7e_2"
+      ],
+      "sme_recall": 0.5,
+      "context_chars": 3301,
+      "adapter_error": null,
+      "hypothesis": null,
+      "judge": null
+    }
+  ]
+}

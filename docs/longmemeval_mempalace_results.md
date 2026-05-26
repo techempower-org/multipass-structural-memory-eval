@@ -276,9 +276,12 @@ moves rates.
 
 Each live run writes one JSON file:
 
-- `baselines/longmemeval_<adapter>_<YYYYMMDD>.json` — full per-question
-  records (R@5, judge label, judge rationale, retrieval context length,
-  reader output, judge token usage) plus the aggregated summary.
+- `baselines/longmemeval_<adapter-or-route>_<date>.json` — full
+  per-question records (R@5, judge label, judge rationale, retrieval
+  context length, reader output, judge token usage) plus the aggregated
+  summary. Date format is `YYYYMMDD` for live judged runs (see
+  reproduction commands above) or `YYYY-MM-DD` for retrieval-only
+  baselines that ship without a judged-reader pass.
 
 The disagreement set lives under `summary.disagreements` in the same
 file.
@@ -303,3 +306,76 @@ file.
   and True Memory used different reader/judge stacks than the defaults
   here. Add `--answer-model` / `--judge` swaps for an apples-to-apples
   re-run if the comparison demands it.
+
+---
+
+## Entities-only baseline reading — 2026-05-25 (n=50, cat_6 only)
+
+This reading was captured as the "before" leg of an upcoming A/B that
+isolates the value of typed RELATION triples in the AGE knowledge
+graph. At capture time the daemon's substrate was:
+
+- **Entity nodes:** ~264,800 (post entity-extraction backfill, 99.6% of
+  drawers checkpointed).
+- **MENTIONS edges:** drawer → entity (full mesh from the regex
+  extractor).
+- **RELATION triples:** 1 (sentinel only — typed subject-predicate-object
+  facts not yet extracted).
+- **Search primitive used:** `GET /search` (vector + BM25). The
+  age-fused fusion (`POST /search/age-fused`) was not exercised because
+  the RELATION layer it relies on is empty today.
+
+### Result
+
+| n  | Category                | R@5    | QA-acc | Gap |
+|---:|-------------------------|-------:|-------:|----:|
+| 50 | cat_6 (temporal-reasoning) | **47.0%** | n/a | n/a |
+
+`--skip-judge` mode — R@5 is substring-match against gold session id;
+no reader, no judge, no OpenAI cost. Output:
+`baselines/longmemeval_entities_only_2026-05-25.json`.
+
+### Methodology note — why this corrects the prior smoke readings
+
+Earlier smoke runs reported R@5 = 0.733 (n=5, 2026-04-26 ChromaDB) and
+R@5 = 0.817 (n=20, 2026-05-15 postgres+AGE) on the same first-N
+questions of `longmemeval_oracle.json`. The n=50 reading at 47.0%
+**drops 26-35pp** from those smoke numbers despite drawing from a
+superset of the same questions.
+
+The first 50 questions in the oracle file are all `cat_6`
+(temporal-reasoning), so this isn't a category-mix shift. The most
+parsimonious explanation is that the smoke samples were
+upward-biased — the easier `cat_6` questions cluster early in the
+file. This is exactly the failure mode that the `n≥25` threshold rule
+exists to prevent.
+
+**Implication for the prior "+3.3pp ChromaDB → postgres+AGE" claim:**
+both readings used in that delta (0.700 and 0.733) were at n=5 — below
+threshold and bias-prone. Treat that claim as withdrawn pending a
+matched n≥50 reading on a comparable substrate; ChromaDB has been
+retired so the comparison cannot be re-run, but the claim should not
+be cited as evidence of substrate-level retrieval lift.
+
+### How to reproduce
+
+```bash
+./venv/bin/python scripts/run_longmemeval_mempalace.py \
+    --adapter mempalace-daemon \
+    --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
+    --api-url http://familiar.jphe.in:8085 \
+    --api-key "$PALACE_API_KEY" \
+    --max-questions 50 \
+    --skip-judge \
+    --json "baselines/longmemeval_entities_only_$(date +%Y-%m-%d).json"
+```
+
+### Next leg of the A/B
+
+Once `mempalace_kg_stats.triples` climbs out of the sentinel `1` (i.e.
+typed RELATION triples are extracted onto the AGE graph), re-run the
+same command but swap the adapter's retrieval primitive from `/search`
+to `POST /search/age-fused` (RRF fusion of vector + AGE-graph walk).
+Same corpus, same questions, same scoring — only the search primitive
+changes. The delta will be the cleanest available reading of
+"does the RELATION layer help retrieval recall?".

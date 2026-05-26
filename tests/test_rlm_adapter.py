@@ -296,3 +296,47 @@ def test_invocation_mode_default_no_custom_prompt():
 
     # No custom_system_prompt key when invocation_mode is None.
     assert "custom_system_prompt" not in captured_kwargs
+
+
+def test_api_url_required_raises_when_unset(monkeypatch):
+    """No more silent default to a personal homelab domain — issue #31.
+
+    Matches MemPalaceDaemonAdapter's hard-fail convention: when neither
+    api_url nor PALACE_DAEMON_URL is set, the adapter must raise
+    ValueError with a clear message rather than fall back to a hard-
+    coded URL.
+    """
+    import pytest
+
+    monkeypatch.delenv("PALACE_DAEMON_URL", raising=False)
+
+    class _StubRLM:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def completion(self, q):
+            return MagicMock(response="ok")
+
+    with patch("rlm.RLM", _StubRLM):
+        from sme.adapters.rlm_adapter import RlmAdapter
+        with pytest.raises(ValueError, match="api_url"):
+            RlmAdapter(api_key="k", backend="openai")
+
+
+def test_api_url_from_env_when_arg_unset(monkeypatch):
+    """PALACE_DAEMON_URL env var is still honored when api_url= is unset."""
+    monkeypatch.setenv("PALACE_DAEMON_URL", "http://env-host:8085")
+    captured_url: dict = {}
+
+    class _StubRLM:
+        def __init__(self, *args, **kwargs):
+            captured_url["v"] = "ok"
+
+        def completion(self, q):
+            return MagicMock(response="ok")
+
+    with patch("rlm.RLM", _StubRLM):
+        from sme.adapters.rlm_adapter import RlmAdapter
+        a = RlmAdapter(api_key="k", backend="openai")
+
+    assert a.api_url == "http://env-host:8085"

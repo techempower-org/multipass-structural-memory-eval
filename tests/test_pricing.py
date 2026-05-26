@@ -1,5 +1,5 @@
 """Tests for pricing table and cost-per-correct computation."""
-from sme.eval.pricing import load_pricing_table, cost_per_correct, ModelPricing, PricingTable
+from sme.eval.pricing import load_pricing_table, cost_per_correct, ModelPricing
 import pytest
 
 def test_load_default_pricing_table():

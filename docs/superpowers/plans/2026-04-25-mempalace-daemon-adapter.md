@@ -253,7 +253,7 @@ Create `sme/adapters/mempalace_daemon.py`:
 ```python
 """MemPalace daemon HTTP adapter for SME.
 
-Talks to a running palace-daemon (https://github.com/jphein/palace-daemon)
+Talks to a running palace-daemon (https://github.com/techempower-org/palace-daemon)
 over HTTP. Unlike sme.adapters.mempalace.MemPalaceAdapter (which opens
 ChromaDB directly), this adapter does NO filesystem access and holds NO
 parallel handles to the palace SQLite — it only makes HTTP requests.
@@ -1981,7 +1981,7 @@ In `README.md`, find the heading `### Planned: \`mempalace-daemon\` adapter` and
 ### Shipped: `mempalace-daemon` adapter
 
 `sme/adapters/mempalace_daemon.py` talks to a running
-[`palace-daemon`](https://github.com/jphein/palace-daemon) over HTTP.
+[`palace-daemon`](https://github.com/techempower-org/palace-daemon) over HTTP.
 No filesystem access, no ChromaDB import, no shared-process constraint
 with the daemon. Use this adapter when MemPalace is fronted by the
 daemon (the daemon is the single writer to the palace) — the existing

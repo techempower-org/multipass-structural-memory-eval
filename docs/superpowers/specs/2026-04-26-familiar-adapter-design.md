@@ -7,7 +7,7 @@ Spec author: Claude (with JP)
 ## Goal
 
 Add `FamiliarAdapter` to multipass — a fifth `SMEAdapter` implementation that
-talks to a running [`familiar.realm.watch`](https://github.com/jphein/familiar.realm.watch)
+talks to a running [`familiar.realm.watch`](https://github.com/techempower-org/familiar.realm.watch)
 v0.2.0+ instance over HTTP. Familiar is a TS+Bun chat surface that wraps
 palace-daemon with a v0.2 retrieval pipeline (rerank + decay + compress +
 grounding directives). The adapter measures **familiar's full pipeline**, not

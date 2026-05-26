@@ -13,12 +13,27 @@ check.
 from __future__ import annotations
 
 import json
+import sys
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 from urllib import request as _urlrequest
 
 
 def _stub_palace_response(results: list[dict]) -> bytes:
     return json.dumps({"query": "x", "results": results}).encode("utf-8")
+
+
+# Stub the rlm.utils.prompts submodule with realistic REPL/FINAL content
+# so invocation_mode tests don't require the rlm package to be installed.
+# The adapter only reads RLM_SYSTEM_PROMPT in invocation_mode='forced' /
+# 'grounded' branches; tests that don't enter those branches don't need
+# this patch.
+_STUB_PROMPT_MODULE = SimpleNamespace(
+    RLM_SYSTEM_PROMPT=(
+        "You are an RLM agent. Use REPL(...) to call tools and FINAL(...) "
+        "to return the answer. {custom_tools_section}"
+    ),
+)
 
 
 def test_query_aggregates_tool_calls_into_context_string(monkeypatch):
@@ -160,3 +175,124 @@ def test_ingest_corpus_is_skipped():
         out = a.ingest_corpus([{"id": "ignored"}])
         assert out["skipped"] is True
         assert out["entities_created"] == 0
+        # Full SMEAdapter contract: errors/warnings keys present (empty lists).
+        assert out["errors"] == []
+        assert out["warnings"] == []
+
+
+def test_source_file_preserved_in_capture_and_context_string():
+    """Regression: source_file must round-trip from daemon response → trimmed
+    dict (visible to LLM) → context_string (visible to substring scorer).
+
+    Pre-fix bug: source_file was dropped, so file-shaped expected_sources
+    in SME corpora silently scored 0 on RLM runs even when retrieval
+    landed the right drawer. Fixed 2026-05-16.
+    """
+
+    class _StubRLM:
+        def __init__(self, *args, **kwargs):
+            tools = kwargs["custom_tools"]
+            self._search = tools["mempalace_search"]["tool"]
+
+        def completion(self, q):
+            results = self._search("vlan printer", limit=1)
+            # Confirm LLM sees source_file in the tool return.
+            assert results[0]["source_file"] == "VLAN-11-printer-notes.md"
+            return MagicMock(response="answered using printer notes")
+
+    class _Resp:
+        def __init__(self, body): self._body = body
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def read(self): return self._body
+
+    def _stub_urlopen(req, timeout=None):
+        return _Resp(_stub_palace_response([
+            {"drawer_id": "d-vlan", "text": "VLAN 11 print server", "wing": "homelab",
+             "room": "infrastructure", "source_file": "VLAN-11-printer-notes.md",
+             "similarity": 0.9},
+        ]))
+
+    with patch("rlm.RLM", _StubRLM), patch.object(_urlrequest, "urlopen", _stub_urlopen):
+        from sme.adapters.rlm_adapter import RlmAdapter
+        a = RlmAdapter(api_url="http://test:8085", api_key="k", backend="openai")
+        out = a.query("which file documents the printer VLAN?")
+
+    # source_file lands in context_string for the substring scorer.
+    assert "VLAN-11-printer-notes.md" in out.context_string
+    # And in the captured entity so Cat 7 / 8 readings can use it.
+    assert out.retrieved_entities[0].id == "d-vlan"
+
+
+def test_invocation_mode_forced_prepends_directive():
+    """The 'forced' mode wraps the standard RLM system prompt with an
+    invocation-required directive without losing the rest of the prompt.
+    """
+    captured_kwargs: dict = {}
+
+    class _StubRLM:
+        def __init__(self, *args, **kwargs):
+            captured_kwargs.update(kwargs)
+
+        def completion(self, q):
+            return MagicMock(response="ok")
+
+    with patch("rlm.RLM", _StubRLM), patch.dict(
+        sys.modules, {"rlm.utils.prompts": _STUB_PROMPT_MODULE}
+    ):
+        from sme.adapters.rlm_adapter import RlmAdapter
+        RlmAdapter(
+            api_url="http://test:8085", api_key="k",
+            backend="openai", invocation_mode="forced",
+        )
+
+    sp = captured_kwargs.get("custom_system_prompt", "")
+    assert "MANDATORY RETRIEVAL CONSTRAINT" in sp
+    assert "mempalace_search" in sp
+    # Default RLM scaffolding is still present (REPL, FINAL, etc.).
+    assert "REPL" in sp
+    assert "FINAL" in sp
+
+
+def test_invocation_mode_grounded_prepends_directive():
+    """The 'grounded' mode wraps with a source-quoting directive."""
+    captured_kwargs: dict = {}
+
+    class _StubRLM:
+        def __init__(self, *args, **kwargs):
+            captured_kwargs.update(kwargs)
+
+        def completion(self, q):
+            return MagicMock(response="ok")
+
+    with patch("rlm.RLM", _StubRLM), patch.dict(
+        sys.modules, {"rlm.utils.prompts": _STUB_PROMPT_MODULE}
+    ):
+        from sme.adapters.rlm_adapter import RlmAdapter
+        RlmAdapter(
+            api_url="http://test:8085", api_key="k",
+            backend="openai", invocation_mode="grounded",
+        )
+
+    sp = captured_kwargs.get("custom_system_prompt", "")
+    assert "MANDATORY GROUNDING CONSTRAINT" in sp
+    assert "source filename" in sp
+
+
+def test_invocation_mode_default_no_custom_prompt():
+    """Default behavior (no invocation_mode) passes RLM's own prompt through."""
+    captured_kwargs: dict = {}
+
+    class _StubRLM:
+        def __init__(self, *args, **kwargs):
+            captured_kwargs.update(kwargs)
+
+        def completion(self, q):
+            return MagicMock(response="ok")
+
+    with patch("rlm.RLM", _StubRLM):
+        from sme.adapters.rlm_adapter import RlmAdapter
+        RlmAdapter(api_url="http://test:8085", api_key="k", backend="openai")
+
+    # No custom_system_prompt key when invocation_mode is None.
+    assert "custom_system_prompt" not in captured_kwargs

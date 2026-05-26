@@ -136,8 +136,13 @@ class RlmAdapter(SMEAdapter):
         """
         self.invocation_mode = invocation_mode
         # Lazy-import RLM so multipass doesn't require it for non-rlm runs.
+        # RLM_SYSTEM_PROMPT lives under rlm.utils.prompts and is only
+        # needed when we override the system prompt — see the conditional
+        # import inside the invocation_mode branch below. Keeping it lazy
+        # there lets tests that only mock `rlm.RLM` (the common case)
+        # construct an RlmAdapter without also having to stub
+        # `rlm.utils.prompts`.
         from rlm import RLM
-        from rlm.utils.prompts import RLM_SYSTEM_PROMPT
 
         self.api_url = (api_url or os.environ.get("PALACE_DAEMON_URL", "http://familiar.jphe.in:8085")).rstrip("/")
         self.api_key = api_key or os.environ.get("PALACE_API_KEY", "")
@@ -186,30 +191,32 @@ class RlmAdapter(SMEAdapter):
         # (which still owns the {custom_tools_section} format
         # placeholder that RLM fills at completion time).
         custom_system_prompt: Optional[str] = None
-        if invocation_mode == "forced":
-            custom_system_prompt = (
-                "MANDATORY RETRIEVAL CONSTRAINT (test condition, do not ignore):\n"
-                "Before you provide FINAL(...) or FINAL_VAR(...), you MUST call\n"
-                "`mempalace_search(...)` at least once with a query relevant to the\n"
-                "user's question. Even if you believe you can answer from training\n"
-                "data, you MUST first invoke the search tool. Never produce FINAL\n"
-                "without at least one mempalace_search call in your history.\n"
-                "\n"
-                + RLM_SYSTEM_PROMPT
-            )
-        elif invocation_mode == "grounded":
-            custom_system_prompt = (
-                "MANDATORY GROUNDING CONSTRAINT (test condition, do not ignore):\n"
-                "Before you provide FINAL(...) or FINAL_VAR(...), you MUST (1) call\n"
-                "`mempalace_search(...)` at least once with a query relevant to the\n"
-                "user's question, AND (2) include in your final answer at least one\n"
-                "source filename or drawer_id from the retrieved results. Quote the\n"
-                "source verbatim from the mempalace_search return value. If no\n"
-                "retrieved drawer is relevant, say so explicitly in FINAL and quote\n"
-                "the search query you used.\n"
-                "\n"
-                + RLM_SYSTEM_PROMPT
-            )
+        if invocation_mode in ("forced", "grounded"):
+            from rlm.utils.prompts import RLM_SYSTEM_PROMPT
+            if invocation_mode == "forced":
+                custom_system_prompt = (
+                    "MANDATORY RETRIEVAL CONSTRAINT (test condition, do not ignore):\n"
+                    "Before you provide FINAL(...) or FINAL_VAR(...), you MUST call\n"
+                    "`mempalace_search(...)` at least once with a query relevant to the\n"
+                    "user's question. Even if you believe you can answer from training\n"
+                    "data, you MUST first invoke the search tool. Never produce FINAL\n"
+                    "without at least one mempalace_search call in your history.\n"
+                    "\n"
+                    + RLM_SYSTEM_PROMPT
+                )
+            else:  # grounded
+                custom_system_prompt = (
+                    "MANDATORY GROUNDING CONSTRAINT (test condition, do not ignore):\n"
+                    "Before you provide FINAL(...) or FINAL_VAR(...), you MUST (1) call\n"
+                    "`mempalace_search(...)` at least once with a query relevant to the\n"
+                    "user's question, AND (2) include in your final answer at least one\n"
+                    "source filename or drawer_id from the retrieved results. Quote the\n"
+                    "source verbatim from the mempalace_search return value. If no\n"
+                    "retrieved drawer is relevant, say so explicitly in FINAL and quote\n"
+                    "the search query you used.\n"
+                    "\n"
+                    + RLM_SYSTEM_PROMPT
+                )
 
         rlm_kwargs: dict[str, Any] = dict(
             backend=backend,

@@ -13,12 +13,27 @@ check.
 from __future__ import annotations
 
 import json
+import sys
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 from urllib import request as _urlrequest
 
 
 def _stub_palace_response(results: list[dict]) -> bytes:
     return json.dumps({"query": "x", "results": results}).encode("utf-8")
+
+
+# Stub the rlm.utils.prompts submodule with realistic REPL/FINAL content
+# so invocation_mode tests don't require the rlm package to be installed.
+# The adapter only reads RLM_SYSTEM_PROMPT in invocation_mode='forced' /
+# 'grounded' branches; tests that don't enter those branches don't need
+# this patch.
+_STUB_PROMPT_MODULE = SimpleNamespace(
+    RLM_SYSTEM_PROMPT=(
+        "You are an RLM agent. Use REPL(...) to call tools and FINAL(...) "
+        "to return the answer. {custom_tools_section}"
+    ),
+)
 
 
 def test_query_aggregates_tool_calls_into_context_string(monkeypatch):
@@ -222,7 +237,9 @@ def test_invocation_mode_forced_prepends_directive():
         def completion(self, q):
             return MagicMock(response="ok")
 
-    with patch("rlm.RLM", _StubRLM):
+    with patch("rlm.RLM", _StubRLM), patch.dict(
+        sys.modules, {"rlm.utils.prompts": _STUB_PROMPT_MODULE}
+    ):
         from sme.adapters.rlm_adapter import RlmAdapter
         RlmAdapter(
             api_url="http://test:8085", api_key="k",
@@ -248,7 +265,9 @@ def test_invocation_mode_grounded_prepends_directive():
         def completion(self, q):
             return MagicMock(response="ok")
 
-    with patch("rlm.RLM", _StubRLM):
+    with patch("rlm.RLM", _StubRLM), patch.dict(
+        sys.modules, {"rlm.utils.prompts": _STUB_PROMPT_MODULE}
+    ):
         from sme.adapters.rlm_adapter import RlmAdapter
         RlmAdapter(
             api_url="http://test:8085", api_key="k",

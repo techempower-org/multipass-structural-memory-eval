@@ -172,7 +172,7 @@ class _StubAdapter:
 
 
 @pytest.fixture
-def stub_loader(monkeypatch):
+def stub_loader():
     """Swap an adapter's loader for ``_StubAdapter``, restoring on teardown.
 
     ``_AdapterSpec`` is a frozen dataclass — ``object.__setattr__`` bypasses
@@ -182,7 +182,10 @@ def stub_loader(monkeypatch):
 
     def _patch(alias: str) -> None:
         spec = _registry_by_alias()[alias]
-        restores.append((spec, spec.loader))
+        # Record the true original only on first patch of this spec, so a
+        # repeat _patch() in one test can't capture the stub as "original".
+        if not any(item[0] is spec for item in restores):
+            restores.append((spec, spec.loader))
         object.__setattr__(spec, "loader", lambda: _StubAdapter)
 
     yield _patch

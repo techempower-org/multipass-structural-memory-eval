@@ -76,7 +76,7 @@ class MemPalaceDaemonAdapter(SMEAdapter):
     network call happens in ``query()`` or ``get_graph_snapshot()``.
 
     Args:
-        api_url: Daemon base URL (e.g. ``http://familiar.jphe.in:8085``).
+        api_url: Daemon base URL (e.g. ``http://your-daemon-host:8085``).
             Trailing slash stripped.
         api_key: Sent as ``X-API-Key`` header on every request.
         env_file: Path to an env file with ``PALACE_DAEMON_URL`` /

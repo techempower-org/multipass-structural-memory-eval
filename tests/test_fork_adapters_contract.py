@@ -29,11 +29,12 @@ reason shows in pytest output and CI runs clean even on minimal envs.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 import pytest
 
 from sme.adapters.base import SMEAdapter
+from sme.cli import _load_adapter, _registry_by_alias
 
 # Re-bind the upstream contract assertions in this module's namespace so
 # pytest re-collects them here under this module's ``adapter`` fixture.
@@ -151,3 +152,92 @@ def adapter(request: pytest.FixtureRequest, tmp_path: Path) -> SMEAdapter:
     every contract test re-collected in this file."""
     factory = ADAPTER_FACTORIES[request.param]
     return factory(tmp_path)
+
+
+# --- CLI kwarg-forwarding (fork adapters) -----------------------------
+#
+# The registry-wide invariants (rename targets in accepts, sources not in
+# accepts) are checked structurally in tests/test_cli_adapter_forwarding.py.
+# These tests assert the *runtime* behavior of `_load_adapter` for the
+# fork adapters that have non-trivial forwarding: hindsight renames
+# `api_url` -> `base_url`, rlm accepts `api_url` as-is, and both must drop
+# unknown kwargs at the boundary (the PR #7 regression class).
+
+
+class _StubAdapter:
+    """Throw-away adapter that captures whatever kwargs reach it."""
+
+    def __init__(self, **kwargs: Any) -> None:
+        self.captured_kwargs = kwargs
+
+
+@pytest.fixture
+def stub_loader(monkeypatch):
+    """Swap an adapter's loader for ``_StubAdapter``, restoring on teardown.
+
+    ``_AdapterSpec`` is a frozen dataclass — ``object.__setattr__`` bypasses
+    that. The restore step keeps mutations from bleeding between tests.
+    """
+    restores: list[tuple[Any, Any]] = []
+
+    def _patch(alias: str) -> None:
+        spec = _registry_by_alias()[alias]
+        restores.append((spec, spec.loader))
+        object.__setattr__(spec, "loader", lambda: _StubAdapter)
+
+    yield _patch
+
+    for spec, original in restores:
+        object.__setattr__(spec, "loader", original)
+
+
+def test_hindsight_renames_api_url_to_base_url(stub_loader):
+    """hindsight's registry spec renames ``api_url`` -> ``base_url``; the
+    rename must fire at runtime, and ``api_url`` must not leak through."""
+    stub_loader("hindsight")
+    out = _load_adapter("hindsight", api_url="http://nowhere:1", api_timeout=0.5)
+    assert isinstance(out, _StubAdapter)
+    assert out.captured_kwargs["base_url"] == "http://nowhere:1"
+    assert out.captured_kwargs["api_timeout"] == 0.5
+    assert "api_url" not in out.captured_kwargs
+
+
+def test_rlm_passes_api_url_through(stub_loader):
+    """rlm has no rename — it accepts ``api_url`` directly, so the kwarg
+    must reach the constructor unchanged (not renamed to ``base_url``)."""
+    stub_loader("rlm")
+    out = _load_adapter("rlm", api_url="http://nowhere:1", environment="local")
+    assert out.captured_kwargs["api_url"] == "http://nowhere:1"
+    assert out.captured_kwargs["environment"] == "local"
+    assert "base_url" not in out.captured_kwargs
+
+
+def test_hindsight_drops_unknown_kwargs(stub_loader):
+    """The PR #7 regression class: a new CLI flag (or another adapter's
+    kwarg) must not blow up hindsight just by being present in the bag."""
+    stub_loader("hindsight")
+    out = _load_adapter(
+        "hindsight",
+        api_url="http://nowhere:1",
+        # All foreign to hindsight's accepts — must be dropped.
+        db_path="/tmp/db",
+        collection_name="drawers",
+        environment="local",
+        backend="x",
+        some_future_flag_that_doesnt_exist=42,
+    )
+    assert out.captured_kwargs == {"base_url": "http://nowhere:1"}
+
+
+def test_fork_adapter_none_valued_kwargs_stripped(stub_loader):
+    """``None`` means 'use the adapter default' — never forward as-is."""
+    stub_loader("hindsight")
+    out = _load_adapter(
+        "hindsight",
+        api_url="http://nowhere:1",
+        n_results=None,
+        bank_id=None,
+    )
+    assert out.captured_kwargs == {"base_url": "http://nowhere:1"}
+    assert "n_results" not in out.captured_kwargs
+    assert "bank_id" not in out.captured_kwargs

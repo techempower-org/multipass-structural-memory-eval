@@ -91,7 +91,7 @@ is, `kg_triples` will be a placeholder-only field.
 ```bash
 set -a; source ~/.config/palace-daemon/env; set +a
 curl -sS -H "X-Api-Key: $PALACE_API_KEY" \
-    https://palace.jphe.in/graph?limit=1 | jq '.kg_stats'
+    https://your-palace-host/graph?limit=1 | jq '.kg_stats'
 # {
 #   "entities": 267544,
 #   "triples": 1,

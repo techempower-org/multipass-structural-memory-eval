@@ -45,8 +45,8 @@ table.
 
 ## Status
 
-**Beta-level instrumentation, actively evolving (v0.2.0).** Nine adapters
-(`flat`, `mempalace`, `mempalace-daemon`, `familiar`, `rlm`,
+**Beta-level instrumentation, actively evolving (v0.2.0).** Ten adapters
+(`flat`, `mempalace`, `mempalace-daemon`, `familiar`, `rlm`, `longhand`,
 `ladybugdb`, `full-context`, `karpathy-compiled`, plus the `SMEAdapter`
 ABC template), nine CLI commands (`retrieve`, `analyze`, `cat8`, `cat2c`,
 `cat4`, `cat5`, `check`, `cat9`, `compile-wiki`), two evaluation corpora
@@ -309,6 +309,58 @@ RLM_BASE_URL=https://your-endpoint RLM_MODEL=llama-3.3-70b RLM_API_KEY=... \
     --questions sme/corpora/jp_realm_v0_1/questions.yaml \
     --json baselines/rlm_$(date +%Y%m%d).json
 ```
+
+### `longhand` — verbatim-first cohort
+
+`sme/adapters/longhand.py` measures
+[Longhand](https://github.com/Wynelson94/longhand) (by Nate Nelson), a
+persistent local memory server for Claude Code. Longhand reads the raw
+session JSONL that Claude Code already writes
+(`~/.claude/projects/<project>/<session-id>.jsonl`) and indexes it
+locally into SQLite (verbatim source of truth) plus ChromaDB (vector
+search) under `~/.longhand/` — no network, no API calls. Like MemPalace
+it stores exact words rather than letting a model decide what matters,
+which puts it in the same verbatim-first cohort.
+
+**Daemon-strict by design.** The adapter shells out to the `longhand`
+CLI (`longhand search --json`) rather than opening Longhand's ChromaDB
+or SQLite directly — the same single-writer discipline as
+`mempalace-daemon`'s HTTP-only access. A second process holding handles
+to a store Longhand assumes it owns is exactly the failure mode the
+daemon adapters exist to avoid.
+
+**Shape:**
+
+- `query()` → `longhand search <q> --json --limit N` (optional
+  `--project`). Tolerates either a bare-list or `{results: [...]}` JSON
+  shape; CLI/timeout/parse failures come back as a `QueryResult.error`
+  (`CLI_ERROR` / `TIMEOUT` / `BAD_JSON` / `NO_RESULTS`) so Cat 9 scoring
+  can tell a failed call-through from an empty store.
+- `get_graph_snapshot()` → `([], [])`. Longhand is a verbatim session
+  archive, not a knowledge graph, so structural categories (Cat 4/5/8)
+  are not meaningful against it; the retrieval categories
+  (Cat 1/2c/3/6) and Cat 9 are.
+- `ingest_corpus()` → not implemented. Longhand ingests Claude Code
+  sessions through its own hooks, not arbitrary seeded corpora — this is
+  a diagnostic-only (Mode B) adapter, like `mempalace-daemon`.
+- `get_harness_manifest()` → declares Longhand's MCP `search` tool as a
+  Cat 9 surface; the probe exercises the same SQLite+Chroma read path
+  the MCP tool uses.
+
+**Invocation:**
+
+```bash
+# Resolves `longhand` on PATH by default
+sme-eval retrieve --adapter longhand \
+    --questions corpus.yaml \
+    --json longhand.json
+```
+
+The adapter resolves the `longhand` binary on `PATH`. To point at a
+specific binary or scope to a single project, construct
+`LonghandAdapter(bin_path=..., project=...)` directly — the registry
+exposes `bin_path`, `home_dir`, `n_results`, `timeout_s`, and `project`
+as constructor kwargs.
 
 ### `full-context` — Karpathy Condition D1
 

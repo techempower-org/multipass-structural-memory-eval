@@ -664,7 +664,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
                    help="Path to longmemeval_oracle.json (or _s / _m).")
     p.add_argument("--api-url",
                    help="(mempalace-daemon) base URL, "
-                        "e.g. http://familiar.jphe.in:8085.")
+                        "e.g. http://your-daemon-host:8085.")
     p.add_argument("--api-key",
                    help="(mempalace-daemon) X-API-Key. "
                         "Defaults to PALACE_API_KEY env.")

@@ -24,18 +24,18 @@ def test_default_construction():
 
 def test_explicit_construction():
     adapter = FamiliarAdapter(
-        base_url="https://familiar.jphe.in",
+        base_url="https://your-familiar-host",
         timeout_s=10.0,
         mock_inference=False,
     )
-    assert adapter.base_url == "https://familiar.jphe.in"
+    assert adapter.base_url == "https://your-familiar-host"
     assert adapter.timeout_s == 10.0
     assert adapter.mock_inference is False
 
 
 def test_base_url_trailing_slash_stripped():
-    adapter = FamiliarAdapter(base_url="https://familiar.jphe.in/")
-    assert adapter.base_url == "https://familiar.jphe.in"
+    adapter = FamiliarAdapter(base_url="https://your-familiar-host/")
+    assert adapter.base_url == "https://your-familiar-host"
 
 
 # --- Task 3: ingest_corpus stub ---
@@ -321,7 +321,7 @@ def test_get_ontology_source_returns_declared_dict():
 def test_get_harness_manifest_returns_list():
     """Forward-compat: returns [] if HarnessDescriptor types not importable
     (current state); will return 2 descriptors once Cat 9 ships in multipass."""
-    manifest = FamiliarAdapter(base_url="https://familiar.jphe.in").get_harness_manifest()
+    manifest = FamiliarAdapter(base_url="https://your-familiar-host").get_harness_manifest()
     assert isinstance(manifest, list)
     assert len(manifest) in (0, 2)
 

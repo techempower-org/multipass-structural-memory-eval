@@ -42,7 +42,7 @@ SME scores measures what familiar's v0.2 pipeline is worth.
 
 ## Why now
 
-Verified 2026-04-26 against `https://familiar.jphe.in/`:
+Verified 2026-04-26 against `https://your-familiar-host/`:
 
 - `POST /api/familiar/eval` returns the full SME-`QueryResult` shape
   natively. Familiar's v0.2 was designed around this contract (Phase 5
@@ -234,7 +234,7 @@ Mirror `--adapter mempalace-daemon` flag:
 ```bash
 sme-eval retrieve \
     --adapter familiar \
-    --base-url https://familiar.jphe.in \
+    --base-url https://your-familiar-host \
     --questions corpora/<your-corpus>.yaml \
     --json scores.json \
     [--mock | --no-mock]   # default --mock for Cat 1 determinism

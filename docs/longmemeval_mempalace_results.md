@@ -174,7 +174,7 @@ summary count goes here:
 ### Prerequisites
 
 - A running palace-daemon. JP's homelab daemon is at
-  `http://familiar.jphe.in:8085`; `PALACE_API_KEY` lives in
+  `http://your-daemon-host:8085`; `PALACE_API_KEY` lives in
   `~/.config/palace-daemon/env`.
 - `OPENAI_API_KEY` exported in the environment (the reader and judge
   call OpenAI).
@@ -201,7 +201,7 @@ triples land. Tracked in the SME ↔ daemon follow-up memory.
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://familiar.jphe.in:8085 \
+    --api-url http://your-daemon-host:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --dry-run
 ```
@@ -214,7 +214,7 @@ you can sanity-check before launching the live run.
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://familiar.jphe.in:8085 \
+    --api-url http://your-daemon-host:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --json baselines/longmemeval_mempalace_daemon_$(date +%Y%m%d).json
 ```
@@ -240,7 +240,7 @@ run's API budget:
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://familiar.jphe.in:8085 \
+    --api-url http://your-daemon-host:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --max-questions 5 \
     --json /tmp/lme_smoke.json
@@ -251,7 +251,7 @@ run's API budget:
 ```bash
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
-    --api-url http://familiar.jphe.in:8085 \
+    --api-url http://your-daemon-host:8085 \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
     --skip-judge \
     --json baselines/longmemeval_mempalace_daemon_r5only_$(date +%Y%m%d).json
@@ -377,7 +377,7 @@ be cited as evidence of substrate-level retrieval lift.
 ./venv/bin/python scripts/run_longmemeval_mempalace.py \
     --adapter mempalace-daemon \
     --questions sme/corpora/longmemeval/data/longmemeval_oracle.json \
-    --api-url http://familiar.jphe.in:8085 \
+    --api-url http://your-daemon-host:8085 \
     --api-key "$PALACE_API_KEY" \
     --max-questions 50 \
     --skip-judge \

@@ -240,18 +240,18 @@ def test_default_construction():
 
 def test_explicit_construction():
     adapter = FamiliarAdapter(
-        base_url="https://familiar.jphe.in",
+        base_url="https://your-familiar-host",
         timeout_s=10.0,
         mock_inference=False,
     )
-    assert adapter.base_url == "https://familiar.jphe.in"
+    assert adapter.base_url == "https://your-familiar-host"
     assert adapter.timeout_s == 10.0
     assert adapter.mock_inference is False
 
 
 def test_base_url_trailing_slash_stripped():
-    adapter = FamiliarAdapter(base_url="https://familiar.jphe.in/")
-    assert adapter.base_url == "https://familiar.jphe.in"
+    adapter = FamiliarAdapter(base_url="https://your-familiar-host/")
+    assert adapter.base_url == "https://your-familiar-host"
 ```
 
 - [ ] **Step 2: Run test, verify it fails**
@@ -1085,7 +1085,7 @@ def test_get_ontology_source_returns_declared():
 
 
 def test_get_harness_manifest_returns_two_descriptors():
-    adapter = FamiliarAdapter(base_url="https://familiar.jphe.in")
+    adapter = FamiliarAdapter(base_url="https://your-familiar-host")
     manifest = adapter.get_harness_manifest()
     # Forward-compat: returns [] if HarnessDescriptor types not importable;
     # otherwise returns 2 descriptors. Either is acceptable.
@@ -1358,7 +1358,7 @@ Expected: 2 skipped.
 
 - [ ] **Step 3: Verify test runs when env var is set (against staging URL)**
 
-Run: `FAMILIAR_BASE_URL=https://familiar.jphe.in pytest tests/test_familiar_live.py -v`
+Run: `FAMILIAR_BASE_URL=https://your-familiar-host pytest tests/test_familiar_live.py -v`
 Expected: 2 passed (or graceful skip on graph snapshot if palace is mid-rebuild).
 
 - [ ] **Step 4: Commit**
@@ -1464,7 +1464,7 @@ Run:
 ```bash
 sme-eval retrieve \
     --adapter familiar \
-    --base-url https://familiar.jphe.in \
+    --base-url https://your-familiar-host \
     --questions corpora/standard_v0_1/questions.yaml \
     --json /tmp/familiar-baseline.json \
     --mock
@@ -1529,7 +1529,7 @@ Plan: `docs/superpowers/plans/2026-04-26-familiar-adapter.md`
 
 - [ ] `pytest -v` all green
 - [ ] `ruff check` clean
-- [ ] CLI run against https://familiar.jphe.in produces non-empty
+- [ ] CLI run against https://your-familiar-host produces non-empty
       per-question JSON
 - [ ] Direct comparison run against mempalace-daemon on the same
       corpus emits a recall delta

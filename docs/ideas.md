@@ -474,7 +474,7 @@ graceful handling on palace network failure, empty graph snapshot
 
 **To benchmark live:**
 ```bash
-PORTKEY_API_KEY=... PALACE_DAEMON_URL=http://familiar.jphe.in:8085 \
+PORTKEY_API_KEY=... PALACE_DAEMON_URL=http://your-daemon-host:8085 \
 PALACE_API_KEY=... \
 venv/bin/sme-eval retrieve --adapter rlm \
     --questions sme/corpora/jp_realm_v0_1/questions.yaml \

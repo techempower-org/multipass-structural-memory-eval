@@ -32,7 +32,10 @@ class OracleRetrievalAdapter(SMEAdapter):
             "warnings": [],
         }
 
-    def query(self, question: str) -> QueryResult:
+    def query(self, question: str, n_results: int | None = None) -> QueryResult:
+        # n_results is accepted for CLI/testkit parity but ignored: the
+        # oracle returns exactly the gold expected_sources, no more, no
+        # fewer — that is what makes it the substring-scorer ceiling.
         sources = self._gold.get(question, [])
         if not sources:
             return QueryResult(
@@ -47,7 +50,7 @@ class OracleRetrievalAdapter(SMEAdapter):
             context_parts.append(f"[{i+1}] oracle\n{source}")
             entities.append(
                 Entity(
-                    id=f"oracle:{i}",
+                    id=f"oracle:{source}",
                     name=source,
                     entity_type="oracle_source",
                 )

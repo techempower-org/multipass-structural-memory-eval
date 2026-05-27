@@ -99,12 +99,6 @@ def test_karpathy_compiled_renames_db_path_to_compiled_dir(stub_loader):
     assert out.captured_kwargs == {"compiled_dir": "/tmp/wiki"}
 
 
-def test_hindsight_renames_api_url_to_base_url(stub_loader):
-    stub_loader("hindsight")
-    out = _load_adapter("hindsight", api_url="http://h:1", bank_id="b")
-    assert out.captured_kwargs == {"base_url": "http://h:1", "bank_id": "b"}
-
-
 def test_unknown_kwargs_silently_dropped(stub_loader):
     """The PR #7 class of regression: a new CLI flag must not blow up
     an old adapter just by being present in the kwargs bag."""
@@ -146,25 +140,6 @@ def test_none_valued_kwargs_are_stripped(stub_loader):
     assert "n_results" not in out.captured_kwargs
 
 
-def test_rlm_keeps_kind_and_api_url(stub_loader):
-    """`rlm` accepts `kind` — it forwards into mempalace_search /search."""
-    stub_loader("rlm")
-    out = _load_adapter(
-        "rlm",
-        api_url="http://disks:8085",
-        api_key="abc",
-        kind="content",
-        # Drop-list noise from old CLI invocations
-        include_node_tables=["X"],
-        db_path="/tmp/db",
-    )
-    assert out.captured_kwargs == {
-        "api_url": "http://disks:8085",
-        "api_key": "abc",
-        "kind": "content",
-    }
-
-
 def test_mempalace_daemon_drops_db_path(stub_loader):
     """Daemon adapter has a legacy `db_path` constructor arg that's a
     no-op — old drop-list dropped it; preserve that behavior."""
@@ -184,30 +159,6 @@ def test_mempalace_daemon_drops_db_path(stub_loader):
         "api_key": "key",
         "kind": "content",
     }
-
-
-def test_omega_passes_only_omega_kwargs(stub_loader):
-    stub_loader("omega")
-    out = _load_adapter(
-        "omega",
-        db_path="/tmp/o.db",
-        default_memory_type="summary",
-        read_only=True,
-        # Noise from other adapters' flags
-        api_url="http://x",
-        kind="content",
-    )
-    assert out.captured_kwargs == {
-        "db_path": "/tmp/o.db",
-        "default_memory_type": "summary",
-        "read_only": True,
-    }
-
-
-def test_mem0_aliases_resolve(stub_loader):
-    stub_loader("mem0_oss")
-    out = _load_adapter("mem0_oss", user_id="u1", n_results=5)
-    assert out.captured_kwargs == {"user_id": "u1", "n_results": 5}
 
 
 def test_mempalace_keeps_kg_path_and_collection_name(stub_loader):

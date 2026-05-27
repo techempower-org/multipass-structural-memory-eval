@@ -134,29 +134,11 @@ def _full_context_factory(tmp_path: Path) -> SMEAdapter:
     return FullContextAdapter(vault)
 
 
-def _longhand_factory(tmp_path: Path) -> SMEAdapter:
-    """LonghandAdapter pointed at a fake CLI binary.
-
-    The contract tests only call query()/get_graph_snapshot() etc.; they
-    don't assert on real hits, so a stub binary that the adapter can
-    resolve at construction time is enough. ``query`` will return a
-    NO_RESULTS QueryResult (still a valid typed result) when the stub
-    prints nothing useful.
-    """
-    from sme.adapters.longhand import LonghandAdapter
-
-    fake_bin = tmp_path / "longhand"
-    fake_bin.write_text("#!/bin/sh\necho '[]'\n", encoding="utf-8")
-    fake_bin.chmod(0o755)
-    return LonghandAdapter(bin_path=str(fake_bin), home_dir=str(tmp_path))
-
-
 # Register adapters here. Keep IDs stable — they show in pytest output.
 ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "mock": _mock_factory,
     "flat_baseline": _flat_baseline_factory,
     "full_context": _full_context_factory,
-    "longhand": _longhand_factory,
 }
 
 

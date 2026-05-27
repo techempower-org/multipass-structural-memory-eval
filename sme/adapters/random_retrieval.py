@@ -28,20 +28,22 @@ class RandomRetrievalAdapter(SMEAdapter):
             "warnings": [],
         }
 
-    def query(self, question: str) -> QueryResult:
+    def query(self, question: str, n_results: int | None = None) -> QueryResult:
         if not self._corpus:
             return QueryResult(answer="", context_string="", error="NO_CORPUS")
-        k = min(self._n_results, len(self._corpus))
+        n = self._n_results if n_results is None else n_results
+        k = min(n, len(self._corpus))
         selected = self._rng.sample(self._corpus, k)
         context_parts: list[str] = []
         entities: list[Entity] = []
         for i, item in enumerate(selected):
+            item_id = item.get("id") or item.get("source_file") or f"item_{i}"
             source = item.get("source_file", item.get("id", f"random_{i}"))
             text = item.get("text", item.get("content", ""))
             context_parts.append(f"[{i+1}] {source}\n{text}")
             entities.append(
                 Entity(
-                    id=f"random:{i}",
+                    id=f"random:{item_id}",
                     name=str(source),
                     entity_type="random_selection",
                 )

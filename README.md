@@ -250,7 +250,7 @@ future Cat 9 work).
 
 ```bash
 # Default: --mock for Cat 1 determinism
-sme-eval retrieve --adapter familiar     --api-url https://familiar.jphe.in     --questions corpus.yaml     --json familiar.json
+sme-eval retrieve --adapter familiar     --api-url https://your-familiar-host     --questions corpus.yaml     --json familiar.json
 
 # Compare against the same palace via the daemon adapter
 sme-eval retrieve --adapter mempalace-daemon     --api-url http://your-daemon:8085     --questions corpus.yaml     --json daemon.json

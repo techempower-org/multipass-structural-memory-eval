@@ -50,7 +50,7 @@ def _resolve_default_backend(bk: dict) -> tuple[str, dict]:
 
     Priority order:
       1. RLM_BASE_URL / RLM_MODEL env vars — point the openai backend
-         at any OpenAI-compat endpoint (familiar's own /v1, katana's
+         at any OpenAI-compat endpoint (a pipeline's own /v1, a local
          llama.cpp, vLLM, etc.). Most explicit; wins.
       2. Cloud-chat-assistant config file (JP's home env) — Azure
          OpenAI endpoint with key. Reads as `azure_openai`.

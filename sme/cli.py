@@ -62,6 +62,12 @@ def _rlm_loader() -> type[SMEAdapter]:
     return RlmAdapter
 
 
+def _longhand_loader() -> type[SMEAdapter]:
+    from sme.adapters.longhand import LonghandAdapter
+
+    return LonghandAdapter
+
+
 def _familiar_loader() -> type[SMEAdapter]:
     from sme.adapters.familiar import FamiliarAdapter
 
@@ -147,6 +153,13 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         accepts=frozenset({
             "api_url", "api_key", "backend", "backend_kwargs",
             "environment", "verbose", "kind", "timeout_s",
+        }),
+    ),
+    _AdapterSpec(
+        aliases=("longhand",),
+        loader=_longhand_loader,
+        accepts=frozenset({
+            "bin_path", "home_dir", "n_results", "timeout_s", "project",
         }),
     ),
     _AdapterSpec(

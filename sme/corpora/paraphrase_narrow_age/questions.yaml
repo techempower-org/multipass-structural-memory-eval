@@ -1,0 +1,388 @@
+# Narrow-age paraphrase corpus — every target drawer created within 7 days
+# of corpus authorship (2026-05-21 .. 2026-05-28).
+#
+# Why this sister corpus exists
+# -----------------------------
+# The 51-question parent corpus at
+#     familiar.realm.watch/tests/eval/paraphrase_questions.yaml
+# pulls target drawers from a ~2-month spread (2026-04-23 .. 2026-05-28).
+# When familiar's retrieval pipeline applies temporal-decay scoring on top
+# of palace-side rerank, the per-drawer multipliers vary by an order of
+# magnitude across that spread. The decay sort then overwrites the
+# rerank scores, and the rerank-on vs rerank-off A/B returns near-
+# identical retrieval orderings (Aurora's PR #94 diagnosis on
+# techempower-org/multipass-structural-memory-eval).
+#
+# In this corpus every target drawer was written within a single 7-day
+# window. With ages bunched, the decay multipliers stay roughly uniform
+# (within ~7%), so the rerank score actually decides the order and the
+# A/B becomes informative again. Same construction trick lets us see
+# modality lifts (vector vs BM25 vs graph) without recency masking them.
+#
+# Schema matches paraphrase_questions.yaml (consumed by
+# familiar.realm.watch/tests/eval/run_paraphrase_probe.py):
+#   query              — paraphrase-stressed question
+#   expected_drawers   — list of drawer IDs (any-of match)
+#   expected_substrings — list of strings; case-insensitive substring
+#                         match against retrieved content_snippet
+#   shape              — one of {vocab_mismatch, temporal, topical_mismatch,
+#                         cross_project, canary, contradiction, recency}
+#   why                — what the probe is measuring
+#
+# Sourcing: drawer IDs and content snippets verified via
+# mempalace_search MCP on 2026-05-28; each entry's created_at lies in
+# [2026-05-21, 2026-05-28]. A drawer that gets garbage-collected from
+# the live palace won't fail the probe — it just can't contribute a
+# hit, and the question still has expected_substrings as a fallback.
+
+version: paraphrase-narrow-age-v0.1
+window_start: 2026-05-21
+window_end: 2026-05-28
+authored: 2026-05-28
+authored_by: lyra
+parent_corpus: familiar.realm.watch/tests/eval/paraphrase_questions.yaml
+parent_issue: https://github.com/techempower-org/familiar.realm.watch/issues/73
+
+questions:
+  # ── vocab_mismatch: everyday words → precise technical drawer ──
+  - query: "What's the small lightweight rescorer we tried for the search results?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_9fe3724d32c28e67cd4179fe_chunk_000000
+      - drawer_palace_daemon_planning_a1e24a99c2084cfb1d0d9922_chunk_000000
+    expected_substrings:
+      - "TinyBERT"
+      - "FlashRank"
+    shape: vocab_mismatch
+    why: "drawer uses 'ms-marco-TinyBERT-L-2-v2 nano' + 'FlashRank cross-encoder'; query says 'small lightweight rescorer'"
+
+  - query: "How did we finally get the entity graph populated from existing data?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_b31189a01863ee5ef6f0f64a_chunk_000000
+    expected_substrings:
+      - "AGE knowledge-graph backfill"
+      - "MENTIONS edges"
+    shape: vocab_mismatch
+    why: "drawer uses 'AGE backfill complete' + node/edge counts; query says 'entity graph populated'"
+
+  - query: "What's the trick to keeping different model copies inside the same card's memory budget?"
+    expected_drawers:
+      - drawer_familiar_realm_watch_references_4bc62f6664b1f682bac24394
+      - drawer_familiar_realm_watch_references_214b0ded0b965c16e94a888c
+      - drawer_familiar_realm_watch_references_5c202e79e7780d760090d45a
+    expected_substrings:
+      - "vram_mb"
+      - "0.92"
+    shape: vocab_mismatch
+    why: "drawer uses 'slot picker VRAM accounting' + 'gpu_total_mb'; query says 'memory budget'"
+
+  - query: "Why did we change which Apache plugin Postgres runs?"
+    expected_drawers:
+      - drawer_storyvox_references_1ee9f8bd860a44a0a54790f9
+    expected_substrings:
+      - "AGE 1.6.0"
+      - "apache/age"
+    shape: vocab_mismatch
+    why: "drawer uses 'apache/age:release_PG16_1.6.0' container ref; query says 'Apache plugin'"
+
+  - query: "What happens when too many things grab the work queue at the same time?"
+    expected_drawers:
+      - drawer_memorypalace_references_ef56ccba237a11fa37b3269a
+    expected_substrings:
+      - "SKIP LOCKED"
+      - "work-queue"
+    shape: vocab_mismatch
+    why: "drawer uses 'Postgres SKIP LOCKED work-queue claim pattern'; query is everyday"
+
+  # ── topical_mismatch: question topic-adjacent, never names the artifact ──
+  - query: "Is there a way to make the search cheaper without losing quality?"
+    expected_drawers:
+      - drawer_memorypalace_architecture_f091f7794142ed5b2f4c9ecc
+      - drawer_memorypalace_architecture_9c11798d926fcfe4acc1ada2
+    expected_substrings:
+      - "22M params"
+      - "smallest effective model"
+    shape: topical_mismatch
+    why: "drawer discusses ms-marco-MiniLM-L-6-v2 22M as the cheapest effective reranker"
+
+  - query: "Where is the system most likely to crash quietly?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_a1e24a99c2084cfb1d0d9922_chunk_000000
+    expected_substrings:
+      - "status=failed"
+      - "never hard-error"
+    shape: topical_mismatch
+    why: "drawer describes rerank failure modes that silently fall back; query is about silent failure"
+
+  - query: "How do we know the reranker is actually helping versus shuffling junk?"
+    expected_drawers:
+      - drawer_palace_daemon_problems_3d06faf7a5b3a53f63f738aa
+      - drawer_palace_daemon_planning_9fe3724d32c28e67cd4179fe_chunk_000000
+    expected_substrings:
+      - "MRR +15"
+      - "rerank_eval"
+    shape: topical_mismatch
+    why: "drawer reports the eval that measured the lift; query is about validation"
+
+  - query: "What's our take on whether a different reranker model would be much better?"
+    expected_drawers:
+      - drawer_memorypalace_architecture_f091f7794142ed5b2f4c9ecc
+      - drawer_memorypalace_architecture_9c11798d926fcfe4acc1ada2
+    expected_substrings:
+      - "barely moves the needle"
+      - "1.3pp"
+    shape: topical_mismatch
+    why: "drawer says L-12-v2 over L-6-v2 is barely an improvement; query is hedged"
+
+  # ── cross_project: question shape spans two repos / wings ──
+  - query: "Which repo owns the reranking code that familiar's pipeline calls?"
+    expected_drawers:
+      - drawer_familiar_realm_watch_references_96d9c4ef443fe009d0ff0011
+    expected_substrings:
+      - "palace-daemon side"
+      - "FlashRank"
+    shape: cross_project
+    why: "drawer states reranker lives in palace-daemon, called by familiar"
+
+  - query: "Where do I look for the corpus-eval scripts versus the live HTTP API?"
+    expected_drawers:
+      - drawer_multipass_structural_memory_eval_references_4b7b87193e5c7445c84e5b51
+      - drawer_palace_daemon_references_3ede207547e4659d49c5610d
+    expected_substrings:
+      - "multipass"
+      - "palace-daemon"
+    shape: cross_project
+    why: "drawer references both projects by name"
+
+  - query: "What's the connection between the eval probe runner and palace-daemon's search endpoint?"
+    expected_drawers:
+      - drawer_familiar_realm_watch_references_15db6704bc35f393daba2495
+      - drawer_familiar_realm_watch_references_78e93a53153498cd548d5def
+    expected_substrings:
+      - "paraphrase_questions.yaml"
+      - "run_paraphrase_probe.py"
+    shape: cross_project
+    why: "drawer references both familiar's probe runner and the palace-daemon endpoint it hits"
+
+  - query: "Who handles entity extraction during ingest now?"
+    expected_drawers:
+      - drawer_memorypalace_references_a6ba018aff0b36f69cb83209
+      - drawer_memorypalace_references_d7bcc3ca34588f0aaa00e52e
+    expected_substrings:
+      - "llama-server-extractor"
+      - "Phi-4-mini"
+    shape: cross_project
+    why: "drawer names extractor service running on familiar host serving the palace"
+
+  - query: "How does the multi-strategy probe report compare strategies?"
+    expected_drawers:
+      - drawer_multipass_structural_memory_eval_problems_8d5d6b04dd529a671f40e923
+      - drawer_multipass_structural_memory_eval_problems_4d64d2c926e482fd05331ab4
+    expected_substrings:
+      - "run_eval_multi_limit"
+      - "by_limit"
+    shape: cross_project
+    why: "drawer is the multi-limit sweep code that crosses sme/eval with palace-daemon"
+
+  # ── temporal: query references time within the narrow window ──
+  - query: "What was the big knowledge-graph milestone last week?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_b31189a01863ee5ef6f0f64a_chunk_000000
+    expected_substrings:
+      - "2026-05-25"
+      - "backfill complete"
+    shape: temporal
+    why: "drawer dated 2026-05-25 announces AGE backfill milestone; query asks 'last week'"
+
+  - query: "What landed in the daemon a couple of days ago?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_9fe3724d32c28e67cd4179fe_chunk_000000
+      - drawer_palace_daemon_problems_3d06faf7a5b3a53f63f738aa
+    expected_substrings:
+      - "2026-05-27"
+      - "rerank"
+    shape: temporal
+    why: "drawer dated 2026-05-27 reports rerank eval; query asks 'couple of days ago'"
+
+  - query: "What's the most recent corpus work in multipass eval?"
+    expected_drawers:
+      - drawer_multipass_structural_memory_eval_references_870e9a2160d093514ae42a5e
+      - drawer_multipass_structural_memory_eval_problems_8d5d6b04dd529a671f40e923
+    expected_substrings:
+      - "candidate_strategy"
+      - "multi-limit"
+    shape: temporal
+    why: "drawer dated 2026-05-28 is the latest candidate-strategy + multi-limit sweep work"
+
+  - query: "When did we wire up the slot picker on familiar?"
+    expected_drawers:
+      - drawer_familiar_realm_watch_references_4bc62f6664b1f682bac24394
+      - drawer_familiar_realm_watch_references_214b0ded0b965c16e94a888c
+    expected_substrings:
+      - "slot picker"
+      - "vram"
+    shape: temporal
+    why: "drawer dated 2026-05-28 is the slot picker VRAM code; query asks 'when'"
+
+  # ── recency: 'what's the current state of X' shape ──
+  - query: "What's the current state of FlashRank in the search path?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_a1e24a99c2084cfb1d0d9922_chunk_000000
+      - drawer_familiar_realm_watch_references_96d9c4ef443fe009d0ff0011
+    expected_substrings:
+      - "PALACE_RERANK_ENABLED"
+      - "default true"
+    shape: recency
+    why: "drawer says rerank is on by default in palace-daemon; question asks 'current state'"
+
+  - query: "Where are we with the AGE knowledge graph being live?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_b31189a01863ee5ef6f0f64a_chunk_000000
+      - drawer_storyvox_references_1ee9f8bd860a44a0a54790f9
+    expected_substrings:
+      - "Nodes:"
+      - "263,982"
+    shape: recency
+    why: "drawer reports live node/edge counts after backfill"
+
+  - query: "How is hybrid retrieval performing in production right now?"
+    expected_drawers:
+      - drawer_storyvox_references_1ee9f8bd860a44a0a54790f9
+    expected_substrings:
+      - "hybrid"
+      - "default for all callers"
+    shape: recency
+    why: "drawer confirms hybrid is the production default"
+
+  - query: "What's the latest reranker latency measurement?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_9fe3724d32c28e67cd4179fe_chunk_000000
+    expected_substrings:
+      - "47ms"
+      - "Rerank latency"
+    shape: recency
+    why: "drawer reports mean 47ms rerank latency from 2026-05-27 eval"
+
+  # ── contradiction: drawer corrects a stale assumption ──
+  - query: "Does Ollama work fine on the Pascal mining card?"
+    expected_drawers:
+      - drawer_familiar_realm_watch_decisions_88e33d4406c87f1013cb382e
+    expected_substrings:
+      - "silent CPU fallback"
+      - "Pascal"
+    shape: contradiction
+    why: "drawer documents Ollama silently CPU-fallbacks on Pascal — answer is 'no'"
+
+  - query: "Is the L-12-v2 reranker materially better than L-6-v2?"
+    expected_drawers:
+      - drawer_memorypalace_architecture_f091f7794142ed5b2f4c9ecc
+      - drawer_memorypalace_architecture_9c11798d926fcfe4acc1ada2
+    expected_substrings:
+      - "barely moves the needle"
+      - "1.3pp"
+    shape: contradiction
+    why: "drawer says no — only 1.3pp within the 256d subfamily"
+
+  - query: "Did the rerank improve every single query in the eval?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_9fe3724d32c28e67cd4179fe_chunk_000000
+    expected_substrings:
+      - "regression"
+      - "1.0→0.909"
+    shape: contradiction
+    why: "drawer documents one R@5 regression; answer is no"
+
+  # ── canary: question whose correct answer is 'I don't know' / 'not in palace' ──
+  - query: "What does the realmwatch combat-ward subsystem decide about CRDTs?"
+    expected_drawers: []
+    expected_substrings: []
+    shape: canary
+    why: "no drawer ties realmwatch combat-ward to CRDT decisions in this window; retrieval should noisy-miss or surface low-similarity hits"
+
+  - query: "What's the verdict on ms-marco-MiniLM-L-24-v2 from our last sweep?"
+    expected_drawers: []
+    expected_substrings: []
+    shape: canary
+    why: "L-24-v2 isn't a real variant we tested; canary for retrieval confidence calibration"
+
+  - query: "Which Caddy site config did we change for cloud-chat-assistant yesterday?"
+    expected_drawers: []
+    expected_substrings: []
+    shape: canary
+    why: "no such change exists in the 7-day window; tests false-positive rate"
+
+  # ── more vocab_mismatch / topical_mismatch to round out shapes ──
+  - query: "How do we keep the search from being dominated by yesterday's noise?"
+    expected_drawers:
+      - drawer_multipass_structural_memory_eval_references_4b7b87193e5c7445c84e5b51
+    expected_substrings:
+      - "temporal"
+      - "decay"
+    shape: vocab_mismatch
+    why: "drawer references temporal decay sort; query says 'yesterday's noise'"
+
+  - query: "What's a sensible amount of pool depth for the rescoring stage?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_9fe3724d32c28e67cd4179fe_chunk_000000
+    expected_substrings:
+      - "pool=20"
+      - "11/12"
+    shape: vocab_mismatch
+    why: "drawer used pool=20 candidates per query for the rerank eval; query says 'pool depth'"
+
+  - query: "Where did the new GPU-pinning config land for swapping chat models in and out?"
+    expected_drawers:
+      - drawer_familiar_realm_watch_references_b6bff74d1e1242282953c554
+      - drawer_familiar_realm_watch_references_4bc62f6664b1f682bac24394
+    expected_substrings:
+      - "gemma3-4b"
+      - "CUDA_VISIBLE_DEVICES=1"
+    shape: topical_mismatch
+    why: "drawer shows the gemma3-4b slot-picker variant pinned to GPU 1"
+
+  - query: "Did we ever decide whether to expose graph traversal as an MCP tool?"
+    expected_drawers:
+      - drawer_memorypalace_references_14ceb3af926e9c0fc3e737aa
+      - drawer_memorypalace_references_2592da9e053673dbf319000d
+    expected_substrings:
+      - "walk_palace"
+      - "kg_add"
+    shape: topical_mismatch
+    why: "drawer references kg_add / walk_palace MCP tools shipped on AGE backend"
+
+  - query: "What's our story on cross-encoder failure handling?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_a1e24a99c2084cfb1d0d9922_chunk_000000
+    expected_substrings:
+      - "import error"
+      - "original ordering"
+    shape: vocab_mismatch
+    why: "drawer documents 'failure modes ... return original ordering with status=failed'"
+
+  - query: "Why are the new eval results showing identical retrieval for rerank on and off?"
+    expected_drawers:
+      - drawer_memorypalace_problems_ef0e6b708ecdda5472315534
+    expected_substrings:
+      - "PR"
+      - "palace-daemon"
+    shape: topical_mismatch
+    why: "drawer references PR #94 which diagnosed exactly this — temporal decay overwrites rerank"
+
+  # ── recency / temporal cap ──
+  - query: "Where do the canonical wing/room labels for palace-daemon ingest live now?"
+    expected_drawers:
+      - drawer_palace_daemon_planning_b31189a01863ee5ef6f0f64a_chunk_000000
+    expected_substrings:
+      - "Room=8"
+      - "canonical taxonomy"
+    shape: recency
+    why: "drawer reports Room=8 canonical taxonomy as the live state"
+
+  - query: "What recent change made multiple search strategies comparable in one report?"
+    expected_drawers:
+      - drawer_multipass_structural_memory_eval_problems_4d64d2c926e482fd05331ab4
+      - drawer_multipass_structural_memory_eval_problems_34344d165ece7a8a1f6510cb
+    expected_substrings:
+      - "run_eval_multi_limit"
+      - "summary_by_limit"
+    shape: recency
+    why: "drawer is the multi-limit sweep code added 2026-05-28"

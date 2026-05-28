@@ -1,0 +1,1862 @@
+{
+  "summary": {
+    "tied_hit": 1,
+    "tied_miss": 35,
+    "rescued": 0,
+    "regressed": 0
+  },
+  "signal_summary": {
+    "overall": {
+      "no_hyde": {
+        "vector": 1,
+        "bm25": 0,
+        "graph": 0,
+        "unknown": 0,
+        "none": 35
+      },
+      "yes_hyde": {
+        "vector": 1,
+        "bm25": 0,
+        "graph": 0,
+        "unknown": 0,
+        "none": 35
+      }
+    },
+    "by_shape": {
+      "canary": {
+        "no_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 3
+        },
+        "yes_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 3
+        }
+      },
+      "contradiction": {
+        "no_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 3
+        },
+        "yes_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 3
+        }
+      },
+      "cross_project": {
+        "no_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 5
+        },
+        "yes_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 5
+        }
+      },
+      "recency": {
+        "no_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 6
+        },
+        "yes_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 6
+        }
+      },
+      "temporal": {
+        "no_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 4
+        },
+        "yes_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 4
+        }
+      },
+      "topical_mismatch": {
+        "no_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 7
+        },
+        "yes_hyde": {
+          "vector": 0,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 7
+        }
+      },
+      "vocab_mismatch": {
+        "no_hyde": {
+          "vector": 1,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 7
+        },
+        "yes_hyde": {
+          "vector": 1,
+          "bm25": 0,
+          "graph": 0,
+          "unknown": 0,
+          "none": 7
+        }
+      }
+    }
+  },
+  "mrr": {
+    "overall": {
+      "no_hyde": 0.0278,
+      "yes_hyde": 0.0278,
+      "n": 36
+    },
+    "by_shape": {
+      "vocab_mismatch": {
+        "no_hyde": 0.125,
+        "yes_hyde": 0.125,
+        "n": 8
+      },
+      "topical_mismatch": {
+        "no_hyde": 0.0,
+        "yes_hyde": 0.0,
+        "n": 7
+      },
+      "cross_project": {
+        "no_hyde": 0.0,
+        "yes_hyde": 0.0,
+        "n": 5
+      },
+      "temporal": {
+        "no_hyde": 0.0,
+        "yes_hyde": 0.0,
+        "n": 4
+      },
+      "recency": {
+        "no_hyde": 0.0,
+        "yes_hyde": 0.0,
+        "n": 6
+      },
+      "contradiction": {
+        "no_hyde": 0.0,
+        "yes_hyde": 0.0,
+        "n": 3
+      },
+      "canary": {
+        "no_hyde": 0.0,
+        "yes_hyde": 0.0,
+        "n": 3
+      }
+    }
+  },
+  "latency": {
+    "temporal_expand_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "mean_ms": 0.0
+    },
+    "palace_search_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 844.0,
+      "mean_ms": 231.01
+    },
+    "filter_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "mean_ms": 0.0
+    },
+    "rerank_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "mean_ms": 0.18
+    },
+    "decay_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "mean_ms": 0.0
+    },
+    "compress_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 79.0,
+      "mean_ms": 15.53
+    },
+    "budget_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "mean_ms": 0.0
+    },
+    "prompt_ms": {
+      "n": 72,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "mean_ms": 0.24
+    },
+    "total_ms": {
+      "n": 72,
+      "p50_ms": 1.0,
+      "p95_ms": 925.0,
+      "mean_ms": 247.74
+    }
+  },
+  "rows": [
+    {
+      "query": "What's the small lightweight rescorer we tried for the search results?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": true,
+        "reason": "substring:tinybert",
+        "latency_s": 0.585,
+        "matched_via": "drawer",
+        "signal": "vector",
+        "rank": 1,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 514,
+          "filter_ms": 0,
+          "rerank_ms": 13,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 3,
+          "budget_ms": 0,
+          "prompt_ms": 15,
+          "total_ms": 546
+        }
+      },
+      "yes_hyde": {
+        "matched": true,
+        "reason": "substring:tinybert",
+        "latency_s": 0.742,
+        "matched_via": "drawer",
+        "signal": "vector",
+        "rank": 1,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 729,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 1,
+          "budget_ms": 0,
+          "prompt_ms": 1,
+          "total_ms": 731
+        }
+      },
+      "delta_state": "tied_hit"
+    },
+    {
+      "query": "How did we finally get the entity graph populated from existing data?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.78,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 681,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 77,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 759
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.651,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 583,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 52,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 636
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's the trick to keeping different model copies inside the same card's memory budget?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.915,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 816,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 79,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 896
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.935,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 844,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 80,
+          "budget_ms": 0,
+          "prompt_ms": 1,
+          "total_ms": 925
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Why did we change which Apache plugin Postgres runs?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 3.99,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 3888,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 79,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 3967
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 3.926,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 3835,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 65,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 3900
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What happens when too many things grab the work queue at the same time?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 2.21,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 2006,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 181,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 2187
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 3.252,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 2728,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 501,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 3230
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Is there a way to make the search cheaper without losing quality?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.028,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 3,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 3
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.025,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 1,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Where is the system most likely to crash quietly?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.034,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.02,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "How do we know the reranker is actually helping versus shuffling junk?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.02,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.02,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 1,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's our take on whether a different reranker model would be much better?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.023,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.021,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Which repo owns the reranking code that familiar's pipeline calls?",
+      "shape": "cross_project",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.018,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.014,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Where do I look for the corpus-eval scripts versus the live HTTP API?",
+      "shape": "cross_project",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.013,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.008,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's the connection between the eval probe runner and palace-daemon's search endpoint?",
+      "shape": "cross_project",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.009,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Who handles entity extraction during ingest now?",
+      "shape": "cross_project",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "How does the multi-strategy probe report compare strategies?",
+      "shape": "cross_project",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.006,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What was the big knowledge-graph milestone last week?",
+      "shape": "temporal",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What landed in the daemon a couple of days ago?",
+      "shape": "temporal",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 0
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's the most recent corpus work in multipass eval?",
+      "shape": "temporal",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.008,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.009,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "When did we wire up the slot picker on familiar?",
+      "shape": "temporal",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.01,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.014,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's the current state of FlashRank in the search path?",
+      "shape": "recency",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.018,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.019,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Where are we with the AGE knowledge graph being live?",
+      "shape": "recency",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.018,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.021,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "How is hybrid retrieval performing in production right now?",
+      "shape": "recency",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.018,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.022,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 2,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 2
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's the latest reranker latency measurement?",
+      "shape": "recency",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.022,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.018,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Does Ollama work fine on the Pascal mining card?",
+      "shape": "contradiction",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.024,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.022,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 1,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 2
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Is the L-12-v2 reranker materially better than L-6-v2?",
+      "shape": "contradiction",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.019,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.022,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Did the rerank improve every single query in the eval?",
+      "shape": "contradiction",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.02,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.019,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What does the realmwatch combat-ward subsystem decide about CRDTs?",
+      "shape": "canary",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.018,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.028,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's the verdict on ms-marco-MiniLM-L-24-v2 from our last sweep?",
+      "shape": "canary",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.025,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.027,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Which Caddy site config did we change for cloud-chat-assistant yesterday?",
+      "shape": "canary",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.028,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.023,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "How do we keep the search from being dominated by yesterday's noise?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.02,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.025,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's a sensible amount of pool depth for the rescoring stage?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.023,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 0
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.046,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Where did the new GPU-pinning config land for swapping chat models in and out?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.03,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 0
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.02,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 0
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Did we ever decide whether to expose graph traversal as an MCP tool?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.017,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.012,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What's our story on cross-encoder failure handling?",
+      "shape": "vocab_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.009,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.008,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Why are the new eval results showing identical retrieval for rerank on and off?",
+      "shape": "topical_mismatch",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "Where do the canonical wing/room labels for palace-daemon ingest live now?",
+      "shape": "recency",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.006,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 0
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    },
+    {
+      "query": "What recent change made multiple search strategies comparable in one report?",
+      "shape": "recency",
+      "no_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.009,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 0,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 0
+        }
+      },
+      "yes_hyde": {
+        "matched": false,
+        "reason": "no-match",
+        "latency_s": 0.007,
+        "matched_via": null,
+        "signal": null,
+        "rank": 0,
+        "timings": {
+          "temporal_expand_ms": 0,
+          "palace_search_ms": 1,
+          "filter_ms": 0,
+          "rerank_ms": 0,
+          "modality_ms": 0,
+          "decay_ms": 0,
+          "compress_ms": 0,
+          "budget_ms": 0,
+          "prompt_ms": 0,
+          "total_ms": 1
+        }
+      },
+      "delta_state": "tied_miss"
+    }
+  ]
+}

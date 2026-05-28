@@ -216,11 +216,17 @@ def load_questions(path: Path | str) -> Iterator[LMEQuestion]:
         yield _parse_record(record)
 
 
+CONTENT_RULES_SME_RICH = "sme-rich"
+CONTENT_RULES_UPSTREAM_EXACT = "upstream-exact"
+_VALID_CONTENT_RULES = (CONTENT_RULES_SME_RICH, CONTENT_RULES_UPSTREAM_EXACT)
+
+
 def materialize_sme_corpus(
     questions: Iterator[LMEQuestion] | list[LMEQuestion],
     output_dir: Path | str,
     *,
     max_questions: int | None = None,
+    content_rules: str = CONTENT_RULES_SME_RICH,
 ) -> dict:
     """Write a per-question SME-shape corpus to disk.
 
@@ -243,10 +249,24 @@ def materialize_sme_corpus(
         output_dir: where to write `vault/` and `questions.yaml`.
         max_questions: cap on how many records to materialize. Useful
             for smoke-test runs (e.g. first 10 questions).
+        content_rules: how each session is rendered for embedding.
+            "sme-rich" (default) writes YAML frontmatter + role headers
+            + both user and assistant turns. "upstream-exact" writes
+            only user turns concatenated by newline — matches upstream
+            longmemeval_bench.py's raw protocol. The two modes produce
+            measurably different retrieval (-2.2pp R@5 absorbed into
+            sme-rich's richer rendering vs upstream-exact); the choice
+            should be visible to anyone comparing readings across
+            systems. See docs/benchmarks/2026-05-17-longmemeval-
+            substrate-parity.md.
 
     Returns:
         A summary dict with counts and the questions.yaml content.
     """
+    if content_rules not in _VALID_CONTENT_RULES:
+        raise ValueError(
+            f"content_rules must be one of {_VALID_CONTENT_RULES}; got {content_rules!r}"
+        )
     output_dir = Path(output_dir)
     vault_dir = output_dir / "vault"
     vault_dir.mkdir(parents=True, exist_ok=True)
@@ -261,7 +281,7 @@ def materialize_sme_corpus(
         q_dir.mkdir(exist_ok=True)
         for s in q.haystack_sessions:
             note_path = q_dir / f"{s.session_id}.md"
-            note_path.write_text(_render_session_md(q, s))
+            note_path.write_text(_render_session_md(q, s, content_rules=content_rules))
         questions_yaml.append(q.to_sme_question())
 
     # Defer import so the loader module itself doesn't pull pyyaml
@@ -288,8 +308,30 @@ def materialize_sme_corpus(
     }
 
 
-def _render_session_md(q: LMEQuestion, s: LMESession) -> str:
-    """Render one haystack session as a markdown file with frontmatter."""
+def _render_session_md(
+    q: LMEQuestion,
+    s: LMESession,
+    *,
+    content_rules: str = CONTENT_RULES_SME_RICH,
+) -> str:
+    """Render one haystack session for embedding.
+
+    Two rule sets are supported:
+
+    - "sme-rich" (default): YAML frontmatter (session_id, date, question_id,
+      is_evidence, source), `# Session <id>` header, then `## user` / `##
+      assistant` blocks with all turns. Carries useful metadata + assistant
+      semantics for downstream consumption, but produces embeddings that
+      drift -2.2pp on R@5 vs upstream's content rules.
+
+    - "upstream-exact": `"\\n".join(t.content for t in s.turns if t.role ==
+      "user")`. No metadata, no role markers, no assistant turns. Matches
+      upstream longmemeval_bench.py's raw mode and reproduces upstream's
+      published 96.6% R@5 exactly (per substrate-parity bench, #51).
+    """
+    if content_rules == CONTENT_RULES_UPSTREAM_EXACT:
+        return "\n".join(t.content for t in s.turns if t.role == "user")
+
     is_evidence = s.is_evidence(q.answer_session_ids)
     lines = [
         "---",

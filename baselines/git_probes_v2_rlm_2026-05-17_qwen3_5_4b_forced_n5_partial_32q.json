@@ -1,0 +1,577 @@
+{
+  "adapter": "rlm",
+  "db_path": null,
+  "collection_name": null,
+  "corpus_version": "mempalace-git-probes-v2",
+  "n_results": 5,
+  "questions": [
+    {
+      "id": "q001_pgvector_cutover_runbook_md",
+      "text": "Post-mortem section in pgvector-cutover-runbook",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2388,
+      "elapsed_ms": 112496.0,
+      "retrieval_path": [
+        "rlm_completion (112496.0ms, 3 tool calls, 15 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q002_2026_05_14_search_bench_hybrid_cutover_j",
+      "text": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-14-search-bench-hybrid-cutover.json"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3550,
+      "elapsed_ms": 492988.1,
+      "retrieval_path": [
+        "rlm_completion (492988.1ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q003_postgres_py",
+      "text": "Trigram index + complete schema in _create_table + test isolation",
+      "min_hops": 1,
+      "expected_sources": [
+        "postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2373,
+      "elapsed_ms": 87474.4,
+      "retrieval_path": [
+        "rlm_completion (87474.3ms, 3 tool calls, 15 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q004_migrate_to_postgres_py",
+      "text": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1850,
+      "elapsed_ms": 50254.8,
+      "retrieval_path": [
+        "rlm_completion (50254.7ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q005_searcher_py",
+      "text": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 10688,
+      "elapsed_ms": 138944.1,
+      "retrieval_path": [
+        "rlm_completion (138944.0ms, 15 tool calls, 75 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q006_cli_py",
+      "text": "Mempalace rooms subcommand + example config.yaml",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [
+        "cli.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 9885,
+      "elapsed_ms": 327240.8,
+      "retrieval_path": [
+        "rlm_completion (327240.7ms, 13 tool calls, 65 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q007_cli_py",
+      "text": "Add --mode session for per-session manifest drawers",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 9841,
+      "elapsed_ms": 255834.9,
+      "retrieval_path": [
+        "rlm_completion (255834.7ms, 19 tool calls, 95 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q008_searcher_py",
+      "text": "Hybrid merger must bypass max_distance, not honor it",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 3202,
+      "elapsed_ms": 456375.8,
+      "retrieval_path": [
+        "rlm_completion (456375.6ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q009_searcher_py",
+      "text": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [
+        "searcher.py"
+      ],
+      "recall": 1.0,
+      "hit": true,
+      "tokens": 1733,
+      "elapsed_ms": 70990.4,
+      "retrieval_path": [
+        "rlm_completion (70990.3ms, 2 tool calls, 10 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q010_searcher_py",
+      "text": "Hybrid candidate strategy with graph integration (Phases 3+4)",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 574,
+      "elapsed_ms": 25078.1,
+      "retrieval_path": [
+        "rlm_completion (25078.1ms, 1 tool calls, 5 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q011_searcher_py",
+      "text": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+      "min_hops": 1,
+      "expected_sources": [
+        "searcher.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 95,
+      "elapsed_ms": 21567.1,
+      "retrieval_path": [
+        "rlm_completion (21567.0ms, 0 tool calls, 0 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q012_convo_miner_py",
+      "text": "Emit only canonical rooms per hybrid-search-taxonomy spec",
+      "min_hops": 1,
+      "expected_sources": [
+        "convo_miner.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 8110,
+      "elapsed_ms": 266251.8,
+      "retrieval_path": [
+        "rlm_completion (266251.7ms, 13 tool calls, 60 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q013_knowledge_graph_age_py",
+      "text": "Unblock CI on 3.9/3.13 \u2014 jargon leak + eager psycopg2 import",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3322,
+      "elapsed_ms": 54740.8,
+      "retrieval_path": [
+        "rlm_completion (54740.6ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q014_postgres_py",
+      "text": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+      "min_hops": 1,
+      "expected_sources": [
+        "postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 9712,
+      "elapsed_ms": 231989.6,
+      "retrieval_path": [
+        "rlm_completion (231989.6ms, 19 tool calls, 95 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q015_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4097,
+      "elapsed_ms": 103145.4,
+      "retrieval_path": [
+        "rlm_completion (103145.3ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q016_mcp_server_py",
+      "text": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mcp_server.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4240,
+      "elapsed_ms": 189848.4,
+      "retrieval_path": [
+        "rlm_completion (189848.3ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q017_knowledge_graph_age_py",
+      "text": "Inline Cypher parameters instead of using AGE's $1 form",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1949,
+      "elapsed_ms": 85482.9,
+      "retrieval_path": [
+        "rlm_completion (85482.9ms, 3 tool calls, 15 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q018_mempal_precompact_hook_sh",
+      "text": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+      "min_hops": 1,
+      "expected_sources": [
+        "mempal-precompact-hook.sh"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 7388,
+      "elapsed_ms": 113707.8,
+      "retrieval_path": [
+        "rlm_completion (113707.7ms, 9 tool calls, 50 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q019_repair_py",
+      "text": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+      "min_hops": 1,
+      "expected_sources": [
+        "repair.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2531,
+      "elapsed_ms": 113388.5,
+      "retrieval_path": [
+        "rlm_completion (113388.3ms, 3 tool calls, 15 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q020_pgvector_cutover_runbook_md",
+      "text": "Update runbook with daemon-state + repair-required findings",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2459,
+      "elapsed_ms": 374828.8,
+      "retrieval_path": [
+        "rlm_completion (374828.7ms, 4 tool calls, 20 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q021_migrate_to_postgres_py",
+      "text": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4555,
+      "elapsed_ms": 88885.1,
+      "retrieval_path": [
+        "rlm_completion (88885.1ms, 8 tool calls, 40 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q022_migrate_to_postgres_py",
+      "text": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5542,
+      "elapsed_ms": 98686.0,
+      "retrieval_path": [
+        "rlm_completion (98685.9ms, 11 tool calls, 55 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q023_migrate_to_postgres_py",
+      "text": "Use pg_available_extensions.name (not extname) in preflight",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1821,
+      "elapsed_ms": 87166.6,
+      "retrieval_path": [
+        "rlm_completion (87166.4ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q024_pgvector_cutover_runbook_md",
+      "text": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+      "min_hops": 1,
+      "expected_sources": [
+        "pgvector-cutover-runbook.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 8963,
+      "elapsed_ms": 488872.4,
+      "retrieval_path": [
+        "rlm_completion (488872.3ms, 12 tool calls, 58 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q025_migrate_to_postgres_py",
+      "text": "Phase_6_verify + phase_7_done \u2014 Phases 3.5 + 3.6",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 4718,
+      "elapsed_ms": 426597.3,
+      "retrieval_path": [
+        "rlm_completion (426597.2ms, 9 tool calls, 45 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q026_migrate_to_postgres_py",
+      "text": "Phase_5_kg \u2014 sqlite triples \u2192 AGE (Phase 3.4.c)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5182,
+      "elapsed_ms": 547060.5,
+      "retrieval_path": [
+        "rlm_completion (547060.3ms, 12 tool calls, 60 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q027_2026_05_10_pgvector_age_migration_impl_m",
+      "text": "Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c",
+      "min_hops": 1,
+      "expected_sources": [
+        "2026-05-10-pgvector-age-migration-impl.md"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 5194,
+      "elapsed_ms": 96340.2,
+      "retrieval_path": [
+        "rlm_completion (96340.0ms, 8 tool calls, 40 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q028_migrate_to_postgres_py",
+      "text": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3503,
+      "elapsed_ms": 497428.1,
+      "retrieval_path": [
+        "rlm_completion (497427.9ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q029_migrate_to_postgres_py",
+      "text": "Phase_1_schema \u2014 extensions + checkpoint table (Phase 3.2)",
+      "min_hops": 1,
+      "expected_sources": [
+        "migrate_to_postgres.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 2693,
+      "elapsed_ms": 98847.4,
+      "retrieval_path": [
+        "rlm_completion (98847.4ms, 7 tool calls, 35 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q030_cli_py",
+      "text": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+      "min_hops": 1,
+      "expected_sources": [
+        "cli.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 8886,
+      "elapsed_ms": 253972.2,
+      "retrieval_path": [
+        "rlm_completion (253972.1ms, 13 tool calls, 65 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q031_config_py",
+      "text": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+      "min_hops": 1,
+      "expected_sources": [
+        "config.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 1741,
+      "elapsed_ms": 75694.0,
+      "retrieval_path": [
+        "rlm_completion (75693.9ms, 2 tool calls, 10 drawers)"
+      ],
+      "error": null
+    },
+    {
+      "id": "q032_knowledge_graph_age_py",
+      "text": "As_of temporal filter on query_triples (Phase 2.3)",
+      "min_hops": 1,
+      "expected_sources": [
+        "knowledge_graph_age.py"
+      ],
+      "matched_sources": [],
+      "recall": 0.0,
+      "hit": false,
+      "tokens": 3765,
+      "elapsed_ms": 82709.8,
+      "retrieval_path": [
+        "rlm_completion (82709.8ms, 5 tool calls, 25 drawers)"
+      ],
+      "error": null
+    }
+  ],
+  "summary": {
+    "total": 32,
+    "full_recall": 4,
+    "partial_hit": 4,
+    "mean_recall": 0.125,
+    "mean_tokens": 4579.6875,
+    "tokens_per_correct_answer": 36637.5,
+    "by_hop": {
+      "1": {
+        "n": 32,
+        "mean_recall": 0.125,
+        "hit_rate": 0.125,
+        "mean_tokens": 4579.6875
+      }
+    }
+  }
+}

@@ -1280,7 +1280,7 @@
             <span class="eyebrow no-rule">LongMemEval-S 500Q &middot; A/B leg</span>
             <h3>mempalace-daemon, <em>/search/age-fused</em></h3>
           </div>
-          <span class="bench-pill running">running &middot; 2026-05-28</span>
+          <span class="bench-pill live">A/B finding &middot; 2026-05-28</span>
         </div>
 
         <dl class="bench-meta">
@@ -1292,27 +1292,66 @@
           <div><dt>Judge</dt><dd>gpt-5.3-chat</dd></div>
         </dl>
 
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">R@5 overall</div>
+            <div class="value"><em>0.00%</em></div>
+            <div class="sub">vs 3.97% on <code>/search</code> default</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">QA accuracy</div>
+            <div class="value"><em>17.60%</em></div>
+            <div class="sub">vs 60.40% on <code>/search</code> default (&minus;42.80pp)</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">Context per query</div>
+            <div class="value"><em>459</em><span style="font-size: 0.55em; color: var(--ice-ghost);"> chars mean</span></div>
+            <div class="sub">vs 2539 on <code>/search</code> default (5.5&times; less)</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Per-category A/B delta (#44 default vs #45 age-fused)">
+          <thead>
+            <tr><th>SME Category</th><th class="num">n</th><th class="num">QA-acc default</th><th class="num">QA-acc age-fused</th><th class="num">&Delta;</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>cat_1</td><td class="num">150</td><td class="num">52.67%</td><td class="num">7.33%</td><td class="num">&minus;45.34pp</td></tr>
+            <tr><td>cat_1_negative</td><td class="num">30</td><td class="num">90.00%</td><td class="num">100.00%</td><td class="num">+10.00pp</td></tr>
+            <tr><td>cat_2c</td><td class="num">121</td><td class="num">74.38%</td><td class="num">0.00%</td><td class="num">&minus;74.38pp</td></tr>
+            <tr><td>cat_3_partial</td><td class="num">72</td><td class="num">69.44%</td><td class="num">1.39%</td><td class="num">&minus;68.05pp</td></tr>
+            <tr><td>cat_6</td><td class="num">127</td><td class="num">44.09%</td><td class="num">36.22%</td><td class="num">&minus;7.87pp</td></tr>
+            <tr class="total"><td>overall</td><td class="num">500</td><td class="num">60.40%</td><td class="num">17.60%</td><td class="num">&minus;42.80pp</td></tr>
+          </tbody>
+        </table>
+
         <p class="bench-prose">
-          The A/B partner to the reading above. Same haystack, same
-          reader, same judge, same per-question wing isolation. The only
-          changed variable is the retrieval endpoint: vector-only
-          <code>/search</code> against vector+AGE-graph RRF fusion
-          (<code>/search/age-fused</code>). The clean A/B isolates
-          whatever lift the AGE-graph half of the fusion contributes
-          &mdash; or doesn't.
+          The A/B isolates the retrieval endpoint &mdash; same haystack,
+          reader, judge, wing isolation; only the daemon endpoint
+          changes. The result is a sharp regression: <code>/search/age-fused</code>
+          returned roughly one-fifth the context per query and QA
+          accuracy fell by 42.8 points. cat_1_negative's rise to 100%
+          is the abstention category &mdash; with less context the
+          reader said &ldquo;I don't know&rdquo; more, which is the right
+          answer for unanswerable questions.
         </p>
 
-        <p class="bench-prose" style="margin-top: 1rem;">
-          Caveat as of 2026-05-25: the AGE triples layer was effectively
-          empty (<code>triples: 1</code>) after the entities-only
-          backfill. If that's still true when this run completes, the
-          fusion's graph half has nothing to contribute and the
-          endpoints will produce near-identical rankings. The A/B then
-          measures <em>capacity for lift</em>, not realised lift.
-        </p>
+        <div class="caveat">
+          <span class="label">honest caveat</span>
+          This reading does <em>not</em> say AGE-fused retrieval is
+          structurally worse. As of 2026-05-25 the AGE triples layer
+          was effectively empty (<code>triples: 1</code>) after the
+          entities-only backfill &mdash; the fusion's graph half had
+          nothing to fuse <em>with</em>, so age-fused was effectively
+          competing against vector-only with a narrower candidate pool
+          and tighter snippet boundaries. The real A/B will run again
+          after the triple-layer backfill completes (the daemon's
+          <code>kg_stats</code> now reports 1.8M triples as of the run
+          window). Until then, treat this as a measurement of the
+          empty-triples regime, not of age-fused's capacity.
+        </div>
 
         <div class="bench-foot">
-          <span>Target &middot; baselines/longmemeval_age_fused_2026-05-28.json (pending)</span>
+          <span>Source &middot; baselines/longmemeval_age_fused_2026-05-28.json</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/45">techempower-org/multipass-structural-memory-eval#45</a>
         </div>
       </article>

@@ -201,6 +201,36 @@ def test_aggregation_reports_judge_correct_rate(dataset, args_factory):
     assert report["summary"]["judge_total_usage"]["total_tokens"] == 56
 
 
+def test_aggregation_emits_r1_misses_with_qtype_histogram(dataset, args_factory):
+    """#53 sub-task 2 — r1_misses + per-type histogram in the report.
+
+    Verifies the aggregate output includes a top-level r1_misses list and
+    r1_miss_by_type histogram. The flat-baseline adapter (used by the
+    test fixture's args_factory) returns no ranked retrieval, so every
+    fixture question is a rank-1 miss — each row should land in the list
+    bucketed by question_type.
+    """
+    args = args_factory(dataset, skip_judge=True, skip_reader=True)
+    report = harness.run(args)
+    summary = report["summary"]
+    assert "r1_misses" in summary
+    assert "r1_miss_by_type" in summary
+    assert isinstance(summary["r1_misses"], list)
+    assert isinstance(summary["r1_miss_by_type"], dict)
+    # Histogram rows match the question_type values seen in the fixture.
+    total_misses = sum(summary["r1_miss_by_type"].values())
+    assert total_misses == len(summary["r1_misses"])
+
+
+def test_per_question_record_has_rank_diagnostics(dataset, args_factory):
+    """#53 sub-task 2 — every per-question record carries rank-aware fields."""
+    args = args_factory(dataset, skip_judge=True, skip_reader=True)
+    report = harness.run(args)
+    for rec in report["per_question"]:
+        for key in ("retrieved_rank_1", "hit_at_1", "hit_at_5", "hit_at_10"):
+            assert key in rec, f"record missing {key!r}: {rec.keys()}"
+
+
 def test_aggregation_records_disagreements(tmp_path, args_factory):
     """If SME recall is high but judge says INCORRECT, harness flags it."""
     # Construct a fixture where the abstention case has SME recall=0

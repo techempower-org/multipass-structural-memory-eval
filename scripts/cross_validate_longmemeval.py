@@ -291,6 +291,18 @@ def run_one_question(
     expected = q.expected_sources_session_level()
     sme_recall, matched = sme_substring_recall(ctx, expected)
 
+    # Rank-aware diagnostics (#53 sub-task 2 — r1_misses + hit-at-K).
+    # adaptmem's longmemeval_eval.py r1_misses framing: per-question
+    # diagnostics on which question_types eat the recall budget. Adapter
+    # retrieved_entities are in rank order; their .id is the session_id
+    # for the LongMemEval ingest topology (one drawer per session).
+    expected_set = set(expected)
+    retrieved_ranked_ids = [e.id for e in result.retrieved_entities]
+    rank_1 = retrieved_ranked_ids[0] if retrieved_ranked_ids else None
+    hit_at_1 = rank_1 in expected_set if rank_1 is not None else False
+    hit_at_5 = any(rid in expected_set for rid in retrieved_ranked_ids[:5])
+    hit_at_10 = any(rid in expected_set for rid in retrieved_ranked_ids[:10])
+
     record: dict[str, Any] = {
         "question_id": q.question_id,
         "question_type": q.question_type,
@@ -301,6 +313,10 @@ def run_one_question(
         "sme_recall": sme_recall,
         "context_chars": len(ctx),
         "adapter_error": result.error,
+        "retrieved_rank_1": rank_1,
+        "hit_at_1": hit_at_1,
+        "hit_at_5": hit_at_5,
+        "hit_at_10": hit_at_10,
     }
 
     # 5. Optional reader → hypothesis
@@ -445,12 +461,35 @@ def aggregate(records: list[dict]) -> dict:
         }
 
     dual = aggregate_dual_metric(records)
+
+    # Rank-aware diagnostics (#53 sub-task 2). r1_misses lists every
+    # question whose rank-1 retrieval missed the expected session, with
+    # whether top-5 or top-10 saved it. r1_miss_by_type is the
+    # question_type histogram for triaging which categories eat the
+    # recall budget — direct port from adaptmem's longmemeval_eval.py.
+    r1_misses: list[dict] = []
+    r1_miss_by_type: dict[str, int] = {}
+    for r in records:
+        if r.get("hit_at_1") is False:
+            qtype = r.get("question_type", "unknown")
+            r1_misses.append({
+                "question_id": r["question_id"],
+                "question_type": qtype,
+                "retrieved_rank_1": r.get("retrieved_rank_1"),
+                "expected_sources": r.get("expected_sources", []),
+                "hit_at_5": r.get("hit_at_5"),
+                "hit_at_10": r.get("hit_at_10"),
+            })
+            r1_miss_by_type[qtype] = r1_miss_by_type.get(qtype, 0) + 1
+
     return {
         "per_category": per_cat,
         "total_questions": len(records),
         "judge_total_usage": total_usage,
         "disagreements": disagreements,
         "dual_metric": dual,
+        "r1_misses": r1_misses,
+        "r1_miss_by_type": r1_miss_by_type,
         "ku_caveat": (
             "Per-category numbers are reported separately by design. "
             "KU (knowledge-update) and SME Cat 3 measure different "

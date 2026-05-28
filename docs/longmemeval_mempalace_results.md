@@ -9,7 +9,7 @@ and produced by [SME #44](https://github.com/techempower-org/multipass-structura
 **60.40%** at n=500. Subsequent legs in flight: techempower-org/multipass-structural-memory-eval#45
 (`/search/age-fused`) and techempower-org/multipass-structural-memory-eval#46
 (Familiar adapter). Tables below show the `mempalace-daemon` column
-filled; `familiar` columns pending #46.
+filled; `familiar` column populated from techempower-org/multipass-structural-memory-eval#46 retry (2026-05-28 12:57 PDT, n=500, baselines/longmemeval_familiar_2026-05-28-retry.json).
 
 > **R@5 caveat:** the substring-based R@5 reported here is **broken** in
 > this run — `--content-rules upstream-exact` strips session IDs from
@@ -99,12 +99,12 @@ session id appeared in the top-5 retrieved chunks.
 
 | SME Category | LME Question Type | n | R@5 (mempalace-daemon) | R@5 (familiar) |
 |---|---|---:|---:|---:|
-| cat_1          | single-session-* (IE)         | 150 | 0.0000 | pending #46 |
-| cat_2c         | multi-session (MR)            | 121 | 0.0000 | pending #46 |
-| cat_3_partial  | knowledge-update (KU)         | 72  | 0.0000 | pending #46 |
-| cat_6          | temporal-reasoning (TR)       | 127 | 0.1562 | pending #46 |
-| cat_1_negative | abstention (ABS)              | 30  | 0.0000 | pending #46 |
-| **Overall**    | —                             | 500 | **0.0397** | pending #46 |
+| cat_1          | single-session-* (IE)         | 150 | 0.0000 | 0.1000 |
+| cat_2c         | multi-session (MR)            | 121 | 0.0000 | 0.0780 |
+| cat_3_partial  | knowledge-update (KU)         | 72  | 0.0000 | 0.0972 |
+| cat_6          | temporal-reasoning (TR)       | 127 | 0.1562 | 0.1299 |
+| cat_1_negative | abstention (ABS)              | 30  | 0.0000 | 0.2250 |
+| **Overall**    | —                             | 500 | **0.0397** | **0.1094** |
 
 The 3.97% headline is an artifact of the matcher, not the substrate
 (see caveat at top of doc). The cat_6 row (15.62%) shows that
@@ -125,12 +125,12 @@ abstention category (`cat_1_negative`) per LongMemEval convention.
 
 | SME Category | LME Question Type | n | QA-acc (mempalace-daemon) | QA-acc (familiar) |
 |---|---|---:|---:|---:|
-| cat_1          | single-session-* (IE)         | 150 | 0.5267 | pending #46 |
-| cat_2c         | multi-session (MR)            | 121 | 0.7438 | pending #46 |
-| cat_3_partial  | knowledge-update (KU)         | 72  | 0.6944 | pending #46 |
-| cat_6          | temporal-reasoning (TR)       | 127 | 0.4409 | pending #46 |
-| cat_1_negative | abstention (ABS)              | 30  | 0.9000 | pending #46 |
-| **Overall**    | —                             | 500 | **0.6040** | pending #46 |
+| cat_1          | single-session-* (IE)         | 150 | 0.5267 | 0.2133 |
+| cat_2c         | multi-session (MR)            | 121 | 0.7438 | 0.1488 |
+| cat_3_partial  | knowledge-update (KU)         | 72  | 0.6944 | 0.2778 |
+| cat_6          | temporal-reasoning (TR)       | 127 | 0.4409 | 0.3701 |
+| cat_1_negative | abstention (ABS)              | 30  | 0.9000 | 0.9667 |
+| **Overall**    | —                             | 500 | **0.6040** | **0.2920** |
 
 ### Judge label breakdown (mempalace-daemon)
 
@@ -166,12 +166,12 @@ hold.
 
 | SME Category | Gap (mempalace-daemon) | Gap (familiar) |
 |---|---:|---:|
-| cat_1          | -0.5267 | pending #46 |
-| cat_2c         | -0.7438 | pending #46 |
-| cat_3_partial  | -0.6944 | pending #46 |
-| cat_6          | -0.2847 | pending #46 |
-| cat_1_negative | -0.9000 | pending #46 |
-| **Overall**    | **-0.5643** | pending #46 |
+| cat_1          | -0.5267 | -0.1133 |
+| cat_2c         | -0.7438 | -0.0708 |
+| cat_3_partial  | -0.6944 | -0.1806 |
+| cat_6          | -0.2847 |  -0.2402 |
+| cat_1_negative | -0.9000 | -0.7417 |
+| **Overall**    | **-0.5643** | **-0.1826** |
 
 ---
 
@@ -239,8 +239,8 @@ papers — verify dates before citing for publication):
 | Hindsight      | oracle | 91.4% | (paper) | TBD link |
 | True Memory    | oracle | 87.8% | (paper) | TBD link |
 | **MemPalace via palace-daemon `/search`** (2026-05-28, this fork) | oracle | **60.40%** | o4-mini / gpt-5.3-chat (Azure Foundry) | techempower-org/multipass-structural-memory-eval#44 |
-| MemPalace via `/search/age-fused` (in flight) | oracle | pending | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#45 |
-| Familiar (in flight)  | oracle | pending | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#46 |
+| MemPalace via `/search/age-fused` (this fork) | oracle | **17.60%** | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#45 (empty-triples caveat) |
+| Familiar (this fork)  | oracle | **29.20%** | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#46 |
 
 Notes:
 - All numbers above are on the **oracle** split. M and S splits are

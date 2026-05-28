@@ -49,10 +49,12 @@ def paired_bootstrap_ci(
     observed_mean = float(np.mean(diffs))
     n = len(diffs)
 
-    boot_means = np.empty(n_bootstrap)
-    for i in range(n_bootstrap):
-        indices = rng.randint(0, n, size=n)
-        boot_means[i] = np.mean(diffs[indices])
+    # Draw all resample indices at once. Legacy RandomState.randint with
+    # size=(n_bootstrap, n) consumes the same byte stream in the same
+    # row-major order as n_bootstrap successive size=n calls, so this is
+    # bit-identical to the loop for a fixed seed.
+    indices = rng.randint(0, n, size=(n_bootstrap, n))
+    boot_means = diffs[indices].mean(axis=1)
 
     alpha = 1.0 - confidence
     ci_lower = float(np.percentile(boot_means, 100 * alpha / 2))

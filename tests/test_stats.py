@@ -38,6 +38,22 @@ class TestPairedBootstrapCI:
         with pytest.raises(AssertionError):
             paired_bootstrap_ci([1, 2, 3], [1, 2])
 
+    def test_seeded_output_is_pinned(self):
+        """Pin the numeric output for a fixed seed.
+
+        Guards against silent drift if the resampling implementation
+        changes (e.g. loop → vectorized): the RNG bit-stream is the
+        same, so percentiles must match exactly. Values captured from
+        the reference loop implementation.
+        """
+        a = [0.8, 0.6, 0.7, 0.9, 0.5, 0.4, 0.8, 0.7, 0.6, 0.5]
+        b = [0.5, 0.4, 0.6, 0.7, 0.3, 0.2, 0.6, 0.5, 0.4, 0.3]
+        r = paired_bootstrap_ci(a, b, seed=42, n_bootstrap=1000)
+        assert r.mean_diff == 0.2
+        assert r.ci_lower == pytest.approx(0.17, abs=1e-9)
+        assert r.ci_upper == pytest.approx(0.23, abs=1e-9)
+        assert r.p_value_approx == 0.0
+
 
 class TestBenjaminiHochberg:
     def test_no_pvalues(self):

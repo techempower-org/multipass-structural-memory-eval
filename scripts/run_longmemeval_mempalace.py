@@ -238,6 +238,7 @@ def ingest_question_haystack(
 
 def _make_wing_scoped_daemon_adapter(
     *, api_url: str, api_key: str, wing: str, kind: Optional[str] = None,
+    search_endpoint: str = "/search",
 ) -> SMEAdapter:
     """Build a MemPalaceDaemonAdapter that scopes /search to ``wing``.
 
@@ -256,8 +257,10 @@ def _make_wing_scoped_daemon_adapter(
         api_url=api_url,
         api_key=api_key,
         kind=kind or "all",  # LongMemEval drawers aren't checkpoints
+        search_endpoint=search_endpoint,
     )
     bound_wing = wing
+    bound_endpoint = search_endpoint
 
     class _WingScoped(MemPalaceDaemonAdapter):
         def __init__(self) -> None:
@@ -269,6 +272,7 @@ def _make_wing_scoped_daemon_adapter(
             self.kind = inner.kind
             self.api_timeout = inner.api_timeout
             self.prefer_graph_endpoint = inner.prefer_graph_endpoint
+            self.search_endpoint = inner.search_endpoint
 
         def query(self, question: str, *, n_results: int = 5,
                   kind: Optional[str] = None, route: bool = False,
@@ -277,15 +281,30 @@ def _make_wing_scoped_daemon_adapter(
 
             chosen_kind = kind or self.kind
             scope_wing = wing or bound_wing
-            params: dict[str, Any] = {
-                "q": question, "limit": n_results, "kind": chosen_kind,
-            }
-            if scope_wing:
-                params["wing"] = scope_wing
-            if room:
-                params["room"] = room
-            url = f"{self.api_url}/search?{_urlparse.urlencode(params)}"
-            body = self._http_get(url)
+
+            if bound_endpoint != "/search":
+                # POST /search/age-fused — field name `query` (not `q`),
+                # no `kind` filter (the daemon's age-fused path doesn't
+                # accept it). Reuses the same body-parsing branch below.
+                payload: dict[str, Any] = {
+                    "query": question, "limit": n_results,
+                }
+                if scope_wing:
+                    payload["wing"] = scope_wing
+                if room:
+                    payload["room"] = room
+                url = f"{self.api_url}{bound_endpoint}"
+                body = self._http_post(url, payload)
+            else:
+                params: dict[str, Any] = {
+                    "q": question, "limit": n_results, "kind": chosen_kind,
+                }
+                if scope_wing:
+                    params["wing"] = scope_wing
+                if room:
+                    params["room"] = room
+                url = f"{self.api_url}/search?{_urlparse.urlencode(params)}"
+                body = self._http_get(url)
             if isinstance(body, QueryResult):
                 return body
 
@@ -311,10 +330,14 @@ def _make_wing_scoped_daemon_adapter(
             context_parts: list[str] = []
             retrieved: list[Entity] = []
             for i, hit in enumerate(results):
+                # /search nests fields under metadata; /search/age-fused
+                # places them at top level. Tolerate both.
                 meta = hit.get("metadata") or {}
-                wing_name = meta.get("wing", "?")
-                room_name = meta.get("room", "?")
-                source_file = meta.get("source_file") or f"hit{i}"
+                wing_name = meta.get("wing") or hit.get("wing", "?")
+                room_name = meta.get("room") or hit.get("room", "?")
+                source_file = (
+                    meta.get("source_file") or hit.get("source_file") or f"hit{i}"
+                )
                 source_label = Path(source_file).name or source_file
                 text = hit.get("text", "") or ""
                 context_parts.append(
@@ -477,6 +500,7 @@ def _build_factory(args: argparse.Namespace) -> Callable[[LMEQuestion, Path], SM
                 api_url=args.api_url, api_key=api_key,
                 wing=f"{LME_WING_PREFIX}{q.question_id}",
                 kind=args.kind,
+                search_endpoint=getattr(args, "search_endpoint", "/search"),
             )
         return _factory
 
@@ -717,6 +741,10 @@ def build_arg_parser() -> argparse.ArgumentParser:
                         "turns only, no metadata — matches upstream "
                         "longmemeval_bench.py raw protocol and removes the "
                         "documented -2.2pp loader-cost (#54 / #51).")
+    p.add_argument("--search-endpoint", default="/search",
+                   help="Daemon search endpoint. Default '/search' (vector "
+                        "+ BM25). Pass '/search/age-fused' for the RRF "
+                        "fusion of vector+BM25+AGE-graph (#45).")
     p.add_argument("-v", "--verbose", action="store_true")
     return p
 

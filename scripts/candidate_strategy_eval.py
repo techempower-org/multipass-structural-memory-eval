@@ -135,17 +135,21 @@ def _mcp_search(api_url: str, api_key: str, *, query: str, strategy: str,
 
 
 def _is_relevant(hit: dict, predicate: dict) -> bool:
-    """A drawer is relevant iff source_glob matches AND any content_any matches."""
+    """A drawer is relevant iff source_glob matches AND any content_any matches.
+
+    palace-daemon nests source_file under hit.metadata; older callers put it
+    at the top level. Check both so the matcher works on either shape.
+    """
+    meta = hit.get("metadata") or {}
     source_glob = predicate.get("source_glob")
     if source_glob:
-        sf = hit.get("source_file") or ""
+        sf = meta.get("source_file") or hit.get("source_file") or ""
         if not fnmatch.fnmatch(sf, source_glob):
             return False
     content_any = predicate.get("content_any") or []
     if not content_any:
-        # Predicate has no content_any (and source_glob matched if given) → relevant
         return True
-    text = hit.get("text") or ""
+    text = hit.get("text") or meta.get("text") or ""
     return any(sub in text for sub in content_any)
 
 
@@ -180,18 +184,27 @@ def aggregate(per_query: dict[str, dict[str, dict]], strategies: list[str], n: i
     for s in strategies:
         rows = [per_query[qid][s] for qid in per_query if s in per_query[qid]]
         if not rows:
-            per_strategy[s] = {"n": 0}
+            per_strategy[s] = {"n": 0, "n_ok": 0, "n_errors": 0}
             continue
+        ok_rows = [r for r in rows if "error" not in r]
+        n_errors = len(rows) - len(ok_rows)
         r5 = sum(r["r5"] for r in rows) / n
         r10 = sum(r["r10"] for r in rows) / n
         mrr = sum(r["rr"] for r in rows) / n
-        lat = sorted(r["latency_ms"] for r in rows)
-        p50 = median(lat)
-        p95 = lat[int(len(lat) * 0.95)] if len(lat) >= 2 else lat[0]
+        if ok_rows:
+            lat = sorted(r["latency_ms"] for r in ok_rows)
+            p50 = median(lat)
+            p95 = lat[int(len(lat) * 0.95)] if len(lat) >= 2 else lat[0]
+            p50_out = round(p50, 1)
+            p95_out = round(p95, 1)
+        else:
+            p50_out = None
+            p95_out = None
         per_strategy[s] = {
-            "n": n, "R@5": round(r5, 4), "R@10": round(r10, 4),
+            "n": n, "n_ok": len(ok_rows), "n_errors": n_errors,
+            "R@5": round(r5, 4), "R@10": round(r10, 4),
             "MRR": round(mrr, 4),
-            "p50_ms": round(p50, 1), "p95_ms": round(p95, 1),
+            "p50_ms": p50_out, "p95_ms": p95_out,
         }
     headline = {}
     if per_strategy:

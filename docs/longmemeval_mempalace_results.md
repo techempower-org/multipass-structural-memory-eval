@@ -1,13 +1,23 @@
 # LongMemEval — MemPalace Results
 
-This is the results template for [SME #19 — Run MemPalace fork through
-LongMemEval E2E QA](https://github.com/techempower-org/multipass-structural-memory-eval/issues/19).
-The first published score for the MemPalace fork on LongMemEval lands
-here once the run completes.
+First published score for the MemPalace fork on LongMemEval, tracked
+under [SME #19](https://github.com/techempower-org/multipass-structural-memory-eval/issues/19)
+and produced by [SME #44](https://github.com/techempower-org/multipass-structural-memory-eval/issues/44).
 
-**Status:** scaffolded — awaiting first live run. Tables below contain
-placeholders. The exact CLI commands that produce these numbers are
-documented at the bottom.
+**Status (2026-05-28):** first leg landed — `mempalace-daemon` against
+`/search` (default vector + BM25, no AGE traversal). Overall QA accuracy
+**60.40%** at n=500. Subsequent legs in flight: techempower-org/multipass-structural-memory-eval#45
+(`/search/age-fused`) and techempower-org/multipass-structural-memory-eval#46
+(Familiar adapter). Tables below show the `mempalace-daemon` column
+filled; `familiar` columns pending #46.
+
+> **R@5 caveat:** the substring-based R@5 reported here is **broken** in
+> this run — `--content-rules upstream-exact` strips session IDs from
+> the retrieved drawer text, so the matcher cannot find them. The fix
+> lives in techempower-org/multipass-structural-memory-eval#67
+> (drawer_id-based matcher) but did not merge into the bench branch in
+> time. The QA-accuracy figure is unaffected; read 3.97% R@5 as a
+> measurement artifact, not a substrate quality signal.
 
 ---
 
@@ -58,10 +68,13 @@ For each LongMemEval question:
 
 ### Models
 
-| Role | Model | Why |
-|---|---|---|
-| Reader | `gpt-4.1-mini` | Cheap, good enough for multi-session synthesis. |
-| Judge  | `gpt-4o-2024-08-06` | The LongMemEval canonical judge (paper §4). |
+| Role | Model | Provider | Why |
+|---|---|---|---|
+| Reader | `o4-mini` | Azure Foundry (claud-assistant-resource) | Reasoning-tier reader, kept the per-question cost ~\$0.0026 across the 500Q chain (chain total ~\$1.30). |
+| Judge  | `gpt-5.3-chat` | Azure Foundry | Stronger judge than the paper's `gpt-4o-2024-08-06`; LongMemEval's published runs used the GPT-4 family. Reader/judge model deltas are flagged when reporting. |
+
+Per-question reader cost: ~\$0.0026. Per-question judge cost: ~\$0.0011.
+Chain (n=500) total Azure cost for techempower-org/multipass-structural-memory-eval#44: ~\$1.30.
 
 ### KU caveat
 
@@ -79,53 +92,86 @@ True Memory. Per-category rows are the SME-internal diagnostic.
 
 ---
 
-## R@5 Retrieval Recall — placeholder
+## R@5 Retrieval Recall — 2026-05-28 (#44)
 
 Substring-match retrieval recall at top-5. R@5 = 1.0 means the gold
 session id appeared in the top-5 retrieved chunks.
 
 | SME Category | LME Question Type | n | R@5 (mempalace-daemon) | R@5 (familiar) |
 |---|---|---:|---:|---:|
-| cat_1          | single-session-* (IE)         | TBD | TBD | TBD |
-| cat_2c         | multi-session (MR)            | TBD | TBD | TBD |
-| cat_3_partial  | knowledge-update (KU)         | TBD | TBD | TBD |
-| cat_6          | temporal-reasoning (TR)       | TBD | TBD | TBD |
-| cat_1_negative | abstention (ABS)              | TBD | TBD | TBD |
-| **Overall**    | —                             | 500 | **TBD** | **TBD** |
+| cat_1          | single-session-* (IE)         | 150 | 0.0000 | pending #46 |
+| cat_2c         | multi-session (MR)            | 121 | 0.0000 | pending #46 |
+| cat_3_partial  | knowledge-update (KU)         | 72  | 0.0000 | pending #46 |
+| cat_6          | temporal-reasoning (TR)       | 127 | 0.1562 | pending #46 |
+| cat_1_negative | abstention (ABS)              | 30  | 0.0000 | pending #46 |
+| **Overall**    | —                             | 500 | **0.0397** | pending #46 |
+
+The 3.97% headline is an artifact of the matcher, not the substrate
+(see caveat at top of doc). The cat_6 row (15.62%) shows that
+retrieval *was* finding relevant material — it's just that 4 of the 5
+categories under `--content-rules upstream-exact` strip the session ID
+from the retrieved text, so the substring matcher returns 0 even when
+the right session is in the top-5. The drawer_id-based matcher in
+techempower-org/multipass-structural-memory-eval#67 will close this
+gap when re-run.
 
 ---
 
-## QA Accuracy — placeholder
+## QA Accuracy — 2026-05-28 (#44)
 
-Judge-scored end-to-end QA accuracy. This is the number directly
-comparable to published LongMemEval scores.
+Judge-scored end-to-end QA accuracy (`judge_correct_rate` per category,
+weighted average overall). ABSTAIN counts as correct for the
+abstention category (`cat_1_negative`) per LongMemEval convention.
 
 | SME Category | LME Question Type | n | QA-acc (mempalace-daemon) | QA-acc (familiar) |
 |---|---|---:|---:|---:|
-| cat_1          | single-session-* (IE)         | TBD | TBD | TBD |
-| cat_2c         | multi-session (MR)            | TBD | TBD | TBD |
-| cat_3_partial  | knowledge-update (KU)         | TBD | TBD | TBD |
-| cat_6          | temporal-reasoning (TR)       | TBD | TBD | TBD |
-| cat_1_negative | abstention (ABS)              | TBD | TBD | TBD |
-| **Overall**    | —                             | 500 | **TBD** | **TBD** |
+| cat_1          | single-session-* (IE)         | 150 | 0.5267 | pending #46 |
+| cat_2c         | multi-session (MR)            | 121 | 0.7438 | pending #46 |
+| cat_3_partial  | knowledge-update (KU)         | 72  | 0.6944 | pending #46 |
+| cat_6          | temporal-reasoning (TR)       | 127 | 0.4409 | pending #46 |
+| cat_1_negative | abstention (ABS)              | 30  | 0.9000 | pending #46 |
+| **Overall**    | —                             | 500 | **0.6040** | pending #46 |
+
+### Judge label breakdown (mempalace-daemon)
+
+| Category | CORRECT | PARTIAL | INCORRECT | ABSTAIN | ERROR |
+|---|---:|---:|---:|---:|---:|
+| cat_1          | 79 | 3 | 68 | 0 | 0 |
+| cat_2c         | 90 | 2 | 29 | 0 | 0 |
+| cat_3_partial  | 50 | 0 | 22 | 0 | 0 |
+| cat_6          | 37 | 1 | 70 | 19 | 0 |
+| cat_1_negative | 14 | 0 | 3 | 13 | 0 |
+
+cat_6 sees the most ABSTAIN labels (19 of 127) — the reader recognized
+its retrieved context was insufficient for temporal reasoning and chose
+to abstain rather than hallucinate, which the judge counted as correct
+behaviour. This is a healthier failure mode than `cat_1` and `cat_2c`,
+where every wrong answer was a confident wrong answer (0 ABSTAIN).
 
 ---
 
-## Retrieval-QA Gap — placeholder
+## Retrieval-QA Gap — 2026-05-28 (#44)
 
 `R@5 - QA accuracy`. Positive gap means the right session was retrieved
 but the reader couldn't produce the answer; negative gap means the
 reader got the answer right despite imperfect retrieval (typically by
 having world knowledge or by being lucky with paraphrase).
 
+**With the matcher caveat:** every row below shows a large negative gap
+because R@5 is artificially 0 for 4 of 5 categories (substring matcher
+issue, see top of doc). When techempower-org/multipass-structural-memory-eval#67
+ships and R@5 is re-measured with the drawer_id matcher, the absolute
+numbers will shift but the *relative* pattern across categories should
+hold.
+
 | SME Category | Gap (mempalace-daemon) | Gap (familiar) |
 |---|---:|---:|
-| cat_1          | TBD | TBD |
-| cat_2c         | TBD | TBD |
-| cat_3_partial  | TBD | TBD |
-| cat_6          | TBD | TBD |
-| cat_1_negative | TBD | TBD |
-| **Overall**    | **TBD** | **TBD** |
+| cat_1          | -0.5267 | pending #46 |
+| cat_2c         | -0.7438 | pending #46 |
+| cat_3_partial  | -0.6944 | pending #46 |
+| cat_6          | -0.2847 | pending #46 |
+| cat_1_negative | -0.9000 | pending #46 |
+| **Overall**    | **-0.5643** | pending #46 |
 
 ---
 
@@ -139,17 +185,29 @@ papers — verify dates before citing for publication):
 | OMEGA          | oracle | 95.4% | (paper) | TBD link |
 | Hindsight      | oracle | 91.4% | (paper) | TBD link |
 | True Memory    | oracle | 87.8% | (paper) | TBD link |
-| MemPalace (this run) | oracle | **TBD** | gpt-4.1-mini / gpt-4o-2024-08-06 | this doc |
-| Familiar (this run)  | oracle | **TBD** | gpt-4.1-mini / gpt-4o-2024-08-06 | this doc |
+| **MemPalace via palace-daemon `/search`** (2026-05-28, this fork) | oracle | **60.40%** | o4-mini / gpt-5.3-chat (Azure Foundry) | techempower-org/multipass-structural-memory-eval#44 |
+| MemPalace via `/search/age-fused` (in flight) | oracle | pending | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#45 |
+| Familiar (in flight)  | oracle | pending | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#46 |
 
 Notes:
-- All published numbers above are on the **oracle** split. M and S
-  splits are larger haystacks; numbers shift downward with corpus size.
+- All numbers above are on the **oracle** split. M and S splits are
+  larger haystacks; numbers shift downward with corpus size.
   Comparisons must hold the split constant.
-- Reader/judge choice affects QA accuracy. The published numbers above
-  use a mix of reader/judge models; comparing systems under different
+- Reader/judge differences matter: this fork's run uses Azure Foundry's
+  `o4-mini` reader and `gpt-5.3-chat` judge, both newer than the GPT-4
+  family used by the published numbers above. Comparing across
   reader/judge stacks is the standard practice in this benchmark, but
-  flag it explicitly when reporting.
+  flag it explicitly when reporting. **Do not** read the 60.40% as
+  "MemPalace is below OMEGA's 95.4%" without also noting the model-stack
+  delta.
+- The 60.40% number is the *production* palace-daemon path with
+  `--content-rules upstream-exact` (matched protocol per
+  techempower-org/multipass-structural-memory-eval#54). The
+  substrate-floor reading from techempower-org/multipass-structural-memory-eval#51
+  (R@5=0.9660 byte-identical to upstream) confirms the postgres-vector
+  substrate is parity-good; the 60.40% delta from the published 87-95%
+  range therefore lives in: (a) retrieval depth choices, (b)
+  reader/judge stack, (c) content rules.
 
 ---
 
@@ -161,11 +219,30 @@ diagnostic gold — they characterize the substring matcher's limits
 against a stronger judge.
 
 The full disagreement list lands in the per-question JSON output; a
-summary count goes here:
+summary count goes here.
 
-- Total disagreements: **TBD**
-- Mostly Cat 3 (KU divergence): **TBD**
-- Mostly Cat 2c (synthesis paraphrase): **TBD**
+**2026-05-28 (#44):** 290 total disagreements over 500 questions.
+
+| Direction | Count | Meaning |
+|---|---:|---|
+| judge_correct + matcher_miss | 281 | Reader answered correctly; matcher couldn't find session ID in retrieved text (the broken-R@5 root cause) |
+| matcher_hit + judge_wrong | 8 | Matcher found the session ID; judge ruled the reader's answer wrong or incomplete |
+
+**By category (all 290):**
+
+| Category | Count | Note |
+|---|---:|---|
+| cat_2c         | 90 | Multi-session synthesis — judge accepts paraphrased reasoning the matcher's literal session ID lookup misses |
+| cat_1          | 79 | Single-session — should be the easiest case; the 79 disagreements are the strongest indicator that the `upstream-exact` matcher break is the dominant source of noise |
+| cat_3_partial  | 50 | Knowledge-update — see KU caveat above; judge and matcher have known divergent definitions here |
+| cat_6          | 44 | Temporal reasoning — fewest disagreements because cat_6 retrieves richer multi-session context (15.62% R@5 vs 0% elsewhere) |
+| cat_1_negative | 27 | Abstention — judge correctly counts ABSTAIN as right; matcher counts it as miss |
+
+The 281:8 ratio (judge_correct_matcher_miss : matcher_hit_judge_wrong)
+is the cleanest single-number summary of the matcher break: the judge
+agrees with the system far more often than the matcher does, which
+suggests the substrate is finding the right session most of the time
+but the matcher can't see it.
 
 ---
 

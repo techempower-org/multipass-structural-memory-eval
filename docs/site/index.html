@@ -1256,19 +1256,26 @@
         </p>
 
         <div class="caveat">
-          <span class="label">honest caveat</span>
-          R@5 was broken on this run by the substring matcher not
-          finding the session id in retrieved text after
-          <code>--content-rules upstream-exact</code> stripped it. The
-          <strong>drawer_id-based matcher</strong> fix landed in fork PR
-          <code>techempower-org/multipass-structural-memory-eval#67</code>
-          but wasn't merged into the bench branch in time for the run.
-          QA accuracy is unaffected. R@5 should be treated as a lower
-          bound until the run is repeated against the patched matcher.
+          <span class="label">honest caveat (updated 2026-05-28 16:45)</span>
+          Both R@5 metrics are broken in different ways. The substring
+          matcher (techempower-org/multipass-structural-memory-eval#58)
+          can't find session-ids after
+          <code>--content-rules upstream-exact</code> strips them. The
+          drawer_id matcher
+          (techempower-org/multipass-structural-memory-eval#67) doesn't
+          account for the daemon's
+          <code>_chunk_NNNNNN</code> suffix on retrieved drawer-ids
+          (techempower-org/multipass-structural-memory-eval#98), so
+          parent-IDs don't match either. Post-techempower-org/multipass-structural-memory-eval#67
+          chain rerun on main shows R@5=3.57% (substring) / 10.40%
+          (drawer-id); both numbers are floors of the real recall.
+          <strong>QA-acc (58.60% on rerun vs 60.40% original) is the
+          only honest cross-run signal</strong>; the 1.8pp delta is
+          within reader/judge noise.
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; baselines/longmemeval_mempalace_daemon_2026-05-28-attempt3.json</span>
+          <span>Source &middot; baselines/longmemeval_mempalace_daemon_2026-05-28-attempt3.json &middot; rerun (post-techempower-org/multipass-structural-memory-eval#67): longmemeval_mempalace_daemon_2026-05-28-rerun.json</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/44">techempower-org/multipass-structural-memory-eval#44</a>
         </div>
       </article>
@@ -1336,18 +1343,20 @@
         </p>
 
         <div class="caveat">
-          <span class="label">honest caveat</span>
-          This reading does <em>not</em> say AGE-fused retrieval is
-          structurally worse. As of 2026-05-25 the AGE triples layer
-          was effectively empty (<code>triples: 1</code>) after the
-          entities-only backfill &mdash; the fusion's graph half had
-          nothing to fuse <em>with</em>, so age-fused was effectively
-          competing against vector-only with a narrower candidate pool
-          and tighter snippet boundaries. The real A/B will run again
-          after the triple-layer backfill completes (the daemon's
-          <code>kg_stats</code> now reports 1.8M triples as of the run
-          window). Until then, treat this as a measurement of the
-          empty-triples regime, not of age-fused's capacity.
+          <span class="label">honest caveat (updated 2026-05-28 15:20 &mdash; empty-triples theory disproven)</span>
+          Earlier framing on this card attributed the 5.5&times; narrower
+          context to an empty AGE triples layer. That's <strong>wrong</strong>.
+          The rerun against a populated 1.83M-triple layer produced
+          byte-identical context_chars distributions
+          (<code>mean=457 max=841</code> vs original
+          <code>mean=459 max=841</code>) and the same QA-acc
+          (17.40% vs 17.60%). The narrow-snippet behaviour is
+          <em>structural</em> to <code>/search/age-fused</code> on
+          oracle, not triples-dependent. Investigation filed at
+          techempower-org/palace-daemon#150 (snippet width contract).
+          A real test of age-fused needs the harder LongMemEval-S
+          haystack where graph traversal can find sessions vector
+          search misses (techempower-org/multipass-structural-memory-eval#91).
         </div>
 
         <div class="bench-foot">
@@ -1422,13 +1431,19 @@
         </p>
 
         <div class="caveat">
-          <span class="label">honest caveat</span>
-          The R@5 substring match is still the broken pre-#67 matcher on
-          this run (Familiar bench was launched off the bench branch
-          before the drawer_id matcher landed on main). R@5 here is a
-          lower bound; the real comparison waits for the post-#67
-          chain rerun. The QA-acc figures use the judge directly and are
-          unaffected.
+          <span class="label">honest caveat (updated 2026-05-28 16:45)</span>
+          Post-techempower-org/multipass-structural-memory-eval#67 rerun
+          on main: Familiar substring R@5 = 11.50% (essentially
+          unchanged from the 10.94% original); drawer_id R@5 = 5.40%.
+          Interestingly the two matchers <em>disagree by direction</em>
+          per adapter &mdash; for daemon-direct the drawer_id matcher
+          beats substring (10.40% vs 3.57%) but for Familiar the
+          substring beats drawer_id (11.50% vs 5.40%). That's an
+          architectural finding: Familiar surfaces session content in
+          retrieved text (the substring catches session-ids) but
+          returns its own chunk-IDs that don't match the expected
+          parent drawer-ids. Different surface contracts. QA-acc
+          (29.20% original vs 31.00% rerun) is the honest signal.
         </div>
 
         <div class="bench-foot">

@@ -90,6 +90,56 @@ The script writes `baselines/<name>.json` containing:
 - `summary.r1_misses` (list per #53 sub-task 2) and `summary.r1_miss_by_type` histogram
 - `per_question` with full per-question diagnostic record
 
+## Loader-cost A/B — sme-rich vs upstream-exact (closes #54's open question)
+
+Re-ran the same 500Q with `--content-rules sme-rich` to measure the
+retrieval-quality cost of SME's richer session rendering (frontmatter
++ role headers + assistant turns) vs upstream's user-turns-only protocol.
+
+### Headline deltas
+
+| K | upstream-exact | sme-rich | Δ |
+|---|---:|---:|---:|
+| R@1 | 0.8060 | 0.7540 | **-5.2pp** |
+| R@5 | 0.9640 | 0.9280 | **-3.6pp** |
+| R@10 | 0.9820 | 0.9700 | -1.2pp |
+| R@30 | 0.9960 | 0.9920 | -0.4pp |
+| R@50 | 1.0000 | 1.0000 | 0.0pp |
+
+**The loader-cost is real and bigger than the -2.2pp the substring-matcher reading in #51 measured** (-3.6pp at R@5 here, vs -2.2pp there). Different metric, same direction; the entity-id matcher in this harness is more sensitive to embedding-space drift because R@K depends on the rank of the gold drawer in the candidate pool, not on whether a session-id substring happens to land in the rendered context.
+
+The gap closes as K grows — at R@50 they're identical. So the cost is "rank-1 sharpness," not "can we find it at all." The richer rendering moves the gold drawer down a few ranks but doesn't push it out of the top-50.
+
+### Per-category R@5
+
+| LongMemEval category | upstream-exact | sme-rich | Δ |
+|---|---:|---:|---:|
+| single-session-* (cat_1) | 0.947 | 0.880 | **-6.7pp** |
+| abstention (cat_1_negative) | 0.967 | 0.967 | 0.0pp |
+| multi-session (cat_2c) | 0.992 | 0.959 | -3.3pp |
+| knowledge-update (cat_3_partial) | 1.000 | 0.986 | -1.4pp |
+| temporal-reasoning (cat_6) | 0.937 | 0.913 | -2.4pp |
+
+**Single-session questions take the biggest hit** (-6.7pp R@5). That's the predicted shape: single-session retrieval depends on matching user-phrasing-to-user-phrasing, and SME's rendering adds assistant turns + metadata that drift the embedding away from user-question space. The abstention category is unaffected because there's no gold session to find in the first place.
+
+### Methodological implication
+
+Per #54, the takeaway is `--content-rules upstream-exact` should be the default for any cross-system comparison vs upstream-published numbers. The richer `sme-rich` mode remains useful when SME is the actual production retrieval (more context for downstream consumption), but it's a measurable retrieval-quality lever that needs to be visible in any published reading.
+
+This argues for #54 Option A (the flag, now landed in PR #55) over Option B (doc-only). The cost is large enough at R@1 and R@5 to materially affect cross-system comparison if not flagged.
+
+### Reproduction
+
+```bash
+./venv/bin/python scripts/encoder_swap_eval.py \
+    --questions sme/corpora/longmemeval/data/longmemeval_s_cleaned.json \
+    --content-rules sme-rich \
+    --top-k 50 \
+    --json baselines/longmemeval_encoder_swap_smerich_$(date +%Y-%m-%d).json
+```
+
+Companion JSON at `baselines/longmemeval_encoder_swap_smerich_2026-05-28.json`.
+
 ## Cross-references
 
 - #51 — substrate-floor parity reading (postgres+pgvector ≡ chromadb byte-identical at the same R@5=0.9660)

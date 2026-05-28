@@ -114,7 +114,14 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         #   - "union"   (vector + BM25)
         #   - "hybrid"  (vector + BM25 + AGE graph walk; ~10-15x slower)
         # None defers to the daemon's default; otherwise we pass through as
-        # a /search query param. Older daemon builds ignore unknown params.
+        # a /search query param. Validate client-side because older daemon
+        # builds silently ignore unknown params, which would let a typo
+        # like "hybird" silently fall back to default.
+        if candidate_strategy not in (None, "vector", "union", "hybrid"):
+            raise ValueError(
+                f"Invalid candidate_strategy {candidate_strategy!r}. "
+                "Expected 'vector', 'union', 'hybrid', or None."
+            )
         self.candidate_strategy = candidate_strategy
 
         env_path = Path(os.path.expanduser(str(env_file or DEFAULT_ENV_FILE)))
@@ -168,6 +175,11 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         candidate_strategy: Optional[str] = None,
     ) -> QueryResult:
         chosen_kind = kind or self.kind
+        if candidate_strategy not in (None, "vector", "union", "hybrid"):
+            raise ValueError(
+                f"Invalid candidate_strategy {candidate_strategy!r}. "
+                "Expected 'vector', 'union', 'hybrid', or None."
+            )
         chosen_strategy = candidate_strategy or self.candidate_strategy
         query_params: dict[str, Any] = {
             "q": question, "limit": n_results, "kind": chosen_kind,

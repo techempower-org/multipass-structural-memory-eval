@@ -220,6 +220,23 @@ def test_query_no_candidate_strategy_omitted_from_url(
     assert result.error is None
 
 
+def test_invalid_candidate_strategy_raises_in_ctor(monkeypatch, tmp_path):
+    """#57 + Gemini PR #68 review: client-side validation guards against
+    typos like 'hybird' silently falling back to daemon default."""
+    with pytest.raises(ValueError, match="Invalid candidate_strategy"):
+        _adapter(monkeypatch, tmp_path, candidate_strategy="hybird")
+
+
+def test_invalid_candidate_strategy_raises_in_query(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Same validation at the call site."""
+    fake_urlopen_factory({})
+    a = _adapter(monkeypatch, tmp_path)
+    with pytest.raises(ValueError, match="Invalid candidate_strategy"):
+        a.query("memory", candidate_strategy="hybird")
+
+
 def test_query_question_is_url_quoted(
     monkeypatch, tmp_path, fake_urlopen_factory
 ):

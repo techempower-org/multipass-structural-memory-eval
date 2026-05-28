@@ -73,17 +73,22 @@ def mcp_search(
 
 
 def is_relevant(hit: dict, predicate: dict) -> bool:
-    """A drawer is relevant iff source_glob matches AND any content_any does."""
-    source_glob = predicate.get("source_glob")
-    if source_glob:
-        sf = hit.get("source_file") or ""
-        if not fnmatch.fnmatch(sf, source_glob):
+    """A drawer is relevant iff source_glob matches AND any content_any does.
+
+    Tolerates both daemon response shapes: ``/search`` GET nests fields
+    under ``metadata``; ``/search/age-fused`` and the MCP tool put them
+    at the top level. Look in metadata first then fall through so the
+    relevance predicate works against either shape.
+    """
+    meta = hit.get("metadata") or {}
+    if predicate.get("source_glob"):
+        sf = meta.get("source_file") or hit.get("source_file") or ""
+        if not fnmatch.fnmatch(sf, predicate["source_glob"]):
             return False
     content_any = predicate.get("content_any") or []
     if not content_any:
-        # Predicate has no content_any (and source_glob matched if given).
         return True
-    text = hit.get("text") or ""
+    text = hit.get("text") or meta.get("text") or ""
     return any(sub in text for sub in content_any)
 
 
@@ -135,13 +140,29 @@ def aggregate(per_query: dict[str, dict[str, dict]], strategies: list[str],
         r5 = sum(r["r5"] for r in rows) / n
         r10 = sum(r["r10"] for r in rows) / n
         mrr = sum(r["rr"] for r in rows) / n
-        lat = sorted(r["latency_ms"] for r in rows)
-        p50 = median(lat)
-        p95 = lat[int(len(lat) * 0.95)] if len(lat) >= 2 else lat[0]
+        # Exclude error rows from latency stats — they're recorded with
+        # latency_ms=0.0 in the run_one error fallback, which would skew
+        # p50/p95 downward and crash on IndexError when ALL rows errored.
+        ok_latencies = sorted(
+            r["latency_ms"] for r in rows if "error" not in r
+        )
+        if ok_latencies:
+            p50 = median(ok_latencies)
+            p95 = (
+                ok_latencies[int(len(ok_latencies) * 0.95)]
+                if len(ok_latencies) >= 2
+                else ok_latencies[0]
+            )
+        else:
+            p50 = p95 = None
         per_strategy[s] = {
-            "n": n, "R@5": round(r5, 4), "R@10": round(r10, 4),
+            "n": n,
+            "n_ok": len(ok_latencies),
+            "n_errors": len(rows) - len(ok_latencies),
+            "R@5": round(r5, 4), "R@10": round(r10, 4),
             "MRR": round(mrr, 4),
-            "p50_ms": round(p50, 1), "p95_ms": round(p95, 1),
+            "p50_ms": round(p50, 1) if p50 is not None else None,
+            "p95_ms": round(p95, 1) if p95 is not None else None,
         }
 
     flips: dict[str, dict] = {}

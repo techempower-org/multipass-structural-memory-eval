@@ -131,6 +131,49 @@ def test_aggregate_strategy_flips_capture_movements():
     assert flip["unchanged_count"] == 1  # only q_same
 
 
+def test_aggregate_excludes_error_rows_from_latency_stats():
+    """#65 Gemini HIGH — failed queries have latency_ms=0.0 in the error
+    fallback; including them in p50/p95 skews the stats downward. Now
+    they're excluded from latency aggregation and counted via n_errors."""
+    per_query = {
+        "q_ok": {"v": {"rank": 1, "r5": 1, "r10": 1, "rr": 1.0,
+                       "n_hits": 5, "latency_ms": 200}},
+        "q_err": {"v": {"rank": None, "r5": 0, "r10": 0, "rr": 0.0,
+                        "n_hits": 0, "latency_ms": 0.0, "error": "boom"}},
+    }
+    summary = aggregate(per_query, ["v"], n=2)
+    v = summary["per_strategy"]["v"]
+    assert v["n_ok"] == 1
+    assert v["n_errors"] == 1
+    assert v["p50_ms"] == 200  # NOT median([0.0, 200]) = 100
+    assert v["p95_ms"] == 200
+
+
+def test_aggregate_all_errors_returns_None_latency():
+    """When every query errors, latency stats are None (not IndexError)."""
+    per_query = {
+        "q1": {"v": {"rank": None, "r5": 0, "r10": 0, "rr": 0.0,
+                     "n_hits": 0, "latency_ms": 0.0, "error": "boom"}},
+        "q2": {"v": {"rank": None, "r5": 0, "r10": 0, "rr": 0.0,
+                     "n_hits": 0, "latency_ms": 0.0, "error": "boom2"}},
+    }
+    summary = aggregate(per_query, ["v"], n=2)
+    v = summary["per_strategy"]["v"]
+    assert v["n_errors"] == 2
+    assert v["p50_ms"] is None
+    assert v["p95_ms"] is None
+
+
+def test_is_relevant_tolerates_metadata_nested_source_file():
+    """#65 Gemini HIGH — /search GET nests source_file under metadata;
+    the predicate must find it whether it's at top-level or in metadata."""
+    hit = {"metadata": {"source_file": "notes/abc.md"}, "text": "match"}
+    assert is_relevant(hit, {
+        "source_glob": "notes/*",
+        "content_any": ["match"],
+    }) is True
+
+
 def test_aggregate_headline_picks_best_R5_strategy():
     per_query = {
         "q1": {

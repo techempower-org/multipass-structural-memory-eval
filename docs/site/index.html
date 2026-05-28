@@ -1363,7 +1363,7 @@
             <span class="eyebrow no-rule">LongMemEval-S 500Q &middot; second adapter</span>
             <h3>familiar adapter, <em>same harness</em></h3>
           </div>
-          <span class="bench-pill running">queued &middot; behind #45</span>
+          <span class="bench-pill live">three-way A/B &middot; 2026-05-28</span>
         </div>
 
         <dl class="bench-meta">
@@ -1374,18 +1374,65 @@
           <div><dt>Judge</dt><dd>gpt-5.3-chat</dd></div>
         </dl>
 
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">R@5 overall</div>
+            <div class="value"><em>10.94%</em></div>
+            <div class="sub">highest of three legs &mdash; Familiar's retrieval surfaces gold more often</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">QA accuracy</div>
+            <div class="value"><em>29.20%</em></div>
+            <div class="sub">vs 60.40% on daemon-direct (&minus;31.2pp despite better retrieval)</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">Disagreements</div>
+            <div class="value"><em>128</em><span style="font-size: 0.55em; color: var(--ice-ghost);"> / 500</span></div>
+            <div class="sub">vs 290 on #44 &mdash; matcher + judge agree more</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Per-category three-way A/B (#44 default / #45 age-fused / #46 familiar)">
+          <thead>
+            <tr><th>SME Category</th><th class="num">n</th><th class="num">#44 default</th><th class="num">#45 age-fused</th><th class="num">#46 familiar</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>cat_1</td><td class="num">150</td><td class="num">52.67%</td><td class="num">7.33%</td><td class="num">21.33%</td></tr>
+            <tr><td>cat_1_negative</td><td class="num">30</td><td class="num">90.00%</td><td class="num">100.00%</td><td class="num">96.67%</td></tr>
+            <tr><td>cat_2c</td><td class="num">121</td><td class="num">74.38%</td><td class="num">0.00%</td><td class="num">14.88%</td></tr>
+            <tr><td>cat_3_partial</td><td class="num">72</td><td class="num">69.44%</td><td class="num">1.39%</td><td class="num">27.78%</td></tr>
+            <tr><td>cat_6</td><td class="num">127</td><td class="num">44.09%</td><td class="num">36.22%</td><td class="num">37.01%</td></tr>
+            <tr class="total"><td>overall QA</td><td class="num">500</td><td class="num">60.40%</td><td class="num">17.60%</td><td class="num">29.20%</td></tr>
+          </tbody>
+        </table>
+
         <p class="bench-prose">
           Familiar.realm.watch is a separate memory system in this
-          household &mdash; same corpus, different retrieval architecture.
-          The point of running it through the same harness on the same
-          500 questions is the second-corpus discipline: <em>a single
-          reading is a single corpus, and brittle defaults hide on any
-          single corpus</em>. Two adapters on identical inputs is the
-          minimum to separate framework finding from system finding.
+          household &mdash; same corpus, different retrieval and reader
+          architecture. The point of running it through the same harness
+          on the same 500 questions is the second-corpus discipline:
+          <em>a single reading is a single corpus, and brittle defaults
+          hide on any single corpus</em>. The interesting finding is the
+          asymmetry: Familiar's R@5 (10.94%) is the highest of the three
+          legs &mdash; its retrieval surfaces gold sessions more often
+          &mdash; but its QA-acc (29.20%) is the second-lowest. The
+          architectural delta isn't retrieval; it's somewhere in the
+          reader path / context construction. cat_2c is the dramatic
+          split: 74.38% on daemon-direct, 14.88% via Familiar.
         </p>
 
+        <div class="caveat">
+          <span class="label">honest caveat</span>
+          The R@5 substring match is still the broken pre-#67 matcher on
+          this run (Familiar bench was launched off the bench branch
+          before the drawer_id matcher landed on main). R@5 here is a
+          lower bound; the real comparison waits for the post-#67
+          chain rerun. The QA-acc figures use the judge directly and are
+          unaffected.
+        </div>
+
         <div class="bench-foot">
-          <span>Target &middot; baselines/longmemeval_familiar_2026-05-28.json (pending)</span>
+          <span>Source &middot; baselines/longmemeval_familiar_2026-05-28-retry.json</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/46">techempower-org/multipass-structural-memory-eval#46</a>
         </div>
       </article>

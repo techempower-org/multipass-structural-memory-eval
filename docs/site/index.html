@@ -1763,12 +1763,18 @@
     var svg = stage.querySelector('svg.passport');
     var halo = stage.querySelector('.halo');
     var targetX = 0, targetY = 0, x = 0, y = 0, raf;
+    var rect, cx, cy;
+    function updatePosition(){
+      rect = stage.getBoundingClientRect();
+      cx = rect.left + window.scrollX + rect.width / 2;
+      cy = rect.top + window.scrollY + rect.height / 2;
+    }
+    updatePosition();
+    window.addEventListener('resize', updatePosition, { passive: true });
+    window.addEventListener('scroll', updatePosition, { passive: true });
     function onMove(e){
-      var rect = stage.getBoundingClientRect();
-      var cx = rect.left + rect.width / 2;
-      var cy = rect.top + rect.height / 2;
-      targetX = ((e.clientX - cx) / rect.width) * 10;
-      targetY = ((e.clientY - cy) / rect.height) * 8;
+      targetX = ((e.pageX - cx) / rect.width) * 10;
+      targetY = ((e.pageY - cy) / rect.height) * 8;
       if (!raf) raf = requestAnimationFrame(tick);
     }
     function tick(){

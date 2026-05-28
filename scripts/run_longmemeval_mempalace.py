@@ -638,12 +638,20 @@ def run(
     if factory_fn is None:
         factory_fn = _build_factory(args)
 
-    # Build daemon ingest client (only for mempalace-daemon)
-    if ingest_client is None and args.adapter == "mempalace-daemon":
+    # Build daemon ingest client for both daemon-direct and familiar
+    # adapters — familiar wraps palace-daemon, so the per-question
+    # haystack still needs to be loaded into the daemon's drawer store
+    # for familiar's /api/familiar/eval to retrieve from.
+    if (
+        ingest_client is None
+        and args.adapter in ("mempalace-daemon", "familiar")
+        and args.api_url is not None
+    ):
         api_key = _resolve_api_key(args)
-        ingest_client = DaemonIngestClient(
-            api_url=args.api_url, api_key=api_key,
-        )
+        if api_key is not None:
+            ingest_client = DaemonIngestClient(
+                api_url=args.api_url, api_key=api_key,
+            )
 
     # Work dir
     work_dir_ctx: Optional[tempfile.TemporaryDirectory[str]] = None

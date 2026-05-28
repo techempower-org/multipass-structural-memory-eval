@@ -1,0 +1,399 @@
+{
+  "run_metadata": {
+    "mode": "live",
+    "adapter": "palace-daemon",
+    "diagnostic": "candidate-strategy-ablation",
+    "questions": "palace-daemon scripts/evals/rerank_eval_queries.json (#64)",
+    "n_questions": 12,
+    "strategies": [
+      "vector",
+      "union",
+      "hybrid"
+    ],
+    "search_limit": 20,
+    "url": "http://familiar:8085",
+    "timestamp_utc": "2026-05-28T07:01:02.370731+00:00",
+    "graph_state": {
+      "total_relation_edges": 1761790,
+      "distinct_relation_types": 236,
+      "canonical_mapping_applied": true,
+      "mapping_mode": "embedding (MiniLM-L6, threshold 0.45) via palace-daemon kg_canonical_writepass",
+      "mapped_to_canonical_count": 755034,
+      "other_count": 997519,
+      "canonical_coverage_pct": 42.9
+    },
+    "context_note": "First baseline after the palace-daemon canonical predicate mapping landed (palace-daemon PR #74/#75 + .pth fix for mempalace #279/#281 import path + batched GPU-embedding migration applied 2026-05-28). Tests whether the graph leg of hybrid candidate selection moves recall/precision after the vocabulary collapse from ~64k raw predicates to 40 canonicals."
+  },
+  "summary": {
+    "per_strategy": {
+      "vector": {
+        "n": 12,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8704,
+        "p50_ms": 399.9,
+        "p95_ms": 1435.3
+      },
+      "union": {
+        "n": 12,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8704,
+        "p50_ms": 228.6,
+        "p95_ms": 255.3
+      },
+      "hybrid": {
+        "n": 12,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.8472,
+        "p50_ms": 3330.1,
+        "p95_ms": 8540.0
+      }
+    },
+    "headline": {
+      "best_R@5": "hybrid (1.000)",
+      "best_R@10": "all (1.000)",
+      "best_MRR": "vector / union (0.870)",
+      "best_p50_latency_ms": "union (229)",
+      "graph_delta_vs_union": {
+        "R@5": "+0.083",
+        "R@10": "0.000",
+        "MRR": "-0.023",
+        "p50_ms": "+3101 (~15x)",
+        "p95_ms": "+8285 (~34x)"
+      },
+      "query_movement": [
+        {
+          "query": "daemon-deploy-arch",
+          "vector_rank": 9,
+          "union_rank": 9,
+          "hybrid_rank": 3,
+          "verdict": "graph promotion lifted into top-5"
+        },
+        {
+          "query": "felipe-976-cherrypick",
+          "vector_rank": 1,
+          "union_rank": 1,
+          "hybrid_rank": 2,
+          "verdict": "graph demoted the perfect match by one"
+        }
+      ],
+      "interpretation": "Graph leg DOES contribute new signal (R@5 0.917\u21921.000) but at major latency cost (~15x p50) and a small MRR regression from rank-1 demotion. Hybrid scorer weights need retuning before this can be the default; the graph-walk cost is also worth profiling \u2014 the current implementation is too slow for interactive search."
+    }
+  },
+  "per_query": {
+    "kill-cascade": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 790.7
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 215.7
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 241.0
+      }
+    },
+    "rerank-spike": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 229.4
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 210.6
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 6493.8
+      }
+    },
+    "hnsw-pin": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 235.0
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 242.4
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 4458.3
+      }
+    },
+    "system-service-only": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 399.9
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 213.5
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 307.0
+      }
+    },
+    "rerank-implementation-plan": {
+      "vector": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 433.0
+      },
+      "union": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 234.7
+      },
+      "hybrid": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 3981.0
+      }
+    },
+    "daemon-deploy-arch": {
+      "vector": {
+        "rank": 9,
+        "r5": 0,
+        "r10": 1,
+        "rr": 0.1111111111111111,
+        "n_hits": 20,
+        "latency_ms": 388.7
+      },
+      "union": {
+        "rank": 9,
+        "r5": 0,
+        "r10": 1,
+        "rr": 0.1111111111111111,
+        "n_hits": 20,
+        "latency_ms": 213.8
+      },
+      "hybrid": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 341.2
+      }
+    },
+    "felipe-976-cherrypick": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 1435.3
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 236.7
+      },
+      "hybrid": {
+        "rank": 2,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.5,
+        "n_hits": 20,
+        "latency_ms": 1756.7
+      }
+    },
+    "oom-sigkill-startup": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 451.2
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 228.6
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 6685.0
+      }
+    },
+    "rerank-fallback-contract": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 458.7
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 255.3
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 751.4
+      }
+    },
+    "search-args-limit-param": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 399.0
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 222.7
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 8540.0
+      }
+    },
+    "wing-room-taxonomy": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 255.9
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 237.4
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 318.9
+      }
+    },
+    "fuser-port-8085": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 248.4
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 201.9
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 3330.1
+      }
+    }
+  }
+}

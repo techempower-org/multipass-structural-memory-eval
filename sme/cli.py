@@ -1378,6 +1378,94 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_candidate_strategy(args: argparse.Namespace) -> int:
+    """Run the candidate-strategy A/B/C diagnostic against palace-daemon.
+
+    Drives the daemon's mempalace_search MCP across {vector, union, hybrid}
+    on a labeled query set and reports per-strategy R@5/10, MRR, latency
+    p50/p95, plus a per-query strategy-flip diagnostic (which queries
+    changed rank between strategies — the actionable signal).
+
+    Closes the CLI half of #57; the standalone
+    ``scripts/candidate_strategy_eval.py`` shares the same core logic.
+    """
+    import os
+    from datetime import datetime, timezone
+    from sme.eval.candidate_strategy import (
+        DEFAULT_STRATEGIES, run_eval,
+    )
+
+    api_url = (
+        args.api_url
+        or os.environ.get("PALACE_DAEMON_URL")
+        or "http://localhost:8085"
+    )
+    api_key = args.api_key or os.environ.get("PALACE_API_KEY")
+    if not api_key:
+        log.error("--api-key required (or set PALACE_API_KEY)")
+        return 2
+
+    payload = json.loads(Path(args.queries).read_text())
+    queries = payload.get("queries") or []
+    if not queries:
+        log.error("%s: no 'queries' array", args.queries)
+        return 2
+
+    def _progress(i, n, qid):
+        log.info("[%d/%d] %s", i, n, qid)
+
+    report_core = run_eval(
+        api_url=api_url, api_key=api_key,
+        queries=queries,
+        strategies=list(args.strategies or DEFAULT_STRATEGIES),
+        limit=args.limit,
+        progress=_progress,
+    )
+    report = {
+        "run_metadata": {
+            "diagnostic": "candidate_strategy",
+            "queries": str(args.queries),
+            "n_questions": len(queries),
+            "strategies": list(args.strategies or DEFAULT_STRATEGIES),
+            "search_limit": args.limit,
+            "url": api_url,
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        },
+        **report_core,
+    }
+
+    print()
+    print("=" * 60)
+    s_map = report["summary"]["per_strategy"]
+    print(f"  diagnostic: candidate_strategy  n: {len(queries)}  limit: {args.limit}")
+    for s, blk in s_map.items():
+        if blk.get("n", 0):
+            print(f"  {s:10}  R@5={blk['R@5']:.3f}  R@10={blk['R@10']:.3f}  "
+                  f"MRR={blk['MRR']:.3f}  p50={blk['p50_ms']:.0f}ms  "
+                  f"p95={blk['p95_ms']:.0f}ms")
+
+    # Strategy-flip table — the #57 actionable diagnostic
+    flips = report["summary"]["strategy_flips"]
+    if flips:
+        print()
+        print("  strategy flips (queries that changed rank between strategies):")
+        for pair, fl in flips.items():
+            up = len(fl["moved_up"])
+            dn = len(fl["moved_down"])
+            new_n = len(fl["new_hits"])
+            lost_n = len(fl["lost_hits"])
+            same_n = fl["unchanged_count"]
+            print(f"    {pair:20}  moved_up={up}  moved_down={dn}  "
+                  f"new_hits={new_n}  lost_hits={lost_n}  same={same_n}")
+
+    if args.json:
+        args.json.parent.mkdir(parents=True, exist_ok=True)
+        args.json.write_text(json.dumps(report, indent=2, default=str))
+        print(f"\n  wrote {args.json}")
+
+    return 0
+
+
 def cmd_longmem(args: argparse.Namespace) -> int:
     """Run LongMemEval E2E QA scoring through an SME adapter.
 
@@ -1960,6 +2048,41 @@ def main(argv: list[str] | None = None) -> int:
         help="recompile every note regardless of cache.",
     )
     cw.set_defaults(func=cmd_compile_wiki)
+
+    # --- candidate-strategy subcommand (closes #57) -------------------
+
+    cs = sub.add_parser(
+        "candidate-strategy",
+        help="A/B/C ablation of palace-daemon's candidate retrieval "
+             "strategies (vector / union / hybrid). Reports per-strategy "
+             "R@5/10, MRR, latency, and a strategy-flip diagnostic.",
+    )
+    cs.add_argument(
+        "--queries", required=True, type=Path,
+        help="Labeled query JSON (palace-daemon rerank_eval_queries shape).",
+    )
+    cs.add_argument(
+        "--api-url", default=None,
+        help="Daemon base URL. Defaults to PALACE_DAEMON_URL env or "
+             "http://localhost:8085.",
+    )
+    cs.add_argument(
+        "--api-key", default=None,
+        help="X-API-Key for the daemon. Defaults to PALACE_API_KEY env.",
+    )
+    cs.add_argument(
+        "--strategies", nargs="+", default=None,
+        help="Strategies to ablate (default: vector union hybrid).",
+    )
+    cs.add_argument(
+        "--limit", type=int, default=20,
+        help="Per-query candidate pool size (default: 20).",
+    )
+    cs.add_argument(
+        "--json", type=Path, default=None,
+        help="Output JSON path.",
+    )
+    cs.set_defaults(func=cmd_candidate_strategy)
 
     # --- longmemeval subcommand (issue #17 — E2E QA scoring) ----------
 

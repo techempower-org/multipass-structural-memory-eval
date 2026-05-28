@@ -229,10 +229,12 @@ def ingest_question_haystack(
         else:
             posted += 1
             # /memory returns the new drawer's id; remember it so the
-            # scorer can match expected_session_ids → drawer_ids.
+            # scorer can match expected_session_ids → drawer_ids. Cast to
+            # str so an integer PK from the daemon doesn't break the
+            # later equality check against string Entity.id values.
             drawer_id = body.get("drawer_id") if isinstance(body, dict) else None
-            if drawer_id:
-                session_to_drawer[s.session_id] = drawer_id
+            if drawer_id is not None:
+                session_to_drawer[s.session_id] = str(drawer_id)
     return {
         "wing": target_wing,
         "posted": posted,
@@ -325,8 +327,11 @@ def _make_wing_scoped_daemon_adapter(
                 source_label = Path(source_file).name or source_file
                 text = hit.get("text", "") or ""
                 # Real drawer_id as Entity.id (#58). Synthetic fallback
-                # only when the daemon response omits it.
-                drawer_id = hit.get("drawer_id") or hit.get("id") or f"drawer_hit:{i}"
+                # only when the daemon response omits it. Cast to str so
+                # an integer PK from the daemon matches the string Entity.id
+                # type contract.
+                raw_drawer_id = hit.get("drawer_id") or hit.get("id")
+                drawer_id = str(raw_drawer_id) if raw_drawer_id is not None else f"drawer_hit:{i}"
                 context_parts.append(
                     f"[{i + 1}] [{wing_name}/{room_name}] {source_label}\n{text}"
                 )

@@ -212,8 +212,10 @@ class MemPalaceDaemonAdapter(SMEAdapter):
             # (per #58: synthetic drawer_hit:{i} ids made rank-based scoring
             # impossible because callers had nothing stable to compare
             # against). Fall back to the synthetic id only if the response
-            # shape omits it.
-            drawer_id = hit.get("drawer_id") or hit.get("id") or f"drawer_hit:{i}"
+            # shape omits it. Cast to str — integer PKs from the daemon
+            # would otherwise type-mismatch downstream Entity.id checks.
+            raw_drawer_id = hit.get("drawer_id") or hit.get("id")
+            drawer_id = str(raw_drawer_id) if raw_drawer_id is not None else f"drawer_hit:{i}"
             context_parts.append(
                 f"[{i + 1}] [{wing_name}/{room_name}] {source_label}\n{text}"
             )

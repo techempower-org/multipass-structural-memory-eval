@@ -544,10 +544,16 @@ def _run_questions(
         )
 
         # 1. Ingest (daemon only — familiar reads existing palace contents)
+        per_q_ingest: dict[str, Any] = {"posted": 0, "errors": [], "wing": None}
         if ingest_client is not None:
             ingest_report = ingest_question_haystack(q, ingest_client)
             ingest_total["posted"] += ingest_report["posted"]
             ingest_total["errors"] += len(ingest_report["errors"])
+            per_q_ingest = {
+                "posted": ingest_report["posted"],
+                "errors": list(ingest_report["errors"]),
+                "wing": ingest_report.get("wing"),
+            }
             if ingest_report["errors"]:
                 log.warning(
                     "ingest errors for %s: %d session(s) failed",
@@ -599,6 +605,10 @@ def _run_questions(
             expected_drawer_ids
             and any(d in expected_drawer_ids for d in retrieved_drawer_ids[:10])
         )
+
+        # #59 — attach per-question ingest report so the JSON output
+        # surfaces which questions had incomplete haystacks.
+        rec["ingest"] = per_q_ingest
         records.append(rec)
 
     if ingest_client is not None:

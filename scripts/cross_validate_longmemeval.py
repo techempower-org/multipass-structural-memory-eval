@@ -288,6 +288,12 @@ def run_one_question(
     expected = q.expected_sources_session_level()
     sme_recall, matched = sme_substring_recall(ctx, expected)
 
+    # Surface the rank-ordered entity IDs so the run-script wrapper can
+    # compute drawer_id-based rank-aware metrics (#58). The harness itself
+    # stays substring-only — this is opt-in extra context for callers that
+    # have an entity-id mapping.
+    retrieved_entity_ids = [e.id for e in (result.retrieved_entities or [])]
+
     record: dict[str, Any] = {
         "question_id": q.question_id,
         "question_type": q.question_type,
@@ -298,6 +304,7 @@ def run_one_question(
         "sme_recall": sme_recall,
         "context_chars": len(ctx),
         "adapter_error": result.error,
+        "retrieved_entity_ids": retrieved_entity_ids,
     }
 
     # 5. Optional reader → hypothesis

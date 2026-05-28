@@ -158,8 +158,14 @@ class FakeIngestClient:
         self.posted: list[dict] = []
 
     def post_memory(self, *, content, wing, room="longmemeval"):
-        self.posted.append({"content": content, "wing": wing, "room": room})
-        return 200, {}
+        # Deterministic synthetic drawer_id per call so #58 rank-aware
+        # scoring has something stable to map session→drawer against.
+        drawer_id = f"drawer_{wing}_{room}_{len(self.posted):04d}"
+        self.posted.append({
+            "content": content, "wing": wing, "room": room,
+            "drawer_id": drawer_id,
+        })
+        return 200, {"drawer_id": drawer_id, "success": True}
 
     def post_flush(self):
         return 200, {}
@@ -255,6 +261,88 @@ def test_run_with_mocked_daemon_ingests_per_question(dataset, args_factory):
     assert report["run_metadata"]["adapter"] == "mempalace-daemon"
     assert report["run_metadata"]["ingested_per_question"] is True
     assert len(report["per_question"]) == 2
+
+
+def test_per_question_record_has_drawer_rank_fields(dataset, args_factory):
+    """#58 — every per-question record carries drawer_hit_at_{1,5,10}.
+
+    With the FakeAdapter returning no retrieved entities, the hit_at_K
+    fields all evaluate False — but the keys are present, which is what
+    downstream aggregators rely on.
+    """
+    args = args_factory(dataset, skip_judge=True)
+    ingest = FakeIngestClient()
+
+    def _factory(q, _vault):
+        return FakeAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, ingest_client=ingest, factory_fn=_factory)
+
+    for rec in report["per_question"]:
+        for key in (
+            "expected_drawer_ids", "retrieved_drawer_ids",
+            "drawer_hit_at_1", "drawer_hit_at_5", "drawer_hit_at_10",
+        ):
+            assert key in rec, f"missing {key}: {sorted(rec.keys())}"
+        # FakeAdapter returns no retrieved_entity_ids, so all hits are False.
+        assert rec["drawer_hit_at_1"] is False
+        assert rec["drawer_hit_at_5"] is False
+
+
+def test_drawer_rank_scoring_with_session_map(dataset, args_factory):
+    """#58 — when the daemon's drawer_id is in the top-K of retrieved
+    entities, drawer_hit_at_K flips to True.
+
+    Builds a custom adapter that returns the FakeIngestClient's stored
+    drawer_id at rank-1, simulating a perfect retrieval. The session→drawer
+    map from ingest then resolves the gold session into the expected drawer
+    id, and the hit_at_1 check passes.
+    """
+    args = args_factory(dataset, skip_judge=True)
+    ingest = FakeIngestClient()
+
+    class _RankAdapter(SMEAdapter):
+        """Always returns the most-recently-posted drawer at rank 1."""
+
+        def __init__(self, wing):
+            self.wing = wing
+
+        def ingest_corpus(self, corpus):
+            return {"entities_created": 0, "edges_created": 0,
+                    "errors": [], "warnings": []}
+
+        def query(self, question, n_results=5):
+            from sme.adapters.base import Entity
+            wing_posts = [p for p in ingest.posted if p["wing"] == self.wing]
+            if not wing_posts:
+                return QueryResult(answer="", context_string="", retrieved_entities=[])
+            # Put the LAST-posted drawer at rank 1 — the test fixture's
+            # answer_session_id is sess_001_b, which is the 2nd (and
+            # last) session for the temporal question. So this rigs
+            # rank-1 to match the gold.
+            last_drawer = wing_posts[-1]["drawer_id"]
+            return QueryResult(
+                answer="",
+                context_string="x",  # non-empty so harness doesn't short-circuit
+                retrieved_entities=[Entity(id=last_drawer, name="x", entity_type="drawer")],
+            )
+
+        def get_graph_snapshot(self):
+            return [], []
+
+    def _factory(q, _vault):
+        return _RankAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, ingest_client=ingest, factory_fn=_factory)
+
+    rec_temporal = next(
+        r for r in report["per_question"] if r["question_id"] == "test_001_temporal"
+    )
+    # Gold = sess_001_b = 2nd session = last posted to the wing.
+    # The _RankAdapter returned that drawer at rank 1.
+    assert rec_temporal["drawer_hit_at_1"] is True
+    assert rec_temporal["drawer_hit_at_5"] is True
+    assert rec_temporal["drawer_hit_at_10"] is True
 
 
 def test_run_with_mocked_judge_records_qa_accuracy(dataset, args_factory):

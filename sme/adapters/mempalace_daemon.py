@@ -208,12 +208,20 @@ class MemPalaceDaemonAdapter(SMEAdapter):
             source_file = meta.get("source_file") or f"hit{i}"
             source_label = Path(source_file).name or source_file
             text = hit.get("text", "") or ""
+            # Use the daemon's real drawer_id as Entity.id when available
+            # (per #58: synthetic drawer_hit:{i} ids made rank-based scoring
+            # impossible because callers had nothing stable to compare
+            # against). Fall back to the synthetic id only if the response
+            # shape omits it. Cast to str — integer PKs from the daemon
+            # would otherwise type-mismatch downstream Entity.id checks.
+            raw_drawer_id = hit.get("drawer_id") or hit.get("id")
+            drawer_id = str(raw_drawer_id) if raw_drawer_id is not None else f"drawer_hit:{i}"
             context_parts.append(
                 f"[{i + 1}] [{wing_name}/{room_name}] {source_label}\n{text}"
             )
             retrieved.append(
                 Entity(
-                    id=f"drawer_hit:{i}",
+                    id=drawer_id,
                     name=source_label,
                     entity_type=f"drawer:{room_name}",
                     properties={
@@ -222,6 +230,7 @@ class MemPalaceDaemonAdapter(SMEAdapter):
                         "room": room_name,
                         "score": hit.get("score"),
                         "source_file": source_file,
+                        "rank": i + 1,
                     },
                 )
             )

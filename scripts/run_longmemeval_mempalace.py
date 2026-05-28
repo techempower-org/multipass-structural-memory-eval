@@ -192,13 +192,20 @@ def ingest_question_haystack(
 ) -> dict[str, Any]:
     """Load every session in ``q``'s haystack into the daemon under ``wing``.
 
-    Returns a small report dict: ``{wing, posted, errors}``. Errors are
-    appended on every non-2xx response; the loop continues so a single
-    failing session doesn't kill the whole question.
+    Returns a small report dict: ``{wing, posted, errors, session_to_drawer}``.
+    Errors are appended on every non-2xx response; the loop continues so a
+    single failing session doesn't kill the whole question.
+
+    The ``session_to_drawer`` map (LongMemEval session_id → daemon drawer_id)
+    is what makes rank-aware scoring possible. Without it, the SME substring
+    matcher has to guess whether the daemon's retrieved drawers correspond
+    to the expected sessions (see #58). With it, callers can compute
+    drawer_id-based hit_at_K directly.
     """
     target_wing = wing or f"{LME_WING_PREFIX}{q.question_id}"
     posted = 0
     errors: list[str] = []
+    session_to_drawer: dict[str, str] = {}
     for s in q.haystack_sessions:
         # One drawer per session — concatenate the turns. This is the same
         # rendering shape ``materialize_sme_corpus`` writes to disk.
@@ -221,7 +228,19 @@ def ingest_question_haystack(
             )
         else:
             posted += 1
-    return {"wing": target_wing, "posted": posted, "errors": errors}
+            # /memory returns the new drawer's id; remember it so the
+            # scorer can match expected_session_ids → drawer_ids. Cast to
+            # str so an integer PK from the daemon doesn't break the
+            # later equality check against string Entity.id values.
+            drawer_id = body.get("drawer_id") if isinstance(body, dict) else None
+            if drawer_id is not None:
+                session_to_drawer[s.session_id] = str(drawer_id)
+    return {
+        "wing": target_wing,
+        "posted": posted,
+        "errors": errors,
+        "session_to_drawer": session_to_drawer,
+    }
 
 
 # --- Adapter factories ------------------------------------------------------
@@ -307,12 +326,18 @@ def _make_wing_scoped_daemon_adapter(
                 source_file = meta.get("source_file") or f"hit{i}"
                 source_label = Path(source_file).name or source_file
                 text = hit.get("text", "") or ""
+                # Real drawer_id as Entity.id (#58). Synthetic fallback
+                # only when the daemon response omits it. Cast to str so
+                # an integer PK from the daemon matches the string Entity.id
+                # type contract.
+                raw_drawer_id = hit.get("drawer_id") or hit.get("id")
+                drawer_id = str(raw_drawer_id) if raw_drawer_id is not None else f"drawer_hit:{i}"
                 context_parts.append(
                     f"[{i + 1}] [{wing_name}/{room_name}] {source_label}\n{text}"
                 )
                 retrieved.append(
                     Entity(
-                        id=f"drawer_hit:{i}",
+                        id=drawer_id,
                         name=source_label,
                         entity_type=f"drawer:{room_name}",
                         properties={
@@ -321,6 +346,7 @@ def _make_wing_scoped_daemon_adapter(
                             "room": room_name,
                             "score": hit.get("score"),
                             "source_file": source_file,
+                            "rank": i + 1,
                         },
                     )
                 )
@@ -541,6 +567,37 @@ def _run_questions(
             judge_model=args.judge,
             reader_client=reader_client,
             judge_client=judge_client,
+        )
+
+        # 3. #58 — rank-aware scoring on drawer_ids. If we have a
+        # session→drawer map from the ingest step, use it to compute
+        # drawer_hit_at_K against the expected_session_ids. The substring-
+        # matcher recall (rec["sme_recall"]) stays in place unchanged,
+        # so cross-system A/B against systems that don't expose drawer_ids
+        # still works.
+        session_to_drawer = (
+            ingest_report.get("session_to_drawer") if ingest_client is not None else None
+        ) or {}
+        expected_drawer_ids = {
+            session_to_drawer[sid]
+            for sid in q.answer_session_ids
+            if sid in session_to_drawer
+        }
+        retrieved_drawer_ids = list(rec.get("retrieved_entity_ids") or [])
+        rec["expected_drawer_ids"] = sorted(expected_drawer_ids)
+        rec["retrieved_drawer_ids"] = retrieved_drawer_ids
+        rec["drawer_hit_at_1"] = bool(
+            expected_drawer_ids
+            and retrieved_drawer_ids
+            and retrieved_drawer_ids[0] in expected_drawer_ids
+        )
+        rec["drawer_hit_at_5"] = bool(
+            expected_drawer_ids
+            and any(d in expected_drawer_ids for d in retrieved_drawer_ids[:5])
+        )
+        rec["drawer_hit_at_10"] = bool(
+            expected_drawer_ids
+            and any(d in expected_drawer_ids for d in retrieved_drawer_ids[:10])
         )
         records.append(rec)
 

@@ -217,3 +217,53 @@ def run_eval(
                 }
     summary = aggregate(per_query, list(strategies), n=len(queries))
     return {"summary": summary, "per_query": per_query}
+
+
+def run_eval_multi_limit(
+    *,
+    api_url: str,
+    api_key: str,
+    queries: list[dict],
+    strategies: list[str] = list(DEFAULT_STRATEGIES),
+    limits: list[int],
+    timeout: float = DEFAULT_TIMEOUT,
+    progress: Optional[callable] = None,
+) -> dict:
+    """Multi-limit sweep — runs the strategy A/B at each limit value.
+
+    Shows how the top-K cliff shifts across strategies. For example, at
+    limit=5 vector might tie hybrid; at limit=50 hybrid might pull ahead
+    because the graph walk surfaces relevant drawers that vector ranks
+    lower. The per-limit summary lets a caller find the regime where
+    the strategy differences actually matter.
+
+    Returns ``{summary_by_limit, per_query_by_limit}``. Each per-limit
+    block has the same shape as a single-limit ``run_eval`` result.
+    """
+    summary_by_limit: dict[int, dict] = {}
+    per_query_by_limit: dict[int, dict[str, dict[str, dict]]] = {}
+    total = len(queries) * len(limits)
+    step = 0
+    for limit in limits:
+        per_query: dict[str, dict[str, dict]] = {}
+        for q in queries:
+            step += 1
+            if progress:
+                progress(step, total, f"limit={limit} {q.get('id', '?')}")
+            per_query[q["id"]] = {}
+            for s in strategies:
+                try:
+                    per_query[q["id"]][s] = run_one(
+                        api_url, api_key, q, s, limit, timeout,
+                    )
+                except Exception as e:  # noqa: BLE001
+                    per_query[q["id"]][s] = {
+                        "rank": None, "r5": 0, "r10": 0, "rr": 0.0,
+                        "n_hits": 0, "latency_ms": 0.0, "error": str(e),
+                    }
+        summary_by_limit[limit] = aggregate(per_query, list(strategies), n=len(queries))
+        per_query_by_limit[limit] = per_query
+    return {
+        "summary_by_limit": summary_by_limit,
+        "per_query_by_limit": per_query_by_limit,
+    }

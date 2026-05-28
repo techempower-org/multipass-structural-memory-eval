@@ -183,6 +183,60 @@ def test_query_n_results_threads_through_to_limit(
     assert result.error is None  # would AssertionError in fake_urlopen otherwise
 
 
+def test_query_candidate_strategy_constructor_default(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """#57 — candidate_strategy on constructor flows to /search query param."""
+    fake_urlopen_factory({
+        "GET http://daemon/search?q=memory&limit=5&kind=content&candidate_strategy=hybrid": _OK_ENVELOPE,
+    })
+    a = _adapter(monkeypatch, tmp_path, candidate_strategy="hybrid")
+    result = a.query("memory")
+    assert result.error is None  # fake_urlopen would AssertionError on URL mismatch
+
+
+def test_query_candidate_strategy_per_call_overrides_default(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """#57 — per-call kwarg overrides the constructor default."""
+    fake_urlopen_factory({
+        "GET http://daemon/search?q=memory&limit=5&kind=content&candidate_strategy=union": _OK_ENVELOPE,
+    })
+    a = _adapter(monkeypatch, tmp_path, candidate_strategy="hybrid")
+    result = a.query("memory", candidate_strategy="union")
+    assert result.error is None
+
+
+def test_query_no_candidate_strategy_omitted_from_url(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """#57 — when neither ctor nor call supplies a strategy, the param is
+    omitted so the daemon picks its default."""
+    fake_urlopen_factory({
+        "GET http://daemon/search?q=memory&limit=5&kind=content": _OK_ENVELOPE,
+    })
+    a = _adapter(monkeypatch, tmp_path)  # no candidate_strategy
+    result = a.query("memory")
+    assert result.error is None
+
+
+def test_invalid_candidate_strategy_raises_in_ctor(monkeypatch, tmp_path):
+    """#57 + Gemini PR #68 review: client-side validation guards against
+    typos like 'hybird' silently falling back to daemon default."""
+    with pytest.raises(ValueError, match="Invalid candidate_strategy"):
+        _adapter(monkeypatch, tmp_path, candidate_strategy="hybird")
+
+
+def test_invalid_candidate_strategy_raises_in_query(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Same validation at the call site."""
+    fake_urlopen_factory({})
+    a = _adapter(monkeypatch, tmp_path)
+    with pytest.raises(ValueError, match="Invalid candidate_strategy"):
+        a.query("memory", candidate_strategy="hybird")
+
+
 def test_query_question_is_url_quoted(
     monkeypatch, tmp_path, fake_urlopen_factory
 ):

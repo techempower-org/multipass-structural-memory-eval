@@ -102,12 +102,27 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         kind: str = DEFAULT_KIND,
         api_timeout: float = DEFAULT_TIMEOUT,
         prefer_graph_endpoint: bool = True,
+        candidate_strategy: Optional[str] = None,
         read_only: bool = True,
         db_path: Optional[str] = None,
     ) -> None:
         self.kind = kind
         self.api_timeout = api_timeout
         self.prefer_graph_endpoint = prefer_graph_endpoint
+        # #57 — daemon's mempalace_search exposes three candidate strategies:
+        #   - "vector"  (vector similarity only)
+        #   - "union"   (vector + BM25)
+        #   - "hybrid"  (vector + BM25 + AGE graph walk; ~10-15x slower)
+        # None defers to the daemon's default; otherwise we pass through as
+        # a /search query param. Validate client-side because older daemon
+        # builds silently ignore unknown params, which would let a typo
+        # like "hybird" silently fall back to default.
+        if candidate_strategy not in (None, "vector", "union", "hybrid"):
+            raise ValueError(
+                f"Invalid candidate_strategy {candidate_strategy!r}. "
+                "Expected 'vector', 'union', 'hybrid', or None."
+            )
+        self.candidate_strategy = candidate_strategy
 
         env_path = Path(os.path.expanduser(str(env_file or DEFAULT_ENV_FILE)))
         env_vars = _parse_env_file(env_path)
@@ -157,8 +172,15 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         route: bool = False,  # accepted for CLI parity; daemon does its own
         wing: Optional[str] = None,
         room: Optional[str] = None,
+        candidate_strategy: Optional[str] = None,
     ) -> QueryResult:
         chosen_kind = kind or self.kind
+        if candidate_strategy not in (None, "vector", "union", "hybrid"):
+            raise ValueError(
+                f"Invalid candidate_strategy {candidate_strategy!r}. "
+                "Expected 'vector', 'union', 'hybrid', or None."
+            )
+        chosen_strategy = candidate_strategy or self.candidate_strategy
         query_params: dict[str, Any] = {
             "q": question, "limit": n_results, "kind": chosen_kind,
         }
@@ -169,6 +191,8 @@ class MemPalaceDaemonAdapter(SMEAdapter):
             query_params["wing"] = wing
         if room:
             query_params["room"] = room
+        if chosen_strategy:
+            query_params["candidate_strategy"] = chosen_strategy
         params = urllib.parse.urlencode(query_params)
         url = f"{self.api_url}/search?{params}"
         body = self._http_get(url)

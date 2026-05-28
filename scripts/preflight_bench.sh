@@ -36,6 +36,10 @@ if [[ -z "${PALACE_API_KEY:-}" ]]; then
 fi
 
 failures=0
+PREFLIGHT_HEALTH_JSON=$(mktemp -t preflight_health.XXXXXX.json)
+PREFLIGHT_KG_JSON=$(mktemp -t preflight_kg.XXXXXX.json)
+trap 'rm -f "${PREFLIGHT_HEALTH_JSON}" "${PREFLIGHT_KG_JSON}"' EXIT
+
 warn() { echo "  WARN: $*" >&2; }
 fail() { echo "  FAIL: $*" >&2; failures=$((failures + 1)); }
 ok() { echo "  OK:   $*"; }
@@ -44,13 +48,13 @@ echo "=== preflight_bench: ${PALACE_HOST}:${PALACE_PORT} ==="
 
 # 1. Daemon health — must return HTTP 200 with status=ok.
 echo "→ check: daemon /health"
-health=$(curl -s -m 5 -o /tmp/preflight_health.json -w "%{http_code}" \
+health=$(curl -s -m 5 -o "${PREFLIGHT_HEALTH_JSON}" -w "%{http_code}" \
   -H "X-API-Key: ${PALACE_API_KEY}" \
   "http://${PALACE_HOST}:${PALACE_PORT}/health" 2>&1 || echo "000")
 if [[ "${health}" != "200" ]]; then
   fail "daemon /health returned HTTP ${health} — daemon is down or unreachable"
 else
-  status=$(python3 -c "import json; print(json.load(open('/tmp/preflight_health.json')).get('status', '?'))" 2>/dev/null)
+  status=$(python3 -c "import json; print(json.load(open('${PREFLIGHT_HEALTH_JSON}')).get('status', '?'))" 2>/dev/null)
   if [[ "${status}" == "ok" ]]; then
     ok "daemon /health = ok"
   else
@@ -63,7 +67,7 @@ echo "→ check: daemon restart_count"
 restart_count=$(python3 -c "
 import json
 try:
-  d = json.load(open('/tmp/preflight_health.json'))
+  d = json.load(open('${PREFLIGHT_HEALTH_JSON}'))
   print(d.get('restart_count', '?'))
 except Exception as e:
   print(f'parse-err: {e}')
@@ -81,12 +85,26 @@ else
 fi
 
 # 3. No active mempalace mine subprocesses on the daemon host (per #60).
+# Single SSH call (was two — Gemini PR #70 review) returning the PID list.
+# `[m]empalace` regex prevents pgrep from self-matching the ssh argv.
+# SKIP_MINE_CHECK=1 downgrades this to a warning — the daemon's own
+# auto-mine is independent of the workstation Stop hook (techempower-org/
+# multipass-structural-memory-eval#76 / techempower-org/palace-daemon#104),
+# so a permanent SKIP is sometimes the only way to launch under the
+# techempower-org/multipass-structural-memory-eval#61 stability stack.
 echo "→ check: no active mempalace mine"
-mine_pids=$(ssh -o BatchMode=yes "${PALACE_DAEMON_HOST}" 'pgrep -f "mempalace mine" 2>/dev/null || true' | tr -d '[:space:]')
-if [[ -z "${mine_pids}" ]]; then
-  ok "no mempalace mine running on ${PALACE_DAEMON_HOST}"
+if ! mine_pids_raw=$(ssh -o BatchMode=yes "${PALACE_DAEMON_HOST}" \
+    'pgrep -f "[m]empalace mine" 2>/dev/null; exit 0'); then
+  fail "SSH to ${PALACE_DAEMON_HOST} failed — check connectivity / auth"
 else
-  fail "mempalace mine running on ${PALACE_DAEMON_HOST} (pids: $(ssh -o BatchMode=yes "${PALACE_DAEMON_HOST}" 'pgrep -f "mempalace mine" 2>/dev/null' | tr '\n' ',')) — pause Stop hook before launching"
+  mine_pids=$(echo "${mine_pids_raw}" | tr '\n' ',' | sed 's/,$//')
+  if [[ -z "${mine_pids}" ]]; then
+    ok "no mempalace mine running on ${PALACE_DAEMON_HOST}"
+  elif [[ "${SKIP_MINE_CHECK:-0}" == "1" ]]; then
+    warn "mempalace mine running on ${PALACE_DAEMON_HOST} (pids: ${mine_pids}) — SKIP_MINE_CHECK=1, proceeding"
+  else
+    fail "mempalace mine running on ${PALACE_DAEMON_HOST} (pids: ${mine_pids}) — pause Stop hook before launching (or set SKIP_MINE_CHECK=1 if stability stack applied)"
+  fi
 fi
 
 # 4. KG stats sanity — daemon can answer MCP calls (last-line defence
@@ -98,12 +116,12 @@ curl -s -m 15 \
   -H "Content-Type: application/json" \
   -X POST "http://${PALACE_HOST}:${PALACE_PORT}/mcp" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"mempalace_kg_stats","arguments":{}}}' \
-  > /tmp/preflight_kg.json 2>&1 || true
-if grep -q '"result"' /tmp/preflight_kg.json; then
+  > "${PREFLIGHT_KG_JSON}" 2>&1 || true
+if grep -q '"result"' "${PREFLIGHT_KG_JSON}"; then
   triples=$(python3 -c "
 import json, sys
 try:
-    d = json.load(open('/tmp/preflight_kg.json'))
+    d = json.load(open('${PREFLIGHT_KG_JSON}'))
     text = d['result']['content'][0]['text']
     print(json.loads(text).get('triples', '?'))
 except Exception as e:
@@ -112,7 +130,7 @@ except Exception as e:
 " 2>/dev/null)
   ok "MCP kg_stats responded — triples: ${triples}"
 else
-  fail "MCP kg_stats failed — daemon's psycopg connection may be stale: $(head -c 200 /tmp/preflight_kg.json)"
+  fail "MCP kg_stats failed — daemon's psycopg connection may be stale: $(head -c 200 "${PREFLIGHT_KG_JSON}")"
 fi
 
 echo

@@ -49,10 +49,18 @@ def paired_bootstrap_ci(
     observed_mean = float(np.mean(diffs))
     n = len(diffs)
 
+    # Vectorized resample in chunks. Drawing all (n_bootstrap, n) indices
+    # at once would peak at ~1.6 GB for n_bootstrap=n=10000; chunking caps
+    # the live allocation at O(chunk_size * n). Legacy RandomState.randint
+    # consumes the same byte stream regardless of how the draws are
+    # chunked, so the chunked path is bit-identical to a single draw for
+    # any fixed seed.
+    chunk_size = 1000
     boot_means = np.empty(n_bootstrap)
-    for i in range(n_bootstrap):
-        indices = rng.randint(0, n, size=n)
-        boot_means[i] = np.mean(diffs[indices])
+    for i in range(0, n_bootstrap, chunk_size):
+        current_chunk = min(chunk_size, n_bootstrap - i)
+        indices = rng.randint(0, n, size=(current_chunk, n))
+        boot_means[i : i + current_chunk] = diffs[indices].mean(axis=1)
 
     alpha = 1.0 - confidence
     ci_lower = float(np.percentile(boot_means, 100 * alpha / 2))

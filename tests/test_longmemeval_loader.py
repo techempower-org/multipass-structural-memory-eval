@@ -208,3 +208,43 @@ def test_materialize_writes_questions_yaml(fixture_path, tmp_path):
     assert "github.com/xiaowu0162/LongMemEval" in qy["source"]
     assert len(qy["questions"]) == 2
     assert qy["questions"][0]["id"] == "test_001_temporal"
+
+
+# --- content_rules flag (#54) ----------------------------------------
+
+
+def test_materialize_default_uses_sme_rich(fixture_path, tmp_path):
+    """Default mode produces frontmatter + role headers + assistant turns."""
+    out = tmp_path / "lme_rich"
+    materialize_sme_corpus(load_questions(fixture_path), out)
+    sample = (out / "vault" / "test_001_temporal" / "sess_001_b.md").read_text()
+    assert sample.startswith("---")  # YAML frontmatter
+    assert "session_id:" in sample
+    assert "## user" in sample
+    assert "## assistant" in sample
+
+
+def test_materialize_upstream_exact_strips_metadata_and_assistant(fixture_path, tmp_path):
+    """upstream-exact: user turns only, no metadata, no role markers."""
+    from sme.corpora.longmemeval.loader import CONTENT_RULES_UPSTREAM_EXACT
+
+    out = tmp_path / "lme_exact"
+    materialize_sme_corpus(
+        load_questions(fixture_path),
+        out,
+        content_rules=CONTENT_RULES_UPSTREAM_EXACT,
+    )
+    sample = (out / "vault" / "test_001_temporal" / "sess_001_b.md").read_text()
+    assert not sample.startswith("---")  # no frontmatter
+    assert "session_id:" not in sample
+    assert "## user" not in sample
+    assert "## assistant" not in sample
+    assert "<!-- evidence -->" not in sample
+
+
+def test_materialize_rejects_unknown_content_rules(fixture_path, tmp_path):
+    out = tmp_path / "lme_bad"
+    with pytest.raises(ValueError, match="content_rules"):
+        materialize_sme_corpus(
+            load_questions(fixture_path), out, content_rules="not-a-mode"
+        )

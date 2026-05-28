@@ -257,12 +257,15 @@ def run_one_question(
     judge_model: str,
     reader_client: Optional[Any] = None,
     judge_client: Optional[Any] = None,
+    content_rules: str = "sme-rich",
 ) -> dict:
     """Materialize the question's per-question vault, build adapter, run
     SME + judge scorers, return one record."""
     # 1. Materialize ONLY this question to a per-question dir
     out_dir = work_dir / q.question_id
-    materialize_sme_corpus([q], out_dir, max_questions=1)
+    materialize_sme_corpus(
+        [q], out_dir, max_questions=1, content_rules=content_rules
+    )
     per_q_vault = out_dir / "vault" / q.question_id
 
     # 2. Build adapter
@@ -494,6 +497,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--work-dir", type=Path, default=None,
                    help="Where per-question vaults are materialized "
                         "(default: tmpdir).")
+    p.add_argument("--content-rules", default="sme-rich",
+                   choices=["sme-rich", "upstream-exact"],
+                   help="Session rendering rules. 'sme-rich' (default) = "
+                        "frontmatter + role headers + user + assistant turns. "
+                        "'upstream-exact' = user turns only, no metadata — "
+                        "matches upstream protocol per #54 / #51.")
     p.add_argument("-v", "--verbose", action="store_true")
     return p
 
@@ -532,6 +541,7 @@ def run(args: argparse.Namespace,
                 judge_model=args.judge_model,
                 reader_client=reader_client,
                 judge_client=judge_client,
+                content_rules=getattr(args, "content_rules", "sme-rich"),
             )
             records.append(rec)
     finally:

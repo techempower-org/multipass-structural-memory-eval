@@ -189,28 +189,38 @@ def ingest_question_haystack(
     ingest_client: DaemonIngestClient,
     *,
     wing: Optional[str] = None,
+    content_rules: str = "sme-rich",
 ) -> dict[str, Any]:
     """Load every session in ``q``'s haystack into the daemon under ``wing``.
 
     Returns a small report dict: ``{wing, posted, errors}``. Errors are
     appended on every non-2xx response; the loop continues so a single
     failing session doesn't kill the whole question.
+
+    ``content_rules`` controls the rendering shape per #54. ``sme-rich``
+    (default) matches the existing rich rendering; ``upstream-exact``
+    concatenates only user turns by newline, matching upstream's raw
+    protocol and removing the -2.2pp loader-cost documented in #51.
     """
     target_wing = wing or f"{LME_WING_PREFIX}{q.question_id}"
     posted = 0
     errors: list[str] = []
     for s in q.haystack_sessions:
-        # One drawer per session — concatenate the turns. This is the same
-        # rendering shape ``materialize_sme_corpus`` writes to disk.
-        body_parts = [
-            f"# Session {s.session_id}",
-            f"_Date: {s.date}_",
-            "",
-        ]
-        for t in s.turns:
-            marker = "  <!-- evidence -->" if t.has_answer else ""
-            body_parts.append(f"## {t.role}{marker}\n\n{t.content}")
-        text = "\n".join(body_parts)
+        if content_rules == "upstream-exact":
+            text = "\n".join(t.content for t in s.turns if t.role == "user")
+        else:
+            # sme-rich: one drawer per session — concatenate the turns with
+            # role headers + date. Same shape ``materialize_sme_corpus``
+            # writes to disk in sme-rich mode.
+            body_parts = [
+                f"# Session {s.session_id}",
+                f"_Date: {s.date}_",
+                "",
+            ]
+            for t in s.turns:
+                marker = "  <!-- evidence -->" if t.has_answer else ""
+                body_parts.append(f"## {t.role}{marker}\n\n{t.content}")
+            text = "\n".join(body_parts)
 
         status, body = ingest_client.post_memory(
             content=text, wing=target_wing, room=LME_ROOM,
@@ -519,7 +529,11 @@ def _run_questions(
 
         # 1. Ingest (daemon only — familiar reads existing palace contents)
         if ingest_client is not None:
-            ingest_report = ingest_question_haystack(q, ingest_client)
+            ingest_report = ingest_question_haystack(
+                q,
+                ingest_client,
+                content_rules=getattr(args, "content_rules", "sme-rich"),
+            )
             ingest_total["posted"] += ingest_report["posted"]
             ingest_total["errors"] += len(ingest_report["errors"])
             if ingest_report["errors"]:
@@ -695,6 +709,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--work-dir", type=Path, default=None,
                    help="Where per-question vaults materialize (default: "
                         "tmpdir).")
+    p.add_argument("--content-rules", default="sme-rich",
+                   choices=["sme-rich", "upstream-exact"],
+                   help="How haystack sessions are rendered for embedding. "
+                        "'sme-rich' (default) = frontmatter + role headers + "
+                        "user + assistant turns. 'upstream-exact' = user "
+                        "turns only, no metadata — matches upstream "
+                        "longmemeval_bench.py raw protocol and removes the "
+                        "documented -2.2pp loader-cost (#54 / #51).")
     p.add_argument("-v", "--verbose", action="store_true")
     return p
 

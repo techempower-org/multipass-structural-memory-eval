@@ -193,7 +193,6 @@ def ingest_question_haystack(
 ) -> dict[str, Any]:
     """Load every session in ``q``'s haystack into the daemon under ``wing``.
 
-<<<<<<< HEAD
     Returns a small report dict: ``{wing, posted, errors, session_to_drawer}``.
     Errors are appended on every non-2xx response; the loop continues so a
     single failing session doesn't kill the whole question.
@@ -203,16 +202,11 @@ def ingest_question_haystack(
     matcher has to guess whether the daemon's retrieved drawers correspond
     to the expected sessions (see #58). With it, callers can compute
     drawer_id-based hit_at_K directly.
-=======
-    Returns a small report dict: ``{wing, posted, errors}``. Errors are
-    appended on every non-2xx response; the loop continues so a single
-    failing session doesn't kill the whole question.
 
     ``content_rules`` controls the rendering shape per #54. ``sme-rich``
     (default) matches the existing rich rendering; ``upstream-exact``
     concatenates only user turns by newline, matching upstream's raw
     protocol and removing the -2.2pp loader-cost documented in #51.
->>>>>>> 1cbb6da (feat(loader): add --content-rules flag for session rendering)
     """
     target_wing = wing or f"{LME_WING_PREFIX}{q.question_id}"
     posted = 0

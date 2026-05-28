@@ -1,0 +1,361 @@
+{
+  "run_metadata": {
+    "mode": "candidate-strategy-ablation",
+    "diagnostic": "candidate_strategy",
+    "queries": "/home/jp/Projects/palace-daemon/scripts/evals/rerank_eval_queries.json",
+    "n_questions": 12,
+    "strategies": [
+      "vector",
+      "union",
+      "hybrid"
+    ],
+    "search_limit": 20,
+    "url": "http://familiar:8085",
+    "timestamp_utc": "2026-05-28T07:49:31.183038+00:00"
+  },
+  "summary": {
+    "per_strategy": {
+      "vector": {
+        "n": 12,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8704,
+        "p50_ms": 225.8,
+        "p95_ms": 253.5
+      },
+      "union": {
+        "n": 12,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8704,
+        "p50_ms": 222.1,
+        "p95_ms": 255.6
+      },
+      "hybrid": {
+        "n": 12,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.8472,
+        "p50_ms": 2058.4,
+        "p95_ms": 7291.1
+      }
+    },
+    "headline": {
+      "best_R@5": "hybrid (1.000)"
+    }
+  },
+  "per_query": {
+    "kill-cascade": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 253.5
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 229.5
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 239.9
+      }
+    },
+    "rerank-spike": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 232.7
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 223.9
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 6427.4
+      }
+    },
+    "hnsw-pin": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 232.9
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 224.2
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 4590.8
+      }
+    },
+    "system-service-only": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 220.1
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 230.6
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 236.6
+      }
+    },
+    "rerank-implementation-plan": {
+      "vector": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 218.3
+      },
+      "union": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 215.5
+      },
+      "hybrid": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 3491.9
+      }
+    },
+    "daemon-deploy-arch": {
+      "vector": {
+        "rank": 9,
+        "r5": 0,
+        "r10": 1,
+        "rr": 0.1111111111111111,
+        "n_hits": 20,
+        "latency_ms": 213.7
+      },
+      "union": {
+        "rank": 9,
+        "r5": 0,
+        "r10": 1,
+        "rr": 0.1111111111111111,
+        "n_hits": 20,
+        "latency_ms": 216.7
+      },
+      "hybrid": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 246.1
+      }
+    },
+    "felipe-976-cherrypick": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 233.8
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 228.3
+      },
+      "hybrid": {
+        "rank": 2,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.5,
+        "n_hits": 20,
+        "latency_ms": 1213.9
+      }
+    },
+    "oom-sigkill-startup": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 231.4
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 255.6
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 7291.1
+      }
+    },
+    "rerank-fallback-contract": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 231.8
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 220.2
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 256.1
+      }
+    },
+    "search-args-limit-param": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 213.1
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 215.8
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 2902.9
+      }
+    },
+    "wing-room-taxonomy": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 212.8
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 214.9
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 230.3
+      }
+    },
+    "fuser-port-8085": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 216.6
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 217.0
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 3437.3
+      }
+    }
+  }
+}

@@ -187,3 +187,71 @@ def test_aggregate_headline_picks_best_R5_strategy():
     # Both strategies have R@5 = 1.0 here, so headline picks one (either OK)
     assert "best_R@5" in summary["headline"]
     assert "(1.000)" in summary["headline"]["best_R@5"]
+
+
+# --- run_eval_multi_limit ------------------------------------------------
+
+
+def test_run_eval_multi_limit_dispatches_each_limit(monkeypatch):
+    """Multi-limit sweep — each (strategy, limit) calls mcp_search once."""
+    from sme.eval import candidate_strategy as cs
+
+    calls: list[tuple] = []
+
+    def _fake_mcp(api_url, api_key, *, query, strategy, limit, timeout=60.0):
+        calls.append((query, strategy, limit))
+        results = [{"text": "kill-cascade match" if limit >= 5 else "miss"}]
+        return {"results": results}, 100.0
+
+    monkeypatch.setattr(cs, "mcp_search", _fake_mcp)
+
+    queries = [{
+        "id": "q1", "query": "kill-cascade",
+        "relevant": {"content_any": ["kill-cascade"]},
+    }]
+    report = cs.run_eval_multi_limit(
+        api_url="http://fake", api_key="k",
+        queries=queries, strategies=["vector", "hybrid"],
+        limits=[5, 10, 20],
+    )
+
+    # 1 query × 2 strategies × 3 limits = 6 probes
+    assert len(calls) == 6
+    assert set(calls) == {
+        ("kill-cascade", s, lim)
+        for s in ["vector", "hybrid"] for lim in [5, 10, 20]
+    }
+
+    by_limit = report["summary_by_limit"]
+    assert set(by_limit.keys()) == {5, 10, 20}
+    for summary in by_limit.values():
+        assert set(summary["per_strategy"].keys()) == {"vector", "hybrid"}
+
+
+def test_run_eval_multi_limit_records_per_call_errors(monkeypatch):
+    """When mcp_search raises for one cell, the rest still run and the
+    failure is recorded as ``error`` on that record."""
+    from sme.eval import candidate_strategy as cs
+
+    def _fake_mcp(api_url, api_key, *, query, strategy, limit, timeout=60.0):
+        if strategy == "hybrid" and limit == 20:
+            raise RuntimeError("synthetic mcp failure")
+        return {"results": [{"text": "match"}]}, 50.0
+
+    monkeypatch.setattr(cs, "mcp_search", _fake_mcp)
+
+    queries = [{"id": "q1", "query": "x", "relevant": {"content_any": ["match"]}}]
+    report = cs.run_eval_multi_limit(
+        api_url="http://fake", api_key="k",
+        queries=queries, strategies=["vector", "hybrid"],
+        limits=[10, 20],
+    )
+
+    failed = report["per_query_by_limit"][20]["q1"]["hybrid"]
+    assert "error" in failed
+    assert "synthetic mcp failure" in failed["error"]
+
+    # Other cells unaffected
+    assert "error" not in report["per_query_by_limit"][20]["q1"]["vector"]
+    assert "error" not in report["per_query_by_limit"][10]["q1"]["vector"]
+    assert "error" not in report["per_query_by_limit"][10]["q1"]["hybrid"]

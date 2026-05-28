@@ -1392,7 +1392,7 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     import os
     from datetime import datetime, timezone
     from sme.eval.candidate_strategy import (
-        DEFAULT_STRATEGIES, run_eval,
+        DEFAULT_STRATEGIES, run_eval, run_eval_multi_limit,
     )
 
     api_url = (
@@ -1414,10 +1414,59 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     def _progress(i, n, qid):
         log.info("[%d/%d] %s", i, n, qid)
 
+    strategies = list(args.strategies or DEFAULT_STRATEGIES)
+    timestamp = datetime.now(timezone.utc).isoformat()
+
+    if args.limits and args.limit is not None:
+        log.error("--limit and --limits are mutually exclusive")
+        return 2
+    if args.limit is None:
+        args.limit = 20
+
+    # Multi-limit sweep path
+    if args.limits:
+        report_core = run_eval_multi_limit(
+            api_url=api_url, api_key=api_key,
+            queries=queries, strategies=strategies,
+            limits=list(args.limits),
+            progress=_progress,
+        )
+        report = {
+            "run_metadata": {
+                "diagnostic": "candidate_strategy",
+                "queries": str(args.queries),
+                "n_questions": len(queries),
+                "strategies": strategies,
+                "limits": list(args.limits),
+                "url": api_url,
+                "timestamp_utc": timestamp,
+                "mode": "multi-limit-sweep",
+            },
+            **report_core,
+        }
+
+        print()
+        print("=" * 60)
+        print(f"  diagnostic: candidate_strategy  n: {len(queries)}  "
+              f"limits: {list(args.limits)}")
+        for limit, summary in report["summary_by_limit"].items():
+            print(f"\n  limit={limit}:")
+            for s, blk in summary["per_strategy"].items():
+                if blk.get("n", 0):
+                    print(f"    {s:10}  R@5={blk['R@5']:.3f}  R@10={blk['R@10']:.3f}  "
+                          f"MRR={blk['MRR']:.3f}  p50={blk['p50_ms']:.0f}ms")
+
+        if args.json:
+            args.json.parent.mkdir(parents=True, exist_ok=True)
+            args.json.write_text(json.dumps(report, indent=2, default=str))
+            print(f"\n  wrote {args.json}")
+        return 0
+
+    # Single-limit path (unchanged)
     report_core = run_eval(
         api_url=api_url, api_key=api_key,
         queries=queries,
-        strategies=list(args.strategies or DEFAULT_STRATEGIES),
+        strategies=strategies,
         limit=args.limit,
         progress=_progress,
     )
@@ -1426,10 +1475,10 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
             "diagnostic": "candidate_strategy",
             "queries": str(args.queries),
             "n_questions": len(queries),
-            "strategies": list(args.strategies or DEFAULT_STRATEGIES),
+            "strategies": strategies,
             "search_limit": args.limit,
             "url": api_url,
-            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            "timestamp_utc": timestamp,
         },
         **report_core,
     }
@@ -2075,8 +2124,15 @@ def main(argv: list[str] | None = None) -> int:
         help="Strategies to ablate (default: vector union hybrid).",
     )
     cs.add_argument(
-        "--limit", type=int, default=20,
-        help="Per-query candidate pool size (default: 20).",
+        "--limit", type=int, default=None,
+        help="Per-query candidate pool size (default: 20). Mutually "
+             "exclusive with --limits.",
+    )
+    cs.add_argument(
+        "--limits", type=int, nargs="+", default=None,
+        help="Multi-limit sweep — runs each strategy at every K in the "
+             "list (e.g. --limits 5 10 20 50). Shows how the top-K cliff "
+             "shifts across strategies. Mutually exclusive with --limit.",
     )
     cs.add_argument(
         "--json", type=Path, default=None,

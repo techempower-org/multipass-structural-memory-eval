@@ -103,12 +103,20 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         api_timeout: float = DEFAULT_TIMEOUT,
         prefer_graph_endpoint: bool = True,
         candidate_strategy: Optional[str] = None,
+        search_endpoint: str = "/search",
         read_only: bool = True,
         db_path: Optional[str] = None,
     ) -> None:
         self.kind = kind
         self.api_timeout = api_timeout
         self.prefer_graph_endpoint = prefer_graph_endpoint
+        # #45 — alternate search endpoints (e.g. /search/age-fused) use a
+        # POST + JSON body with field name `query` instead of `q`, and
+        # respond with flat per-hit fields (drawer_id, wing, room,
+        # source_file at top level) rather than the nested `metadata`
+        # dict that /search returns. Default "/search" preserves the
+        # existing GET + q=... behaviour.
+        self.search_endpoint = search_endpoint
         # #57 — daemon's mempalace_search exposes three candidate strategies:
         #   - "vector"  (vector similarity only)
         #   - "union"   (vector + BM25)
@@ -181,21 +189,41 @@ class MemPalaceDaemonAdapter(SMEAdapter):
                 "Expected 'vector', 'union', 'hybrid', or None."
             )
         chosen_strategy = candidate_strategy or self.candidate_strategy
-        query_params: dict[str, Any] = {
-            "q": question, "limit": n_results, "kind": chosen_kind,
-        }
-        # `wing` / `room` filters added by palace-daemon PR #22; the daemon
-        # silently ignores unknown query params on older builds, so it's
-        # safe to send them unconditionally.
-        if wing:
-            query_params["wing"] = wing
-        if room:
-            query_params["room"] = room
-        if chosen_strategy:
-            query_params["candidate_strategy"] = chosen_strategy
-        params = urllib.parse.urlencode(query_params)
-        url = f"{self.api_url}/search?{params}"
-        body = self._http_get(url)
+
+        if self.search_endpoint != "/search":
+            # #45 — alternate endpoints (e.g. /search/age-fused) are POST
+            # + JSON body with field name `query` instead of `q`. The
+            # response shape uses flat per-hit fields (drawer_id, wing,
+            # room, source_file at top level) rather than the nested
+            # `metadata` dict that /search returns; the parsing below
+            # tolerates both.
+            payload: dict[str, Any] = {
+                "query": question, "limit": n_results,
+            }
+            if wing:
+                payload["wing"] = wing
+            if room:
+                payload["room"] = room
+            if chosen_strategy:
+                payload["candidate_strategy"] = chosen_strategy
+            url = f"{self.api_url}{self.search_endpoint}"
+            body = self._http_post(url, payload)
+        else:
+            query_params: dict[str, Any] = {
+                "q": question, "limit": n_results, "kind": chosen_kind,
+            }
+            # `wing` / `room` filters added by palace-daemon PR #22; the daemon
+            # silently ignores unknown query params on older builds, so it's
+            # safe to send them unconditionally.
+            if wing:
+                query_params["wing"] = wing
+            if room:
+                query_params["room"] = room
+            if chosen_strategy:
+                query_params["candidate_strategy"] = chosen_strategy
+            params = urllib.parse.urlencode(query_params)
+            url = f"{self.api_url}/search?{params}"
+            body = self._http_get(url)
         # body is a parsed dict here; errors are returned as QueryResult
         if isinstance(body, QueryResult):
             return body
@@ -226,10 +254,15 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         context_parts: list[str] = []
         retrieved: list[Entity] = []
         for i, hit in enumerate(results):
+            # #45 — /search nests fields under "metadata"; /search/age-fused
+            # puts them at the top level. Look in metadata first then
+            # fall through so both shapes parse cleanly.
             meta = hit.get("metadata") or {}
-            wing_name = meta.get("wing", "?")
-            room_name = meta.get("room", "?")
-            source_file = meta.get("source_file") or f"hit{i}"
+            wing_name = meta.get("wing") or hit.get("wing", "?")
+            room_name = meta.get("room") or hit.get("room", "?")
+            source_file = (
+                meta.get("source_file") or hit.get("source_file") or f"hit{i}"
+            )
             source_label = Path(source_file).name or source_file
             text = hit.get("text", "") or ""
             # Use the daemon's real drawer_id as Entity.id when available
@@ -387,6 +420,41 @@ class MemPalaceDaemonAdapter(SMEAdapter):
             return None
 
     # --- HTTP plumbing ------------------------------------------------
+
+    def _http_post(self, url: str, payload: dict) -> Any:
+        """POST ``url`` with X-API-Key + JSON body. Same error-translation
+        contract as ``_http_get``: returns parsed JSON on 2xx, or a
+        QueryResult with an ``error`` field on HTTP / connection failures.
+        """
+        body = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
+            url, data=body, method="POST",
+            headers={
+                "X-API-Key": self.api_key,
+                "Content-Type": "application/json",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=self.api_timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            try:
+                detail = e.read().decode("utf-8", errors="replace")[:200]
+            except Exception:
+                detail = str(e)
+            if e.code in (401, 403):
+                err = f"AUTH: invalid X-API-Key ({e.code})"
+            else:
+                err = f"HTTP {e.code}: {detail}"
+            return QueryResult(answer="", context_string="", error=err)
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            return QueryResult(
+                answer="", context_string="", error=f"CONNECTION: {e}"
+            )
+        except Exception as e:  # pragma: no cover
+            return QueryResult(
+                answer="", context_string="", error=f"INTERNAL: {e}"
+            )
 
     def _http_get(self, url: str) -> Any:
         """GET ``url`` with X-API-Key, return parsed JSON or a QueryResult

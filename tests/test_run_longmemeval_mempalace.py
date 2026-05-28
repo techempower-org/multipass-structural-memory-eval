@@ -487,6 +487,155 @@ def test_estimate_run_cost_unknown_model_zero_priced():
     assert est["judge_usd"] > 0
 
 
+# --- Familiar adapter ingest gating (#46) ----------------------------------
+
+
+def test_familiar_adapter_with_api_url_ingests_haystack(dataset, args_factory):
+    """#46 — familiar wraps palace-daemon and reads its drawer store, so
+    the per-question ingest needs to fire for the familiar adapter too,
+    not just for mempalace-daemon. With --api-url + --api-key supplied,
+    `run()` builds an ingest client for familiar."""
+    args = args_factory(
+        dataset, adapter="familiar", api_url="http://fake-daemon:8085",
+        api_key="test-key", skip_judge=True,
+    )
+    ingest = FakeIngestClient()
+
+    def _factory(q, _vault):
+        return FakeAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, ingest_client=ingest, factory_fn=_factory)
+
+    # Both questions' haystacks were posted to the daemon
+    assert {p["wing"] for p in ingest.posted} == {
+        "lme_test_001_temporal", "lme_test_002_abstain_abs"
+    }
+    # Run metadata reports ingested_per_question=True for familiar too
+    assert report["run_metadata"]["adapter"] == "familiar"
+    assert report["run_metadata"]["ingested_per_question"] is True
+
+
+def test_familiar_adapter_auto_builds_ingest_client_when_kwarg_omitted(
+    dataset, args_factory, monkeypatch,
+):
+    """#46 — when ingest_client is not injected by the test, run() should
+    auto-build one for familiar (mirroring the daemon-direct path) so the
+    haystack still lands. We don't need a real HTTP daemon here — the
+    auto-build path uses args.api_url + api_key resolution; we inject a
+    factory_fn so the per-question adapter calls never actually fire."""
+    args = args_factory(
+        dataset, adapter="familiar", api_url="http://fake-daemon:8085",
+        api_key="env-key", skip_judge=True,
+    )
+
+    # Stub DaemonIngestClient so the auto-build doesn't open a socket; we
+    # just want to confirm the gate now lets familiar through.
+    built = {}
+
+    class _StubIngestClient:
+        def __init__(self, *, api_url, api_key):
+            built["api_url"] = api_url
+            built["api_key"] = api_key
+            self.posted = []
+
+        def post_memory(self, *, content, wing, room="longmemeval"):
+            drawer_id = f"drawer_{wing}_{len(self.posted):04d}"
+            self.posted.append({
+                "content": content, "wing": wing, "room": room,
+                "drawer_id": drawer_id,
+            })
+            return 200, {"drawer_id": drawer_id, "success": True}
+
+    monkeypatch.setattr(runner, "DaemonIngestClient", _StubIngestClient)
+
+    def _factory(q, _vault):
+        return FakeAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, factory_fn=_factory)
+
+    # Ingest client was auto-built with the supplied api_url
+    assert built["api_url"] == "http://fake-daemon:8085"
+    assert built["api_key"] == "env-key"
+    # And the run metadata reflects per-question ingest
+    assert report["run_metadata"]["ingested_per_question"] is True
+
+
+def test_familiar_adapter_without_api_url_skips_ingest(dataset, args_factory):
+    """When --api-url isn't supplied for familiar, the ingest gate skips
+    the auto-build — familiar can still run against whatever's already
+    in the palace, but no per-question loading happens."""
+    args = args_factory(
+        dataset, adapter="familiar", api_url=None,
+        api_key=None, skip_judge=True,
+    )
+
+    def _factory(q, _vault):
+        return FakeAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, factory_fn=_factory)
+    assert report["run_metadata"]["ingested_per_question"] is False
+
+
+# --- --search-endpoint flag plumbing (#45) ---------------------------------
+
+
+def test_arg_parser_search_endpoint_defaults_to_search():
+    """--search-endpoint defaults to /search so existing runs are unaffected."""
+    parser = runner.build_arg_parser()
+    parsed = parser.parse_args([
+        "--adapter", "mempalace-daemon",
+        "--questions", "/tmp/x.json",
+        "--api-url", "http://localhost:8085",
+    ])
+    assert parsed.search_endpoint == "/search"
+
+
+def test_arg_parser_accepts_age_fused_search_endpoint():
+    """--search-endpoint /search/age-fused parses cleanly and threads
+    through to args.search_endpoint for the factory to consume."""
+    parser = runner.build_arg_parser()
+    parsed = parser.parse_args([
+        "--adapter", "mempalace-daemon",
+        "--questions", "/tmp/x.json",
+        "--api-url", "http://localhost:8085",
+        "--search-endpoint", "/search/age-fused",
+    ])
+    assert parsed.search_endpoint == "/search/age-fused"
+
+
+def test_run_metadata_surfaces_search_endpoint(dataset, args_factory):
+    """#83 — run_metadata.search_endpoint should reflect the actual
+    args.search_endpoint value so JSON consumers can tell which endpoint
+    produced a given reading. Previously hardcoded to 'default' even
+    when /search/age-fused was the actual endpoint queried."""
+    args = args_factory(dataset, skip_judge=True)
+    args.search_endpoint = "/search/age-fused"
+    ingest = FakeIngestClient()
+
+    def _factory(q, _vault):
+        return FakeAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, ingest_client=ingest, factory_fn=_factory)
+    assert report["run_metadata"]["search_endpoint"] == "/search/age-fused"
+
+
+def test_run_metadata_default_search_endpoint_logged_as_search(
+    dataset, args_factory,
+):
+    """When --search-endpoint isn't passed, run_metadata.search_endpoint
+    falls through to the argparse default '/search' (the daemon's default
+    vector + BM25 endpoint)."""
+    args = args_factory(dataset, skip_judge=True)
+    args.search_endpoint = "/search"
+    ingest = FakeIngestClient()
+
+    def _factory(q, _vault):
+        return FakeAdapter(wing=f"lme_{q.question_id}")
+
+    report = runner.run(args, ingest_client=ingest, factory_fn=_factory)
+    assert report["run_metadata"]["search_endpoint"] == "/search"
+
+
 # --- Arg parser smoke ------------------------------------------------------
 
 def test_arg_parser_requires_adapter_and_questions():

@@ -368,6 +368,151 @@ def test_query_sends_x_api_key_header(
     assert api_key_value == "my-secret"
 
 
+# --- /search/age-fused POST endpoint (#45) --------------------------
+
+
+_AGE_FUSED_ENVELOPE = {
+    "query": "memory",
+    "total_before_filter": 2,
+    "available_in_scope": 4242,
+    "warnings": [],
+    # /search/age-fused returns flat per-hit fields (drawer_id, wing,
+    # room, source_file at top level) instead of nesting them under
+    # `metadata`. The adapter parsing must tolerate this shape.
+    "results": [
+        {
+            "drawer_id": "drawer-1",
+            "wing": "memorypalace",
+            "room": "architecture",
+            "source_file": "/path/to/notes.md",
+            "text": "first chunk text",
+            "score": 0.91,
+        },
+        {
+            "drawer_id": "drawer-2",
+            "wing": "memorypalace",
+            "room": "diary",
+            "source_file": "/path/to/diary.md",
+            "text": "second chunk",
+            "score": 0.84,
+        },
+    ],
+}
+
+
+def test_query_search_endpoint_age_fused_uses_post(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """#45 — alternate search endpoint (e.g. /search/age-fused) is a
+    POST + JSON body with field name `query` instead of `q`. The fake
+    urlopen factory keys on METHOD + URL, so registering only the POST
+    route is enough to assert the adapter uses POST."""
+    captured = {}
+
+    def capture(req):
+        import json as _json
+        captured["method"] = req.get_method()
+        captured["url"] = req.full_url
+        captured["headers"] = dict(req.header_items())
+        captured["payload"] = _json.loads(req.data.decode("utf-8"))
+        return _AGE_FUSED_ENVELOPE
+
+    fake_urlopen_factory({
+        "POST http://daemon/search/age-fused": capture,
+    })
+    a = _adapter(
+        monkeypatch, tmp_path, search_endpoint="/search/age-fused",
+    )
+    result = a.query("memory", wing="lme_q1")
+    assert result.error is None
+    # POST, not GET
+    assert captured["method"] == "POST"
+    # JSON body uses `query` (not `q`), `limit`, `wing`
+    assert captured["payload"]["query"] == "memory"
+    assert captured["payload"]["limit"] == 5
+    assert captured["payload"]["wing"] == "lme_q1"
+    # Content-Type set by _http_post
+    ct = (
+        captured["headers"].get("Content-type")
+        or captured["headers"].get("Content-Type")
+    )
+    assert ct == "application/json"
+
+
+def test_query_search_endpoint_age_fused_parses_flat_hits(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """#45 — /search/age-fused puts wing/room/source_file at the hit's
+    top level (not under hit['metadata']). The hit-parsing path must
+    tolerate both shapes."""
+    fake_urlopen_factory({
+        "POST http://daemon/search/age-fused": _AGE_FUSED_ENVELOPE,
+    })
+    a = _adapter(
+        monkeypatch, tmp_path, search_endpoint="/search/age-fused",
+    )
+    result = a.query("memory")
+    assert result.error is None
+    # Context string reflects the flat per-hit metadata
+    assert "[1] [memorypalace/architecture]" in result.context_string
+    assert "first chunk text" in result.context_string
+    assert "[2] [memorypalace/diary]" in result.context_string
+    # Entity ids come from the daemon's flat `drawer_id` field
+    assert len(result.retrieved_entities) == 2
+    assert result.retrieved_entities[0].id == "drawer-1"
+    assert result.retrieved_entities[0].properties["wing"] == "memorypalace"
+    assert result.retrieved_entities[0].properties["room"] == "architecture"
+    assert result.retrieved_entities[0].properties["source_file"] == "/path/to/notes.md"
+
+
+def test_query_default_search_endpoint_still_uses_get(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Default search_endpoint='/search' must keep the existing GET path
+    so /search consumers are unaffected by the #45 plumbing."""
+    fake_urlopen_factory({
+        "GET http://daemon/search?q=memory&limit=5&kind=content": _OK_ENVELOPE,
+    })
+    a = _adapter(monkeypatch, tmp_path)  # default endpoint
+    result = a.query("memory")
+    assert result.error is None
+
+
+def test_query_age_fused_http_error_translates(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """The new _http_post helper shares the same error-translation
+    contract as _http_get — 5xx becomes 'HTTP NNN' error string."""
+    err = urllib.error.HTTPError(
+        "http://daemon/search/age-fused", 500, "Server Error", {}, None
+    )
+    fake_urlopen_factory({
+        "POST http://daemon/search/age-fused": err,
+    })
+    a = _adapter(
+        monkeypatch, tmp_path, search_endpoint="/search/age-fused",
+    )
+    result = a.query("memory")
+    assert result.error.startswith("HTTP 500")
+
+
+def test_query_age_fused_auth_error_returns_AUTH(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    err = urllib.error.HTTPError(
+        "http://daemon/search/age-fused", 401, "Unauthorized", {}, None
+    )
+    fake_urlopen_factory({
+        "POST http://daemon/search/age-fused": err,
+    })
+    a = _adapter(
+        monkeypatch, tmp_path, search_endpoint="/search/age-fused",
+    )
+    result = a.query("memory")
+    assert result.error.startswith("AUTH:")
+    assert "401" in result.error
+
+
 # --- get_graph_snapshot — /graph fast path --------------------------
 
 

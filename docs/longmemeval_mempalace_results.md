@@ -175,6 +175,59 @@ hold.
 
 ---
 
+## Search-Endpoint A/B — 2026-05-28 (techempower-org/multipass-structural-memory-eval#45)
+
+Same haystack, reader, judge, and per-question wing isolation as #44.
+Only the daemon retrieval endpoint changes: vector + BM25 default
+(`/search`) versus vector + AGE-graph RRF fusion (`/search/age-fused`).
+Source: `baselines/longmemeval_age_fused_2026-05-28.json`.
+
+| SME Category | n | QA-acc `/search` (#44) | QA-acc `/search/age-fused` (#45) | Δ |
+|---|---:|---:|---:|---:|
+| cat_1          | 150 | 52.67% | 7.33%   | -45.34pp |
+| cat_1_negative | 30  | 90.00% | 100.00% | +10.00pp |
+| cat_2c         | 121 | 74.38% | 0.00%   | -74.38pp |
+| cat_3_partial  | 72  | 69.44% | 1.39%   | -68.05pp |
+| cat_6          | 127 | 44.09% | 36.22%  |  -7.87pp |
+| **Overall**    | 500 | **60.40%** | **17.60%** | **-42.80pp** |
+
+### What actually changed
+
+| metric | `/search` default (#44) | `/search/age-fused` (#45) |
+|---|---:|---:|
+| Mean context_chars per query | 2539 | **459** (5.5× narrower) |
+| Median context_chars | 2780 | 432 |
+| Max context_chars | 4193 | 841 |
+| Questions with 0 matched_sources (substring matcher) | 466/500 | 500/500 |
+| Adapter errors | 0 | 1 (`NO_RESULTS`) |
+| Disagreements | 290 | 88 |
+
+### Empty-triples caveat
+
+This reading does **not** say AGE-fused retrieval is structurally
+worse than vector + BM25. As of 2026-05-25 the AGE triples layer was
+effectively empty (`triples: 1` reported by `kg_stats` after the
+entities-only backfill). The fusion's graph half had nothing to fuse
+with, so age-fused was effectively competing against vector-only with
+a tighter snippet boundary. The daemon's `kg_stats` reported 1.8M
+triples during the 2026-05-28 bench window — the real A/B should rerun
+once the triple layer is fully populated and stable.
+
+cat_1_negative's rise to 100% is consistent with this regime: with
+thinner context the reader said "I don't know" more often, which is
+the right answer for unanswerable questions. The 88 disagreements (vs
+290 in #44) are also consistent — when retrieval returns almost no
+matched content, judge and matcher both agree the system can't answer.
+
+The `run_metadata.search_endpoint` field in the #45 JSON reads
+`default` even though the endpoint actually queried was
+`/search/age-fused` (verified by the structural difference in
+`context_chars` distribution). That's a logging bug in
+`scripts/run_longmemeval_mempalace.py` — filed as part of the bench
+artifacts.
+
+---
+
 ## Comparison vs Published Numbers
 
 LongMemEval scores reported elsewhere (sourced from product pages /

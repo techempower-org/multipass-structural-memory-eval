@@ -1,0 +1,170 @@
+{
+  "summary": {
+    "n_queries_total": 12,
+    "n_queries_usable": 11,
+    "n_excluded_no_relevant": 1,
+    "n_errors": 0,
+    "baseline": {
+      "R@5": 1.0,
+      "R@10": 1.0,
+      "MRR": 0.7606
+    },
+    "reranked": {
+      "R@5": 0.9091,
+      "R@10": 1.0,
+      "MRR": 0.9242
+    },
+    "latency_ms": {
+      "n": 12,
+      "mean": 1551.35,
+      "min": 910.38,
+      "max": 2737.11
+    },
+    "delta": {
+      "R@5": -0.0909,
+      "R@10": 0.0,
+      "MRR": 0.1636,
+      "MRR_pct": 21.5
+    }
+  },
+  "per_query": [
+    {
+      "id": "kill-cascade",
+      "query": "kill-cascade incident user systemd units palace daemon",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 4,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1141.45
+    },
+    {
+      "id": "rerank-spike",
+      "query": "FlashRank rerank gated env var default true model TinyBERT",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 1,
+      "baseline_rank": 5,
+      "reranked_rank": 1,
+      "rank_delta": 4,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 910.38
+    },
+    {
+      "id": "hnsw-pin",
+      "query": "HNSW thread pinning chroma backend num_threads fix",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 9,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 2313.87
+    },
+    {
+      "id": "system-service-only",
+      "query": "manage palace daemon system service sudo systemctl not user unit",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 2,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1093.64
+    },
+    {
+      "id": "rerank-implementation-plan",
+      "query": "implement FlashRank reranking after hybrid rank reorder by score preserve fields",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 5,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1439.95
+    },
+    {
+      "id": "daemon-deploy-arch",
+      "query": "palace daemon deployment architecture system unit etc systemd",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 1,
+      "baseline_rank": 3,
+      "reranked_rank": 6,
+      "rank_delta": -3,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1115.14
+    },
+    {
+      "id": "felipe-976-cherrypick",
+      "query": "cherry-pick num_threads pin from upstream PR 976 felipetruman fork main",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 0,
+      "excluded": "no relevant candidate retrieved",
+      "rerank_status": "ok"
+    },
+    {
+      "id": "oom-sigkill-startup",
+      "query": "palace daemon SIGKILL signal 9 OOM killer seconds after startup",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 2,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1490.73
+    },
+    {
+      "id": "rerank-fallback-contract",
+      "query": "rerank failure mode return original ordering status failed never hard error",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 2,
+      "baseline_rank": 3,
+      "reranked_rank": 1,
+      "rank_delta": 2,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 2321.77
+    },
+    {
+      "id": "search-args-limit-param",
+      "query": "mempalace_search limit param max_results silently dropped capped at 5",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 18,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1307.48
+    },
+    {
+      "id": "wing-room-taxonomy",
+      "query": "palace canonical room taxonomy architecture decisions problems planning sessions references discoveries",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 4,
+      "baseline_rank": 2,
+      "reranked_rank": 1,
+      "rank_delta": 1,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1139.21
+    },
+    {
+      "id": "fuser-port-8085",
+      "query": "two systemd units fighting for port 8085 fuser -k ExecStartPre ping-pong",
+      "n_candidates": 20,
+      "n_relevant_in_pool": 2,
+      "baseline_rank": 1,
+      "reranked_rank": 1,
+      "rank_delta": 0,
+      "rerank_status": "ok",
+      "rerank_latency_ms": 1605.47
+    }
+  ],
+  "meta": {
+    "mode": "candidates",
+    "url": null,
+    "candidates_file": "/home/jp/Projects/palace-daemon/docs/evals/rerank-candidates-2026-05-27.json",
+    "pool": 20,
+    "queries_file": "/home/jp/Projects/palace-daemon/scripts/evals/rerank_eval_queries.json",
+    "wall_seconds": 20.35,
+    "generated_at": "2026-05-28T11:07:05-0700"
+  }
+}

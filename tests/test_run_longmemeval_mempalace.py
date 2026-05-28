@@ -263,12 +263,15 @@ def test_run_with_mocked_daemon_ingests_per_question(dataset, args_factory):
     assert len(report["per_question"]) == 2
 
 
-def test_per_question_record_has_drawer_rank_fields(dataset, args_factory):
-    """#58 — every per-question record carries drawer_hit_at_{1,5,10}.
+def test_per_question_record_has_drawer_rank_fields_and_ingest(dataset, args_factory):
+    """#58 + #59 — every per-question record carries drawer_hit_at_{1,5,10}
+    (from #58) AND an ``ingest`` diagnostics block (from #59).
 
     With the FakeAdapter returning no retrieved entities, the hit_at_K
     fields all evaluate False — but the keys are present, which is what
-    downstream aggregators rely on.
+    downstream aggregators rely on. The ingest block lets operators tell
+    whether a low recall is from incomplete haystack ingest vs from
+    retrieval missing the gold session.
     """
     args = args_factory(dataset, skip_judge=True)
     ingest = FakeIngestClient()
@@ -287,6 +290,18 @@ def test_per_question_record_has_drawer_rank_fields(dataset, args_factory):
         # FakeAdapter returns no retrieved_entity_ids, so all hits are False.
         assert rec["drawer_hit_at_1"] is False
         assert rec["drawer_hit_at_5"] is False
+        # #59 — ingest diagnostics
+        assert "ingest" in rec, f"missing ingest diagnostics: {rec.keys()}"
+        block = rec["ingest"]
+        assert isinstance(block.get("posted"), int)
+        assert isinstance(block.get("errors"), list)
+        # Successful FakeIngestClient runs leave errors empty
+        assert block["errors"] == []
+
+    # Per-question posted counts: Q1 has 2 sessions, Q2 has 1
+    by_qid = {r["question_id"]: r["ingest"]["posted"] for r in report["per_question"]}
+    assert by_qid["test_001_temporal"] == 2
+    assert by_qid["test_002_abstain_abs"] == 1
 
 
 def test_drawer_rank_scoring_with_session_map(dataset, args_factory):

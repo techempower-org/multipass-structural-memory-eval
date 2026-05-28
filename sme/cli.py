@@ -1417,11 +1417,14 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     strategies = list(args.strategies or DEFAULT_STRATEGIES)
     timestamp = datetime.now(timezone.utc).isoformat()
 
+    if args.limits and args.limit is not None:
+        log.error("--limit and --limits are mutually exclusive")
+        return 2
+    if args.limit is None:
+        args.limit = 20
+
     # Multi-limit sweep path
     if args.limits:
-        if args.limit != 20:  # ambiguous use; bail
-            log.error("--limit and --limits are mutually exclusive")
-            return 2
         report_core = run_eval_multi_limit(
             api_url=api_url, api_key=api_key,
             queries=queries, strategies=strategies,
@@ -2121,7 +2124,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Strategies to ablate (default: vector union hybrid).",
     )
     cs.add_argument(
-        "--limit", type=int, default=20,
+        "--limit", type=int, default=None,
         help="Per-query candidate pool size (default: 20). Mutually "
              "exclusive with --limits.",
     )

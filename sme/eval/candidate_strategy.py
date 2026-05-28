@@ -26,7 +26,7 @@ import time
 import urllib.error
 import urllib.request
 from statistics import median
-from typing import Optional
+from typing import Callable, Optional
 
 DEFAULT_STRATEGIES = ("vector", "union", "hybrid")
 DEFAULT_LIMIT = 20
@@ -224,10 +224,10 @@ def run_eval_multi_limit(
     api_url: str,
     api_key: str,
     queries: list[dict],
-    strategies: list[str] = list(DEFAULT_STRATEGIES),
     limits: list[int],
+    strategies: list[str] | tuple[str, ...] = DEFAULT_STRATEGIES,
     timeout: float = DEFAULT_TIMEOUT,
-    progress: Optional[callable] = None,
+    progress: Optional[Callable] = None,
 ) -> dict:
     """Multi-limit sweep — runs the strategy A/B at each limit value.
 
@@ -248,16 +248,17 @@ def run_eval_multi_limit(
         per_query: dict[str, dict[str, dict]] = {}
         for q in queries:
             step += 1
+            qid = q.get("id", "?")
             if progress:
-                progress(step, total, f"limit={limit} {q.get('id', '?')}")
-            per_query[q["id"]] = {}
+                progress(step, total, f"limit={limit} {qid}")
+            per_query[qid] = {}
             for s in strategies:
                 try:
-                    per_query[q["id"]][s] = run_one(
+                    per_query[qid][s] = run_one(
                         api_url, api_key, q, s, limit, timeout,
                     )
                 except Exception as e:  # noqa: BLE001
-                    per_query[q["id"]][s] = {
+                    per_query[qid][s] = {
                         "rank": None, "r5": 0, "r10": 0, "rr": 0.0,
                         "n_hits": 0, "latency_ms": 0.0, "error": str(e),
                     }

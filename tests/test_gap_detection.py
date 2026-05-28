@@ -228,6 +228,72 @@ def test_format_report_shows_cycles(gap_graph):
     assert "-cycle]" in rendered
 
 
+# --- Cycle-basis guard (#40) -----------------------------------------
+
+
+def test_cycle_basis_skipped_when_largest_exceeds_threshold():
+    """Issue #40 — guard nx.cycle_basis on large dense components.
+
+    Build a dense graph well above a low threshold; the scorer must
+    skip the cycle_basis call and surface a visible skip reason rather
+    than silently returning an empty cycle list. Mirrors the existing
+    h1_skipped / h1_skip_reason contract.
+    """
+    from sme.adapters.base import Edge, Entity
+
+    n = 100
+    entities = [
+        Entity(id=f"N{i}", name=f"N{i}", entity_type="node") for i in range(n)
+    ]
+    # Dense ring + chords — cycle_basis on this is expensive
+    edges = []
+    for i in range(n):
+        edges.append(
+            Edge(source_id=f"N{i}", target_id=f"N{(i + 1) % n}", edge_type="r")
+        )
+    for i in range(0, n, 3):
+        edges.append(
+            Edge(source_id=f"N{i}", target_id=f"N{(i + 7) % n}", edge_type="r")
+        )
+
+    report = score_gap_detection(
+        entities,
+        edges,
+        run_homology=False,
+        cycle_basis_max_nodes=50,
+    )
+    assert report.cycles_skipped is True
+    assert report.cycles_skip_reason
+    assert "cycle_basis_max_nodes" in report.cycles_skip_reason
+    assert report.representative_cycles == []
+
+
+def test_cycle_basis_runs_when_under_threshold(gap_graph):
+    """Default path: small components run cycle_basis normally."""
+    entities, edges, _ = gap_graph
+    report = score_gap_detection(entities, edges, run_homology=False)
+    assert report.cycles_skipped is False
+    assert report.cycles_skip_reason == ""
+
+
+def test_format_report_shows_cycle_skip_reason():
+    """Issue #40 — format_report surfaces the skip reason."""
+    from sme.adapters.base import Edge, Entity
+
+    entities = [
+        Entity(id=f"N{i}", name=f"N{i}", entity_type="node") for i in range(20)
+    ]
+    edges = [
+        Edge(source_id=f"N{i}", target_id=f"N{(i + 1) % 20}", edge_type="r")
+        for i in range(20)
+    ]
+    report = score_gap_detection(
+        entities, edges, run_homology=False, cycle_basis_max_nodes=5
+    )
+    rendered = format_report(report)
+    assert "cycles skipped" in rendered.lower()
+
+
 # --- Component-size distribution (#17) --------------------------------
 
 

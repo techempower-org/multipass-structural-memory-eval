@@ -82,6 +82,8 @@ class GapDetectionReport:
     isolated_by_type: dict[str, int] = field(default_factory=dict)
     h1_skip_reason: str = ""
     representative_cycles: list[list[str]] = field(default_factory=list)
+    cycles_skipped: bool = False
+    cycles_skip_reason: str = ""
 
     # Candidate gaps across components (top-K by score, post-filter)
     candidate_gaps: list[CandidateGap] = field(default_factory=list)
@@ -242,6 +244,7 @@ def score_gap_detection(
     seeded_missing_edges: Optional[list[tuple[str, str]]] = None,
     run_homology: bool = True,
     betti_max_nodes: int = 2000,
+    cycle_basis_max_nodes: int = 500,
     min_component_size: int = 3,
     max_type_prevalence: float = 0.5,
     top_k: int = 20,
@@ -328,15 +331,26 @@ def score_gap_detection(
             )
 
     representative_cycles: list[list[str]] = []
+    cycles_skipped = False
+    cycles_skip_reason = ""
     if largest:
-        sub_undirected = nx.Graph()
-        sub_undirected.add_nodes_from(largest)
-        for u, v, _ in G.edges(keys=True):
-            if u in largest and v in largest and u != v:
-                sub_undirected.add_edge(u, v)
-        raw_cycles = nx.cycle_basis(sub_undirected)
-        raw_cycles.sort(key=lambda c: (len(c), c))
-        representative_cycles = raw_cycles[:10]
+        if len(largest) > cycle_basis_max_nodes:
+            cycles_skipped = True
+            cycles_skip_reason = (
+                f"largest component has {len(largest):,} nodes "
+                f"(> cycle_basis_max_nodes={cycle_basis_max_nodes}); "
+                "nx.cycle_basis can blow up time/memory on dense components, "
+                "so skipping. Raise cycle_basis_max_nodes to override."
+            )
+        else:
+            sub_undirected = nx.Graph()
+            sub_undirected.add_nodes_from(largest)
+            for u, v, _ in G.edges(keys=True):
+                if u in largest and v in largest and u != v:
+                    sub_undirected.add_edge(u, v)
+            raw_cycles = nx.cycle_basis(sub_undirected)
+            raw_cycles.sort(key=lambda c: (len(c), c))
+            representative_cycles = raw_cycles[:10]
 
     candidates, considered, flat_rarity_mode = _candidate_gaps(
         analyzer,
@@ -390,6 +404,8 @@ def score_gap_detection(
         h1_skipped=h1_skipped,
         h1_skip_reason=h1_skip_reason,
         representative_cycles=representative_cycles,
+        cycles_skipped=cycles_skipped,
+        cycles_skip_reason=cycles_skip_reason,
         candidate_gaps=candidates,
         candidate_gaps_considered=considered,
         flat_rarity_mode=flat_rarity_mode,
@@ -509,6 +525,8 @@ def format_report(report: GapDetectionReport) -> str:
             lines.append(
                 f"      ... +{len(report.representative_cycles) - 5} more"
             )
+    elif report.cycles_skipped:
+        lines.append(f"  Representative cycles skipped: {report.cycles_skip_reason}")
 
     lines.append("")
     lines.append(

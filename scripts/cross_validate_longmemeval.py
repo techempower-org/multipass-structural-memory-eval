@@ -297,7 +297,9 @@ def run_one_question(
     # retrieved_entities are in rank order; their .id is the session_id
     # for the LongMemEval ingest topology (one drawer per session).
     expected_set = set(expected)
-    retrieved_ranked_ids = [e.id for e in result.retrieved_entities]
+    # None-guard: adapters may return retrieved_entities=None on error paths
+    # or when the query short-circuits before any retrieval (Gemini PR #62).
+    retrieved_ranked_ids = [e.id for e in (result.retrieved_entities or [])]
     rank_1 = retrieved_ranked_ids[0] if retrieved_ranked_ids else None
     hit_at_1 = rank_1 in expected_set if rank_1 is not None else False
     hit_at_5 = any(rid in expected_set for rid in retrieved_ranked_ids[:5])

@@ -648,10 +648,19 @@ def run(
         and args.api_url is not None
     ):
         api_key = _resolve_api_key(args)
-        if api_key is not None:
-            ingest_client = DaemonIngestClient(
-                api_url=args.api_url, api_key=api_key,
+        if api_key is None:
+            # Fail fast — silently skipping ingest produces empty haystacks
+            # and silently-wrong R@5 / QA-acc numbers, which is the worst
+            # failure mode for a bench script.
+            raise RuntimeError(
+                "PALACE_API_KEY environment variable or --api-key argument "
+                "is missing. An API key is required to ingest the haystack "
+                "into the daemon for adapter "
+                f"{args.adapter!r} at {args.api_url}."
             )
+        ingest_client = DaemonIngestClient(
+            api_url=args.api_url, api_key=api_key,
+        )
 
     # Work dir
     work_dir_ctx: Optional[tempfile.TemporaryDirectory[str]] = None

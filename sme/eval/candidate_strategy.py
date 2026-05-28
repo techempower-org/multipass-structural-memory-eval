@@ -1,0 +1,291 @@
+"""Candidate-strategy A/B/C diagnostic (#57).
+
+Drives palace-daemon's mempalace_search MCP across {vector, union, hybrid}
+on a labeled query set and reports per-strategy R@5/10, MRR, latency
+p50/p95, and a per-query strategy-flip diagnostic.
+
+Used by both:
+  - scripts/candidate_strategy_eval.py — standalone CLI tool (PR #65)
+  - sme-eval candidate-strategy — built-in subcommand (this module)
+
+Labeled query format matches palace-daemon's rerank_eval_queries.json:
+
+    {
+      "_about": "...",
+      "queries": [
+        {"id": "...", "query": "...", "intent": "...",
+         "relevant": {"source_glob": "optional", "content_any": ["sub1"]}}
+      ]
+    }
+"""
+from __future__ import annotations
+
+import fnmatch
+import json
+import time
+import urllib.error
+import urllib.request
+from statistics import median
+from typing import Callable, Optional
+
+DEFAULT_STRATEGIES = ("vector", "union", "hybrid")
+DEFAULT_LIMIT = 20
+DEFAULT_TIMEOUT = 60.0
+
+
+def mcp_search(
+    api_url: str, api_key: str, *, query: str, strategy: str, limit: int,
+    timeout: float = DEFAULT_TIMEOUT,
+) -> tuple[dict, float]:
+    """Call mempalace_search via the daemon's /mcp endpoint.
+
+    Returns ``(parsed_result, latency_ms)``. The parsed result is the
+    daemon's standard search-response shape: {results: [...], ...}.
+    """
+    url = f"{api_url.rstrip('/')}/mcp"
+    payload = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {
+            "name": "mempalace_search",
+            "arguments": {
+                "query": query,
+                "limit": limit,
+                "candidate_strategy": strategy,
+            },
+        },
+    }
+    body = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        url, data=body, method="POST",
+        headers={"X-API-Key": api_key, "Content-Type": "application/json"},
+    )
+    t0 = time.perf_counter()
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        raw = resp.read().decode("utf-8")
+    elapsed_ms = (time.perf_counter() - t0) * 1000
+    d = json.loads(raw)
+    if "error" in d:
+        raise RuntimeError(f"MCP error: {d['error']}")
+    text = d["result"]["content"][0]["text"]
+    return json.loads(text), elapsed_ms
+
+
+def is_relevant(hit: dict, predicate: dict) -> bool:
+    """A drawer is relevant iff source_glob matches AND any content_any does.
+
+    Tolerates both daemon response shapes: ``/search`` GET nests fields
+    under ``metadata``; ``/search/age-fused`` and the MCP tool put them
+    at the top level. Look in metadata first then fall through so the
+    relevance predicate works against either shape.
+    """
+    meta = hit.get("metadata") or {}
+    if predicate.get("source_glob"):
+        sf = meta.get("source_file") or hit.get("source_file") or ""
+        if not fnmatch.fnmatch(sf, predicate["source_glob"]):
+            return False
+    content_any = predicate.get("content_any") or []
+    if not content_any:
+        return True
+    text = hit.get("text") or meta.get("text") or ""
+    return any(sub in text for sub in content_any)
+
+
+def rank_of_first_relevant(results: list[dict], predicate: dict) -> Optional[int]:
+    """1-based rank of first relevant hit, or None if no relevant hit."""
+    for i, hit in enumerate(results, start=1):
+        if is_relevant(hit, predicate):
+            return i
+    return None
+
+
+def run_one(api_url: str, api_key: str, q: dict, strategy: str,
+            limit: int, timeout: float = DEFAULT_TIMEOUT) -> dict:
+    """One labeled query × one strategy."""
+    response, latency_ms = mcp_search(
+        api_url, api_key, query=q["query"], strategy=strategy, limit=limit,
+        timeout=timeout,
+    )
+    results = response.get("results") or []
+    rank = rank_of_first_relevant(results, q["relevant"])
+    return {
+        "rank": rank if rank is not None else None,
+        "r5": int(rank is not None and rank <= 5),
+        "r10": int(rank is not None and rank <= 10),
+        "rr": (1.0 / rank) if rank is not None else 0.0,
+        "n_hits": len(results),
+        "latency_ms": round(latency_ms, 1),
+    }
+
+
+def aggregate(per_query: dict[str, dict[str, dict]], strategies: list[str],
+              n: int) -> dict:
+    """Per-strategy + headline + strategy-flip diagnostic.
+
+    The flip table identifies queries whose rank moved between strategies
+    — per #57's "the most actionable signal, not just aggregates." For
+    each pair of strategies (A,B), counts queries where:
+      - moved up: B's rank < A's rank (better with B)
+      - moved down: B's rank > A's rank (worse with B)
+      - new hit: A had no relevant in top-K but B did
+      - lost hit: A had a relevant but B didn't
+    """
+    per_strategy: dict[str, dict] = {}
+    for s in strategies:
+        rows = [per_query[qid][s] for qid in per_query if s in per_query[qid]]
+        if not rows:
+            per_strategy[s] = {"n": 0}
+            continue
+        r5 = sum(r["r5"] for r in rows) / n
+        r10 = sum(r["r10"] for r in rows) / n
+        mrr = sum(r["rr"] for r in rows) / n
+        # Exclude error rows from latency stats — they're recorded with
+        # latency_ms=0.0 in the run_one error fallback, which would skew
+        # p50/p95 downward and crash on IndexError when ALL rows errored.
+        ok_latencies = sorted(
+            r["latency_ms"] for r in rows if "error" not in r
+        )
+        if ok_latencies:
+            p50 = median(ok_latencies)
+            p95 = (
+                ok_latencies[int(len(ok_latencies) * 0.95)]
+                if len(ok_latencies) >= 2
+                else ok_latencies[0]
+            )
+        else:
+            p50 = p95 = None
+        per_strategy[s] = {
+            "n": n,
+            "n_ok": len(ok_latencies),
+            "n_errors": len(rows) - len(ok_latencies),
+            "R@5": round(r5, 4), "R@10": round(r10, 4),
+            "MRR": round(mrr, 4),
+            "p50_ms": round(p50, 1) if p50 is not None else None,
+            "p95_ms": round(p95, 1) if p95 is not None else None,
+        }
+
+    flips: dict[str, dict] = {}
+    for i, a in enumerate(strategies):
+        for b in strategies[i + 1:]:
+            ab_key = f"{a}_to_{b}"
+            moved_up: list[dict] = []
+            moved_down: list[dict] = []
+            new_hits: list[str] = []
+            lost_hits: list[str] = []
+            same: list[str] = []
+            for qid, rows in per_query.items():
+                ra = rows.get(a, {}).get("rank")
+                rb = rows.get(b, {}).get("rank")
+                if ra is None and rb is None:
+                    continue
+                if ra is None and rb is not None:
+                    new_hits.append(qid)
+                elif ra is not None and rb is None:
+                    lost_hits.append(qid)
+                elif ra == rb:
+                    same.append(qid)
+                elif rb < ra:
+                    moved_up.append({"qid": qid, "from_rank": ra, "to_rank": rb})
+                else:
+                    moved_down.append({"qid": qid, "from_rank": ra, "to_rank": rb})
+            flips[ab_key] = {
+                "moved_up": moved_up, "moved_down": moved_down,
+                "new_hits": new_hits, "lost_hits": lost_hits,
+                "unchanged_count": len(same),
+            }
+
+    headline = {}
+    if per_strategy:
+        best_r5 = max(per_strategy, key=lambda s: per_strategy[s].get("R@5", 0))
+        headline["best_R@5"] = f"{best_r5} ({per_strategy[best_r5].get('R@5', 0):.3f})"
+
+    return {
+        "per_strategy": per_strategy,
+        "headline": headline,
+        "strategy_flips": flips,
+    }
+
+
+def run_eval(
+    *,
+    api_url: str,
+    api_key: str,
+    queries: list[dict],
+    strategies: list[str] = list(DEFAULT_STRATEGIES),
+    limit: int = DEFAULT_LIMIT,
+    timeout: float = DEFAULT_TIMEOUT,
+    progress: Optional[callable] = None,
+) -> dict:
+    """End-to-end candidate-strategy A/B over a labeled query set.
+
+    Returns the full report dict (run_metadata + summary + per_query) so
+    callers (both the script and the CLI subcommand) can render or persist
+    however they like.
+    """
+    per_query: dict[str, dict[str, dict]] = {}
+    for i, q in enumerate(queries):
+        if progress:
+            progress(i + 1, len(queries), q.get("id", "?"))
+        per_query[q["id"]] = {}
+        for s in strategies:
+            try:
+                per_query[q["id"]][s] = run_one(api_url, api_key, q, s, limit, timeout)
+            except Exception as e:  # noqa: BLE001 — log + continue
+                per_query[q["id"]][s] = {
+                    "rank": None, "r5": 0, "r10": 0, "rr": 0.0,
+                    "n_hits": 0, "latency_ms": 0.0, "error": str(e),
+                }
+    summary = aggregate(per_query, list(strategies), n=len(queries))
+    return {"summary": summary, "per_query": per_query}
+
+
+def run_eval_multi_limit(
+    *,
+    api_url: str,
+    api_key: str,
+    queries: list[dict],
+    limits: list[int],
+    strategies: list[str] | tuple[str, ...] = DEFAULT_STRATEGIES,
+    timeout: float = DEFAULT_TIMEOUT,
+    progress: Optional[Callable] = None,
+) -> dict:
+    """Multi-limit sweep — runs the strategy A/B at each limit value.
+
+    Shows how the top-K cliff shifts across strategies. For example, at
+    limit=5 vector might tie hybrid; at limit=50 hybrid might pull ahead
+    because the graph walk surfaces relevant drawers that vector ranks
+    lower. The per-limit summary lets a caller find the regime where
+    the strategy differences actually matter.
+
+    Returns ``{summary_by_limit, per_query_by_limit}``. Each per-limit
+    block has the same shape as a single-limit ``run_eval`` result.
+    """
+    summary_by_limit: dict[int, dict] = {}
+    per_query_by_limit: dict[int, dict[str, dict[str, dict]]] = {}
+    total = len(queries) * len(limits)
+    step = 0
+    for limit in limits:
+        per_query: dict[str, dict[str, dict]] = {}
+        for q in queries:
+            step += 1
+            qid = q.get("id", "?")
+            if progress:
+                progress(step, total, f"limit={limit} {qid}")
+            per_query[qid] = {}
+            for s in strategies:
+                try:
+                    per_query[qid][s] = run_one(
+                        api_url, api_key, q, s, limit, timeout,
+                    )
+                except Exception as e:  # noqa: BLE001
+                    per_query[qid][s] = {
+                        "rank": None, "r5": 0, "r10": 0, "rr": 0.0,
+                        "n_hits": 0, "latency_ms": 0.0, "error": str(e),
+                    }
+        summary_by_limit[limit] = aggregate(per_query, list(strategies), n=len(queries))
+        per_query_by_limit[limit] = per_query
+    return {
+        "summary_by_limit": summary_by_limit,
+        "per_query_by_limit": per_query_by_limit,
+    }

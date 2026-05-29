@@ -258,9 +258,16 @@ def run_one_question(
     reader_client: Optional[Any] = None,
     judge_client: Optional[Any] = None,
     content_rules: str = "sme-rich",
+    capture_context: bool = False,
 ) -> dict:
     """Materialize the question's per-question vault, build adapter, run
-    SME + judge scorers, return one record."""
+    SME + judge scorers, return one record.
+
+    ``capture_context`` (#116 Phase 1): when True, the full retrieved
+    ``context_string`` is stored on the record as ``context_string`` so a
+    downstream reader sweep can replay it offline. Off by default — the
+    daemon E2E benches only need ``context_chars``, not the full text.
+    """
     # 1. Materialize ONLY this question to a per-question dir
     out_dir = work_dir / q.question_id
     materialize_sme_corpus(
@@ -322,6 +329,13 @@ def run_one_question(
         "hit_at_5": hit_at_5,
         "hit_at_10": hit_at_10,
     }
+
+    # #116 Phase 1 — persist the full retrieved context for offline reader
+    # replay. Includes the fields the reader sweep needs as pinned records.
+    if capture_context:
+        record["context_string"] = ctx
+        record["question"] = q.question
+        record["gold_answer"] = q.answer
 
     # 5. Optional reader → hypothesis
     if skip_judge:

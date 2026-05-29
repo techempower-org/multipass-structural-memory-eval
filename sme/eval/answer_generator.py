@@ -73,6 +73,100 @@ def _default_client() -> Optional[Any]:
     return OpenAI()
 
 
+# --- Claude / Bedrock reader support (#116 Opus-4.8 reader arm) -------------
+# Lazy + optional, exactly like the openai import above: boto3 + the Bedrock
+# client are imported only when a Claude reader is actually requested, so the
+# core stays lightweight (constitutional principle — no hard boto3 dep).
+#
+# Friendly reader-model id -> Bedrock inference-profile id. On-demand throughput
+# for opus-4.x is NOT served by the bare ``anthropic.claude-opus-4-8`` model id;
+# it requires the cross-region ``us.`` inference profile.
+_CLAUDE_BEDROCK_IDS = {
+    "claude-opus-4-8": "us.anthropic.claude-opus-4-8",
+    "claude-opus-4-7": "us.anthropic.claude-opus-4-7",
+    "claude-opus-4-6": "us.anthropic.claude-opus-4-6-v1",
+    "claude-sonnet-4-6": "us.anthropic.claude-sonnet-4-6",
+    "claude-haiku-4-5": "us.anthropic.claude-haiku-4-5",
+}
+
+
+def _is_claude_model(model: str) -> bool:
+    return model.startswith(
+        ("claude", "anthropic.", "us.anthropic.", "global.anthropic.")
+    )
+
+
+class _BedrockOpenAIShim:
+    """Expose an ``AnthropicBedrock`` client with the OpenAI
+    ``client.chat.completions.create(...)`` shape that ``generate_answer`` and
+    the LongMemEval judge already speak — so Claude readers drop into the same
+    injected-client seam as Azure/OpenAI with zero call-site changes."""
+
+    def __init__(self, bedrock: Any):
+        self._b = bedrock
+        self.chat = self  # so client.chat.completions.create works
+
+    @property
+    def completions(self):
+        return self
+
+    def create(self, *, model: str, messages: list, temperature: Optional[float] = None,
+               max_tokens: int = 1024, **_ignored: Any):
+        from types import SimpleNamespace
+        bid = _CLAUDE_BEDROCK_IDS.get(model, model)
+        system = "\n".join(m["content"] for m in messages if m.get("role") == "system")
+        conv = [{"role": m["role"], "content": m["content"]}
+                for m in messages if m.get("role") != "system"]
+        kw: dict[str, Any] = dict(model=bid, max_tokens=max_tokens, messages=conv)
+        if system:
+            kw["system"] = system
+        if temperature is not None:
+            kw["temperature"] = temperature
+        try:
+            resp = self._b.messages.create(**kw)
+        except Exception as e:  # noqa: BLE001
+            # Newer models (e.g. opus-4-8) deprecate `temperature`; retry once
+            # without it rather than maintaining a per-model capability list.
+            if "temperature" in str(e) and "temperature" in kw:
+                kw.pop("temperature")
+                resp = self._b.messages.create(**kw)
+            else:
+                raise
+        text = "".join(getattr(b, "text", "") for b in resp.content
+                       if getattr(b, "type", None) == "text")
+        return SimpleNamespace(
+            choices=[SimpleNamespace(message=SimpleNamespace(content=text))]
+        )
+
+
+_provider_cache: dict[str, Any] = {}
+
+
+def _bedrock_client() -> Optional[Any]:
+    try:
+        from anthropic import AnthropicBedrock  # type: ignore[import-not-found]
+    except ImportError:
+        log.info("answer_generator: anthropic SDK not installed — Bedrock reader unavailable")
+        return None
+    region = (os.environ.get("BEDROCK_REGION") or os.environ.get("AWS_REGION")
+              or os.environ.get("AWS_DEFAULT_REGION") or "us-west-1")
+    try:
+        return _BedrockOpenAIShim(AnthropicBedrock(aws_region=region))
+    except Exception as e:  # noqa: BLE001
+        log.warning("answer_generator: AnthropicBedrock init failed: %s", e)
+        return None
+
+
+def _client_for_model(model: str) -> Optional[Any]:
+    """Pick a reader client by model id: Claude/Bedrock models route to the
+    AnthropicBedrock shim, everything else to the Azure/OpenAI default. Cached
+    per provider so a mixed sweep builds each client at most once."""
+    key = "bedrock" if _is_claude_model(model) else "default"
+    if key not in _provider_cache:
+        _provider_cache[key] = _bedrock_client() if key == "bedrock" else _default_client()
+    return _provider_cache[key]
+
+
 _REASONING_PREFIXES = ("o1", "o3", "o4", "gpt-5")
 
 
@@ -111,7 +205,7 @@ def generate_answer(
         client, API error, blank completion).
     """
     if client is None:
-        client = _default_client()
+        client = _client_for_model(reader_model)
     if client is None:
         return ""
 

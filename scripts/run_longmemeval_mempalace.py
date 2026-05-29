@@ -122,6 +122,38 @@ def _drawer_parent_id(drawer_id: Optional[str]) -> Optional[str]:
     return _CHUNK_SUFFIX_RE.sub("", str(drawer_id))
 
 
+def _stratified_cap(questions: list, n: int, field: str) -> list:
+    """Take ~n questions evenly across the values of ``field`` (round-robin).
+
+    techempower-org/...#122: the oracle/S corpora are sorted by
+    ``question_type``, so ``questions[:n]`` is a single-category slice. Drawing
+    round-robin across each field value keeps a cap representative — e.g.
+    ``n=150, field="question_type"`` over 6 types yields 25 of each. Falls back
+    gracefully when a value has fewer than its share (the remainder is filled
+    from whatever groups still have questions, preserving total ``n`` when
+    possible). Deterministic: preserves within-group input order, sorts group
+    keys, no RNG.
+    """
+    from collections import defaultdict
+    groups: dict = defaultdict(list)
+    for q in questions:
+        key = getattr(q, field, None)
+        if key is None and isinstance(q, dict):
+            key = q.get(field)
+        groups[key].append(q)
+    order = sorted(groups, key=lambda k: (k is None, str(k)))
+    idx = {k: 0 for k in order}
+    out: list = []
+    while len(out) < n and any(idx[k] < len(groups[k]) for k in order):
+        for k in order:
+            if idx[k] < len(groups[k]):
+                out.append(groups[k][idx[k]])
+                idx[k] += 1
+                if len(out) >= n:
+                    break
+    return out
+
+
 # --- Daemon HTTP helpers ----------------------------------------------------
 
 class DaemonIngestClient:
@@ -708,8 +740,22 @@ def run(
     # Load questions (unless tests already supplied them)
     if questions is None:
         questions = list(load_questions(args.questions))
+        # techempower-org/...#122: the oracle/S corpora are sorted by
+        # question_type, so a bare ``[:N]`` cap is a single-category slice.
+        # --shuffle re-orders deterministically; --stratify-by draws an even
+        # round-robin across the field's values so the cap stays representative.
+        shuffle_seed = getattr(args, "shuffle", None)
+        stratify_by = getattr(args, "stratify_by", None)
+        if shuffle_seed is not None:
+            import random
+            random.Random(shuffle_seed).shuffle(questions)
         if args.max_questions is not None:
-            questions = questions[: args.max_questions]
+            if stratify_by:
+                questions = _stratified_cap(
+                    questions, args.max_questions, stratify_by
+                )
+            else:
+                questions = questions[: args.max_questions]
 
     # Dry-run path — no HTTP, no LLM, just estimate
     if args.dry_run:
@@ -834,7 +880,16 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--judge", default=DEFAULT_JUDGE_MODEL,
                    help=f"Judge model (default: {DEFAULT_JUDGE_MODEL}).")
     p.add_argument("--max-questions", type=int, default=None,
-                   help="Smoke-test cap on number of questions.")
+                   help="Smoke-test cap on number of questions. NOTE: the oracle/S "
+                        "corpora are question_type-sorted, so a bare cap is a single-"
+                        "category slice — pair with --stratify-by or --shuffle (#122).")
+    p.add_argument("--shuffle", type=int, default=None, metavar="SEED",
+                   help="Deterministically shuffle questions (with SEED) before the "
+                        "--max-questions cap, so the cap is not a single-category slice.")
+    p.add_argument("--stratify-by", default=None, metavar="FIELD",
+                   help="Stratify the --max-questions cap across this question field "
+                        "(e.g. question_type) — even round-robin per category for "
+                        "representative coverage (#122).")
     p.add_argument("--skip-judge", action="store_true",
                    help="R@5-only — no reader, no judge, no OPENAI_API_KEY.")
     p.add_argument("--skip-reader", action="store_true",
@@ -945,7 +1000,12 @@ def _write_pinned_context(report: dict, args: argparse.Namespace) -> None:
             "is_abstention": r.get("is_abstention", False),
             "context_string": r.get("context_string", ""),
             "context_chars": r.get("context_chars", 0),
-            "hit_at_5": r.get("hit_at_5"),
+            # techempower-org/...#121: the live daemon retrieval-hit field is
+            # ``drawer_hit_at_5`` (the #98 chunk-suffix matcher). ``hit_at_5`` is
+            # the legacy substring metric, which ``--content-rules upstream-exact``
+            # zeroes out, so reading it serialized null on every record. Prefer
+            # the drawer metric; fall back to the legacy key for other adapters.
+            "hit_at_5": r.get("drawer_hit_at_5", r.get("hit_at_5")),
         }
         for r in records
     ]

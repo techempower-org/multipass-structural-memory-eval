@@ -52,6 +52,7 @@ import datetime as _dt
 import json
 import logging
 import os
+import re
 import sys
 import tempfile
 import urllib.error
@@ -101,6 +102,24 @@ _MODEL_PRICING_USD_PER_M_TOKENS = {
     "o4-mini":           {"input": 1.10,  "output": 4.40},
     "gpt-5.3-chat":      {"input": 2.00,  "output": 8.00},
 }
+
+# palace-daemon chunks each ingested drawer into ``<parent>_chunk_NNNNNN``
+# sub-drawers. The ingest response returns the parent id; /search returns
+# chunk ids. #98 — strip the suffix at compare time so drawer_hit_at_K
+# reflects real overlap rather than exact-string equality against IDs
+# the caller never saw.
+_CHUNK_SUFFIX_RE = re.compile(r"_chunk_\d+$")
+
+
+def _drawer_parent_id(drawer_id: Optional[str]) -> Optional[str]:
+    """Strip the trailing ``_chunk_NNNNNN`` suffix from a daemon drawer_id.
+
+    Returns the input unchanged if no suffix is present (or input is None /
+    falsy). Idempotent — calling twice returns the same value.
+    """
+    if not drawer_id:
+        return drawer_id
+    return _CHUNK_SUFFIX_RE.sub("", str(drawer_id))
 
 
 # --- Daemon HTTP helpers ----------------------------------------------------
@@ -621,6 +640,12 @@ def _run_questions(
         # matcher recall (rec["sme_recall"]) stays in place unchanged,
         # so cross-system A/B against systems that don't expose drawer_ids
         # still works.
+        #
+        # #98 fix: the daemon chunks each drawer at ingest into
+        # ``<parent>_chunk_NNNNNN`` sub-drawers, and /search returns the
+        # chunk IDs. The ingest response gave us the *parent* drawer_id.
+        # Strip the chunk suffix before comparing so hit_at_K reflects
+        # real overlap, not exact-string equality against chunked IDs.
         session_to_drawer = (
             ingest_report.get("session_to_drawer") if ingest_client is not None else None
         ) or {}
@@ -630,20 +655,22 @@ def _run_questions(
             if sid in session_to_drawer
         }
         retrieved_drawer_ids = list(rec.get("retrieved_entity_ids") or [])
+        retrieved_parent_ids = [_drawer_parent_id(d) for d in retrieved_drawer_ids]
         rec["expected_drawer_ids"] = sorted(expected_drawer_ids)
         rec["retrieved_drawer_ids"] = retrieved_drawer_ids
+        rec["retrieved_parent_ids"] = retrieved_parent_ids
         rec["drawer_hit_at_1"] = bool(
             expected_drawer_ids
-            and retrieved_drawer_ids
-            and retrieved_drawer_ids[0] in expected_drawer_ids
+            and retrieved_parent_ids
+            and retrieved_parent_ids[0] in expected_drawer_ids
         )
         rec["drawer_hit_at_5"] = bool(
             expected_drawer_ids
-            and any(d in expected_drawer_ids for d in retrieved_drawer_ids[:5])
+            and any(d in expected_drawer_ids for d in retrieved_parent_ids[:5])
         )
         rec["drawer_hit_at_10"] = bool(
             expected_drawer_ids
-            and any(d in expected_drawer_ids for d in retrieved_drawer_ids[:10])
+            and any(d in expected_drawer_ids for d in retrieved_parent_ids[:10])
         )
 
         # #59 — attach per-question ingest report so the JSON output

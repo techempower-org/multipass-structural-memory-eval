@@ -1465,22 +1465,34 @@
       <article class="bench">
         <div class="bench-head">
           <div>
-            <span class="eyebrow no-rule">jp-realm-v0.1 &middot; encoder swap</span>
-            <h3>Fine-tuned encoder shows <em>no transfer</em></h3>
+            <span class="eyebrow no-rule">encoder fine-tune &middot; in-domain vs cross-domain</span>
+            <h3>Fine-tuned encoder lifts <em>in-domain</em> &mdash; but retrieval isn't the bottleneck</h3>
           </div>
-          <span class="bench-pill live">robust null &middot; 2026-05-29</span>
+          <span class="bench-pill live">cross-domain null &middot; 2026-05-29</span>
         </div>
 
         <dl class="bench-meta">
-          <div><dt>Corpus</dt><dd>jp-realm-v0.1 (n=30, covered n=29)</dd></div>
-          <div><dt>Backend</dt><dd>ChromaDB palace backup (135,399 drawers, frozen 2026-04-16)</dd></div>
-          <div><dt>Encoders</dt><dd>all-MiniLM-L6-v2 base vs FT-300 (MNR fine-tune)</dd></div>
-          <div><dt>Top-K</dt><dd>10</dd></div>
+          <div><dt>In-domain</dt><dd>LongMemEval-S via MemPalace's own bench (n=500)</dd></div>
+          <div><dt>Cross-domain</dt><dd>jp-realm-v0.1 (n=30, covered n=29)</dd></div>
+          <div><dt>Encoders</dt><dd>all-MiniLM-L6-v2 base vs adaptmem FT-300</dd></div>
+          <div><dt>Stacks</dt><dd>raw &middot; +FT-300 &middot; +hybrid_v4+FT-300</dd></div>
         </dl>
 
-        <table class="bench-tbl" aria-label="Base vs FT-300 recall at K">
+        <table class="bench-tbl" aria-label="In-domain LongMemEval-S: encoder fine-tune lift (nakata-app D#1249)">
           <thead>
-            <tr><th>Encoder</th><th class="num">R@1</th><th class="num">R@5</th><th class="num">R@10</th></tr>
+            <tr><th>In-domain stack (LongMemEval-S, n=500)</th><th class="num">R@1</th><th class="num">R@5</th><th class="num">R@10</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>MemPal raw default</td><td class="num">0.806</td><td class="num">0.966</td><td class="num">0.982</td></tr>
+            <tr><td>+ adaptmem FT-300</td><td class="num">0.862</td><td class="num">0.980</td><td class="num">0.994</td></tr>
+            <tr><td>+ hybrid_v4 + FT-300</td><td class="num">0.916</td><td class="num">0.990</td><td class="num">0.998</td></tr>
+            <tr class="total"><td>katana FT-300 repro (held-out 200)</td><td class="num">0.925</td><td class="num">1.000</td><td class="num">1.000</td></tr>
+          </tbody>
+        </table>
+
+        <table class="bench-tbl" aria-label="Cross-domain jp-realm-v0.1: no transfer">
+          <thead>
+            <tr><th>Cross-domain (jp-realm-v0.1, covered n=29)</th><th class="num">R@1</th><th class="num">R@5</th><th class="num">R@10</th></tr>
           </thead>
           <tbody>
             <tr><td>base (all-MiniLM-L6-v2)</td><td class="num">0.3448</td><td class="num">0.5172</td><td class="num">0.6207</td></tr>
@@ -1490,19 +1502,48 @@
         </table>
 
         <p class="bench-prose">
-          A retrieval encoder fine-tuned on an unrelated domain shows
-          <strong>no transfer</strong> to JP's personal KB &mdash; best
-          delta <strong>+1.73pp at R@1</strong> against a predicted
-          +30&ndash;33pp. The encoder is not where the jp-realm gap
-          lives; this converges with
-          techempower-org/multipass-structural-memory-eval#91 and
-          techempower-org/multipass-structural-memory-eval#116 &mdash;
-          <em>the gap is the reader/orchestrator, not
-          retrieval/encoding</em>.
+          Domain-adaptive encoder fine-tuning is a <strong>real retrieval
+          lift in-domain</strong>. On LongMemEval-S through MemPalace's own
+          bench, adaptmem's FT-300 moves R@5 <strong>0.966&rarr;0.980</strong>
+          and R@1 <strong>0.806&rarr;0.862</strong>; stacked with hybrid_v4
+          retrieval the gains compose to <strong>R@1 0.916 / R@5 0.990</strong>
+          &mdash; encoder fine-tune (layer&nbsp;2) and hybrid retrieval
+          (layer&nbsp;3) operate on different failure modes and add
+          independent lift. Our own katana FT-300 reproduction hit
+          <strong>R@5 = 1.000</strong> on the held-out 200. So the encoder
+          is <em>not</em> useless &mdash; quite the opposite.
+          <br><br>
+          What our jp-realm reading shows is narrower: the lift
+          <strong>does not transfer cross-domain</strong>. A FT-300
+          encoder trained on conversational memory, dropped onto JP's
+          personal KB, gives best delta <strong>+1.73pp at R@1</strong>
+          (R@5 flat) against a predicted +30&ndash;33pp &mdash; a clean
+          cross-domain null, exactly the open question the orthogonal-layers
+          note flagged. And it doesn't change the end-to-end picture
+          either: on oracle LongMemEval retrieval is already
+          <strong>~0.974</strong> while the reader leaves a <strong>~45pp
+          gap</strong> (techempower-org/multipass-structural-memory-eval#116).
+          <em>Encoder tuning is a legitimate retrieval improvement, but
+          it is not the lever for end-to-end QA &mdash; the reader is.</em>
         </p>
 
+        <div class="caveat">
+          <span class="label">in-domain numbers credited to nakata-app &middot; MemPalace/mempalace D#1249</span>
+          The in-domain table is nakata-app's measurement, evaluated through
+          MemPalace's own <code>longmemeval_bench.py</code> with a
+          monkey-patched encoder swap (same dataset, same encoder family,
+          zero changes to eval logic) and posted to
+          <a href="https://github.com/MemPalace/mempalace/discussions/1249">MemPalace/mempalace
+          discussion #1249</a>. The raw-baseline R@5 of 0.966 exactly
+          reproduces MemPalace's published number. The orthogonality finding
+          (fine-tune and hybrid retrieval compose) is the durable claim;
+          the absolute percentages attribute to that thread. Framing and
+          layer model: SME's
+          <code>docs/research/adaptmem-orthogonal-layers.md</code>.
+        </div>
+
         <div class="bench-foot">
-          <span>Source &middot; baselines/jp_realm_encoder_swap_{default,ft300}_2026-05-29.json + jp_realm_encoder_delta_2026-05-29.json</span>
+          <span>Source &middot; cross-domain: baselines/jp_realm_encoder_swap_{default,ft300}_2026-05-29.json + jp_realm_encoder_delta_2026-05-29.json &middot; in-domain repro: baselines/lme_substrate_ft300_katana_test200_2026-05-17.json &middot; nakata-app: MemPalace/mempalace D#1249</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/84">techempower-org/multipass-structural-memory-eval#84</a>
         </div>
       </article>

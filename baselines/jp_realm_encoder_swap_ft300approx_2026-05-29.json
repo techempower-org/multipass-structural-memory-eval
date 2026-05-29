@@ -1,0 +1,1371 @@
+{
+  "summary": {
+    "model": "/home/jp/Projects/multipass-structural-memory-eval/.claude/worktrees/aurora-84/baselines/ft300_approx_model",
+    "encoder_dim": 384,
+    "n_drawers": 135399,
+    "top_k": 10,
+    "overall": {
+      "n": 30,
+      "R@1": 0.35,
+      "R@5": 0.4667,
+      "R@10": 0.6,
+      "mean_recall": 0.6,
+      "hit_rate": 0.7667,
+      "full_recall": 13
+    },
+    "covered_only": {
+      "n": 29,
+      "R@1": 0.3621,
+      "R@5": 0.4828,
+      "R@10": 0.6207,
+      "mean_recall": 0.6207,
+      "hit_rate": 0.7931,
+      "full_recall": 13
+    },
+    "snapshot_uncovered_ids": [
+      "q13_graphpalace"
+    ],
+    "by_hop": {
+      "1": {
+        "n": 27,
+        "R@1": 0.3519,
+        "R@5": 0.4815,
+        "R@10": 0.6111,
+        "mean_recall": 0.6111,
+        "hit_rate": 0.7407,
+        "full_recall": 13
+      },
+      "2": {
+        "n": 3,
+        "R@1": 0.3333,
+        "R@5": 0.3333,
+        "R@10": 0.5,
+        "mean_recall": 0.5,
+        "hit_rate": 1.0,
+        "full_recall": 0
+      }
+    },
+    "wall_clock_seconds": 166.3
+  },
+  "per_question": [
+    {
+      "id": "q01_familiar_what",
+      "text": "What is familiar.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "familiar",
+        "palace"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "clock-realm-watch/technical"
+      ],
+      "top_scores": [
+        0.749,
+        0.7092,
+        0.6956,
+        0.6912,
+        0.6659,
+        0.6587,
+        0.6463,
+        0.6461,
+        0.6452,
+        0.6425
+      ]
+    },
+    {
+      "id": "q02_realm_sigil_role",
+      "text": "What does realm-sigil do across JP's projects?",
+      "min_hops": 1,
+      "expected_sources": [
+        "sigil",
+        "version"
+      ],
+      "matched_sources": [
+        "sigil",
+        "version"
+      ],
+      "recall_at_k": {
+        "1": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "clock-realm-watch/technical",
+        "clock-realm-watch/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture"
+      ],
+      "top_scores": [
+        0.712,
+        0.707,
+        0.707,
+        0.6844,
+        0.6787,
+        0.6787,
+        0.6675,
+        0.6656,
+        0.6572,
+        0.6572
+      ]
+    },
+    {
+      "id": "q03_status_realm_watch",
+      "text": "What is status.realm.watch and what does it monitor?",
+      "min_hops": 1,
+      "expected_sources": [
+        "status",
+        "realm"
+      ],
+      "matched_sources": [
+        "status",
+        "realm"
+      ],
+      "recall_at_k": {
+        "1": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/status.realm.watch",
+        "projects/architecture",
+        "projects/architecture",
+        "clock-realm-watch/technical",
+        "clock-realm-watch/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture"
+      ],
+      "top_scores": [
+        0.8616,
+        0.8389,
+        0.8255,
+        0.8255,
+        0.812,
+        0.812,
+        0.7962,
+        0.7884,
+        0.7884,
+        0.7878
+      ]
+    },
+    {
+      "id": "q04_os_realm_watch",
+      "text": "What is os.realm.watch?",
+      "min_hops": 1,
+      "expected_sources": [
+        "os.realm",
+        "quest"
+      ],
+      "matched_sources": [
+        "os.realm"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "update/architecture"
+      ],
+      "top_scores": [
+        0.7916,
+        0.7909,
+        0.7806,
+        0.7276,
+        0.7219,
+        0.72,
+        0.7149,
+        0.7071,
+        0.7045,
+        0.702
+      ]
+    },
+    {
+      "id": "q05_portal_realm",
+      "text": "What does the realm-portal VM serve?",
+      "min_hops": 1,
+      "expected_sources": [
+        "portal",
+        "VM"
+      ],
+      "matched_sources": [
+        "portal",
+        "VM"
+      ],
+      "recall_at_k": {
+        "1": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/os.realm.watch",
+        "bestiary/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.7998,
+        0.7828,
+        0.738,
+        0.6976,
+        0.6932,
+        0.6833,
+        0.6821,
+        0.6781,
+        0.6776,
+        0.6721
+      ]
+    },
+    {
+      "id": "q06_mempalace_fork",
+      "text": "What are the key features of JP's mempalace fork vs upstream?",
+      "min_hops": 1,
+      "expected_sources": [
+        "mempalace",
+        "fork"
+      ],
+      "matched_sources": [
+        "mempalace",
+        "fork"
+      ],
+      "recall_at_k": {
+        "1": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "memorypalace/decisions",
+        "memorypalace/technical",
+        "memorypalace/architecture",
+        "memorypalace/technical"
+      ],
+      "top_scores": [
+        0.6419,
+        0.6394,
+        0.6378,
+        0.5801,
+        0.5651,
+        0.561,
+        0.5578,
+        0.5574,
+        0.5495,
+        0.5433
+      ]
+    },
+    {
+      "id": "q07_palace_daemon_role",
+      "text": "What is palace-daemon for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "daemon",
+        "HTTP"
+      ],
+      "matched_sources": [
+        "daemon",
+        "HTTP"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "memorypalace/technical",
+        "projects/memorypalace",
+        "memorypalace/backend",
+        "mempalace/decisions",
+        "memorypalace/technical",
+        "projects/memorypalace",
+        "projects/realmwatch",
+        "projects/os.realm.watch",
+        "projects/realmwatch",
+        "projects/realmwatch"
+      ],
+      "top_scores": [
+        0.5291,
+        0.5085,
+        0.501,
+        0.494,
+        0.4934,
+        0.4918,
+        0.4898,
+        0.4876,
+        0.4789,
+        0.4751
+      ]
+    },
+    {
+      "id": "q08_kind_filter",
+      "text": "What does the kind=content search filter do?",
+      "min_hops": 1,
+      "expected_sources": [
+        "kind",
+        "checkpoint"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/problems",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "memorypalace/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.553,
+        0.5315,
+        0.4719,
+        0.4665,
+        0.4466,
+        0.4401,
+        0.4388,
+        0.435,
+        0.4288,
+        0.4282
+      ]
+    },
+    {
+      "id": "q09_silent_save",
+      "text": "What is the /silent-save endpoint?",
+      "min_hops": 1,
+      "expected_sources": [
+        "silent-save",
+        "diary"
+      ],
+      "matched_sources": [
+        "diary"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "memorypalace/technical",
+        "projects/technical",
+        "projects/architecture",
+        "memorypalace/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.5737,
+        0.5076,
+        0.5039,
+        0.4979,
+        0.4975,
+        0.4923,
+        0.4902,
+        0.4829,
+        0.4824,
+        0.4807
+      ]
+    },
+    {
+      "id": "q10_hnsw_rebuild",
+      "text": "How do you rebuild the HNSW index when search recall is degraded?",
+      "min_hops": 1,
+      "expected_sources": [
+        "HNSW",
+        "rebuild"
+      ],
+      "matched_sources": [
+        "HNSW",
+        "rebuild"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "memorypalace/technical",
+        "projects/technical",
+        "memorypalace/technical",
+        "projects/technical",
+        "projects/technical",
+        "memorypalace/technical",
+        "projects/technical",
+        "projects/problems",
+        "memorypalace/technical",
+        "memorypalace/technical"
+      ],
+      "top_scores": [
+        0.6033,
+        0.5459,
+        0.5143,
+        0.5018,
+        0.4987,
+        0.485,
+        0.4641,
+        0.4601,
+        0.4572,
+        0.4546
+      ]
+    },
+    {
+      "id": "q11_multipass_role",
+      "text": "What is multipass-structural-memory-eval?",
+      "min_hops": 1,
+      "expected_sources": [
+        "multipass",
+        "eval"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "projects/memorypalace",
+        "memorypalace/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "memorypalace/planning"
+      ],
+      "top_scores": [
+        0.4782,
+        0.4736,
+        0.4382,
+        0.424,
+        0.4206,
+        0.4135,
+        0.4118,
+        0.4007,
+        0.4007,
+        0.4002
+      ]
+    },
+    {
+      "id": "q12_rlm_paper",
+      "text": "What is the rlm (Recursive Language Models) project about?",
+      "min_hops": 1,
+      "expected_sources": [
+        "rlm",
+        "recursive"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture",
+        "projects/technical",
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.5196,
+        0.4559,
+        0.4541,
+        0.4432,
+        0.4432,
+        0.4276,
+        0.426,
+        0.426,
+        0.4258,
+        0.425
+      ]
+    },
+    {
+      "id": "q13_graphpalace",
+      "text": "What is GraphPalace and how does its pheromone model work?",
+      "min_hops": 1,
+      "expected_sources": [
+        "GraphPalace",
+        "pheromone"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": true,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.431,
+        0.4245,
+        0.4218,
+        0.4182,
+        0.4163,
+        0.4158,
+        0.4116,
+        0.4108,
+        0.4104,
+        0.4032
+      ]
+    },
+    {
+      "id": "q14_hermes_agent",
+      "text": "What is hermes-agent?",
+      "min_hops": 1,
+      "expected_sources": [
+        "hermes",
+        "agent"
+      ],
+      "matched_sources": [
+        "agent"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/memorypalace",
+        "projects/technical",
+        "projects/realmwatch",
+        "projects/technical",
+        "projects/technical",
+        "projects/problems"
+      ],
+      "top_scores": [
+        0.4458,
+        0.4232,
+        0.4122,
+        0.4084,
+        0.3985,
+        0.3967,
+        0.3932,
+        0.3929,
+        0.3929,
+        0.3921
+      ]
+    },
+    {
+      "id": "q15_context_engine_emmimal",
+      "text": "What is the Emmimal context-engine framework?",
+      "min_hops": 1,
+      "expected_sources": [
+        "context-engine",
+        "rerank"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "kiyo-xhci-fix/problems"
+      ],
+      "top_scores": [
+        0.5684,
+        0.5684,
+        0.5172,
+        0.5172,
+        0.4851,
+        0.4663,
+        0.4619,
+        0.4615,
+        0.4615,
+        0.4564
+      ]
+    },
+    {
+      "id": "q16_speech_to_cli",
+      "text": "What does speech-to-cli do?",
+      "min_hops": 1,
+      "expected_sources": [
+        "speech",
+        "voice"
+      ],
+      "matched_sources": [
+        "speech",
+        "voice"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.8427,
+        0.8222,
+        0.816,
+        0.8137,
+        0.7905,
+        0.7835,
+        0.7825,
+        0.7746,
+        0.7598,
+        0.7559
+      ]
+    },
+    {
+      "id": "q17_vault_gate",
+      "text": "What is vault-gate and how does it unlock Vaultwarden?",
+      "min_hops": 1,
+      "expected_sources": [
+        "vault-gate",
+        "bw"
+      ],
+      "matched_sources": [
+        "vault-gate",
+        "bw"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/architecture",
+        "projects/planning",
+        "projects/planning",
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "kiyo-xhci-fix/technical",
+        "kiyo-xhci-fix/problems",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.6766,
+        0.6688,
+        0.6604,
+        0.6604,
+        0.6449,
+        0.6258,
+        0.6258,
+        0.6229,
+        0.6229,
+        0.6186
+      ]
+    },
+    {
+      "id": "q18_cc_switcher",
+      "text": "What is the cc tool used for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "claude-code-switcher",
+        "provider"
+      ],
+      "matched_sources": [
+        "claude-code-switcher",
+        "provider"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.5665,
+        0.5153,
+        0.5139,
+        0.4997,
+        0.4846,
+        0.4745,
+        0.4727,
+        0.4692,
+        0.4622,
+        0.4553
+      ]
+    },
+    {
+      "id": "q19_outline_wiki",
+      "text": "What is JP's Outline wiki used for?",
+      "min_hops": 1,
+      "expected_sources": [
+        "outline",
+        "documentation"
+      ],
+      "matched_sources": [
+        "outline",
+        "documentation"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.5,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.6568,
+        0.6338,
+        0.6338,
+        0.6284,
+        0.6284,
+        0.5757,
+        0.5703,
+        0.568,
+        0.568,
+        0.557
+      ]
+    },
+    {
+      "id": "q20_realm_optimizer",
+      "text": "What is realm-optimizer?",
+      "min_hops": 1,
+      "expected_sources": [
+        "optimizer",
+        "quest"
+      ],
+      "matched_sources": [
+        "optimizer",
+        "quest"
+      ],
+      "recall_at_k": {
+        "1": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.791,
+        0.7283,
+        0.7226,
+        0.6785,
+        0.6504,
+        0.634,
+        0.6167,
+        0.6167,
+        0.6134,
+        0.6134
+      ]
+    },
+    {
+      "id": "q21_gatekeeper_router",
+      "text": "What is the gatekeeper firewall and what does it run?",
+      "min_hops": 1,
+      "expected_sources": [
+        "gatekeeper",
+        "OpenWrt"
+      ],
+      "matched_sources": [
+        "gatekeeper",
+        "OpenWrt"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/realmwatch",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/realmwatch",
+        "projects/general",
+        "projects/technical",
+        "projects/architecture"
+      ],
+      "top_scores": [
+        0.7191,
+        0.6266,
+        0.6127,
+        0.607,
+        0.607,
+        0.5992,
+        0.5989,
+        0.5844,
+        0.5837,
+        0.5804
+      ]
+    },
+    {
+      "id": "q22_ubox0_caddy",
+      "text": "What does ubox0 serve via Caddy?",
+      "min_hops": 1,
+      "expected_sources": [
+        "ubox0",
+        "Caddy"
+      ],
+      "matched_sources": [
+        "ubox0",
+        "Caddy"
+      ],
+      "recall_at_k": {
+        "1": 1.0,
+        "5": 1.0,
+        "10": 1.0
+      },
+      "recall": 1.0,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.7019,
+        0.694,
+        0.694,
+        0.6911,
+        0.6577,
+        0.6577,
+        0.6207,
+        0.6202,
+        0.5987,
+        0.5987
+      ]
+    },
+    {
+      "id": "q23_disks_services",
+      "text": "What services run on the disks host?",
+      "min_hops": 2,
+      "expected_sources": [
+        "disks",
+        "palace-daemon"
+      ],
+      "matched_sources": [
+        "disks"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/planning",
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "projects/realmwatch"
+      ],
+      "top_scores": [
+        0.5808,
+        0.5555,
+        0.5548,
+        0.5504,
+        0.549,
+        0.5384,
+        0.5351,
+        0.5268,
+        0.517,
+        0.5136
+      ]
+    },
+    {
+      "id": "q24_katana_role",
+      "text": "What is the role of katana in JP's homelab?",
+      "min_hops": 1,
+      "expected_sources": [
+        "katana",
+        "GPU"
+      ],
+      "matched_sources": [
+        "katana"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/general",
+        "projects/technical",
+        "projects/realmwatch",
+        "projects/general",
+        "projects/os.realm.watch",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.6088,
+        0.6069,
+        0.5924,
+        0.5641,
+        0.5234,
+        0.5197,
+        0.5182,
+        0.5149,
+        0.5129,
+        0.5035
+      ]
+    },
+    {
+      "id": "q25_vlans_collectd",
+      "text": "How is JP's network organized in VLANs?",
+      "min_hops": 2,
+      "expected_sources": [
+        "VLAN",
+        "collectd"
+      ],
+      "matched_sources": [
+        "VLAN"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.7488,
+        0.6894,
+        0.6879,
+        0.6219,
+        0.6219,
+        0.5716,
+        0.5474,
+        0.5412,
+        0.528,
+        0.5055
+      ]
+    },
+    {
+      "id": "q26_caddy_dns_resolvers",
+      "text": "What was the Caddy ACME DNS-01 cert renewal issue and the fix?",
+      "min_hops": 1,
+      "expected_sources": [
+        "resolvers",
+        "dns-01"
+      ],
+      "matched_sources": [
+        "dns-01"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.6648,
+        0.6578,
+        0.6524,
+        0.6482,
+        0.6429,
+        0.6168,
+        0.5933,
+        0.583,
+        0.583,
+        0.5771
+      ]
+    },
+    {
+      "id": "q27_v02_retrieval_pipeline",
+      "text": "What does familiar v0.2's retrieval pipeline do?",
+      "min_hops": 2,
+      "expected_sources": [
+        "rerank",
+        "decay"
+      ],
+      "matched_sources": [
+        "rerank"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "karta/technical",
+        "karta/architecture",
+        "projects/memorypalace",
+        "karta/planning",
+        "memorypalace/planning",
+        "karta/planning",
+        "projects/technical",
+        "projects/memorypalace",
+        "karta/planning",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.5014,
+        0.5014,
+        0.5004,
+        0.4666,
+        0.4657,
+        0.4558,
+        0.4548,
+        0.4472,
+        0.442,
+        0.4413
+      ]
+    },
+    {
+      "id": "q28_postgres_migration",
+      "text": "What is the planned palace storage migration to Postgres?",
+      "min_hops": 1,
+      "expected_sources": [
+        "Postgres",
+        "pgvector"
+      ],
+      "matched_sources": [
+        "Postgres"
+      ],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "memorypalace/technical",
+        "memorypalace/technical",
+        "projects/memorypalace",
+        "karta/architecture",
+        "projects/technical",
+        "projects/memorypalace",
+        "projects/memorypalace",
+        "projects/technical",
+        "projects/technical",
+        "memorypalace/technical"
+      ],
+      "top_scores": [
+        0.4922,
+        0.4634,
+        0.4509,
+        0.4411,
+        0.4299,
+        0.4271,
+        0.4181,
+        0.4181,
+        0.4181,
+        0.4176
+      ]
+    },
+    {
+      "id": "q29_p40_upgrade",
+      "text": "What is the planned P40 GPU upgrade for the familiar host?",
+      "min_hops": 1,
+      "expected_sources": [
+        "P40",
+        "VRAM"
+      ],
+      "matched_sources": [],
+      "recall_at_k": {
+        "1": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "recall": 0.0,
+      "hit": false,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/technical",
+        "projects/technical",
+        "projects/architecture",
+        "projects/tablet_tune",
+        "projects/technical",
+        "projects/technical",
+        "projects/technical",
+        "projects/general",
+        "projects/technical",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.5368,
+        0.4937,
+        0.4935,
+        0.4913,
+        0.4912,
+        0.4827,
+        0.4806,
+        0.463,
+        0.462,
+        0.4603
+      ]
+    },
+    {
+      "id": "q30_techempower",
+      "text": "What is JP's TechEmpower work?",
+      "min_hops": 1,
+      "expected_sources": [
+        "TechEmpower",
+        "technology"
+      ],
+      "matched_sources": [
+        "TechEmpower"
+      ],
+      "recall_at_k": {
+        "1": 0.5,
+        "5": 0.5,
+        "10": 0.5
+      },
+      "recall": 0.5,
+      "hit": true,
+      "snapshot_uncovered": false,
+      "top_drawers": [
+        "projects/general",
+        "projects/general",
+        "projects/architecture",
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture",
+        "projects/technical",
+        "projects/architecture",
+        "projects/architecture",
+        "projects/technical"
+      ],
+      "top_scores": [
+        0.6554,
+        0.6041,
+        0.5987,
+        0.5829,
+        0.5508,
+        0.533,
+        0.5185,
+        0.515,
+        0.5131,
+        0.5126
+      ]
+    }
+  ]
+}

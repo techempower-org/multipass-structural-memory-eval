@@ -1701,6 +1701,150 @@
         </div>
       </article>
 
+      <!-- palace-daemon #46 — FlashRank rerank A/B (source repo: palace-daemon/docs/evals) -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">palace-daemon &middot; FlashRank rerank A/B</span>
+            <h3>Cross-encoder rerank lifts <em>MRR +15&ndash;23%</em></h3>
+          </div>
+          <span class="bench-pill live">verified &middot; 2026-05-27</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Repo</dt><dd>palace-daemon (#46)</dd></div>
+          <div><dt>Corpus</dt><dd>live palace, ~375k drawers</dd></div>
+          <div><dt>Backend</dt><dd>postgres + pgvector (familiar)</dd></div>
+          <div><dt>Model</dt><dd>ms-marco-TinyBERT-L-2-v2 (nano, CPU)</dd></div>
+          <div><dt>Query set</dt><dd>12 known-item, 11 usable, pool=20</dd></div>
+          <div><dt>Pattern</dt><dd>same pool, ordering-only A/B</dd></div>
+        </dl>
+
+        <table class="bench-tbl" aria-label="Rerank baseline vs reranked, two live runs">
+          <thead>
+            <tr><th>Run</th><th class="num">R@5</th><th class="num">R@10</th><th class="num">MRR base</th><th class="num">MRR rerank</th><th class="num">&Delta; MRR</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>#2 (confirming)</td><td class="num">0.909&rarr;0.909</td><td class="num">1.00</td><td class="num">0.748</td><td class="num">0.921</td><td class="num">+23.1%</td></tr>
+            <tr><td>#1 (first)</td><td class="num">1.00&rarr;0.909</td><td class="num">1.00</td><td class="num">0.761</td><td class="num">0.877</td><td class="num">+15.3%</td></tr>
+            <tr class="total"><td>movement</td><td class="num" colspan="4">rerank-spike 7&rarr;1 (+6) &middot; fallback-contract 4&rarr;1 &middot; 7 no-change</td><td class="num">1 regr.</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          A clean ordering-only A/B &mdash; retrieval is held constant, only
+          the final sort changes (distance vs FlashRank score) on the
+          <em>same</em> candidate pool. <strong>MRR lifts +15.3% (run #1) and
+          +23.1% (run #2)</strong>, driven by a buried answer rescued from
+          <strong>rank 7 to rank 1</strong> plus two smaller promotions; 7 of
+          11 queries were already optimal and rerank correctly left them alone.
+          R@5 is a wash and R@10 is untouched, so MRR is the load-bearing
+          metric for this known-item set. Rerank latency stayed at 47&nbsp;ms
+          mean (126&nbsp;ms under host load), worst single request 557&nbsp;ms
+          &mdash; well inside a 1&nbsp;s budget on CPU. Verdict: keep nano,
+          A/B a larger model next.
+        </p>
+
+        <div class="caveat">
+          <span class="label">the one regression &mdash; score compression</span>
+          <code>daemon-deploy-arch</code> moved 3&rarr;8 in both runs. The
+          top 7 reranked passages all scored <strong>0.9971&ndash;0.9994</strong>
+          (a 0.002 spread) and every one was genuinely on-topic &mdash; when
+          7 passages are all relevant and scored within 0.002, head ordering
+          is a coin-flip. This is the distilled 2-layer cross-encoder's
+          score-compression failure mode and the strongest case for A/B-testing
+          a larger model (<code>ms-marco-MiniLM-L-12-v2</code>; this FlashRank
+          build ships no L-6). Cross-validated: replaying frozen pools in
+          <code>--mode candidates</code> reproduced run #1's metrics exactly.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; palace-daemon/docs/evals/rerank-eval-live-2026-05-27.json (run #2) &middot; rerank-eval-2026-05-27.json (run #1) &middot; rerank-candidates-2026-05-27.json</span>
+          <a href="https://github.com/techempower-org/palace-daemon">techempower-org/palace-daemon</a>
+        </div>
+      </article>
+
+      <!-- palace-daemon #47 — NCD novelty calibration (source repo: palace-daemon/docs/evals) -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">palace-daemon &middot; NCD novelty calibration</span>
+            <h3>novelty_score is <em>continuous</em>, not bimodal</h3>
+          </div>
+          <span class="bench-pill live">verified &middot; 2026-05-27</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Repo</dt><dd>palace-daemon (#47)</dd></div>
+          <div><dt>Corpus</dt><dd>live palace, ~375k drawers</dd></div>
+          <div><dt>Backend</dt><dd>postgres (familiar:8085)</dd></div>
+          <div><dt>Method</dt><dd>gzip-NCD, block rolling window=20</dd></div>
+          <div><dt>Sample</dt><dd>35 (wing,room) groups, n=280</dd></div>
+          <div><dt>Scorer</dt><dd>production novelty.score_novelty</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">overall median</div>
+            <div class="value"><em>0.622</em></div>
+            <div class="sub">mean 0.558, stdev 0.222 (0=dup .. 1=novel)</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">redundant tail</div>
+            <div class="value"><em>p10 0.165</em></div>
+            <div class="sub">min 0.028; long tail below ~0.20</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">per-room median spread</div>
+            <div class="value"><em>~0.37</em></div>
+            <div class="sub">discoveries 0.30 vs planning 0.68</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Per-room novelty baselines">
+          <thead>
+            <tr><th>Room</th><th class="num">n</th><th class="num">p10</th><th class="num">median</th><th class="num">p90</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>references</td><td class="num">144</td><td class="num">0.173</td><td class="num">0.636</td><td class="num">0.781</td></tr>
+            <tr><td>architecture</td><td class="num">40</td><td class="num">0.363</td><td class="num">0.649</td><td class="num">0.776</td></tr>
+            <tr><td>discoveries</td><td class="num">40</td><td class="num">0.126</td><td class="num">0.304</td><td class="num">0.705</td></tr>
+            <tr><td>planning</td><td class="num">32</td><td class="num">0.496</td><td class="num">0.677</td><td class="num">0.821</td></tr>
+            <tr><td>problems</td><td class="num">24</td><td class="num">0.215</td><td class="num">0.637</td><td class="num">0.791</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          The gzip-NCD <code>novelty_score</code> on the live corpus is
+          <strong>continuous and right-skewed &mdash; not bimodal</strong>:
+          a broad novel hump across 0.55&ndash;0.85, a long redundant tail
+          below ~0.20, and the middle band populated throughout with no empty
+          valley. Per-room baselines diverge by ~0.37 in median
+          (<code>discoveries</code> 0.30 vs <code>planning</code> 0.68), so a
+          single global NCD cut mislabels content; the calibration recommends
+          <strong>per-room percentile thresholds</strong> &mdash; redundant at
+          <code>p15(room)</code>, novel at <code>p60(room)</code>.
+        </p>
+
+        <div class="caveat">
+          <span class="label">scope &mdash; distribution, not ECE/Brier; and a silent no-op fixed</span>
+          This is a <em>distribution</em> calibration of the NCD score, not a
+          probabilistic (ECE/Brier) calibration. It also surfaced two bugs: the
+          live scorer was a silent no-op until palace-daemon #63 (it read window
+          text from the wrong field, so every write returned
+          <code>novelty_score=1.0</code> &mdash; the numbers above were captured
+          <em>after</em> the fix), and <code>content_preview</code> is truncated
+          to ~200 chars, so the write path still scores against truncated
+          neighbours (NCD on short prefixes is noisier and biased high). The
+          calibration script computes the full-content distribution by default.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; palace-daemon/docs/evals/novelty_calibration.json (live, n=280) &middot; offline synthetic fixture superseded &middot; SME isotonic ECE/Brier follow-up: techempower-org/multipass-structural-memory-eval#105</span>
+          <a href="https://github.com/techempower-org/palace-daemon">techempower-org/palace-daemon</a>
+        </div>
+      </article>
+
     </div>
   </section>
 

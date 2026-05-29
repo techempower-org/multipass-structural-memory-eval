@@ -3,18 +3,25 @@
 **Date:** 2026-05-29
 **Branch:** `feat/84-ft300-jp-realm`
 **Issue:** [techempower-org/multipass-structural-memory-eval#84](https://github.com/techempower-org/multipass-structural-memory-eval/issues/84)
-**Result:** **Tau2's predicted +30–33pp recall gap on jp-realm is not borne out.** Two
-independently-trained fine-tuned encoders (the published FT-300, and a from-recipe
-reproduction) show **no meaningful transfer** to JP's personal knowledge base — best
-covered-only delta **+1.73pp at R@1**, with **R@10 actually −1.73pp**. At n=30 this is a
-**null / falsification** of the cross-domain prediction, not a partial lift.
+**Result:** **A fine-tuned retrieval encoder gives no meaningful lift on jp-realm.** Two
+independently-trained encoders (the published FT-300, and a from-recipe reproduction) show
+**no transfer** to JP's personal knowledge base — best covered-only delta **+1.73pp at R@1**,
+with **R@10 actually −1.73pp**. At n=30 this is a **robust null**, not a partial lift.
+
+**Framing correction (2026-05-29):** the Tau2-derived **+30–33pp** figure is an
+**orchestrator-model** recall gap, *not* an encoder prediction (see the corrected
+`reference_tau2_predicts_cat9a` note). So this result does **not falsify Tau2** — it tests a
+different axis and shows the gap is **not encoder-side**. That is the useful finding, and it
+converges with [techempower-org/multipass-structural-memory-eval#98](https://github.com/techempower-org/multipass-structural-memory-eval/issues/98)
+(retrieval solved at R@5≈97%, the **reader/orchestrator** is the 38pp bottleneck): both say
+the jp-realm gap lives in the orchestrator/reader layer, not in retrieval/encoding.
 
 ## Why this run exists
 
-A memory note recorded a Tau2-derived prediction: a fine-tuned retrieval encoder would
-open a **+30–33pp recall gap** on `jp-realm-v0.1` (see
-`reference_tau2_predicts_cat9a`). #84 tests that directly with the AdaptMem **FT-300**
-encoder — a `MultipleNegativesRankingLoss` fine-tune of `all-MiniLM-L6-v2`.
+A memory note recorded a Tau2-derived **+30–33pp** gap on `jp-realm-v0.1` (see
+`reference_tau2_predicts_cat9a`). That gap is an **orchestrator-model** gap; #84 asks the
+adjacent question — *is any of it encoder-side?* — by swapping in the AdaptMem **FT-300**
+encoder (a `MultipleNegativesRankingLoss` fine-tune of `all-MiniLM-L6-v2`). The answer is no.
 
 The standard jp-realm path (`sme-eval retrieve`) runs retrieval **server-side inside the
 palace-daemon** (familiar:8085), so the encoder cannot be swapped locally. To keep this
@@ -80,11 +87,19 @@ is never blamed for content the snapshot cannot contain. q07/q23 reference palac
 
 ## Interpretation
 
-The Tau2 cross-domain prediction does not hold on jp-realm. A retrieval encoder fine-tuned on
-an unrelated domain (code/science, or LongMemEval conversational recall) does **not** generalize
-to JP's technical personal KB — base `all-MiniLM-L6-v2` is already at or above both FT encoders.
-The lever the null points to is **our-corpus fine-tuning**: an encoder trained on jp-realm-shaped
-data, not a transplanted FT. That is filed as the #84 follow-up.
+A retrieval encoder fine-tuned on an unrelated domain (code/science, or LongMemEval
+conversational recall) does **not** generalize to JP's technical personal KB — base
+`all-MiniLM-L6-v2` is already at or above both FT encoders. The encoder is not where the
+jp-realm gap lives.
+
+This is the encoder-side half of a two-part picture. Tau2's +30–33pp is an
+**orchestrator-model** gap, and [techempower-org/multipass-structural-memory-eval#98](https://github.com/techempower-org/multipass-structural-memory-eval/issues/98)
+located a 38pp R@5→QA gap in the **reader** on LongMemEval. Together they point away from
+retrieval/encoding and toward the orchestrator/reader layer.
+
+Two follow-ups frame the next steps:
+- **[techempower-org/multipass-structural-memory-eval#112](https://github.com/techempower-org/multipass-structural-memory-eval/issues/112)** — our-corpus encoder FT (train on jp-realm-shaped pairs). Worth measuring to confirm whether *any* encoder tuning is a lever here — but if the gap is orchestrator-side, expect a second null.
+- **[techempower-org/multipass-structural-memory-eval#116](https://github.com/techempower-org/multipass-structural-memory-eval/issues/116)** — vary the orchestrator/reader (model, prompt, context construction) with retrieval+encoder held fixed. This is where the #98 38pp gap actually sits, and the likeliest real lever.
 
 ## Reproduce
 

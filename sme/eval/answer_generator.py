@@ -87,6 +87,7 @@ def generate_answer(
     reader_model: str = DEFAULT_READER_MODEL,
     client: Optional[Any] = None,
     max_context_chars: Optional[int] = None,
+    prompt_template: Optional[str] = None,
 ) -> str:
     """Generate an answer to ``question`` using ``context_string`` as evidence.
 
@@ -101,6 +102,9 @@ def generate_answer(
             inserted into the prompt. Useful when an adapter returns a
             very large context that would otherwise exceed the reader's
             input window. ``None`` (default) keeps the full context.
+        prompt_template: Optional reader-prompt template with ``{context}``
+            and ``{question}`` fields. Defaults to ``READER_PROMPT_TEMPLATE``.
+            The #116 reader sweep varies this to compare extraction prompts.
 
     Returns:
         Stripped answer string. Empty string on any failure (missing
@@ -115,7 +119,8 @@ def generate_answer(
     if max_context_chars is not None and len(ctx) > max_context_chars:
         ctx = ctx[:max_context_chars]
 
-    prompt = READER_PROMPT_TEMPLATE.format(context=ctx, question=question)
+    template = prompt_template or READER_PROMPT_TEMPLATE
+    prompt = template.format(context=ctx, question=question)
     try:
         kwargs: dict[str, Any] = dict(
             model=reader_model,

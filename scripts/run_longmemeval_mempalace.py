@@ -632,6 +632,7 @@ def _run_questions(
             judge_model=args.judge,
             reader_client=reader_client,
             judge_client=judge_client,
+            capture_context=getattr(args, "pin_context", False),
         )
 
         # 3. #58 — rank-aware scoring on drawer_ids. If we have a
@@ -858,6 +859,16 @@ def build_arg_parser() -> argparse.ArgumentParser:
                         "Default '/search' (vector + BM25). Pass "
                         "'/search/age-fused' for the RRF fusion of "
                         "vector + BM25 + AGE-graph (#45).")
+    p.add_argument("--pin-context", action="store_true",
+                   help="(#116 Phase 1) Capture the full retrieved "
+                        "context_string per question into the per-question "
+                        "records, for offline reader-sweep replay. Pair with "
+                        "--skip-reader --skip-judge to retrieve only.")
+    p.add_argument("--pin-context-out", type=Path, default=None,
+                   help="(#116 Phase 1) Write a pinned-context JSON "
+                        "(question + gold + context_string per question) to "
+                        "this path, tagged with the search-endpoint snippet "
+                        "axis. Implies --pin-context.")
     p.add_argument("-v", "--verbose", action="store_true")
     return p
 
@@ -917,8 +928,51 @@ def _print_summary(report: dict) -> None:
     print(f"\n  disagreements: {len(summary.get('disagreements', []))}")
 
 
+def _write_pinned_context(report: dict, args: argparse.Namespace) -> None:
+    """#116 Phase 1 — extract a pinned-context JSON from a live report.
+
+    Keeps only the fields the offline reader sweep needs, tagged with the
+    daemon snippet-width axis (search_endpoint) so the sweep can group by it.
+    """
+    records = report.get("per_question", [])
+    pinned = [
+        {
+            "question_id": r["question_id"],
+            "question": r.get("question", ""),
+            "gold_answer": r.get("gold_answer", ""),
+            "question_type": r["question_type"],
+            "sme_category": r.get("sme_category"),
+            "is_abstention": r.get("is_abstention", False),
+            "context_string": r.get("context_string", ""),
+            "context_chars": r.get("context_chars", 0),
+            "hit_at_5": r.get("hit_at_5"),
+        }
+        for r in records
+    ]
+    endpoint = getattr(args, "search_endpoint", "/search")
+    doc = {
+        "run_metadata": {
+            "diagnostic": "pinned_context",
+            "issue": "techempower-org/multipass-structural-memory-eval#116",
+            "adapter": args.adapter,
+            "search_endpoint": endpoint,
+            "snippet_width": endpoint,  # palace-daemon#150 axis label
+            "n_questions": len(pinned),
+            "source_questions": str(args.questions),
+            "timestamp_utc": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+        },
+        "pinned_context": pinned,
+    }
+    args.pin_context_out.parent.mkdir(parents=True, exist_ok=True)
+    args.pin_context_out.write_text(json.dumps(doc, indent=2, default=str))
+    print(f"Wrote pinned context → {args.pin_context_out} ({len(pinned)} questions)")
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     args = build_arg_parser().parse_args(argv)
+    # --pin-context-out implies --pin-context.
+    if getattr(args, "pin_context_out", None) is not None:
+        args.pin_context = True
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(levelname)s %(name)s: %(message)s",
@@ -935,6 +989,9 @@ def main(argv: Optional[list[str]] = None) -> int:
         )
     Path(out_path).write_text(json.dumps(report, indent=2, default=str))
     print(f"\nWrote {out_path}")
+
+    if getattr(args, "pin_context_out", None) is not None and not args.dry_run:
+        _write_pinned_context(report, args)
 
     _print_summary(report)
     return 0

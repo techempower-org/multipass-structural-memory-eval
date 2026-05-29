@@ -124,6 +124,13 @@ def test_snapshot_returns_at_least_one_wing(adapter):
     assert len(wing_names) >= 1
 
 
+@pytest.mark.xfail(
+    reason="palace-daemon#194: kind=content filter is a no-op post-redeploy "
+           "(returns identical results to kind=all). strict=False so this "
+           "XPASSes once #194 is fixed — the XPASS is the signal to remove "
+           "this xfail.",
+    strict=False,
+)
 def test_kind_content_excludes_stop_hook_checkpoints(adapter):
     """Cross-check the README's behavioural claim: kind='content'
     excludes Stop-hook auto-save checkpoints (which start with

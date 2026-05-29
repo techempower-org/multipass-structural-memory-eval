@@ -1392,7 +1392,7 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     import os
     from datetime import datetime, timezone
     from sme.eval.candidate_strategy import (
-        DEFAULT_STRATEGIES, run_eval, run_eval_multi_limit,
+        DEFAULT_STRATEGIES, probe_rerank, run_eval, run_eval_multi_limit,
     )
 
     api_url = (
@@ -1416,6 +1416,10 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
 
     strategies = list(args.strategies or DEFAULT_STRATEGIES)
     timestamp = datetime.now(timezone.utc).isoformat()
+
+    # Record the daemon's rerank state so the baseline JSON is
+    # self-describing (#113). Non-fatal — records None if unavailable.
+    rerank_meta = probe_rerank(api_url, api_key)
 
     if args.limits and args.limit is not None:
         log.error("--limit and --limits are mutually exclusive")
@@ -1441,6 +1445,7 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
                 "url": api_url,
                 "timestamp_utc": timestamp,
                 "mode": "multi-limit-sweep",
+                **rerank_meta,
             },
             **report_core,
         }
@@ -1479,6 +1484,7 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
             "search_limit": args.limit,
             "url": api_url,
             "timestamp_utc": timestamp,
+            **rerank_meta,
         },
         **report_core,
     }

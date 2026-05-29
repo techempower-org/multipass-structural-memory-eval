@@ -72,6 +72,40 @@ def mcp_search(
     return json.loads(text), elapsed_ms
 
 
+def probe_rerank(api_url: str, api_key: str,
+                 timeout: float = DEFAULT_TIMEOUT) -> dict:
+    """Probe the daemon's rerank state once, for run_metadata (#113).
+
+    palace-daemon attaches a ``rerank`` block to every search response
+    (palace-daemon rerank.py): ``{enabled, enabled_source, model, status, ...}``.
+    Fire one tiny search and read that block so a baseline JSON is
+    self-describing about whether rerank was on and which model ran.
+
+    Resilient by design: a probe failure (daemon down) or a missing block
+    (older daemon / rerank off at build) records ``rerank_enabled=None`` and
+    ``rerank_model=None`` plus a note, never raising — the ablation still runs.
+    """
+    try:
+        response, _ = mcp_search(
+            api_url, api_key, query="rerank probe", strategy="vector",
+            limit=1, timeout=timeout,
+        )
+    except Exception as e:  # noqa: BLE001 — daemon down / network / MCP error
+        return {"rerank_enabled": None, "rerank_model": None,
+                "rerank_probe_note": f"probe failed: {e}"}
+    block = response.get("rerank")
+    if not isinstance(block, dict):
+        return {"rerank_enabled": None, "rerank_model": None,
+                "rerank_probe_note": "no rerank block in search response "
+                                     "(older daemon or rerank disabled at build)"}
+    return {
+        "rerank_enabled": block.get("enabled"),
+        "rerank_model": block.get("model"),
+        "rerank_enabled_source": block.get("enabled_source"),
+        "rerank_status": block.get("status"),
+    }
+
+
 def is_relevant(hit: dict, predicate: dict) -> bool:
     """A drawer is relevant iff source_glob matches AND any content_any does.
 

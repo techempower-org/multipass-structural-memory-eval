@@ -64,6 +64,14 @@ from pathlib import Path
 from statistics import median
 from typing import Optional
 
+# Repo importable when run as a script — reuse the package's rerank probe
+# (#113) so the script and the sme.eval module share one tested code path.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+from sme.eval.candidate_strategy import probe_rerank  # noqa: E402
+
 log = logging.getLogger("candidate_strategy_eval")
 
 DEFAULT_STRATEGIES = ("vector", "union", "hybrid")
@@ -242,6 +250,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     if not queries:
         raise SystemExit(f"{args.queries}: no 'queries' array")
 
+    # Probe the daemon's rerank state once so the baseline JSON is
+    # self-describing (#113). Non-fatal — records None if unavailable.
+    rerank_meta = probe_rerank(api_url, api_key)
+    log.info("rerank: enabled=%s model=%s", rerank_meta.get("rerank_enabled"),
+             rerank_meta.get("rerank_model"))
+
     per_query: dict[str, dict[str, dict]] = {}
     for i, q in enumerate(queries):
         log.info("[%d/%d] %s", i + 1, len(queries), q.get("id", "?"))
@@ -267,6 +281,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             "search_limit": args.limit,
             "url": api_url,
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            **rerank_meta,
         },
         "summary": summary,
         "per_query": per_query,

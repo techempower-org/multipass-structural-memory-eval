@@ -1,0 +1,270 @@
+{
+  "leg_a": {
+    "model": "all-MiniLM-L6-v2",
+    "n_drawers": 135399
+  },
+  "leg_b": {
+    "model": "/home/jp/Downloads/ft300/model",
+    "n_drawers": 135399
+  },
+  "k_cutoffs": [
+    1,
+    5,
+    10
+  ],
+  "overall": {
+    "a": {
+      "R@1": 0.3333,
+      "R@5": 0.5,
+      "R@10": 0.6
+    },
+    "b": {
+      "R@1": 0.35,
+      "R@5": 0.5,
+      "R@10": 0.5833
+    },
+    "delta_pp": {
+      "R@1": 1.67,
+      "R@5": 0.0,
+      "R@10": -1.67
+    }
+  },
+  "covered_only": {
+    "a": {
+      "R@1": 0.3448,
+      "R@5": 0.5172,
+      "R@10": 0.6207
+    },
+    "b": {
+      "R@1": 0.3621,
+      "R@5": 0.5172,
+      "R@10": 0.6034
+    },
+    "delta_pp": {
+      "R@1": 1.73,
+      "R@5": 0.0,
+      "R@10": -1.73
+    },
+    "n": 29
+  },
+  "snapshot_uncovered_ids": [
+    "q13_graphpalace"
+  ],
+  "prediction_pp": [
+    30,
+    33
+  ],
+  "verdict": "PARTIAL: best \u0394 +1.7pp, below the +30-33pp predicted band \u2014 FT-300 helps less than Tau2 implied.",
+  "per_question_delta_R@10": [
+    {
+      "id": "q26_caddy_dns_resolvers",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.0,
+      "delta_R@10": -0.5
+    },
+    {
+      "id": "q28_postgres_migration",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.0,
+      "delta_R@10": -0.5
+    },
+    {
+      "id": "q01_familiar_what",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q02_realm_sigil_role",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q03_status_realm_watch",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q04_os_realm_watch",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q05_portal_realm",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q06_mempalace_fork",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q08_kind_filter",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q09_silent_save",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q10_hnsw_rebuild",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q11_multipass_role",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q12_rlm_paper",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q13_graphpalace",
+      "snapshot_uncovered": true,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q14_hermes_agent",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q15_context_engine_emmimal",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q16_speech_to_cli",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q17_vault_gate",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q18_cc_switcher",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q19_outline_wiki",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q20_realm_optimizer",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q21_gatekeeper_router",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q22_ubox0_caddy",
+      "snapshot_uncovered": false,
+      "R@10_a": 1.0,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q23_disks_services",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q24_katana_role",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q25_vlans_collectd",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q27_v02_retrieval_pipeline",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q29_p40_upgrade",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.0,
+      "R@10_b": 0.0,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q30_techempower",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 0.5,
+      "delta_R@10": 0.0
+    },
+    {
+      "id": "q07_palace_daemon_role",
+      "snapshot_uncovered": false,
+      "R@10_a": 0.5,
+      "R@10_b": 1.0,
+      "delta_R@10": 0.5
+    }
+  ]
+}

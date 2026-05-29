@@ -52,6 +52,11 @@ results/
 *.ldb/
 *.duckdb
 
+# Trained encoder weights — bench JSON is committed, the ~90MB model dirs are not
+# (e.g. baselines/ft300_approx_model/ from scripts/train_ft300_approx.py).
+baselines/*_model/
+*.safetensors
+
 # Local corpora caches
 sme/corpora/*/.cache/
 

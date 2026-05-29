@@ -81,3 +81,19 @@ def test_generate_answer_through_shim():
     ans = generate_answer("What is the capital?", "Paris is the capital of France.",
                           reader_model="claude-opus-4-8", client=shim)
     assert ans == "PONG"
+
+
+def test_judge_routes_claude_to_bedrock(monkeypatch):
+    """#116 Opus-judge: _client_for_judge sends claude-* judges to the Bedrock
+    shim and everything else to the Azure/OpenAI default. Monkeypatched so the
+    test never needs live AWS/Azure creds (CI-safe)."""
+    import sme.eval.answer_generator as ag
+    from sme.eval import longmemeval_judge as lj
+    sentinel_bedrock = object()
+    sentinel_default = object()
+    monkeypatch.setattr(ag, "_bedrock_client", lambda: sentinel_bedrock)
+    monkeypatch.setattr(lj, "_default_client", lambda: sentinel_default)
+    assert lj._client_for_judge("claude-opus-4-8") is sentinel_bedrock
+    assert lj._client_for_judge("us.anthropic.claude-opus-4-8") is sentinel_bedrock
+    assert lj._client_for_judge("gpt-5.3-chat") is sentinel_default
+    assert lj._client_for_judge("o4-mini") is sentinel_default

@@ -278,6 +278,18 @@ def _default_client() -> Optional[Any]:
     return OpenAI()
 
 
+def _client_for_judge(judge_model: str) -> Optional[Any]:
+    """Route the judge client by model id — claude-* judges go through the
+    AnthropicBedrock shim (reusing the reader-side routing), everything else
+    through the Azure/OpenAI default. Lets ``--judge claude-opus-4-8`` test
+    whether a stronger judge re-scores answers more fairly (#116). The Bedrock
+    shim already retries without ``temperature`` for opus-4-8."""
+    from sme.eval.answer_generator import _is_claude_model, _bedrock_client
+    if _is_claude_model(judge_model):
+        return _bedrock_client()
+    return _default_client()
+
+
 def grade_answer(
     question_type: str,
     question: str,
@@ -326,7 +338,7 @@ def grade_answer(
         log.info("longmemeval_judge: unknown question_type %r", question_type)
 
     if client is None:
-        client = _default_client()
+        client = _client_for_judge(judge_model)
     if client is None:
         base_result["rationale"] = "OPENAI_API_KEY not set; judge skipped"
         return base_result

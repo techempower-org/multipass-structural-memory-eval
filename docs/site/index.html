@@ -1135,7 +1135,7 @@
   <section id="benchmarks">
     <div class="section-mark"><span class="roman">ii</span> <span>readings</span></div>
     <header class="benchmarks-head">
-      <span class="eyebrow">verified readings &middot; as of 2026-05-28</span>
+      <span class="eyebrow">verified readings &middot; as of 2026-05-29</span>
       <h2 class="display">The published <em>readings.</em></h2>
       <p class="lede">
         Every number below is sourced from a JSON in
@@ -1458,6 +1458,246 @@
         <div class="bench-foot">
           <span>Source &middot; baselines/longmemeval_familiar_2026-05-28-rerun.reagg.json</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/46">techempower-org/multipass-structural-memory-eval#46</a>
+        </div>
+      </article>
+
+      <!-- #84 -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">jp-realm-v0.1 &middot; encoder swap</span>
+            <h3>Fine-tuned encoder shows <em>no transfer</em></h3>
+          </div>
+          <span class="bench-pill live">robust null &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>jp-realm-v0.1 (n=30, covered n=29)</dd></div>
+          <div><dt>Backend</dt><dd>ChromaDB palace backup (135,399 drawers, frozen 2026-04-16)</dd></div>
+          <div><dt>Encoders</dt><dd>all-MiniLM-L6-v2 base vs FT-300 (MNR fine-tune)</dd></div>
+          <div><dt>Top-K</dt><dd>10</dd></div>
+        </dl>
+
+        <table class="bench-tbl" aria-label="Base vs FT-300 recall at K">
+          <thead>
+            <tr><th>Encoder</th><th class="num">R@1</th><th class="num">R@5</th><th class="num">R@10</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>base (all-MiniLM-L6-v2)</td><td class="num">0.3448</td><td class="num">0.5172</td><td class="num">0.6207</td></tr>
+            <tr><td>FT-300 (MNR fine-tune)</td><td class="num">0.3621</td><td class="num">0.5172</td><td class="num">0.6034</td></tr>
+            <tr class="total"><td>delta</td><td class="num">+1.73pp</td><td class="num">0.00</td><td class="num">&minus;1.73pp</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          A retrieval encoder fine-tuned on an unrelated domain shows
+          <strong>no transfer</strong> to JP's personal KB &mdash; best
+          delta <strong>+1.73pp at R@1</strong> against a predicted
+          +30&ndash;33pp. The encoder is not where the jp-realm gap
+          lives; this converges with
+          techempower-org/multipass-structural-memory-eval#91 and
+          techempower-org/multipass-structural-memory-eval#116 &mdash;
+          <em>the gap is the reader/orchestrator, not
+          retrieval/encoding</em>.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/jp_realm_encoder_swap_{default,ft300}_2026-05-29.json + jp_realm_encoder_delta_2026-05-29.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/84">techempower-org/multipass-structural-memory-eval#84</a>
+        </div>
+      </article>
+
+      <!-- #91 -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval-S &middot; retrieval A/B</span>
+            <h3>Age-fusion <em>~neutral</em> on representative data</h3>
+          </div>
+          <span class="bench-pill live">headline &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>longmemeval_s_cleaned.json</dd></div>
+          <div><dt>n</dt><dd>150 (stratified, 25 per question_type)</dd></div>
+          <div><dt>Adapter</dt><dd>mempalace-daemon</dd></div>
+          <div><dt>Endpoints</dt><dd>/search vs /search/age-fused</dd></div>
+          <div><dt>Scoring</dt><dd>drawer-id R@K (techempower-org/multipass-structural-memory-eval#98), retrieval-only</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">/search R@5</div>
+            <div class="value"><em>92.67%</em></div>
+            <div class="sub">plain endpoint, drawer-id match</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">/search/age-fused R@5</div>
+            <div class="value"><em>92.00%</em></div>
+            <div class="sub">graph-fused endpoint</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">age-fusion &Delta; R@5</div>
+            <div class="value"><em>&minus;0.67pp</em></div>
+            <div class="sub">&minus;1 question of 150 (n.s.)</div>
+          </div>
+        </div>
+
+        <p class="bench-prose">
+          On a representative, category-stratified sample, age-fusion
+          shows <strong>NO significant R@5 gain</strong> over plain
+          <code>/search</code> (&Delta; = &minus;1 question of 150; R@1
+          +2 questions). The +2.0pp R@5 &ldquo;win&rdquo; seen on an
+          earlier n=100 first-100 slice did <em>not</em> replicate &mdash;
+          that slice was single-session-dominated (the S corpus is
+          question_type-sorted; fixed via <code>--stratify-by</code> in
+          techempower-org/multipass-structural-memory-eval#122).
+          Per-category (n=25 each, &plusmn;1-question noise &rarr;
+          directional hypothesis only): age-fusion helps
+          temporal-reasoning + knowledge-update, hurts single/multi-session
+          recall.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/longmemeval_s_strat150_{search,age_fused}_2026-05-29.reagg.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/91">techempower-org/multipass-structural-memory-eval#91</a>
+        </div>
+      </article>
+
+      <!-- #116 Pass A -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval oracle &middot; reader sweep (Pass A)</span>
+            <h3>The reader is the bottleneck &mdash; <em>measured directly</em></h3>
+          </div>
+          <span class="bench-pill live">headline &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>longmemeval_oracle.json (pinned context, retrieval held fixed)</dd></div>
+          <div><dt>n</dt><dd>500</dd></div>
+          <div><dt>Readers</dt><dd>o4-mini, gpt-5.3-chat</dd></div>
+          <div><dt>Judge</dt><dd>gpt-5.3-chat</dd></div>
+          <div><dt>Retrieval ceiling</dt><dd>R@5 97.4%</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">Retrieval ceiling R@5</div>
+            <div class="value"><em>97.4%</em></div>
+            <div class="sub">oracle &mdash; gold pinned in context</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">o4-mini QA</div>
+            <div class="value"><em>50.4%</em></div>
+            <div class="sub">search-default context</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">gpt-5.3-chat QA</div>
+            <div class="value"><em>52.2%</em></div>
+            <div class="sub">search-default context</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">R@5&rarr;QA gap</div>
+            <div class="value"><em>~45pp</em></div>
+            <div class="sub">ceiling clears; reader does not</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="QA accuracy by endpoint and reader">
+          <thead>
+            <tr><th>Endpoint</th><th class="num">o4-mini QA</th><th class="num">gpt-5.3-chat QA</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>search-default</td><td class="num">50.4%</td><td class="num">52.2%</td></tr>
+            <tr><td>age-fused</td><td class="num">43.2%</td><td class="num">46.6%</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          With retrieval pinned at the 0.974 oracle ceiling, both readers
+          answer correctly only <strong>~50%</strong> &mdash; a
+          <strong>~45pp R@5&rarr;QA gap</strong>, the reader bottleneck
+          measured directly (larger than the 38pp E2E estimate).
+          Age-fused context is <em>harder</em> for readers (QA drops to
+          43&ndash;47%). Self-judge caveat: gpt-5.3-chat judges its own
+          family on its own reader leg, which may inflate it.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/reader_sweep_passA_{search-default,age-fused}_2026-05-29.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
+      <!-- #116 Pass B -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval oracle &middot; reader sweep (Pass B)</span>
+            <h3>A stronger reader does <em>NOT</em> close the gap</h3>
+          </div>
+          <span class="bench-pill live">counterintuitive &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>pinned oracle (stratified 150, search-default)</dd></div>
+          <div><dt>Readers</dt><dd>claude-opus-4-8 (Bedrock), o4-mini, gpt-5.3-chat</dd></div>
+          <div><dt>Prompt</dt><dd>baseline</dd></div>
+          <div><dt>Judge</dt><dd>gpt-5.3-chat</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">claude-opus-4-8 QA</div>
+            <div class="value"><em>39.3%</em></div>
+            <div class="sub">strongest reader, worst overall</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">o4-mini QA</div>
+            <div class="value"><em>46.7%</em></div>
+            <div class="sub">same 150-question slice</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">gpt-5.3-chat QA</div>
+            <div class="value"><em>44.7%</em></div>
+            <div class="sub">self-family judge leg</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Opus QA accuracy by category">
+          <thead>
+            <tr><th>Category</th><th class="num">Opus QA-acc</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>single-session-user</td><td class="num">84%</td></tr>
+            <tr><td>temporal-reasoning</td><td class="num">48%</td></tr>
+            <tr><td>knowledge-update</td><td class="num">48%</td></tr>
+            <tr><td>multi-session</td><td class="num">44%</td></tr>
+            <tr><td>single-session-assistant</td><td class="num">12%</td></tr>
+            <tr class="total"><td>single-session-preference</td><td class="num">0%</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          Opus 4.8 &mdash; the strongest reader &mdash; scored the
+          <strong>worst overall</strong> (39.3%). But it is <em>not</em> a
+          capability gap: Opus is the best reader on well-posed direct
+          recall (single-session-user 84%, the highest of any reader on
+          any category) and collapses only on mis-specified categories
+          (preference 0%, assistant 12%). It is penalized for following
+          the baseline prompt literally (over-abstaining where the gold
+          answer is an inferred preference) and for thoroughness
+          (reporting both old+new values &rarr; judged PARTIAL; answers
+          2&times; longer). <em>The 45pp gap is prompt + judge design, not
+          reader capability.</em> Follow-ups in flight: prompt-axis fix
+          and Opus-as-judge re-scoring.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/reader_sweep_passB_opus_strat150_search-default_2026-05-29.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
         </div>
       </article>
 

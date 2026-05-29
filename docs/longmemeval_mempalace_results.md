@@ -11,13 +11,17 @@ and produced by [SME #44](https://github.com/techempower-org/multipass-structura
 (Familiar adapter). Tables below show the `mempalace-daemon` column
 filled; `familiar` column populated from techempower-org/multipass-structural-memory-eval#46 retry (2026-05-28 12:57 PDT, n=500, baselines/longmemeval_familiar_2026-05-28-retry.json).
 
-> **R@5 caveat:** the substring-based R@5 reported here is **broken** in
-> this run — `--content-rules upstream-exact` strips session IDs from
-> the retrieved drawer text, so the matcher cannot find them. The fix
-> lives in techempower-org/multipass-structural-memory-eval#67
-> (drawer_id-based matcher) but did not merge into the bench branch in
-> time. The QA-accuracy figure is unaffected; read 3.97% R@5 as a
-> measurement artifact, not a substrate quality signal.
+> **R@5 update (2026-05-29):** the headline R@5 numbers below are now
+> the **chunk-suffix-aware drawer_id matcher** (techempower-org/multipass-structural-memory-eval#98),
+> re-scored from the existing 2026-05-28 rerun records. Daemon-direct
+> R@5 = **97.0%**, age-fused = **90.2%**, familiar = **28.6%**.
+> Earlier readings of this doc showed substring R@5 ≈ 3.97% and framed
+> it as broken — it was: the daemon chunks each drawer into
+> `<parent>_chunk_NNNNNN` and `/search` returns chunk IDs, which the
+> old matcher compared exact-string against the parent IDs. The
+> QA-accuracy figures never depended on the matcher and are unchanged.
+> The real finding is the **R@5→QA gap**: retrieval is near-ceiling on
+> oracle; the reader is the bottleneck.
 
 ---
 
@@ -92,28 +96,41 @@ True Memory. Per-category rows are the SME-internal diagnostic.
 
 ---
 
-## R@5 Retrieval Recall — 2026-05-28 (#44)
+## R@5 Retrieval Recall — chunk-suffix-aware drawer_id matcher (2026-05-29, #98)
 
-Substring-match retrieval recall at top-5. R@5 = 1.0 means the gold
-session id appeared in the top-5 retrieved chunks.
+Drawer-id recall at top-5, computed with the chunk-suffix-aware matcher
+(techempower-org/multipass-structural-memory-eval#98). R@5 = 1.0 means a
+parent drawer of a gold session appeared in the top-5 retrieved chunks.
+Re-scored from the 2026-05-28 rerun records — no new bench compute.
 
-| SME Category | LME Question Type | n | R@5 (mempalace-daemon) | R@5 (familiar) |
-|---|---|---:|---:|---:|
-| cat_1          | single-session-* (IE)         | 150 | 0.0000 | 0.1000 |
-| cat_2c         | multi-session (MR)            | 121 | 0.0000 | 0.0780 |
-| cat_3_partial  | knowledge-update (KU)         | 72  | 0.0000 | 0.0972 |
-| cat_6          | temporal-reasoning (TR)       | 127 | 0.1562 | 0.1299 |
-| cat_1_negative | abstention (ABS)              | 30  | 0.0000 | 0.2250 |
-| **Overall**    | —                             | 500 | **0.0397** | **0.1094** |
+| SME Category | LME Question Type | n | R@5 daemon `/search` | R@5 `/search/age-fused` | R@5 familiar |
+|---|---|---:|---:|---:|---:|
+| cat_1          | single-session-* (IE)         | 150 | 1.0000 | 1.0000 | 0.3800 |
+| cat_2c         | multi-session (MR)            | 121 | 0.9835 | 0.9835 | 0.2645 |
+| cat_3_partial  | knowledge-update (KU)         | 72  | 1.0000 | 1.0000 | 0.3472 |
+| cat_6          | temporal-reasoning (TR)       | 127 | 0.9055 | 0.6457 | 0.2126 |
+| cat_1_negative | abstention (ABS)              | 30  | 0.9667 | 0.9333 | 0.0667 |
+| **Overall**    | —                             | 500 | **0.9700** | **0.9020** | **0.2860** |
 
-The 3.97% headline is an artifact of the matcher, not the substrate
-(see caveat at top of doc). The cat_6 row (15.62%) shows that
-retrieval *was* finding relevant material — it's just that 4 of the 5
-categories under `--content-rules upstream-exact` strip the session ID
-from the retrieved text, so the substring matcher returns 0 even when
-the right session is in the top-5. The drawer_id-based matcher in
-techempower-org/multipass-structural-memory-eval#67 will close this
-gap when re-run.
+The corrected matcher reverses the earlier "retrieval is broken" story.
+Daemon `/search` finds a gold session in the top-5 **97%** of the time;
+`/search/age-fused` is close behind at 90.2%. Both are near-ceiling on
+cat_1 / cat_2c / cat_3_partial. cat_6 (temporal reasoning) is the only
+category materially below ceiling, and it drops further on age-fused
+(64.57%) — temporal questions stress retrieval the most.
+
+Familiar's R@5 (28.6%) is genuinely the lowest — not a matcher artifact.
+Its Hybrid v4 + rerank stack is tuned for its own corpus shape, not
+LongMemEval's one-drawer-per-session topology.
+
+**Why these numbers were previously ~0:** the daemon chunks each drawer
+into `<parent>_chunk_NNNNNN` sub-drawers; `/search` returns chunk IDs,
+which the old matcher compared exact-string against the parent IDs we
+stored at ingest. techempower-org/multipass-structural-memory-eval#98
+strips the suffix before comparing. The substring matcher
+(techempower-org/multipass-structural-memory-eval#58) was broken on a
+separate axis (`--content-rules upstream-exact` strips session IDs from
+text) — both are now superseded by the drawer_id matcher above.
 
 ---
 
@@ -150,28 +167,36 @@ where every wrong answer was a confident wrong answer (0 ABSTAIN).
 
 ---
 
-## Retrieval-QA Gap — 2026-05-28 (#44)
+## Retrieval-QA Gap — 2026-05-29 (#98 corrected R@5)
 
-`R@5 - QA accuracy`. Positive gap means the right session was retrieved
-but the reader couldn't produce the answer; negative gap means the
-reader got the answer right despite imperfect retrieval (typically by
-having world knowledge or by being lucky with paraphrase).
+`R@5 - QA accuracy`. **Positive** gap = the right session was retrieved
+but the reader couldn't produce the answer (reader bottleneck).
+**Negative** gap = QA exceeds retrieval — the reader answered (or
+correctly abstained) more often than the gold session was in the top-5.
 
-**With the matcher caveat:** every row below shows a large negative gap
-because R@5 is artificially 0 for 4 of 5 categories (substring matcher
-issue, see top of doc). When techempower-org/multipass-structural-memory-eval#67
-ships and R@5 is re-measured with the drawer_id matcher, the absolute
-numbers will shift but the *relative* pattern across categories should
-hold.
+With the corrected R@5 matcher the gap inverts from the earlier reading.
+Daemon `/search` and age-fused both show **large positive gaps** — gold
+is retrieved, the reader leaves it on the table. Familiar shows a
+near-zero / negative gap — its reader keeps pace with its (weaker)
+retrieval.
 
-| SME Category | Gap (mempalace-daemon) | Gap (familiar) |
-|---|---:|---:|
-| cat_1          | -0.5267 | -0.1133 |
-| cat_2c         | -0.7438 | -0.0708 |
-| cat_3_partial  | -0.6944 | -0.1806 |
-| cat_6          | -0.2847 |  -0.2402 |
-| cat_1_negative | -0.9000 | -0.7417 |
-| **Overall**    | **-0.5643** | **-0.1826** |
+| SME Category | Gap daemon `/search` | Gap `/search/age-fused` | Gap familiar |
+|---|---:|---:|---:|
+| cat_1          | +0.4867 | +0.9067 | +0.1533 |
+| cat_2c         | +0.2397 | +0.9835 | +0.1240 |
+| cat_3_partial  | +0.3472 | +0.9861 | +0.0833 |
+| cat_6          | +0.4961 | +0.3150 | -0.2283 |
+| cat_1_negative | +0.0667 | -0.0667 | -0.9000 |
+| **Overall**    | **+0.3840** | **+0.7280** | **-0.0240** |
+
+The age-fused column is the loudest signal: gaps near +1.0 on cat_1 /
+cat_2c / cat_3_partial mean the gold session was retrieved essentially
+every time, yet the reader almost never answered — because the snippet
+handed to it was ~457 chars (5.5× narrower than `/search`). That is the
+context-width problem in techempower-org/palace-daemon#150, not a
+retrieval failure. cat_1_negative's negative gaps are the abstention
+category: a correct "I don't know" counts as QA-correct regardless of
+retrieval, so QA can exceed R@5 there.
 
 ---
 
@@ -238,9 +263,9 @@ papers — verify dates before citing for publication):
 | OMEGA          | oracle | 95.4% | (paper) | TBD link |
 | Hindsight      | oracle | 91.4% | (paper) | TBD link |
 | True Memory    | oracle | 87.8% | (paper) | TBD link |
-| **MemPalace via palace-daemon `/search`** (2026-05-28, this fork) | oracle | **60.40%** | o4-mini / gpt-5.3-chat (Azure Foundry) | techempower-org/multipass-structural-memory-eval#44 |
-| MemPalace via `/search/age-fused` (this fork) | oracle | **17.60%** | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#45 (empty-triples caveat) |
-| Familiar (this fork)  | oracle | **29.20%** | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#46 |
+| **MemPalace via palace-daemon `/search`** (2026-05-28, this fork) | oracle | **60.40%** | o4-mini / gpt-5.3-chat (Azure Foundry) | techempower-org/multipass-structural-memory-eval#44 (R@5 97.0%) |
+| MemPalace via `/search/age-fused` (this fork) | oracle | **17.60%** | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#45 (R@5 90.2% — snippet-width starves reader, palace-daemon#150) |
+| Familiar (this fork)  | oracle | **29.20%** | o4-mini / gpt-5.3-chat | techempower-org/multipass-structural-memory-eval#46 (R@5 28.6% — retrieval-limited) |
 
 Notes:
 - All numbers above are on the **oracle** split. M and S splits are
@@ -265,6 +290,13 @@ Notes:
 ---
 
 ## Disagreement Set
+
+> **Note (2026-05-29):** this section analyses the *substring* matcher's
+> disagreements as of the #44 run. With the chunk-suffix drawer_id
+> matcher (techempower-org/multipass-structural-memory-eval#98) R@5 is
+> now 97% and the retrieval/judge picture is the R@5→QA gap above; the
+> substring-disagreement framing below is retained as a record of that
+> run's analysis, not the current headline.
 
 Questions where SME's R@5 and the judge's verdict imply opposite
 conclusions (R@5 ≥ 0.5 + INCORRECT, OR R@5 < 0.5 + CORRECT) are

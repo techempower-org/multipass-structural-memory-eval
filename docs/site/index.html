@@ -1199,7 +1199,7 @@
             <span class="eyebrow no-rule">LongMemEval-S 500Q &middot; E2E QA</span>
             <h3>mempalace-daemon, default <em>/search</em></h3>
           </div>
-          <span class="bench-pill live">first publishable &middot; 2026-05-28</span>
+          <span class="bench-pill live">headline &middot; 2026-05-29</span>
         </div>
 
         <dl class="bench-meta">
@@ -1216,18 +1216,18 @@
         <div class="bench-numbers">
           <div class="bench-num">
             <div class="label">R@5 overall</div>
-            <div class="value"><em>3.97%</em></div>
-            <div class="sub">substring match on session id</div>
+            <div class="value"><em>97.0%</em></div>
+            <div class="sub">drawer-id match, chunk-suffix-aware (techempower-org/multipass-structural-memory-eval#98)</div>
           </div>
           <div class="bench-num">
             <div class="label">QA accuracy</div>
-            <div class="value"><em>60.40%</em></div>
+            <div class="value"><em>58.6%</em></div>
             <div class="sub">judge label = CORRECT or canonical ABSTAIN</div>
           </div>
           <div class="bench-num">
-            <div class="label">Disagreements</div>
-            <div class="value"><em>290</em><span style="font-size: 0.55em; color: var(--ice-ghost);"> / 500</span></div>
-            <div class="sub">judge says CORRECT, R@5 says miss</div>
+            <div class="label">R@5 &minus; QA gap</div>
+            <div class="value"><em>38pp</em></div>
+            <div class="sub">retrieval finds gold; reader leaves it on the table</div>
           </div>
         </div>
 
@@ -1236,42 +1236,42 @@
             <tr><th>SME Category</th><th>LME type</th><th class="num">n</th><th class="num">R@5</th><th class="num">QA-acc</th></tr>
           </thead>
           <tbody>
-            <tr><td>cat_1</td><td>single-session IE</td><td class="num">150</td><td class="num">0.0000</td><td class="num">52.67%</td></tr>
-            <tr><td>cat_1_negative</td><td>abstention</td><td class="num">30</td><td class="num">0.0000</td><td class="num">90.00%</td></tr>
-            <tr><td>cat_2c</td><td>multi-session</td><td class="num">121</td><td class="num">0.0000</td><td class="num">74.38%</td></tr>
-            <tr><td>cat_3_partial</td><td>knowledge-update</td><td class="num">72</td><td class="num">0.0000</td><td class="num">69.44%</td></tr>
-            <tr><td>cat_6</td><td>temporal-reasoning</td><td class="num">127</td><td class="num">0.1562</td><td class="num">44.09%</td></tr>
-            <tr class="total"><td>overall</td><td>&mdash;</td><td class="num">500</td><td class="num">0.0397</td><td class="num">60.40%</td></tr>
+            <tr><td>cat_1</td><td>single-session IE</td><td class="num">150</td><td class="num">100.0%</td><td class="num">51.33%</td></tr>
+            <tr><td>cat_1_negative</td><td>abstention</td><td class="num">30</td><td class="num">96.67%</td><td class="num">90.00%</td></tr>
+            <tr><td>cat_2c</td><td>multi-session</td><td class="num">121</td><td class="num">98.35%</td><td class="num">74.38%</td></tr>
+            <tr><td>cat_3_partial</td><td>knowledge-update</td><td class="num">72</td><td class="num">100.0%</td><td class="num">65.28%</td></tr>
+            <tr><td>cat_6</td><td>temporal-reasoning</td><td class="num">127</td><td class="num">90.55%</td><td class="num">40.94%</td></tr>
+            <tr class="total"><td>overall</td><td>&mdash;</td><td class="num">500</td><td class="num">97.00%</td><td class="num">58.60%</td></tr>
           </tbody>
         </table>
 
         <p class="bench-prose">
-          QA accuracy of 60.40% with R@5 of 3.97% is a 56-point gap.
-          That gap is the headline finding, not the score &mdash; <em>252
-          of the 290 disagreements</em> are cases where the judge says
-          the answer is correct but the substring matcher reports no
-          relevant session retrieved. cat_1_negative scores 90% because
-          a correct abstention <em>is</em> the right answer for
-          unanswerable questions, by LongMemEval's published convention.
+          The headline flips once the R@5 matcher is correct: the daemon
+          finds the gold session in the top 5 <strong>97% of the
+          time</strong>. Retrieval is not the bottleneck on oracle.
+          The 38-point R@5&rarr;QA gap is the real finding &mdash; the
+          right session is retrieved, but the reader (o4-mini) fails to
+          extract the answer on ~40% of questions where it had the
+          evidence. cat_6 (temporal reasoning) is the only category
+          below R@5 ceiling (90.55%) and also the worst QA (40.94%):
+          temporal questions stress both retrieval and reasoning.
+          cat_1_negative's QA (90%) clears its R@5 because a correct
+          abstention is the right answer regardless of what was
+          retrieved.
         </p>
 
         <div class="caveat">
-          <span class="label">honest caveat (updated 2026-05-28 16:45)</span>
-          Both R@5 metrics are broken in different ways. The substring
-          matcher (techempower-org/multipass-structural-memory-eval#58)
-          can't find session-ids after
-          <code>--content-rules upstream-exact</code> strips them. The
-          drawer_id matcher
-          (techempower-org/multipass-structural-memory-eval#67) doesn't
-          account for the daemon's
-          <code>_chunk_NNNNNN</code> suffix on retrieved drawer-ids
-          (techempower-org/multipass-structural-memory-eval#98), so
-          parent-IDs don't match either. Post-techempower-org/multipass-structural-memory-eval#67
-          chain rerun on main shows R@5=3.57% (substring) / 10.40%
-          (drawer-id); both numbers are floors of the real recall.
-          <strong>QA-acc (58.60% on rerun vs 60.40% original) is the
-          only honest cross-run signal</strong>; the 1.8pp delta is
-          within reader/judge noise.
+          <span class="label">how R@5 went from 3.97% to 97% (techempower-org/multipass-structural-memory-eval#98)</span>
+          Earlier readings of this card showed R@5 = 3.97% and framed
+          the gap as a matcher artifact. It was: the daemon chunks each
+          drawer into <code>&lt;parent&gt;_chunk_NNNNNN</code> sub-drawers
+          and <code>/search</code> returns the chunk IDs, but the matcher
+          compared them exact-string against the parent IDs we stored at
+          ingest, so every hit read as a miss. techempower-org/multipass-structural-memory-eval#98
+          strips the suffix before comparing. The 97% is computed by
+          re-scoring the existing 2026-05-28 rerun records &mdash; no new
+          bench compute, same retrieved sets, correct matcher. QA-acc is
+          unchanged by the fix (it never depended on the matcher).
         </div>
 
         <div class="bench-foot">
@@ -1302,61 +1302,68 @@
         <div class="bench-numbers">
           <div class="bench-num">
             <div class="label">R@5 overall</div>
-            <div class="value"><em>0.00%</em></div>
-            <div class="sub">vs 3.97% on <code>/search</code> default</div>
+            <div class="value"><em>90.2%</em></div>
+            <div class="sub">vs 97.0% on <code>/search</code> default</div>
           </div>
           <div class="bench-num">
             <div class="label">QA accuracy</div>
-            <div class="value"><em>17.60%</em></div>
-            <div class="sub">vs 60.40% on <code>/search</code> default (&minus;42.80pp)</div>
+            <div class="value"><em>17.4%</em></div>
+            <div class="sub">vs 58.6% on <code>/search</code> default (&minus;41.2pp)</div>
           </div>
           <div class="bench-num">
             <div class="label">Context per query</div>
-            <div class="value"><em>459</em><span style="font-size: 0.55em; color: var(--ice-ghost);"> chars mean</span></div>
+            <div class="value"><em>457</em><span style="font-size: 0.55em; color: var(--ice-ghost);"> chars mean</span></div>
             <div class="sub">vs 2539 on <code>/search</code> default (5.5&times; less)</div>
           </div>
         </div>
 
-        <table class="bench-tbl" aria-label="Per-category A/B delta (#44 default vs #45 age-fused)">
+        <table class="bench-tbl" aria-label="Per-category A/B (#44 default vs #45 age-fused): R@5 and QA-acc">
           <thead>
-            <tr><th>SME Category</th><th class="num">n</th><th class="num">QA-acc default</th><th class="num">QA-acc age-fused</th><th class="num">&Delta;</th></tr>
+            <tr><th>SME Category</th><th class="num">n</th><th class="num">R@5 age-fused</th><th class="num">QA default</th><th class="num">QA age-fused</th></tr>
           </thead>
           <tbody>
-            <tr><td>cat_1</td><td class="num">150</td><td class="num">52.67%</td><td class="num">7.33%</td><td class="num">&minus;45.34pp</td></tr>
-            <tr><td>cat_1_negative</td><td class="num">30</td><td class="num">90.00%</td><td class="num">100.00%</td><td class="num">+10.00pp</td></tr>
-            <tr><td>cat_2c</td><td class="num">121</td><td class="num">74.38%</td><td class="num">0.00%</td><td class="num">&minus;74.38pp</td></tr>
-            <tr><td>cat_3_partial</td><td class="num">72</td><td class="num">69.44%</td><td class="num">1.39%</td><td class="num">&minus;68.05pp</td></tr>
-            <tr><td>cat_6</td><td class="num">127</td><td class="num">44.09%</td><td class="num">36.22%</td><td class="num">&minus;7.87pp</td></tr>
-            <tr class="total"><td>overall</td><td class="num">500</td><td class="num">60.40%</td><td class="num">17.60%</td><td class="num">&minus;42.80pp</td></tr>
+            <tr><td>cat_1</td><td class="num">150</td><td class="num">100.0%</td><td class="num">51.33%</td><td class="num">9.33%</td></tr>
+            <tr><td>cat_1_negative</td><td class="num">30</td><td class="num">93.33%</td><td class="num">90.00%</td><td class="num">100.00%</td></tr>
+            <tr><td>cat_2c</td><td class="num">121</td><td class="num">98.35%</td><td class="num">74.38%</td><td class="num">0.00%</td></tr>
+            <tr><td>cat_3_partial</td><td class="num">72</td><td class="num">100.0%</td><td class="num">65.28%</td><td class="num">1.39%</td></tr>
+            <tr><td>cat_6</td><td class="num">127</td><td class="num">64.57%</td><td class="num">40.94%</td><td class="num">33.07%</td></tr>
+            <tr class="total"><td>overall</td><td class="num">500</td><td class="num">90.20%</td><td class="num">58.60%</td><td class="num">17.40%</td></tr>
           </tbody>
         </table>
 
         <p class="bench-prose">
-          The A/B isolates the retrieval endpoint &mdash; same haystack,
-          reader, judge, wing isolation; only the daemon endpoint
-          changes. The result is a sharp regression: <code>/search/age-fused</code>
-          returned roughly one-fifth the context per query and QA
-          accuracy fell by 42.8 points. cat_1_negative's rise to 100%
-          is the abstention category &mdash; with less context the
-          reader said &ldquo;I don't know&rdquo; more, which is the right
-          answer for unanswerable questions.
+          The corrected matcher (techempower-org/multipass-structural-memory-eval#98)
+          turns this card from a mystery into a clean finding.
+          <code>/search/age-fused</code> retrieves the gold session at
+          <strong>R@5 = 90.2%</strong> &mdash; almost as well as the
+          default endpoint. Yet QA accuracy is 17.4%, a 73-point
+          R@5&rarr;QA gap. The cause is the snippet width: age-fused
+          returns ~457 chars of context per query (5.5&times; less than
+          default's 2539). <em>The gold session is in the results, but
+          the reader is handed too thin a slice of it to answer.</em>
+          cat_2c (multi-session) collapses to 0% QA at 98% R@5 &mdash; the
+          starkest illustration: every gold session retrieved, none
+          answerable from the snippet. cat_1_negative rises to 100%
+          because thin context makes the reader abstain, which is correct
+          for unanswerable questions.
         </p>
 
         <div class="caveat">
-          <span class="label">honest caveat (updated 2026-05-28 15:20 &mdash; empty-triples theory disproven)</span>
-          Earlier framing on this card attributed the 5.5&times; narrower
-          context to an empty AGE triples layer. That's <strong>wrong</strong>.
-          The rerun against a populated 1.83M-triple layer produced
-          byte-identical context_chars distributions
-          (<code>mean=457 max=841</code> vs original
-          <code>mean=459 max=841</code>) and the same QA-acc
-          (17.40% vs 17.60%). The narrow-snippet behaviour is
-          <em>structural</em> to <code>/search/age-fused</code> on
-          oracle, not triples-dependent. Investigation filed at
-          techempower-org/palace-daemon#150 (snippet width contract).
-          A real test of age-fused needs the harder LongMemEval-S
-          haystack where graph traversal can find sessions vector
-          search misses (techempower-org/multipass-structural-memory-eval#91).
+          <span class="label">corrected 2026-05-29 &mdash; not a retrieval failure</span>
+          Earlier readings of this card showed R@5 = 0.00% and read the
+          age-fused leg as broken retrieval, then (after the empty-triples
+          theory was disproven) as a structural mystery. With the
+          chunk-suffix matcher fix (techempower-org/multipass-structural-memory-eval#98),
+          R@5 is actually 90.2%: <strong>age-fused retrieval works</strong>.
+          The QA collapse is entirely a context-width problem &mdash; the
+          daemon-side snippet contract investigated in
+          techempower-org/palace-daemon#150. The empty-triples theory
+          remains disproven (rerun against 1.83M triples gave
+          byte-identical context_chars), and the LongMemEval-S rerun
+          (techempower-org/multipass-structural-memory-eval#91) is still
+          the right test for whether graph traversal earns its keep on a
+          harder haystack &mdash; but on oracle, age-fused's retrieval is
+          not the problem; its snippet width is.
         </div>
 
         <div class="bench-foot">
@@ -1372,7 +1379,7 @@
             <span class="eyebrow no-rule">LongMemEval-S 500Q &middot; second adapter</span>
             <h3>familiar adapter, <em>same harness</em></h3>
           </div>
-          <span class="bench-pill live">three-way A/B &middot; 2026-05-28</span>
+          <span class="bench-pill live">three-way A/B &middot; 2026-05-29</span>
         </div>
 
         <dl class="bench-meta">
@@ -1386,68 +1393,70 @@
         <div class="bench-numbers">
           <div class="bench-num">
             <div class="label">R@5 overall</div>
-            <div class="value"><em>10.94%</em></div>
-            <div class="sub">highest of three legs &mdash; Familiar's retrieval surfaces gold more often</div>
+            <div class="value"><em>28.6%</em></div>
+            <div class="sub">lowest of three legs &mdash; Familiar's retrieval genuinely weaker</div>
           </div>
           <div class="bench-num">
             <div class="label">QA accuracy</div>
-            <div class="value"><em>29.20%</em></div>
-            <div class="sub">vs 60.40% on daemon-direct (&minus;31.2pp despite better retrieval)</div>
+            <div class="value"><em>31.0%</em></div>
+            <div class="sub">QA slightly exceeds R@5 &mdash; reader fine, retrieval is the limit</div>
           </div>
           <div class="bench-num">
-            <div class="label">Disagreements</div>
-            <div class="value"><em>128</em><span style="font-size: 0.55em; color: var(--ice-ghost);"> / 500</span></div>
-            <div class="sub">vs 290 on #44 &mdash; matcher + judge agree more</div>
+            <div class="label">R@5 vs daemon</div>
+            <div class="value"><em>&minus;68pp</em></div>
+            <div class="sub">28.6% vs 97.0% on daemon-direct</div>
           </div>
         </div>
 
-        <table class="bench-tbl" aria-label="Per-category three-way A/B (#44 default / #45 age-fused / #46 familiar)">
+        <table class="bench-tbl" aria-label="Per-category three-way R@5 (#44 default / #45 age-fused / #46 familiar)">
           <thead>
-            <tr><th>SME Category</th><th class="num">n</th><th class="num">#44 default</th><th class="num">#45 age-fused</th><th class="num">#46 familiar</th></tr>
+            <tr><th>SME Category</th><th class="num">n</th><th class="num">R@5 #44</th><th class="num">R@5 #45</th><th class="num">R@5 #46</th></tr>
           </thead>
           <tbody>
-            <tr><td>cat_1</td><td class="num">150</td><td class="num">52.67%</td><td class="num">7.33%</td><td class="num">21.33%</td></tr>
-            <tr><td>cat_1_negative</td><td class="num">30</td><td class="num">90.00%</td><td class="num">100.00%</td><td class="num">96.67%</td></tr>
-            <tr><td>cat_2c</td><td class="num">121</td><td class="num">74.38%</td><td class="num">0.00%</td><td class="num">14.88%</td></tr>
-            <tr><td>cat_3_partial</td><td class="num">72</td><td class="num">69.44%</td><td class="num">1.39%</td><td class="num">27.78%</td></tr>
-            <tr><td>cat_6</td><td class="num">127</td><td class="num">44.09%</td><td class="num">36.22%</td><td class="num">37.01%</td></tr>
-            <tr class="total"><td>overall QA</td><td class="num">500</td><td class="num">60.40%</td><td class="num">17.60%</td><td class="num">29.20%</td></tr>
+            <tr><td>cat_1</td><td class="num">150</td><td class="num">100.0%</td><td class="num">100.0%</td><td class="num">38.00%</td></tr>
+            <tr><td>cat_1_negative</td><td class="num">30</td><td class="num">96.67%</td><td class="num">93.33%</td><td class="num">6.67%</td></tr>
+            <tr><td>cat_2c</td><td class="num">121</td><td class="num">98.35%</td><td class="num">98.35%</td><td class="num">26.45%</td></tr>
+            <tr><td>cat_3_partial</td><td class="num">72</td><td class="num">100.0%</td><td class="num">100.0%</td><td class="num">34.72%</td></tr>
+            <tr><td>cat_6</td><td class="num">127</td><td class="num">90.55%</td><td class="num">64.57%</td><td class="num">21.26%</td></tr>
+            <tr class="total"><td>overall R@5</td><td class="num">500</td><td class="num">97.00%</td><td class="num">90.20%</td><td class="num">28.60%</td></tr>
           </tbody>
         </table>
 
         <p class="bench-prose">
           Familiar.realm.watch is a separate memory system in this
           household &mdash; same corpus, different retrieval and reader
-          architecture. The point of running it through the same harness
-          on the same 500 questions is the second-corpus discipline:
+          architecture. The second-adapter discipline is the point:
           <em>a single reading is a single corpus, and brittle defaults
-          hide on any single corpus</em>. The interesting finding is the
-          asymmetry: Familiar's R@5 (10.94%) is the highest of the three
-          legs &mdash; its retrieval surfaces gold sessions more often
-          &mdash; but its QA-acc (29.20%) is the second-lowest. The
-          architectural delta isn't retrieval; it's somewhere in the
-          reader path / context construction. cat_2c is the dramatic
-          split: 74.38% on daemon-direct, 14.88% via Familiar.
+          hide on any single corpus</em>. With the corrected matcher
+          (techempower-org/multipass-structural-memory-eval#98) the
+          finding inverts from an earlier reading: Familiar's R@5 (28.6%)
+          is the <strong>lowest</strong> of the three legs, not the
+          highest. Its retrieval is genuinely weaker than daemon-direct's
+          97%. And unlike the daemon legs, Familiar's QA (31.0%)
+          slightly <em>exceeds</em> its R@5 &mdash; the reader does fine
+          with what it gets; the limit is what reaches it. The opposite
+          shape from #44/#45, where retrieval is near-ceiling and the
+          reader is the bottleneck.
         </p>
 
         <div class="caveat">
-          <span class="label">honest caveat (updated 2026-05-28 16:45)</span>
-          Post-techempower-org/multipass-structural-memory-eval#67 rerun
-          on main: Familiar substring R@5 = 11.50% (essentially
-          unchanged from the 10.94% original); drawer_id R@5 = 5.40%.
-          Interestingly the two matchers <em>disagree by direction</em>
-          per adapter &mdash; for daemon-direct the drawer_id matcher
-          beats substring (10.40% vs 3.57%) but for Familiar the
-          substring beats drawer_id (11.50% vs 5.40%). That's an
-          architectural finding: Familiar surfaces session content in
-          retrieved text (the substring catches session-ids) but
-          returns its own chunk-IDs that don't match the expected
-          parent drawer-ids. Different surface contracts. QA-acc
-          (29.20% original vs 31.00% rerun) is the honest signal.
+          <span class="label">corrected 2026-05-29 &mdash; earlier "highest R@5" claim was a matcher artifact</span>
+          A prior reading of this card claimed Familiar had the highest
+          R@5 of the three legs (10.94%, beating daemon's then-3.57%).
+          That was an artifact of the broken substring matcher: Familiar
+          happened to surface session-ids in its retrieved <em>text</em>
+          where the daemon stripped them, so the substring matcher
+          favoured Familiar while undercounting both. The chunk-suffix
+          drawer-id matcher (techempower-org/multipass-structural-memory-eval#98)
+          measures retrieval directly and reverses the picture: daemon
+          97%, age-fused 90.2%, Familiar 28.6%. Familiar's published
+          Hybrid v4 + rerank stack is tuned for its own corpus shape,
+          not LongMemEval's one-drawer-per-session topology &mdash; a
+          fair cross-system caveat, not a defect.
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; baselines/longmemeval_familiar_2026-05-28-retry.json</span>
+          <span>Source &middot; baselines/longmemeval_familiar_2026-05-28-rerun.reagg.json</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/46">techempower-org/multipass-structural-memory-eval#46</a>
         </div>
       </article>
@@ -1640,19 +1649,21 @@
       </article>
 
       <article class="stage">
-        <div class="date">2026-05-28</div>
-        <div class="title">First publishable LongMemEval <em>QA reading.</em></div>
+        <div class="date">2026-05-29</div>
+        <div class="title">Retrieval solved; the <em>reader</em> is the bottleneck.</div>
         <div class="body">
           500 questions through the full ingest-retrieve-read-judge
-          pipeline. <strong>QA accuracy 60.40%</strong>, R@5 3.97%, 290
-          recall/judge disagreements. The 56-point gap is the headline:
-          252 of those 290 are cases where the judge says CORRECT and
-          the R@5 substring matcher says miss &mdash; not because retrieval
-          failed, but because the matcher couldn't find the session id
-          in the retrieved text after the upstream-exact content rules
-          stripped it. The drawer_id-based matcher fix
-          (<a href="https://github.com/techempower-org/multipass-structural-memory-eval/pull/67">techempower-org/multipass-structural-memory-eval#67</a>)
-          is in but wasn't on the bench branch in time.
+          pipeline. Once the chunk-suffix matcher bug
+          (<a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/98">techempower-org/multipass-structural-memory-eval#98</a>)
+          was fixed and the existing run re-scored, the headline flipped:
+          <strong>R@5 = 97.0%</strong> on daemon-direct &mdash; the gold
+          session is in the top 5 almost every time. QA accuracy is
+          58.6%, a 38-point R@5&rarr;QA gap. The bottleneck on oracle is
+          not retrieval; it is the reader's ability to extract the answer
+          from context it has already been given. The age-fused leg makes
+          the same point louder: R@5 = 90.2% with QA = 17.4%, because its
+          snippets are 5.5&times; narrower
+          (<a href="https://github.com/techempower-org/palace-daemon/issues/150">techempower-org/palace-daemon#150</a>).
         </div>
       </article>
 

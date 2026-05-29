@@ -189,6 +189,80 @@ def test_aggregate_headline_picks_best_R5_strategy():
     assert "(1.000)" in summary["headline"]["best_R@5"]
 
 
+# --- probe_rerank (#113) -------------------------------------------------
+
+
+def test_probe_rerank_reads_block_from_search_response(monkeypatch):
+    """The probe reports the daemon's rerank state from the /search response's
+    `rerank` block, so a baseline JSON is self-describing."""
+    from sme.eval import candidate_strategy as cs
+
+    def _fake_mcp(api_url, api_key, *, query, strategy, limit, timeout=60.0):
+        return {
+            "results": [{"text": "x"}],
+            "rerank": {
+                "enabled": True,
+                "enabled_source": "env",
+                "model": "ms-marco-MiniLM-L-12-v2",
+                "status": "ok",
+            },
+        }, 12.0
+
+    monkeypatch.setattr(cs, "mcp_search", _fake_mcp)
+    meta = cs.probe_rerank("http://fake", "k")
+    assert meta["rerank_enabled"] is True
+    assert meta["rerank_model"] == "ms-marco-MiniLM-L-12-v2"
+    assert meta["rerank_enabled_source"] == "env"
+    assert meta["rerank_status"] == "ok"
+    assert "rerank_probe_note" not in meta
+
+
+def test_probe_rerank_no_block_records_none(monkeypatch):
+    """Older daemon (no rerank block) → None + explanatory note, no raise."""
+    from sme.eval import candidate_strategy as cs
+
+    def _fake_mcp(api_url, api_key, *, query, strategy, limit, timeout=60.0):
+        return {"results": [{"text": "x"}]}, 10.0  # no 'rerank' key
+
+    monkeypatch.setattr(cs, "mcp_search", _fake_mcp)
+    meta = cs.probe_rerank("http://fake", "k")
+    assert meta["rerank_enabled"] is None
+    assert meta["rerank_model"] is None
+    assert "no rerank block" in meta["rerank_probe_note"]
+
+
+def test_probe_rerank_swallows_daemon_error(monkeypatch):
+    """A down daemon must not crash the run — probe records None + the error."""
+    from sme.eval import candidate_strategy as cs
+
+    def _boom(api_url, api_key, *, query, strategy, limit, timeout=60.0):
+        raise RuntimeError("connection refused")
+
+    monkeypatch.setattr(cs, "mcp_search", _boom)
+    meta = cs.probe_rerank("http://fake", "k")
+    assert meta["rerank_enabled"] is None
+    assert meta["rerank_model"] is None
+    assert "connection refused" in meta["rerank_probe_note"]
+
+
+def test_probe_rerank_disabled_block_reports_false(monkeypatch):
+    """rerank present but disabled → enabled=False, model still recorded."""
+    from sme.eval import candidate_strategy as cs
+
+    def _fake_mcp(api_url, api_key, *, query, strategy, limit, timeout=60.0):
+        return {
+            "results": [{"text": "x"}],
+            "rerank": {"enabled": False, "enabled_source": "env",
+                       "model": "ms-marco-MiniLM-L-12-v2", "status": "noop"},
+        }, 8.0
+
+    monkeypatch.setattr(cs, "mcp_search", _fake_mcp)
+    meta = cs.probe_rerank("http://fake", "k")
+    assert meta["rerank_enabled"] is False
+    assert meta["rerank_model"] == "ms-marco-MiniLM-L-12-v2"
+    assert meta["rerank_status"] == "noop"
+
+
 # --- run_eval_multi_limit ------------------------------------------------
 
 

@@ -335,6 +335,29 @@ def test_prompt_variants_all_have_required_fields():
         assert "C" in formatted and "Q" in formatted, name
 
 
+def test_floor_lift_variants_present_with_signature_clauses():
+    """The three #59 floor-lift variants exist and carry the category-specific
+    clause from Lucid's taxonomy (§1a/§2a/§3a). The clause wording is the
+    load-bearing part of the intervention, so assert the signature phrases."""
+    # §1a single-session-assistant: trust the assistant's own prior turns.
+    at = PROMPT_VARIANTS["assistant_trust"]
+    assert "treat the assistant's previous replies as authoritative" in at
+    assert "MOST RECENT / final" in at  # final-draft clause (superseded drafts)
+    # Built on the preference body — keeps the inference clause.
+    assert "INFER the user's preferences" in at
+
+    # §2a temporal-reasoning: extract dates, never anchor to the current date.
+    tc = PROMPT_VARIANTS["temporal_cot"]
+    assert "extract EVERY event" in tc
+    assert "Do NOT use the current date as an event's date" in tc
+    assert "explicit date subtraction" in tc
+
+    # §3a multi-session: enumerate -> dedup -> count, restatement is ONE entry.
+    dc = PROMPT_VARIANTS["dedup_count"]
+    assert "Treat the SAME item mentioned in different sessions as ONE entry" in dc
+    assert "count (or sum) the deduplicated list" in dc
+
+
 # --- concurrency ----------------------------------------------------------
 
 

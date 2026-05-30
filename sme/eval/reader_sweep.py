@@ -105,6 +105,75 @@ PROMPT_VARIANTS: dict[str, str] = {
         "Conversation history:\n{context}\n\n"
         "Question: {question}\n\nAnswer:"
     ),
+    # --- #59 reader floor-lift variants (Lucid's taxonomy, three category-
+    # specific clauses). Each is the "preference" body PLUS one targeted clause
+    # inserted before the history block. The clauses are verbatim from
+    # docs/research/2026-05-29-reader-floor-failure-taxonomy.md §1a/§2a/§3a.
+    # ----------------------------------------------------------------------
+    # "assistant_trust" (§1a) — single-session-assistant floor. Diagnosis:
+    # 29/38 failures had the gold answer VERBATIM in context, in an ASSISTANT
+    # turn, but Opus abstained because it treats only USER turns as "the
+    # history." The clause tells the reader the assistant's own prior replies
+    # are authoritative evidence, and to answer from the final draft if several.
+    "assistant_trust": (
+        "Answer the user's question using the conversation history below. Give a "
+        "single, direct, committed answer — do not hedge. If the history shows a "
+        "value that was later updated, answer with the MOST RECENT value only.\n"
+        "If the question asks for a recommendation, suggestion, or what the user "
+        "would prefer, INFER the user's preferences from what they have said and "
+        "done in the history and tailor your answer to them. Do NOT refuse just "
+        "because no explicit answer is stated — a well-reasoned inference from "
+        "their stated tastes is the expected answer.\n"
+        "The conversation history includes BOTH the user's messages and the "
+        "assistant's previous replies. When the question asks what \"you\" (the "
+        "assistant) said, recommended, listed, or produced earlier, the answer is "
+        "in the assistant's own turns — treat the assistant's previous replies as "
+        "authoritative evidence, exactly like the user's. Do NOT say the history "
+        "lacks the content just because the user only asked for it; find the "
+        "assistant turn that answered and quote it. If the assistant produced "
+        "several drafts and later revised them, answer from the MOST RECENT / "
+        "final version.\n"
+        "Only say 'I don't know.' if the history contains nothing relevant to "
+        "base an answer on.\n\n"
+        "Conversation history:\n{context}\n\n"
+        "Question: {question}\n\nAnswer:"
+    ),
+    # "temporal_cot" (§2a) — temporal-reasoning floor. Forces explicit
+    # date extraction (never anchoring an event to the current/question date),
+    # then explicit date subtraction.
+    "temporal_cot": (
+        "Answer the user's question using the conversation history below. Give a "
+        "single, direct, committed answer — do not hedge.\n"
+        "This is a temporal question. First, extract EVERY event mentioned in the "
+        "history together with its explicit calendar date (quote the date as "
+        "written, e.g. \"January 10th\", \"3/1\", \"since February 20th\"). Do NOT "
+        "use the current date as an event's date. Then identify the two events "
+        "the question compares, and compute the number of days between their "
+        "dates by explicit date subtraction. State the two dates and the "
+        "subtraction, then give the final number.\n"
+        "Only say 'I don't know.' if the history contains nothing relevant to "
+        "base an answer on.\n\n"
+        "Conversation history:\n{context}\n\n"
+        "Question: {question}\n\nAnswer:"
+    ),
+    # "dedup_count" (§3a) — multi-session floor. Forces an explicit
+    # enumerate -> dedup -> count/sum procedure; the dedup clause kills the
+    # double-count failure (same item restated across sessions counted twice).
+    "dedup_count": (
+        "Answer the user's question using the conversation history below. Give a "
+        "single, direct, committed answer — do not hedge.\n"
+        "This question asks for a COUNT or TOTAL aggregated across the whole "
+        "history. First, list every distinct item/event/expense relevant to the "
+        "question, each with the detail that makes it unique (name, date, "
+        "amount). Treat the SAME item mentioned in different sessions as ONE "
+        "entry — do not count a restated fact twice. Then count (or sum) the "
+        "deduplicated list and give the final number. Show the list before the "
+        "number.\n"
+        "Only say 'I don't know.' if the history contains nothing relevant to "
+        "base an answer on.\n\n"
+        "Conversation history:\n{context}\n\n"
+        "Question: {question}\n\nAnswer:"
+    ),
 }
 
 

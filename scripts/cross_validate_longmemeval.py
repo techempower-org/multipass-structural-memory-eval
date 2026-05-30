@@ -83,6 +83,38 @@ log = logging.getLogger("cross_validate_longmemeval")
 _DISAGREE_THRESHOLD = 0.5
 
 
+def _stratified_cap(questions: list, n: int, field: str) -> list:
+    """Take ~n questions evenly across the values of ``field`` (round-robin).
+
+    Mirrors ``scripts/run_longmemeval_mempalace._stratified_cap`` verbatim so
+    a competitor adapter run (e.g. OMEGA via this script) lands on the SAME
+    representative n=150 subset the mempalace-daemon baseline used — the
+    oracle/S corpora are sorted by ``question_type``, so a bare ``[:n]`` cap is
+    a single-category slice (techempower-org/...#122). Deterministic: preserves
+    within-group input order, sorts group keys, no RNG. Identical inputs +
+    field + n yield the identical question set, which is what makes the
+    head-to-head apples-to-apples.
+    """
+    from collections import defaultdict
+    groups: dict = defaultdict(list)
+    for q in questions:
+        key = getattr(q, field, None)
+        if key is None and isinstance(q, dict):
+            key = q.get(field)
+        groups[key].append(q)
+    order = sorted(groups, key=lambda k: (k is None, str(k)))
+    idx = {k: 0 for k in order}
+    out: list = []
+    while len(out) < n and any(idx[k] < len(groups[k]) for k in order):
+        for k in order:
+            if idx[k] < len(groups[k]):
+                out.append(groups[k][idx[k]])
+                idx[k] += 1
+                if len(out) >= n:
+                    break
+    return out
+
+
 # --- Adapter construction ---------------------------------------------------
 
 AdapterFactory = Callable[[Path], SMEAdapter]
@@ -904,7 +936,19 @@ def build_arg_parser() -> argparse.ArgumentParser:
                    choices=sorted(_ADAPTER_FACTORIES),
                    help="SME adapter to run.")
     p.add_argument("--max-questions", type=int, default=None,
-                   help="Smoke-test cap on number of questions.")
+                   help="Smoke-test cap on number of questions. NOTE: the "
+                        "oracle/S corpora are question_type-sorted, so a bare "
+                        "cap is a single-category slice — pair with "
+                        "--stratify-by or --shuffle (#122). longmemeval only.")
+    p.add_argument("--shuffle", type=int, default=None, metavar="SEED",
+                   help="Deterministically shuffle questions (with SEED) before "
+                        "the --max-questions cap, so the cap is not a single-"
+                        "category slice. longmemeval corpus only.")
+    p.add_argument("--stratify-by", default=None, metavar="FIELD",
+                   help="Stratify the --max-questions cap across this question "
+                        "field (e.g. question_type) — even round-robin per "
+                        "category for representative coverage (#122). Matches the "
+                        "mempalace-daemon strat150 baseline. longmemeval only.")
     p.add_argument("--reader-model", default="gpt-4o-mini",
                    help="Model used to turn retrieved context into an "
                         "answer the judge can score. Default kept as "
@@ -982,9 +1026,26 @@ def run(args: argparse.Namespace,
                 max_questions=args.max_questions,
             )
         else:
-            for i, q in enumerate(load_questions(args.dataset)):
-                if args.max_questions is not None and i >= args.max_questions:
-                    break
+            questions = list(load_questions(args.dataset))
+            # techempower-org/...#122: the oracle/S corpora are sorted by
+            # question_type, so a bare ``[:N]`` cap is a single-category slice.
+            # --shuffle re-orders deterministically; --stratify-by draws an even
+            # round-robin across the field's values so the cap stays
+            # representative. Mirrors run_longmemeval_mempalace so a competitor
+            # adapter lands on the SAME stratified subset as the daemon baseline.
+            shuffle_seed = getattr(args, "shuffle", None)
+            stratify_by = getattr(args, "stratify_by", None)
+            if shuffle_seed is not None:
+                import random
+                random.Random(shuffle_seed).shuffle(questions)
+            if args.max_questions is not None:
+                if stratify_by:
+                    questions = _stratified_cap(
+                        questions, args.max_questions, stratify_by
+                    )
+                else:
+                    questions = questions[: args.max_questions]
+            for i, q in enumerate(questions):
                 log.info(
                     "[%d] %s (%s / %s)",
                     i, q.question_id, q.question_type, q.sme_category,

@@ -1,0 +1,45 @@
+{
+  "subtest": "9a",
+  "category": "harness_integration",
+  "corpus_version": "jp-realm-v0.1",
+  "n_questions_on_harness": 30,
+  "daemon": "http://familiar:8085",
+  "read_only": true,
+  "generated_at": "2026-05-30T17:10:55.569801+00:00",
+  "note": "Tau2 -> invocation-rate ladder for #194. opus-4-8 row is on-harness (this run, scripts/cat9a_invocation_rate.py). gemma4/qwen3.5 rows carry recall from the validated 2026-05-15 RLM run (same daemon/corpus/tool); their clean on-harness invocation rate is a follow-up (ollama was saturated at run time). Recall ladder is monotonic in Tau2: 41.7 -> 75.0 -> 98.3.",
+  "ladder": [
+    {
+      "orchestrator": "gemma4:e4b",
+      "tau2": 42.2,
+      "tau2_note": "maniac.ai tau2-bench 4B; 37.7pp below qwen3.5",
+      "invocation_rate": null,
+      "mean_recall": 0.417,
+      "hit_rate_n5": 0.57,
+      "source": "2026-05-15 RLM run (n=20); reference_tau2_predicts_cat9a",
+      "on_harness": false
+    },
+    {
+      "orchestrator": "qwen3.5:4b",
+      "tau2": 79.9,
+      "tau2_note": "maniac.ai tau2-bench 4B; +37.7pp over gemma4",
+      "invocation_rate": null,
+      "mean_recall": 0.75,
+      "hit_rate_n5": 0.93,
+      "source": "2026-05-15 RLM run (n=20); reference_tau2_predicts_cat9a",
+      "on_harness": false
+    },
+    {
+      "orchestrator": "claude-opus-4-8",
+      "tau2": 99.3,
+      "tau2_note": "tau2-bench telecom \u2014 Opus 4.x frontier tier (Opus 4.6 99.3% telecom / 91.9% retail)",
+      "invocation_rate": 1.0,
+      "mean_recall": 0.9833333333333333,
+      "hit_rate": 1.0,
+      "invoked": 30,
+      "total": 30,
+      "errored": 0,
+      "source": "this run (n=30, on-harness)",
+      "on_harness": true
+    }
+  ]
+}

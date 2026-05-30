@@ -6,7 +6,23 @@ calls, slash commands, custom actions). Every other SME category
 measures offline retrieval — this category measures the layer between
 retrieval and a running model.
 
-Current scope (minimum viable):
+Current scope:
+
+  9a  Invocation rate
+      Given a real model orchestrating the memory system through a
+      declared tool surface, the fraction of questions on which the
+      model actually *issues* at least one tool call before answering.
+      This is the willingness-to-invoke layer — it is the dominant
+      lever on effective memory once retrieval is healthy, and it
+      tracks the orchestrator model's tool-agent ability (Tau2) rather
+      than its parameter count. The scorer here (``run_cat9a``) is
+      model-agnostic: a driver runs each question through a real model
+      and hands back a ``Cat9aQueryOutcome`` per question; the scorer
+      tallies invocation rate (and, when expected sources are present,
+      a comparable substring recall). Drivers for specific runtimes
+      (Bedrock / ollama tool-use loops) live in
+      ``sme.eval.cat9a_orchestrators``; they are optional and import
+      lazily so the core stays dependency-light.
 
   9b  Call-through success
       For each ``HarnessDescriptor`` returned by the adapter, invoke
@@ -14,12 +30,10 @@ Current scope (minimum viable):
       9b means the integration is broken (bad schema, timeout, wrong
       parameters, tool not registered, MCP server unreachable). A high
       9b means the surface is live — it says nothing about whether the
-      model will actually invoke it, which is what 9a measures and
-      needs a real model runtime.
+      model will actually invoke it, which is what 9a measures.
 
 Planned (not implemented here; see spec v8 § Category 9):
 
-  9a  Invocation rate       — needs real model API
   9c  Result usage          — needs real model API + Cat 1 matcher
   9d  Negative-control rate — needs real model API + held-out set
   9e  Per-model sensitivity — needs multi-model API access
@@ -27,9 +41,11 @@ Planned (not implemented here; see spec v8 § Category 9):
   9g  Hook-driven access    — needs per-harness shims (Claude Code,
                                Cursor, LangGraph, etc.)
 
-9b being implemented first is deliberate: per the spec, it's the one
+9b was implemented first because — per the spec — it is the one
 sub-test that "can be measured against a mock model that always invokes
-the tool." No API keys, no cost, no per-harness shim. A clean floor.
+the tool" (no API keys, no cost). 9a was added next (issue #194): it
+needs a real model API, but the scorer/IO split keeps the cost and the
+runtime dependency confined to the driver, not the category logic.
 """
 
 from __future__ import annotations
@@ -270,5 +286,258 @@ def format_cat9b_report(result: Cat9bResult, *, source_label: str = "") -> str:
         "NOT measure whether a real model would actually invoke the tool (9a), use "
         "the result (9c), or skip when unnecessary (9d). Those sub-tests require a "
         "real model runtime and are tracked separately."
+    )
+    return "\n".join(lines) + "\n"
+
+
+# --- Sub-test: 9a invocation rate -------------------------------------
+#
+# 9a needs a real model. To keep the category logic free of any runtime
+# dependency (boto3, the ollama server, an API key), the model side is a
+# *driver*: a callable that takes a question string and returns a
+# ``Cat9aQueryOutcome`` describing how many tool calls the model issued,
+# the context those calls returned, and the model's final answer. The
+# scorer below is pure: given a list of outcomes (plus the questions'
+# expected sources) it tallies the invocation rate and a comparable
+# substring recall. This is the same split 9b uses (probe_fn is the
+# driver, run_cat9b is the scorer) and it keeps 9a unit-testable with a
+# fake driver — no model required.
+
+_INVOCATION_HEALTHY = 0.90   # ≥90% of questions trigger a tool call
+_INVOCATION_WARN = 0.60      # 60-89% — orchestrator under-invokes
+
+
+@dataclass
+class Cat9aQueryOutcome:
+    """One question's result from a real-model orchestration run.
+
+    ``tool_calls`` is the number of times the model invoked the memory
+    tool (the load-bearing 9a signal — distinct from how many drawers
+    came back, which inflated the original 2026-04-30 baselines; see
+    ``docs/ideas.md`` § "Caveat on the fine-grained call-count
+    histogram"). ``context`` is the concatenation of what those calls
+    returned, used by the substring scorer so 9a recall is comparable
+    to the Cat-1 / ``retrieve`` numbers.
+    """
+
+    question_id: str
+    tool_calls: int
+    context: str = ""
+    answer: str = ""
+    error: Optional[str] = None
+
+    @property
+    def invoked(self) -> bool:
+        """Did the model issue at least one tool call? The binary 9a
+        signal — robust even on runs where the per-call count is noisy."""
+        return self.tool_calls > 0
+
+
+@dataclass
+class Cat9aQuestionReading:
+    """Per-question 9a row with scoring attached."""
+
+    question_id: str
+    text: str
+    expected_sources: list[str]
+    outcome: Cat9aQueryOutcome
+    matched_sources: list[str] = field(default_factory=list)
+    recall: float = 0.0
+
+    @property
+    def hit(self) -> bool:
+        return self.recall > 0.0
+
+
+@dataclass
+class Cat9aResult:
+    """Category 9a — invocation rate — scorecard for one orchestrator.
+
+    ``tau2`` is the orchestrator's published tool-agent (Tau2) score, if
+    known. Per the spec and ``reference_tau2_predicts_cat9a``, every 9a
+    reading should carry it so cross-model comparisons are apples-to-
+    apples — invocation rate tracks Tau2, not parameter count.
+    """
+
+    orchestrator: str
+    total_questions: int
+    invoked_questions: int
+    errored_questions: int
+    readings: list[Cat9aQuestionReading] = field(default_factory=list)
+    tau2: Optional[float] = None
+    tau2_note: str = ""
+
+    @property
+    def invocation_rate(self) -> Optional[float]:
+        """Fraction of questions on which the model issued ≥1 tool call.
+
+        Errored questions stay in the denominator — a model that times
+        out or 400s never reached the tool, so it didn't invoke. Returns
+        ``None`` only when there were no questions at all.
+        """
+        if self.total_questions == 0:
+            return None
+        return self.invoked_questions / self.total_questions
+
+    @property
+    def mean_recall(self) -> float:
+        if not self.readings:
+            return 0.0
+        return sum(r.recall for r in self.readings) / len(self.readings)
+
+    @property
+    def hit_rate(self) -> float:
+        if not self.readings:
+            return 0.0
+        return sum(1 for r in self.readings if r.hit) / len(self.readings)
+
+    @property
+    def band(self) -> str:
+        rate = self.invocation_rate
+        if rate is None:
+            return "n/a"
+        return _band(rate, _INVOCATION_HEALTHY, _INVOCATION_WARN)
+
+
+def _score_recall(context: str, expected_sources: list[str]) -> tuple[list[str], float]:
+    """Substring recall — identical contract to ``cmd_retrieve``: a source
+    is matched if its token appears anywhere in the orchestration context.
+    Returns (matched, recall)."""
+    if not expected_sources:
+        return [], 0.0
+    matched = [src for src in expected_sources if src in context]
+    return matched, len(matched) / len(expected_sources)
+
+
+def run_cat9a(
+    questions: list[dict],
+    driver,
+    *,
+    orchestrator: str,
+    tau2: Optional[float] = None,
+    tau2_note: str = "",
+    on_question=None,
+) -> Cat9aResult:
+    """Execute Category 9a against a real-model orchestration ``driver``.
+
+    Args:
+        questions: list of question dicts (``id``, ``text``,
+            ``expected_sources``) — the jp-realm-v0.1 corpus shape.
+        driver: callable ``(question_text) -> Cat9aQueryOutcome``. The
+            driver owns the model + the tool loop + the memory backend;
+            this function never touches a model directly.
+        orchestrator: human-readable model id for the reading.
+        tau2: the orchestrator's published Tau2 score (0-100), if known.
+        tau2_note: provenance for the Tau2 number (source / domain).
+        on_question: optional ``(reading) -> None`` progress callback.
+
+    The driver is called once per question. A driver exception is
+    captured as an errored outcome (zero tool calls) rather than
+    aborting the run — one model timing out shouldn't lose the rest.
+    """
+    readings: list[Cat9aQuestionReading] = []
+    invoked = 0
+    errored = 0
+
+    for q in questions:
+        qid = q.get("id", "?")
+        text = q.get("text", "")
+        expected = q.get("expected_sources", []) or []
+        try:
+            outcome = driver(text)
+            if not isinstance(outcome, Cat9aQueryOutcome):
+                raise TypeError(
+                    f"driver returned {type(outcome).__name__}, expected "
+                    "Cat9aQueryOutcome"
+                )
+            outcome.question_id = qid
+        except Exception as exc:  # noqa: BLE001 — isolate one bad question
+            log.warning("9a driver raised on %s: %s", qid, exc)
+            outcome = Cat9aQueryOutcome(
+                question_id=qid, tool_calls=0, error=f"{type(exc).__name__}: {exc}"
+            )
+
+        matched, recall = _score_recall(outcome.context, expected)
+        reading = Cat9aQuestionReading(
+            question_id=qid,
+            text=text,
+            expected_sources=expected,
+            outcome=outcome,
+            matched_sources=matched,
+            recall=recall,
+        )
+        readings.append(reading)
+        if outcome.invoked:
+            invoked += 1
+        if outcome.error:
+            errored += 1
+        if on_question is not None:
+            on_question(reading)
+
+    return Cat9aResult(
+        orchestrator=orchestrator,
+        total_questions=len(questions),
+        invoked_questions=invoked,
+        errored_questions=errored,
+        readings=readings,
+        tau2=tau2,
+        tau2_note=tau2_note,
+    )
+
+
+def format_cat9a_report(result: Cat9aResult, *, source_label: str = "") -> str:
+    """Human-readable scorecard for Category 9a, matching the 9b shape."""
+    lines: list[str] = []
+
+    header = "Category 9a — Harness Integration (Invocation Rate)"
+    if source_label:
+        header = f"{header} — {source_label}"
+    lines.append(header)
+    lines.append("=" * len(header))
+    lines.append("")
+
+    rate = result.invocation_rate
+    rate_pct = (rate * 100) if rate is not None else 0.0
+    tau2_str = f"{result.tau2:.1f}" if result.tau2 is not None else "—"
+    lines.append(f"  Orchestrator: {result.orchestrator}  (Tau2: {tau2_str})")
+    if result.tau2_note:
+        lines.append(f"    Tau2 source: {result.tau2_note}")
+    lines.append(
+        f"  Invocation rate: {result.invoked_questions}/{result.total_questions} "
+        f"({rate_pct:.1f}%, band: {result.band})"
+    )
+    lines.append(
+        f"  Recall (substring): {result.mean_recall:.1%} mean, "
+        f"{result.hit_rate:.1%} hit-rate"
+    )
+    if result.errored_questions:
+        lines.append(f"  Errored questions: {result.errored_questions} (counted as no-invoke)")
+    lines.append("")
+
+    lines.append("  Reading:")
+    if result.band == "healthy":
+        lines.append(
+            "    The orchestrator reliably invokes the memory tool. Effective memory "
+            "is gated by retrieval quality, not by willingness to invoke."
+        )
+    elif result.band == "warn":
+        lines.append(
+            "    The orchestrator under-invokes — it answers from its own weights on "
+            "a meaningful fraction of questions instead of reaching the memory. This "
+            "is the dominant lever on effective memory: a higher-Tau2 orchestrator "
+            "typically lifts this number more than a better retriever does."
+        )
+    else:
+        lines.append(
+            "    The orchestrator rarely invokes the memory tool — most answers come "
+            "from training data, not retrieval. Cat 1-8 retrieval quality is largely "
+            "moot at this invocation rate. Swap to a higher-Tau2 orchestrator before "
+            "tuning the substrate."
+        )
+    lines.append("")
+    lines.append(
+        "  Note: per reference_tau2_predicts_cat9a, invocation rate tracks the "
+        "orchestrator's Tau2 (tool-agent) score, not its parameter count. Record "
+        "Tau2 alongside every 9a reading so cross-model comparisons stay honest."
     )
     return "\n".join(lines) + "\n"

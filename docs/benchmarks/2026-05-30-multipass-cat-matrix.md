@@ -49,7 +49,7 @@ Cat 9a is the older `familiar` vs `rlm` handshake reading on jp-realm-v0.1.
 | **7** | The Abacus | Does structure earn its token overhead? (graph vs no-graph) | tokens-per-correct **52.9k** on jp-realm Cat 1 (age-fused). Token-efficiency A/B/C deltas need a flat Condition-A run (gap, see below) | jp-realm-v0.1 | mempalace-daemon | 2026-05-29 | none |
 | **7b** | Latency | Query latency distribution (YCSB p50/p95) | p50 **vector 626ms / union 429ms / hybrid 2064ms**; p95 4.7s / 636ms / 5.6s | live palace (AGE) | mempalace-daemon (candidate-strategy) | 2026-05-30 | none |
 | **8** | The Blueprint | Does the actual graph match what the system claims to do? | 8a type coverage **0.333** (2/6 declared types found) · 8b edge vocab **0.667** · 8d drift **0.556** · 8e claims **0.50** (2/4 testable pass; "hierarchical" claim FAILS — modularity 0.009) · introspection **0.0** | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
-| **9a** | The Handshake (invocation) | Does the model actually invoke memory when it has access? | **familiar 78.3%** vs **RLM 46.7%** (recall under invocation). Both RLM orchestrators (Qwen-7B, Llama-70B) plateau at 46.7% — ceiling is the orchestrator's *willingness to invoke*, not retrieval | jp-realm-v0.1 | familiar / rlm | 2026-04-30 | none |
+| **9a** | The Handshake (invocation) | Does the model actually invoke memory when it has access? | **opus-4-8 (Tau2 99.3): 100% invocation, 98.3% recall** — invokes on every question, exceeds the deterministic 78.3% ceiling. Recall monotonic in Tau2: gemma4 41.7 → qwen3.5 75.0 → opus-4-8 98.3. Prior RLM Qwen-7B/Llama-70B plateaued at 46.7% (7–27% invocation) — ceiling was *willingness to invoke*, not retrieval | jp-realm-v0.1 | familiar / rlm / opus-4-8 | 2026-04-30 + 2026-05-30 (#194) | none |
 | **9b** | Call-through success | Given an invocation, does the tool call complete and return a valid result? | live surfaces reachable (clean floor; mock-model probe path) | — | — | — | none |
 
 ---
@@ -137,11 +137,17 @@ retrieval system and lands at **78.3%**.
 
 **Implication for raising the 9a numbers:** swap the orchestrator for a current
 Tau2 leader. As of this writing the best invocation-path candidates are **Opus
-4.6 (99.3% Tau2 telecom)**, **GPT-5.4 (98.9%)**, and **GLM-5 (~98%)**. The
-prediction is that orchestrating familiar's retrieval through a high-Tau2 model
-lifts RLM's 46.7% toward — and the deterministic 78.3% past — the offline Cat 1
-ceiling, because the bottleneck is the invocation decision, not the substrate.
-This is the recommended next experiment for closing the harness-integration gap.
+4.6/4.8 (99.3% Tau2 telecom)**, **GPT-5.4 (98.9%)**, and **GLM-5 (~98%)**.
+
+**This experiment is now done (2026-05-30, #194).** Orchestrating the daemon's
+retrieval through **claude-opus-4-8** (Tau2 99.3) on jp-realm-v0.1 gives a
+**100% invocation rate (30/30)** and **98.3% recall** — it invokes the memory
+tool on *every* question (mean ~4 calls, max 14) and not only matches but
+**exceeds the deterministic 78.3% ceiling**. The prediction held: the bottleneck
+was the invocation decision, not the substrate. The recall ladder is monotonic
+in Tau2 — 41.7% (gemma4, 42.2) → 75.0% (qwen3.5, 79.9) → 98.3% (opus-4-8, 99.3).
+Cat 9a is now a measured sub-test (`run_cat9a` + `scripts/cat9a_invocation_rate.py`);
+see `docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md`.
 
 ---
 
@@ -178,10 +184,13 @@ than they are).
    Cat 7's headline metric needs the flat baseline that the corpus can't supply
    locally.
 
-4. **Cat 9a model coverage.** The 78.3 / 46.7 readings are from 2026-04-30 on
-   three orchestrators (familiar-deterministic, Qwen-7B, Llama-70B). Tau2
-   cross-validation across the current high-Tau2 model families (Opus 4.6,
-   GPT-5.4, GLM-5) is the pending experiment from the Cat-9 note above.
+4. **Cat 9a model coverage.** ~~The 78.3 / 46.7 readings are from 2026-04-30 on
+   three orchestrators.~~ **Closed (#194, 2026-05-30):** the frontier high-Tau2
+   arm (claude-opus-4-8, Tau2 99.3) is now on the ladder at 100% invocation /
+   98.3% recall. Remaining: a clean *on-harness* invocation rate for the local
+   gemma4/qwen3.5 rungs (their recall is already on-ladder from the 2026-05-15
+   run; the unified runner was prepared but ollama was saturated at run time —
+   backfill steps are in the Cat-9a ladder doc).
 
 ---
 
@@ -195,7 +204,7 @@ than they are).
 | Cat 5 | `baselines/cat5_daemon_age_2026-05-29.json` |
 | Cat 7b latency | `baselines/candidate_strategy_age_2026-05-29.json` |
 | Cat 8 | `baselines/cat8_daemon_age_2026-05-29.json` |
-| Cat 9a | `docs/ideas.md` §"Live benchmark answers (2026-04-30)" |
+| Cat 9a | `baselines/cat9a_tau2_ladder_2026-05-30__*.json` + `docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md`; prior rungs `docs/ideas.md` §"Live benchmark answers (2026-04-30)" |
 | Cat 3 (structural) | `baselines/good_dog_cat3_structural_2026-05-30.json` |
 | Cat 6 (structural) | `baselines/good_dog_cat6_structural_2026-05-30.json` |
 | Cat 3 / Cat 6 (flat floor) | `docs/good_dog_cat3_cat6_findings.md` |

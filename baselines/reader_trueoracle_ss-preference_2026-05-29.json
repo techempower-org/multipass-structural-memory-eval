@@ -1,0 +1,299 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-true-oracle/trueoracle_ss-preference.json",
+    "pinned_metadata": {
+      "slice": "ss-preference",
+      "content_rules": "sme-rich",
+      "retrieval": "TRUE-ORACLE evidence-sessions",
+      "endpoint": "true-oracle"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 4,
+    "timestamp_utc": "2026-05-30T04:03:32.368046+00:00"
+  },
+  "n_questions": 30,
+  "n_configs": 1,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 30,
+          "qa_acc": 0.9333,
+          "labels": {
+            "CORRECT": 28,
+            "INCORRECT": 2
+          }
+        },
+        "by_question_type": {
+          "single-session-preference": {
+            "n": 30,
+            "qa_acc": 0.9333,
+            "labels": {
+              "CORRECT": 28,
+              "INCORRECT": 2
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "8a2466db",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your interest in Adobe Premiere Pro and color grading, here are the best resources for you:\n\n1. **Adobe's official Premiere Pro documentation and tutorials** \u2014 great for understanding the Lumetri Color Panel and other tools directly from the source.\n\n2. **YouTube channels**: Premiere Bro, Video Copilot, and Adobe Creative Cloud \u2014 Video Copilot in particular is excellent for the effects and cinematic looks you've been exploring.\n\n3. **Online courses** on Udemy, LinkedIn Learning, and Skillshare \u2014 ideal since you're still getting the hang of color grading and want structured, beginner-friendly lessons.\n\n4. **Communities and forums**: Reddit's r/premierepro and Adobe's official Premiere Pro forum \u2014 good for asking specific questions and seeing real color grading examples.\n\nSince you're focused on creating cinematic looks with the Curves panel and Color Wheels, I'd especially recommend Video Copilot and Skillshare/LinkedIn Learning courses dedicated to cinematic color grading. Studying reference work from professional colorists (as you noted you enjoy) on YouTube will also help you replicate the looks you like.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06878be2",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your setup \u2014 a Sony A7R IV, a Godox V1 flash, a Sony 24-70mm f/2.8 lens, and your interest in the Gitzo GT3543LS tripod \u2014 here are accessories that would complement it well:\n\n1. **Gitzo GH3382QD Ballhead** \u2014 Pairs directly with the GT3543LS tripod you're considering, giving you smooth, stable framing for your A7R IV.\n\n2. **Godox V1 Hard Case** \u2014 To protect your new flash, the official Godox hard case is a perfect, well-fitting choice.\n\n3. **Anker PowerCore 20000 PD** \u2014 A reliable USB-C PD battery pack to keep your A7R IV charged on the go, matching your interest in shooting on location.\n\n4. **Lens cleaning kit** \u2014 A quality microfiber cloth, blower bulb, and lens cleaning solution to safely maintain your 24-70mm f/2.8 lens (and protect that valuable glass).\n\n5. **A Peak Design or Think Tank Photo camera bag** \u2014 Since you're upgrading your bag, these brands make durable, comfortable Sony-friendly bags that can carry your camera, lens, flash, and battery pack together.\n\n6. **Godox X2T-S Wireless Trigger** \u2014 To get the most out of your Godox V1's wireless radio control for off-camera flash and creative lighting.\n\n7. **Extra Sony NP-FZ100 batteries** \u2014 The A7R IV's high-resolution sensor draws plenty of power, so spare batteries are essential for longer shoots.\n\nThis collection rounds out a high-end, professional-grade kit that matches the quality of the gear you've already chosen.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75832dbd",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Given your focus on deep learning for medical image analysis\u2014especially explainable AI, multi-modal fusion, transfer learning, domain adaptation, and segmentation\u2014here are the conferences and publication venues you'll find most valuable:\n\n**Top Conferences**\n\n1. **MICCAI (Medical Image Computing and Computer Assisted Intervention)** \u2014 This is the premier venue for your field. It consistently features cutting-edge work on segmentation, multi-modal fusion, domain adaptation, and explainability. You should also follow its associated workshops (e.g., iMIMIC on interpretability of ML in medical imaging, and DART on domain adaptation and transfer learning).\n\n2. **ISBI (IEEE International Symposium on Biomedical Imaging)** \u2014 Strong for segmentation challenges and methodological advances directly relevant to your interests.\n\n3. **MIDL (Medical Imaging with Deep Learning)** \u2014 A focused, high-quality venue dedicated entirely to deep learning in medical imaging, ideal for the advanced topics you're exploring.\n\n4. **CVPR / ICCV / ECCV** \u2014 For the latest in visualization, attention mechanisms, and interpretability methods (Grad-CAM, saliency, transformers) that get adapted into medical imaging.\n\n5. **NeurIPS / ICML** \u2014 For foundational advances in self-supervised learning, generative models, and XAI techniques that you can transfer to medical applications.\n\n**Journals**\n\n1. **Medical Image Analysis (MedIA)** \u2014 The leading journal for your field.\n2. **IEEE Transactions on Medical Imaging (TMI)** \u2014 Excellent for segmentation, registration, and domain adaptation work.\n3. **Nature Machine Intelligence** and **npj Digital Medicine** \u2014 For high-impact XAI, clinical validation, and translational work that aligns with your interest in clinical relevance and trustworthiness.\n\n**My top recommendation for you specifically:** Prioritize **MICCAI and its iMIMIC/DART workshops** plus **MIDL**, since these directly target your stated interests in explainable AI, multi-modal fusion, transfer learning, and domain adaptation for medical segmentation.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0edc2aef",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your tastes from the Seattle trip, you'd love the **1 Hotel South Beach** in Miami. It offers stunning oceanfront views, a rooftop pool with skyline and ocean vistas, and luxurious suites \u2014 some with private plunge pools/hot tubs on the balcony. It also has excellent room service breakfast with options for dietary restrictions, plus a full-service spa for couples' massages. To match your preference for a romantic, view-focused luxury stay, book one of their oceanfront suites with a private terrace and ask about their romance/spa packages.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "35a27287",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your interests, here's what I'd recommend you seek out this weekend: look for French and Spanish cultural events \u2014 like a cultural festival similar to the one you volunteered at last month, which you clearly enjoyed. Specifically, check for:\n\n1. **Language exchange meetups or caf\u00e9s** focused on French and Spanish conversation practice \u2014 these align with your goal of improving conversational skills and meeting native speakers.\n\n2. **French and Spanish cultural festivals or celebrations** (food, music, traditions) hosted by local cultural centers or the French/Spanish embassies or consulates.\n\n3. **International or language diversity festivals** that celebrate cultural exchange, similar to the festival you volunteered at.\n\nTo find these this weekend, check **Eventbrite** and **Meetup** (search \"French language exchange,\" \"Spanish conversation,\" or \"cultural festival\"), and follow local cultural centers and language schools on Facebook for their weekend event listings.\n\nGiven how much you valued volunteering at that cultural festival, I'd especially steer you toward a hands-on international/cultural exchange festival where you can both practice French and Spanish and immerse yourself in the cultures.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "32260d93",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Watch **Hasan Minhaj: Homecoming King** on Netflix tonight. Given your love of John Mulaney's \"Kid Gorgeous\" and your goal of sharpening your storytelling as a stand-up, it's a masterclass in weaving personal anecdotes, cultural commentary, and clever observations into a tight narrative arc \u2014 exactly the kind of craft you're working to develop.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "195a1a1b",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your preference for a structured wind-down routine and your goal of preparing for a good night's sleep by 9:30 pm, here are some evening activities tailored to you:\n\n1. **Guided meditation** \u2013 You've had great success with Headspace's \"Sleep\" meditation and are trying Insight Timer's \"Body Scan.\" Make a nightly meditation session a core part of your evening.\n\n2. **Light reading** \u2013 Pick a book that's calming and not too stimulating to help ease your mind toward sleep.\n\n3. **Deep breathing or gentle stretching/yoga** \u2013 Since you already do a 30-minute exercise routine in the morning, keep evening movement gentle to relax your muscles without energizing you.\n\n4. **Journaling** \u2013 Reflect on your day and clear your mind, which also helps with your goal of minimizing stress and procrastination.\n\n5. **Electronic device detox** \u2013 Put away screens at least 30 minutes before bed (around 9:00 pm) to protect your melatonin production.\n\n6. **Prepare your sleep environment** \u2013 Dim the lights, set a comfortable room temperature, and complete your bedtime routine (brushing teeth, changing into PJs).\n\nA good evening flow for you would be: finish work/stimulating activities by 8:30 pm \u2192 meditation or light reading \u2192 device detox at 9:00 pm \u2192 sleep environment prep \u2192 bed by 9:30 pm.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "afdc33df",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Given everything you've been working on, here's a focused cleaning plan tailored to your kitchen:\n\n**Your Utensil Holder & Counters:** Keep up the system you started with your new utensil holder\u2014purge duplicates, keep similar items grouped, and store frequently used tools front and center. Wipe down the holder regularly to prevent food residue buildup, and keep countertops clutter-free since that was your goal when you bought it.\n\n**Your Granite Countertop (near the sink):** Wipe it down daily with a soft cloth to prevent dirt and debris that can cause more scratches. Avoid harsh chemicals and acidic cleaners\u2014stick to mild stone-safe cleaners. Use cutting boards and coasters/pads under pots and pans, and consider sealing it to protect against spills and stains.\n\n**Your Garbage Disposal:** Run a regular cleaning\u2014baking soda and vinegar, or ice and rock salt to scrub away buildup, and grind a bit of lemon or orange peel to keep odors down. Always run cold water while it's grinding.\n\n**Your Kitchen Faucet:** Wipe it down to prevent mineral buildup, and keep an eye on that slight leak so it doesn't worsen.\n\n**General Habits to Keep It Tidy:**\n1. **Clean as you go**\u2014wipe spills and put utensils back in their assigned spots immediately.\n2. **Do a quick nightly reset**\u2014clear counters, run the disposal, wipe the granite.\n3. **Weekly deep clean**\u2014deodorize the disposal, wipe down the utensil holder, and check the faucet.\n\nSticking to these small daily habits will keep your kitchen from piling up again.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "caf03d32",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on what you've been working on, here's targeted advice to improve your slow cooker results:\n\n**For your yogurt (your main project lately):**\n- **Use a thermometer.** This is the single biggest fix for inconsistent yogurt. Hit 180\u2013185\u00b0F when heating the milk, then cool to 110\u2013120\u00b0F before adding your starter. Guessing by time alone leads to runny or failed batches.\n- **Incubate properly.** Wrap the slow cooker in a towel or blanket to hold a steady temperature for 8\u201312 hours. Temperature stability is what lets the cultures set the yogurt.\n- **For your cashew base specifically:** soak the cashews at least 4 hours (or overnight), blend with a 1:1 cashew-to-water ratio (less water = thicker), and strain through a nut milk bag or cheesecloth, squeezing well to remove grit. Use a vegan/plant-based starter culture, since dairy cultures won't ferment the same way.\n- Chill the finished yogurt at least 2 hours to let it thicken and set.\n\n**For your plant-based stews and chilis:**\n- Add a splash of vinegar or lemon juice at the end to brighten flavors.\n- Rinse canned beans and tomatoes and use low-sodium versions so you can control seasoning.\n- Add quick-cooking greens (like spinach) near the end so they don't turn to mush.\n- Don't lift the lid mid-cook \u2014 it drops the temperature and adds significant cooking time.\n\nIf I had to pick the one habit that will fix the most problems for you right now: get a thermometer and stop relying on timing alone, especially for the yogurt.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "54026fce",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your interest, virtual coffee breaks are your best bet. You liked this idea earlier, so start there: schedule a regular weekly 30-minute video call for casual, non-work chat \u2014 your virtual watercooler.\n\nTo make it work well:\n- Introduce it as a collaborative suggestion at your next team meeting rather than mandating it, so everyone feels ownership.\n- Set ground rules like no work talk and keeping things light and casual.\n- Use a reliable, easy-to-use video platform (like Zoom) and pick a time that works across schedules.\n- Keep participation optional, rotate conversation starters to keep it fresh, and gather feedback to adjust as you go.\n\nYou could also set up a dedicated virtual \"coffee shop\" space or an informal Slack/Teams channel where colleagues can drop in and chat anytime between scheduled breaks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06f04340",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Make a Caprese-style cherry tomato salad paired with Thai basil chicken, both showcasing your homegrown cherry tomatoes and fresh basil, plus a cooling minty yogurt sauce on the side using your mint. This menu uses all three of your homegrown ingredients\u2014cherry tomatoes, basil, and mint\u2014in dishes you've shown interest in.\n\nSpecifically:\n- **Starter:** Cherry tomato Caprese with fresh mozzarella, your basil, and balsamic glaze.\n- **Main:** Thai basil chicken stir-fry with your basil, served over rice.\n- **Side/sauce:** Minty yogurt sauce with your fresh mint to accompany the meal.\n\nThis brings your garden harvest straight to the table.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6b7dfb22",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Since you've already been getting great inspiration from social media (especially Instagram, where you discovered those flower paintings) and you recently started a 30-day painting challenge, lean into both of those. Here's what I'd suggest:\n\n1. **Push your 30-day challenge further** \u2014 give yourself daily themed prompts (a color, an emotion, a single object) so each day forces a fresh idea instead of repeating what feels comfortable.\n\n2. **Curate your Instagram intentionally** \u2014 follow new artists outside your usual flower/realism niche (abstract, mixed media, palette knife artists) so your feed actively feeds you new directions rather than the same style.\n\n3. **Revisit techniques you've explored** \u2014 you've been working on texture with palette knives and realistic flowers. Try combining them in unexpected ways (e.g., heavily textured, impasto florals) to break out of your rut.\n\n4. **Paint from life, not just photos** \u2014 buy a few real flowers or set up a still life and observe them directly. The subtle colors and light you notice in person often spark ideas a screen can't.\n\n5. **Set a \"play\" session** \u2014 one canvas with no goal, just experimenting with color mixing and knife textures. Removing the pressure to make something \"good\" often unlocks new ideas.\n\n6. **Use your motivation tools** \u2014 break \"find inspiration\" into a small daily task (save one reference, sketch one thumbnail) so it becomes a routine rather than waiting for a lightning bolt.\n\nGiven how much momentum you've built with your challenge and your social media inspiration, the fastest path out of feeling stuck is to deliberately mix new subjects and styles into that existing routine. Have fun with it!",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1a1907b4",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Go with the Pimm's Cup with a Twist \u2014 it's a perfect fit for you. Make it with Hendrick's gin, muddle cucumber slices for extra flavor and texture, and use your Ruby Red Grapefruit simple syrup for a balanced bitterness and lovely pink hue. Garnish with a cucumber slice, a grapefruit wedge, and a mint sprig, and serve it in a Collins glass to showcase the colors. It's refreshing, summery, and sure to impress your guests.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "09d032c9",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Given that you're already shopping for portable power banks for travel, the most directly useful tip is to keep one of those power banks charged and on hand \u2014 something like the Anker PowerCore (10000mAh) you were considering would give you about 3 phone charges to cover you when the battery runs low.\n\nBeyond that, here are practical ways to extend your phone's battery life:\n\n1. **Lower screen brightness** and enable auto-brightness \u2014 the display is the biggest battery drain.\n2. **Reduce screen timeout** so the screen turns off faster when idle.\n3. **Turn on Low Power / Battery Saver mode**, especially when you're traveling and away from outlets.\n4. **Disable background app refresh** for apps you don't need updating constantly.\n5. **Turn off location services** for apps that don't need it, and use Wi-Fi over cellular when possible.\n6. **Check battery usage in settings** to identify which apps are draining the most, then limit or uninstall them.\n7. **Disable push email** and switch to manual/scheduled fetching.\n8. **Turn off Bluetooth and Wi-Fi** when not in use.\n9. **Keep your software updated**, as updates often include battery optimizations.\n10. **Check battery health** \u2014 if your phone is a couple of years old, a degraded battery may need replacing.\n\nPairing a charged power bank with these settings tweaks should keep you covered, especially on the go.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "38146c39",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Try switching to turbinado sugar in your chocolate chip cookies \u2014 you've already found it adds a richer, caramel-like flavor, and it pairs beautifully with chocolate. To take it further, add a pinch of flaky sea salt to enhance that caramel note, and consider folding in toasted walnuts or pecans, since you clearly enjoy how those nuts complement your bakes. A touch of vanilla will round it all out for a deeper, more indulgent cookie.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d24813b1",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Bake your lemon poppyseed cake! You've made it before for a colleague's going-away party and it was a hit, so it's a proven crowd-pleaser with your colleagues. Pair it with a batch of chewy chocolate chip cookies for variety, and you'll have a winning spread.\n\nTo make the lemon poppyseed cake shine, use a combination of white and brown sugar approach for the cookies, room-temperature butter, don't overmix, and avoid overbaking\u2014pull the cookies when they're lightly golden and still slightly soft. For the cake, store it properly at room temperature (good for up to 3 days) so it's fresh for your gathering. If you want to switch things up, the lemon lavender pound cake you've been exploring would be a sophisticated, unique option your colleagues likely haven't tried.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "57f827a0",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes! Since you've put so much thought into your mid-century modern walnut dresser, here are some tips to arrange your bedroom to complement that aesthetic:\n\n1. **Embrace open space and low profiles**: Mid-century modern design favors a sense of airiness. Keep your dresser low-profile and avoid crowding it with other furniture so the room feels spacious and calm.\n\n2. **Make the walnut dresser a focal point**: Position it on a wall where the beautiful walnut grain and brass accents can be admired. A wall opposite the bed or one that catches natural light will help showcase the wood tones and that satin finish.\n\n3. **Balance and proportion**: Mid-century modern emphasizes harmony, so distribute furniture evenly. Don't cluster everything on one side\u2014aim for a balanced ratio across the room.\n\n4. **Keep clear sightlines and clean lines**: Arrange pieces so walkways are unobstructed and the straight, clean lines of your furniture remain visible. Avoid blocking the tapered legs of your dresser or other pieces.\n\n5. **Let in natural light**: Position the bed and dresser to take advantage of windows\u2014light brings out walnut's warmth and the subtle sheen of the brass.\n\n6. **Add a pop of bold color**: True to the style, use a single vibrant accent (a throw, lamp, or piece of art) to add interest without cluttering the minimalist look.\n\nHave fun with the rearrange this weekend\u2014it'll be a great way to set the stage for your new dresser!",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "95228167",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on everything you've told me, here's what to look for when you visit the store this weekend:\n\n**Go straight for a Gibson Les Paul** \u2014 that's the upgrade you're set on from your Strat. When you have one in hand, focus on these things:\n\n1. **Get a model with coil-tapping/coil-splitting** \u2014 you were excited about this for the extra tonal flexibility, especially for open D tuning. Look at the Les Paul Standard (coil-tap) or Traditional (coil-split). Test the split sounds to make sure they give you that brighter, single-coil-like clarity you want.\n\n2. **Test it in open D tuning** \u2014 bring or ask to set up a guitar in DADF#AD, and play through some rhythmic, slide, and lower-string passages to hear how warm and resonant it feels. Use the **neck pickup**, which suits both open D and any acoustic-style work.\n\n3. **Check the neck profile and feel** \u2014 Les Pauls have a thicker, more substantial neck and a 24.75\" scale than your Strat's slim 25.5\" neck. Play it for a while to make sure it feels comfortable, since you also want to attempt fingerpicking patterns like \"Blackbird.\"\n\n4. **Test for your core styles** \u2014 run through some rock, blues, and classic rock riffs (the Les Paul's bread and butter) so you can hear that warm, sustainful tone you're after.\n\n5. **Mind the weight** \u2014 Les Pauls run heavier (9\u201310 lbs). Wear it on a strap for a few minutes to make sure it's comfortable to stand and play with.\n\n6. **Try a few different models/price points** \u2014 American-made Standards start around $1,000\u2013$1,500, so play a couple and trust which one feels and sounds like \"home.\"\n\n7. **Check setup quality** \u2014 action, intonation, and string height. Ask whether you can have it set up with heavier strings (0.012\u20130.056) if you plan to live in open D tuning.\n\nHave fun \u2014 bring the riffs you know best so you can really judge each guitar honestly!",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "505af2f5",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Since you're already making your own creamer to cut sugar and save money, stick with your DIY approach but try this variation: blend unsweetened almond milk (or swap in oat milk for a creamier texture) with vanilla extract, a small amount of honey OR a sugar-free alternative like monk fruit/stevia, plus a pinch of cinnamon and a tiny bit of sea salt to round out the flavor. Since you love cinnamon-apple and warm spice profiles from your granola experiments, a cinnamon-vanilla creamer would be right up your alley. You could also add a teaspoon of MCT oil or collagen peptides for a morning energy boost, which fits your goal of curbing those afternoon energy dips.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75f70248",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes, it very likely could be your living room. You have a cat that sheds a lot, which means there's probably accumulated dust, pet hair, and dander in the room \u2014 all common allergy triggers that can cause sneezing. Step up your cleaning routine: vacuum at least twice a week with a HEPA-filter vacuum, dust surfaces with a damp microfiber cloth, change your air filters, groom your cat regularly, and wash your cat's bedding. The air-purifying spider or snake plant you're planning to get will also help. If the sneezing persists after improving the cleaning routine, consider seeing an allergist to confirm whether it's a pet dander or dust allergy.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d6233ab6",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes, you should attend your high school reunion. You've spoken fondly of your high school years\u2014being on the debate team and taking AP economics\u2014and you've mentioned staying connected with old high school friends and their post-graduation plans. Given how much those memories mean to you and your interest in your friends' paths, a reunion would be a great way to reconnect and relive those happy experiences.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1da05512",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Buy now. You've already got a clear, well-defined need: you're outgrowing your storage, you want a more convenient central backup hub for your laptop and phone than your current external drive, and you've thoroughly researched the security features that matter to you (encryption, access control, 2FA). You're not just casually browsing \u2014 you're a beginner who's done the homework and knows exactly what problem you're solving. Waiting won't make NAS devices meaningfully better for your needs, and every day without proper redundant backup is a day your data is at risk on a single external drive.\n\nGo with a 2-bay Synology (like a DS220+ class device) \u2014 it fits your beginner experience level, gives you RAID redundancy for protection, offers the AES-256 encryption and 2FA you care about, and has the most user-friendly interface for someone new to NAS.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fca70973",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "For your theme park weekend, I'd recommend focusing on the Halloween events you've been most excited about \u2014 especially Universal Studios Hollywood's Halloween Horror Nights. Given your interest in the VIP Experience with the Gourmet Buffet and Behind-the-Scenes Tour, book that package as the centerpiece of your weekend; it'll give you front-of-line access to the mazes, a private tour guide, and that exclusive look at the makeup, special effects, and maze design you wanted to see.\n\nPair it with a day at Knott's Scary Farm, since you're a thrill and scare fan \u2014 hit the haunted mazes and scare zones, and grab a meal at the Calico Saloon's Halloween menu or the Boo-fet. If you have a third day, add Six Flags Magic Mountain's Fright Fest for the haunted mazes and themed thrill rides, or Disneyland's Halloween Time for the Oogie Boogie Bash and themed treats like the Pumpkin Beignets and Mummy Dogs.\n\nPlan your visit for mid-to-late September through early November to catch all the Halloween events running simultaneously, and book the Universal VIP package early since those sell out fast.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b6025781",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on what you've enjoyed so far, here are some fresh ideas to build on your meal prep:\n\n1. **Mushroom Bolognese** \u2013 You loved the lentil bolognese, so try the mushroom version next for a meatier, umami-rich variation over your quinoa.\n\n2. **Pan-Seared Salmon with Quinoa** \u2013 A great way to branch out from the grilled chicken and turkey you've already done, plus it adds healthy omega-3s.\n\n3. **Mediterranean-Style Roasted Sweet Potatoes** \u2013 Since you're already roasting sweet potatoes with Classic Herbs (fresh rosemary), switch it up with lemon, garlic, and oregano, topped with kalamata olives for variety.\n\n4. **Sweet Potato & Chickpea Quinoa Bowl** \u2013 Combine your roasted sweet potatoes with chickpeas, saut\u00e9ed kale, and toasted pumpkin seeds for a hearty plant-based bowl.\n\n5. **Tempeh or Baked Tofu** \u2013 A new plant-based protein to try, marinated and pan-fried, served over quinoa and roasted veggies.\n\n6. **Granola Yogurt Parfaits** \u2013 Layer your homemade granola with yogurt and fresh fruit for an easy grab-and-go breakfast or snack throughout the week.\n\nSince you clearly lean toward herb-forward, plant-friendly meals with a good mix of proteins, the mushroom bolognese and a chickpea-sweet potato quinoa bowl would be my top picks for you this week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a89d7624",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "For your Denver trip, here's what I'd recommend based on your love of the city's music scene:\n\n**Catch a show at Red Rocks Amphitheatre** \u2014 it's clearly your favorite, and where you saw The Killers and met Brandon Flowers. Grab dinner beforehand at The Ship Rock Grille, right across the street, where you can enjoy their outdoor patio with views of the red rock formations.\n\n**Explore Denver's other iconic venues:** The Ogden Theatre and The Bluebird Theater (both historic, intimate spots), The Fillmore Auditorium (legendary acts), and smaller spots like Larimer Lounge and the hi-dive to discover new talent.\n\n**Time your trip around a festival** if you can \u2014 Westword Music Showcase is perfect for catching Denver's local scene, and Riot Fest Denver (September) is great for rock and alternative.\n\n**Dig through the record bins at Twist & Shout Records**, a legendary local shop with a huge vinyl selection.\n\n**Fuel up on BBQ** \u2014 GQue BBQ in Golden is a short drive from Red Rocks and a solid pre-concert stop.\n\nGiven how much you enjoyed the live music and the city last time, building this trip around a Red Rocks concert with venue-hopping and great food is the way to go.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b0479f84",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Watch **Chasing Coral** on Netflix tonight. Given your interest in nature and wildlife documentaries\u2014and your growing fascination with coral reefs, their importance, and how to protect them\u2014this immersive, urgent film about the decline of coral reefs is a perfect fit. It ties directly into everything you've been exploring, from reef conservation to your upcoming Belize trip.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1d4e3b97",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes \u2014 you replaced your bike's chain and cassette on February 1st, and that upgrade has improved your bike's performance, which is why it's running better during your Sunday group rides.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07b6f563",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on what you've been shopping for, here are accessories that fit your needs for your iPhone 13 Pro:\n\n1. **Screen protector**: Replace your cracked one. Go with a tempered glass option (9H hardness) from a trusted brand like Spigen, Zagg, or Belkin.\n\n2. **Wallet case**: You showed interest in OtterBox. Since their wallet cases prioritize rugged protection over slimness, OtterBox is a great fit if you value durability and carrying cards/cash. If you'd prefer something slimmer, Bellroy or Nomad are excellent alternatives.\n\n3. **Wireless charging power bank**: You're leaning toward this for cable-free convenience. Look for a Qi-certified, high-capacity model from Anker or Mophie \u2014 both reliable brands you've already heard recommended.\n\nThese three (screen protector, wallet case, and wireless charging power bank) round out a solid setup that keeps your phone protected, organized, and charged on the go.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1c0ddc50",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your commute, here's what I'd suggest:\n\nUse your 40-minute commute each way to listen to history podcasts, which is your main interest. Specifically:\n\n1. **Build a history podcast playlist** with episodes from Hardcore History, Lore, and The Dollop so you can switch between them easily.\n\n2. **Alternate the podcasts by day** to keep things fresh:\n   - Monday/Tuesday: Hardcore History (great starters like \"The Wrath of the Khans\")\n   - Wednesday/Thursday: Lore (try \"They Made a Tonic\" or \"The Bloody Pit\")\n   - Friday: The Dollop (try \"The Radium Girls\" or \"The Donner Party\")\n\n3. **Stick to 30\u201360 minute episodes** that fit your 40-minute window, with a little buffer time.\n\n4. **Binge a series** when an episode really hooks you\u2014Hardcore History's longer, multi-part series are perfect for this.\n\n5. **Match the tone to your mood**\u2014lighter, comedic episodes (The Dollop) for tough mornings, and deeper, serious ones (Hardcore History, Lore) when you want to dig in.\n\nYou could also use the time to listen to audiobook versions of the history books you're interested in, like \"Guns, Germs, and Steel,\" for a change of pace from podcasts.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0a34ad58",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Absolutely \u2014 and given how much you've already prepared, you're in great shape. Here are tips tailored to you:\n\n**Lean on your Suica card:** You already have it, and it works seamlessly across Tokyo's trains, subways, and buses, plus most of the routes you've planned (Narita to Shinjuku, Shinjuku to Tsukiji, even the Nikko trip). Just tap in and tap out at the gates \u2014 no need to figure out individual fares. Keep it topped up; you can recharge at any station machine or convenience store.\n\n**Use your TripIt app:** You've already downloaded it to stay organized. Keep all your bookings (Nikko tour, hotel, restaurant reservations) in there so everything's in one place when you feel overwhelmed.\n\n**Navigate with Google Maps:** It's incredibly reliable in Tokyo \u2014 it gives you exact platforms, transfer points, train times, and which car to board. Pair it with your Suica and you'll rarely get lost.\n\n**Lean on the Park Hyatt concierge:** Your hotel has an excellent concierge team and a tour desk. Whenever you feel unsure, they can write down directions in Japanese, call ahead, or arrange a taxi. This is your safety net.\n\n**Practical reassurance:**\n- Station signs and announcements are in English, and staff are very helpful \u2014 don't hesitate to ask.\n- Carry a small amount of cash for places like Tsukiji's outer market that are cash-only.\n- Build in extra time for transfers so you're never rushing.\n- Save your hotel's name/address in Japanese on your phone to show a taxi driver if needed.\n\nTokyo is one of the safest, most orderly, and most tourist-friendly cities in the world. With your Suica, TripIt, Google Maps, and the concierge backing you up, you've got everything you need to feel confident. You're going to do great!",
+          "autoeval_label": "CORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.9333
+  }
+}

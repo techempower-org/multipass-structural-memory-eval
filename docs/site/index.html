@@ -1361,26 +1361,52 @@
           </div>
         </div>
 
-        <table class="bench-tbl" aria-label="LongMemEval — mempalace (this work) vs the published field, with storage paradigm and metric disclosure">
+        <table class="bench-tbl" aria-label="Memory-system comparison matrix — mempalace (this work) vs the published field across LongMemEval and LoCoMo, with storage paradigm and answer-model disclosure">
           <thead>
-            <tr><th>System</th><th>Storage</th><th class="num">LongMemEval</th><th>Metric</th><th>Answer model</th><th>Verif.</th></tr>
+            <tr><th>System</th><th>Storage</th><th class="num">LongMemEval</th><th class="num">LoCoMo</th><th>Answer model</th><th>Verif.</th></tr>
           </thead>
           <tbody>
             <tr class="grp"><td colspan="6">mempalace &mdash; this work (verbatim-first)</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">61.0%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">68.4%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">86.8%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr><td>mempalace &mdash; retrieval</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td>R@5</td><td>&mdash;</td><td>indie</td></tr>
-            <tr class="grp"><td colspan="6">the field &mdash; LongMemEval leaderboard (storage paradigm per MemPalace landscape survey)</td></tr>
-            <tr><td>OMEGA</td><td class="store">unstated</td><td class="num">95.4%</td><td>E2E QA</td><td>GPT-4.1</td><td>self</td></tr>
-            <tr><td>Mem0 (platform v3)</td><td class="store">hybrid</td><td class="num">94.4%</td><td>E2E QA</td><td>undisclosed</td><td>self</td></tr>
-            <tr><td>Hindsight</td><td class="store">extraction</td><td class="num">91.4%</td><td>E2E QA</td><td>Gemini 3 Pro</td><td>indie</td></tr>
-            <tr><td>True Memory (Pro)</td><td class="store verb">verbatim</td><td class="num">87.8%</td><td>E2E QA</td><td>gpt-4.1-mini</td><td>paper</td></tr>
-            <tr><td>Zep / Graphiti</td><td class="store">hybrid</td><td class="num">71.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
-            <tr><td>GPT-4o &mdash; oracle ref</td><td class="store">reference</td><td class="num">87.0%</td><td>oracle QA</td><td>GPT-4o</td><td>paper</td></tr>
-            <tr><td>GPT-4o &mdash; full-context ref</td><td class="store">full-ctx</td><td class="num">60.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">61.0% oracle</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">68.4% oracle</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">86.8% oracle</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace &mdash; retrieval</td><td class="store verb">verbatim</td><td class="num">92.7% R@5</td><td class="num">&mdash;</td><td>&mdash;</td><td>indie</td></tr>
+
+            <tr class="grp"><td colspan="6">the field &mdash; E2E QA leaderboard (sorted by LongMemEval QA; storage paradigm per MemPalace survey + independent check)</td></tr>
+            <tr><td>OMEGA</td><td class="store">extraction</td><td class="num">95.4% QA</td><td class="num">&mdash;</td><td>GPT-4.1</td><td>self</td></tr>
+            <tr><td>Mastra</td><td class="store">unstated</td><td class="num">94.9% QA</td><td class="num">&mdash;</td><td>GPT-5-mini</td><td>self</td></tr>
+            <tr><td>Mem0 (platform v3)</td><td class="store">hybrid</td><td class="num">94.4% QA</td><td class="num">92.5% QA</td><td>undisclosed</td><td>self</td></tr>
+            <tr><td>Hindsight</td><td class="store">extraction</td><td class="num">91.4% QA</td><td class="num">89.6% QA</td><td>Gemini 3 Pro</td><td>indie</td></tr>
+            <tr><td>True Memory (Pro)</td><td class="store verb">verbatim</td><td class="num">87.8% QA</td><td class="num">93.0% QA</td><td>gpt-4.1-mini</td><td>paper</td></tr>
+            <tr><td>Supermemory</td><td class="store">extraction</td><td class="num">85.2% QA</td><td class="num">65.4% QA</td><td>Gemini-3</td><td>indie</td></tr>
+            <tr><td>EverOS / EverMind</td><td class="store">unstated</td><td class="num">83.0% QA</td><td class="num">93.1% QA</td><td>undisclosed</td><td>self</td></tr>
+            <tr><td>ENGRAM (paper, arXiv:2511.12960)</td><td class="store">extraction</td><td class="num">71.4% QA</td><td class="num">77.6% QA</td><td>GPT-4o-mini</td><td>paper</td></tr>
+            <tr><td>Zep / Graphiti</td><td class="store">hybrid</td><td class="num">71.2% QA</td><td class="num">75.1% QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>Celiums</td><td class="store">unstated</td><td class="num">62.3% QA</td><td class="num">&mdash;</td><td>Opus</td><td>self</td></tr>
+            <tr><td>GPT-4o &mdash; oracle ref</td><td class="store">reference</td><td class="num">87.0% oracle</td><td class="num">&mdash;</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>GPT-4o &mdash; full-context ref</td><td class="store">full-ctx</td><td class="num">60.2% QA</td><td class="num">&mdash;</td><td>GPT-4o</td><td>paper</td></tr>
+
+            <tr class="grp"><td colspan="6">retrieval-only &mdash; R@K recall (not comparable to QA; no answer model)</td></tr>
+            <tr><td>engram-2 <sup>&dagger;</sup></td><td class="store verb">verbatim</td><td class="num">99.0% R@5</td><td class="num">74.5% QA</td><td>&mdash;</td><td>self</td></tr>
+            <tr><td>ai-memory <sup>&dagger;</sup></td><td class="store verb">verbatim</td><td class="num">97.8% R@5</td><td class="num">&mdash;</td><td>&mdash;</td><td>self</td></tr>
+            <tr><td>MemPalace (upstream)</td><td class="store verb">verbatim</td><td class="num">96.6% R@5</td><td class="num">88.9% R@10</td><td>&mdash;</td><td>indie</td></tr>
+            <tr><td>agentmemory</td><td class="store verb">verbatim</td><td class="num">95.2% R@5</td><td class="num">&mdash;</td><td>&mdash;</td><td>self</td></tr>
+            <tr><td>mcp-memory-service</td><td class="store verb">verbatim</td><td class="num">86.0% R@5</td><td class="num">49.7% R@5</td><td>&mdash;</td><td>self</td></tr>
           </tbody>
         </table>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &dagger; <strong>engram-2</strong> = <a href="https://github.com/199-biotechnologies/engram-2">github.com/199-biotechnologies/engram-2</a>
+          (Paperfot AI) &mdash; a Rust CLI: SQLite + FTS5/BM25 + Gemini&nbsp;Embedding&nbsp;2
+          + RRF + Cohere rerank, self-reporting 99.0% R@5 on LongMemEval-S. It returns
+          verbatim source chunks (with an <em>optional</em> LLM claim/entity extraction
+          pass). <strong>ai-memory</strong> = <a href="https://github.com/alphaonedev/ai-memory-mcp">github.com/alphaonedev/ai-memory-mcp</a>
+          (FTS5 + embeddings, 97.8% R@5). The &ldquo;Engram&rdquo; name is overloaded:
+          the same org also ships <a href="https://github.com/199-biotechnologies/engram">199-biotechnologies/engram</a>
+          (MCP server, BM25+ColBERT+KG, 98.1% R@5), and the <strong>ENGRAM (paper)</strong>
+          row is a separate, extraction-based academic system (arXiv:2511.12960, 71.4% QA).
+          Storage paradigms marked <em>unstated</em> are ones we could not pin to a primary
+          source &mdash; left blank rather than guessed.
+        </p>
 
         <p class="bench-prose">
           Read the <strong>Storage</strong> column first &mdash; it is the axis a

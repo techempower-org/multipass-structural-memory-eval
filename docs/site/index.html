@@ -2092,6 +2092,117 @@
         </div>
       </article>
 
+      <!-- BEAM — bucket regime-shift -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">BEAM &middot; bucket regime-shift</span>
+            <h3>As the haystack grows, the regime flips to <em>retrieval</em></h3>
+          </div>
+          <span class="bench-pill live">verified &middot; 2026-05-30</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Benchmark</dt><dd>BEAM (bucketed by haystack size)</dd></div>
+          <div><dt>Substrate</dt><dd>flat-local mempalace</dd></div>
+          <div><dt>Reader</dt><dd>gpt-5.3-chat</dd></div>
+          <div><dt>Judge</dt><dd>o4-mini</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">100K &mdash; full-context regime</div>
+            <div class="value"><em>0.649</em></div>
+            <div class="sub">whole bucket fits; needle abilities intact</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">500K &mdash; retrieval regime</div>
+            <div class="value"><em>0.487</em></div>
+            <div class="sub">retrieval kicks in; needle abilities collapse</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">1M &mdash; deep retrieval</div>
+            <div class="value dim"><em>pending</em></div>
+            <div class="sub">Yara&rsquo;s run in flight; 10M deferred (cost)</div>
+          </div>
+        </div>
+
+        <div class="matrix-scroll">
+        <table class="bench-tbl cat-tbl" aria-label="BEAM per-bucket overall E2E QA and the per-ability regime shift from the 100K full-context bucket to the 500K retrieval bucket. Sortable by bucket.">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="0" data-type="text">Bucket</th>
+              <th class="sortable num" data-col="1" data-type="num">Overall QA</th>
+              <th>Regime</th>
+              <th>Per-ability shift (100K &rarr; 500K)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cat">100K <span class="catname">full-context</span></td>
+              <td class="num"><strong>0.649</strong></td>
+              <td>whole bucket in context</td>
+              <td class="src">info-extraction 0.85 &middot; temporal 0.75 &middot; multi-session 0.60 &middot; summarization 0.87</td>
+            </tr>
+            <tr>
+              <td class="cat">500K <span class="catname">retrieval</span></td>
+              <td class="num"><strong>0.487</strong></td>
+              <td>real retrieval (needle-in-haystack)</td>
+              <td class="src">info-extraction <strong>0.40</strong> &middot; temporal <strong>0.26</strong> &middot; multi-session <strong>0.24</strong> &middot; summarization 0.87 (holds)</td>
+            </tr>
+            <tr>
+              <td class="cat">1M <span class="catname">deep retrieval</span></td>
+              <td class="pending">pending</td>
+              <td>&mdash;</td>
+              <td class="src">Yara&rsquo;s run in flight</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <p class="bench-prose">
+          BEAM is the one benchmark here with a genuine <strong>regime
+          shift</strong>. At the 100K bucket the whole haystack fits in context, so
+          the reader operates in a <em>full-context</em> regime and the needle
+          abilities are intact. Grow the bucket to 500K and the system crosses into a
+          <em>real retrieval</em> regime &mdash; and the needle-dependent abilities
+          collapse: <strong>info-extraction 0.85&rarr;0.40</strong>,
+          <strong>temporal 0.75&rarr;0.26</strong>,
+          <strong>multi-session 0.60&rarr;0.24</strong>. The retrieval-light ability
+          holds flat &mdash; <strong>summarization 0.87</strong> in both buckets,
+          because summarizing doesn&rsquo;t need a specific needle pulled from the pile.
+          That asymmetry is the tell: this is a <strong>retrieval-recall ceiling, not a
+          reader ceiling</strong> &mdash; the same finding as our LongMemEval
+          decomposition (the reader is fine once the gold is in context; getting it
+          there is the whole game).
+        </p>
+
+        <div class="caveat">
+          <span class="label">grader artifact &middot; event_ordering 0.0</span>
+          <strong>event_ordering scores 0.0 in both buckets &mdash; that is a grader
+          mismatch, not a substrate failure.</strong> BEAM grades ordering with
+          Kendall-&tau;-b (a rank correlation); our binary judge floors any
+          full-sequence answer that isn&rsquo;t an exact match. It drags both buckets
+          equally, so the regime-shift story is unaffected, but it means the
+          <em>absolute</em> substrate is stronger than the headline overall numbers
+          suggest. (Same Kendall-&tau;-vs-binary-judge mismatch flagged on LoCoMo.)
+        </div>
+
+        <div class="caveat">
+          <span class="label">comparability &middot; not the field&rsquo;s BEAM-1M</span>
+          These buckets are <strong>flat-local mempalace</strong> &mdash; <em>not</em>
+          directly comparable to the field&rsquo;s published BEAM-1M (Mem0 70.1 /
+          True&nbsp;Memory 76.6 / Hindsight 73.9), which run different infrastructure
+          and stronger answer models. Read the columns as our own regime-shift
+          diagnostic, not a leaderboard placement. 10M is deferred on cost.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/beam_{100k,500k}_flat_*.json &middot; BEAM bucket-regime harness (techempower-org#177)</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/177">techempower-org/multipass-structural-memory-eval#177</a>
+        </div>
+      </article>
+
       <!-- Tau2 / Cat 9a -->
       <article class="bench">
         <div class="bench-head">

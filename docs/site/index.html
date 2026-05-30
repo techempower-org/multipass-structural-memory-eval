@@ -1457,7 +1457,7 @@
           </thead>
           <tbody>
             <tr class="grp"><td colspan="8">mempalace &mdash; this work (verbatim-first)</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">61.0%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">61.0%</td><td class="num">&mdash;</td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td>indie</td></tr>
             <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">68.4%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
             <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">86.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
 
@@ -1511,6 +1511,18 @@
           number. (Note: OMEGA ships without its bge-small embedding model and silently falls
           back to keyword-only FTS5; we ran <code>omega setup --download-model</code> to restore
           semantic retrieval before measuring, so this is the fair number, not a crippled one.)
+        </p>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &sect; <strong>mempalace daemon on LoCoMo</strong> &mdash; age-fused QA 0.388 (n=250
+          stratified, isolated scratch palace, never prod), drawer-level R@5 0.556. An A/B
+          isolating the KG: restoring the graph-hydration fix (palace-daemon#202) moved QA
+          <strong>+1.2pp</strong> over the vector-only fallback (0.376) with <strong>identical
+          drawer-R@5</strong> &mdash; so on LoCoMo the age-fused graph half adds ~nothing to
+          top-5 retrieval (the graph-only hits don&rsquo;t displace the vector top-5). The flat
+          adapter scores the same QA (0.384), confirming the substrate, not the path, sets it.
+          LoCoMo QA here (~0.39) is an <em>our-harness</em> figure (gpt-5.3-chat reader) &mdash;
+          not comparable to the field&rsquo;s 0.75&ndash;0.93 (stronger answer models +
+          looser graders; cf. the event-ordering Kendall-&tau; vs binary-judge mismatch).
         </p>
 
         <p class="bench-prose">

@@ -36,7 +36,7 @@
     --f-body:    "Geist", ui-sans-serif, system-ui, sans-serif;
     --f-mono:    "JetBrains Mono", ui-monospace, monospace;
 
-    --measure: 68ch;
+    --measure: 84ch;
     --gutter: clamp(1.25rem, 3vw, 2.5rem);
     --rule: 1px;
 
@@ -200,7 +200,7 @@
     color: var(--ice-dim);
     font-size: clamp(1.15rem, 1.7vw, 1.45rem);
     line-height: 1.5;
-    max-width: 56ch;
+    max-width: 64ch;
   }
 
   .small-caps {
@@ -405,7 +405,7 @@
 
   /* DIAGNOSTIC */
   .diagnostic-head {
-    max-width: 820px;
+    max-width: 920px;
     margin-bottom: clamp(2.5rem, 5vw, 4rem);
   }
   .diagnostic-head h2 {
@@ -459,7 +459,7 @@
 
   /* BOTTOM LINE — top-of-page synthesis */
   .bottomline-head {
-    max-width: 860px;
+    max-width: 940px;
     margin-bottom: clamp(2rem, 4vw, 3rem);
   }
   .bottomline-head h2 {
@@ -473,7 +473,7 @@
     color: var(--ice-dim);
     font-size: clamp(1.2rem, 2vw, 1.55rem);
     line-height: 1.5;
-    max-width: 62ch;
+    max-width: 72ch;
   }
   .bl-lede strong { font-style: normal; color: var(--ice); font-weight: 400; }
   .bl-lede em { color: var(--prism); }
@@ -534,7 +534,7 @@
 
   /* BENCHMARKS */
   .benchmarks-head {
-    max-width: 820px;
+    max-width: 920px;
     margin-bottom: clamp(3rem, 6vw, 4.5rem);
   }
   .benchmarks-head h2 {
@@ -681,11 +681,88 @@
   .bench-tbl td.store { color: var(--ice-dim); font-variant: small-caps; letter-spacing: .02em; }
   .bench-tbl td.store.verb { color: var(--prism); }
 
+  /* COMPARISON MATRIX — sortable, grouped, horizontally scrollable */
+  .matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .bench-tbl.matrix { min-width: 720px; }
+  .bench-tbl th.grouphdr {
+    text-align: center;
+    color: var(--prism);
+    letter-spacing: 0.24em;
+    border-bottom: var(--rule) solid var(--hair-strong);
+    opacity: 0.85;
+  }
+  .bench-tbl th.sub {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+  }
+  .bench-tbl th.sortable {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .bench-tbl th.sortable:hover { color: var(--prism); }
+  .bench-tbl th.sortable::after {
+    content: "\2195"; /* up-down arrow — sortable affordance */
+    display: inline-block;
+    margin-left: 0.4em;
+    opacity: 0.28;
+    font-size: 0.92em;
+    transition: opacity 0.2s;
+  }
+  .bench-tbl th.sortable:hover::after { opacity: 0.55; }
+  .bench-tbl th.sortable[data-dir="asc"]::after  { content: "\2191"; opacity: 0.95; color: var(--prism); }
+  .bench-tbl th.sortable[data-dir="desc"]::after { content: "\2193"; opacity: 0.95; color: var(--prism); }
+  .bench-tbl .mtag {
+    font-family: var(--f-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ice-ghost);
+    opacity: 0.7;
+    margin-left: 0.4em;
+    vertical-align: middle;
+  }
+  .matrix-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.25rem;
+    margin: 0.5rem 0 1.5rem;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ice-ghost);
+  }
+  .matrix-controls span { flex: 1 1 320px; }
+  .matrix-controls em { color: var(--prism); font-style: italic; }
+  .matrix-controls strong { color: var(--ice); font-weight: 500; }
+  #matrixReset {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--prism);
+    background: transparent;
+    border: var(--rule) solid var(--hair-strong);
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+  }
+  #matrixReset:hover {
+    border-color: var(--prism);
+    color: var(--ice);
+    background: color-mix(in srgb, var(--prism) 10%, transparent);
+  }
+  #matrixReset[hidden] { display: none; }
+
   .bench-prose {
     color: var(--ice-dim);
     font-size: 14.5px;
     line-height: 1.65;
-    max-width: 68ch;
+    max-width: 84ch;
   }
   .bench-prose strong { color: var(--ice); font-weight: 500; }
   .bench-prose em { color: var(--prism); font-style: italic; }
@@ -1361,39 +1438,55 @@
           </div>
         </div>
 
-        <table class="bench-tbl" aria-label="Memory-system comparison matrix — mempalace (this work) vs the published field across LongMemEval and LoCoMo, with storage paradigm and answer-model disclosure">
+        <div class="matrix-scroll">
+        <table class="bench-tbl matrix" id="memMatrix" aria-label="Memory-system comparison matrix — mempalace (this work) vs the published field, LongMemEval (R@5 / oracle QA / E2E QA) and LoCoMo, with storage paradigm and answer-model disclosure. Columns are sortable.">
           <thead>
-            <tr><th>System</th><th>Storage</th><th class="num">LongMemEval</th><th class="num">LoCoMo</th><th>Answer model</th><th>Verif.</th></tr>
+            <tr>
+              <th rowspan="2" class="sortable" data-col="0" data-type="text">System</th>
+              <th rowspan="2" class="sortable" data-col="1" data-type="text">Storage</th>
+              <th colspan="3" class="grouphdr">LongMemEval</th>
+              <th rowspan="2" class="sortable num" data-col="5" data-type="num">LoCoMo</th>
+              <th rowspan="2" class="sortable" data-col="6" data-type="text">Answer model</th>
+              <th rowspan="2" class="sortable" data-col="7" data-type="text">Verif.</th>
+            </tr>
+            <tr>
+              <th class="sortable num sub" data-col="2" data-type="num">R@5</th>
+              <th class="sortable num sub" data-col="3" data-type="num">oracle QA</th>
+              <th class="sortable num sub" data-col="4" data-type="num">E2E QA</th>
+            </tr>
           </thead>
           <tbody>
-            <tr class="grp"><td colspan="6">mempalace &mdash; this work (verbatim-first)</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">61.0% oracle</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">68.4% oracle</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">86.8% oracle</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr><td>mempalace &mdash; retrieval</td><td class="store verb">verbatim</td><td class="num">92.7% R@5</td><td class="num">&mdash;</td><td>&mdash;</td><td>indie</td></tr>
+            <tr class="grp"><td colspan="8">mempalace &mdash; this work (verbatim-first)</td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">61.0%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">68.4%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">86.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
 
-            <tr class="grp"><td colspan="6">the field &mdash; E2E QA leaderboard (sorted by LongMemEval QA; storage paradigm per MemPalace survey + independent check)</td></tr>
-            <tr><td>OMEGA</td><td class="store">extraction</td><td class="num">95.4% QA</td><td class="num">&mdash;</td><td>GPT-4.1</td><td>self</td></tr>
-            <tr><td>Mastra</td><td class="store">unstated</td><td class="num">94.9% QA</td><td class="num">&mdash;</td><td>GPT-5-mini</td><td>self</td></tr>
-            <tr><td>Mem0 (platform v3)</td><td class="store">hybrid</td><td class="num">94.4% QA</td><td class="num">92.5% QA</td><td>undisclosed</td><td>self</td></tr>
-            <tr><td>Hindsight</td><td class="store">extraction</td><td class="num">91.4% QA</td><td class="num">89.6% QA</td><td>Gemini 3 Pro</td><td>indie</td></tr>
-            <tr><td>True Memory (Pro)</td><td class="store verb">verbatim</td><td class="num">87.8% QA</td><td class="num">93.0% QA</td><td>gpt-4.1-mini</td><td>paper</td></tr>
-            <tr><td>Supermemory</td><td class="store">extraction</td><td class="num">85.2% QA</td><td class="num">65.4% QA</td><td>Gemini-3</td><td>indie</td></tr>
-            <tr><td>EverOS / EverMind</td><td class="store">unstated</td><td class="num">83.0% QA</td><td class="num">93.1% QA</td><td>undisclosed</td><td>self</td></tr>
-            <tr><td>ENGRAM (paper, arXiv:2511.12960)</td><td class="store">extraction</td><td class="num">71.4% QA</td><td class="num">77.6% QA</td><td>GPT-4o-mini</td><td>paper</td></tr>
-            <tr><td>Zep / Graphiti</td><td class="store">hybrid</td><td class="num">71.2% QA</td><td class="num">75.1% QA</td><td>GPT-4o</td><td>paper</td></tr>
-            <tr><td>Celiums</td><td class="store">unstated</td><td class="num">62.3% QA</td><td class="num">&mdash;</td><td>Opus</td><td>self</td></tr>
-            <tr><td>GPT-4o &mdash; oracle ref</td><td class="store">reference</td><td class="num">87.0% oracle</td><td class="num">&mdash;</td><td>GPT-4o</td><td>paper</td></tr>
-            <tr><td>GPT-4o &mdash; full-context ref</td><td class="store">full-ctx</td><td class="num">60.2% QA</td><td class="num">&mdash;</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr class="grp"><td colspan="8">the field &mdash; E2E QA leaderboard (sorted by LongMemEval E2E QA; storage paradigm per MemPalace survey + independent check)</td></tr>
+            <tr><td>OMEGA</td><td class="store">extraction</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">95.4%</td><td class="num">&mdash;</td><td>GPT-4.1</td><td>self</td></tr>
+            <tr><td>Mastra</td><td class="store">unstated</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">94.9%</td><td class="num">&mdash;</td><td>GPT-5-mini</td><td>self</td></tr>
+            <tr><td>Mem0 (platform v3)</td><td class="store">hybrid</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">94.4%</td><td class="num">92.5%</td><td>undisclosed</td><td>self</td></tr>
+            <tr><td>Hindsight</td><td class="store">extraction</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">91.4%</td><td class="num">89.6%</td><td>Gemini 3 Pro</td><td>indie</td></tr>
+            <tr><td>True Memory (Pro)</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">87.8%</td><td class="num">93.0%</td><td>gpt-4.1-mini</td><td>paper</td></tr>
+            <tr><td>Supermemory</td><td class="store">extraction</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">85.2%</td><td class="num">65.4%</td><td>Gemini-3</td><td>indie</td></tr>
+            <tr><td>EverOS / EverMind</td><td class="store">unstated</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">83.0%</td><td class="num">93.1%</td><td>undisclosed</td><td>self</td></tr>
+            <tr><td>ENGRAM (paper, arXiv:2511.12960)</td><td class="store">extraction</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">71.4%</td><td class="num">77.6%</td><td>GPT-4o-mini</td><td>paper</td></tr>
+            <tr><td>Zep / Graphiti</td><td class="store">hybrid</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">71.2%</td><td class="num">75.1%</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>Celiums</td><td class="store">unstated</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">62.3%</td><td class="num">&mdash;</td><td>Opus</td><td>self</td></tr>
+            <tr><td>GPT-4o (reference)</td><td class="store">reference</td><td class="num">&mdash;</td><td class="num">87.0%</td><td class="num">60.2%</td><td class="num">&mdash;</td><td>GPT-4o</td><td>paper</td></tr>
 
-            <tr class="grp"><td colspan="6">retrieval-only &mdash; R@K recall (not comparable to QA; no answer model)</td></tr>
-            <tr><td>engram-2 <sup>&dagger;</sup></td><td class="store verb">verbatim</td><td class="num">99.0% R@5</td><td class="num">74.5% QA</td><td>&mdash;</td><td>self</td></tr>
-            <tr><td>ai-memory <sup>&dagger;</sup></td><td class="store verb">verbatim</td><td class="num">97.8% R@5</td><td class="num">&mdash;</td><td>&mdash;</td><td>self</td></tr>
-            <tr><td>MemPalace (upstream)</td><td class="store verb">verbatim</td><td class="num">96.6% R@5</td><td class="num">88.9% R@10</td><td>&mdash;</td><td>indie</td></tr>
-            <tr><td>agentmemory</td><td class="store verb">verbatim</td><td class="num">95.2% R@5</td><td class="num">&mdash;</td><td>&mdash;</td><td>self</td></tr>
-            <tr><td>mcp-memory-service</td><td class="store verb">verbatim</td><td class="num">86.0% R@5</td><td class="num">49.7% R@5</td><td>&mdash;</td><td>self</td></tr>
+            <tr class="grp"><td colspan="8">retrieval-only &mdash; R@K recall (LongMemEval R@5; not comparable to QA)</td></tr>
+            <tr><td>engram-2 <sup>&dagger;</sup></td><td class="store verb">verbatim</td><td class="num">99.0%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">74.5% <span class="mtag">QA</span></td><td>&mdash;</td><td>self</td></tr>
+            <tr><td>ai-memory <sup>&dagger;</sup></td><td class="store verb">verbatim</td><td class="num">97.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>&mdash;</td><td>self</td></tr>
+            <tr><td>MemPalace (upstream)</td><td class="store verb">verbatim</td><td class="num">96.6%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">88.9% <span class="mtag">R@10</span></td><td>&mdash;</td><td>indie</td></tr>
+            <tr><td>agentmemory</td><td class="store verb">verbatim</td><td class="num">95.2%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>&mdash;</td><td>self</td></tr>
+            <tr><td>mcp-memory-service</td><td class="store verb">verbatim</td><td class="num">86.0%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">49.7% <span class="mtag">R@5</span></td><td>&mdash;</td><td>self</td></tr>
           </tbody>
         </table>
+        </div>
+        <div class="matrix-controls">
+          <span>LongMemEval columns are three <em>different tests</em> &mdash; R@5 (retrieval), oracle QA (gold given), E2E QA (full pipeline) &mdash; never compare across them. <strong>Click any column header to sort</strong> (groups collapse into one ranking).</span>
+          <button type="button" id="matrixReset" hidden>&#8634; restore groups</button>
+        </div>
         <p class="bench-prose" style="font-size:13px;opacity:.8;">
           &dagger; <strong>engram-2</strong> = <a href="https://github.com/199-biotechnologies/engram-2">github.com/199-biotechnologies/engram-2</a>
           (Paperfot AI) &mdash; a Rust CLI: SQLite + FTS5/BM25 + Gemini&nbsp;Embedding&nbsp;2
@@ -2908,6 +3001,81 @@
       } else { raf = null; }
     }
     window.addEventListener('mousemove', onMove, { passive: true });
+  })();
+
+  /* COMPARISON MATRIX — click-to-sort with group-restore */
+  (function(){
+    var table = document.getElementById('memMatrix');
+    if (!table) return;
+    var tbody = table.tBodies[0];
+    if (!tbody) return;
+    var resetBtn = document.getElementById('matrixReset');
+
+    // Capture original DOM order so "restore groups" is lossless.
+    var originalRows = Array.prototype.slice.call(tbody.rows);
+
+    // Data rows = everything that isn't a .grp divider (the .total row sorts as data).
+    function dataRows(){
+      return originalRows.filter(function(r){ return !r.classList.contains('grp'); });
+    }
+
+    // data-type="num": leading float, stripping %/whitespace; "—"/empty sink to -Infinity.
+    // A trailing .mtag (e.g. "74.5% QA") is ignored because parseFloat stops at the space.
+    function numValue(cell){
+      var clone = cell.cloneNode(true);
+      var tag = clone.querySelector('.mtag');
+      if (tag) tag.remove();
+      var txt = (clone.textContent || '').replace(/[%,\s]/g, '');
+      if (!txt || txt === '—' || txt === '-') return -Infinity;
+      var n = parseFloat(txt);
+      return isNaN(n) ? -Infinity : n;
+    }
+    function textValue(cell){
+      return (cell.textContent || '').trim().toLowerCase();
+    }
+
+    function clearArrows(){
+      var ths = table.querySelectorAll('th.sortable');
+      ths.forEach(function(th){ th.removeAttribute('data-dir'); });
+    }
+
+    function sortBy(th){
+      var col = parseInt(th.getAttribute('data-col'), 10);
+      var type = th.getAttribute('data-type') || 'text';
+      var dir = th.getAttribute('data-dir') === 'asc' ? 'desc' : 'asc';
+
+      var rows = dataRows();
+      rows.sort(function(a, b){
+        var ca = a.cells[col], cb = b.cells[col];
+        var cmp;
+        if (type === 'num') {
+          cmp = numValue(ca) - numValue(cb);
+        } else {
+          cmp = textValue(ca).localeCompare(textValue(cb));
+        }
+        return dir === 'asc' ? cmp : -cmp;
+      });
+
+      // Flat ranking: drop the .grp dividers, render only data rows in sorted order.
+      while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+      rows.forEach(function(r){ tbody.appendChild(r); });
+
+      clearArrows();
+      th.setAttribute('data-dir', dir);
+      if (resetBtn) resetBtn.hidden = false;
+    }
+
+    function restore(){
+      while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+      originalRows.forEach(function(r){ tbody.appendChild(r); });
+      clearArrows();
+      if (resetBtn) resetBtn.hidden = true;
+    }
+
+    table.querySelectorAll('th.sortable').forEach(function(th){
+      th.addEventListener('click', function(){ sortBy(th); });
+    });
+    if (resetBtn) resetBtn.addEventListener('click', restore);
   })();
 </script>
 

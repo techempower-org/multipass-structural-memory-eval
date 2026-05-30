@@ -1,0 +1,1126 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-true-oracle/trueoracle_temporal.json",
+    "pinned_metadata": {
+      "slice": "temporal",
+      "content_rules": "sme-rich",
+      "retrieval": "TRUE-ORACLE (evidence sessions only, verbatim, no /search/chunking)",
+      "source": "corpus-direct (no daemon)",
+      "endpoint": "true-oracle"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "temporal_cot_v2"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 5,
+    "timestamp_utc": "2026-05-30T03:57:20.191074+00:00"
+  },
+  "n_questions": 133,
+  "n_configs": 1,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|temporal_cot_v2|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 133,
+          "qa_acc": 0.782,
+          "labels": {
+            "CORRECT": 100,
+            "INCORRECT": 29,
+            "ABSTAIN": 4
+          }
+        },
+        "by_question_type": {
+          "temporal-reasoning": {
+            "n": 133,
+            "qa_acc": 0.782,
+            "labels": {
+              "CORRECT": 100,
+              "INCORRECT": 29,
+              "ABSTAIN": 4
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "gpt4_2655b836",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- Car serviced for the first time: March 15, 2023 (stated in session dated 2023/04/10)\n- GPS system issue: March 22, 2023 (\"on 3/22,\" stated in session dated 2023/04/10)\n\nSubtraction: March 22 \u2212 March 15 = 7 days after the first service.\n\nThe first issue you had with your new car after its first service was a problem with the car's GPS system on March 22nd, which required taking it back to the dealership, where they replaced the entire system.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2487a7cb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. \"Data Analysis using Python\" webinar \u2014 described on 2023/05/28 as \"two months ago\" \u2192 ~2023/03/28.\n2. \"Effective Time Management\" workshop \u2014 described on 2023/05/28 as \"last Saturday\" \u2192 2023/05/27.\n\nSubtraction: 2023/05/27 \u2212 2023/03/28 = about 60 days later.\n\nThe \"Data Analysis using Python\" webinar (\u22482023/03/28) came first, before the \"Effective Time Management\" workshop (2023/05/27).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_76048e76",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- **Bike repair:** Stated as \"mid-February\" (anchored in sessions dated 2023/03/10). Mid-February 2023 \u2248 around February 15, 2023.\n- **Car wash/detailing:** Stated explicitly as \"Monday, February 27th\" \u2192 February 27, 2023.\n\nDate subtraction: February 27 \u2212 February 15 = 12 days. The bike repair (mid-February) came before the car wash (February 27).\n\n**You took care of the bike first** \u2014 the bike was repaired in mid-February, before you washed your car on February 27th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2312f94c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- Samsung Galaxy S22: purchased February 20th, 2023\n- Dell XPS 13: arrived February 25th, 2023\n\nSubtraction: Feb 25 \u2212 Feb 20 = 5 days; the Galaxy S22 arrived 5 days earlier.\n\nYou got the **Samsung Galaxy S22** first (February 20th), before the Dell XPS 13 (February 25th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bb5a684",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Workshop on \"Effective Communication in the Workplace\": January 10, 2023 (explicitly stated by the user).\n- Team meeting being prepared for: January 17, 2023 (explicitly stated by the user).\n\nSubtraction: January 17 \u2212 January 10 = 7 days.\n\nThe workshop was **7 days** before the team meeting.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "08f4fc43",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Sunday mass at St. Mary's Church: January 2nd, 2023 (2023/01/02)\n- Ash Wednesday service at the cathedral: February 1st, 2023 (2023/02/01)\n\nSubtraction: February 1 \u2212 January 2 = (31 \u2212 2) + 1 = 30 days.\n\n**30 days** passed between the Sunday mass (Jan 2) and the Ash Wednesday service (Feb 1).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2c63a862",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Started working with Rachel: 2/15/2022 (stated in session dated 2022/03/02 as \"Since I started working with her on 2/15\")\n- Found the house she loved: 3/1/2022 (stated in session dated 2022/03/02 as \"I recently saw a house that I really love on 3/1\")\n\nSubtraction: March 1, 2022 \u2212 February 15, 2022 = 14 days.\n\nIt took 14 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_385a5000",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Tomatoes (and peppers, cucumbers) started indoors \"since February 20th\" \u2192 February 20, 2023.\n- Marigold seeds \"arrived on March 3rd\" and started \u2192 March 3, 2023.\n\nSubtraction: March 3 \u2212 February 20 = 11 days later.\n\nThe tomatoes were started first, on February 20, 2023, 11 days before the marigolds (March 3, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2a1811e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Holi celebration: February 26, 2023 (stated explicitly by user)\n- Sunday mass at St. Mary's Church: March 19, 2023 (stated explicitly by user)\n\nSubtraction:\n- February 26 \u2192 February 28 = 2 days\n- February 28 \u2192 March 19 = 19 days\n- Total: 2 + 19 = 21 days\n\n**21 days** passed between the Holi festival and the Sunday mass at St. Mary's Church.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bbf86515",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- \"Turbocharged Tuesdays\" event: stated as June 14th (2023/06/14)\n- \"Rack Fest\" event: stated as June 18th (2023/06/18)\n\nSubtraction: June 18 \u2212 June 14 = 4 days\n\nYou participated in the 'Turbocharged Tuesdays' event **4 days** before the 'Rack Fest'.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5dcc0aab",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n- Cleaning the white Adidas sneakers: stated in sessions dated 2023/05/30 as \"last month,\" resolving to April 2023.\n\nThe pair of shoes you cleaned last month was your **white Adidas sneakers** (using soap and water on the uppers, then air-drying them on the balcony).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0b2f1d21",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- **Coffee maker purchase:** Session date 2023/05/22, user said \"about three weeks ago.\" 2023/05/22 \u2212 21 days = **~2023/05/01**.\n- **Stand mixer malfunction/repair:** Session date 2023/05/22, user said the mixer was taken to the repair shop \"last month.\" Last month = **April 2023** (~2023/04/22).\n\nSubtraction: 2023/05/01 \u2212 2023/04/22 = the mixer event came about 9 days earlier.\n\n**The malfunction of the stand mixer happened first** (April 2023), before the coffee maker purchase (~May 1, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f0853d11",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- \"Walk for Hunger\" 5K walk: February 21, 2023\n- \"Coastal Cleanup\" event: March 7, 2023\n\nSubtraction:\n- February 21 \u2192 February 28 = 7 days\n- February 28 \u2192 March 7 = 7 days\n- 7 + 7 = 14 days\n\n**14 days** passed between the two events.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_6ed717ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- **Dog bed for Max**: Mentioned in the session dated 2023/05/20, \"about three weeks ago\" \u2192 roughly 2023/04/29.\n- **Training pads for Luna**: Mentioned in the session dated 2023/05/20, \"about a month ago\" \u2192 roughly 2023/04/20.\n\nSubtraction: 2023/04/29 \u2212 2023/04/20 = 9 days. The training pads were purchased earlier.\n\n**You purchased the training pads for Luna first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n**Event 1 \u2014 Fixing the fence:**\n- Stated in session dated 2023/05/22, \"three weeks ago\"\n- 2023/05/22 \u2212 21 days = 2023/05/01\n\n**Event 2 \u2014 Trimming the goats' hooves:**\n- Stated in session dated 2023/05/22, \"two weeks ago\"\n- 2023/05/22 \u2212 14 days = 2023/05/08\n\n**Subtraction:**\n- 2023/05/08 \u2212 2023/05/01 = 7 days\n\nThe fence fixing (2023/05/01) came before the hoof trimming (2023/05/08).\n\n**You completed fixing the fence first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3838d2b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me list every charity event mentioned with its resolved calendar date:\n\n1. **\"Run for the Cure\"** \u2014 October 15th (stated in session dated 2023/11/29) \u2192 **2023/10/15**\n2. **\"Dance for a Cause\"** \u2014 May 1st \u2192 **2023/05/01**\n3. **\"Walk for Wildlife\"** \u2014 June \u2192 **2023/06**\n4. **Charity golf tournament** \u2014 July 17th \u2192 **2023/07/17**\n5. **\"Food for Thought\" charity gala** \u2014 September 25th \u2192 **2023/09/25**\n6. **\"Bike-a-Thon\"** \u2014 November \u2192 **2023/11**\n\nNow, identifying which events occurred BEFORE the \"Run for the Cure\" event (2023/10/15):\n\n- Dance for a Cause: 2023/05/01 \u2192 before 10/15 \u2713\n- Walk for Wildlife: 2023/06 \u2192 before 10/15 \u2713\n- Charity golf tournament: 2023/07/17 \u2192 before 10/15 \u2713\n- Food for Thought gala: 2023/09/25 \u2192 before 10/15 \u2713\n- Bike-a-Thon: 2023/11 \u2192 after 10/15 \u2717\n\n**Answer: 4 charity events.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- Total professional experience stated (2023/05/22): \"working professionally for 9 years.\"\n- Time at NovaTech stated (2023/05/22): \"about 4 years and 3 months.\"\n\nSubtraction: 9 years \u2212 4 years 3 months = 4 years 9 months.\n\nYou had been working for **4 years and 9 months** before starting your current job at NovaTech.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2d58bcd6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n**'The Nightingale':** In the session dated 2023/05/22, the user said they finished it \"last weekend.\" The weekend before Monday May 22, 2023 was May 20\u201321, 2023. So resolved date \u2248 2023/05/20\u201321.\n\n**'The Hate U Give':** In the session dated 2023/05/22, the user said they had to rush to finish it for a book club meeting \"two weeks ago\" and finished it \"a few days before\" that meeting. Two weeks before May 22, 2023 = May 8, 2023. The meeting was around May 8, and the user finished \"a few days before,\" so \u2248 May 5, 2023.\n\n**Subtraction:** May 20, 2023 \u2212 May 5, 2023 = 15 days earlier for 'The Hate U Give'.\n\n**Answer:** You finished **'The Hate U Give'** first (\u2248 May 5, 2023), before **'The Nightingale'** (\u2248 May 20, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_65aabe59",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n\n- Smart thermostat: In the session dated 2023/05/24, the user said it was set up \"a month ago\" \u2192 approximately 2023/04/24.\n- Mesh network system: In the session dated 2023/05/24, the user said it was upgraded \"3 weeks ago\" \u2192 approximately 2023/05/03.\n\nSubtraction: 2023/05/03 \u2212 2023/04/24 = 9 days later for the mesh network.\n\nThe smart thermostat was set up first (\u22482023/04/24), about 9 days before the mesh network system (\u22482023/05/03).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "982b5123",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n**Events:**\n- The Airbnb stay was for the best friend's wedding, which occurred \"exactly two months ago\" relative to the session dated 2023/05/27. So the wedding/stay was around 2023/03/27.\n- The user booked the Airbnb \"three months in advance\" of the stay. So booking = 2023/03/27 minus 3 months = 2022/12/27.\n\n**Calculation:**\n- Question date: 2023/05/27\n- Booking date: 2022/12/27\n- 2023/05/27 \u2212 2022/12/27 = 5 months\n\n**Answer: You booked the Airbnb 5 months ago.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b9cfe692",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and their stated durations:\n\n- \"The Seven Husbands of Evelyn Hugo\" \u2014 stated in session on 2023/05/28: took **two and a half weeks** (2.5 weeks = 17.5 days) to finish.\n- \"The Nightingale\" \u2014 stated in session on 2023/05/28: took **three weeks** (3 weeks = 21 days) to finish.\n\nCombined: 2.5 weeks + 3 weeks = 5.5 weeks = 17.5 + 21 = **38.5 days**.\n\n**5.5 weeks (38.5 days) combined.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4edbafa2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referred to:\n- BBQ at friend's place (used up Sweet Baby Ray's): resolved to June 17, 2023 (stated explicitly as \"the 17th of June\").\n- Backyard BBQ party at colleague's house: resolved to June 3, 2023 (stated explicitly as \"the 3rd of June\").\n\nComparing the two June BBQ events: June 3 comes before June 17.\n\nThe first BBQ event in June was on **June 3, 2023** (the backyard BBQ party at your colleague's house).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8090214",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. **Holiday Market attendance**: Stated as \"a week before Black Friday.\" Black Friday 2023 was November 24, 2023. One week before = **November 17, 2023**.\n\n2. **iPhone 13 Pro purchase**: Stated as bought \"on Black Friday\" = **November 24, 2023**.\n\nSubtraction: November 24, 2023 \u2212 November 17, 2023 = **7 days**.\n\n**Answer: 7 days.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_483dd43c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the start dates of each show.\n\n**'The Crown':** In the session dated 2023/05/20, the user said \"I started it on a Sunday afternoon and finished the entire season in just 14 days.\" If they finished after 14 days, I need the start. The user describes the binge as recently finished. Working backward: the session is 2023/05/20, and the binge took 14 days. So the start was a Sunday roughly 14 days before finishing. Counting back from on/around 2023/05/20 by 14 days lands around 2023/05/06 (Sat) \u2014 but they said it started on a Sunday, so the start was 2023/05/07 (Sun), finishing 2023/05/21. Since the session is 05/20, the finish was just before. Taking the explicit \"Sunday\" anchor near this window: **start \u2248 2023/05/07 (Sun)**.\n\n**'Game of Thrones':** In the session dated 2023/05/20, the user said \"I finally started it about a month ago.\" One month before 2023/05/20 = **2023/04/20**.\n\n**Subtraction:**\n- 'Game of Thrones' start: 2023/04/20\n- 'The Crown' start: 2023/05/07\n- 2023/05/07 \u2212 2023/04/20 = 17 days later\n\n'Game of Thrones' was started about 17 days before 'The Crown.'\n\n**Answer: 'Game of Thrones'** \u2014 it was started first (around 2023/04/20), before 'The Crown' (around 2023/05/07).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e4e14d04",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- Joined \"Book Lovers Unite\": session dated 2023/05/24 says \"three weeks ago\" \u2192 2023/05/24 \u2212 21 days = 2023/05/03.\n- Attended the meetup: session dated 2023/05/24 says \"last week\" \u2192 2023/05/24 \u2212 7 days = 2023/05/17.\n\nSubtraction: 2023/05/17 \u2212 2023/05/03 = 14 days.\n\nYou had been a member for **2 weeks (14 days)** when you attended the meetup.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c9f37c46",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n**Event 1 \u2014 Started watching stand-up regularly:**\nSession date: 2023/05/27. User said it started \"about 3 months ago\" \u2192 about 2023/02/27.\n\n**Event 2 \u2014 Attended open mic night:**\nSession date: 2023/05/27. User said \"last month\" \u2192 about 2023/04/27.\n\n**Subtraction:**\n2023/04/27 \u2212 2023/02/27 = 2 months.\n\nYou had been watching stand-up comedy specials regularly for about **2 months** when you attended the open mic night.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2c50253f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the relevant facts.\n\nEvents:\n- Usual wake-up time: 8:30 AM (mentioned in session dated 2023/05/30).\n- New regular wake-up time: 7:00 AM (session dated 2023/05/30 21:48).\n- On Tuesdays and Thursdays, you wake up 15 minutes earlier than your regular 7:00 AM wake-up to meditate and do yoga (session dated 2023/05/30 03:52).\n\nComputation: 7:00 AM \u2212 15 minutes = 6:45 AM.\n\nOn Tuesdays and Thursdays, you wake up at **6:45 AM**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dcfa8644",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Bought Adidas running shoes: January 10, 2023 (stated explicitly)\n- Realized Converse shoelace broke: January 24, 2023 (stated explicitly)\n\nSubtraction: January 24 \u2212 January 10 = 14 days\n\n**14 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b4a80587",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. **New 50mm f/1.8 prime lens arrival**: Stated on 2023/05/30 as \"got a month ago\" \u2192 2023/04/30 (approximately one month before).\n\n2. **Road trip to the coast**: Stated on 2023/05/30 as \"got back from a road trip to the coast... last week.\" The user also clarified it was \"the week before\" the prior Sunday's park photos. Resolving \"last week\" from 2023/05/30 \u2192 the trip occurred around 2023/05/22 (the week prior).\n\nSubtraction: 2023/05/22 (road trip) \u2212 2023/04/30 (lens) = the lens arrival is about 22 days earlier.\n\n**The arrival of the new prime lens happened first** (\u22482023/04/30), about three weeks before the coastal road trip (\u22482023/05/22).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_9a159967",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me list the flights mentioned with resolved dates:\n\n1. **United Airlines \u2014 Chicago business trip (March):** Anchored to session 2023/04/27. User said \"In March... flying from my hometown to Chicago on the 10th and returning on the 12th, with two flights each way.\" That's March 10, 2023 (2 flights) + March 12, 2023 (2 flights) = **4 United flights**.\n\n2. **Southwest Airlines \u2014 Las Vegas conference (March):** \"direct flight from my hometown to Las Vegas... in March, from the 15th to the 18th.\" That's March 15, 2023 (1 flight) + March 18, 2023 (1 flight) = **2 Southwest flights**.\n\n3. **American Airlines \u2014 Hawaii vacation (April):** \"week-long vacation to Hawaii... from the 20th to the 27th of April. We flew with American Airlines from our hometown to Honolulu, and then took a connecting flight to Maui.\" That's April 20, 2023 (2 flights: hometown\u2192Honolulu\u2192Maui) + April 27, 2023 return (2 flights) = **4 American flights**.\n\n**Tally for March\u2013April 2023:**\n- United Airlines: 4 flights\n- American Airlines: 4 flights\n- Southwest Airlines: 2 flights\n\nUnited Airlines and American Airlines are tied at 4 flights each \u2014 the most of any airline.\n\n**Answer: You flew with United Airlines and American Airlines the most in March and April, each with 4 flights (United on March 10 and 12; American on April 20 and 27).**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "cc6d1ec1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- **Bird watching started:** In session dated 2023/05/25, the user said they'd been bird watching \"for about three months now.\" So the start was around late February 2023 (2023/05/25 \u2212 3 months \u2248 2023/02/25).\n\n- **Workshop attended:** In session dated 2023/05/25, the user said they attended the workshop \"a month ago.\" So the workshop was around 2023/04/25 (2023/05/25 \u2212 1 month).\n\nSubtraction:\n- Workshop date \u2212 bird watching start = 2023/04/25 \u2212 2023/02/25 = about 2 months.\n\n**You had been bird watching for about 2 months when you attended the bird watching workshop.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_8c8961ae",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Europe trip with family: stated on 2023/05/23 as \"just last month\" \u2192 April 2023.\n- Solo trip to Thailand: stated on 2023/05/23 as \"last year\" \u2192 2022.\n\nSubtraction: 2022 (Thailand) is earlier than April 2023 (Europe).\n\nYou took the solo trip to Thailand first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d9af6064",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- Smart thermostat set up: stated as \"2/10\" \u2192 February 10, 2023\n- New router obtained: stated as \"January 15th\" \u2192 January 15, 2023\n\nSubtraction: Feb 10, 2023 \u2212 Jan 15, 2023 = 26 days. The router (Jan 15) comes before the thermostat (Feb 10).\n\nYou set up the **new router** first (January 15, 2023), before the smart thermostat (February 10, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7de946e7",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- Persistent cough: began three weeks before the Feb 28, 2023 session where it was mentioned. Feb 28 \u2212 21 days = February 7, 2023 (and the related doctor visit was February 10, 2023).\n- Skin tag removal: February 22, 2023.\n\nSubtraction: Feb 22 \u2212 Feb 7 = 15 days later (the cough also preceded the skin tag removal by reference to the Feb 10 doctor visit, which is 12 days before Feb 22).\n\nYou dealt with the persistent cough first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d01c6aa8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the relevant facts:\n\n- Session date: 2023/05/29 \u2014 In this session you stated you are 32 years old.\n- You also stated you've been living in the United States for the past five years.\n\nCalculation: 32 \u2212 5 = 27.\n\nYou were **27 years old** when you moved to the United States.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "993da5e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. **New area rug acquired**: In the session dated 2023/05/30, the user said they got it \"a month ago\" \u2192 2023/04/30.\n\n2. **Furniture rearranged**: In the session dated 2023/05/30, the user said they rearranged the furniture \"three weeks ago\" \u2192 2023/05/30 \u2212 21 days = 2023/05/09.\n\nDay-delta calculation:\n- 2023/05/09 (rearranged furniture) \u2212 2023/04/30 (got rug) = 9 days.\n\n**You had been using the new area rug for 9 days when you rearranged your living room furniture.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3045048",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. Order date of the photo album: stated as \"the 15th of April\" \u2192 April 15, 2022.\n2. Best friend's birthday party: stated as \"the 22nd of April\" \u2192 April 22, 2022.\n\nSubtraction: April 22 \u2212 April 15 = 7 days.\n\nYou ordered the gift 7 days before your best friend's birthday party.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d31cdae3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events to resolve:\n\n1. **Solo trip to Europe** \u2014 mentioned in session dated 2023/05/23 as having occurred \"last summer\" \u2192 Summer 2022.\n2. **Family road trip across the American Southwest** (Grand Canyon) \u2014 mentioned in session dated 2023/05/23 as having occurred \"a few years ago\" \u2192 approximately 2019\u20132020 (several years before 2023).\n\nSubtraction/comparison:\n- Family road trip: ~2019\u20132020\n- Solo Europe trip: Summer 2022\n\nThe family road trip (a few years ago, ~2019\u20132020) came before the solo trip to Europe (last summer, 2022).\n\n**The family road trip across the American Southwest was taken first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_cd90e484",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- New binoculars acquired: In the session dated 2023/05/26, the user said they got them \"exactly three weeks ago.\" 2023/05/26 \u2212 21 days = 2023/05/05.\n- American goldfinches sighting: In the session dated 2023/05/26, the user said they took a walk \"a week ago.\" 2023/05/26 \u2212 7 days = 2023/05/19.\n\nSubtraction: 2023/05/19 \u2212 2023/05/05 = 14 days.\n\nYou had used your new binoculars for **14 days** before you saw the American goldfinches returning.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_88806d6e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- **Tom**: In the session dated 2023/05/28, the user says they volunteered at a charity event \"a few months ago\" and met Tom. Taking \"a few months ago\" as roughly 3 months before 2023/05/28 \u2192 approximately **2023/02/28**.\n\n- **Mark and Sarah**: In the session dated 2023/05/28, the user says they met them on a beach trip \"about a month ago\" \u2192 approximately **2023/04/28**.\n\nSubtraction: 2023/04/28 (Mark and Sarah) \u2212 2023/02/28 (Tom) = Tom was met about 2 months earlier.\n\n**You met Tom first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4cd9eba1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Acceptance into the exchange program: stated in the 2023/04/19 session as \"got accepted on March 20th\" \u2192 **2023/03/20**\n- Started attending pre-departure orientation sessions: stated in the 2023/04/19 session as \"every Friday since 3/27\" \u2192 first session **2023/03/27**\n\nSubtraction:\n2023/03/27 \u2212 2023/03/20 = 7 days = 1 week\n\n**You had been accepted into the exchange program for 1 week when you started attending the pre-departure orientation sessions.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_93f6379c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n\n- \"Page Turners\" book club: stated in the session dated 2023/05/25 as joined \"last week.\" Anchoring to that session date and going back one week \u2192 approximately 2023/05/18 (the week of May 14\u201320, 2023).\n- \"Marketing Professionals\" LinkedIn group: stated in the session dated 2023/05/25 as joined \"yesterday.\" Anchoring to that session date minus 1 day \u2192 2023/05/24.\n\nSubtraction: 2023/05/24 \u2212 2023/05/18 = 6 days later. \"Page Turners\" was joined the earlier date.\n\nFinal answer: You joined **'Page Turners'** first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b29f3365",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n**Events:**\n\n1. **Started guitar lessons with Alex:** In session dated 2023/05/27, you said you'd been taking weekly lessons \"for six weeks now.\" So lessons started 6 weeks before 2023/05/27 \u2192 2023/04/15.\n\n2. **Bought the new guitar amp:** Stated \"two weeks ago\" relative to the 2023/05/27 session \u2192 2023/05/13.\n\n**Subtraction:**\n- Amp purchase: 2023/05/13\n- Lessons started: 2023/04/15\n- 2023/05/13 \u2212 2023/04/15 = 28 days = 4 weeks\n\n**Answer: You had been taking guitar lessons for 4 weeks (about a month) when you bought the new guitar amp.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f56ae70",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the streaming services and when they started.\n\nEvents with resolved dates:\n- Apple TV+: \"using for a few months now\" as of 2023/05/22 \u2192 started roughly early 2023 (a few months before May 22, 2023).\n- Netflix, Hulu, Amazon Prime: \"for the past 6 months\" as of 2023/05/22 \u2192 started roughly November 2022.\n- Disney+: \"started a free trial last month\" as of 2023/05/22 \u2192 started roughly April 2023.\n\nComparing start times: Netflix/Hulu/Amazon (~Nov 2022), Apple TV+ (~early 2023), Disney+ (~April 2023).\n\nDisney+ was started \"last month\" (April 2023), which is the most recent of all.\n\n**Disney+** \u2014 you started it as a free trial last month (April 2023), making it the most recently adopted streaming service.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6613b389",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events with resolved dates:\n\n- Rachel's engagement: stated in the session dated 2023/07/07 as \"last month on May 15th\" \u2192 **May 15, 2023**\n- The user's anniversary: stated as \"coming up on July 22nd\" \u2192 **July 22, 2023**\n\nSubtraction:\n- From May 15, 2023 to July 22, 2023 = a little over 2 months (May 15 \u2192 June 15 = 1 month; June 15 \u2192 July 15 = 2 months; plus 7 days).\n\n**Rachel got engaged 2 months before the anniversary.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_78cf46a3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. **Lost phone charger**: Stated on 2023/05/29 as \"about two weeks ago\" \u2192 ~2023/05/15.\n2. **Received new phone case**: Stated on 2023/05/29 as \"about a month ago\" \u2192 ~2023/04/29.\n\nSubtraction: 2023/05/15 \u2212 2023/04/29 = 16 days later for the charger loss.\n\nThe narrator **receiving their new phone case** happened first (around April 29), about 16 days before losing the phone charger (around May 15).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0a05b494",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve both dates.\n\n**Tourist from Australia:** Mentioned in session dated 2023/05/28 (Sun). User said \"last Thursday.\" The Thursday before Sunday May 28, 2023 = May 25, 2023.\n\n**Jam maker at farmer's market:** Mentioned in session dated 2023/05/28 (Sun). User said \"two weeks ago on a Saturday morning.\" Two weeks before May 28 = May 14, 2023 (which was a Sunday)\u2014the intended Saturday is May 13, 2023.\n\n**Subtraction:** May 25 \u2212 May 13 = 12 days. The jam maker (May 13) came before the tourist (May 25).\n\n**You met the woman selling jam at the farmer's market first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_1a1dc16d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Meeting with Rachel: stated in session dated 2023/05/09 as occurring on \"April 10th\" \u2192 April 10, 2023.\n- Pride parade: stated in session dated 2023/05/09 as occurring on \"May 1st\" \u2192 May 1, 2023.\n\nSubtraction: May 1, 2023 \u2212 April 10, 2023 = 21 days.\n\nThe meeting with Rachel (April 10, 2023) happened first, 21 days before the pride parade (May 1, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f584639",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n**Necklace for sister:** In the session dated 2023/05/22 (Mon), the user said they got the necklace \"last weekend.\" The weekend before May 22 (Mon) was May 20\u201321, 2023. So the necklace was bought around **May 20\u201321, 2023**.\n\n**Photo album for mom:** In the session dated 2023/05/22 (Mon), the user said they ordered the Shutterfly photo album \"two weeks ago.\" Two weeks before May 22 = **May 8, 2023**.\n\n**Subtraction:** May 20 \u2212 May 8 = 12 days. The photo album (May 8) predates the necklace (May 20).\n\n**You bought the photo album for your mom first.** It was ordered around May 8, 2023, about 12 days before the necklace for your sister (around May 20, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_213fd887",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates of both events.\n\n**Volleyball league:**\n- In the session dated 2023/05/20, the user said they had been playing volleyball \"for about 2 months now.\"\n- Resolved start: ~2023/03/20.\n\n**Charity 5K run:**\n- In the session dated 2023/05/20, the user said they \"recently did a charity 5K run... about a month ago.\"\n- Resolved date: ~2023/04/20.\n\n**Subtraction:**\n- Volleyball league start (~2023/03/20) \u2212 Charity 5K run (~2023/04/20) = volleyball began about 1 month earlier.\n\n**Final answer:** You participated in the volleyball league first (~March 2023), before the charity 5K run (~April 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5438fa52",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n**Cultural festival:** In the session dated 2023/05/20, the user said they attended it \"yesterday.\" \n\u2192 Resolved date: 2023/05/19.\n\n**Start of Spanish classes:** In the session dated 2023/05/20, the user said they'd been taking Spanish classes \"for the past three months.\"\n\u2192 Resolved start date: approximately 2023/02/20.\n\n**Subtraction:** 2023/05/19 (festival) \u2212 2023/02/20 (Spanish classes start) = ~88 days. The Spanish classes started about three months before the festival.\n\n**The start of your Spanish classes happened first** (around February 2023), about three months before you attended the cultural festival (May 19, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_c27434e8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the start dates.\n\n**Ferrari 288 GTO model:**\n- Session date: 2023/05/24. User said started \"about three weeks ago on a Sunday afternoon.\"\n- 2023/05/24 \u2212 21 days = 2023/05/03. The nearest Sunday around then is 2023/04/30.\n- Resolved start date: ~2023/04/30 (Sunday).\n\n**Japanese Zero fighter plane model:**\n- Session date: 2023/05/24. User said started \"about a month ago.\"\n- 2023/05/24 \u2212 ~30 days = ~2023/04/24.\n- Resolved start date: ~2023/04/24.\n\n**Subtraction:**\n2023/04/30 (Ferrari) \u2212 2023/04/24 (Zero) = 6 days. The Zero was started ~6 days earlier.\n\n**Answer:** You started the Japanese Zero fighter plane model first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- Rachel (sister-in-law) \u2014 twins Jackson and Julia born February 12th. Stated in the March 17, 2023 session, so: February 12, 2023.\n- Alex (cousin) \u2014 adopted a baby girl from China in January. Stated in the March 17, 2023 session, so: January 2023 (resolving to January 1, 2023 as the earliest possible).\n\nSubtraction:\n- February 12, 2023 \u2212 January 2023 = Alex's adoption (January) precedes Rachel's twins (February 12) by roughly 12\u201342 days.\n\nFinal answer: **Alex** became a parent first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8c18457d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Brother's graduation gift (wireless headphones): stated as \"3/8\" \u2192 March 8, 2023\n- Best friend's 30th birthday gift (silver necklace): stated as \"the 15th of March\" \u2192 March 15, 2023\n\nSubtraction: March 15, 2023 \u2212 March 8, 2023 = 7 days\n\n**7 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "Events referred to:\n\n1. Fixing the fence \u2014 stated on 2023/05/30 (session date) as \"three weeks ago.\" 2023/05/30 \u2212 21 days = 2023/05/09.\n\n2. Purchasing three cows from Peter \u2014 there is no record of this in the conversation history. The user only discussed possibly buying ONE new cow (a Brown Swiss or Jersey) in the future; no purchase from Peter ever occurred.\n\nFinal answer: You fixed the fence first (on 2023/05/09). You never purchased three cows from Peter \u2014 that event did not happen.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "I don't know.\n\nThe conversation history mentions that you work at NovaTech (about 4 years and 3 months) and have been working professionally for 9 years, but there is no mention of a job at Google.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "982b5123_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "I don't know.\n\nThe conversation history mentions booking an Airbnb in Haight-Ashbury (San Francisco), which you booked three months in advance for your best friend's wedding. There is no mention of booking an Airbnb in Sacramento.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "c8090214_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "The user mentions attending the Holiday Market but never mentions buying an iPad anywhere in the conversation history. The purchases discussed were an iPhone 13 Pro (on Black Friday) and a 4K TV (on Cyber Monday) \u2014 but no iPad.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_c27434e8_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "Let me identify the relevant events.\n\n- Ferrari 288 GTO model: In the session dated 2023/05/26, the user said they started it \"about three weeks ago on a Sunday afternoon.\" Three weeks before Friday 2023/05/26 lands on Sunday 2023/05/07 (the prior Sunday). So Ferrari start \u2248 2023/05/07.\n- Porsche 991 Turbo S model: There is no mention anywhere in the conversation history of a Porsche 991 Turbo S model.\n\nSince the history contains no information about a Porsche 991 Turbo S model, the only project with a known start date is the Ferrari 288 GTO (started \u2248 2023/05/07).\n\nYou started the Ferrari 288 GTO model first; there is no record of you starting a Porsche 991 Turbo S model.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "I don't know.\n\nThe conversation history mentions that cousin Alex adopted a baby girl from China in January 2023, but there is no mention of anyone named Tom or when Tom became a parent. Therefore, I cannot determine who became a parent first.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_59149c77",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- MoMA visit: stated on 2023/01/08 as \"just got back from a guided tour\" \u2192 resolved to 2023/01/08.\n- \"Ancient Civilizations\" exhibit at the Metropolitan Museum of Art: stated on 2023/01/15 as attended \"today\" \u2192 resolved to 2023/01/15.\n\nSubtraction: 2023/01/15 \u2212 2023/01/08 = 7 days.\n\n**7 days** passed between the two visits.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_f49edff3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving each event to its calendar date:\n\n1. **Helped friend prepare the nursery** \u2014 stated in the session dated 2023/02/05 (Sun), \"today\" \u2192 **2023/02/05**.\n2. **Helped cousin pick out stuff for her baby shower** \u2014 stated in the session dated 2023/02/10 (Fri), \"just helped\" \u2192 **2023/02/10**.\n3. **Ordered a customized phone case for friend's birthday** \u2014 stated in the session dated 2023/02/20 (Mon), \"today\" \u2192 **2023/02/20**.\n\nOrdering by date: 2023/02/05 \u2192 2023/02/10 \u2192 2023/02/20.\n\n**Order from first to last:**\n1. Helped friend prepare the nursery (Feb 5)\n2. Helped cousin pick out stuff for her baby shower (Feb 10)\n3. Ordered the customized phone case for friend's birthday (Feb 20)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "71017276",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: Received the crystal chandelier from your aunt \u2014 stated \"today\" in the session dated 2023/03/04 (Sat), so resolved date = 2023/03/04.\n\nQuestion date: This question is asked in the same session dated 2023/03/04.\n\nSubtraction: 2023/03/04 \u2212 2023/03/04 = 0 days = 0 weeks.\n\nYou received the crystal chandelier 0 weeks ago \u2014 that is, today (2023/03/04).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ed",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events on consecutive days:\n- \"24-Hour Bike Ride\" charity event: session date 2023/02/14 (Tue), \"today\" \u2192 2023/02/14\n- \"Books for Kids\" charity book drive: session date 2023/02/15 (Wed), \"today\" \u2192 2023/02/15\n\nThese are the two charity events on consecutive days (Feb 14 and Feb 15, 2023).\n\nAnchor for \"now\": the latest session date, 2023/03/19.\n\nSubtraction: 2023/02/15 \u2192 2023/03/19 = 1 month and 4 days.\n\n**1 month** has passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Started playing along on old keyboard: \"today\" in session dated 2023/03/25 \u2192 March 25, 2023\n- Discovered the bluegrass band: \"today\" in session dated 2023/03/31 \u2192 March 31, 2023\n\nSubtraction: March 31 \u2212 March 25 = 6 days\n\n**6 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bc8ad92",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referred to:\n\n1. Behind-the-scenes tour of the Science Museum with a friend (chemistry professor) \u2014 described in the session dated 2022/10/22 (Sat), referred to as \"today\" \u2192 resolved date: **2022/10/22**.\n2. The question is asked in the most recent session, dated **2023/02/18**.\n\nNote: The 2023/02/18 museum visit (Natural History Museum) was with the user's dad, not a friend, so it does not count.\n\nSubtraction: 2023/02/18 \u2212 2022/10/22 \u2248 3 months and 27 days.\n\n**About 4 months have passed.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "af082822",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events:\n- Friends and family sale at Nordstrom: stated on 2022/11/18 as \"yesterday\" \u2192 2022/11/17\n- Question date: 2022/11/18\n\nSubtraction: 2022/11/18 \u2212 2022/11/17 = 1 day\n\n1 day is less than a week, so you attended the Nordstrom friends and family sale less than 1 week ago (0 weeks ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293a",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the events:\n\n- Michael's engagement party: described in the session dated 2023/05/06 as \"today\" \u2192 resolved to **2023/05/06**.\n- Cousin's wedding (as a bridesmaid): described in the session dated 2023/06/15 as \"today\" \u2192 resolved to **2023/06/15**.\n\nSubtraction: 2023/06/15 \u2212 2023/05/06 = 40 days later.\n\n**Michael's engagement party happened first** (2023/05/06), 40 days before your cousin's wedding (2023/06/15).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: Maundy Thursday service \u2014 stated \"today\" in the session dated 2023/04/06 (Thu), so it resolves to 2023/04/06.\n\nQuestion date: 2023/04/06.\n\nSubtraction: 2023/04/06 \u2212 2023/04/06 = 0 days.\n\nYou attended the Maundy Thursday service **0 days ago (today, on 2023/04/06)**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b81",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the events:\n\n- Baking class at the local culinary school: mentioned in the session dated 2022/03/21 (Mon) as \"yesterday\" \u2192 resolves to 2022/03/20 (Sun).\n- Friend's birthday cake (chocolate cake with espresso powder): mentioned in the session dated 2022/04/10 (Sun) as \"today\" \u2192 resolves to 2022/04/10 (Sun).\n\nDay-delta subtraction: 2022/04/10 \u2212 2022/03/20 = 21 days.\n\n**You attended the baking class 21 days before making your friend's birthday cake.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_1d4ab0c9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Started watering the herb garden every morning: stated in the session dated 2023/03/22 with \"today\" \u2192 **2023/03/22**\n- Harvested first batch of fresh herbs: stated in the session dated 2023/04/15 with \"today\" \u2192 **2023/04/15**\n\nSubtraction:\n- March 22 \u2192 March 31 = 9 days\n- + April 15 = 9 + 15 = 24 days\n\n**24 days** passed between the two events.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e072b769",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: User says \"I've just downloaded Ibotta\" on session date 2023/04/16 (Sun). So the user started using Ibotta on 2023/04/16.\n\nThe question is asked in the same session dated 2023/04/16.\n\nSubtraction: 2023/04/16 \u2212 2023/04/16 = 0 days = 0 weeks.\n\nYou started using Ibotta this same day (the day you downloaded it), so **0 weeks ago**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0db4c65d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Finished reading \"The Seven Husbands of Evelyn Hugo\": stated \"today\" in the session dated 2022/12/28 \u2192 December 28, 2022.\n- Attended the book reading event at the library: stated \"today\" in the session dated 2023/01/15 \u2192 January 15, 2023.\n\nSubtraction:\n- January 15, 2023 \u2212 December 28, 2022 = 18 days (3 days in December + 15 days in January).\n\nFinal answer: 18 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_1d80365e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- Trip START: In session dated 2023/05/15 (Mon), the user said \"I just started my solo camping trip to Yosemite National Park today.\" \u2192 start date = 2023/05/15.\n- Trip END: In session dated 2023/05/17 (Wed), the user said \"I just got back from an amazing solo camping trip to Yosemite National Park today.\" \u2192 end date = 2023/05/17.\n\nSubtraction: 2023/05/17 \u2212 2023/05/15 = 2 days.\n\nYou spent **2 days** on your solo camping trip to Yosemite National Park.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7f6b06db",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve each trip to its concrete date based on the session date.\n\n**Trip 1: Muir Woods day hike**\n- Session date: 2023/03/10 (Fri)\n- User said \"I just got back from a day hike to Muir Woods National Monument with my family today\"\n- Resolved date: **2023/03/10**\n\n**Trip 2: Yosemite solo camping trip**\n- Session date: 2023/05/15 (Mon)\n- User said \"I just got back from a solo camping trip to Yosemite National Park today\" / \"I started my solo camping trip to Yosemite National Park today\"\n- Resolved date: **2023/05/15**\n\n**Trip 3: Big Sur and Monterey road trip**\n- Session date: 2023/04/20 (Thu)\n- User said \"I just got back from a road trip with friends to Big Sur and Monterey today\"\n- Resolved date: **2023/04/20**\n\n**Ordering earliest to latest:**\n- 2023/03/10 \u2192 Muir Woods day hike\n- 2023/04/20 \u2192 Big Sur and Monterey road trip\n- 2023/05/15 \u2192 Yosemite solo camping trip\n\n**Answer:** The order from earliest to latest is: (1) Muir Woods day hike (March 10, 2023), (2) Big Sur and Monterey road trip (April 20, 2023), (3) Yosemite solo camping trip (May 15, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_6dc9b45b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: Attended SIFF and saw \"Coda\" \u2014 stated \"today\" in the session dated 2021/06/01, so resolved to 2021/06/01.\n\nQuestion date: I'll use the latest/current reference point. Since no later question date is given beyond the session, the anchor remains 2021/06/01.\n\nResolution:\n- SIFF attendance: 2021/06/01\n- Question reference: the question is being asked relative to the same session context (2021/06/01).\n\nSubtraction: 2021/06/01 \u2212 2021/06/01 = 0 months.\n\nYou attended the Seattle International Film Festival 0 months ago \u2014 that is, on the same day (2021/06/01).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba02",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: bought the smoker \u2014 stated in the session dated 2023/03/15 (Wed) as \"I just got a smoker today,\" so it resolves to 2023/03/15.\n\nQuestion date: 2023/03/15.\n\nSubtraction: 2023/03/15 \u2212 2023/03/15 = 0 days.\n\nYou bought the smoker 0 days ago \u2014 today (2023/03/15).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_18c2b244",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving each event to its calendar date:\n\n1. **Used a Buy One Get One Free coupon on Luvs diapers at Walmart** \u2014 stated \"today\" in session dated 2023/04/01 \u2192 **2023/04/01**\n2. **Redeemed $12 cashback for a $10 Amazon gift card from Ibotta** \u2014 stated \"today\" in session dated 2023/04/10 \u2192 **2023/04/10**\n3. **Signed up for the ShopRite rewards program** \u2014 stated \"today\" in session dated 2023/04/15 \u2192 **2023/04/15**\n\nOrdering by date:\n- 04/01 < 04/10 < 04/15\n\n**Order:**\n1. Used the Buy One Get One Free coupon on Luvs diapers at Walmart (2023/04/01)\n2. Redeemed $12 cashback for a $10 Amazon gift card from Ibotta (2023/04/10)\n3. Signed up for the rewards program at ShopRite (2023/04/15)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_a1b77f9c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me identify each event and resolve its date.\n\n**The Nightingale:**\n- Started: 2022/01/01 (\"started reading 'The Nightingale'... today\") \u2192 2022/01/01\n- Finished: 2022/01/15 (\"just finished reading 'The Nightingale'... today\") \u2192 2022/01/15\n- Duration: 2022/01/15 \u2212 2022/01/01 = 14 days\n\n**Sapiens: A Brief History of Humankind:**\n- Started: 2022/02/01 (\"just started listening to 'Sapiens'... today\") \u2192 2022/02/01\n- Finished: 2022/03/01 (\"just finished listening to 'Sapiens'... today\") \u2192 2022/03/01\n- Duration: 2022/03/01 \u2212 2022/02/01 = 28 days\n\n**The Power:**\n- Started: 2022/03/06 (\"started listening to 'The Power'... today\") \u2192 2022/03/06\n- Finished: 2022/03/20 (\"just finished listening to 'The Power'... today\") \u2192 2022/03/20\n- Duration: 2022/03/20 \u2212 2022/03/06 = 14 days\n\n**Total:**\n14 + 28 + 14 = 56 days\n56 \u00f7 7 = 8 weeks\n\n**Answer: 8 weeks**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_1916e0ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. FarmFresh subscription cancellation \u2014 mentioned in the session dated 2023/01/05 (Thu). The user says \"I'm glad I cancelled,\" indicating it was already done by that date. The cancellation is anchored to 2023/01/05.\n\n2. Instacart online grocery order \u2014 stated \"I just did an online grocery order from Instacart... spent around $60 today\" in the session dated 2023/02/28 (Tue). Resolved date: 2023/02/28.\n\nSubtraction:\n- From 2023/01/05 to 2023/02/28\n- January: 31 \u2212 5 = 26 days remaining in January\n- February: 28 days\n- 26 + 28 = 54 days\n\nFinal answer: **54 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7a0daae1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events:\n- Bought the new tennis racket online: session dated 2023/03/10 (Fri), user says \"I just bought a new tennis racket online today\" \u2192 2023/03/10.\n- Received the new tennis racket: session dated 2023/03/17 (Fri), user says \"I just received my new tennis racket today\" \u2192 2023/03/17.\n\nSubtraction: 2023/03/17 \u2212 2023/03/10 = 7 days = 1 week.\n\n**1 week** passed between buying and receiving the racket.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb063",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events:\n- Lunch with Emma: stated \"today\" in the session dated 2023/04/11 (Tue) \u2192 resolved to 2023/04/11.\n- Question date: 2023/04/11.\n\nSubtraction: 2023/04/11 \u2212 2023/04/11 = 0 days.\n\nYou met Emma 0 days ago (today, on 2023/04/11).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7abb270c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve each museum visit to a concrete date based on the session date and the relative expression used.\n\n1. **Science Museum** (\"Space Exploration\" exhibition) \u2014 Session date 2023/01/15, \"today\" \u2192 **2023/01/15**\n2. **Museum of Contemporary Art** (Dr. Maria Rodriguez lecture series) \u2014 Session 2023/01/22, \"I just came back from\" \u2192 **2023/01/22**\n3. **Metropolitan Museum of Art** (\"Ancient Egyptian Artifacts\") \u2014 Session 2023/02/10, \"today\" \u2192 **2023/02/10**\n4. **Museum of History** (conservation lab tour) \u2014 Session 2023/02/15, \"today\" \u2192 **2023/02/15**\n5. **Modern Art Museum** (\"The Evolution of Abstract Expressionism,\" Dr. Patel) \u2014 Session 2023/02/20, \"today\" \u2192 **2023/02/20**\n6. **Natural History Museum** (\"Dinosaur Fossils\") \u2014 Session 2023/03/04, \"today\" \u2192 **2023/03/04**\n\n**Order from earliest to latest:**\n\n1. Science Museum \u2014 2023/01/15\n2. Museum of Contemporary Art \u2014 2023/01/22\n3. Metropolitan Museum of Art \u2014 2023/02/10\n4. Museum of History \u2014 2023/02/15\n5. Modern Art Museum \u2014 2023/02/20\n6. Natural History Museum \u2014 2023/03/04",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aeb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Gardening workshop: \"today\" in session dated 2023/04/15 \u2192 April 15, 2023\n- Planted tomato saplings: \"today\" in session dated 2023/04/21 \u2192 April 21, 2023\n\nSubtraction: April 21 \u2212 April 15 = 6 days\n\n**6 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4fc4f797",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. Feedback about the soft suspension \u2014 the user mentioned receiving this feedback in the session dated 2023/03/17 (Fri). Resolved date: 2023/03/17.\n\n2. Testing the new suspension setup at VIR \u2014 in the session dated 2023/04/23 (Sun), the user said the track day was \"tomorrow.\" Resolved date: 2023/04/24.\n\nSubtraction:\n2023/04/24 \u2212 2023/03/17 = 14 days (March) + 24 days (April) = 38 days.\n\nFinal answer: **38 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4dfccbf7",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. Started ukulele lessons: stated on 2023/02/01 with \"today\" \u2192 resolved to **2023/02/01**.\n2. Took acoustic guitar (Taylor GS Mini) to guitar tech: stated on 2023/02/25 with \"today\" (\"I decided to take my Taylor GS Mini, to the guitar tech for servicing today\") \u2192 resolved to **2023/02/25**.\n\nSubtraction: 2023/02/25 \u2212 2023/02/01 = **24 days**.\n\n**24 days had passed.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_61e13b3c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Sold homemade baked goods at the Farmers' Market: stated \"today\" in the session dated 2023/02/26 \u2192 **2023/02/26**\n- Participated in the Spring Fling Market: stated \"yesterday\" in the session dated 2023/03/21 \u2192 **2023/03/20**\n\nSubtraction: 2023/03/20 \u2212 2023/02/26 = 22 days = 22 \u00f7 7 \u2248 **3.14 weeks**\n\n**About 3 weeks** (22 days) passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_45189cb4",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve each sports event to its calendar date.\n\n**Event 1 \u2014 NBA game (Lakers vs. Chicago Bulls) at Staples Center:**\n- Stated in session dated 2023/01/05 (Thu), with \"today.\"\n- Resolved date: **2023/01/05**\n\n**Event 2 \u2014 College Football National Championship (Georgia 33, Alabama 18):**\n- Stated in session dated 2023/01/15 (Sun), with \"yesterday.\"\n- Resolved date: 2023/01/15 \u2212 1 = **2023/01/14**\n\n**Event 3 \u2014 Kansas City Chiefs defeat Buffalo Bills (NFL Divisional Round) at Mike's place:**\n- Stated in session dated 2023/01/22 (Sun), with \"last weekend.\"\n- Resolved date: weekend prior = **2023/01/14 or 2023/01/15** (the weekend of Jan 14\u201315)\n\n**Ordering by date:**\n1. NBA game (Lakers vs. Bulls) \u2014 2023/01/05\n2. College Football National Championship (Georgia vs. Alabama) \u2014 2023/01/14\n3. Chiefs vs. Bills NFL playoff game \u2014 weekend of Jan 14\u201315\n\nThe College Football Championship was explicitly \"yesterday\" of Jan 15 (= Jan 14), while the Chiefs game was \"last weekend\" relative to Jan 22 (the Jan 14\u201315 weekend). Since the championship is pinned to Jan 14 and the Chiefs game falls on that same weekend, the championship comes first or same-day.\n\n**Final order:**\n1. **NBA game \u2014 Lakers vs. Chicago Bulls (Jan 5)**\n2. **College Football National Championship \u2014 Georgia vs. Alabama (Jan 14)**\n3. **NFL Divisional Round \u2014 Chiefs vs. Bills (weekend of Jan 14\u201315)**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2ebe6c90",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Started \"The Nightingale\": Session dated 2023/01/10 (Tue), user said \"I just started 'The Nightingale'... today\" \u2192 January 10, 2023.\n- Finished \"The Nightingale\": Session dated 2023/01/31 (Tue), user said \"I just finished... 'The Nightingale'... today\" \u2192 January 31, 2023.\n\nSubtraction: January 31, 2023 \u2212 January 10, 2023 = 21 days.\n\nIt took you **21 days** to finish \"The Nightingale.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving each event to its calendar date:\n\n1. **Spring Sprint Triathlon** \u2014 \"completed today\" stated in session dated 2023/06/02 \u2192 **June 2, 2023**\n2. **Midsummer 5K Run** \u2014 \"just finished\" stated in session dated 2023/06/10 \u2192 **June 10, 2023**\n3. **Company charity soccer tournament** \u2014 \"participate today\" stated in session dated 2023/06/17 \u2192 **June 17, 2023**\n\nOrdering earliest to latest:\n- June 2 < June 10 < June 17\n\n**Order: Spring Sprint Triathlon (June 2) \u2192 Midsummer 5K Run (June 10) \u2192 Company charity soccer tournament (June 17).**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "370a8ff4",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. Recovered from the flu \u2014 stated on 2023/01/19 (Thu) as \"today\" \u2192 **2023/01/19**\n2. 10th jog outdoors \u2014 stated on 2023/04/10 (Mon) as \"today\" \u2192 **2023/04/10**\n\nSubtraction:\n- 2023/04/10 \u2212 2023/01/19 = 81 days\n- 81 \u00f7 7 = 11.57 weeks \u2248 **11 weeks**\n\n**About 11 weeks** had passed since you recovered from the flu when you went on your 10th jog.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve each event to its calendar date based on the session date when you described it as happening \"today\" or \"recently.\"\n\n**Events and resolved dates:**\n\n1. **Billie Eilish concert** (Wells Fargo Center, Philly) \u2014 described as \"just got back today\" in the session dated **2023/03/18**. \u2192 **March 18, 2023**\n\n2. **Music festival in Brooklyn** (indie bands) \u2014 described as \"just got back from\" in the session dated **2023/04/01**. \u2192 **April 1, 2023** (resolved to that session's date)\n\n3. **Free outdoor concert series in the park** \u2014 described as \"today\" in the session dated **2023/03/25**. \u2192 **March 25, 2023**\n\n4. **Jazz night at a local bar** \u2014 described as \"today\" in the session dated **2023/04/08**. \u2192 **April 8, 2023**\n\n5. **Queen with Adam Lambert** (Prudential Center, Newark) \u2014 described as \"just saw them live\" in the session dated **2023/04/15**. \u2192 **April 15, 2023**\n\n**Ordering by date (earliest first):**\n\n- March 18, 2023 \u2014 Billie Eilish (Philly)\n- March 25, 2023 \u2014 Free outdoor concert series in the park\n- April 1, 2023 \u2014 Music festival in Brooklyn\n- April 8, 2023 \u2014 Jazz night at the local bar\n- April 15, 2023 \u2014 Queen with Adam Lambert (Newark)\n\n**Final answer \u2014 the order of events from earliest to latest:**\n\n1. **Billie Eilish concert** at Wells Fargo Center, Philadelphia (March 18, 2023)\n2. **Free outdoor concert series** in the park (March 25, 2023)\n3. **Music festival in Brooklyn** featuring indie bands (April 1, 2023)\n4. **Jazz night** at a local bar (April 8, 2023)\n5. **Queen with Adam Lambert** at the Prudential Center, Newark (April 15, 2023)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4ef30696",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Finished reading 'The Nightingale': stated \"today\" in session dated 2022/01/15 \u2192 January 15, 2022\n- Started reading 'The Hitchhiker's Guide to the Galaxy': stated \"today\" in session dated 2022/01/16 \u2192 January 16, 2022\n\nSubtraction: January 16, 2022 \u2212 January 15, 2022 = 1 day\n\nFinal answer: 1 day",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_ec93e27f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the events:\n\n- Bus ride to attend a friend's wedding: stated \"today\" in the session dated 2023/02/27 \u2192 resolves to **2023/02/27**.\n- Train ride to visit family: stated \"today\"/\"on March 3rd\" in the session dated 2023/03/03 \u2192 resolves to **2023/03/03**.\n\nSubtraction: 2023/03/03 \u2212 2023/02/27 = 4 days later.\n\nThe train ride (2023/03/03) is more recent than the bus ride (2023/02/27).\n\n**You most recently used a train.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6e984301",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- Started sculpting classes: \"I just started taking sculpting classes... today\" \u2014 session date 2023/02/11 (Sat). Start date = **2023/02/11**.\n- Got own set of sculpting tools: \"I actually got my own set of sculpting tools today\" \u2014 session date 2023/03/04 (Sat). Tool date = **2023/03/04**.\n\nSubtraction: 2023/03/04 \u2212 2023/02/11 = 21 days = 21 \u00f7 7 = **3 weeks**.\n\nYou had been taking sculpting classes for **3 weeks** when you invested in your own set of sculpting tools.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8077ef71",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: networking event \u2014 stated \"today\" in the session dated 2022/03/09 (Wed), so it resolves to 2022/03/09.\n\nQuestion date: 2022/03/09.\n\nSubtraction: 2022/03/09 \u2212 2022/03/09 = 0 days.\n\nThe networking event was 0 days ago \u2014 you attended it today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve each flight to a concrete date using its session date.\n\n**Flights and resolved dates:**\n\n1. **JetBlue** \u2014 San Francisco to Boston (red-eye), \"just got back from\" in session dated 2022/11/17 \u2192 resolved to **2022/11/16** (the red-eye landing).\n\n2. **American Airlines** \u2014 New York to Los Angeles, \"on February 10th\" (stated in session 2023/01/15, given as a calendar date) \u2192 **2023/02/10**. But note: in session 2023/02/10, the user says this same NY\u2192LAX flight happened \"today\" \u2192 **2023/02/10**.\n\n3. **Delta** \u2014 round-trip Boston to Atlanta, \"today\" in session dated 2023/01/15 \u2192 **2023/01/15**.\n\n4. **United Airlines** \u2014 Boston to Chicago, \"today\" in session dated 2023/01/28 \u2192 **2023/01/28**.\n\n5. **American Airlines** \u2014 LAX to JFK, mentioned in session dated 2023/02/14 as \"still recovering from\" \u2192 resolved to **2023/02/10** (the NY\u2194LAX trip). This is the return leg of the same trip.\n\n**Ordering by resolved date (earliest to latest):**\n\n- 2022/11/16 \u2014 JetBlue (SFO\u2192BOS)\n- 2023/01/15 \u2014 Delta (BOS\u2192ATL round-trip)\n- 2023/01/28 \u2014 United (BOS\u2192ORD)\n- 2023/02/10 \u2014 American Airlines (NY\u2192LAX, then LAX\u2192JFK)\n\n**Answer:** The order of airlines I flew with, from earliest to latest, is: **JetBlue \u2192 Delta \u2192 United Airlines \u2192 American Airlines**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n1. Repotted the previous spider plant \u2014 stated \"today\" in the session dated 2023/03/04 \u2192 **2023/03/04**\n2. Gave Mrs. Johnson cuttings from the spider plant \u2014 stated \"today\" in the session dated 2023/03/18 \u2192 **2023/03/18**\n\nSubtraction: 2023/03/18 \u2212 2023/03/04 = **14 days**\n\n**14 days** passed between the two events.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_74aed68e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Spark plug replacement: stated \"today\" in the session dated 2023/02/14 \u2192 **2023-02-14**\n- Turbocharged Tuesdays event: stated \"today\" in the session dated 2023/03/15 \u2192 **2023-03-15**\n\nSubtraction: 2023-03-15 \u2212 2023-02-14 = 14 (remaining in Feb) + 15 (March) = **29 days**\n\n**29 days** passed between replacing the spark plugs and participating in the Turbocharged Tuesdays event.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bcbe585f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- Workshop at the Audubon society: stated as \"today\" on the session dated 2023/04/01 \u2192 April 1, 2023.\n- Question/current date: April 1, 2023.\n\nSubtraction: April 1, 2023 \u2212 April 1, 2023 = 0 days = 0 weeks.\n\nThe workshop was attended today (0 weeks ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_21adecb5",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n\n- Completion of undergraduate degree: stated on 2022/11/17 (\"I just completed my undergraduate degree\") \u2192 2022/11/17.\n- Submission of master's thesis: stated on 2023/05/15 (\"I just submitted my master's thesis... today\") \u2192 2023/05/15.\n\nSubtraction: 2022/11/17 \u2192 2023/05/15 = 5 months (Nov 17 to May 17 would be 6 months, but May 15 is 2 days short, so 5 months and ~28 days).\n\nFinal answer: **6 months** (rounded), or precisely about 5 months and 28 days.\n\nWait \u2014 correcting: from November 17 to May 17 is exactly 6 months; May 15 falls just before that, giving **5 months and 28 days**.\n\nFinal answer: **6 months** (approximately), i.e., just under 6 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5e1b23de",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: The user attended the 3-day photography workshop \"today,\" anchored to the session date of 2023/11/01 (Wed). Resolved date = 2023/11/01.\n\nQuestion date: The current/question date is also 2023/11/01.\n\nSubtraction: 2023/11/01 \u2212 2023/11/01 = 0 months.\n\nYou attended the photography workshop this month (0 months ago) \u2014 on November 1, 2023.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_98f46fc6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates of both events.\n\n**Charity bake sale:**\n- Session date: 2023/03/15 (Wed). The user says \"I help organize a charity bake sale at my office today.\"\n- \"today\" = 2023/03/15.\n\n**Charity gala:**\n- Session date: 2023/03/28 (Tue). The user says \"my charity gala attendance tonight.\"\n- \"tonight\" = 2023/03/28.\n\n**Subtraction:**\n- 2023/03/28 \u2212 2023/03/15 = 13 days.\n- The bake sale (March 15) came before the gala (March 28).\n\n**Answer:** You participated in the **charity bake sale** first (March 15, 2023), 13 days before the charity gala (March 28, 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_af6db32f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n- Watched the Super Bowl: stated in the session dated 2023/02/12 (Sun), described as \"today\" \u2192 resolved to 2023/02/12.\n- Question date (current date): 2023/02/12 (Sun).\n\nSubtraction: 2023/02/12 \u2212 2023/02/12 = 0 days.\n\nYou watched the Super Bowl 0 days ago (today, on 2023/02/12).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eac54adc",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the events:\n\n- Website launch: stated in the session dated 2023/02/10 (Fri) \u2014 \"I just launched my website\" \u2192 resolved date = 2023/02/10.\n- Signed contract with first client: stated in the session dated 2023/03/01 (Wed) \u2014 \"I just signed a contract with my first client today\" \u2192 resolved date = 2023/03/01.\n\nSubtraction: 2023/03/01 \u2212 2023/02/10 = 19 days.\n\n**19 days ago.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7ddcf75f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: Whitewater rafting trip in the Oregon mountains \u2014 stated on 2023/06/17 as \"today,\" so resolved date = 2023/06/17.\n\nQuestion date: The current/question date is 2023/06/17.\n\nSubtraction: 2023/06/17 \u2212 2023/06/17 = 0 days.\n\nThe whitewater rafting trip was **0 days ago** (it happened today, June 17, 2023).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a2d1d1f6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: First herb harvest \u2014 stated \"today\" in the session dated 2023/04/15.\nResolved date: 2023/04/15.\n\nQuestion date: 2023/04/15.\n\nSubtraction: 2023/04/15 \u2212 2023/04/15 = 0 days.\n\nYou harvested your first batch of fresh herbs 0 days ago \u2014 that is, today (2023/04/15).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_85da3956",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events:\n- \"Summer Nights\" festival at Universal Studios Hollywood: stated on 2023/07/15 as \"just got back from\" \u2192 resolved to 2023/07/15. (The assistant's \"three weeks ago\" remark is not supported by the user's statement.)\n- Question date: 2023/07/15.\n\nSubtraction: 2023/07/15 \u2212 2023/07/15 = 0 days = 0 weeks.\n\nYou attended the \"Summer Nights\" festival **0 weeks ago** \u2014 that very same day, 2023/07/15.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b0863698",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: 5K charity run \u2014 described as \"today\" in the session dated 2023/03/19 (Sun). Resolved date: 2023/03/19.\n\nQuestion date: 2023/03/19.\n\nSubtraction: 2023/03/19 \u2212 2023/03/19 = 0 days.\n\nThe 5K charity run was 0 days ago (it was today, 2023/03/19).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94287",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- Vegan chili recipe post: stated \"yesterday\" in the 2023/03/10 (Fri) session \u2192 2023/03/09 (Thu).\n- #PlankChallenge participation: stated \"today\" in the 2023/03/15 (Wed) session \u2192 2023/03/15 (Wed).\n\nSubtraction: 2023/03/15 \u2212 2023/03/09 = 6 days.\n\nThe vegan chili recipe post (2023/03/09) happened first, 6 days before the #PlankChallenge (2023/03/15).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- Fixed mountain bike: stated \"today\" in session dated 2023/03/15 \u2192 March 15, 2023\n- Decided to upgrade road bike's pedals to clipless: stated \"today\" in session dated 2023/03/19 \u2192 March 19, 2023\n\nSubtraction: March 19 \u2212 March 15 = 4 days\n\n**4 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7ca326fa",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve each graduation date.\n\n**Emma:** Session date 2022/05/28 (Sat). User said she \"graduated yesterday\" \u2192 2022/05/27 (Fri). The user also confirmed attending the ceremony \"on a sunny Saturday in late May\" \u2014 that matches the 28th area, but the explicit graduation statement was \"yesterday\" from the 28th = **2022/05/27**.\n\n**Rachel:** Session date 2022/06/22 (Wed). User \"just got back from Rachel's master's graduation ceremony yesterday\" \u2192 2022/06/22 \u2212 1 = **2022/06/21 (Tue)**.\n\n**Alex (John/Alex, the engineering cousin):** Two references:\n- Session 2022/06/22 (Wed): cousin \"just graduated from college with a degree in engineering today\" \u2192 **2022/06/22**.\n- Session 2022/07/15 (Fri): \"graduated... about two weeks ago\" \u2192 ~2022/07/01, consistent with late June.\n\nUsing the explicit statement, Alex graduated **2022/06/22**.\n\n**Ordering by date:**\n- Emma: 2022/05/27\n- Rachel: 2022/06/21\n- Alex: 2022/06/22\n\nSubtraction check:\n- Emma to Rachel: 06/21 \u2212 05/27 = 25 days earlier\n- Rachel to Alex: 06/22 \u2212 06/21 = 1 day earlier\n\n**Final answer:**\n1. **First: Emma** (2022/05/27)\n2. **Second: Rachel** (2022/06/21)\n3. **Third: Alex** (2022/06/22)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7bc6cf22",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: Reading the March 15th issue of The New Yorker \u2014 stated in the session dated 2023/03/20 as \"today\" \u2192 resolved to 2023/03/20.\n\nQuestion date: 2023/03/20.\n\nSubtraction: 2023/03/20 \u2212 2023/03/20 = 0 days.\n\nYou read the March 15th issue of The New Yorker 0 days ago (today, on March 20, 2023).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c92",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- You said you \"just finished 'The Nightingale' by Kristin Hannah today\" in the session dated 2023/01/31 (Tue). So you finished \"The Nightingale\" on 2023/01/31.\n\n(Note: a separate session on 2023/01/10 had you *starting* \"The Nightingale,\" not finishing it.)\n\nThe question is asked relative to a date one week after 2023/01/31, i.e., 2023/01/31 + 7 days = 2023/02/07. \"A week ago\" from 2023/02/07 = 2023/01/31, which matches your finish date.\n\n**You finished \"The Nightingale\" by Kristin Hannah.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84g",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\nThe question is asked in a context after the last session (2023/06/17). \"Two weeks ago\" from the most recent session date (2023/06/17) = 2023/06/03.\n\nLooking at events:\n- Spring Sprint Triathlon: session dated 2023/06/02, \"today\" \u2192 resolved to 2023/06/02\n- Midsummer 5K Run: session dated 2023/06/10, mentioned \"just finished\" \u2192 resolved to 2023/06/10\n- Company charity soccer tournament: session dated 2023/06/17, \"today\" \u2192 resolved to 2023/06/17\n\nTwo weeks (14 days) before 2023/06/17 = 2023/06/03, which is closest to the Spring Sprint Triathlon on 2023/06/02.\n\nThe event you participated in two weeks ago was the **Spring Sprint Triathlon** (which included a 20K bike ride), completed on 2023/06/02.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017277",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "I don't know.\n\nThe conversation mentions a vintage armchair and a crystal chandelier received from the user's aunt, but there is no mention of any piece of jewelry being received last Saturday.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ee",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and their resolved dates:\n\n- \"Walk for Hunger\" charity event \u2014 the question is asked in the session dated 2023/03/19 (Sun). The user said \"today\" in that same session, so this event = 2023/03/19.\n- \"Books for Kids\" charity book drive \u2014 2023/02/15 (\"today\" in the 2023/02/15 session).\n- \"24-Hour Bike Ride\" charity event \u2014 2023/02/14 (\"just got back from... today\" in the 2023/02/14 session).\n- Cancer Research Foundation charity gala \u2014 2023/01/30 (\"today\" in the 2023/01/30 session).\n\n\"A month ago\" from the question date 2023/03/19 points to mid-February:\n- 2023/03/19 \u2212 1 month = 2023/02/19.\n\nThe closest event to 2023/02/19 is the \"Books for Kids\" charity book drive on 2023/02/15 (2023/02/19 \u2212 2023/02/15 = 4 days), and the \"24-Hour Bike Ride\" on 2023/02/14 (5 days). The \"Books for Kids\" book drive is the best match for \"a month ago.\"\n\n**Answer: The \"Books for Kids\" charity book drive at your local library (2023/02/15), where you helped sort and pack over 500 books for underprivileged kids.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the events to dates.\n\nThe question is asked in the session dated 2023/04/15 (Sat). \"Last Saturday\" from April 15 (Saturday) = April 8, 2023 (the previous Saturday).\n\nNow I find the event on April 8, 2023:\n- Session dated 2023/04/08 (Sat): the user mentions \"a jazz night at a local bar today\" \u2014 this resolves to April 8, 2023.\n\nThe user attended the jazz night at a local bar by themselves (in an intimate setting); no companion is mentioned for that event.\n\n**You went to the jazz night at the local bar on April 8, 2023 (last Saturday) by yourself \u2014 no companion was mentioned.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aec",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n- \"Two weeks ago\" \u2014 the question is asked relative to the most recent session date, 2023/04/21 (Fri). Two weeks before that = 2023/04/07.\n- However, the activity in the history closest to that timeframe is the gardening workshop, mentioned on 2023/04/15 as \"recently.\"\n\nResolution: The session dated 2023/04/15 mentions you attended a gardening workshop \"recently.\" Counting back two weeks from the latest session (2023/04/21 \u2212 14 days = 2023/04/07), this aligns with the workshop you described.\n\nAnswer: You attended a gardening workshop in your neighborhood, where you learned about companion planting and crop rotation.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n\n- Valentine's Day = February 14. The session dated 2023/02/14 (Tue) is Valentine's Day. In that session, the user said: \"I'm still recovering from my American Airlines flight from LAX to JFK, which was delayed by 2 hours due to bad weather conditions.\" This flight is described as a recent/past event being recovered from, flown on American Airlines.\n\nResolved date: 2023/02/14 (Valentine's Day) \u2014 referenced flight was on American Airlines.\n\nAnswer: **American Airlines.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_59149c78",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n- \"Ancient Civilizations\" exhibit at the Metropolitan Museum of Art \u2014 described as \"today\" in the session dated 2023/01/15 \u2192 resolved to 2023/01/15.\n- The guided tour at the Museum of Modern Art (MoMA) \u2014 described as \"just got back from\" in the session dated 2023/01/08 \u2192 resolved to 2023/01/08.\n\nThe question is asked in the 2023/01/15 session. \"Two weeks ago\" from 2023/01/15 = 2023/01/01. The closest matching art event is the MoMA guided tour (2023/01/08), which is the one roughly that far back (a week prior to the Met visit).\n\nSubtraction: 2023/01/15 \u2212 2023/01/08 = 7 days; the MoMA tour is the earlier art-related event being referred to.\n\nThe event was held at the **Museum of Modern Art (MoMA)**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n\n- \"I finally got around to fixing that flat tire on my mountain bike today\" \u2014 stated in the session dated 2023/03/15 (Wed). Resolved date: 2023/03/15 (Wed).\n- \"I decided to upgrade my road bike's pedals to clipless pedals today\" \u2014 stated in the session dated 2023/03/19 (Sun). Resolved date: 2023/03/19 (Sun).\n\nThe question is asked in the 2023/03/19 (Sun) session. \"The past weekend\" relative to that date refers to the weekend of 2023/03/18 (Sat)\u20132023/03/19 (Sun).\n\nThe mountain bike fix occurred on 2023/03/15 (Wed) \u2014 a weekday, not the weekend. The road bike pedal upgrade occurred on 2023/03/19 (Sun) \u2014 part of that weekend.\n\n**Answer: The road bike** \u2014 you upgraded its pedals to Shimano Ultegra clipless pedals on Sunday, 2023/03/19, which falls within the past weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- \"I recently walked down the aisle as a bridesmaid at my cousin's wedding\" \u2014 stated in the session dated 2023/06/15 (Thu). \"A week ago\" from this question anchor resolves to approximately 2023/06/08.\n\nThe relative's life event you participated in a week ago was your **cousin's wedding**, where you served as a bridesmaid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb064",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event referenced: the lunch meeting, described as \"today\" in the session dated 2023/04/11 (Tue).\n\nResolved date: 2023/04/11 (Tuesday) \u2014 the question's \"last Tuesday\" refers to that same lunch.\n\nYou met with **Emma, a freelance writer** (a potential collaborator for your project), during the lunch.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\nThe question is asked relative to a context where \"last Friday\" is being referenced. The relevant event: the user said they \"started enjoying their music today\" referring to a bluegrass band with a banjo player. That was in session dated **2023/03/31 (Fri)** \u2014 so \"today\" = Friday, March 31, 2023.\n\n\"Last Friday\" resolves to March 31, 2023 (the most recent Friday mentioned as a listening event).\n\nOn that Friday, the user reported discovering and enjoying a **bluegrass band that features a banjo player**.\n\nAnswer: A bluegrass band featuring a banjo player.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9a707b82",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events referenced:\n\n- The chocolate cake for the friend's birthday party: stated in the session dated 2022/04/10 (Sun) as \"last weekend.\" The weekend before April 10 (Sunday) would be April 2\u20133, 2022.\n\nThe thing you cooked for your friend was a **chocolate cake** \u2014 a new recipe made with espresso powder to intensify the chocolate flavor, baked for your friend's birthday party.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eac54add",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Events and resolved dates:\n- The question was asked relative to the session dated 2023/03/01 (Wed).\n- \"Four weeks ago\" from 2023/03/01 = 2023/03/01 \u2212 28 days = 2023/02/01.\n- However, the closest milestone-bearing session is the one dated 2023/02/10 (Fri), where you mentioned launching your website and creating a business plan outline.\n\nSubtraction check: 2023/03/01 \u2212 2023/02/10 = 19 days (~about three weeks), the nearest milestone to \"four weeks ago.\"\n\nThe significant business milestone you mentioned was that you **launched your website and created a business plan outline**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4dfccbf8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- \"Rachel\" event: In the session dated 2023/02/01 (Wed), you said you \"just started taking ukulele lessons with my friend Rachel today.\" Resolved to 2023/02/01 (Wednesday).\n\nThat date (2023/02/01) is the Wednesday being referenced.\n\nOn that Wednesday, you started taking ukulele lessons with Rachel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bc8ad93",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the relevant events:\n\n- Question is asked from the perspective of the most recent session: 2023/02/18.\n- \"Two months ago\" from 2023/02/18 points to roughly December 2022 / early January 2023 \u2014 the closest matching museum visit is the History Museum lecture mentioned in the session dated 2023/01/11, where the user said \"I just learned a lot about it in a lecture at the History Museum about ancient civilizations this month.\"\n\nThat History Museum lecture (January 2023, ~one month prior, the closest \"two months ago\" reference) was attended alone \u2014 the user mentions no companion.\n\nThe Science Museum behind-the-scenes tour (with the chemistry professor friend) was in the 2022/10/22 session \u2014 about four months before the question, not two.\n\nThe Natural History Museum visit (with dad) was \"yesterday\" in the 2023/02/18 session \u2014 i.e., 2023/02/17, not two months ago.\n\n**Answer: No \u2014 you visited that museum (the History Museum lecture, ~two months prior) on your own, not with a friend.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6e984302",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolving the dates:\n\n- \"Four weeks ago\" is stated in a session dated 2023/03/04 (Sat). 2023/03/04 \u2212 28 days = 2023/02/04. However, the relevant purchase was described with \"today\" in the session dated 2023/03/04, and the prior purchase (\"today\") was in the session dated 2023/02/11.\n- In the session dated 2023/02/11 (Sat), you said you \"just started taking sculpting classes today\" \u2014 that's an enrollment, not a tool purchase.\n- The investment for the competition was described in the session dated 2023/03/04 (Sat): \"I actually got my own set of sculpting tools... today\" \u2192 resolves to 2023/03/04.\n\nThe purchase you're referring to: **a set of sculpting tools \u2014 a modeling tool set, a wire cutter, and a sculpting mat.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba03",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Event: You bought a smoker \u2014 stated in the session dated 2023/03/15, where you said \"I just got a smoker today,\" so it resolves to 2023/03/15.\n\nQuestion date: 2023/03/25 (10 days after 2023/03/15).\n\nSubtraction: 2023/03/25 \u2212 2023/03/15 = 10 days.\n\nThe kitchen appliance you bought 10 days ago was a **smoker**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca0",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Let me resolve the dates.\n\n- The user mentioned attending the Maundy Thursday service during the session dated **2023/04/06 (Thu)**.\n- Maundy Thursday in 2023 fell on **April 6, 2023** \u2014 the same day as the session. The user said \"I'm glad I got to attend,\" indicating it happened that day (April 6, 2023), not literally \"last week.\"\n\n**The religious activity you attended was the Maundy Thursday service at the Episcopal Church.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94288",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Resolved dates:\n- #PlankChallenge: \"today\" in session dated 2023/03/15 \u2192 2023/03/15\n- The question is asked in the 2023/03/15 session, \"5 days ago\" \u2192 2023/03/15 \u2212 5 days = 2023/03/10\n\nOn 2023/03/10, you posted/shared a recipe for vegan chili on Instagram using the hashtag #FoodieAdventures (in the 2023/03/10 session you said you shared it \"yesterday,\" i.e., 2023/03/09; but the activity you described in your 03/10 session falls on that date).\n\nTo be precise by date subtraction: the activity dated exactly 5 days before the question (03/15 \u2212 5 = 03/10) is your **vegan chili recipe post on Instagram using #FoodieAdventures**.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|temporal_cot_v2|ctx=full",
+    "qa_acc": 0.782
+  }
+}

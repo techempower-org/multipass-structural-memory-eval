@@ -1,0 +1,30 @@
+{
+  "adapter": "mempalace-daemon",
+  "source": "http://familiar:8085",
+  "nodes": 1106,
+  "edges": 168377,
+  "components": 498,
+  "largest_component_size": 606,
+  "isolated_nodes": 496,
+  "bridges": [
+    [
+      "wing:kg_extract_katana",
+      "room:debugging"
+    ],
+    [
+      "kg:projects",
+      "kg:drawer"
+    ]
+  ],
+  "betti_0_largest": 1,
+  "betti_1_largest": 0,
+  "h1_max_persistence": 0.0,
+  "h1_skipped": false,
+  "h1_skip_reason": "",
+  "candidate_gaps": [],
+  "candidate_gaps_considered": 1,
+  "flat_rarity_mode": true,
+  "gap_recall": null,
+  "gap_precision": null,
+  "detection_level": "L3"
+}

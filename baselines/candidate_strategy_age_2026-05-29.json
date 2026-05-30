@@ -1,0 +1,416 @@
+{
+  "run_metadata": {
+    "diagnostic": "candidate_strategy",
+    "queries": "scripts/evals/rerank_eval_queries.json",
+    "n_questions": 12,
+    "strategies": [
+      "vector",
+      "union",
+      "hybrid"
+    ],
+    "search_limit": 20,
+    "url": "http://familiar:8085",
+    "timestamp_utc": "2026-05-30T01:07:51.979254+00:00",
+    "rerank_enabled": null,
+    "rerank_model": null,
+    "rerank_probe_note": "no rerank block in search response (older daemon or rerank disabled at build)"
+  },
+  "summary": {
+    "per_strategy": {
+      "vector": {
+        "n": 12,
+        "n_ok": 12,
+        "n_errors": 0,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8079,
+        "p50_ms": 626.2,
+        "p95_ms": 4687.6
+      },
+      "union": {
+        "n": 12,
+        "n_ok": 12,
+        "n_errors": 0,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8079,
+        "p50_ms": 429.2,
+        "p95_ms": 636.4
+      },
+      "hybrid": {
+        "n": 12,
+        "n_ok": 12,
+        "n_errors": 0,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "p50_ms": 2063.9,
+        "p95_ms": 5593.1
+      }
+    },
+    "headline": {
+      "best_R@5": "hybrid (1.000)"
+    },
+    "strategy_flips": {
+      "vector_to_union": {
+        "moved_up": [],
+        "moved_down": [],
+        "new_hits": [],
+        "lost_hits": [],
+        "unchanged_count": 12
+      },
+      "vector_to_hybrid": {
+        "moved_up": [
+          {
+            "qid": "daemon-deploy-arch",
+            "from_rank": 9,
+            "to_rank": 3
+          }
+        ],
+        "moved_down": [
+          {
+            "qid": "felipe-976-cherrypick",
+            "from_rank": 1,
+            "to_rank": 2
+          }
+        ],
+        "new_hits": [],
+        "lost_hits": [],
+        "unchanged_count": 10
+      },
+      "union_to_hybrid": {
+        "moved_up": [
+          {
+            "qid": "daemon-deploy-arch",
+            "from_rank": 9,
+            "to_rank": 3
+          }
+        ],
+        "moved_down": [
+          {
+            "qid": "felipe-976-cherrypick",
+            "from_rank": 1,
+            "to_rank": 2
+          }
+        ],
+        "new_hits": [],
+        "lost_hits": [],
+        "unchanged_count": 10
+      }
+    }
+  },
+  "per_query": {
+    "kill-cascade": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 827.9
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 379.7
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 784.8
+      }
+    },
+    "rerank-spike": {
+      "vector": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 4687.6
+      },
+      "union": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 291.9
+      },
+      "hybrid": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 5593.1
+      }
+    },
+    "hnsw-pin": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 781.4
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 407.6
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 3079.1
+      }
+    },
+    "system-service-only": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 724.9
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 414.1
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 694.7
+      }
+    },
+    "rerank-implementation-plan": {
+      "vector": {
+        "rank": 4,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.25,
+        "n_hits": 20,
+        "latency_ms": 462.6
+      },
+      "union": {
+        "rank": 4,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.25,
+        "n_hits": 20,
+        "latency_ms": 636.4
+      },
+      "hybrid": {
+        "rank": 4,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.25,
+        "n_hits": 20,
+        "latency_ms": 3431.6
+      }
+    },
+    "daemon-deploy-arch": {
+      "vector": {
+        "rank": 9,
+        "r5": 0,
+        "r10": 1,
+        "rr": 0.1111111111111111,
+        "n_hits": 20,
+        "latency_ms": 518.5
+      },
+      "union": {
+        "rank": 9,
+        "r5": 0,
+        "r10": 1,
+        "rr": 0.1111111111111111,
+        "n_hits": 20,
+        "latency_ms": 373.5
+      },
+      "hybrid": {
+        "rank": 3,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.3333333333333333,
+        "n_hits": 20,
+        "latency_ms": 975.7
+      }
+    },
+    "felipe-976-cherrypick": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 1358.2
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 480.8
+      },
+      "hybrid": {
+        "rank": 2,
+        "r5": 1,
+        "r10": 1,
+        "rr": 0.5,
+        "n_hits": 20,
+        "latency_ms": 1709.7
+      }
+    },
+    "oom-sigkill-startup": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 755.1
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 488.0
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 3170.0
+      }
+    },
+    "rerank-fallback-contract": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 527.4
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 450.6
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 369.9
+      }
+    },
+    "search-args-limit-param": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 475.2
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 526.2
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 4012.7
+      }
+    },
+    "wing-room-taxonomy": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 527.6
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 444.4
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 525.9
+      }
+    },
+    "fuser-port-8085": {
+      "vector": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 343.8
+      },
+      "union": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 383.9
+      },
+      "hybrid": {
+        "rank": 1,
+        "r5": 1,
+        "r10": 1,
+        "rr": 1.0,
+        "n_hits": 20,
+        "latency_ms": 2418.2
+      }
+    }
+  }
+}

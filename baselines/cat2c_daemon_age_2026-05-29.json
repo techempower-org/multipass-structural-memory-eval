@@ -1,0 +1,39 @@
+{
+  "conditions": {
+    "B": {
+      "label": "daemon AGE (populated KG, 2026-05-29)",
+      "total": 30,
+      "full_recall": 26,
+      "partial_hits": 30,
+      "mean_recall": 0.9333333333333333,
+      "mean_tokens": 789.0666666666667,
+      "tokens_per_correct": 910.4615384615385,
+      "by_hop": {
+        "1": {
+          "hops": 1,
+          "n": 27,
+          "mean_recall": 0.9444444444444444,
+          "hit_rate": 1.0,
+          "mean_tokens": 817.074074074074,
+          "correct_count": 24
+        },
+        "2": {
+          "hops": 2,
+          "n": 3,
+          "mean_recall": 0.8333333333333334,
+          "hit_rate": 1.0,
+          "mean_tokens": 537.0,
+          "correct_count": 2
+        }
+      }
+    }
+  },
+  "delta_B_minus_A": {},
+  "delta_B_minus_C": {},
+  "ratio_B_over_A": {},
+  "verdict": "incomplete",
+  "verdict_details": [
+    "no Condition C provided \u2014 cannot isolate structural contribution",
+    "no Condition A (flat) provided \u2014 cannot compare to baseline"
+  ]
+}

@@ -275,11 +275,19 @@ class OmegaAdapter(SMEAdapter):
                 or self.default_memory_type
             )
             metadata = row.get("metadata")
+            # Optional session_id passthrough. OMEGA stores it as a first-
+            # class column and returns it on every query_structured hit, so a
+            # benchmark runner can compute session-level hit@K (LongMemEval
+            # R@K) against the question's expected session ids without
+            # round-tripping through OMEGA's opaque mem ids.
+            session_id = row.get("session_id")
             try:
+                store_kwargs: dict[str, Any] = {}
                 if metadata is not None:
-                    self._omega.store(content, mem_type, metadata=metadata)
-                else:
-                    self._omega.store(content, mem_type)
+                    store_kwargs["metadata"] = metadata
+                if session_id is not None:
+                    store_kwargs["session_id"] = session_id
+                self._omega.store(content, mem_type, **store_kwargs)
                 stored += 1
             except TypeError as e:
                 # Signature mismatch with the installed omega-memory.
@@ -336,6 +344,14 @@ class OmegaAdapter(SMEAdapter):
                 else hit.get("score") or hit.get("similarity") or hit.get("rank")
             )
             mem_id = str(hit.get("id") or f"omega_hit:{i}")
+            # OMEGA carries the ingest-time ``session_id`` through into
+            # query_structured hits. Surfacing it on the Entity lets a
+            # benchmark runner compute session-level hit@K (the LongMemEval
+            # R@K metric) by matching against the question's expected
+            # session ids — the OMEGA analogue of the daemon's
+            # session→drawer_id map. None when the memory was stored without
+            # a session_id (e.g. the smoke corpus).
+            session_id = hit.get("session_id")
             context_parts.append(f"[{i + 1}] [{mem_type}] {text}")
             retrieved.append(
                 Entity(
@@ -346,6 +362,7 @@ class OmegaAdapter(SMEAdapter):
                         "_table": "omega_memory",
                         "type": mem_type,
                         "score": score,
+                        "session_id": session_id,
                     },
                 )
             )

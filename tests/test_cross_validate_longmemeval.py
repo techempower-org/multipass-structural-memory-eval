@@ -80,11 +80,14 @@ def args_factory(tmp_path):
     """Build an argparse.Namespace mirroring the CLI defaults."""
 
     def _build(dataset_path, *, adapter="full-context", skip_judge=True,
-               skip_reader=True, max_questions=None):
+               skip_reader=True, max_questions=None, shuffle=None,
+               stratify_by=None):
         return SimpleNamespace(
             dataset=dataset_path,
             adapter=adapter,
             max_questions=max_questions,
+            shuffle=shuffle,
+            stratify_by=stratify_by,
             reader_model="gpt-4o-mini",
             judge_model="gpt-4o-2024-08-06",
             skip_judge=skip_judge,
@@ -129,6 +132,36 @@ def test_max_questions_caps_iteration(dataset, args_factory):
     args = args_factory(dataset, skip_judge=True, max_questions=1)
     report = harness.run(args)
     assert len(report["per_question"]) == 1
+
+
+def test_stratify_by_round_robins_across_field(dataset, args_factory):
+    """--stratify-by draws an even round-robin across the field, so a cap of 2
+    over two distinct question_types takes one of each (not a single-category
+    slice). Matches the mempalace strat150 subset logic (#122)."""
+    # The 2-record fixture has one temporal-reasoning + one single-session-user.
+    args = args_factory(
+        dataset, skip_judge=True, max_questions=2, stratify_by="question_type"
+    )
+    report = harness.run(args)
+    qids = {r["question_id"] for r in report["per_question"]}
+    assert qids == {"test_001_temporal", "test_002_abstain_abs"}
+
+
+def test_stratified_cap_is_deterministic():
+    """_stratified_cap is RNG-free: identical inputs yield identical output,
+    which is what makes a competitor run land on the SAME subset as the
+    daemon baseline."""
+    items = [
+        SimpleNamespace(question_type="a", question_id=f"a{i}") for i in range(5)
+    ] + [
+        SimpleNamespace(question_type="b", question_id=f"b{i}") for i in range(5)
+    ]
+    out1 = harness._stratified_cap(items, 4, "question_type")
+    out2 = harness._stratified_cap(items, 4, "question_type")
+    assert [q.question_id for q in out1] == [q.question_id for q in out2]
+    # even round-robin: 2 of each type
+    assert sum(1 for q in out1 if q.question_type == "a") == 2
+    assert sum(1 for q in out1 if q.question_type == "b") == 2
 
 
 # --- mocked judge path -----------------------------------------------------

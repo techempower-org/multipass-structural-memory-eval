@@ -1,0 +1,9 @@
+# BEAM upstream JSON (per-bucket caches: beam_100K.json ~14 MB,
+# beam_500K.json ~86 MB, beam_1M.json ~172 MB) — not committed.
+# Download per README.md.
+data/
+*.json
+!questions.yaml
+!*.yml
+# The pinned sample fixture IS committed (small, schema-only):
+!sample/beam_100K_sample.json

@@ -237,6 +237,99 @@ def test_adversarial_judged_with_abstention_rubric(dataset, args_factory):
     assert per_cat["cat_1_negative"]["judge_correct_rate"] == 1.0
 
 
+# --- LoCoMo question_type -> canonical judge template mapping --------------
+
+# conv-cc carries a temporal question (category 3) so we can assert it is
+# graded with the temporal-reasoning template (off-by-one-days tolerance),
+# not the base correctness template it would silently fall to without the
+# _LOCOMO_TO_JUDGE_TYPE mapping.
+TEMPORAL_FIXTURE = [
+    {
+        "sample_id": "conv-cc",
+        "conversation": {
+            "speaker_a": "Eve",
+            "speaker_b": "Frank",
+            "session_1_date_time": "10:00 am on 1 Jan, 2023",
+            "session_1": [
+                {"speaker": "Eve", "dia_id": "D1:1",
+                 "text": "I started my pottery class today."},
+            ],
+            "session_2_date_time": "10:00 am on 19 Jan, 2023",
+            "session_2": [
+                {"speaker": "Eve", "dia_id": "D2:1",
+                 "text": "Still loving pottery."},
+            ],
+        },
+        "qa": [
+            {
+                "question": "How many days passed between sessions?",
+                "answer": "18 days",
+                "evidence": ["D1:1", "D2:1"],
+                "category": 3,  # temporal
+            },
+        ],
+    },
+]
+
+
+def test_locomo_to_judge_type_mapping():
+    """single/multi-hop/open-domain map to base-template types; temporal maps
+    to the off-by-one-tolerance template; adversarial is NOT in the map (it is
+    driven by is_abstention)."""
+    m = harness._LOCOMO_TO_JUDGE_TYPE
+    assert m["temporal"] == "temporal-reasoning"
+    assert m["single-hop"] == "single-session-user"
+    assert m["multi-hop"] == "multi-session"
+    assert m["open-domain"] == "multi-session"
+    assert "adversarial" not in m
+
+
+def test_temporal_question_uses_off_by_one_template(tmp_path):
+    """A LoCoMo temporal question must be graded with the temporal-reasoning
+    template — the prompt the judge sees carries the distinctive off-by-one
+    clause. Without the mapping it would silently use the base template."""
+    dataset_path = tmp_path / "locomo_temporal.json"
+    dataset_path.write_text(json.dumps(TEMPORAL_FIXTURE))
+    args = SimpleNamespace(
+        dataset=dataset_path, corpus="locomo", adapter="full-context",
+        max_questions=None, reader_model="gpt-4o-mini",
+        judge_model="gpt-4o-2024-08-06", skip_judge=False, skip_reader=True,
+        out=None, work_dir=tmp_path / "work", verbose=False,
+    )
+    judge_client = _CannedJudgeClient()
+    report = harness.run(args, judge_client=judge_client)
+
+    temporal = next(
+        r for r in report["per_question"]
+        if r["question_type"] == "temporal"
+    )
+    # recorded type stays LoCoMo-native (for per-category breakdown)...
+    assert temporal["question_type"] == "temporal"
+    # ...but the judge saw the temporal-reasoning template (off-by-one clause).
+    assert judge_client.calls, "judge was not called"
+    judge_prompt = judge_client.calls[0]
+    assert "off-by-one" in judge_prompt
+
+
+def test_singlehop_question_uses_base_template(tmp_path):
+    """single-hop maps to a base-template type, so the judge prompt must NOT
+    carry the temporal off-by-one clause — guards against the mapping
+    over-reaching to non-temporal types."""
+    dataset_path = tmp_path / "locomo_sh.json"
+    dataset_path.write_text(json.dumps(FIXTURE))
+    args = SimpleNamespace(
+        dataset=dataset_path, corpus="locomo", adapter="full-context",
+        max_questions=1,  # conv-aa's single-hop only
+        reader_model="gpt-4o-mini", judge_model="gpt-4o-2024-08-06",
+        skip_judge=False, skip_reader=True,
+        out=None, work_dir=tmp_path / "work", verbose=False,
+    )
+    judge_client = _CannedJudgeClient()
+    harness.run(args, judge_client=judge_client)
+    assert judge_client.calls, "judge was not called"
+    assert "off-by-one" not in judge_client.calls[0]
+
+
 # --- the default (longmemeval) path is untouched ---------------------------
 
 def test_arg_parser_corpus_defaults_to_longmemeval():

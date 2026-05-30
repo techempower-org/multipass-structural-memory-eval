@@ -234,6 +234,22 @@ def judge_label_to_correct(label: str) -> Optional[bool]:
     return None
 
 
+# LoCoMo question_type -> canonical LongMemEval judge template type. LoCoMo's
+# native types are not in JUDGE_QUESTION_TYPES, so without this they all fall
+# to the base correctness template. Only `temporal` needs a specialized
+# template — the off-by-one-days tolerance the LoCoMo temporal questions assume
+# (they ask "how many days/weeks since…"). single-hop / multi-hop / open-domain
+# are plain factual correctness, which IS the base template, so they map to a
+# base-template type. adversarial is handled separately via is_abstention.
+_LOCOMO_TO_JUDGE_TYPE = {
+    "single-hop": "single-session-user",   # base correctness template
+    "multi-hop": "multi-session",           # base correctness template
+    "open-domain": "multi-session",         # base correctness template
+    "temporal": "temporal-reasoning",       # base + off-by-one-days tolerance
+    # adversarial -> abstention is driven by is_abstention, not this map.
+}
+
+
 # --- Reader pass ------------------------------------------------------------
 
 def generate_hypothesis(
@@ -341,6 +357,7 @@ def _score_and_judge(
     judge_client: Optional[Any] = None,
     capture_context: bool = False,
     extra_fields: Optional[dict[str, Any]] = None,
+    judge_question_type: Optional[str] = None,
 ) -> dict:
     """Score one retrieval (SME substring + rank-aware) and optionally run
     the reader + judge. Shared by the LongMemEval (per-question) and LoCoMo
@@ -351,6 +368,13 @@ def _score_and_judge(
     retrieval question_type, so a correct refusal scores as success and a
     fabricated answer scores INCORRECT. For LoCoMo this is wired from
     ``LoCoMoQuestion.is_adversarial``.
+
+    ``judge_question_type`` lets a caller send the judge a *different* type
+    string than the one recorded on the row. The recorded ``question_type``
+    stays the corpus-native label (so per-category breakdowns read naturally),
+    while the judge sees the canonical LongMemEval template type. LoCoMo uses
+    this to map ``temporal`` -> ``temporal-reasoning`` (off-by-one tolerance);
+    when None it defaults to ``question_type``.
     """
     ctx = result.context_string or ""
 
@@ -404,7 +428,10 @@ def _score_and_judge(
         record["judge"] = None
         return record
 
-    qtype_for_judge = "abstention" if is_abstention else question_type
+    qtype_for_judge = (
+        "abstention" if is_abstention
+        else (judge_question_type or question_type)
+    )
 
     if skip_reader:
         # Hand the judge the raw retrieval (option (a) in the planning
@@ -518,6 +545,9 @@ def run_locomo_questions(
                     reader_client=reader_client,
                     judge_client=judge_client,
                     capture_context=capture_context,
+                    judge_question_type=_LOCOMO_TO_JUDGE_TYPE.get(
+                        q.question_type
+                    ),
                     extra_fields={
                         "sample_id": q.sample_id,
                         "locomo_category": q.category,

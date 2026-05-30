@@ -32,15 +32,27 @@ long-running bench.
 
 | kind | meaning | concurrency |
 |---|---|---|
-| `retrieval` (default) | retrieval-only (no `/memory` POSTs) | **any N** the RAM allows — ungated |
-| `ingest` | ingest-heavy (POSTs `/memory`, e.g. LongMemEval per-question topology) | capped at `SME_BENCH_MAX_INGEST` (default **3**) AND a RAM floor |
+| `retrieval` (default) | retrieval-only (no `/memory` POSTs) | **any N** the RAM allows — ungated, always SAFE |
+| `ingest` | ingest-heavy (POSTs `/memory`, e.g. LongMemEval per-question topology) | **single bench only** by default; 2nd concurrent ingest REFUSED (exit 4) until the #331 gate clears. Also RAM-floored + capped at `SME_BENCH_MAX_INGEST` |
 
-Concurrency is **SAFE** per the mempalace ingest thread-safety audit
-(mempalace#331): the cap on ingest-heavy benches is bounded by **RAM**
-(~6 GB free on familiar), **not** thread-safety. The daemon's `_write_sem=2`
-shared-connection write path is data-safe today. (A latent race in the inline
-KG write-through — `MEMPALACE_KG_WRITETHROUGH`, not set in prod — was fixed
-with an RLock in mempalace#331 regardless.)
+### ⚠️ Concurrent ingest is GATED on mempalace#331 (not yet green)
+
+Retrieval-only concurrency is safe — no writes. **Concurrent ingest is NOT.**
+Live familiar runs with **`MEMPALACE_KG_WRITETHROUGH=1`** (verified in
+`~/.config/palace-daemon/env`), which takes the daemon's *inline* KG
+write-through path. That path has a data race under **concurrent** writers
+(autocommit=False shared connection → transaction-span interleaving →
+silently dropped/mis-committed KG triples). The audit (mempalace#331)
+originally rated this "latent" on the belief prod doesn't set WRITETHROUGH —
+**it does**, so the race is live. #331's RLock fix is **not yet merged or
+deployed** to familiar.
+
+Therefore `bench_runner.sh` **refuses a 2nd concurrent ingest bench by
+default** (exit 4). A *single* ingest bench is safe (no concurrent writer);
+retrieval-only is always safe. Flip `SME_BENCH_ALLOW_CONCURRENT_INGEST=1`
+**only after** #331's RLock is deployed to familiar's mempalace install. The
+`SME_BENCH_MAX_INGEST=3` cap (RAM-bounded, matching the audit's 2-3) then
+becomes the operative limit.
 
 ## Tunables (env)
 
@@ -48,7 +60,8 @@ with an RLock in mempalace#331 regardless.)
 |---|---|---|
 | `PALACE_DAEMON_HOST` | `familiar` | ssh target hosting the lock dir |
 | `PALACE_BENCH_LOCK_PATH` | `/srv/mempalace-data/palace/.bench-active.lock` | lock dir on the daemon host |
-| `SME_BENCH_MAX_INGEST` | `3` | max concurrent ingest-heavy benches (matches the audit's 2-3) |
+| `SME_BENCH_MAX_INGEST` | `3` | max concurrent ingest-heavy benches once the #331 gate clears (matches the audit's 2-3) |
+| `SME_BENCH_ALLOW_CONCURRENT_INGEST` | `0` | `1` permits ≥2 concurrent ingest benches — set ONLY after #331's RLock is deployed to familiar |
 | `SME_BENCH_MIN_AVAIL_MIB` | `2048` | RAM floor — refuse a new ingest bench below this |
 | `SME_BENCH_HEARTBEAT_SECONDS` | `300` | marker-refresh interval (≪ the 6h stale-age guard) |
 | `PALACE_BENCH_PID` | `$$` | PID recorded in the marker name |

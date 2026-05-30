@@ -14,12 +14,14 @@
 # retrieval-only sweep (no /memory POSTs) would pass --kind retrieval and run
 # ungated.
 #
-# Concurrency is SAFE (mempalace ingest thread-safety audit, mempalace#331):
-#   - retrieval-only: any N the RAM allows
-#   - ingest-heavy:   cap ~2-3, bounded by RAM (~6 GB free on familiar), NOT
-#                     thread-safety. bench_runner's SME_BENCH_MAX_INGEST=3 +
-#                     RAM floor enforce this; the daemon's _write_sem=2
-#                     shared-conn write path is data-safe today.
+# Concurrency safety:
+#   - retrieval-only: SAFE, any N the RAM allows
+#   - ingest-heavy:   a SINGLE ingest bench is safe. Concurrent ingest is now
+#                     THREAD-SAFE (mempalace#331 RLock deployed to familiar),
+#                     but bench_runner still REFUSES a 2nd concurrent ingest
+#                     (exit 4) because it would POLLUTE the PROD palace that
+#                     familiar fronts. Flip SME_BENCH_ALLOW_CONCURRENT_INGEST=1
+#                     only against a SCRATCH palace, never prod familiar.
 # REQUIRES the daemon on palace-daemon#196 code (refcounted lock) deployed +
 # restarted on the daemon host — otherwise a finished bench leaves an empty
 # lock dir that the pre-#196 daemon still reads as "active" for 6h.

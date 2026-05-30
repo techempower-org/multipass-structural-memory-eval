@@ -1,0 +1,3611 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/Projects/multipass-structural-memory-eval/baselines/pinned_context_age-fused.json",
+    "pinned_metadata": {
+      "diagnostic": "pinned_context",
+      "issue": "techempower-org/multipass-structural-memory-eval#116",
+      "adapter": "mempalace-daemon",
+      "search_endpoint": "/search/age-fused",
+      "snippet_width": "/search/age-fused",
+      "n_questions": 500,
+      "source_questions": "sme/corpora/longmemeval/data/longmemeval_oracle.json",
+      "timestamp_utc": "2026-05-29T17:54:06.198297+00:00"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 6,
+    "timestamp_utc": "2026-05-30T02:08:23.104552+00:00"
+  },
+  "n_questions": 500,
+  "n_configs": 1,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 500,
+          "qa_acc": 0.52,
+          "labels": {
+            "CORRECT": 260,
+            "INCORRECT": 220,
+            "ABSTAIN": 18,
+            "ERROR": 2
+          }
+        },
+        "by_question_type": {
+          "knowledge-update": {
+            "n": 78,
+            "qa_acc": 0.6795,
+            "labels": {
+              "CORRECT": 53,
+              "INCORRECT": 22,
+              "ERROR": 1,
+              "ABSTAIN": 2
+            }
+          },
+          "multi-session": {
+            "n": 133,
+            "qa_acc": 0.4135,
+            "labels": {
+              "INCORRECT": 69,
+              "CORRECT": 55,
+              "ABSTAIN": 9
+            }
+          },
+          "single-session-assistant": {
+            "n": 56,
+            "qa_acc": 0.2679,
+            "labels": {
+              "INCORRECT": 41,
+              "CORRECT": 15
+            }
+          },
+          "single-session-preference": {
+            "n": 30,
+            "qa_acc": 0.8667,
+            "labels": {
+              "CORRECT": 26,
+              "INCORRECT": 3,
+              "ERROR": 1
+            }
+          },
+          "single-session-user": {
+            "n": 70,
+            "qa_acc": 0.8857,
+            "labels": {
+              "CORRECT": 62,
+              "INCORRECT": 3,
+              "ABSTAIN": 5
+            }
+          },
+          "temporal-reasoning": {
+            "n": 133,
+            "qa_acc": 0.3684,
+            "labels": {
+              "CORRECT": 49,
+              "INCORRECT": 82,
+              "ABSTAIN": 2
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "gpt4_2655b836",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The GPS system issue on 3/22, which required the dealership to replace the entire system.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2487a7cb",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The 'Data Analysis using Python' webinar.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_76048e76",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The bike \u2014 you took it in for repairs in mid-February because the gears were acting up.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2312f94c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0bb5a684",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows the workshop was attended on January 10th, but it does not specify the date of the team meeting you were preparing for, so the number of days between them cannot be determined.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "08f4fc43",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2c63a862",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_385a5000",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The marigolds were started first. The history mentions the marigold seeds arrived on March 3rd and were already germinating, with no comparable start date given for the tomatoes.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2a1811e2",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Holi was on February 26th, and the Sunday mass at St. Mary's Church was the most recent Sunday before March 26th, which was March 19th. That's 21 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bbf86515",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions the \"Turbocharged Tuesdays\" event on June 14th and references a \"Racing Nationals\" event in August, but there is no mention of a \"Rack Fest\" event or its date, so I cannot calculate the number of days between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_5dcc0aab",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Your white Adidas sneakers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0b2f1d21",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The purchase of the coffee maker happened first.\n\nThe coffee maker was bought about three weeks before May 22, 2023 (so around early May), and the user had been using it every morning since. The stand mixer malfunction is referenced later, after the coffee maker had already been in use for three weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f0853d11",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_6ed717ea",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The training pads for Luna.\n\nThe history shows you got the training pads about a month ago, but there is no mention of purchasing a dog bed for Max in the conversation. Based on the available information, the training pads for Luna are the only relevant purchase, so they were purchased first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You trimmed the goats' hooves first.\n\nThe hoof trimming was done two weeks before the message dated 2023/05/22 (session at 18:29), while you fixed the fence three weeks before the message dated 2023/05/22 (session at 20:15). Three weeks prior is earlier than two weeks prior\u2014wait, let me reconsider: three weeks ago is further back in time than two weeks ago.\n\nYou fixed the fence first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3838d2b",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Zero \u2014 the \"Run for the Cure\" event on October 15th was your first charity event.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, you started working at NovaTech right after graduating from UC Berkeley, so you had no prior work experience before NovaTech \u2014 you've been there about 4 years and 3 months since graduating.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2d58bcd6",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "'The Hate U Give' \u2014 you finished it a few days before your book club meeting two weeks ago, while you read 'The Nightingale' last weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_65aabe59",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The mesh network system.\n\nIn the history, the mesh network upgrade is described as something you \"recently\" did and \"just upgraded to,\" while the smart thermostat is mentioned separately as something you've \"been trying to\" set up. Given the mesh network is referenced as already completed and improving your connection, you set up the mesh network system first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "982b5123",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows you booked your Haight-Ashbury Airbnb three months *in advance* of that stay, but it doesn't say how long ago that trip was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b9cfe692",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Five and a half weeks (two and a half weeks for \"The Seven Husbands of Evelyn Hugo\" plus three weeks for \"The Nightingale\").",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4edbafa2",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "June 17th.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c8090214",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_483dd43c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Game of Thrones.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e4e14d04",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You had been a member for three weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c9f37c46",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "About two months. You started watching stand-up regularly about 3 months ago (around late February 2023), and you attended the open mic night last month (April 2023), so you'd been watching for roughly two months at that point.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2c50253f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "On Tuesdays and Thursdays you wake up at 6:45 AM (15 minutes earlier than your usual 7:00 AM wake-up).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dcfa8644",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You bought your Adidas running shoes on January 10th, and you realized the shoelace had broken on January 24th. That's **14 days**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b4a80587",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The arrival of the new prime lens happened first. The user got the 50mm lens about a month ago and took it with them on the coastal trip, meaning the lens arrived before the road trip to the coast.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_9a159967",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Southwest Airlines.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "cc6d1ec1",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history says you attended the workshop about a month ago, but it doesn't indicate how long you had been bird watching at that time.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8c8961ae",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The solo trip to Thailand. You went to Thailand last year, while the Europe trip with your family was just last month (as of May 2023).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d9af6064",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The new router (set up January 15th) was first, before the smart thermostat (set up February 10th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7de946e7",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The persistent cough. You first saw Dr. Smith on February 10th for the cough (initially diagnosed as bronchitis), while the skin tag removal came later in your recovery timeline.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d01c6aa8",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history only mentions that you are 32 years old and preparing for an EB-2 visa application, but it does not state that you have moved to the United States or at what age you did so.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "993da5e2",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "About one week. You got the area rug a month before the May 30 conversation, and you rearranged the furniture three weeks before that same date \u2014 so the rug had been in use for roughly one week when you rearranged the furniture.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3045048",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You ordered it on April 15th and the party was on April 22nd, so you ordered it 7 days before the party.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d31cdae3",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The family road trip across the American Southwest.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_cd90e484",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You hadn't used them yet at that point. You saw the American goldfinches about a week before May 26 (around May 19), but you got your new binoculars three weeks before that conversation (around May 5)\u2014wait, that would mean you already had them.\n\nLet me give the direct answer: You got the binoculars about three weeks before the conversation, and you saw the goldfinches about one week before the conversation. So you had been using your new binoculars for roughly **two weeks** before you saw the American goldfinches returning.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_88806d6e",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4cd9eba1",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You were accepted on March 20th and started attending the orientation sessions on March 27th \u2014 that's exactly 1 week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_93f6379c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "'Page Turners'.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b29f3365",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions you've been taking online ukulele lessons and that you bought a new amp two weeks ago, but it doesn't say anything about how long you'd been taking guitar lessons.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f56ae70",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "HBO Max.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6613b389",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Rachel got engaged on May 15th and your anniversary is July 22nd, so she got engaged about 2 months before your anniversary.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_78cf46a3",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The narrator received their new phone case first.\n\nThe phone case was obtained about a month before the May 29, 2023 conversation (so roughly late April 2023), while the charger conversation happened more recently\u2014meaning the charger was lost after the case was already in use.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0a05b494",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions you met a tourist from Australia last Thursday, but there is no mention of a woman selling jam at a farmer's market, so I can't compare the two.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1a1dc16d",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The meeting with Rachel happened first (April 10th), before the pride parade (May 1st).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f584639",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The photo album for your mom. You ordered it from Shutterfly two weeks ago, while the necklace for your sister was for this weekend's birthday dinner.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_213fd887",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The charity 5K run for the local children's hospital \u2014 at the time you mentioned it, you described it as your first 5K, while you'd already been playing volleyball regularly. So the volleyball came first, then the charity 5K.\n\nWait \u2014 to answer directly: the volleyball league. You had been playing volleyball regularly before completing the charity 5K run.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5438fa52",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The start of your Spanish classes happened first. You attended the cultural festival yesterday, but you've been taking Spanish classes for the past three months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_c27434e8",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The Japanese Zero fighter plane model \u2014 you started it about a month ago.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Alex became a parent first. Alex adopted a baby girl from China in January, while Rachel's twins, Jackson and Julia, were born on February 12th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8c18457d",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The brother's graduation gift was bought on 3/8 and the best friend's birthday gift on 3/15, so 7 days had passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552_abs",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Fixing the fence.\n\nThe history shows you fixed the broken fence on the east side of your property three weeks ago. There's no record of you having purchased three cows from Peter \u2014 you only mentioned thinking about finalizing the purchase of a new cow. So fixing the fence is the task you completed first (and the only one completed).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced_abs",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You've been working professionally for 9 years total, and you've been at your current job for about 4 years and 3 months. So before starting your current job, you had worked about 4 years and 9 months.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "982b5123_abs",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. The history mentions an Airbnb in Haight-Ashbury (San Francisco), which you booked three months in advance \u2014 but there is nothing about an Airbnb in Sacramento.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "c8090214_abs",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_c27434e8_abs",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "The Ferrari 288 GTO model. You mentioned starting it about three weeks ago, while there's no record of a Porsche 991 Turbo S project in the history.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585_abs",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Alex became a parent first \u2014 she adopted a baby girl from China in January, whereas the twins Jackson and Julia (Tom's children, presumably) were born on February 12th.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0a995998",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You need to pick up 1 item: the new pair of boots you exchanged at Zara.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6d550036",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 the team of five engineers you've been leading since your promotion to senior software engineer three months ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59c863d7",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You've worked on or bought four model kits: the Revell F-15 Eagle (finished), the 1/72 scale B-29 bomber, and the 1/24 scale '69 Camaro.\n\nThat's three \u2014 let me correct that: the F-15 Eagle, the B-29 bomber, and the '69 Camaro make **three model kits**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b5ef892d",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "3 days \u2014 your 3-day solo camping trip to Big Sur in early April.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e831120c",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "About three and a half weeks \u2014 two weeks for the 22 MCU movies and a week and a half for the main Star Wars films.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3a704032",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 your snake plant, which you got from your sister last month.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d84a3211",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you've spent $120 on the Bell Zephyr helmet. The Saris Bones 2-Bike Trunk Rack is something you plan to order next week, so it isn't spent yet.\n\nTotal spent so far: $120.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "aae3761f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history: Washington D.C. took six hours, and Outer Banks took four hours. That's only two destinations with stated driving times \u2014 the third destination (Tybee Island) does not have a driving time given.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f2262a51",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The history only mentions one doctor by name \u2014 Doctor A. I don't have information about you visiting any doctors; the reference to Doctor A was an example about scheduling, not a record of your visits.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dd2973ad",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c4a1ceb8",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 orange and lemon.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a56e767c",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 AFI Fest in LA.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6cb6f249",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "7 days.\n\nYou took a week-long break from social media in mid-January.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "46a3abf7",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently have three tanks: your 20-gallon community tank, your 5-gallon tank, and the 1-gallon tank you set up for your friend's kid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "36b9f61e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, the only specific luxury purchase amount mentioned is the Gucci handbag for $1,200.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "28dc39ac",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you've spent 30 hours on The Last of Us Part II and 70 hours on Assassin's Creed Odyssey, for a total of 100 hours.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f8be40d",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 your sister's wedding.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2e6d26dc",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two babies: Jasper (David's baby boy) and Charlotte (Mike and Emma's baby girl).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_15e38248",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Three:\n1. A new coffee table you bought.\n2. An IKEA bookshelf you assembled about two months ago.\n3. Your kitchen table, whose wobbly leg you fixed last weekend.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you baked three times in the past two weeks: a whole wheat baguette last Saturday, a batch of cookies last Thursday, and you're planning the Italian bread this weekend (though that hasn't happened yet, so it doesn't count).\n\nThat makes **two** times you've actually baked in the past two weeks: the whole wheat baguette and the batch of cookies.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "80ec1f4f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two: The Art Cube (opening night on 15th February) and the Natural History Museum (on 2/8).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d23cf73b",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Three: Korean (bibimbap), fermented foods (kimchi/sauerkraut), and vegan (vegan lasagna with cashew-based ricotta).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7fce9456",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One property \u2014 the 3-bedroom townhouse in the Brookside neighborhood, which you viewed on February 22nd before making your offer on February 25th.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d682f1a2",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 Fresh Fusion.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7024f17c",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Last week you did 0 hours of yoga (you mentioned you'd been slacking off for the past month and were only hoping to get back into it this week). There's no mention of jogging anywhere in the history. So: 0 hours of jogging and 0 hours of yoga.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_5501fe77",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Twitter, where your follower count jumped from 420 to 540 \u2014 a gain of 120 followers over the past month.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2ba83207",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Thrive Market \u2014 you spent around $150 there last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2318644b",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "In Tokyo you spent around $30 per night, and in Maui (Hawaii) your resort cost over $300 per night \u2014 so you spent over $270 more per night in Hawaii.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ce6a0f2",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You attended 2 art-related events: the \"Women in Art\" exhibition on February 10th and the lecture \"The Evolution of Street Art\" on March 3rd.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d12ceb0e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The history gives ages for your parents (mom 55, dad 58) and grandparents (grandma 75, grandpa 78), and indicates you're in your early thirties (let's use 32).\n\nAdding these: 32 + 55 + 58 + 75 + 78 = 298\n\nAverage: 298 \u00f7 5 = **59.6 years**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "00ca467f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two: your follow-up with Dr. Thompson on March 20th, and the start of your physical therapy sessions on March 25th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b3c15d39",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You ordered it on February 5th and it arrived on February 10th, so it took 5 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_31ff4165",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 your nebulizer machine for inhalation treatments and a device for tracking your steps.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eeda8a6d",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Your 20-gallon tank has 10 neon tetras, 5 golden honey gouramis, and 1 pleco catfish (16 fish), and your 10-gallon tank has 1 betta (Bubbles), for a total of 17 fish.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2788b940",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 your yoga class on Sundays at 6:00 PM and Hip Hop Abs on Saturdays at 10:00 AM.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "60bf93ed",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You bought it on 1/15 and it arrived on 1/20, so it took 5 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9d25d4e0",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two pieces: the emerald earrings (last weekend) and the engagement ring (a month ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "129d1232",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You raised $5,250 in total \u2014 $250 from the charity walk and $5,000 from the Bike-a-Thon for Cancer Research.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "60472f9c",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 your Data Mining project and your Database Systems project.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_194be4b3",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently own 3 musical instruments: your 5-piece Pearl Export drum set, your Korg B1 piano, and your guitar.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a9f6b44c",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One bike \u2014 your road bike, which you cleaned and lubricated on March 22nd.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d851d5ba",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "$1,000.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5a7937c8",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two days \u2014 December 17th (Bible study) and December 24th (midnight mass on Christmas Eve).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_ab202e7f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you replaced 2 kitchen items: your old toaster (with a toaster oven) and you got a new espresso machine.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e05b82a6",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Let me count the rollercoaster rides mentioned:\n\n- July at SeaWorld San Diego: Mako, Kraken, and Manta = 3 rides\n- September 24th at Disneyland: Space Mountain: Ghost Galaxy three times = 3 rides\n- October 8th at Knott's Berry Farm: Xcelerator = 1 ride\n\nTotal: **7 rollercoaster rides**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_731e37d7",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "$0 \u2014 the workshops you mentioned (the February 22 photography workshop and the March 15\u201316 digital marketing workshop) were free events.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "edced276",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "15 days \u2014 10 days in Hawaii and 5 days in New York City.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "10d9b85a",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "3 days \u2014 the 2-day machine learning workshop on April 17th and 18th, plus the sustainable development lecture on April 10th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e3038f8c",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you have:\n- 25 rare coins\n- 5 rare books\n\nThat's 35 rare items in total (plus your rare records and your grandmother's/friend's antique vase, though no specific counts were given for those).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2b8f3739",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You earned a total of $345 \u2014 $120 from selling 12 bunches of fresh organic herbs on May 15th, and $225 from selling 15 jars of homemade jam on May 29th.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1a8a66a6",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently have 1 magazine subscription: The New Yorker. (You canceled your Forbes subscription in early March.)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c2ac3c61",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You have completed two courses on edX, plus some courses on Coursera. Based on the most specific number you gave, that's two on edX in total.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bf659f65",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 Billie Eilish's \"Happier Than Ever,\" which you downloaded on Spotify.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_372c3eed",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "High school (2010\u20132014) was 4 years, and your Bachelor's at UCLA took 4 years, for a total of 8 years.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f91af09",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Six \u2014 five short stories plus your writing challenge piece \"The Smell of Old Books.\"",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "81507db6",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 your cousin Emma's preschool graduation, about two months ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions a strawberry tart crust, chicken wings, whole wheat baguette, Italian bread, and cookies \u2014 but nothing about baking egg tarts.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "80ec1f4f_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Based on the conversation history, the only museum visit you mentioned was the Natural History Museum on 2/8 (February), not December. You did not mention visiting any museums or galleries in December.\n\nSo the answer is zero.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eeda8a6d_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe conversation history only mentions a 20-gallon tank and a 10-gallon tank (with the betta, Bubbles) \u2014 there is no 30-gallon tank referenced.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "60bf93ed_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "edced276_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_372c3eed_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Let me work through your formal education timeline:\n\n- High School (Arcadia High School): 2010 to 2014 = 4 years\n- Bachelor's at UCLA: completed in 2020, took 4 years = 4 years\n- Master's in Computer Science: a standard CS Master's = 2 years\n\nTotal: 4 + 4 + 2 = **10 years**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6a1eabeb",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Your personal best time in the charity 5K run was 25:50.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6aeb4375",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Four.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "830ce83f",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Rachel moved back to the suburbs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "852ce960",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "$400,000.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "945e3d21",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Three times a week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d7c942c3",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "No. You're using the new grocery list app, but your mom is still using her old paper list.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71315a70",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "10-12 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89941a93",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You currently own four bikes: your road bike, mountain bike, commuter bike, and a new hybrid bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ce6d2d27",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Friday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9ea5eabc",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Paris.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07741c44",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Under your bed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a1eacc2a",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "7 short stories.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "184da446",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You have read 220 pages so far.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "031748ae",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "When you just started your new role as Senior Software Engineer, you led 4 engineers. Now you lead 5 engineers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4d6b87c8",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "25",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0f05491a",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "125 stars.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "08e075c7",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "9 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f9e8c073",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Five sessions.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41698283",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "A 50mm prime lens.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2698e78f",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Every two weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b6019101",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "4",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "45dc21b6",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "3",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5a4f22c0",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "TechCorp.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6071bd76",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "More water per tablespoon \u2014 you switched from 1 tablespoon per 6 ounces to 1 tablespoon per 5 ounces.\n\nWait \u2014 let me correct that: your most recent ratio is 1 tablespoon per 5 ounces, which is **less** water per tablespoon than your earlier 1 tablespoon per 6 ounces.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e493bb7c",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Above your bed in your bedroom.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "618f13b2",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Six times.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "72e3ee87",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You've completed 50 episodes of the Crash Course Science series.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4ea545c",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "No. You currently go to the gym three times a week (Tuesdays, Thursdays, and Saturdays), which is fewer than the four times a week you mentioned earlier.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "01493427",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "25 new postcards.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6a27ffc2",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "30 videos.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2133c1b5",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "3 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "18bc8abd",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Kansas City Masterpiece BBQ sauce.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "db467c8c",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Nine months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7a87bd0c",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "4 weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e61a7584",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You've had Luna for about 9 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1cea1afa",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "600 followers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ed4ddc30",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "30 dozen.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8fb83627",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Five issues.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b01defab",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Yes, you finished reading \"The Nightingale\" by Kristin Hannah.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "22d2cb42",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "The music shop on Main St called \"Rhythm Central.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e4e4c46",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Your current highest score in Ticket to Ride is 132 points.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4b24c848",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Five.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7e974930",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You earned $420 at the Downtown Farmers Market on your most recent visit.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "603deb26",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "10 times.",
+          "autoeval_label": "ERROR"
+        },
+        {
+          "question_id": "59524333",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "7:00 pm on Mondays, Wednesdays, and Fridays.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5831f84d",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "15",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eace081b",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Oahu.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "affe2881",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "27 different species.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "50635ada",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Premier Silver.\n\nIn conversation [1] you reached Premier Silver status, and later in [2] you reached Premier Gold status. So your previous status before your current Premier Gold was Premier Silver.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e66b632c",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Your previous personal best was 28 minutes \u2014 you finished the recent charity 5K in 26 minutes and 30 seconds, which was about a minute and a half (1:30) faster than your previous record.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0ddfec37",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "20 autographed baseballs.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f685340e",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Previously you played tennis with your friends at the local park every other week. Now you play every Sunday (weekly).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "cc5ded98",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "One hour each day.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dfde3500",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Wednesday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "69fee5aa",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You have 38 pre-1920 American coins. You started with 37, then added a 1915-S Barber quarter.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7401057b",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Two free night's stays.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cf22b7bf",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You've lost 10 pounds since you started going to the gym consistently 3 months ago.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a2f3aa27",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You have approximately 1300 followers on Instagram now.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c7dc5443",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Your volleyball team, the Net Ninjas, has a 5-2 record.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06db6396",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "4",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3ba21379",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "A Ford Mustang Shelby GT350R model.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9bbe84a2",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Your previous goal was to reach level 100 before the end of the year.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "10e09553",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "9 largemouth bass.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dad224aa",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "8:30 am.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ba61f0b9",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "6 women are on Rachel's team.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "42ec0761",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Yes, you have a spare screwdriver that you picked up when you organized your computer desk.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5c40ec5b",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Twice.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c6853660",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You most recently increased the limit on the number of cups of coffee in the morning.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "26bdc477",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Five trips.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0977f2af",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "The Instant Pot.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6aeb4375_abs",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You haven't mentioned trying any Italian restaurants \u2014 only Korean ones.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "031748ae_abs",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "4",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2698e78f_abs",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. The history mentions Dr. Smith (sessions every two weeks), but there's no mention of a Dr. Johnson.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "2133c1b5_abs",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Based on the history, your apartment is in Harajuku, not Shinjuku, and the most recent figure you gave was 3 months.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0ddfec37_abs",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You haven't added any autographed footballs \u2014 your collection includes autographed baseballs, not footballs. In your first three months of collecting, you added 15 autographed baseballs.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f685340e_abs",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You don't play table tennis \u2014 you play tennis with your friends at the local park every other week.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "89941a94",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Yes. Before that purchase, you also had your road bike \u2014 so along with your mountain bike and commuter bike, you had three bikes total.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07741c45",
+          "question_type": "knowledge-update",
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You currently keep your old sneakers under your bed for storage.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8a2466db",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Given your focus on Adobe Premiere Pro and color grading, I'd recommend these resources:\n\n1. **Adobe's Official Premiere Pro Tutorials** (helpx.adobe.com/premiere-pro) \u2014 Excellent for deepening your understanding of the Lumetri Color Panel, including the Creative panel, Curves, and Color Wheels you've been exploring.\n\n2. **PremiereGal (YouTube)** \u2014 Practical, approachable tutorials covering both fundamentals and advanced color grading techniques.\n\n3. **Casey Faris (YouTube)** \u2014 Great for cinematic color grading workflows, which aligns with your interest in creating a cinematic look.\n\n4. **Cinecom.net** \u2014 Strong for creative, effects-driven editing and color techniques.\n\n5. **\"The Art and Technique of Digital Color Correction\" by Steve Hullfish** \u2014 A deeper read on color grading theory and best practices, useful since you're working on building a cohesive, neutral-first grade.\n\n6. **Premiere Pro Editors community on Reddit (r/premiere)** \u2014 Good for troubleshooting and learning from other editors as you progress.\n\nSince you're still getting the hang of color grading and prefer the Lumetri Color Panel, I'd start with Adobe's official tutorials plus Casey Faris for the cinematic look you're after.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06878be2",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your setup, here are accessories that would complement what you have well:\n\n1. **Spare batteries for the Godox V1** \u2014 since you're committing to the V1 flash, having extra Li-ion batteries will keep you shooting through long sessions.\n\n2. **A protective case/pouch for the Godox V1** \u2014 to keep your new flash safe in transit.\n\n3. **A high-capacity external battery pack with USB-C PD** \u2014 one capable of charging your Sony A7R IV and other devices on the go, ideal for travel and outdoor shoots.\n\n4. **A proper lens cleaning kit** \u2014 a quality microfiber cloth, lens cleaning solution, an air blower, and a lens pen to safely clean your Sony 24-70mm f/2.8 without streaks or scratches.\n\n5. **An L-bracket or quick-release plate compatible with the Gitzo GT3543LS** \u2014 to get the most out of your tripod with fast, secure mounting and easy switching between orientations.\n\n6. **A durable, comfortable camera bag designed for Sony mirrorless gear** \u2014 to carry your A7R IV, 24-70mm lens, V1 flash, and accessories with padded protection.\n\n7. **Extra fast UHS-II SD cards** \u2014 the A7R IV's 61MP files are large, so high-speed, high-capacity cards will keep up with your shooting.\n\n8. **A polarizing and ND filter set sized for your 24-70mm** \u2014 to manage reflections and enable long exposures and wide apertures in bright light.\n\nThese all build directly on the flash, lens, tripod, and bag decisions you've been working through.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75832dbd",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your focus on medical image analysis\u2014particularly segmentation, multi-modal image fusion, transfer learning, domain adaptation, and especially explainable AI (which you've asked about repeatedly)\u2014here are recommendations tailored to you:\n\n**Conferences:**\n- **MICCAI** (Medical Image Computing and Computer-Assisted Intervention) \u2014 the premier venue for your field, with strong tracks on segmentation, domain adaptation, and interpretability.\n- **IEEE ISBI** (International Symposium on Biomedical Imaging) \u2014 excellent for segmentation and multi-modal imaging work.\n- **SPIE Medical Imaging** \u2014 strong on practical clinical applications and image fusion.\n- **MIDL** (Medical Imaging with Deep Learning) \u2014 focused specifically on deep learning methods, with growing emphasis on explainability.\n\n**Publications/Venues to follow:**\n- **IEEE Transactions on Medical Imaging (TMI)** \u2014 top journal for advanced methods including domain adaptation and transfer learning.\n- **Medical Image Analysis (MedIA)** \u2014 leading journal covering segmentation, multi-modal fusion, and XAI.\n- **Nature Machine Intelligence** and **npj Digital Medicine** \u2014 for high-impact work on interpretable/explainable AI in clinical settings.\n\nGiven your strong, recurring interest in explainable AI, I'd prioritize the **MICCAI** interpretability workshops and **MIDL**, as these consistently feature the latest work on visualizing and interpreting deep learning models for medical imaging.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0edc2aef",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your preferences, I'd suggest the 1 Hotel South Beach in Miami. It matches what you clearly love: stunning views (oceanfront skyline and beach vistas), unique standout features (multiple rooftop pools, including a sprawling rooftop pool deck), a luxury spa for couples' massages, and upscale room service with dietary-friendly breakfast options. It captures the same romantic, view-focused, amenity-rich experience you chose with The Edgewater's Space Needle Romance Package.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "35a27287",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your interests, I recommend attending a language and cultural exchange festival this weekend \u2014 something like the cultural festival you volunteered at last month. Look for events that celebrate language diversity and cultural exchange, particularly those highlighting French and Spanish cultures, since those are the languages you're actively learning. A French or Spanish-focused language exchange meetup or conversational practice event would be perfect for you, as you've expressed strong interest in conversational practice, idiomatic expressions, and meeting language partners. Check platforms like Meetup, Eventbrite, and local cultural centers or Alliance Fran\u00e7aise/Spanish cultural institutes in your area for these gatherings.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "32260d93",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Watch John Mulaney's \"Kid Gorgeous\" on Netflix. It's exactly the kind of strong-storytelling stand-up you're drawn to, and as an aspiring comedian focused on craft, studying his structure, pacing, and narrative delivery will directly help your own writing and performance.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "195a1a1b",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your preferences, here are some good evening activities for you:\n\n- **Guided sleep meditation** \u2014 you enjoyed the Headspace \"Sleep\" meditation, especially the imagery and visualization, so continue with those sessions to unwind.\n- **Wind down by 9:30 pm** \u2014 keep your evening calm in the lead-up to your target bedtime for good sleep.\n- **Light reading or journaling** \u2014 quiet, screen-free activities that help calm your mind before bed.\n- **Minimize social media** \u2014 since you want to cut down on it, swap evening scrolling for relaxation.\n- **Plan/review tomorrow's structured schedule** \u2014 a quick prep aligns with your preference for structure and reduces stress before sleep.\n\nSince you found the meditation so relaxing and want to do another session, I'd especially recommend starting your evening wind-down with a guided sleep meditation.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "afdc33df",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Given what you've shared, here are tips tailored to your kitchen:\n\n1. **Maximize your utensil holder** \u2013 Since you bought a new one to keep countertops clutter-free, sort utensils by how often you use them. Keep daily-use items (spatulas, wooden spoons, whisks) front and center, and group similar tools together. Store taller items toward the back and shorter ones in front so everything's visible and easy to grab. Consider a second small holder or drawer divider if it's getting crowded.\n\n2. **Keep countertops clear** \u2013 Build on your clutter-free goal: only keep items you use daily on the counter (like your slow cooker if you're making yogurt regularly), and store everything else away.\n\n3. **Maintain your garbage disposal** \u2013 Run it regularly with cold water, grind ice cubes and citrus peels to keep it clean and odor-free, and avoid putting grease or fibrous scraps down it. A clean disposal helps prevent sink-area mess and smells.\n\n4. **Protect your granite near the sink** \u2013 Wipe up spills quickly, use a cutting board (don't cut directly on the granite), and clean with a soft cloth and pH-neutral cleaner to avoid new scratches.\n\n5. **Stay on top of the leaky faucet** \u2013 Fix that slight leak soon, since drips lead to water spots, mineral buildup, and dampness around the sink that make the area look messy.\n\n6. **Clean as you go** \u2013 Wipe surfaces after each cooking or yogurt-making session so messes don't pile up.\n\nStart with the utensil holder and countertops since that's clearly a priority for you.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "caf03d32",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your interests, here's my advice tailored to what you've been making:\n\n**For your cashew yogurt:** Soak the cashews longer (8 hours or overnight) for the smoothest blend, and use a high-speed blender with enough liquid to get a silky base. Strain through a nut milk bag rather than cheesecloth\u2014it gives a cleaner, smoother result for nut-based mixtures and is easier to squeeze.\n\n**For yogurt-making in general:** Do use a thermometer rather than just timing it. Hitting the right temperatures matters\u2014heating the milk/base to around 180\u00b0F and then cooling to about 110\u00b0F before adding your culture is what makes yogurt actually set properly. Guessing by time alone is the most common reason yogurt fails.\n\n**For your vegan/vegetarian slow cooker meals:** Build flavor in layers\u2014saut\u00e9 aromatics (onion, garlic, spices) before adding them, since slow cookers don't brown ingredients. Add delicate vegetables and any plant-based milks/coconut milk near the end so they don't break down or curdle. Go easy on liquid, since slow cookers retain moisture and won't reduce like stovetop cooking.\n\n**General:** Resist lifting the lid\u2014each peek adds 20\u201330 minutes of cooking time and disrupts the steady temperature these recipes depend on.\n\nStart with the thermometer for your yogurt and the longer cashew soak\u2014those two changes will make the biggest difference for the recipes you've been working on.",
+          "autoeval_label": "ERROR"
+        },
+        {
+          "question_id": "54026fce",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Yes \u2014 set up virtual coffee breaks with your team. Bring it up at your next team meeting as a collaborative suggestion rather than a fixed plan, invite everyone to share their thoughts so the conversation isn't dominated by one person, and agree together on the details. Establish a regular schedule, use a reliable and easy-to-use video conferencing platform, and set some light ground rules like no work talk and keeping things casual.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06f04340",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Make a fresh cherry tomato and basil pasta or salad \u2014 toss your homegrown cherry tomatoes with fresh basil, then finish with a mint-infused element (like a mint and basil pesto or a minty side salad) to showcase the basil, mint, and cherry tomatoes you've been growing. Add your homegrown peppers (roasted or saut\u00e9ed) for an extra garden-fresh touch.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6b7dfb22",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Since you've already been finding inspiration on social media, here are some fresh ways to break out of your rut:\n\nTry painting outdoors (plein air) to capture flowers and natural scenes directly from life rather than from Instagram\u2014this will sharpen the realistic flower work you've been developing. Visit local botanical gardens or flower markets for new subjects.\n\nSince you're doing a 30-day painting challenge, lean into that structure by giving yourself specific themed prompts or constraints\u2014like a limited color palette, or focusing entirely on texture using your palette knife techniques. Constraints often spark creativity.\n\nVisit a local museum or gallery to study how other artists handle color, light, and composition in person. Take an in-person workshop or class to learn new techniques and meet other artists.\n\nRevisit your earlier work to see how far you've come, experiment with a brand-new medium or subject just for fun (no pressure to finish or sell it), and keep an inspiration journal or mood board to collect ideas as they come.\n\nThe key is to shake up your routine\u2014new environments, new constraints, and new techniques will help you rediscover your momentum.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1a1907b4",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Go with the Pimm's Cup with a Twist. It's perfect for a summer get-together: make it with Hendrick's gin, muddle fresh cucumber slices for added flavor and texture, and sweeten it with your Ruby Red Grapefruit simple syrup for that balanced, slightly bitter note and lovely pink hue. Serve it in a Collins glass to show off the layers of color and your garnishes. It's refreshing, visually appealing, and a crowd-pleaser.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "09d032c9",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "38146c39",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your taste for richer, more intense flavors, swap the regular sugar in your chocolate chip cookies for muscovado sugar. You clearly love the deep, caramel-like notes it brings\u2014just as you chose it for your carrot cake frosting to get a stronger, more intense flavor. The molasses content in muscovado will give your cookies a richer, chewier, more complex taste. Pair it with a touch of flaky sea salt and a splash of good vanilla to amplify that caramel depth even further.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d24813b1",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Bake your lemon poppyseed cake \u2014 it was a hit at your colleague's going-away party, so your colleagues already love it. Pair it with a batch of chewy chocolate chip cookies for an easy, crowd-pleasing spread. If you want to add something a little more special, try the lemon lavender pound cake you've been interested in experimenting with.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "57f827a0",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Since you're putting real care into a beautiful walnut, mid-century modern dresser with brass accents, arrange your bedroom to make that piece a focal point. A few tips:\n\n1. **Give the dresser a prime spot** \u2014 place it where it's visible upon entering the room, ideally against a wall with good natural light to highlight the walnut grain and brass hardware.\n\n2. **Keep the look clean and understated** \u2014 mid-century modern is all about clean lines and uncluttered space, so leave breathing room around your furniture rather than crowding pieces together.\n\n3. **Balance the bed and dresser** \u2014 position the bed as the anchor (often centered on the largest wall), then let the dresser sit on a complementary wall so the two main pieces feel balanced rather than competing.\n\n4. **Mind the walkways** \u2014 leave at least 30 inches of clearance for traffic paths and enough room to fully open the dresser drawers.\n\n5. **Echo the warm/elegant vibe** \u2014 a low-profile lamp or a small plant on top of the dresser can complement the brass-and-walnut elegance without cluttering it.\n\nStart by clearing the floor, sketch a quick layout, then move the largest pieces (bed, dresser) first before filling in smaller items.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "95228167",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your interest in upgrading to a Les Paul, here are tips for your visit:\n\n1. **Look for a coil-tap or coil-splitting feature** \u2014 since you're interested in tonal flexibility, especially for open D tuning, prioritize models with this option. It'll give you a wider range of sounds, from thick humbucker tones to cleaner single-coil-like sounds.\n\n2. **Test fingerpicking playability** \u2014 bring \"Blackbird\" or similar fingerstyle patterns and play them on the guitar. Check that the neck profile and string spacing feel comfortable for the acoustic-like fingerpicking you want to do.\n\n3. **Try it in open D tuning** \u2014 ask if you can retune one to open D and test how well it holds tuning and sustains. Pay attention to intonation when tuned down.\n\n4. **Check the neck feel** \u2014 Les Pauls have a different neck (thicker, shorter scale length) compared to your Strat, so spend time making sure it feels right in your hands.\n\n5. **Evaluate the tone through an amp** \u2014 bring or use an amp to hear how it handles the rock, blues, and heavier styles Les Pauls excel at, and test both pickup positions.\n\n6. **Inspect build quality** \u2014 check the fretwork, hardware, and overall finish, especially around the neck joint and bridge.\n\n7. **Weight consideration** \u2014 Les Pauls are notably heavier than Strats, so play standing up with a strap to make sure you're comfortable.\n\nHave fun this weekend \u2014 focus especially on that coil-splitting feature and the fingerpicking feel, since those matter most for what you want to play.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "505af2f5",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Since you're already making your own creamer to cut sugar and save money, I'd recommend a homemade cashew-based creamer: blend soaked cashews with water, a small amount of vanilla extract, and a touch of cinnamon instead of honey. The cashews give it a rich, naturally creamy texture without needing as much sweetener, which fits your goal of reducing sugar. You could also try unsweetened oat milk as a base with a pinch of nutmeg or a small piece of date for subtle sweetness\u2014keeping it low-sugar while adding new flavor variety beyond your current almond milk, vanilla, and honey version.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75f70248",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Yes, it likely could be. You have a cat that sheds a lot, and you've mentioned dealing with dust and cat hair in your living room. That combination of pet dander and dust is a common trigger for sneezing, so your living room is a probable culprit.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d6233ab6",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Yes, you should attend your high school reunion. You've mentioned several fond high school memories\u2014being part of the debate team and taking AP economics courses\u2014and you've noted feeling nostalgic. Reconnecting with old friends, especially since you've talked about high school friends planning their post-graduation paths, would be a meaningful and enjoyable experience for you. Go for it.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1da05512",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Buy now. You already have a clear, immediate need \u2014 your home network is running into storage capacity issues, and you're currently relying on a single external hard drive for backups, which is both inconvenient and a single point of failure. A NAS solves both problems at once by giving you more storage and a central backup location for all your devices, including your laptop and phone.\n\nGiven your strong interest in security, go with a 2-bay NAS from a reputable brand like Synology or QNAP, set up in a mirrored (RAID 1) configuration so your data is protected against a single drive failure, and enable encryption and access controls. There's no compelling reason to wait \u2014 your needs are present now, and delaying just leaves your data exposed on that lone external drive.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fca70973",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your interests, I'd suggest planning your weekend around Universal Studios Hollywood's Halloween Horror Nights, since you've already shown strong interest in their VIP Experience with the Gourmet Buffet and Behind-the-Scenes Tour. Book that VIP package as your centerpiece event.\n\nTo round out the weekend, pair it with a visit to Knott's Berry Farm for their Knott's Scary Farm \u2014 it's one of the most established Halloween haunt events, offering multiple mazes, scare zones, and seasonal food items that match your interest in unique Halloween-themed dining. You could also fit in Six Flags Magic Mountain's Fright Fest if you want to add thrill rides into the mix, since you enjoy a variety of park experiences.\n\nSo: dedicate one night to Universal's Halloween Horror Nights with the VIP Gourmet Buffet and tour, and use the second day/night for Knott's Scary Farm (and optionally Fright Fest) to hit the Halloween haunts, seasonal foods, and nighttime shows you're after.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b6025781",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on what you've enjoyed so far, here are some fresh ideas for next week's meal prep:\n\n1. **Mushroom Bolognese** \u2014 You tried lentil bolognese this week, so switch it up with the mushroom version you were also curious about. Serve it over quinoa just like before.\n\n2. **Herb-Roasted Vegetable & Quinoa Bowls** \u2014 Lean into your fresh rosemary by roasting a new mix of vegetables (try Brussels sprouts, carrots, and zucchini) with Classic Herbs seasoning.\n\n3. **Roasted Sweet Potato & Chickpea Bowl** \u2014 Build on the roasted sweet potatoes you're making this week, pairing them with chickpeas as a new plant-based protein over quinoa.\n\n4. **Grilled Chicken & Quinoa Power Bowls** \u2014 A reliable favorite of yours, dressed up with the herb-roasted veggies.\n\n5. **Homemade Granola Parfaits** \u2014 Layer your customized granola with yogurt and fruit for an easy breakfast or snack option.\n\nThese keep your quinoa-and-roasted-veggie base while introducing the plant-based proteins (mushroom, chickpeas) and herb flavors you've been gravitating toward.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a89d7624",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Given your love for live music, you should dive into Denver's music scene. Catch a concert at Red Rocks Amphitheater \u2014 it's clearly a favorite of yours after seeing The Killers there. Get there early and have dinner at The Ship Rock Grille, ideally snagging an outdoor table with a view of the Red Rocks. Beyond Red Rocks, explore Denver's other live music venues and check out any local music festivals happening during your visit. And since you were asking about BBQ near Red Rocks, work some of that into your plans too \u2014 grab a BBQ meal near the amphitheater to round out a concert day.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b0479f84",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Given your love of nature and wildlife documentaries, watch \"Chasing Coral\" tonight. It ties directly into your interest in coral reefs and ocean conservation, with stunning underwater footage in the visual style you enjoyed from \"Our Planet.\" If you want something with the human-adventure edge of \"Free Solo,\" follow it up with \"Dynasties.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1d4e3b97",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Yes \u2014 you replaced your bike's chain and cassette on February 1st, which improved the bike's performance. That upgrade is likely why your bike is running better during your Sunday group rides.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07b6f563",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on what you've shown interest in, here are accessories I'd suggest for your iPhone 13 Pro:\n\n1. **A tempered glass screen protector** \u2014 You need to replace your cracked one, so a high-quality glass protector (with proper edge coverage and oleophobic coating) is a top priority.\n\n2. **A wallet case** \u2014 You were shopping for one, including the OtterBox option. A folio-style wallet case with card slots would suit you well and adds drop protection.\n\n3. **A wireless charging power bank** \u2014 This is your strongest current interest. Get one with MagSafe-compatible alignment for your iPhone 13 Pro, Qi certification, and higher capacity (10,000mAh+) than your current Best Buy unit, ideally with pass-through charging.\n\nThese three cover protection, convenience, and on-the-go power \u2014 exactly the areas you've been focused on.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1c0ddc50",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your interests, listening to podcasts is the perfect commute activity for you. With your 40-minute commute each way (80 minutes round-trip daily), here's what I'd suggest:\n\n- **Dedicate your morning commute to history podcasts** \u2014 since that's your strongest current interest. A 40-minute window is ideal for fitting in one full episode or splitting a longer one across two trips.\n- **Use your evening commute for science podcasts** \u2014 to branch out into the new genre you mentioned wanting to explore, while keeping the lighter true crime and self-improvement content in rotation when you want something familiar.\n- **Listen to audiobook versions of the history books** you're interested in, like \"Guns, Germs, and Steel\" by Jared Diamond \u2014 a great way to dig deeper into the \"lucky latitudes\" concept and other topics during longer drives or when you finish your podcast queue.\n- **Queue episodes the night before** so you have your listening lined up and don't waste commute time deciding what to play.\n\nThis lets you keep enjoying true crime and self-improvement while steadily branching into history and science, exactly as you wanted.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0a34ad58",
+          "question_type": "single-session-preference",
+          "sme_category": "cat_1",
+          "hypothesis": "Yes \u2014 here are some tips tailored to your trip:\n\n1. **Lean on your Suica card.** You've already got one, and it's the easiest way to get around. Just tap in and out at the gates on trains and the metro, and you can also use it for buses and even some convenience stores and vending machines. Keep it topped up so you never get stuck at a gate.\n\n2. **Use the TripIt app you downloaded.** Keep all your bookings\u2014airport transfer, hotel, Nikko tour, and restaurant plans\u2014organized in one place so you always know where you need to be and when.\n\n3. **Master your home base: Shinjuku Station.** Since you're staying at the Park Hyatt Tokyo, you'll be using Shinjuku Station a lot. It's huge and can be overwhelming, so note the exit nearest your hotel (the south/west side) and give yourself extra time the first couple of times.\n\n4. **Download offline maps and a navigation app** (like Google Maps) so you can look up train routes and platform numbers in advance\u2014this takes the guesswork out of transfers.\n\n5. **Travel off-peak when you can.** Rush hour (roughly 7:30\u20139:30am and 5:30\u20137:30pm) is extremely crowded; for trips like the early-morning Tsukiji visit you'll actually be ahead of the worst of it.\n\n6. **Follow the signs and colors.** Tokyo's stations have clear English signage and color-coded train lines, so match the line color and direction to your destination.\n\n7. **Ask for help freely.** Station staff and locals are very helpful, and pointing at a written station name on your phone goes a long way.\n\nYou're already well-prepared with your Suica and TripIt, so you'll settle into the rhythm quickly. Enjoy Tokyo!",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7161e7e2",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you requested a shift rotation sheet, but it does not contain the actual completed sheet or any specific shift assignment for Admon on Sunday.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c4f10528",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Miss Bee Providore.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89527b6b",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e9327a54",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about dessert spots in Orlando, but it doesn't contain the actual list of recommendations, so I can't identify the specific dessert shop with the giant milkshakes.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4c36ccef",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ae235be",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about the refining processes at CITGO's three refineries, but the actual content of those answers (the responses describing the processes) is not included in the history provided to me. Without that information, I cannot recall the specific processes used at the Lake Charles Refinery.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7e00a6cb",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for budget-friendly hostel suggestions in Amsterdam, but it doesn't contain the actual names of any hostels that were recommended, so I can't identify the specific one near the Red Light District.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1903aded",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows a request to brainstorm work from home jobs for seniors, but it does not contain any actual list of jobs\u2014so there is no 7th job to remind you of.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ceb54acb",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history provided does not contain any discussion of \"sexual compulsions\" or alternative terms for behaviors. The entries only show fragments like \"hit1,\" \"hit2,\" \"hit3,\" \"hit4,\" and a brief comment about something being \"longer,\" with nothing relevant to the four options you're asking about.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f523d9fe",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Doc Martin.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e5e2d1a",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fea54f57",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "\"Evolution.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc539528",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about front-end and back-end development and requested resource recommendations, but it does not contain any specific back-end programming languages that were recommended to you.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dc439ea3",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "18dcd5a5",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "488d3006",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked for the best hiking trail with amazing views, but the actual content of that recommendation (the specific trail name) is not recorded in the history available to me.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "58470ed2",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history provided contains no discussion of The Library of Babel or any statement by Borges about the center and circumference of the Library. The history only shows fragments (\"hit1,\" \"hit2,\" etc.) and an incomplete prompt about completing an essay, with nothing relevant to base an answer on.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8cf51dda",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your request to write a grant aim page on molecular subtypes and endometrial cancer, but it does not contain any record of three specific objectives that were outlined for the project.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1d4da289",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you expressed frustration about data privacy measures (like remembering multiple passwords and extra access steps), but it does not contain any prior answer from me listing specific two-factor authentication methods. There's nothing in the history describing the 2FA methods you're asking about.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8464fc84",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8aef76bc",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71a3fd6b",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for the contact details of the Speyer tourism board, but it does not contain the actual phone number that was provided in response. Without that information in the history, I can't confirm the specific number for you.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2bf43736",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "70b3e69b",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8752c811",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you requested a list of 100 prompt parameters, but the actual list content is not present in the history I can see. The entries [2] through [5] only contain \"hit1,\" \"hit2,\" etc., without the parameter details. Therefore, I cannot tell you what the 27th parameter was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3249768e",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about five bottles for the widest variety of gin-based cocktails, but the actual list of recommended bottles does not appear in the history provided. Without the content of those responses, I can't tell you what the fifth bottle was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1b9b7252",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1568498a",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "28. Kg3",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6222b6eb",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "6S \u2014 the SIAC_GEE tool by MarcYin is based on the 6S radiative transfer model.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e8a79c70",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d596882b",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for vegan/vegetarian recommendations, but the actual restaurant suggestions that were given aren't recorded in the history available to me, so I can't tell you which specific vegan eatery with multiple locations was recommended.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e3fc4d6e",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Dr. Arati Prabhakar is the President's Chief Advisor for Science and Technology (and Director of the White House Office of Science and Technology Policy).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51b23612",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any specific example of a Soviet cartoon mocking Western culture. The messages list topics that were discussed about political humor and satire, but the actual content of those responses (including any specific examples like a Soviet cartoon) isn't shown in the history available to me.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3e321797",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e982271f",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about popular Portland venues for indie artists, but the actual list of venues and their names is not included in the history provided.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "352ab8bd",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fca762bc",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked me for language app recommendations, but it doesn't contain any response where specific apps were actually named or discussed. There's no mention of an app using mnemonics in the history provided.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7a8d0b71",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a40e080f",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history only mentions Triumvirate itself. While you asked whether I knew of other companies that prioritize safety and well-being like Triumvirate, the history does not contain any answer naming two such companies.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8b9d4367",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5809eb10",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "The construction of the house began in 2014.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41275add",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any specific Mayo Clinic video recommendation about workplace posture. The history only shows an unanswered question asking for a YouTube video to share, followed by entries with no usable content. There's nothing here for me to base that recommendation on.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4388e9dd",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Andy was wearing an untidy, stained white shirt.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4baee567",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "12 games.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "561fabcd",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Fissionator.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b759caee",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any actual designer names or Instagram handles \u2014 only the original request [1] and placeholder responses (\"hit1,\" \"hit2,\" etc.) with no real content. There's no information about a UK-based designer working with unusual gemstones for me to reference.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ac031881",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "LIV \u2014 which is the Roman numeral for 54, the file number you looked up in Records.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28bcfaac",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "MusicTheory.net",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "16c90bf4",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Pilsner.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8f1aeed",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't show any specific state being mentioned as an example with that requirement.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eaca4986",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c7cf7dfd",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e48988bc",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Patagonia.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1de5cff2",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "65240037",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "778164c6",
+          "question_type": "single-session-assistant",
+          "sme_category": "cat_1",
+          "hypothesis": "Escovitch Fish.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e47becba",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You graduated with a degree in Business Administration.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "118b2229",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Your daily commute is 45 minutes each way.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51a45a95",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "In your email inbox (a coupon for coffee creamer that you redeemed at Target).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58bf7951",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "The Glass Menagerie.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1e043500",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Summer Vibes",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c5e8278d",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Johnson.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ade9755",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Serenity Yoga.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6f9b354f",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "A lighter shade of gray.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58ef2f1c",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You volunteered at the \"Love is in the Air\" fundraising dinner on Valentine's Day (February 14th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f8c5f88b",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "A sports store downtown.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5d3d2817",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You managed a team of interns at a startup, where you were responsible for manually assigning tasks and tracking their progress.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7527f7e2",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "$800.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c960da58",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You have 20 playlists on Spotify.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3b6f954b",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "The University of Melbourne.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "726462e0",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "10%",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "94f70d80",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "4 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "66f24dbb",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "For your sister's birthday, you bought a yellow dress and a pair of matching silver hoop earrings with a small pearl in the center.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ad7109d1",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "500 Mbps.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "af8d2e46",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You packed 7 shirts for your Costa Rica trip. (Note: you described it as a recent trip, not specifically a 5-day one.)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dccbc061",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You were a staunch atheist.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8c3f81d",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Nike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8ebdbe50",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Your certification in Data Science.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6b168ec8",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You own three bikes \u2014 a road bike, a mountain bike, and a commuter bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75499fd8",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Max is a Golden Retriever.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "21436231",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You caught 12 largemouth bass on your last trip to Lake Michigan.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "95bcc1c8",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "10",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0862e8bf",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Luna.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "853b0a1d",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You were 18 years old.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a06e4cfe",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Your preferred gin-to-vermouth ratio for a classic gin martini is 3:1, with a dash of citrus bitters.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "37d43f65",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "16GB.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b86304ba",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Triple what you paid for it.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d52b4f67",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "The Grand Ballroom.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "25e5aa4f",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "UCLA.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "caf9ead2",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Around 5 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8550ddae",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "A lavender gin fizz.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60d45044",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Japanese short-grain rice.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3f1e9474",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Sarah.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "86b68151",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "IKEA.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "577d4d32",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "7 pm.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ec81a493",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "500 copies worldwide.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "15745da0",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Three months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e01b8e2f",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Hawaii (the Big Island).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bc8a6e93",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "A lemon blueberry cake.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ccb36322",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Spotify.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "001be529",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Over a year.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b320f3f8",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "A rare blue Snaggletooth action figure.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "19b5f2b3",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Two weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4fd1909e",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You attended the Imagine Dragons concert at the Xfinity Center on June 15th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "545bd2b5",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You've been averaging around 2 hours of screen time on Instagram per day.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8a137a7f",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You didn't replace a bulb in your bedside lamp \u2014 you're currently using a Philips LED bulb (warm tone) in it.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "76d63226",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Your new Samsung TV is 55 inches.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "86f00804",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You're currently reading \"The Seven Husbands of Evelyn Hugo.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8e9d538c",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "17 skeins.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "311778f1",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "10 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c19f7a0b",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Around 6:30 pm.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4100d0a0",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Irish and Italian.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "29f2956b",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You dedicate 30 minutes daily to practicing guitar.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1faac195",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Denver.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "faba32e5",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "24 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f4f1d8a4",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Your sister gave you the new stand mixer as a birthday gift.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c14c00dd",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You're currently using a lavender scented shampoo from Trader Joe's.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "36580ce8",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "Bronchitis.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3d86fd0a",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You met Sophia at a coffee shop in the city.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a82c026e",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1",
+          "hypothesis": "You finally beat the last boss in the Dark Souls 3 DLC last weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0862e8bf_abs",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. The history mentions a cat named Luna, but there is no mention of a hamster.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "15745da0_abs",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Three months.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bc8a6e93_abs",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions you made a lemon blueberry cake for your niece's birthday party, but there's nothing about baking for an uncle's birthday party.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "19b5f2b3_abs",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. Your trip to Korea/Seoul is still in the planning stage \u2014 the history only mentions a past 3-day trip to a city in Japan, not the length of your Korea stay.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "29f2956b_abs",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "f4f1d8a4_abs",
+          "question_type": "single-session-user",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_59149c77",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f49edff3",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, all three events were described as happening \"today\" relative to each separate conversation. There is no information establishing the chronological order between these three separate conversations.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017276",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The history says you got the chandelier from your aunt today, so that was 0 weeks ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ed",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions multiple charity events (the \"Walk for Hunger\" walk and a planned bake sale), but there is nothing indicating that you participated in two charity events on consecutive days, nor any dates from which to calculate elapsed months.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Both happened \"today\" in their respective messages \u2014 they occurred on the same day, so 0 days passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0bc8ad92",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Zero months \u2014 you visited the Science Museum with your friend (the chemistry professor) recently, so it's been less than a month.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "af082822",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You attended it yesterday (about 0 weeks ago), not weeks ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293a",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Michael's engagement party happened first. You mentioned coming back from it \"today\" in your earliest message [1], while your cousin's wedding (where you were a bridesmaid) came up in later conversations [2][3].",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca9",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the Maundy Thursday service today \u2014 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b81",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The baking class was \"yesterday\" and the birthday cake was baked \"today,\" so you attended the baking class 1 day ago when you made your friend's birthday cake.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1d4ab0c9",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You started watering your herb garden and harvested your first batch of fresh herbs on the same day, so 0 days passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e072b769",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You just downloaded Ibotta \u2014 you started using it now (this week), not weeks ago. The \"few weeks ago\" reference was about trying FreshToDoor, not Ibotta.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0db4c65d",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "In conversation [2], you finished reading \"The Seven Husbands of Evelyn Hugo\" \"today,\" and in conversation [1], you attended the book reading event \"today\" as well. Since both events happened on the same day, **0 days** had passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1d80365e",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Your solo camping trip to Yosemite started today, so you haven't spent multiple days yet \u2014 it just began (day one).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7f6b06db",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, the only past trip mentioned is your day hike to Muir Woods National Monument, which you did the day you wrote that message. The Eastern Sierra trip and John Muir Trail section hike are both future/planned trips, not past trips. So I don't have a record of three past trips to put in order \u2014 only the Muir Woods day hike has actually happened.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_6dc9b45b",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You attended SIFF today (0 months ago) \u2014 you mentioned you saw \"Coda\" there today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba02",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You bought the smoker today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_18c2b244",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the conversation history:\n\n1. \"I used a Buy One Get One Free coupon on Luvs diapers at Walmart\" (message [1])\n2. \"I redeemed $12 cashback for a $10 Amazon gift card from Ibotta\" (message [2])\n\nThe event \"I signed up for the rewards program at ShopRite\" does not appear in the conversation history, so I cannot place it in the order.\n\nThe order of the two events present is: first the Luvs diapers BOGO coupon at Walmart, then the $12 Ibotta cashback redemption for the Amazon gift card.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a1b77f9c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, you started all of these on the same day (you \"just started,\" \"started reading today,\" \"started listening today,\" and \"just finished... today\"), so there is no multi-week duration indicated.\n\nYou spent 0 weeks in total.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1916e0ea",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7a0daae1",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You bought your racket online and received it the same day \u2014 you mentioned receiving your new racket today and that you bought it online today. So zero weeks passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb063",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You met Emma today (0 days ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7abb270c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, here are the museums you mentioned visiting, but I can only identify four museum visits, not six:\n\n1. Science Museum (\"Space Exploration\" exhibition)\n2. Museum of Contemporary Art (Dr. Maria Rodriguez lecture series)\n3. Natural History Museum (\"Dinosaur Fossils\" exhibition)\n4. Metropolitan Museum of Art (\"Ancient Egyptian Artifacts\" exhibition)\n\nHowever, the conversation history does not provide clear timestamps or a definitive chronological order across all of these visits, and it only contains four museums you actually visited (not six). I don't know the full order of six museums from earliest to latest.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aeb",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened \"today\" \u2014 the tomato saplings were planted today [1] and the gardening workshop was attended today [2]. So 0 days passed between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4fc4f797",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4dfccbf7",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "In message [1], you said you \"just started taking ukulele lessons with my friend Rachel today.\" In message [2], you said you \"just got back from Joe's shop\" and \"decided to take my Taylor GS Mini, to the guitar tech for servicing today.\"\n\nBoth events happened \"today,\" so **0 days** had passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_61e13b3c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_45189cb4",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c90",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "In conversation [1], you said you finished \"The Nightingale\" the same day, having \"just finished\" it. In conversation [2], you said you \"just started\" it today. Taking the most recent relevant context together, you finished it in one day.\n\n**One day.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, only two sports events are clearly identified: the Midsummer 5K Run and the company's annual charity soccer tournament (which occurred \"today\"). The Midsummer 5K Run came earlier, and the charity soccer tournament is today (most recent).\n\nSo from earliest to latest: Midsummer 5K Run, then the company's annual charity soccer tournament. I don't have information identifying a clear third event.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "370a8ff4",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce8",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, you attended two past musical events: a music festival in Brooklyn featuring your favorite indie bands, and a Queen concert with Adam Lambert at the Prudential Center in Newark, NJ with your parents.\n\nThe order from earliest is: first the Brooklyn music festival, then the Queen concert with Adam Lambert at the Prudential Center.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4ef30696",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Both happened \"today\" \u2014 you finished 'The Nightingale' today and started 'The Hitchhiker's Guide to the Galaxy' today \u2014 so 0 days passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_ec93e27f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "A bus \u2014 you took a bus ride to attend a friend's wedding today, which is more recent than your March 3rd train ride.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6e984301",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You got your own set of sculpting tools the same day you mentioned experimenting with them, which was during the period when you had been taking sculpting classes for about 6 weeks. So, about 6 weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8077ef71",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Today \u2014 the networking event was earlier today (it ran from 6 PM to 8 PM today), so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262c",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "United Airlines (Boston to Chicago), then today's American Airlines flight (New York to Los Angeles).\n\nWait \u2014 the question asks for flights *before* today. The only flight you flew with before today was United Airlines (Boston to Chicago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened \"today\" \u2014 the repotting (message [2]) and giving the cuttings to Mrs. Johnson (message [1]) occurred on the same day. So 0 days passed between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_74aed68e",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "0 days \u2014 you replaced your spark plugs and participated in the Turbocharged Tuesdays event on the same day (both today).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bcbe585f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the workshop today, so 0 weeks ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_21adecb5",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "In message [1] you said you had just completed your undergraduate degree, and in message [2] you said you had just submitted your master's thesis that day. A master's degree typically takes about 2 years (24 months) to complete after an undergraduate degree.\n\nSo roughly **24 months** passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5e1b23de",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the photography workshop today, so it was 0 months ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_98f46fc6",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The charity bake sale. You participated in it \"today,\" while the charity gala was happening \"tonight\" \u2014 meaning the bake sale came first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_af6db32f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You watched the Super Bowl today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eac54adc",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The contract with your first client was signed \"today\" (message [1]), and you mentioned having \"just launched\" your website (message [2]) \u2014 also a very recent event. Based on this, you launched your website 0 days ago \u2014 the same day you signed the contract with your first client.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7ddcf75f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You went on the whitewater rafting trip today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a2d1d1f6",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Today (0 days ago) \u2014 you said you harvested your first batch of fresh herbs from the herb garden kit today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_85da3956",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You said you \"just got back\" from the Summer Nights festival, so you attended it within the past week \u2014 about a few days ago, not weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b0863698",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You participated in the 5K charity run today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94287",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Your post about the vegan chili recipe happened first. You shared the vegan chili recipe \"yesterday,\" while you participated in the #PlankChallenge \"today.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231e",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened \"today\" in their respective conversations, and there's no information in the history indicating any time gap between them. Based on what's stated, 0 days passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7ca326fa",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Emma graduated most recently (yesterday, in late May). Alex graduated about two weeks ago. There is no information about Rachel in the history.\n\nI don't know Rachel's graduation timing, but based on the available information: Alex graduated before Emma. I don't know about Rachel.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7bc6cf22",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You read it today \u2014 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c92",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "\"The Nightingale\" by Kristin Hannah.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84g",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The Spring Sprint Triathlon.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017277",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ee",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The \"Walk for Hunger\" event, where you walked 5 kilometers with your colleagues to raise money for the local food bank.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce9",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "A group of friends.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aec",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You planted 12 new tomato saplings.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262d",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions an American Airlines flight from LAX to JFK (delayed 2 hours) and a flight from New York to Los Angeles on February 10th, but nothing about a flight on Valentine's Day (February 14th).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59149c78",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The Museum of Modern Art (MoMA).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231f",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Your mountain bike \u2014 you fixed the flat tire by replacing the inner tube and cleaning the chain.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293b",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Your cousin's wedding, where you were a bridesmaid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb064",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "Emma, a freelance writer and potential collaborator.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884d",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b82",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "A chocolate cake for your friend's birthday party, made with a recipe that used espresso powder to intensify the chocolate flavor.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eac54add",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You signed a contract with your first client.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4dfccbf8",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You started taking ukulele lessons with Rachel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bc8ad93",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You visited with a friend \u2014 specifically your friend who's a chemistry professor.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6e984302",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows you've been taking sculpting classes and brainstorming ideas for a sculpture competition using driftwood, seashells, and found objects, but there's nothing about an investment or purchase you made for the competition.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba03",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "A smoker.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca0",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the Maundy Thursday service at the Episcopal Church.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94288",
+          "question_type": "temporal-reasoning",
+          "sme_category": "cat_6",
+          "hypothesis": "The #PlankChallenge.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d3ab962e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "8 miles (a 5-mile hike at Red Rock Canyon and a 3-mile loop trail at Valley of Fire State Park).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2311e44b",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "440 pages.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "cc06de0d",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The taxi ride cost $12, and your daily train fare is $6, so the taxi was $6 more expensive.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a11281a2",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You started the year with 250 followers and had around 350 after two weeks, so an increase of approximately 100 followers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4f54b7c9",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Five items:\n\n1. Antique tea set \u2014 from your cousin Rachel\n2. Vintage typewriter \u2014 belonged to your dad\n3. Vintage diamond necklace \u2014 from your grandmother\n4. Antique music box \u2014 from your great-aunt\n5. Depression-era glassware \u2014 from your mom",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "85fa3a3f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "- Food bowl: $15\n- Measuring cup: $5\n- Dental chews: $10\n- Flea and tick collar: $20\n\nTotal: **$50**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9aaed6a3",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent $75 at SaveMart, and with 1% cashback, you earned $0.75.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1f2b8d4f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "$750 \u2014 your luxury boots cost $800 and the similar pair at the budget store is $50.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e6041065",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You wore 40% of your packed shoes (2 out of 5 pairs).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51c32626",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You submitted your research paper on sentiment analysis to ACL.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d905b33f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The book was originally $30 and you got it for $24, which is a 20% discount.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7405e8b1",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Yes. You received 40% off your first HelloFresh order, compared to 20% off your UberEats order.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f35224e0",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "27 episodes total \u2014 15 from \"How I Built This\" and 12 from \"My Favorite Murder\".",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6456829e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You initially planted 5 tomato plants and 3 cucumber plants.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a4996e51",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "During peak campaign seasons, you work 10 additional hours weekly on top of your typical schedule.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3c1045c8",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You are 32 years old and the average age in your department is 29.5, so you are 2.5 years older.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60036106",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Your Facebook ad campaign reached around 2,000 people, and your Instagram influencer collaboration reached 10,000 followers, for a total of 12,000 people.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "681a1674",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "One. You re-watched Spider-Man: No Way Home.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e25c3b8d",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You saved $300 \u2014 the handbag was originally $500 and you got it for $200.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4adc0475",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You have 3 goals and 2 assists, for a total of 5.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4bc144e2",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent $15 on the car wash and $50 on the parking ticket, for a total of $65.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ef66a6e5",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 tennis (in high school) and swimming (in college).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5025383b",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Cooking and photography.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a1cc6108",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Alex is 21, and you are aiming to retire by 60, but your current age isn't directly stated. However, the history doesn't give your actual age, so I can't calculate this.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9ee3ecd6",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You need a total of 300 points to redeem a free skincare product at Sephora.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3fdac837",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "From the history:\n- Japan: April 15th to 22nd = 8 days\n- Chicago: 4-day trip\n\nTotal: 8 + 4 = 12 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "91b15a6e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "$5,150 \u2014 $5,000 for the vintage diamond necklace and $150 for the antique vanity.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "27016adc",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nThe history shows your renovation cost ($20,000) for your current house, but there is no mention of a countryside property or its price, so I cannot calculate the percentage.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "720133ac",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The total cost is $75 \u2014 $50 for the vet consultation fee and $25 for the flea and tick prevention medication.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "77eafa52",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The initial quote was $2,500 and the corrected price for the entire trip was $2,800, so you had to pay $300 more.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8979f9ec",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "8 lunch meals (5 from the lentil soup and 3 from the chicken fajitas).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0100672e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent $30 total on 5 coffee mugs, which is $6 per mug.\n\nWait \u2014 let me correct that based on what's actually in the history. The conversation doesn't state the total amount spent on the coffee mugs, only that you bought 5 of them. Since the per-mug price isn't given, I'll be direct: I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a96c20ee",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Harvard University.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "92a0aa75",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3fe836c9",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The pre-approval amount was $350,000 and the final sale price was $325,000, so the pre-approval was $25,000 more.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1c549ce4",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "$140 (the waterproof car cover at $120 plus the detailing spray at $20).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6c49646a",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "1,800 miles.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1192316e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Your getting-ready routine takes about an hour, and your commute takes about 30 minutes, for a total of about 1 hour and 30 minutes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0ea62687",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "2 miles per gallon more (30 mpg a few months ago vs. 28 mpg now).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "67e0d0f2",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "8 courses (your edX courses in data analysis).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bb7c3b45",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You saved $300 (you paid $200 at the outlet mall, and they originally retailed for $500).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ba358f49",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know. The history mentions Rachel is getting married next year and that you've worked in the industry for five years, but it never states your age.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "61f8c8f8",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nThe history shows your previous year's 5K time was 45 minutes, but it never states a finishing time for a more recent 5K run, so I can't determine how much faster you finished.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "60159905",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You've attended three: the Italian feast at Sarah's place last week, the BBQ at Mike's place two weeks ago, and the potluck at Alex's place yesterday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ef9cf60a",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent around $300 on gifts for your sister: $100 on a spa gift card and around $200 on a silver necklace with a small pendant from Tiffany's.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "73d42213",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "9:00 AM. You left home at 7 AM and it took two hours to get to the clinic.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bc149d6b",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "70 pounds (50 pounds of layer feed plus 20 pounds of organic scratch grains).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "099778bb",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions that your company has 100 leadership positions and that you were interested in finding industry benchmarks and diversity data, but it does not contain any actual figure for the percentage of leadership positions held by women at your company.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "09ba9854",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You'll save about $50 \u2014 the train costs around $10 versus about $60 for the taxi.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d6062bb9",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nThe history only mentions your YouTube social media analytics tutorial with 542 views. There is no information about your TikTok views, so I cannot provide a total.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "157a136e",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nThe history tells me your grandma celebrated her 75th birthday and that your birthday was a week later, but it never states your age, so I can't calculate the difference.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c18a7dc8",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know. The history shows you graduated at age 25, but it doesn't state your current age, so I can't calculate the difference.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a3332713",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The history doesn't give a specific price for the coworker's baby shower gift (the baby clothes and toys from Buy Buy Baby), so I can only confirm the brother's gift of $100.\n\nBased on the available information, I can't provide a complete total. The brother's gift was $100, but no amount was given for the coworker's baby shower gift.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "55241a1f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Your recent Facebook Live session had 12 comments and your most popular YouTube video had 21 comments, for a total of 33 comments.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a08a253f",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You attend fitness classes 3 days a week \u2014 Tuesdays, Thursdays, and Saturdays.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f0e564bc",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you spent $800 on the Coach handbag. However, there is no specific dollar amount mentioned for high-end skincare products, so I can only confirm the $800 spent on the designer handbag.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "078150f1",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You raised $50 more than your initial goal (initial goal: $200, raised: $250).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf4d046",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "Your undergraduate GPA at the University of Mumbai was 3.86 out of 4.0. However, the conversation history does not include your graduate GPA from your Master's at the University of Illinois at Urbana-Champaign, so I cannot calculate the average of the two.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a346bb18",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nYour target marathon time was 4 hours and 10 minutes, but the history doesn't show your actual finish time, so I can't calculate how many minutes you exceeded it by.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "37f165cf",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "The two novels you finished were 416 pages and 440 pages (\"The Nightingale\").",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8e91e7d9",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You have 4 siblings: 1 brother and 3 sisters.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "87f22b4a",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You've sold 40 dozen eggs at $3 a dozen, which means you've made $120 from selling eggs this month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e56a43b9",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "$5 discount (from your 500 points).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "efc3f7c2",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "On Fridays you wake up at 6:00 AM versus 6:30 AM on other weekdays, so you wake up 30 minutes earlier.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "21d02d0d",
+          "question_type": "multi-session",
+          "sme_category": "cat_2c",
+          "hypothesis": "You missed 2 fun runs in March (March 5th and March 26th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2311e44b_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions you've been reading \"Sapiens\" at a pace of 10-20 pages per week, but it never states the total page count or how many pages you have left.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "6456829e_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You initially planted 5 tomato plants. The history doesn't mention chili peppers, so I don't know how many of those you planted.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "e5ba910e_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions your Sony WH-1000XM4 headphones, but there is no information about their cost, nor any mention of an iPad or its price.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "a96c20ee_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Harvard University.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ba358f49_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions that you're 32 and that your friend Rachel is getting married next year, but there's no information about Rachel's age or about when you will get married.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "09ba9854_abs",
+          "question_type": "multi-session",
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions the taxi costs around $60 and the train costs around $10, but there is no information about the bus fare, so I can't calculate the savings from taking the bus.",
+          "autoeval_label": "ABSTAIN"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.52
+  }
+}

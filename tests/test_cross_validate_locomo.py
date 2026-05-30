@@ -178,10 +178,12 @@ def test_max_questions_caps_locomo(dataset, args_factory):
 # --- abstention-aware judging ----------------------------------------------
 
 class _CannedJudgeClient:
-    """ABSTAIN when the abstention rubric is selected, CORRECT otherwise.
+    """Affirms the answer ("yes") under the canonical binary judge contract.
 
-    Mirrors the LongMemEval test's canned judge so we can assert the
-    adversarial item is routed to the abstention rubric.
+    The canonical judge (#146) replies "yes"/"no", and grade_answer maps
+    that via question_type: (abstention, yes) -> ABSTAIN, else CORRECT. So
+    a always-"yes" client lets us assert the adversarial item is routed to
+    the abstention rubric (-> ABSTAIN) while the single-hop is CORRECT.
     """
 
     def __init__(self):
@@ -192,17 +194,17 @@ class _CannedJudgeClient:
             def create(self, *, model, messages, temperature=0.0):
                 content = messages[0]["content"]
                 outer.calls.append(content)
-                if "Abstention" in content:
-                    label, rationale = "ABSTAIN", "system refused"
-                else:
-                    label, rationale = "CORRECT", "matches gold"
-                payload = (
-                    '{"label": "' + label + '", '
-                    '"rationale": "' + rationale + '"}'
-                )
+                # Canonical judge (#146) parses a BINARY 'yes'/'no' reply
+                # (not the old {"label": ...} JSON) and derives the label
+                # from question_type: (abstention, yes) -> ABSTAIN,
+                # (non-abstention, yes) -> CORRECT. The reader is correct in
+                # this fixture (right fact on the single-hop; correct refusal
+                # on the adversarial item), so the judge affirms "yes" in both
+                # cases and grade_answer does the ABSTAIN-vs-CORRECT routing.
+                reply = "yes"
                 return SimpleNamespace(
                     choices=[SimpleNamespace(
-                        message=SimpleNamespace(content=payload))],
+                        message=SimpleNamespace(content=reply))],
                     usage=SimpleNamespace(
                         prompt_tokens=20, completion_tokens=8, total_tokens=28),
                 )

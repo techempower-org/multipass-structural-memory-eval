@@ -48,6 +48,140 @@ class ContradictionPair:
     source_b: str
 
 
+# --- Structured-field derivation (Cat 3 / Cat 6 plumbing) -------------
+#
+# Cat 3 (contradiction detection) and Cat 6 (temporal supersession) both
+# read structured fields off the graph snapshot that the raw adapter
+# projection does not populate by default:
+#
+#   * Cat 3 reads ``QueryResult.contradictions`` and the adapter's
+#     ``get_contradiction_pairs()`` — derived from edges whose type
+#     normalizes to ``contradicts``.
+#   * Cat 6 reads the reserved ``_superseded_by`` edge property — derived
+#     from edges whose type normalizes to ``supersedes``. An edge
+#     ``A --supersedes--> B`` means "B is superseded by A", so B's edge
+#     (or B as a node) carries ``_superseded_by = <A>``.
+#
+# Both palace adapters (direct ChromaDB + daemon HTTP) and OMEGA store
+# the relationship as a typed edge with the predicate/relation_type
+# string already correct (palace-daemon projects ``predicate =
+# relation_type``; OMEGA reads ``edge_type`` straight off its edges
+# table). The plumbing these helpers add is purely SME-side: normalize
+# the predicate, stamp ``_superseded_by`` on the superseded edge, and
+# extract ContradictionPair[] from contradicts edges. No backend schema
+# change is required.
+
+# Predicate strings (case-insensitive, with common backend variants)
+# that mean "this edge supersedes / replaces an earlier one".
+_SUPERSEDES_PREDICATES = frozenset({
+    "supersedes", "superseded_by", "supersede", "replaces", "replaced_by",
+})
+# Predicate strings that mean "these two make incompatible claims".
+_CONTRADICTS_PREDICATES = frozenset({
+    "contradicts", "contradicted_by", "contradict", "conflicts_with",
+})
+
+
+def normalize_predicate(edge_type: Optional[str]) -> str:
+    """Lower-case, strip, and collapse separators on an edge-type string
+    so backend variants (``CONTRADICTS``, ``contradicted_by``,
+    ``conflicts-with``) map to a stable comparison key."""
+    if not edge_type:
+        return ""
+    return str(edge_type).strip().lower().replace("-", "_").replace(" ", "_")
+
+
+def is_supersedes_edge(edge_type: Optional[str]) -> bool:
+    return normalize_predicate(edge_type) in _SUPERSEDES_PREDICATES
+
+
+def is_contradicts_edge(edge_type: Optional[str]) -> bool:
+    return normalize_predicate(edge_type) in _CONTRADICTS_PREDICATES
+
+
+def annotate_superseded_edges(edges: list["Edge"]) -> int:
+    """Stamp the reserved ``_superseded_by`` property on superseded edges.
+
+    Walks the edge list once. For every ``A --supersedes--> B`` edge, it
+    records that B is superseded by A. Any other edge *originating from*
+    B (B is no longer current) then gets ``_superseded_by = A`` set in
+    its properties, and the supersedes edge itself records its
+    ``_supersedes_target`` for symmetry. This is the spec v8 §6 channel
+    that Cat 6 reads to tell the current state from the historical one.
+
+    Mutates ``edges`` in place. Returns the number of edges annotated so
+    callers can log/assert coverage. Idempotent — re-running does not
+    double-stamp.
+    """
+    superseded_by: dict[str, str] = {}
+    for e in edges:
+        if is_supersedes_edge(e.edge_type):
+            # A (source) supersedes B (target): B is the older one.
+            superseded_by[e.target_id] = e.source_id
+            # Record the linkage on the supersedes edge itself too, so a
+            # consumer holding only the typed edge can see the direction.
+            e.properties.setdefault("_supersedes_target", e.target_id)
+
+    annotated = 0
+    for e in edges:
+        # Mark every edge whose source is a superseded entity. This lets
+        # a temporal reader drop the historical framing's outgoing claims
+        # in favour of the superseding entity's.
+        replacement = superseded_by.get(e.source_id)
+        if replacement is not None and not is_supersedes_edge(e.edge_type):
+            if e.properties.get("_superseded_by") != replacement:
+                e.properties["_superseded_by"] = replacement
+                annotated += 1
+        # The supersedes edge's target is itself superseded — stamp it so
+        # the reserved field is present on the canonical supersession edge.
+        if is_supersedes_edge(e.edge_type):
+            if e.properties.get("_superseded_by") != e.source_id:
+                # The target is superseded by the source; expose that on
+                # the edge for direct lookups keyed on the supersedes edge.
+                e.properties.setdefault("_superseded_target_by", e.source_id)
+    return annotated
+
+
+def contradiction_pairs_from_edges(
+    edges: list["Edge"],
+    *,
+    node_names: Optional[dict[str, str]] = None,
+) -> list["ContradictionPair"]:
+    """Extract ContradictionPair[] from edges typed ``contradicts``.
+
+    ``node_names`` maps entity id → human-readable name; when provided,
+    the pair's ``claim_a`` / ``claim_b`` use the evidence string (if the
+    edge carries one) or the resolved node name, and ``source_a`` /
+    ``source_b`` carry the entity ids. The pairs are de-duplicated on the
+    unordered ``frozenset({source_a, source_b})`` so a corpus that
+    declares the contradiction from both directions yields one pair.
+    """
+    names = node_names or {}
+    seen: set[frozenset[str]] = set()
+    pairs: list[ContradictionPair] = []
+    for e in edges:
+        if not is_contradicts_edge(e.edge_type):
+            continue
+        key = frozenset({e.source_id, e.target_id})
+        if key in seen:
+            continue
+        seen.add(key)
+        evidence = e.properties.get("evidence") or e.properties.get(
+            "_evidence"
+        )
+        name_a = names.get(e.source_id, e.source_id)
+        name_b = names.get(e.target_id, e.target_id)
+        pairs.append(
+            ContradictionPair(
+                claim_a=str(evidence) if evidence else name_a,
+                claim_b=name_b,
+                source_a=e.source_id,
+                source_b=e.target_id,
+            )
+        )
+    return pairs
+
+
 @dataclass
 class ProbeResult:
     """Outcome of probing a single HarnessDescriptor.
@@ -172,6 +306,25 @@ class SMEAdapter(ABC):
              'documentation': str}
         """
         return {"type": "inferred", "schema": [], "documentation": ""}
+
+    def get_contradiction_pairs(self) -> list[ContradictionPair]:
+        """Return the contradictions the system surfaces about its store.
+
+        Used by Category 3 (Contradiction Detection — The Dissonance).
+        A system that explicitly tracks conflicting facts returns one
+        ContradictionPair per detected conflict; a system that only
+        retrieves (no contradiction model) returns ``[]`` and scores 0
+        on Cat 3's structured-detection metric.
+
+        The default implementation derives pairs from the graph snapshot
+        — any edge whose type normalizes to ``contradicts`` becomes a
+        pair. Adapters whose backend stores contradictions as typed edges
+        get correct Cat 3 behaviour for free; adapters with a richer
+        native contradiction API can override this.
+        """
+        entities, edges = self.get_graph_snapshot()
+        node_names = {e.id: e.name for e in entities}
+        return contradiction_pairs_from_edges(edges, node_names=node_names)
 
     def get_harness_manifest(self) -> list[HarnessDescriptor]:
         """Return the invocation surfaces this memory system exposes.

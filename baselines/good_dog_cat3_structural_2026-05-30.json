@@ -1,0 +1,105 @@
+{
+  "category": "cat_3_contradiction",
+  "seeded_pairs": 6,
+  "surfaced_pairs": 6,
+  "surfaced_seeded": 6,
+  "structural_detection_rate": 1.0,
+  "structural_precision": 1.0,
+  "flat_detection_rate": 0.0,
+  "flat_precision": 0.0,
+  "detection_delta": 1.0,
+  "detection_level": "structured",
+  "contradiction_pairs": 6,
+  "seeded_pair_keys": [
+    [
+      "pub_avsab_2008_dominance_position",
+      "pub_schenkel_1947_wolf_expression"
+    ],
+    [
+      "pub_schenkel_1947_wolf_expression",
+      "pub_vieira_de_castro_2020_plos"
+    ],
+    [
+      "pub_fda_dcm_investigation_main",
+      "pub_fda_dcm_third_status_report_2019"
+    ],
+    [
+      "pub_fda_dcm_investigation_main",
+      "pub_freeman_2022_jvim_prospective"
+    ],
+    [
+      "pub_mech_1999_alpha_status",
+      "pub_schenkel_1947_wolf_expression"
+    ],
+    [
+      "pub_fda_dcm_investigation_main",
+      "pub_fda_dcm_qa_non_hereditary"
+    ]
+  ],
+  "matched_pair_keys": [
+    [
+      "pub_avsab_2008_dominance_position",
+      "pub_schenkel_1947_wolf_expression"
+    ],
+    [
+      "pub_schenkel_1947_wolf_expression",
+      "pub_vieira_de_castro_2020_plos"
+    ],
+    [
+      "pub_fda_dcm_investigation_main",
+      "pub_fda_dcm_third_status_report_2019"
+    ],
+    [
+      "pub_fda_dcm_investigation_main",
+      "pub_freeman_2022_jvim_prospective"
+    ],
+    [
+      "pub_mech_1999_alpha_status",
+      "pub_schenkel_1947_wolf_expression"
+    ],
+    [
+      "pub_fda_dcm_investigation_main",
+      "pub_fda_dcm_qa_non_hereditary"
+    ]
+  ],
+  "pairs": [
+    {
+      "claim_a": "Mech 1999 explicitly identifies the captive-wolf basis as inadequate: 'most research on the social dynamics of wolf packs has been conducted on non-natural assortments of captive wolves' (abstract). His Ellesmere Island wild-pack data lead to the opposite conclusion: 'the typical wolf pack is a family, with the adult parents guiding the activities of the group in a division-of-labor system.' This directly contradicts the captive-wolf alpha/dominance framing of Schenkel 1947 (which Mech specifies as a captive-wolf study).",
+      "claim_b": "Expression Studies on Wolves (Schenkel 1947, Behaviour 1:81-129)",
+      "source_a": "pub_mech_1999_alpha_status",
+      "source_b": "pub_schenkel_1947_wolf_expression"
+    },
+    {
+      "claim_a": "AVSAB's 2008 statement directly opposes the dominance-hierarchy framing whose academic foundation is Schenkel 1947. The statement's load-bearing claim \u2014 'most undesirable behaviors in our pets are not related to priority access to resources; rather, they are due to accidental rewarding of the undesirable behavior' \u2014 repudiates the priority-access / dominance-hierarchy explanatory framework that Schenkel-derived training advice rests on.",
+      "claim_b": "Expression Studies on Wolves (Schenkel 1947, Behaviour 1:81-129)",
+      "source_a": "pub_avsab_2008_dominance_position",
+      "source_b": "pub_schenkel_1947_wolf_expression"
+    },
+    {
+      "claim_a": "Vieira de Castro 2020 supplies modern empirical evidence that the training tradition descended from dominance theory (whose academic foundation is Schenkel 1947) is harmful to dog welfare: 'Dogs from Group Aversive displayed more stress-related behaviors ... exhibited higher post-training increases in cortisol levels ... were more pessimistic in the cognitive bias task than dogs from Group Reward.' Conclusion: 'aversive-based training methods, especially if used in high proportions, compromise the welfare of companion dogs both within and outside the training context.'",
+      "claim_b": "Expression Studies on Wolves (Schenkel 1947, Behaviour 1:81-129)",
+      "source_a": "pub_vieira_de_castro_2020_plos",
+      "source_b": "pub_schenkel_1947_wolf_expression"
+    },
+    {
+      "claim_a": "The Third Status Report reframes the diet-DCM connection from a grain-free-centered association (2018 framing, 90% of single-diet cases were grain-free) to a multifactorial picture in which non-hereditary DCM has been reported in dogs eating both grain-free and grain-containing diets, with pulses (peas/lentils) as the more salient shared ingredient feature; this framing shift is the seeded Cat 3 contradiction pair for the corpus",
+      "claim_b": "FDA Investigation into Potential Link between Certain Diets and Canine Dilated Cardiomyopathy",
+      "source_a": "pub_fda_dcm_third_status_report_2019",
+      "source_b": "pub_fda_dcm_investigation_main"
+    },
+    {
+      "claim_a": "Peer-reviewed multifactorial framing of diet-associated DCM that is consistent with the FDA 2019/2022 reframing and stands against the 2018 announcement's grain-free-centered framing; finds that diet change is associated with longer survival, supporting diet as a contributor rather than a definitive sole cause; binds the academic side of the corpus's seeded Cat 3 contradiction pair",
+      "claim_b": "FDA Investigation into Potential Link between Certain Diets and Canine Dilated Cardiomyopathy",
+      "source_a": "pub_freeman_2022_jvim_prospective",
+      "source_b": "pub_fda_dcm_investigation_main"
+    },
+    {
+      "claim_a": "The Q&A explicitly states FDA 'has not taken regulatory action against or declared any specific pet food products unsafe or definitively linked to DCM' and reframes non-hereditary DCM as 'a complex medical condition that may be affected by the interplay of multiple factors such as genetics, underlying medical conditions, and diet' \u2014 a multifactorial framing that walks back the 2018 announcement's grain-free-centered framing without retracting any specific 2018 fact",
+      "claim_b": "FDA Investigation into Potential Link between Certain Diets and Canine Dilated Cardiomyopathy",
+      "source_a": "pub_fda_dcm_qa_non_hereditary",
+      "source_b": "pub_fda_dcm_investigation_main"
+    }
+  ],
+  "adapter": "good-dog-graph",
+  "source": "?"
+}

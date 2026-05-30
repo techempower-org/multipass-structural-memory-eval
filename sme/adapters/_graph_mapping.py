@@ -15,7 +15,7 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Any
 
-from sme.adapters.base import Edge, Entity
+from sme.adapters.base import Edge, Entity, annotate_superseded_edges
 
 
 def project_graph(body: dict[str, Any]) -> tuple[list[Entity], list[Edge]]:
@@ -135,5 +135,12 @@ def project_graph(body: dict[str, Any]) -> tuple[list[Entity], list[Edge]]:
                 },
             )
         )
+
+    # Cat 6 plumbing: stamp the reserved ``_superseded_by`` property on
+    # edges originating from a superseded entity, derived from edges whose
+    # predicate normalizes to ``supersedes``. The daemon already projects
+    # these predicates verbatim (kg_reader: predicate = relation_type), so
+    # no backend change is needed — only this SME-side annotation.
+    annotate_superseded_edges(edges)
 
     return entities, edges

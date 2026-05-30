@@ -197,7 +197,8 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         aliases=("omega",),
         loader=_omega_loader,
         accepts=frozenset({
-            "db_path", "default_memory_type", "n_results", "read_only",
+            "omega_home", "db_path", "default_memory_type", "n_results",
+            "read_only",
         }),
     ),
     _AdapterSpec(

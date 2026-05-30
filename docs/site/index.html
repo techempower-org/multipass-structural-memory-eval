@@ -1607,14 +1607,15 @@
         </div>
 
         <p class="bench-prose" style="font-size:13px;opacity:.85;">
-          The honest read: <strong>mempalace&rsquo;s edge is retrieval; on the
-          reader/QA it is at parity.</strong> On <strong>R@5</strong>, mempalace
-          <strong>0.927</strong> vs OMEGA <strong>0.900</strong> &mdash; a 2.7pp
-          (four-question) edge, retrieval-only, no answer-model confound. On
-          <strong>E2E QA</strong>, held to <em>same reader, same context</em>
-          (o4-mini, retrieved, macro n=150), mempalace <strong>0.580</strong> vs OMEGA
-          sme-rich <strong>0.593</strong> &mdash; <strong>&asymp; parity</strong>
-          (OMEGA +1.3pp). Hindsight&rsquo;s cloud-extractor throughput keeps its QA
+          The honest read: on <strong>E2E QA</strong>, held to <em>same reader, same
+          context</em> (o4-mini, retrieved, macro n=150), mempalace
+          <strong>0.580</strong> vs OMEGA sme-rich <strong>0.593</strong> &mdash;
+          <strong>&asymp; parity</strong> (OMEGA +1.3pp). That is the stable finding:
+          two verbatim-vs-extraction systems land within a question of each other once
+          reader and context are pinned. (<strong>R@5</strong> is shown above but is
+          <em>under re-rendering review</em> &mdash; matching OMEGA&rsquo;s sme-rich
+          render moves its R@5 too, so we are not yet drawing a headline from the
+          retrieval column.) Hindsight&rsquo;s cloud-extractor throughput keeps its QA
           pass cost-gated &mdash; deferred rather than guessed. <em>Don&rsquo;t</em>
           confuse the 0.580 comparator with mempalace&rsquo;s
           <strong>deployed&rarr;oracle gradient</strong> (0.610 deployed &rarr; 0.684
@@ -2153,19 +2154,19 @@
           </div>
           <div class="bench-num">
             <div class="label">1M &mdash; deep retrieval</div>
-            <div class="value dim"><em>pending</em></div>
-            <div class="sub">Yara&rsquo;s run in flight; 10M deferred (cost)</div>
+            <div class="value"><em>0.471</em></div>
+            <div class="sub">plateaus &mdash; &minus;0.016 vs 500K; 10M deferred (cost)</div>
           </div>
         </div>
 
         <div class="matrix-scroll">
-        <table class="bench-tbl cat-tbl" aria-label="BEAM per-bucket overall E2E QA and the per-ability regime shift from the 100K full-context bucket to the 500K retrieval bucket. Sortable by bucket.">
+        <table class="bench-tbl cat-tbl" aria-label="BEAM per-bucket overall E2E QA (100K, 500K, 1M) and the per-ability regime shift: a cliff from the 100K full-context bucket to the 500K retrieval bucket, then a plateau to 1M. Sortable by bucket.">
           <thead>
             <tr>
               <th class="sortable" data-col="0" data-type="text">Bucket</th>
               <th class="sortable num" data-col="1" data-type="num">Overall QA</th>
               <th>Regime</th>
-              <th>Per-ability shift (100K &rarr; 500K)</th>
+              <th>Per-ability (info-ext &middot; temporal &middot; multi-session &middot; summ.)</th>
             </tr>
           </thead>
           <tbody>
@@ -2173,50 +2174,64 @@
               <td class="cat">100K <span class="catname">full-context</span></td>
               <td class="num"><strong>0.649</strong></td>
               <td>whole bucket in context</td>
-              <td class="src">info-extraction 0.85 &middot; temporal 0.75 &middot; multi-session 0.60 &middot; summarization 0.87</td>
+              <td class="src">0.85 &middot; 0.75 &middot; 0.60 &middot; 0.87</td>
             </tr>
             <tr>
               <td class="cat">500K <span class="catname">retrieval</span></td>
               <td class="num"><strong>0.487</strong></td>
               <td>real retrieval (needle-in-haystack)</td>
-              <td class="src">info-extraction <strong>0.40</strong> &middot; temporal <strong>0.26</strong> &middot; multi-session <strong>0.24</strong> &middot; summarization 0.87 (holds)</td>
+              <td class="src"><strong>0.40</strong> &middot; <strong>0.26</strong> &middot; <strong>0.24</strong> &middot; 0.87 (holds)</td>
             </tr>
             <tr>
               <td class="cat">1M <span class="catname">deep retrieval</span></td>
-              <td class="pending">pending</td>
-              <td>&mdash;</td>
-              <td class="src">Yara&rsquo;s run in flight</td>
+              <td class="num"><strong>0.471</strong></td>
+              <td>retrieval-limited (plateau)</td>
+              <td class="src">flat vs 500K; a couple abilities tick <em>up</em></td>
             </tr>
           </tbody>
         </table>
         </div>
 
         <p class="bench-prose">
-          BEAM is the one benchmark here with a genuine <strong>regime
-          shift</strong>. At the 100K bucket the whole haystack fits in context, so
-          the reader operates in a <em>full-context</em> regime and the needle
-          abilities are intact. Grow the bucket to 500K and the system crosses into a
-          <em>real retrieval</em> regime &mdash; and the needle-dependent abilities
-          collapse: <strong>info-extraction 0.85&rarr;0.40</strong>,
+          BEAM is the one benchmark here with a genuine <strong>regime shift &mdash; a
+          cliff, then a plateau</strong>. At 100K the whole haystack fits in context,
+          so the reader operates in a <em>full-context</em> regime and the needle
+          abilities are intact. The <strong>cliff is 100K&rarr;500K</strong>
+          (0.649&rarr;0.487, &minus;0.162): the system crosses into a <em>real
+          retrieval</em> regime and the needle-dependent abilities collapse &mdash;
+          <strong>info-extraction 0.85&rarr;0.40</strong>,
           <strong>temporal 0.75&rarr;0.26</strong>,
-          <strong>multi-session 0.60&rarr;0.24</strong>. The retrieval-light ability
-          holds flat &mdash; <strong>summarization 0.87</strong> in both buckets,
-          because summarizing doesn&rsquo;t need a specific needle pulled from the pile.
-          That asymmetry is the tell: this is a <strong>retrieval-recall ceiling, not a
-          reader ceiling</strong> &mdash; the same finding as our LongMemEval
-          decomposition (the reader is fine once the gold is in context; getting it
-          there is the whole game).
+          <strong>multi-session 0.60&rarr;0.24</strong> &mdash; while the
+          retrieval-light ability holds flat (<strong>summarization 0.87</strong> in
+          both, because summarizing doesn&rsquo;t need a specific needle). Then it
+          <strong>plateaus</strong>: 500K&rarr;1M is essentially flat
+          (0.487&rarr;0.471, &minus;0.016) and a couple of needle abilities even tick
+          <em>up</em>. So once you&rsquo;re retrieval-limited at a low top-K,
+          <strong>haystack size barely matters</strong> &mdash; the bottleneck is
+          retrieval breadth, not corpus scale. That asymmetry is the tell: a
+          <strong>retrieval-recall ceiling, not a reader ceiling</strong> &mdash; the
+          same finding as our LongMemEval decomposition (the reader is fine once the
+          gold is in context; getting it there is the whole game).
         </p>
 
         <div class="caveat">
           <span class="label">grader artifact &middot; event_ordering 0.0</span>
-          <strong>event_ordering scores 0.0 in both buckets &mdash; that is a grader
-          mismatch, not a substrate failure.</strong> BEAM grades ordering with
+          <strong>event_ordering scores 0.0 in all three buckets &mdash; that is a
+          grader mismatch, not a substrate failure.</strong> BEAM grades ordering with
           Kendall-&tau;-b (a rank correlation); our binary judge floors any
-          full-sequence answer that isn&rsquo;t an exact match. It drags both buckets
+          full-sequence answer that isn&rsquo;t an exact match. It drags all buckets
           equally, so the regime-shift story is unaffected, but it means the
           <em>absolute</em> substrate is stronger than the headline overall numbers
           suggest. (Same Kendall-&tau;-vs-binary-judge mismatch flagged on LoCoMo.)
+        </div>
+
+        <div class="caveat">
+          <span class="label">1M floor &middot; reader-window overflow</span>
+          At 1M, <strong>58 of 700 questions (~8%) overflowed the reader&rsquo;s
+          context window</strong> and hard-zeroed &mdash; a mechanical floor, not a
+          retrieval verdict. A real 1M deployment needs sub-session chunking to feed
+          the reader; until then, treat 0.471 as a <em>conservative</em> 1M reading
+          carrying an ~8% overflow penalty the plateau would otherwise sit above.
         </div>
 
         <div class="caveat">
@@ -2229,7 +2244,7 @@
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; baselines/beam_{100k,500k}_flat_*.json &middot; BEAM bucket-regime harness (techempower-org#177)</span>
+          <span>Source &middot; baselines/beam_{100k,500k,1m}_flat_*.json &middot; BEAM bucket-regime harness (techempower-org#177)</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/177">techempower-org/multipass-structural-memory-eval#177</a>
         </div>
       </article>

@@ -1371,13 +1371,13 @@
             <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">68.4%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
             <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">86.8%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
             <tr><td>mempalace &mdash; retrieval</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td>R@5</td><td>&mdash;</td><td>indie</td></tr>
-            <tr class="grp"><td colspan="6">the field &mdash; LongMemEval leaderboard (mostly extraction / graph)</td></tr>
+            <tr class="grp"><td colspan="6">the field &mdash; LongMemEval leaderboard (storage paradigm per MemPalace landscape survey)</td></tr>
             <tr><td>OMEGA</td><td class="store">unstated</td><td class="num">95.4%</td><td>E2E QA</td><td>GPT-4.1</td><td>self</td></tr>
-            <tr><td>Mem0 (platform v3)</td><td class="store">extraction</td><td class="num">94.4%</td><td>E2E QA</td><td>undisclosed</td><td>self</td></tr>
+            <tr><td>Mem0 (platform v3)</td><td class="store">hybrid</td><td class="num">94.4%</td><td>E2E QA</td><td>undisclosed</td><td>self</td></tr>
             <tr><td>Hindsight</td><td class="store">extraction</td><td class="num">91.4%</td><td>E2E QA</td><td>Gemini 3 Pro</td><td>indie</td></tr>
-            <tr><td>True Memory (Pro)</td><td class="store">unstated</td><td class="num">87.8%</td><td>E2E QA</td><td>gpt-4.1-mini</td><td>paper</td></tr>
-            <tr><td>Zep / Graphiti</td><td class="store">graph</td><td class="num">71.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
-            <tr><td>GPT-4o &mdash; oracle ref</td><td class="store">full-ctx</td><td class="num">87.0%</td><td>oracle QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>True Memory (Pro)</td><td class="store verb">verbatim</td><td class="num">87.8%</td><td>E2E QA</td><td>gpt-4.1-mini</td><td>paper</td></tr>
+            <tr><td>Zep / Graphiti</td><td class="store">hybrid</td><td class="num">71.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>GPT-4o &mdash; oracle ref</td><td class="store">reference</td><td class="num">87.0%</td><td>oracle QA</td><td>GPT-4o</td><td>paper</td></tr>
             <tr><td>GPT-4o &mdash; full-context ref</td><td class="store">full-ctx</td><td class="num">60.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
           </tbody>
         </table>
@@ -1385,16 +1385,22 @@
         <p class="bench-prose">
           Read the <strong>Storage</strong> column first &mdash; it is the axis a
           LongMemEval leaderboard hides. mempalace is <strong>verbatim-first</strong>:
-          it stores the raw turns and never summarizes, solving retrieval
-          separately. Almost none of the field works this way. Mem0 and Zep
-          extract facts or build a graph at write time; Hindsight stores
-          structured, time-aware facts <em>instead of</em> raw logs. So these
-          are not other verbatim-first systems &mdash; they are the
-          <em>contrast class</em>, the lossy-compression approach mempalace was
-          built to argue against. The genuinely like-for-like verbatim peers are
-          raw-RAG / ChromaDB-chunk baselines (R@K 96&ndash;99%) and the
-          full-context reference; the extraction leaders sit on the other side
-          of the philosophical split, not on the same shelf.
+          it stores the raw turns and never summarizes (&ldquo;store everything,
+          then make it findable&rdquo;), solving retrieval separately. It is
+          <em>not</em> alone in that &mdash; <strong>True Memory</strong>
+          (a paper-only design, arXiv:2605.04897, no code release) is also
+          verbatim-first and reports 87.8% QA, so the paradigm is not what
+          caps the leaderboard. The rest of the field sits on the
+          other side of the split: <strong>hybrid</strong> systems that
+          selectively extract while keeping some raw history (Mem0&rsquo;s
+          self-editing vector+graph+KV, Zep/Graphiti&rsquo;s bi-temporal
+          knowledge graph, Letta&rsquo;s tiered memory), and pure
+          <strong>extraction</strong> (Hindsight stores structured, time-aware
+          facts <em>instead of</em> raw logs). So no, these are not all
+          verbatim-first &mdash; but mempalace&rsquo;s verbatim peers are real:
+          True Memory, traditional RAG, and the R@K-only ChromaDB baselines
+          (agentmemory, engram-2, ai-memory at 95&ndash;99% R@5). The paradigm
+          split is taken from the MemPalace landscape survey, not assigned by us.
         </p>
         <p class="bench-prose">
           The honest read: on <strong>retrieval</strong> mempalace is

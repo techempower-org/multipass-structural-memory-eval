@@ -1,0 +1,2226 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-floorlift/pin_multi-session.json",
+    "pinned_metadata": {
+      "diagnostic": "pinned_context",
+      "issue": "techempower-org/multipass-structural-memory-eval#116",
+      "adapter": "mempalace-daemon",
+      "search_endpoint": "/search",
+      "snippet_width": "/search",
+      "n_questions": 500,
+      "source_questions": "sme/corpora/longmemeval/data/longmemeval_oracle.json",
+      "timestamp_utc": "2026-05-29T17:37:24.499807+00:00",
+      "slice": "multi-session"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference",
+      "dedup_count"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 4,
+    "timestamp_utc": "2026-05-30T03:24:50.583313+00:00"
+  },
+  "n_questions": 133,
+  "n_configs": 2,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 133,
+          "qa_acc": 0.6992,
+          "labels": {
+            "INCORRECT": 39,
+            "CORRECT": 85,
+            "ABSTAIN": 8,
+            "ERROR": 1
+          }
+        },
+        "by_question_type": {
+          "multi-session": {
+            "n": 133,
+            "qa_acc": 0.6992,
+            "labels": {
+              "INCORRECT": 39,
+              "CORRECT": 85,
+              "ABSTAIN": 8,
+              "ERROR": 1
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "0a995998",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two items: the new pair of boots from Zara (exchanged for a larger size) and the navy blue blazer from the dry cleaner.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6d550036",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Three projects: the high-priority project you completed two months ahead of schedule, the new product feature launch planned for June, and the Nigeria rural water connection project.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59c863d7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've worked on or bought 5 model kits:\n\n1. Revell F-15 Eagle (finished)\n2. Tamiya 1/48 scale Spitfire Mk.V (finished)\n3. 1/72 scale B-29 bomber (new kit, planned)\n4. 1/24 scale '69 Camaro (bought at the model show)\n\nThat's 4 kits.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b5ef892d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "8 days \u2014 a 3-day solo camping trip to Big Sur and a 5-day camping trip to Yellowstone.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e831120c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "About three and a half weeks \u2014 two weeks for the 22 MCU movies and a week and a half for the main Star Wars films.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3a704032",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, in the last month you acquired three plants: a peace lily and a succulent (both from the nursery two weeks ago), and a rose bush (which you pruned about a month ago).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d84a3211",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your bike-related expenses total $185:\n- Chain replacement: $25\n- Bike lights: $40\n- Bell Zephyr helmet: $120\n\n$25 + $40 + $120 = $185",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "aae3761f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "14 hours (6 hours to Washington D.C. + 4 hours to Outer Banks + 4 hours to Tybee Island).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f2262a51",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you visited 2 different doctors: Dr. Patel (for your nasal spray prescription) and Dr. Lee (your dermatologist, for the mole biopsy).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dd2973ad",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "2 AM.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4a1ceb8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Three: orange, lime, and lemon.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_a56e767c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 AFI Fest (Los Angeles) and the Portland Film Festival.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6cb6f249",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "17 days total \u2014 a week-long (7-day) break in mid-January and a 10-day break in mid-February.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "46a3abf7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently have 3 tanks: your 5-gallon tank with Finley the betta, your 20-gallon community tank, and the 1-gallon tank you set up for your friend's kid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "36b9f61e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your luxury purchases were: the Gucci handbag ($1,200), the leather boots from the Italian designer ($500), and the luxury evening gown ($800). That totals **$2,500**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28dc39ac",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you've spent:\n- 30 hours on The Last of Us Part II (hard difficulty)\n- 25 hours on The Last of Us Part II (normal difficulty)\n- 10 hours on Celeste\n\nThat's a total of 65 hours.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f8be40d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've attended three weddings: your cousin Rachel's wedding at the vineyard, your cousin Emily's wedding in the city (your college roommate Emily's rooftop garden wedding with her partner Sarah).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2e6d26dc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, here are the babies born to friends and family:\n\n1. **Jasper** \u2013 David's baby boy\n2. **Charlotte** \u2013 Mike and Emma's daughter\n3. **Max** \u2013 Cousin Rachel's son (born in March)\n4. **Ava** \u2013 Aunt's twin (born in April)\n5. **Lily** \u2013 Aunt's twin (born in April)\n\nThat's **5 babies** born to friends and family members in the last few months.\n\n(Note: Sarah's adopted daughter Aaliyah was mentioned but as an adoption, not a recent birth, and Rocky is a dog \u2014 so these are not counted.)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_15e38248",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Three: you bought a coffee table from West Elm, assembled an IKEA bookshelf for your home office, and fixed the wobbly leg on your kitchen table.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you baked the following in the past two weeks:\n\n1. A whole wheat baguette (last Saturday)\n2. A batch of cookies (last Thursday)\n3. A sourdough bread (Tuesday)\n4. A chocolate cake (for your sister's birthday)\n\nThat's **4 times**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "80ec1f4f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two: The Art Cube (2/15) and the Natural History Museum (2/8).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d23cf73b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two: vegan cuisine and fermentation (fermented foods like sauerkraut and kimchi).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7fce9456",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Three properties: the 3-bedroom townhouse in Brookside, the 3-bedroom bungalow in Oakwood, and the condo with a community pool and modern appliances.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d682f1a2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two: Fresh Fusion and Uber Eats.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7024f17c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Last week you did 0.5 hours of jogging (a 30-minute jog on Saturday). There's no record of any yoga sessions completed last week, so your total was 0.5 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5501fe77",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Twitter \u2014 your follower count jumped from 420 to 540 over the past month, a gain of 120 followers.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2ba83207",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Thrive Market \u2014 you spent around $150 there, more than the $60 at Publix.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2318644b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent over $270 more per night in Hawaii ($300+) compared to Tokyo ($30).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ce6a0f2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You attended three art-related events: the \"Women in Art\" exhibition on February 10th, the guided tour at the History Museum on February 24th, and the lecture on \"The Evolution of Street Art\" at the Art Gallery on March 3rd.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d12ceb0e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "From the history:\n- Mom: 55\n- Dad: 58\n- Grandma: 75\n- Grandpa: 78\n- You: early thirties (using 30)\n\nAverage = (30 + 55 + 58 + 75 + 78) / 5 = 296 / 5 = **59.2 years old**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "00ca467f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You went to 1 doctor's appointment in March: your follow-up with your orthopedic surgeon, Dr. Thompson, on March 20th.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b3c15d39",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You ordered it on February 5th and it arrived on February 10th, so it took 5 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_31ff4165",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You use two health-related devices: your Accu-Chek Aviva Nano blood sugar monitoring system and your Fitbit Versa 3 smartwatch.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eeda8a6d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your 10-gallon tank has 1 fish (Bubbles the betta), and your 20-gallon tank has 16 fish (10 neon tetras, 5 golden honey gouramis, and 1 pleco catfish). That's 17 fish in total across both aquariums.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2788b940",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You attend 4 fitness classes in a typical week: BodyPump on Mondays, Zumba on Tuesdays and Thursdays, and yoga on Sundays.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "60bf93ed",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The backpack was bought on 1/15 and arrived on 1/20, so it took 5 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9d25d4e0",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You acquired three pieces: a silver necklace with a small pendant, an engagement ring, and a pair of emerald earrings.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "129d1232",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You raised $5,850 in total: $250 from the charity walk, $5,000 from the Bike-a-Thon for Cancer Research, and $600 from the charity yoga event for the animal shelter.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60472f9c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 your Data Mining project and your Database Systems project.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_194be4b3",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently own 3 instruments: your 5-piece Pearl Export drum set, your Korg B1 piano, and your guitar (which you've been taking lessons on).\n\nNote: You're considering selling the drum set and buying a ukulele, but as of now you haven't done either, so the count stands at 3.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a9f6b44c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two bikes: your road bike (serviced at Pedal Power on March 10th, also chain cleaned and lubricated) and your commuter bike (planning to replace the tire before April).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d851d5ba",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You raised $3,250 in total: $1,000 at the bake sale for the children's hospital, $2,000 for the animal shelter, and $250 in the \"Run for Hunger\" event for the food bank.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5a7937c8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two days: December 17th (Bible study) and December 24th (midnight mass on Christmas Eve).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_ab202e7f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You replaced or fixed 4 kitchen items: the old toaster (replaced with a toaster oven), the kitchen shelves (fixed), the kitchen mat (new one from IKEA), and the faucet (new one).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e05b82a6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Let me count the rollercoaster rides mentioned:\n\n- July at SeaWorld San Diego: Mako, Kraken, and Manta = 3 rides\n- September 24th at Disneyland: Space Mountain: Ghost Galaxy = 3 times\n- October 8th at Knott's Berry Farm: Xcelerator = 1 ride\n\nTotal: **7 rollercoaster rides.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_731e37d7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$200.\n\nThe only workshop with a stated cost was the November two-day writing workshop ($200). The photography workshop (Feb 22) was free, and no costs were given for the others.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "edced276",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Hawaii was 10 days and New York City was 5 days, for a total of 15 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "10d9b85a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "3 days \u2014 the 2-day machine learning workshop on the 17th and 18th of April, plus the sustainable development lecture on the 10th of April.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e3038f8c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You have 62 rare items in total: 57 rare records and 5 rare books.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2b8f3739",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, the only market sale mentioned is selling 20 potted herb plants at the Summer Solstice Market for $7.50 each.\n\n20 \u00d7 $7.50 = **$150**\n\nYou earned $150 from selling your products at the markets.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1a8a66a6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently have 1 magazine subscription: The New Yorker. (You canceled your Forbes subscription in early March.)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c2ac3c61",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You have completed five courses in total: two on edX and three on Coursera.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bf659f65",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've acquired three: Billie Eilish's \"Happier Than Ever\" (downloaded on Spotify), The Whiskey Wanderers' EP \"Midnight Sky\" (bought at the festival), and your signed Tame Impala vinyl (from Red Rocks).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_372c3eed",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "10 years (high school 2010\u20132014 = 4 years, then PCC Associate's completed 2016 = 2 years, then UCLA Bachelor's completed 2020 = 4 years).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f91af09",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Six pieces \u2014 five short stories and one writing challenge piece (\"The Smell of Old Books\").",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "81507db6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "One \u2014 Rachel's master's degree graduation ceremony.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You didn't bake egg tarts at all in the past two weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "80ec1f4f_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Zero \u2014 none of the visits you mentioned took place in December.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eeda8a6d_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. The history mentions a 20-gallon tank and a 10-gallon tank, but there is no reference to a 30-gallon tank.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "60bf93ed_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "edced276_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "The history mentions a 10-day trip to Hawaii, but there is no information about a trip to Seattle. So I can only account for the 10 days in Hawaii. I don't know the Seattle days.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_372c3eed_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Based on the history:\n\n- High school (Arcadia High School): 2010\u20132014 = 4 years\n- Associate's degree (Pasadena City College): completed May 2016 = 2 years\n- Bachelor's degree (UCLA): graduated 2020, took 4 years = 4 years\n- Master's degree: typically 2 years\n\nTotal: 4 + 2 + 4 + 2 = **12 years**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d3ab962e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "8 miles (the 5-mile hike at Red Rock Canyon and the 3-mile loop at Valley of Fire State Park).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2311e44b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You have 190 pages left to read in 'The Nightingale' (page 250 of 440).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc06de0d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The taxi cost $12 and your daily train fare is $6, so the taxi was $6 more expensive.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a11281a2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You started the year with 250 followers and had around 350 followers after two weeks of posting regularly \u2014 an increase of approximately 100 followers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4f54b7c9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You acquired 5 items from family members:\n\n1. Antique tea set from your cousin Rachel\n2. Vintage typewriter from your dad\n3. Vintage diamond necklace from your grandmother\n4. Antique music box from your great-aunt\n5. Depression-era glassware from your mom",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "85fa3a3f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "- Food bowl: $15\n- Measuring cup: $5\n- Dental chews: $10\n- Flea and tick collar: $20\n\nTotal: $50",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9aaed6a3",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You earned $0.75 cashback (1% of your $75 grocery purchase at SaveMart).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1f2b8d4f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$750 ($800 luxury boots minus $50 budget store boots).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e6041065",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You wore 2 out of 5 pairs, which is 40%.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51c32626",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You submitted your sentiment analysis research paper to ACL.\n\nI don't know the specific date \u2014 you mentioned submitting it before your master's thesis, but no exact date was given.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d905b33f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The book was originally $30 and you got it for $24, which is a 20% discount.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7405e8b1",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Yes. You got 40% off your first HelloFresh order, compared to 20% off your UberEats order.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f35224e0",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "27 episodes (15 from \"How I Built This\" and 12 from \"My Favorite Murder\").",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6456829e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You initially planted 5 tomato plants and 3 cucumber plants.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a4996e51",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "50 hours per week (40 hours plus an additional 10 hours during peak campaign seasons).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3c1045c8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You are 2.5 years older than the average age of employees in your department (you're 32, and the average is 29.5).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60036106",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your Facebook ad campaign reached around 2,000 people, and your Instagram influencer collaboration reached 10,000 followers \u2014 for a total of 12,000 people.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "681a1674",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You re-watched two Marvel movies: Spider-Man: No Way Home and Avengers: Endgame.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e25c3b8d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You saved $300 on the designer handbag \u2014 it was originally $500 and you got it for $200.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4adc0475",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You have 5 total: 3 goals and 2 assists.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4bc144e2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Car wash: $15. Parking ticket: $50. Total: $65.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ef66a6e5",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two \u2014 tennis (in high school) and swimming (in college).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5025383b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Cooking and photography.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a1cc6108",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Alex is 21 and you are 32, so you were 11 years old when Alex was born.",
+          "autoeval_label": "ERROR"
+        },
+        {
+          "question_id": "9ee3ecd6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "300 points.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3fdac837",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your Japan trip (April 15th\u201322nd) was 7 days, and your Chicago trip was 4 days. The total is 11 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "91b15a6e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$5,150 \u2014 $5,000 for the vintage diamond necklace and at least $150 for the antique vanity.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "27016adc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The renovations cost $20,000 and the countryside property is listed at $200,000, so the renovations are 10% of the property's price.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "720133ac",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$75 ($50 vet consultation + $25 flea and tick medication).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "77eafa52",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$300 more (the price went from the initial $2,500 quote to the corrected $2,800).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8979f9ec",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "8 meals (3 from the chicken fajitas and 5 from the lentil soup).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0100672e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent $60 on 5 coffee mugs, which comes to $12 per mug.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a96c20ee",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Harvard University.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "92a0aa75",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've been working in your current role as Senior Marketing Specialist for 3 years and 9 months.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3fe836c9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The pre-approval amount was $350,000 and the final sale price was $325,000, so the pre-approval was $25,000 more.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1c549ce4",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The total cost is $140 ($120 for the waterproof car cover + $20 for the detailing spray).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6c49646a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The total distance was 3,000 miles \u2014 1,200 miles on your Yellowstone trip plus 1,800 miles on your three other road trips (Durango, Breckenridge, and Santa Fe).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1192316e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "The user takes about 1 hour to get ready (20-minute meditation, 30-minute workout, and a quick breakfast) plus a 30-minute commute, for a total of about 1 hour and 30 minutes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0ea62687",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "2 miles per gallon more (30 mpg a few months ago versus 28 mpg now).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "67e0d0f2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've completed 12 courses on Coursera.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bb7c3b45",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You saved $300 (you paid $200 at the outlet, and they originally retailed for $500).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ba358f49",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You'll be 33. You're currently 32, and Rachel is getting married next year.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "61f8c8f8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You finished 10 minutes faster \u2014 your previous time was 45 minutes, and your recent 5K was 35 minutes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60159905",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've attended three: the Italian feast at Sarah's place, the BBQ at Mike's place, and the potluck at Alex's place.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ef9cf60a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You spent around $300 total on your sister: $100 for the spa gift card, plus around $200 for the silver necklace with a pendant from Tiffany's.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "73d42213",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You reached the clinic at 9:00 AM (you left home at 7 AM and it took two hours to get there).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bc149d6b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "70 pounds (50 pounds of layer feed plus 20 pounds of organic scratch grains).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "099778bb",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Women hold 20% of the leadership positions (20 out of 100).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "09ba9854",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You'll save $50 (the train costs $10 versus $60 for the taxi).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d6062bb9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your most popular YouTube video (the social media analytics tutorial) has 542 views, and your most popular TikTok video (Luna chasing a laser pointer) has 1,456 views. The total is **1,998 views**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "157a136e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your grandma is 43 years older than you (she's 75 and you're 32).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c18a7dc8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You graduated at age 25 and are now 32, so you are 7 years older.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3332713",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$200 \u2014 $100 for your coworker's baby shower gift (baby clothes and toys from Buy Buy Baby) and $100 for your brother's graduation gift card.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "55241a1f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your Facebook Live session got 12 comments and your most popular YouTube video has 21 comments, for a total of 33 comments.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a08a253f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You attend fitness classes 4 days a week: Zumba on Tuesdays and Thursdays, yoga on Wednesdays, and weightlifting on Saturdays.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f0e564bc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$1,300 ($800 for the Coach handbag and $500 for the high-end skincare products).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "078150f1",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You raised $50 more than your initial goal (initial goal was $200, and you raised $250).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf4d046",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your undergraduate GPA was 3.86 (from the University of Mumbai, 83%) and your graduate GPA was 3.8 (from the University of Illinois at Urbana-Champaign). The average of these is **3.83 out of 4.0**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a346bb18",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your target time was 4 hours 10 minutes, and you finished in 4 hours 22 minutes, so you exceeded your target by 12 minutes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "37f165cf",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "I don't know.\n\nThe history mentions several novels you've finished \u2014 \"The Power\" (341 pages), \"The Nightingale\" (440 pages), and an unnamed 416-page novel \u2014 but it does not specify which novels you finished in January and March.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8e91e7d9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You have 4 siblings: 1 brother and 3 sisters.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "87f22b4a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've made $120 from selling eggs this month (40 dozen at $3 per dozen).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e56a43b9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "$5 discount (from your 500 points).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "efc3f7c2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You wake up 30 minutes earlier on Fridays \u2014 at 6:00 AM, compared to 6:30 AM on other weekdays.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "21d02d0d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You missed 2 fun runs in March \u2014 the one on March 5th and the one on March 26th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2311e44b_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. The history shows your reading pace for \"Sapiens\" (10-20 pages a week) but never states its total page count or your current page in it.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "6456829e_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You initially planted 5 tomato plants. There's no information in the history about chili pepper plants.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "e5ba910e_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "The headphones cost $378, but there is no mention of an iPad purchase in the conversation history, so I cannot calculate a total that includes an iPad.\n\nThe only relevant value I have is the headphones at $378.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "a96c20ee_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Harvard University.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ba358f49_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions that you are 32 and that Rachel is getting married next year, but it contains no information about Rachel's age or when you will get married.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "09ba9854_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions the taxi costs around $60 and the train costs about $10, but there is no information about the bus fare, so I can't calculate the savings from taking the bus.",
+          "autoeval_label": "ABSTAIN"
+        }
+      ]
+    },
+    {
+      "config": "claude-opus-4-8|dedup_count|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 133,
+          "qa_acc": 0.6992,
+          "labels": {
+            "INCORRECT": 39,
+            "CORRECT": 88,
+            "ABSTAIN": 5,
+            "ERROR": 1
+          }
+        },
+        "by_question_type": {
+          "multi-session": {
+            "n": 133,
+            "qa_acc": 0.6992,
+            "labels": {
+              "INCORRECT": 39,
+              "CORRECT": 88,
+              "ABSTAIN": 5,
+              "ERROR": 1
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "0a995998",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Items needing pickup/return from a store:\n\n1. Boots exchanged at Zara (got them on 2/5, exchanged for larger size, still need to pick up the new pair)\n2. Navy blue blazer at the dry cleaner (worn to a meeting, still need to pick up)\n\nNote: The Zara boots are mentioned in both session [1] and session [4] \u2014 this is the same item, counted once.\n\n**Final count: 2**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6d550036",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Here are the distinct projects relevant to your leadership:\n\n1. **Team leadership role** \u2014 leading a team of five engineers since your promotion to senior software engineer (three months ago).\n2. **High-priority project** \u2014 completed two months ahead of schedule, leading to a significant increase in company revenue.\n3. **New product feature launch** \u2014 planned for June, currently being planned with a Gantt chart in Asana.\n\n**Final count: 3 projects.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59c863d7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct model kits:\n\n1. 1/72 scale B-29 bomber (new kit, bought at model show last weekend) \u2014 session [1]\n2. 1/24 scale '69 Camaro (bought at model show last weekend) \u2014 session [1]\n3. Revell F-15 Eagle (bought late April, finished) \u2014 session [2]\n4. Tamiya 1/48 scale Spitfire Mk.V (finished) \u2014 session [3]\n\nFinal count: **4**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b5ef892d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct U.S. camping trips this year:\n\n1. Big Sur, CA \u2014 3-day solo camping trip (early April)\n2. Yellowstone National Park \u2014 5-day camping trip (last month)\n\nNote: The 7-day Utah family road trip (February) explicitly involved \"no camping,\" so it is excluded. The New Zealand trek is not in the U.S. The Colorado/Aspen and Moab trips are planned/future, not completed camping trips.\n\nTotal: 3 + 5 = **8 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e831120c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n1. **MCU movies (all 22)** \u2014 watched in about two weeks = 2 weeks\n2. **Main Star Wars films** \u2014 watched in a week and a half = 1.5 weeks\n\nTotal: 2 + 1.5 = **3.5 weeks**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3a704032",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct plants mentioned in the history:\n\n1. Peace lily \u2014 bought from the nursery two weeks ago\n2. Succulent \u2014 bought from the same nursery two weeks ago\n3. Fern \u2014 being misted/humidified (no acquisition date given)\n4. Snake plant \u2014 fertilizer question (no acquisition date given)\n5. Orchid \u2014 considering fertilizer (no acquisition date given)\n6. African violets \u2014 humidifier question (no acquisition date given)\n7. Rose bush \u2014 pruned about a month ago (already owned, not acquired)\n\nOnly two plants have a stated acquisition within the last month: the **peace lily** and the **succulent**, both bought two weeks ago.\n\n**Final count: 2 plants.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d84a3211",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct bike-related expenses:\n\n1. Chain replacement (April 20th tune-up) \u2014 $25\n2. New bike lights installed \u2014 $40\n3. Bell Zephyr helmet \u2014 $120\n\nTotal: $25 + $40 + $120 = **$185**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "aae3761f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant driving trips mentioned:\n\n1. Washington D.C. \u2014 6 hours [session 1]\n2. Outer Banks, North Carolina \u2014 4 hours [sessions 2]\n3. Tybee Island \u2014 comparable to/at most the Outer Banks driving distance (\"I'm comfortable with the driving distance. My last trip to Outer Banks only took about four hours\"), so ~4 hours\n\nTotal: 6 + 4 + 4 = **14 hours**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f2262a51",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, here are the distinct doctors mentioned as ones you visited:\n\n1. **Dr. Patel** \u2014 prescribed your nasal spray [4]\n2. **Dr. Lee** \u2014 dermatologist, follow-up appointment for a mole biopsy [4]\n\nFinal count: **2 doctors**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dd2973ad",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant events:\n- Doctor's appointment: 10 AM last Thursday (session [1])\n- Went to bed at 2 AM \"last Wednesday,\" which made Thursday morning a struggle (session [2])\n\nThe day before the Thursday doctor's appointment was Wednesday, and you went to bed at 2 AM.\n\n**2 AM**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4a1ceb8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct citrus fruits mentioned:\n\n1. **Lime** \u2014 fresh lime juice (Daiquiri, Cucumber Lime Refresher, summer cocktails)\n2. **Orange** \u2014 orange peels (homemade orange bitters); orange slices (Sangria)\n3. **Lemon** \u2014 lemon slices (Sangria)\n\nCount: **3**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_a56e767c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct film festivals attended:\n\n1. **AFI Fest** (LA) \u2014 attended a screening of \"Joker\" and a Q&A with Todd Phillips and Joaquin Phoenix.\n2. **Portland Film Festival** \u2014 volunteered with event coordination and assisted with Rachel Morrison's masterclass workshop.\n\nFinal count: **2**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6cb6f249",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant social media breaks mentioned:\n\n1. Week-long break in mid-January \u2014 7 days (from [3])\n2. 10-day break in mid-February \u2014 10 days (from [2])\n\nTotal: 7 + 10 = **17 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "46a3abf7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct tanks mentioned:\n\n1. **5-gallon tank** \u2014 old tank from cousin, kept solitary betta fish named Finley [1,3]\n2. **20-gallon community tank** \u2014 newer tank with neon tetras, harlequin rasboras, platies [2,3,5]\n3. **1-gallon tank** \u2014 set up for friend's kid, with guppies and plants [1]\n\nNote: The \"main tank\" and \"Amazonia\" references refer to the 20-gallon community tank, not separate tanks. A quarantine tank was only being considered, not confirmed as set up.\n\n**Total: 3 tanks.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "36b9f61e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Luxury items mentioned:\n\n1. Gucci designer handbag \u2014 $1,200 [session 1]\n2. Leather boots from high-end Italian designer \u2014 $500 [session 2]\n3. Luxury evening gown for a wedding \u2014 $800 [session 4]\n\nTotal: $1,200 + $500 + $800 = **$2,500**\n\n(Note: The H&M graphic tees at $20 were budget-friendly, not luxury, so they are excluded.)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28dc39ac",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant gaming hours mentioned:\n\n1. The Last of Us Part II on hard difficulty \u2014 30 hours\n2. The Last of Us Part II on normal difficulty \u2014 25 hours\n3. Celeste \u2014 10 hours\n\nTotal: 30 + 25 + 10 = **65 hours**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f8be40d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct weddings mentioned:\n\n1. **Cousin Rachel's wedding** \u2014 at a vineyard, in August (lace gown, rustic atmosphere) \u2014 sessions [1], [3]\n2. **Cousin Emily's wedding** \u2014 in the city, rooftop garden + trendy restaurant, intimate/romantic \u2014 session [1]\n3. **College roommate's wedding** \u2014 in the city, rooftop garden ceremony overlooking the skyline, ~50 guests, friend Emily married partner Sarah \u2014 session [2]\n\nNote: The \"cousin Emily\" wedding (city rooftop, restaurant) and the \"college roommate / friend Emily and Sarah\" wedding (city rooftop garden, skyline) are described with overlapping details (city, rooftop garden) but are attributed to different people (cousin Emily vs. college roommate/friend Emily). Treating them as the distinct events as stated.\n\n**Final count: 3**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2e6d26dc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct babies/children mentioned:\n\n1. **Jasper** \u2014 David's baby boy, born a few weeks ago (friend from college)\n2. **Charlotte** \u2014 Mike and Emma's baby girl, born a few weeks after Rachel's baby shower\n3. **Max** \u2014 cousin Rachel's son, born in March\n4. **Ava** \u2014 aunt's twin, born in April\n5. **Lily** \u2014 aunt's twin, born in April\n\n(Aaliyah is Sarah's adopted daughter and Rocky is a dog \u2014 neither is a baby \"born\" in the last few months, so they are excluded.)\n\n**Total: 5 babies**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_15e38248",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant furniture items:\n\n1. **West Elm coffee table** \u2014 wooden with metal legs, bought (delivered last Thursday / about three weeks ago)\n2. **IKEA bookshelf** \u2014 assembled about two months ago for home office\n3. **Kitchen table** \u2014 fixed the wobbly leg last weekend\n\nCount: **3**\n\nYou bought, assembled, or fixed **3 pieces of furniture**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct baking events mentioned:\n\n1. Whole wheat baguette \u2014 last Saturday\n2. Batch of cookies \u2014 last Thursday\n3. Sourdough bread \u2014 on Tuesday\n4. Chocolate cake \u2014 for sister's birthday party\n5. Pizza in cast iron skillet\n6. Steak in cast iron skillet (cooked, not baked, but made)\n7. Roasted vegetables in cast iron skillet\n8. Apple pie in cast iron skillet\n\nCounting only the actual baking events with a clear recent timeframe (within the past two weeks): the baguette (Saturday), the cookies (Thursday), and the sourdough bread (Tuesday).\n\n**3 times.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "80ec1f4f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct museums/galleries visited in February:\n\n1. The Art Cube \u2014 opening night, 15th February (2/15)\n2. Natural History Museum \u2014 visit with niece, 8th February (2/8)\n\n(Note: The Modern Art Museum workshop was in January, so it does not count.)\n\nFinal number: **2**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d23cf73b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant cooking/cuisine experiences mentioned:\n\n1. **Vegan cuisine class** \u2013 learned to make vegan lasagna with cashew-based ricotta (and inspired the vegan stir-fry interest)\n2. **Fermentation workshop** at a local food co-op \u2013 learned to make sauerkraut and kimchi\n\nCounting the deduplicated list: **2** cuisines/cooking experiences (vegan cuisine and fermentation).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7fce9456",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct properties viewed:\n\n1. **3-bedroom townhouse, Brookside neighborhood** \u2014 seen February 22nd, offer made February 25th (the property in question)\n2. **3-bedroom bungalow, Oakwood neighborhood** \u2014 seen January 22nd, kitchen needed renovation\n3. **Condo** \u2014 building with community pool, modern appliances, gym/fitness center\n\nThe question asks how many properties were viewed **before** making the offer on the Brookside townhouse. Excluding the Brookside townhouse itself, the other properties viewed are the Oakwood bungalow and the condo.\n\n**Final answer: 2**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d682f1a2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Food delivery services mentioned:\n\n1. Fresh Fusion (session [1])\n2. Uber Eats (session [2])\n\nFinal number: **2**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7024f17c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant exercise events:\n\n1. **Jogging** \u2014 30-minute jog on Saturday = 0.5 hours.\n2. **Yoga** \u2014 User mentions they *used to* practice yoga 3x/week for 2 hours each, but has been **slacking off** and is only *trying to get back into it* (starting with one or two sessions). No actual completed yoga sessions are logged for last week.\n\nSo the only confirmed exercise actually done is the 30-minute jog.\n\n**Total: 0.5 hours.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5501fe77",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant follower-growth data points:\n\n- **TikTok**: gained ~200 followers over the past three weeks [1]\n- **Twitter**: jumped from 420 to 540 = +120 followers over the past month [2]\n- **Facebook**: steady at ~800, no growth [4][5]\n- **Instagram**: no specific follower-gain number given\n\nComparing the platforms with stated growth:\n- Twitter: +120 followers\n- TikTok: +200 followers\n\nYou gained the most followers on **TikTok** (~200 followers).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2ba83207",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant spending events:\n\n- Thrive Market online order \u2014 last month \u2014 ~$150 (organic/sustainable products) [2]\n- Publix order \u2014 last week \u2014 ~$60 (plus $10 delivery fee) [3]\n\nComparing the two: Thrive Market ($150) vs. Publix ($60).\n\nYou spent the most money at **Thrive Market** (~$150).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2318644b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Accommodation costs mentioned:\n\n1. Tokyo hostel (last January, solo trip) \u2014 around $30 per night\n2. Maui luxurious resort \u2014 over $300 per night\n\nDifference: $300 \u2212 $30 = $270\n\nYou spent about **$270 more per night** on accommodations in Hawaii (Maui) compared to Tokyo.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2ce6a0f2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct art-related events attended:\n\n1. Lecture \"The Evolution of Street Art\" at the Art Gallery \u2014 March 3rd\n2. \"Women in Art\" exhibition (saw Rachel Lee's work) \u2014 February 10th\n3. Guided tour at the History Museum \u2014 February 24th\n\nFinal count: **3**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d12ceb0e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant ages mentioned:\n\n- Mom: 55 (session [1])\n- Dad: 58 (session [1])\n- Grandma: 75 (session [2])\n- Grandpa: 78 (session [2])\n- Me: \"early thirties\" (session [2]) \u2014 using 30 as the stated figure\n\nSum: 55 + 58 + 75 + 78 + 30 = 296\nCount: 5 people\n\nAverage: 296 \u00f7 5 = **59.2 years old**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "00ca467f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Let me list the distinct doctor's appointments in March:\n\n1. **Dr. Thompson (orthopedic surgeon)** \u2014 follow-up appointment, March 20th\n2. **Physical therapy sessions** \u2014 started twice a week since March 25th\n3. **Appointment on March 15th** \u2014 referenced in [4] (regarding numbness/symptoms)\n\nNote: The EMG test with Dr. Johnson is April 1st (not March), and the appointments with Dr. Smith/Dr. Patel were planned but not confirmed as completed in March.\n\nThe clearest, confirmed March doctor's appointments are:\n- Dr. Thompson follow-up (March 20th)\n- March 15th appointment\n\nThe physical therapy sessions (started March 25th, twice weekly) are recurring sessions rather than distinct doctor's appointments, but they did occur in March.\n\n**Final count: 3**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b3c15d39",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant events:\n- Ordered new remote shutter release online: February 5th (mentioned in [1] and [3])\n- New remote shutter release arrived: February 10th (mentioned in [2] and [4])\n\nCalculation: February 10th \u2212 February 5th = 5 days\n\nIt took **5 days**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_31ff4165",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct health-related devices mentioned:\n\n1. **Accu-Chek Aviva Nano** \u2014 blood sugar testing system (used three times a day) [1]\n2. **Fitbit Versa 3** \u2014 smartwatch for tracking steps, sleep, and guided breathing [1, 2, 3, 5]\n\nFinal count: **2 devices**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eeda8a6d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Let me list every distinct fish mentioned across both aquariums.\n\n**10-gallon tank:**\n- Bubbles, the betta fish \u2014 1 fish\n\n**20-gallon tank:**\n- 10 neon tetras \u2014 10 fish\n- 5 golden honey gouramis \u2014 5 fish\n- 1 small pleco catfish \u2014 1 fish\n\n(Note: the lemon tetras/zebra danios were only being *considered*, not actually added, so they are not counted.)\n\n**Total count:**\n1 (betta) + 10 (neon tetras) + 5 (gouramis) + 1 (pleco) = **17 fish**\n\nYou have **17 fish** in total across both aquariums.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2788b940",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct fitness classes mentioned:\n\n1. **Zumba** \u2014 Tuesdays at 7:00 PM\n2. **Zumba** \u2014 Thursdays at 7:00 PM\n3. **BodyPump** \u2014 Mondays (at 6:30 PM)\n4. **Yoga** \u2014 Sundays at 6:00 PM\n\n(Hip Hop Abs is mentioned [4] only as a class type variety, with no scheduled day/time, so it's not part of the typical weekly schedule.)\n\n**Final count: 4 classes per week.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "60bf93ed",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant events:\n- Backpack bought from Amazon: 1/15\n- Backpack arrived: 1/20\n\nDifference: 1/20 \u2212 1/15 = 5 days.\n\nThe answer is **5 days**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9d25d4e0",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct pieces acquired:\n\n1. Silver necklace with a small pendant \u2014 got on the 15th of last month [1]\n2. Engagement ring \u2014 got a month ago [2]\n3. Emerald earrings \u2014 bought at the flea market last weekend [3, 4 \u2014 same pair]\n\nCount: **3 pieces of jewelry**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "129d1232",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Charity events with money raised:\n- Charity walk (sponsors): $250\n- Bike-a-Thon for Cancer Research: $5,000\n- Charity yoga event (local animal shelter): $600\n\nTotal: $250 + $5,000 + $600 = **$5,850**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60472f9c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct projects mentioned (excluding the thesis):\n\n1. Data Mining project (group project, working on Bike Sharing dataset)\n2. Database Systems project\n\nFinal count: **2**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_194be4b3",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct instruments currently owned:\n\n1. 5-piece Pearl Export drum set (mentioned in [1], [4])\n2. Korg B1 piano (mentioned in [1], [2], [5])\n3. Guitar (implied by guitar lessons in [2] and acoustic guitar accessories in [3])\n\nNote: The Cordoba ukulele is something being considered for purchase, not currently owned.\n\nYou currently own **3** musical instruments.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a9f6b44c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct bike-service items in March:\n\n1. **Road bike** \u2014 chain cleaned and lubricated on March 22nd [1]\n2. **Road bike** \u2014 chain cleaned and lubricated on March 2nd [2]\n3. **Road bike** \u2014 serviced at Pedal Power on March 10th (replaced brake pads and cables) [3][4]\n\nAll three of these refer to the **road bike**. The mountain bike (water bottle cage) and commuter bike (tire replacement planned before April) were not serviced *in* March.\n\nSo the distinct bike serviced in March is just one: the **road bike**.\n\n**Final number: 1 bike.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d851d5ba",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Here are the distinct fundraising events:\n\n1. Charity bake sale for local children's hospital \u2014 $1,000 (mentioned in [1] and [2], same event, counted once)\n2. Local animal shelter, January 20th \u2014 $2,000\n3. \"Run for Hunger\" charity run for local food bank, March 12th \u2014 $250\n\nTotal: $1,000 + $2,000 + $250 = **$3,250**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5a7937c8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct faith-related activities in December:\n\n1. Bible study group at church on the book of Matthew \u2014 December 17th\n2. Midnight mass at St. Mary's Church on Christmas Eve \u2014 December 24th\n\nCount: 2\n\nYou spent **2 days** participating in faith-related activities in December.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_ab202e7f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Here are the distinct kitchen items replaced or fixed:\n\n1. **Old toaster** \u2192 replaced with a **toaster oven**\n2. **Kitchen shelves** \u2192 fixed last weekend\n3. **Kitchen mat** (in front of the sink, from IKEA) \u2192 new addition/replacement\n4. **Faucet** \u2192 new faucet, a \"game-changer\" for washing veggies\n\nFinal count: **4**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e05b82a6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Let me list every distinct rollercoaster ride mentioned:\n\n1. **Xcelerator** at Knott's Berry Farm \u2014 October 8th \u2014 1 ride\n2. **Mako** at SeaWorld San Diego \u2014 July \u2014 1 ride (one night)\n3. **Kraken** at SeaWorld San Diego \u2014 July \u2014 1 ride (same night)\n4. **Manta** at SeaWorld San Diego \u2014 July \u2014 1 ride (same night)\n5. **Space Mountain: Ghost Galaxy** at Disneyland \u2014 September 24th \u2014 3 rides\n\nTotal count: 1 + 1 + 1 + 1 + 3 = **7 rollercoaster rides**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_731e37d7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant paid events from the history:\n\n1. Two-day writing workshop at a literary festival (November) \u2014 $200\n2. One-day photography workshop (February 22, local studio) \u2014 free ($0)\n3. Two-day digital marketing workshop (city convention center, March 15-16) \u2014 no cost mentioned ($0 recorded)\n\nTotal of stated costs: $200 + $0 + $0 = **$200**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "edced276",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant trips:\n\n1. **New York City** \u2014 solo trip, 5 days [1]\n2. **Hawaii** \u2014 family island-hopping trip, 10 days [2]\n\nTotal: 5 + 10 = **15 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "10d9b85a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct events:\n\n1. Machine learning workshop \u2014 April 17 and 18 (2 days)\n2. Sustainable development lecture at the public library \u2014 April 10 (1 day)\n\nTotal days: 2 + 1 = **3 days**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e3038f8c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct collections/items mentioned:\n\n1. Rare records \u2014 57 (mentioned in [1] and [2], same collection, counted once)\n2. Rare books \u2014 5 (from [4])\n3. Grandmother's antique vase \u2014 1 (from [2] and [4])\n\nNote: rare coins and the vinyl record are mentioned but without specific countable quantities (the new vinyl is part of the 57 records).\n\nTotal: 57 + 5 + 1 = **63 rare items**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2b8f3739",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant sales events from the history:\n\n1. Sold 20 potted herb plants at the Summer Solstice Market for $7.50 each \u2192 20 \u00d7 $7.50 = $150\n\nThis is the only market sale mentioned in the conversation history.\n\nTotal: **$150**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1a8a66a6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct magazine-related items:\n\n1. **Forbes** \u2014 subscription, canceled in early March (no longer active).\n2. **The New Yorker** \u2014 subscribed in early February, still enjoying it (active).\n3. **National Geographic** \u2014 bought the last issue on March 15th (a single-issue purchase, not stated as a subscription).\n\nCounting only current, active subscriptions: Forbes is canceled, National Geographic is a single issue, leaving The New Yorker.\n\n**Final answer: 1** (The New Yorker).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c2ac3c61",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct completed courses/events mentioned:\n\n1. Two courses completed on edX (mentioned in [1] and [3] \u2014 same fact, counted once) = 2 courses\n2. Courses completed on Coursera \u2014 referenced as \"some courses\" in [2], then specified as \"three courses\" in [4] (same fact, take the specific count) = 3 courses\n\nTotal: 2 (edX) + 3 (Coursera) = **5 online courses completed in total.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bf659f65",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct music albums/EPs purchased or downloaded:\n\n1. \"Happier Than Ever\" by Billie Eilish \u2014 downloaded on Spotify\n2. \"Midnight Sky\" EP by The Whiskey Wanderers \u2014 bought at the festival merchandise booth\n\n(The Tame Impala vinyl was signed/already owned, not described as a purchase here, and the song \"NDA\" is part of the Billie Eilish album already counted.)\n\nFinal number: **2**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_372c3eed",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant education periods:\n\n- **Arcadia High School:** 2010 to 2014 \u2192 4 years\n- **Pasadena City College (Associate's in Computer Science):** completed May 2016 \u2192 2 years (2014\u20132016)\n- **UCLA (Bachelor's in Computer Science):** graduated 2020, took four years \u2192 4 years (2016\u20132020)\n\nTotal: 4 + 2 + 4 = **10 years.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f91af09",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant completed pieces:\n\n1. Five short stories (mentioned in [2]) \u2014 \"I've written five short stories so far\"\n2. Writing challenge piece \"The Smell of Old Books\" (prompt: \"forgotten memories\") from [1]\n\nNote: The \"book perspective\" story in [2] is only being planned, not completed, so it doesn't count. No specific completed poems are mentioned.\n\nTotal: 5 short stories + 1 writing challenge piece = **6 pieces of writing**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "81507db6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct graduation ceremonies attended:\n\n1. The user's daughter's preschool graduation ceremony [1]\n2. Best friend Rachel's master's degree graduation ceremony [2]\n\nCount: **2**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant baking events in the history:\n\n1. Whole wheat baguette \u2014 last Saturday\n2. Sourdough bread (with starter) \u2014 Tuesday\n3. Rustic Italian bread \u2014 planned for this weekend\n4. Cookies (convection setting) \u2014 last Thursday\n5. Chocolate cake (sister's birthday) \u2014 new recipe\n6. Strawberry tart crust \u2014 discussed/planned\n\nNone of these is an egg tart. The history contains no mention of baking egg tarts.\n\nFinal count: **0**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "80ec1f4f_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant museums/galleries with their visit dates:\n- Modern Art Museum \u2014 workshop attended in January\n- The Art Cube \u2014 opening night on 15th February\n- Natural History Museum \u2014 visited on 2/8 (February)\n\nNone of these visits occurred in December.\n\nThe count is 0.\n\nYou did not visit any museums or galleries in December.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eeda8a6d_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant tanks and their fish mentioned in the history:\n\n- **20-gallon tank**: 10 neon tetras, 5 golden honey gouramis, 1 pleco catfish\n- **10-gallon tank**: Betta fish (Bubbles)\n\nThere is no mention of a 30-gallon tank anywhere in the history.\n\n**Answer: 0 \u2014 you do not have a 30-gallon tank.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "60bf93ed_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "The conversation history contains no mention of an iPad case \u2014 only a laptop backpack (bought 1/15, arrived 1/20), a wireless mouse, a graphics card, and software-related items.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "edced276_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant trips:\n- Hawaii (island-hopping with family): 10 days\n- Seattle: not mentioned anywhere in the history\n\nThe history only provides the Hawaii trip (10 days). There is no mention of a Seattle trip.\n\nTotal: 10 days.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_372c3eed_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Let me list the distinct educational periods mentioned:\n\n1. **Arcadia High School** \u2014 2010 to 2014 = 4 years\n2. **Associate's degree, Pasadena City College** \u2014 completed May 2016 = 2 years (after high school, 2014\u20132016)\n3. **Bachelor's in Computer Science, UCLA** \u2014 graduated 2020, \"took me four years to complete\" = 4 years\n4. **Master's in Computer Science** \u2014 being considered/pursued; a Master's in CS is typically 2 years\n\nNow summing:\n- High school: 4 years\n- Associate's degree: 2 years\n- Bachelor's degree: 4 years\n- Master's degree: 2 years\n\nTotal: 4 + 2 + 4 + 2 = **12 years**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d3ab962e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant hikes mentioned:\n\n1. 5-mile hike at Red Rock Canyon (two weekends ago) \u2014 5 miles\n2. 3-mile loop trail at Valley of Fire State Park (last weekend) \u2014 3 miles\n\nTotal: 5 + 3 = **8 miles**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2311e44b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct relevant facts about 'The Nightingale':\n- Total pages: 440 pages [1]\n- Current position: page 250 of 440 [2]\n\nPages left = 440 \u2212 250 = **190 pages**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc06de0d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Taxi ride (last Wednesday, missed train): $12\n- Daily train fare: $6\n\nDifference: $12 \u2212 $6 = **$6**\n\nThe taxi ride was $6 more expensive than the train fare.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a11281a2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant data points:\n- Start of year: 250 followers on Instagram [1]\n- After two weeks of posting regularly: ~350 followers on Instagram [2]\n\nIncrease over two weeks: 350 \u2212 250 = **100 followers**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4f54b7c9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct family items:\n\n1. Antique tea set \u2014 from cousin Rachel\n2. Vintage typewriter \u2014 belonged to my dad\n3. Vintage diamond necklace \u2014 from my grandmother\n4. Antique music box \u2014 from my great-aunt\n5. Depression-era glassware \u2014 from my mom\n\nFinal count: **5**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "85fa3a3f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n- Stainless steel food bowl (Amazon) \u2014 $15\n- Measuring cup (pet store) \u2014 $5\n- Dental chews \u2014 $10 per pack\n- Flea and tick collar \u2014 $20\n\nTotal: $15 + $5 + $10 + $20 = **$50**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9aaed6a3",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant item:\n- Grocery purchase at SaveMart last Thursday: $75, with 1% cashback membership\n\nCashback earned: 1% of $75 = **$0.75**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1f2b8d4f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Luxury boots (black ankle boots, luxury brand): $800\n- Similar boots found at budget store: $50\n\nDifference: $800 \u2212 $50 = **$750**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e6041065",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Shoes packed on the last trip:\n- 5 pairs of shoes total (mentioned in [2])\n\nShoes actually worn:\n- Sneakers (worn) \u2014 [1]\n- Sandals (worn) \u2014 [1]\n\nWorn = 2 out of 5 packed.\n\nPercentage: 2 \u00f7 5 = **40%**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51c32626",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant events about submitting a sentiment analysis paper to ACL:\n\n- Mention [1]: The user worked on a research paper on sentiment analysis, which they submitted to ACL.\n- Mention [3]: ACL's submission date was February 1st (stated in the context of reviewing for ACL).\n\nYou submitted your research paper on sentiment analysis to ACL on February 1st.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d905b33f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n- The book from your favorite author: originally priced at $30, purchased for $24 after a discount.\n\nDiscount amount: $30 \u2212 $24 = $6\nPercentage discount: $6 / $30 = 20%\n\n**You got a 20% discount on the book.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7405e8b1",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Discounts mentioned:\n- HelloFresh first order discount: 40% [session 1]\n- UberEats order discount (last week): 20% [session 2]\n\nHelloFresh: 40% vs UberEats: 20%.\n\nYes. Your HelloFresh first-order discount (40%) was higher than your UberEats discount (20%).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f35224e0",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n1. \"My Favorite Murder\" \u2014 finished episode 12 [session 1] \u2192 12 episodes\n2. \"How I Built This\" \u2014 finished around 15 episodes [session 2] \u2192 15 episodes\n\nTotal: 12 + 15 = **27 episodes**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6456829e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct planting items:\n- Tomato plants \u2014 5 plants (session [1])\n- Cucumber plants \u2014 3 plants (session [2])\n\nTotal: 5 + 3 = **8 plants**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a4996e51",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Typical work week: 40 hours [1], [4]\n- During peak campaign seasons: increases by 10 hours weekly \u2192 50 hours [3]\n\nDuring peak campaign seasons, you work **50 hours** per week (40 base hours + 10 additional hours).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3c1045c8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- User's age: 32 years old (from session [2])\n- Average age of employees in department: 29.5 years old (from session [1])\n\nCalculation: 32 \u2212 29.5 = 2.5\n\nYou are 2.5 years older than the average age of employees in your department.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60036106",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant reach events:\n\n1. Instagram influencer collaboration \u2014 promoted product to her 10,000 followers (mentioned in [1])\n2. Previous Facebook ad campaign \u2014 reached around 2,000 people (mentioned in [2] and [3]; same campaign, counted once)\n\nTotal: 10,000 + 2,000 = **12,000 people**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "681a1674",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Re-watched Marvel movies mentioned:\n\n1. Spider-Man: No Way Home (session [1] \u2014 \"re-watched\")\n2. Avengers: Endgame (sessions [2] and [4] \u2014 \"re-watched yesterday\")\n\nNote: Doctor Strange was watched recently but described as watched, not re-watched.\n\nFinal count: **2**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e25c3b8d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts about the designer handbag:\n- Original price: $500 (mentioned in session [2])\n- Price paid: $200 at TK Maxx (mentioned in session [1])\n\nSavings = $500 \u2212 $200 = **$300**\n\nYou saved $300 on the designer handbag.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4adc0475",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n- Assists mentioned in session [1]: 2 assists\n- Goals mentioned in session [2]: 3 goals\n\n(The \"several goals\" in session [3] is a vague restatement and is superseded by the specific count of 3 goals.)\n\nTotal: 2 assists + 3 goals = **5**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4bc144e2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Car wash on February 3rd \u2014 $15\n- Parking ticket on January 5th \u2014 $50\n\nTotal: $15 + $50 = **$65**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ef66a6e5",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct competitive sports mentioned:\n\n1. **Tennis** \u2014 \"I used to play tennis competitively in high school\" [1]\n2. **Swimming** \u2014 \"I used to swim competitively in college\" [2, 3]\n\nFinal count: **2**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5025383b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct hobbies that led to joining online communities:\n\n1. **Cooking** \u2014 joined online communities to discuss recipe techniques and share food-related posts [1, 2]\n2. **Photography** \u2014 joined online communities to learn techniques and get feedback on street/portrait photography work [3, 4]\n\nThe two hobbies are **cooking and photography**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a1cc6108",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- The user's current age: 32 (stated in [3], \"I just turned 32 last month\")\n- Alex's current age: 21 (stated in [1], \"he's just 21\")\n\nAge difference: 32 \u2212 21 = 11\n\nWhen Alex was born, the user was **11 years old**.",
+          "autoeval_label": "ERROR"
+        },
+        {
+          "question_id": "9ee3ecd6",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts from the history:\n\n- Current loyalty points total: 200 points (from session [1], after earning 50 points on the eyeshadow palette)\n- Points needed to redeem a free skincare product: 300 points total (from session [2])\n\nCalculation: 300 \u2212 200 = 100 points\n\nYou need to earn **100 more points** to reach the 300-point total required to redeem a free skincare product at Sephora.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3fdac837",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant trips:\n\n1. **Chicago** \u2014 last trip was a \"4-day trip\" (also referenced as March).\n2. **Japan/Tokyo** \u2014 trip from April 15th to 22nd = 8 days.\n\nTotal: 4 + 8 = **12 days**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "91b15a6e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n1. Vintage diamond necklace \u2014 worth $5,000\n2. Antique vanity \u2014 sell for at least $150\n\nTotal: $5,000 + $150 = **$5,150**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "27016adc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Renovation cost (deck and patio on current house): $20,000\n- Countryside property price (5-acre rural plot): $200,000\n\nCalculation: $20,000 \u00f7 $200,000 = 10%\n\nThe renovation cost is **10%** of the countryside property's price.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "720133ac",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Vet visit (consultation fee, discounted for regular customers): $50\n- Flea and tick prevention medication (3-month supply): $25\n\nTotal: $50 + $25 = **$75**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "77eafa52",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Initial quote from Sakura Travel Agency for the entire trip: $2,500\n- Corrected price for the entire trip: $2,800\n\nDifference: $2,800 \u2212 $2,500 = **$300**\n\nYou had to pay $300 more after the initial quote.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8979f9ec",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n1. Chicken fajitas \u2014 \"the third meal I got from my chicken fajitas\" = 3 meals (session 2)\n2. Lentil soup \u2014 \"a big batch of lentil soup that lasted me for 5 lunches\" = 5 lunches (mentioned in sessions 1 and 3, counted once)\n\nTotal: 3 + 5 = **8 lunch meals**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0100672e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Total spent on coffee mugs for coworkers: $60 (mentioned in [1] and [3])\n- Number of coffee mugs purchased: 5, one for each coworker (mentioned in [2])\n\nCalculation: $60 \u00f7 5 = $12 per mug.\n\nYou spent $12 on each coffee mug.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a96c20ee",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant mention:\n- Research conference at Harvard University (first research conference, attended over the summer, presented poster on AI in education thesis research) \u2014 sessions [1], [2]\n\nYou presented your poster at **Harvard University**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "92a0aa75",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts about tenure in current role (Senior Marketing Specialist):\n\n- [1] Promoted to Senior Marketing Specialist after 2 years and 4 months (start of the role).\n- [2] States 3 years and 9 months of experience in the company.\n\nThe most recent and direct indicator: you were promoted to Senior Marketing Specialist at the 2 years 4 months mark, and you now have 3 years and 9 months total. The difference is the time in your current role.\n\n3 years 9 months \u2212 2 years 4 months = **1 year and 5 months** in your current role as Senior Marketing Specialist.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3fe836c9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Pre-approval amount: $350,000 (from session [2])\n- Final sale price: $325,000 (from session [1])\n\nCalculation: $350,000 \u2212 $325,000 = $25,000\n\nThe pre-approval amount was **$25,000** more than the final sale price.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1c549ce4",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Items purchased:\n- Waterproof car cover \u2014 $120\n- Detailing spray (from Amazon, removed tar and bug stains) \u2014 $20\n\nTotal: $140",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6c49646a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant trips and distances:\n\n1. Yellowstone National Park family trip (last month, 4 days) \u2014 1,200 miles\n2. Three recent road trips combined (solo trip to Durango, weekend trip to Breckenridge, family trip to Santa Fe) \u2014 1,800 miles total\n\nTotal distance: 1,200 + 1,800 = **3,000 miles**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1192316e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant time components:\n\n- Morning routine to get ready: about 1 hour (60 minutes) \u2014 includes 20-min meditation, 30-min workout, and a quick breakfast [session 2]\n- Morning commute to work: 30 minutes [session 1]\n\nTotal: 60 + 30 = **90 minutes (1 hour 30 minutes)**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0ea62687",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant data points:\n\n- Fuel efficiency a few months ago: 30 miles per gallon (city) \u2014 stated in [1]\n- Fuel efficiency now: 28 miles per gallon (city) \u2014 stated in [2] and [3] (same restated fact, counted once)\n\nDifference: 30 \u2212 28 = **2 miles per gallon**\n\nYour car was getting **2 more miles per gallon** a few months ago compared to now.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "67e0d0f2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct completed-course facts mentioned:\n\n1. edX courses \u2014 \"8 edX courses\" (data analysis foundation)\n2. Coursera courses \u2014 \"12 courses on Coursera\"\n\nNote: The \"some courses on Coursera\" in session [2] is the same Coursera completion later quantified as 12, so it is not counted separately. The Andrew Ng course and the DataCamp visualization course are ones being considered/started, not completed.\n\nTotal: 8 + 12 = **20 courses**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bb7c3b45",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Jimmy Choo heels original retail price: $500\n- Jimmy Choo heels purchase price at outlet mall: $200\n\nSavings = $500 \u2212 $200 = **$300**\n\nYou saved $300 on the Jimmy Choo heels.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ba358f49",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Current age: 32 (stated in session [2])\n- Rachel is getting married next year (session [1])\n\nNext year, you will be 33.\n\nThe answer is 33.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "61f8c8f8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant 5K times:\n- Last year's 5K: 45 minutes [1]\n- Recent 5K: 35 minutes [2]\n\nDifference: 45 \u2212 35 = **10 minutes faster**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60159905",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct dinner parties/social gatherings attended:\n\n1. Italian feast at Sarah's place \u2014 last week (also played board games there)\n2. BBQ at Mike's place \u2014 two weeks ago (watched a football game)\n3. Potluck at Alex's place \u2014 yesterday\n\nFinal count: **3**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ef9cf60a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct gifts for the sister:\n\n1. Spa gift card to her favorite spa \u2014 $100\n2. Silver necklace with small pendant from Tiffany's \u2014 $200\n\nTotal: $300",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "73d42213",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant details:\n- Left home at 7:00 AM on Monday for the doctor's appointment [1]\n- Travel time to the clinic was two hours [2]\n\n7:00 AM + 2 hours = 9:00 AM.\n\nYou reached the clinic at 9:00 AM on Monday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bc149d6b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant feed purchases:\n\n1. Layer feed \u2014 50 pounds (session [1])\n2. Organic scratch grains \u2014 20 pounds (session [2])\n\nTotal: 50 + 20 = **70 pounds**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "099778bb",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Total leadership positions in the company: 100 (mentioned in [1] and [3])\n- Leadership positions held by women: 20 (mentioned in [2])\n\nCalculation: 20 / 100 = 20%\n\nWomen hold **20%** of the leadership positions in your company.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "09ba9854",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant figures from the history:\n- Taxi from airport to hotel: $60 (session [1])\n- Train from airport to hotel: $10 (session [2])\n\nSavings = $60 \u2212 $10 = **$50**\n\nYou will save $50 by taking the train instead of the taxi.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d6062bb9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant videos:\n\n1. TikTok video of Luna chasing a laser pointer \u2014 1,456 views\n2. YouTube social media analytics tutorial \u2014 542 views\n\nTotal: 1,456 + 542 = **1,998 views**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "157a136e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Grandma's 75th birthday celebration [1]\n- User's birthday was just a week after grandma's celebration [1]\n- User is in their 30s, specifically age 32 [3]\n\nGrandma's age: 75\nUser's age: 32\n\nDifference: 75 \u2212 32 = **43 years older**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c18a7dc8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Graduated college at age 25 (Bachelor's in Business Administration, UC Berkeley) [1]\n- Current age: 32 (Digital Marketing Specialist at TechSavvy Inc.) [2]\n\nCalculation: 32 \u2212 25 = 7\n\nYou are 7 years older than when you graduated from college.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3332713",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant gifts:\n\n- Brother's graduation gift (May) \u2014 $100 gift card to electronics store\n- Coworker's baby shower gift \u2014 set of baby clothes and toys from Buy Buy Baby, $100\n\nTotal: $200",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "55241a1f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n\n- Facebook Live session about vegan recipes \u2014 12 comments (mentioned in [1] and [4], counted once)\n- Most popular YouTube video on social media analytics \u2014 21 comments ([2])\n\nTotal: 12 + 21 = **33 comments**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a08a253f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Distinct fitness class days:\n\n1. Zumba \u2014 Tuesday (6:30 pm)\n2. Yoga \u2014 Wednesday\n3. Zumba \u2014 Thursday (6:30 pm)\n4. Weightlifting \u2014 Saturday (10 am)\n\nDays with classes: Tuesday, Wednesday, Thursday, Saturday.\n\nFinal number: **4 days a week.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f0e564bc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant expenses:\n\n1. Coach handbag \u2014 $800 (mentioned in [1])\n2. High-end skincare products during the Nordstrom anniversary sale \u2014 $500 (mentioned in [2], restated in [4])\n\nTotal: $800 + $500 = **$1,300**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "078150f1",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Initial donation goal for the charity cycling event: $200 [1]\n- Actual amount raised in the charity cycling event: $250 [2]\n\nDifference: $250 \u2212 $200 = **$50**\n\nYou raised $50 more than your initial goal.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf4d046",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant GPA entries:\n\n1. **Undergraduate** \u2013 University of Mumbai, Computer Science, First-Class distinction, 83% \u2248 GPA **3.86** (from [3])\n2. **Graduate** \u2013 University of Illinois at Urbana-Champaign, Master's in Data Science, GPA **3.8** (from [2])\n\nAverage = (3.86 + 3.8) / 2 = 7.66 / 2 = **3.83**\n\nThe average GPA of your undergraduate and graduate studies is **3.83 out of 4.0**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a346bb18",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant items:\n- Target marathon time: 4 hours 10 minutes (250 minutes) \u2014 from session [1]\n- Actual marathon finish time: 4 hours 22 minutes (262 minutes) \u2014 from session [3]\n\nCalculation: 262 \u2212 250 = 12 minutes\n\nYou exceeded your target time by **12 minutes**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "37f165cf",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Let me identify the novels the user mentioned finishing, with page counts:\n\n- \"The Power\" by Naomi Alderman \u2014 341 pages, read in December [1]\n- A 416-page novel \u2014 finished just before the conversation in [1] (no title given)\n- \"The Nightingale\" by Kristin Hannah \u2014 440 pages [2][3]\n\nThe history does not explicitly label any books as being finished in \"January\" and \"March.\" None of the mentioned novels are tied to those specific months.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8e91e7d9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant sibling mentions:\n- A brother (from [1])\n- 3 sisters (from [2])\n\nTotal: 1 + 3 = **4 siblings**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "87f22b4a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant facts:\n- Eggs sold this month: 40 dozen [1]\n- Price per dozen: $3 [2]\n\nCalculation: 40 dozen \u00d7 $3 = $120\n\nYou have made **$120** from selling eggs this month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e56a43b9",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Relevant FreshMart points/discount facts:\n\n- Session [1]: Loyalty rate \u2014 every 100 points = $1 discount; 500 points = $5 discount.\n- Session [2]: Reached 500 points (the minimum required for a discount).\n\nAt 500 points, with the rate of every 100 points = $1, the discount is:\n\n**$5**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "efc3f7c2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Wake-up times:\n- Fridays: 6:00 AM\n- Other weekdays: 6:30 AM\n\nDifference: 6:30 AM \u2212 6:00 AM = **30 minutes earlier on Fridays.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "21d02d0d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Missed 5K fun runs in March due to work commitments:\n1. March 5th \u2014 missed due to work commitments\n2. March 26th \u2014 missed due to work commitments\n\nFinal number: 2",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2311e44b_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant items mentioned about 'Sapiens':\n- Session [1]: Reading \"Sapiens\" at a pace of 10-20 pages a week (no page count or current page given)\n- Session [2]: Enjoying \"Sapiens\" but it's \"really slow going\" (no page count or current page given)\n\nThe history never states the total number of pages in 'Sapiens' nor the current page you're on. Without those two figures, the pages remaining cannot be determined.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "6456829e_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant items:\n- Tomato plants: 5 plants initially planted [1]\n- Chili peppers: not mentioned anywhere in the history\n\nThe history only provides information about tomato plants (5). There is no mention of chili peppers.\n\nTomato plants: 5. Chili peppers: not stated.\n\nTotal for tomatoes alone: **5 plants**.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "e5ba910e_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant items:\n- Sony WH-1000XM4 headphones \u2014 $378\n- iPad \u2014 no mention/cost found in history\n\nThe history contains no purchase or cost for an iPad. Only the headphones have a recorded cost.\n\nTotal: $378",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a96c20ee_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant detail from the history:\n\n- The user attended their **first research conference** over the summer (mentioned in [1], [3]).\n- They stated this conference was at **Harvard University**, where they saw projects on AI in education ([2]).\n- At this conference they **presented a poster** on their thesis research on AI in education ([1]).\n\nFinal answer: **Harvard University**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ba358f49_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions Rachel is getting married next year, but it contains no information about Rachel's age or when you will get married. There is nothing to base an answer on.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "09ba9854_abs",
+          "question_type": "multi-session",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Relevant cost figures mentioned in the history:\n\n- Taxi from airport to hotel: ~$60 (session [1])\n- Train from airport to hotel: ~$10 (session [2])\n\nThere is no mention anywhere in the conversation of a bus or its cost. Since the history contains no bus fare, the savings from taking the bus instead of a taxi cannot be calculated.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.6992
+  }
+}

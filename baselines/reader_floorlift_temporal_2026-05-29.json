@@ -1,0 +1,2222 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-floorlift/pin_temporal.json",
+    "pinned_metadata": {
+      "diagnostic": "pinned_context",
+      "issue": "techempower-org/multipass-structural-memory-eval#116",
+      "adapter": "mempalace-daemon",
+      "search_endpoint": "/search",
+      "snippet_width": "/search",
+      "n_questions": 500,
+      "source_questions": "sme/corpora/longmemeval/data/longmemeval_oracle.json",
+      "timestamp_utc": "2026-05-29T17:37:24.499807+00:00",
+      "slice": "temporal"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference",
+      "temporal_cot"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 4,
+    "timestamp_utc": "2026-05-30T03:25:02.878972+00:00"
+  },
+  "n_questions": 133,
+  "n_configs": 2,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 133,
+          "qa_acc": 0.3308,
+          "labels": {
+            "CORRECT": 40,
+            "INCORRECT": 89,
+            "ABSTAIN": 4
+          }
+        },
+        "by_question_type": {
+          "temporal-reasoning": {
+            "n": 133,
+            "qa_acc": 0.3308,
+            "labels": {
+              "CORRECT": 40,
+              "INCORRECT": 89,
+              "ABSTAIN": 4
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "gpt4_2655b836",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Your GPS system stopped working properly, which required taking it back to the dealership on March 22nd, where they replaced the entire system.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2487a7cb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The 'Data Analysis using Python' webinar.\n\nThe history shows you attended the 'Data Analysis using Python' webinar two months ago. There's no mention of an 'Effective Time Management' workshop in the conversation, so based on the available information, the webinar is the event referenced.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_76048e76",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The bike \u2014 you took it in for repairs in mid-February because the gears were acting up.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2312f94c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Dell XPS 13. It arrived on February 25th, but your Samsung Galaxy S22 came earlier on February 20th \u2014 so actually you got the Samsung Galaxy S22 first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bb5a684",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The workshop was on January 10th and the session preparing for the meeting was on January 13th, so you attended the workshop 3 days before.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "08f4fc43",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "30 days (from January 2nd to February 1st).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2c63a862",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_385a5000",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The marigolds were started first. The user mentioned the marigold seeds arrived on March 3rd and were already germinating; there's no indication the tomatoes were started yet.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2a1811e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bbf86515",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions the \"Turbocharged Tuesdays\" event (June 14th) and the \"Racing Nationals\" event in August, but there is no mention of an event called \"Rack Fest,\" so I cannot determine the number of days between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_5dcc0aab",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You cleaned your white Adidas sneakers last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0b2f1d21",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The malfunction of the stand mixer happened first.\n\nThe stand mixer was taken to the repair shop \"last month\" (relative to the May 22, 2023 conversation), while the coffee maker was bought \"about three weeks ago\" (also relative to May 22, 2023). Since \"last month\" is earlier than \"three weeks ago,\" the stand mixer malfunction occurred before the coffee maker purchase.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f0853d11",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions the \"Walk for Hunger\" event (February 21st), but there is no mention of a \"Coastal Cleanup\" event anywhere in the history.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_6ed717ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The training pads for Luna. You purchased them about a month ago, while the dog bed was bought 3 weeks ago, making the training pads the earlier purchase.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Fixing the fence. You fixed the fence three weeks ago, while you trimmed the goats' hooves two weeks ago \u2014 so the fence repair came first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3838d2b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Zero \u2014 the \"Run for the Cure\" event was your first charity event.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history only shows how long you've been at NovaTech (about 4 years and 3 months) and that you started in the field after graduating from UC Berkeley \u2014 there's no information about any work experience before your current job at NovaTech.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2d58bcd6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "'The Hate U Give' \u2014 you finished it about two weeks before the conversation, while you read 'The Nightingale' just last weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_65aabe59",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "982b5123",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Three months ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b9cfe692",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Five and a half weeks (two and a half weeks for \"The Seven Husbands of Evelyn Hugo\" plus three weeks for \"The Nightingale\").",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4edbafa2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "June 3rd.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8090214",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_483dd43c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Crown.\n\nYou started watching \"Game of Thrones\" about a month ago (as of 2023/05/20), while you had just finished \"The Crown\" with a binge that spanned 14 days. So \"The Crown\" was started first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e4e14d04",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Three weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c9f37c46",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows you planned to attend open mics but never mentions actually attending one, so there's no basis to determine how long you'd been watching stand-up by that point.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2c50253f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You wake up at 6:45 AM on Tuesdays and Thursdays (15 minutes earlier than your usual 7:00 AM wake-up time, to meditate and practice yoga).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dcfa8644",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions the Converse shoelace broke on January 24th, but it doesn't state when you bought your Adidas running shoes.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b4a80587",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The arrival of the new prime lens happened first. The user got the 50mm f/1.8 lens a month ago and then took it on the coastal trip.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_9a159967",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, you flew with **Southwest Airlines** in March (your direct flight from your hometown to Las Vegas, the 15th\u201318th). The United Airlines mentions are about future/past general experiences and accumulated miles over three months, not a specific March or April flight. So the airline you flew with most in March and April was Southwest Airlines.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "cc6d1ec1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8c8961ae",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The solo trip to Thailand was first \u2014 you went there last year, while the Europe trip with your family was just last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d9af6064",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The new router (set up January 15th), before the smart thermostat (set up February 10th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7de946e7",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The persistent cough. You were diagnosed with bronchitis and finished those antibiotics on February 20th, while your skin tag removal was on February 22nd.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d01c6aa8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "993da5e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows you rearranged your furniture three weeks ago and that you have a new area rug, but it doesn't indicate how long you'd had the rug at the time you rearranged the furniture.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a3045048",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "5 days.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d31cdae3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The family road trip across the American Southwest. The narrator mentions having been to the Grand Canyon \"before with my family on a road trip across the American Southwest a few years ago,\" and is now planning the solo Arizona trip, which is still in the future.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_cd90e484",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You hadn't gotten your new binoculars yet when you saw the American goldfinches. You saw them about a week before the May 26 session, but you got your new binoculars three weeks before that same session \u2014 so the goldfinch sighting happened about two weeks *before* you got the binoculars.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_88806d6e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4cd9eba1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You were accepted on March 20th and started the orientation sessions on March 27th \u2014 that is 1 week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_93f6379c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b29f3365",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions you bought a new amp two weeks ago and that you're taking online ukulele lessons, but there's nothing about how long you'd been taking guitar lessons when you bought the amp.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f56ae70",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Apple TV+.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6613b389",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_78cf46a3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The narrator received their new phone case first. In session [2] dated 2023/05/29, they mentioned getting the new phone case \"about a month ago,\" while the conversation about losing the phone charger occurred more recently.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0a05b494",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The tourist from Australia. There's no mention in the history of a woman selling jam at a farmer's market, so the only one of the two you actually met was the Australian tourist.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1a1dc16d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The meeting with Rachel happened first. The meeting with Rachel was on April 10th, while the pride parade is on May 1st.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f584639",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The photo album for your mom \u2014 you ordered it from Shutterfly two weeks ago, before getting the necklace for your sister's upcoming birthday dinner this weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_213fd887",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The charity 5K run to raise money for the local children's hospital was your first event.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_5438fa52",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The start of your Spanish classes happened first. You mentioned attending the cultural festival \"yesterday,\" while you've been taking Spanish classes for the past three months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_c27434e8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Ferrari 288 GTO model. You mentioned starting it about three weeks ago, and the Japanese Zero fighter plane was discussed as a more recent/ongoing project you were adding details to afterward.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Alex became a parent first. Alex adopted a baby girl from China in January, while Rachel's twins (Jackson and Julia) were born on February 12th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8c18457d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You bought your brother's graduation gift on March 3 and your best friend's birthday gift on March 15, so 12 days had passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "You fixed the fence. The history shows you fixed the broken fence on the east side three weeks ago, but there is no record of you purchasing three cows from Peter \u2014 you were only considering buying a single new cow (a Brown Swiss or Jersey) and hadn't finalized that purchase yet.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history indicates you work at NovaTech (for about 4 years and 3 months), not Google, so there is no information about a job at Google to base an answer on.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "982b5123_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "c8090214_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know. The history mentions you bought an iPhone 13 Pro and a 4K TV, but there's no mention of buying an iPad.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_c27434e8_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "The Ferrari 288 GTO model. The conversation history mentions you started the Ferrari about three weeks ago, but there is no mention of a Porsche 991 Turbo S model at all\u2014so the Ferrari is the only one of the two that appears in your project history.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe history mentions Alex adopted a baby girl from China in January, but there is no information about anyone named Tom in the conversation.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_59149c77",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f49edff3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "All three events are described as happening \"today\" in their respective conversations, so based on the history they occurred on the same day, and there is no information to establish an order among them.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017276",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The history says you got the chandelier from your aunt today, so zero weeks ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ed",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows you participated in several charity events, but it doesn't indicate that any two of them happened on consecutive days, nor does it provide dates that would let me calculate how many months have passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened today, so 0 days passed between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0bc8ad92",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Zero months \u2014 your most recent museum visit with a friend (the behind-the-scenes Science Museum tour with your chemistry professor friend) was today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "af082822",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended it yesterday, so less than a week ago (about 0 weeks ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293a",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Michael's engagement party happened first. You attended it \"today\" in conversation [2] while still deciding between the two venues, whereas your cousin's wedding (where you walked down the aisle as a bridesmaid) came up later, by which point you had already started planning and developed clearer ideas about your ceremony details.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the Maundy Thursday service today (0 days ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b81",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The baking class was \"yesterday\" (1 day ago), and the chocolate cake for your friend's birthday was made \"today.\" So when you made your friend's birthday cake, the baking class was 1 day ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1d4ab0c9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened on the same day \u2014 you started watering your herb garden today [2] and harvested your first batch of fresh herbs today [1]. So 0 days passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e072b769",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You just downloaded Ibotta \u2014 you started using it now, not weeks ago. (It was FreshToDoor that you tried a few weeks ago.)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0db4c65d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "0 days \u2014 both happened today.\n\nThe user finished \"The Seven Husbands of Evelyn Hugo\" today [2] and attended the book reading event today [1], so the same day.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1d80365e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, you mentioned you had *just started* your solo camping trip to Yosemite today (and elsewhere that you'd be camping there for a few days before driving to Lone Pine). Since the trip was still ongoing and hadn't finished, the number of days isn't specified \u2014 but you indicated you'd be camping at Yosemite for **a few days**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7f6b06db",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, all three trips were described as recently completed (\"just got back\"), but here's the order from earliest to latest:\n\n1. **Yosemite** (solo camping trip)\n2. **Big Sur and Monterey** (road trip with friends)\n3. **Muir Woods National Monument** (day hike with family)\n\nThe Yosemite trip is referenced as a past event prompting gear upgrades, the Big Sur/Monterey road trip was \"today\" in one thread, and the Muir Woods hike was \"today\" in a later thread \u2014 making Muir Woods the most recent.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_6dc9b45b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended SIFF today (0 months ago) \u2014 you said you saw \"Coda\" there today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba02",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You bought the smoker today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_18c2b244",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "1. Signed up for the rewards program at ShopRite\n2. Used a Buy One Get One Free coupon on Luvs diapers at Walmart\n3. Redeemed $12 cashback for a $10 Amazon gift card from Ibotta",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a1b77f9c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You started all three on the same day you mentioned them (\"today\" in each case), so you have not spent any complete weeks on them yet \u2014 the total is 0 weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1916e0ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7a0daae1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The racket was bought online and received today, with plans to try it out the same upcoming Saturday \u2014 so it arrived within the same week. Zero weeks passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb063",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You met Emma today (0 days ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7abb270c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the conversation history, here is the order of the six museums you visited, from earliest to latest:\n\n1. **Natural History Museum** (\"Dinosaur Fossils\" exhibition)\n2. **Metropolitan Museum of Art** (Ancient Egyptian Artifacts exhibition)\n3. **Museum of Contemporary Art** (Dr. Maria Rodriguez's feminist art lecture series)\n4. **Modern Art Museum** (\"The Evolution of Abstract Expressionism\" guided tour with Dr. Patel)\n5. **Science Museum** (\"Space Exploration\" exhibition with David)\n6. **Children's Museum** (the next planned/visited destination with your niece)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aeb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened \"today\" \u2014 you planted the tomato saplings today [1] and attended the gardening workshop today [2]. So 0 days passed between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4fc4f797",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4dfccbf7",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The same day \u2014 0 days had passed. You started ukulele lessons \"today\" [1] and also took your Taylor GS Mini to the guitar tech \"today\" [2].",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_61e13b3c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Both events took place \"today\"/\"yesterday\" relative to their respective conversations, but the history provides no information establishing the calendar dates of either event or the time between them. I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_45189cb4",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the dates mentioned, the order of the sports events you watched in January was:\n\n1. **College Football National Championship** \u2014 Georgia defeated Alabama 33-18 (watched \"yesterday\" with your family at home)\n2. **NFL Divisional Round playoff** \u2014 Kansas City Chiefs defeated the Buffalo Bills (watched \"last weekend\" at your friend Mike's place)\n3. **NBA game** \u2014 Lakers vs. Chicago Bulls at the Staples Center (watched \"today\" with your coworkers)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c90",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "One day \u2014 you started and finished \"The Nightingale\" on the same day.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "From earliest to latest: the company charity soccer tournament, the Midsummer 5K Run, and the Spring Sprint Triathlon (completed today).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "370a8ff4",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "In message [2], you recovered from the flu and were easing back into jogging after a two-week break. The recovery plan started with walking before jogging, but you went straight into short jogging intervals.\n\nIf we count your 10th jog as happening in message [1], and assuming a typical pattern of about 3 jogs per week starting shortly after recovery, your 10th jog would fall roughly **3 weeks** after you recovered from the flu.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the history, two past events are mentioned: a music festival in Brooklyn with a group of friends (featuring your favorite indie bands), and a free outdoor concert series in the park (which you attended today).\n\nSo the order, from earliest to most recent, is:\n\n1. The music festival in Brooklyn with your friends\n2. The free outdoor concert series in the park (today)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4ef30696",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Both happened \"today\" \u2014 you finished 'The Nightingale' today and started 'The Hitchhiker's Guide to the Galaxy' today. So 0 days passed between them.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_ec93e27f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "A bus \u2014 you took a bus ride to attend a friend's wedding today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6e984301",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You got your own set of sculpting tools on the same day you started taking sculpting classes, so you had been taking them for 0 weeks (your first day).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8077ef71",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the networking event today (0 days ago).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "American Airlines (New York to Los Angeles on February 10th), then Delta (round-trip flight from Boston to Atlanta).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "0 days \u2014 you repotted the spider plant and gave Mrs. Johnson the cuttings on the same day (both stated as \"today\").",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_74aed68e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "0 days \u2014 you replaced your spark plugs and participated in the Turbocharged Tuesdays event on the same day (both happened \"today\").",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bcbe585f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the workshop today, so it was 0 weeks ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_21adecb5",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history shows you completed your undergraduate degree (in conversation [1]) and submitted your master's thesis \"today\" (in conversation [2]), but neither message includes specific dates, so the number of months between the two events cannot be determined.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5e1b23de",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the photography workshop today, not months ago \u2014 so 0 months ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_98f46fc6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The charity bake sale \u2014 it was held today, while the charity gala is tonight, so the bake sale came first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_af6db32f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You watched the Super Bowl today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eac54adc",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You signed your contract with your first client on the same day you mentioned it in message [1], but your website launch is referenced later in message [2] as having \"just launched.\" Based on the history, you signed your first client contract before launching your website, so at the time you signed that contract, your website had not yet been launched.\n\nTherefore, I don't know a number of days \u2014 the website was launched after you signed the first client contract, not before.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7ddcf75f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You went whitewater rafting today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a2d1d1f6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Today \u2014 you harvested your first batch of fresh herbs earlier today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_85da3956",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You just got back from the \"Summer Nights\" festival, so you attended it less than a week ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b0863698",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You participated in the 5K charity run today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94287",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Your post about the vegan chili recipe happened first. You shared it \"yesterday,\" while you participated in the #PlankChallenge \"today.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Both events happened \"today\" \u2014 the mountain bike flat tire fix and the decision to upgrade to clipless Shimano Ultegra pedals were each described as done that same day. So 0 days passed between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7ca326fa",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Rachel graduated first, Alex second, and Emma third.\n\n- Rachel's graduation was \"yesterday\" relative to conversation [3], where John graduated \"today.\"\n- Alex graduated \"about two weeks ago\" relative to conversation [2].\n- Emma graduated \"yesterday\" relative to conversation [1].\n\nAnchoring to Emma's late-May Saturday graduation: Alex graduated roughly two weeks before, and Rachel graduated even earlier (the day before John's same-day graduation, which predates Emma's). So the order is **Rachel first, Alex second, Emma third**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7bc6cf22",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You read it today, so 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c92",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "\"The Nightingale\" by Kristin Hannah.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84g",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Spring Sprint Triathlon.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017277",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Your great-grandmother \u2014 the same source as the crystal chandelier (passed down via your aunt).\n\nWait \u2014 I need to correct that. The history mentions you received a crystal chandelier from your aunt, but there is no mention of receiving any jewelry.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ee",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aec",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe history mentions a gardening workshop you attended \"recently\" and saplings you planted \"today,\" but nothing is described as happening specifically two weeks ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "JetBlue \u2014 you took a red-eye flight on JetBlue from San Francisco to Boston.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59149c78",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Museum of Modern Art (MoMA).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Your mountain bike \u2014 you fixed the flat tire by replacing the inner tube and cleaned the chain.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Your cousin's wedding, where you were a bridesmaid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb064",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You met with Emma, a freelance writer who is now a potential collaborator for a project you're working on.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b82",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "A chocolate cake for your friend's birthday party.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eac54add",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You signed a contract with your first client.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4dfccbf8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You started taking ukulele lessons with Rachel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bc8ad93",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Yes, you visited with a friend \u2014 specifically a friend who is a chemistry professor, during the behind-the-scenes tour of the Science Museum.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6e984302",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You bought a set of sculpting tools, including a modeling tool set, a wire cutter, and a sculpting mat.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba03",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "A smoker.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca0",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Episcopal Church (where you attended the Maundy Thursday service).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94288",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You participated in the #PlankChallenge.",
+          "autoeval_label": "CORRECT"
+        }
+      ]
+    },
+    {
+      "config": "claude-opus-4-8|temporal_cot|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 133,
+          "qa_acc": 0.3308,
+          "labels": {
+            "CORRECT": 39,
+            "INCORRECT": 89,
+            "ABSTAIN": 5
+          }
+        },
+        "by_question_type": {
+          "temporal-reasoning": {
+            "n": 133,
+            "qa_acc": 0.3308,
+            "labels": {
+              "CORRECT": 39,
+              "INCORRECT": 89,
+              "ABSTAIN": 5
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "gpt4_2655b836",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events:\n- Car serviced for the first time: \"March 15th\"\n- GPS system issue: \"3/22\"\n\nThe first service was on March 15th, and the GPS issue occurred on 3/22 (March 22nd), which is after the first service.\n\nDate subtraction: March 22nd \u2212 March 15th = 7 days.\n\nThe first issue you had with your new car after its first service was the **GPS system problem on 3/22**, which the dealership fixed by replacing the entire system \u2014 occurring 7 days after your first service.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2487a7cb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracted events with dates:\n- \"Data Analysis using Python\" webinar \u2014 \"two months ago\" (this is a relative reference, not a calendar date)\n- \"Effective Time Management\" workshop \u2014 no mention anywhere in the history\n\nThe conversation history contains no reference to an \"Effective Time Management\" workshop, and the only dating given for the webinar is the relative phrase \"two months ago.\" With no calendar dates for either event (and one event not appearing at all), no date subtraction can be performed.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_76048e76",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Bike taken in for repairs (gears acting up): \"in mid-February\"\n- No other February event with a date is mentioned for the car.\n\nThe history only mentions one February event \u2014 taking the bike in for repairs in mid-February. There is no February date given for the car.\n\nAnswer: The bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2312f94c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Dell XPS 13 pre-ordered: \"January 28th\"\n- Dell XPS 13 original expected arrival: \"February 11th\"\n- Dell XPS 13 actually arrived: \"February 25th\"\n- Samsung Galaxy S22 obtained: \"February 20th\"\n\nThe question compares when each device was actually received:\n- Samsung Galaxy S22 received: February 20th\n- Dell XPS 13 received: February 25th\n\nSubtraction: February 25th \u2212 February 20th = 5 days.\n\nYou got the **Samsung Galaxy S22 first** (February 20th), 5 days before the Dell XPS 13 arrived (February 25th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bb5a684",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Workshop on \"Effective Communication in the Workplace\": \"January 10th\"\n- The upcoming team meeting being prepared for / session date: \"2023/01/13\"\n\nThe two events compared: workshop (January 10th) and the team meeting (January 13th).\n\nSubtraction: January 13th \u2212 January 10th = 3 days.\n\nThe workshop was attended **3 days** before the team meeting.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "08f4fc43",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and dates:\n- Sunday mass at St. Mary's Church: January 2nd\n- Ash Wednesday service at the cathedral: February 1st\n\nSubtraction:\n- January 2nd \u2192 January 31st = 29 days\n- January 31st \u2192 February 1st = 1 day\n- Total: 29 + 1 = 30 days\n\n**30 days** passed between the Sunday mass at St. Mary's Church (January 2nd) and the Ash Wednesday service at the cathedral (February 1st).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2c63a862",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Started working with Rachel: \"2/15\" (February 15th)\n- The conversation/session date: \"2022/03/02\"\n\nThe question asks how many days after starting with Rachel (February 15th) did you find a house you loved. However, the conversation history contains no event describing you finding a house you loved \u2014 there is no such date mentioned.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_385a5000",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Marigold seeds arrived and were started: \"March 3rd\"\n- Tomatoes: no explicit start date is mentioned anywhere in the history.\n\nSince only the marigolds have a stated start date (\"March 3rd\") and the tomatoes have no date provided, there is no date for the tomatoes to compare against. Based on the only dated planting event in the history, the marigolds were started on March 3rd.\n\nThe marigolds were started first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2a1811e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Holi celebration: February 26th\n- Sunday mass at St. Mary's Church: no date mentioned anywhere in the history.\n\nSince the history contains no date (or any reference at all) for a Sunday mass at St. Mary's Church, the subtraction cannot be performed.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bbf86515",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates in the history:\n- \"Turbocharged Tuesdays\" event \u2014 June 14th\n- \"Racing Nationals\" event \u2014 August (no specific calendar date given)\n\nThe question asks about a \"Rack Fest\" event. There is no \"Rack Fest\" event mentioned anywhere in the conversation history, and therefore no date to compare against.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_5dcc0aab",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events mentioned:\n- Outdoor music festival attended: \"the 15th\"\n- Cleaned white Adidas sneakers: \"last month\"\n- Bought black and white Vans Old Skool sneakers: \"last weekend\"\n\nThe question asks which pair of shoes was cleaned last month.\n\nAnswer: You cleaned your white Adidas sneakers last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0b2f1d21",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n\n- Coffee maker purchased: stated on 2023/05/22 as \"about three weeks ago\" \u2192 approximately 2023/05/01.\n- Stand mixer taken to repair shop (malfunction): stated on 2023/05/22 (session 2) as \"last month\" \u2192 April 2023.\n\nComparison:\n- Coffee maker purchase \u2248 May 1st, 2023\n- Stand mixer malfunction \u2248 April 2023 (last month)\n\nSubtraction: May 1st minus an April date = the April event is earlier.\n\nThe malfunction of the stand mixer happened first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f0853d11",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates in the history:\n- \"Walk for Hunger\" 5K walk: February 21st\n- \"Coastal Cleanup\" event: no date mentioned anywhere in the history.\n\nSince the \"Coastal Cleanup\" event is never mentioned in the conversation history, there is no date to compare against.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_6ed717ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Session date: \"2023/05/20\"\n- Training pads for Luna: bought \"about a month ago\" \u2192 roughly April 20th (2023/05/20 minus ~1 month)\n- Dog bed for Max: bought \"3 weeks ago\" \u2192 roughly April 29th (2023/05/20 minus 21 days = April 29th)\n\nSubtraction:\n- Training pads: ~April 20th\n- Dog bed: April 29th\n- April 29th \u2212 April 20th = 9 days\n\nThe training pads for Luna were purchased first, about 9 days before the dog bed.\n\n**You purchased the training pads for Luna first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n\n- Fixing the broken fence: \"three weeks ago\" relative to session date 2023/05/22 \u2192 2023/05/01.\n- Trimming the goats' hooves: \"two weeks ago\" relative to session date 2023/05/22 \u2192 2023/05/08.\n\nDate subtraction:\n- May 8th \u2212 May 1st = 7 days.\n\nThe fence (May 1st) came 7 days before the hoof trimming (May 8th).\n\nYou completed fixing the fence first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3838d2b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- \"Run for the Cure\" event: October 15th\n- \"Dance for a Cause\" event: May 1st\n\nThe \"Dance for a Cause\" event (May 1st) occurred before the \"Run for the Cure\" event (October 15th).\n\nThat is 1 charity event participated in before the \"Run for the Cure\" event.\n\n**Answer: 1**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history only states that you've been working at NovaTech for about 4 years and 3 months, but it contains no information about any work experience before you started at NovaTech, nor any explicit calendar dates to compute from.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2d58bcd6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and dates:\n\n- Conversation/session date: 2023/05/22 (Monday)\n- Book club meeting (finished \"The Hate U Give\" a few days before): \"two weeks ago\" \u2192 2023/05/22 \u2212 14 days = 2023/05/08\n- Finished \"The Nightingale\" (along with two other novels): \"last weekend\" \u2192 the weekend before Monday 2023/05/22, i.e., 2023/05/20\u201305/21\n\nComparison:\n- \"The Hate U Give\": finished around May 8th, 2023\n- \"The Nightingale\": finished around May 20th, 2023\n\nSubtraction: May 20th \u2212 May 8th = 12 days.\n\n\"The Hate U Give\" was finished first, about 12 days before \"The Nightingale.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_65aabe59",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history only mentions the mesh network system being set up (an upgrade the user made), but it contains no date for that event, and there is no mention of a smart thermostat at all. With no dates and no reference to one of the two devices, I cannot determine which was set up first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "982b5123",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Event extracted: The user booked the Airbnb \"three months in advance\" of staying in Haight-Ashbury for their best friend's wedding. However, the conversation provides no explicit calendar date for when that booking occurred \u2014 only that it was \"three months in advance\" of an unstated wedding date.\n\nSince there is no explicit calendar date given for the booking event (and the relative phrase \"three months in advance\" refers to the gap before the wedding, not how long ago the booking was made from today), there is no date to subtract from.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b9cfe692",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The user finished \"The Seven Husbands of Evelyn Hugo\" in two and a half weeks (2.5 weeks) and \"The Nightingale\" in three weeks (3 weeks).\n\nCombined: 2.5 weeks + 3 weeks = 5.5 weeks.\n\nThe final answer is **5.5 weeks** (38.5 days).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4edbafa2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Attended backyard BBQ party at colleague's house: \"the 3rd of June\"\n- Made Korean-style BBQ dish: \"the 10th of June\"\n\nThe first BBQ event in June was attending the backyard BBQ party at the colleague's house, which occurred on **June 3rd**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8090214",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking through the conversation history, the only dated events I can extract are:\n\n- iPhone 13 Pro purchase: on Black Friday (which in 2023 was November 24th)\n- Session date: 2023/12/10\n\nThere is no mention anywhere in the conversation of attending a \"Holiday Market.\" Since the history contains no information about that event, I cannot compute the number of days.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_483dd43c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and dates:\n\n- Started watching \"The Crown\": session dated 2023/05/20, finished it in 14 days. The session message says \"I just finished binge-watching the third season... finished the entire season in just 14 days.\" So finished on 2023/05/20, meaning started 14 days earlier = May 6th (2023/05/20 \u2212 14 days = 2023/05/06).\n- Started watching \"Game of Thrones\": session dated 2023/05/20, \"I finally started it about a month ago\" = roughly 2023/04/20.\n\nCompare the two start dates:\n- The Crown start: May 6th (2023/05/06)\n- Game of Thrones start: about April 20th (2023/04/20)\n\nSubtraction: 2023/05/06 \u2212 2023/04/20 = 16 days.\n\nGame of Thrones was started first, about 16 days before The Crown.\n\n**You started watching 'Game of Thrones' first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e4e14d04",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The events are described only with relative time expressions, not explicit calendar dates:\n\n- Joined \"Book Lovers Unite\": \"three weeks ago\"\n- Attended the meetup: \"last week\"\n\nNeither event has an explicit calendar date quoted in the conversation, so I cannot perform a date subtraction. However, using the relative references: joining was three weeks ago, and the meetup was one week ago.\n\nThree weeks ago minus one week ago = 2 weeks = **14 days**.\n\nYou had been a member of \"Book Lovers Unite\" for **14 days** when you attended the meetup.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c9f37c46",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit dates:\n\n- Session/conversation date: \"2023/05/27\"\n- User started watching stand-up: \"about 3 months ago\" from the session date of 2023/05/27 \u2192 approximately 2023/02/27\n\nThe question compares the start of watching stand-up to attending the open mic night. However, scanning the entire history, there is no event with an explicit date for attending an open mic night at the local comedy club \u2014 the user only discusses plans to attend open mics in the future, never reporting an actual attendance with a date.\n\nSince one of the two events being compared has no stated date in the history, the day-subtraction cannot be computed.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2c50253f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Session answer_9af4e346_2: Date 2023/05/30 (Tue)\n- Session answer_9af4e346_1: Date 2023/05/30 (Tue)\n\nOn Tuesdays and Thursdays, you wake up 15 minutes earlier than your usual 7:00 AM wake-up time, which means you wake up at **6:45 AM**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dcfa8644",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Played basketball in sneakers: February 1st\n- Converse shoelace broke: January 24th\n- Office party (Rachel's stilettos, brown leather boots): February 5th\n- Brother returned Vans: February 10th\n- Adidas running shoes purchase: no explicit date given in the history.\n\nThe question compares the Adidas purchase date with the Converse shoelace break (January 24th). However, the history never states an explicit date for when the Adidas running shoes were bought.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b4a80587",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- New 50mm f/1.8 prime lens: \"got a month ago\" \u2014 but no explicit calendar date is given.\n- Coastal trip: no explicit calendar date is given.\n\nNeither event has an explicit calendar date, but the history tells us the lens was acquired \"a month ago,\" and the user took that lens with them on the coastal trip (\"I took it with me on the coastal trip\"). Since the lens existed before being taken on the trip, the lens arrival came first.\n\nAnswer: The arrival of the new prime lens happened first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_9a159967",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n\n- Las Vegas conference flight with Southwest Airlines: \"in March, from the 15th to the 18th\" (March 15th\u201318th).\n- Planned San Francisco trip with Southwest Airlines: \"from the 10th to the 14th of next month\" \u2014 session date is 2023/04/27, so \"next month\" relative to the planning is the only Southwest-related upcoming trip; the actual flown March trip is the concrete one.\n- United Airlines: \"flying to Las Vegas soon\" and \"accumulated around 20,000 miles over the past three months\" \u2014 no specific March or April date given for a flight.\n\nThe only dated flights in March/April are the Southwest Airlines flights (March 15th\u201318th to Las Vegas, and the planned April trip to San Francisco). United is mentioned only in terms of past miles and a future intention, with no dated flight in March or April.\n\n**Answer: Southwest Airlines.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "cc6d1ec1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions a birder's meetup with a guided walk, but it contains no explicit calendar dates for when bird watching began or when any workshop was attended. Without dates, the number of days cannot be computed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8c8961ae",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and their dates:\n- Solo trip to Thailand: \"last year\" (relative to session date 2023/05/23, so 2022)\n- Europe trip with family: \"just last month\" (relative to session date 2023/05/23, so April 2023)\n\nComparison:\n- Thailand: last year (2022)\n- Europe: last month (April 2023)\n\nSince 2022 comes before April 2023, the Thailand trip happened first.\n\n**You took the solo trip to Thailand first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d9af6064",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Smart thermostat set up: \"2/10\" (February 10th)\n- New router obtained: \"January 15th\"\n\nComparison:\n- January 15th vs February 10th\n- February 10th \u2212 January 15th = 26 days later (January has 31 days: 31 \u2212 15 = 16 days remaining in January + 10 days in February = 26 days)\n\nThe new router (January 15th) came first, 26 days before the smart thermostat (February 10th).\n\n**You set up the new router first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7de946e7",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Antibiotics finished (for bronchitis/cough): \"February 20th\"\n- Skin tag removal on neck: \"February 22nd\"\n- Follow-up for persistent cough: \"March 1st\"\n\nThe persistent cough relates to the bronchitis treatment, with antibiotics finished on February 20th (the cough being present before and during that treatment). The skin tag removal occurred on February 22nd.\n\nDate subtraction: February 22nd \u2212 February 20th = 2 days.\n\nThe persistent cough came first, occurring before the skin tag removal on February 22nd.\n\n**You dealt with the persistent cough first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d01c6aa8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history contains no event with an explicit date indicating when you moved to the United States. It only mentions that you are a 32-year-old male, but there is no information about a move date or your age at the time of any such move.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "993da5e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n\n- Session/current conversation date: \"2023/05/30\"\n- Furniture rearranged: \"three weeks ago\" \u2192 three weeks before 2023/05/30 = 2023/05/09 (\"May 9th\")\n- The area rug: described as \"new\" at the time of rearranging, but the history provides **no explicit calendar date** for when the area rug was acquired or first used.\n\nSince there is no explicit date given for when you started using the new area rug, I cannot perform a date subtraction between the rug's start date and the furniture rearrangement date.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a3045048",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Ordered the photo album: \"the 15th of April\"\n- Photo album arrived / friend's birthday party: \"the 20th\" (April 20th)\n\nSubtraction: April 20th \u2212 April 15th = 5 days.\n\nYou ordered her gift **5 days** before her birthday party.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d31cdae3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Family road trip across the American Southwest (including the Grand Canyon): described as \"a few years ago\" \u2014 before the present.\n- Solo trip to Europe: not mentioned anywhere in the history.\n\nThe conversation only references the family road trip across the American Southwest (\"a few years ago\"). There is no mention of a solo trip to Europe.\n\nBased on what is in the history, the family road trip across the American Southwest came first, as it is the only past trip described (\"a few years ago\"), occurring before any current/future plans.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_cd90e484",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and dates:\n- Conversation/current date: 2023/05/26 (Friday)\n- Got new binoculars: \"exactly three weeks ago\" \u2192 three weeks before May 26th = May 5th\n- Saw American goldfinches returning (during the neighborhood walk): \"a week ago\" \u2192 one week before May 26th = May 19th\n\nDate subtraction:\n- Binoculars acquired: May 5th\n- Goldfinches seen: May 19th\n- May 19th \u2212 May 5th = 14 days\n\nFinal answer: 14 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_88806d6e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history contains no explicit calendar dates for meeting Mark and Sarah, and Tom is not mentioned anywhere in the history. Without any dates or references to compare, I cannot determine who was met first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4cd9eba1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Application submitted: \"February 10th\"\n- Accepted into exchange program: \"March 20th\"\n- Started attending pre-departure orientation sessions: \"since 3/27\"\n\nComparison: acceptance (March 20th) \u2192 start of orientation sessions (March 27th).\n\nSubtraction: March 27th \u2212 March 20th = 7 days = 1 week.\n\nFinal answer: **1 week.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_93f6379c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history only mentions the \"Marketing Professionals\" group, with no calendar date for when it was joined, and contains no reference to a \"Page Turners\" group at all. With no dates or mention of \"Page Turners,\" there is no basis to determine which was joined first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b29f3365",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with dates:\n\n- Session/conversation date: \"2023/05/27\"\n- New amp purchased: \"two weeks ago\" (relative to 2023/05/27) \u2192 around May 13th, 2023\n- Ukulele purchased: \"about a month ago\"\n- Blues workshop: \"recently\" (no date)\n\nThe question asks how long the user had been taking **guitar lessons** when they bought the new amp. Searching the history: the user mentions online lessons for the **ukulele**, attending a blues workshop, and buying a new amp \u2014 but there is no mention anywhere of taking guitar lessons or any date associated with starting guitar lessons.\n\nThere is no event in the history about guitar lessons to compare against the amp purchase date.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f56ae70",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Relevant event extracted from the history:\n- Apple TV+: \"using Apple TV+ for a few months now\" (mentioned in [3]) \u2014 no explicit calendar date given.\n\nThe only streaming service the user mentions starting recently is Apple TV+, which they've been using \"for a few months now.\"\n\nAnswer: Apple TV+.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6613b389",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the conversation history, I need to find dates for two events: Rachel's engagement and the user's wedding anniversary.\n\n**Events with dates:**\n- User's wedding anniversary: \"coming up on July 22nd\" (from [2])\n- Rachel's engagement: No explicit calendar date is given for when Rachel got engaged. The history mentions the engagement repeatedly but never states a date for it.\n\nSince the conversation history does not provide an explicit date for Rachel's engagement, I cannot compute the number of months between her engagement and the July 22nd anniversary.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_78cf46a3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with dates.\n\nEvents:\n- Phone case received: \"about a month ago\" relative to session date 2023/05/29 \u2192 approximately late April 2023.\n- Losing the phone charger: discussed in the session about buying a new charger; no explicit date is given, but the discussion implies it was recent (a recent loss prompting the immediate purchase conversation).\n\nComparison:\n- Phone case received: about a month before May 29, 2023 \u2192 ~April 29, 2023.\n- Charger lost: recent (around the time of the charger conversation, late May 2023).\n\nSubtraction: April 29, 2023 to late May 2023 \u2248 about 30 days later for the charger loss.\n\nTherefore, the narrator received their new phone case first (about a month ago), before losing their phone charger (which was a more recent event).\n\n**The narrator received their new phone case first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0a05b494",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit dates:\n\n- Met the tourist from Australia: \"last Thursday\" \u2014 this is a relative reference, not an explicit calendar date.\n- Met the barista: \"a few weeks ago\" \u2014 relative, no explicit date.\n- Met the personal trainer: \"a few days ago\" \u2014 relative, no explicit date.\n- The woman selling jam at the farmer's market: not mentioned anywhere in the history.\n\nThe conversation history contains no mention of a woman selling jam at a farmer's market, so there is no event to compare against the tourist meeting.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1a1dc16d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and dates:\n- Meeting with Rachel: \"April 10th\"\n- Pride parade: \"May 1st\"\n\nComparison: April 10th vs. May 1st.\n\nApril 10th comes before May 1st.\n\nThe meeting with Rachel happened first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2f584639",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Photo album from Shutterfly ordered: \"two weeks ago\" \u2014 but no explicit calendar date is given; the only explicit date is that it \"arrived on Wednesday.\"\n- Necklace from Tiffany's: no explicit calendar date given.\n\nNeither gift has an explicit calendar date attached, so I cannot perform a date subtraction. However, based on the relative timing stated: the photo album was ordered \"two weeks ago,\" and the necklace was bought for the upcoming birthday dinner \"this weekend.\"\n\nTherefore, you bought the **photo album for your mom** first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_213fd887",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and dates:\n- Current session date: 2023/05/20 \u2014 not used as an event date.\n- Charity 5K run: \"about a month ago\" relative to 2023/05/20, so approximately April 20th, 2023.\n- Volleyball league: described as ongoing (\"I've been playing volleyball regularly\") with no explicit start date given, indicating it had been happening before the 5K run.\n\nThe charity 5K run occurred about a month ago (\u2248 April 20th, 2023), while the volleyball was already an established, ongoing activity at that point.\n\nAnswer: You participated in the volleyball league first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5438fa52",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Cultural festival attendance: \"yesterday\" \u2014 no explicit calendar date given.\n- Start of Spanish classes: \"for the past three months\" \u2014 no explicit calendar date given.\n\nNeither event has an explicit calendar date, but we can reason from the relative time references. The festival was \"yesterday\" (1 day ago), while the Spanish classes started \"three months ago.\" Three months is far earlier than yesterday.\n\nTherefore, the start of the Spanish classes happened first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_c27434e8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the history, I can find a date reference for only one project:\n\n- Ferrari 288 GTO model: \"I started building this model about three weeks ago, on a Sunday afternoon\" (reference [4]).\n- Japanese Zero fighter plane model: No start date or relative time reference is given anywhere in the history.\n\nBecause no comparable start date exists for the Japanese Zero fighter plane, I cannot perform a date subtraction between the two projects.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fe651585",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Rachel became a parent when the twins Jackson and Julia were born \u2014 \"February 12th\"\n- Alex adopted a baby girl from China \u2014 \"in January\"\n\nComparison: January comes before February 12th.\n\nDate subtraction: February 12th \u2212 January (treat as January 12th) = 31 days earlier.\n\nAlex became a parent first (about 31 days before Rachel).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8c18457d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events:\n- Brother's graduation gift (wireless headphone): \"3/8\" = March 8th\n- Best friend's 30th birthday gift (silver necklace): \"the 15th of March\" = March 15th\n\nSubtraction: March 15th \u2212 March 8th = 7 days.\n\n**7 days.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Events with explicit dates:\n- Fixing the broken fence: \"three weeks ago\" \u2014 this is a relative date, not a calendar date.\n- Purchasing three cows from Peter: not mentioned anywhere in the history (the cow is only being considered, not purchased, and Peter is never mentioned).\n\nSince there is no information about purchasing three cows from Peter, I cannot compare the two events.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_93159ced_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "The conversation history contains no event with an explicit calendar date, and there is no mention of a job at Google.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "982b5123_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions an Airbnb in Haight-Ashbury (San Francisco), booked three months in advance, but there is nothing about an Airbnb in Sacramento.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "c8090214_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Events with dates:\n- Holiday Market: \"a week before Black Friday\"\n- iPhone 13 Pro purchase: \"on Black Friday\"\n- 4K TV purchase: \"on Cyber Monday\"\n\nThe question asks about an iPad purchase. There is no iPad purchase mentioned anywhere in the conversation history.\n\nI don't know.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_c27434e8_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions the Ferrari 288 GTO model (started \"about three weeks ago, on a Sunday afternoon\") and references an airfield diorama, but there is no mention of a Porsche 991 Turbo S model or any date associated with it. Without any information about the Porsche project, I cannot compare the two start dates.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "gpt4_fe651585_abs",
+          "question_type": "temporal-reasoning",
+          "is_abstention": true,
+          "sme_category": "cat_1_negative",
+          "hypothesis": "Events with dates:\n- Alex adopted a baby girl from China \u2014 \"in January\"\n- Jackson and Julia (the twins) were born \u2014 \"February 12th\"\n\nThe question compares Tom and Alex becoming parents. The only dated parenthood event tied to a named person is Alex, who adopted in January. There is no event in the history attributed to anyone named \"Tom\" \u2014 the twins' birth on February 12th belongs to the user's sister-in-law Rachel/brother, not Tom.\n\nComparing the available dated event (Alex, January) against the next dated event (February 12th):\n- Alex: January\n- February 12th comes after January\n\nAlex became a parent first, in January \u2014 before the February 12th date.\n\n**Alex.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59149c77",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit dates:\n\n- Visit to the \"Ancient Civilizations\" exhibit at the Metropolitan Museum of Art \u2014 described as happening \"today,\" but no explicit calendar date is given.\n- Guided tour at the Museum of Modern Art (MoMA) \u2014 \"just got back,\" but no explicit calendar date is given.\n\nNeither event has an explicit calendar date stated in the conversation history, so the number of days between them cannot be computed by date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f49edff3",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with their explicit dates:\n\n- Helped friend prepare nursery: \"today\" (no explicit calendar date given)\n- Helped cousin pick out baby shower stuff: \"just helped\" (no explicit calendar date given)\n- Ordered customized phone case: \"today\" (no explicit calendar date given)\n\nNone of these three events have explicit calendar dates stated in the conversation history. They are all described only as \"today\" or \"just,\" with no actual dates to compare.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017276",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the history, the only dated event is receiving the crystal chandelier from the aunt, described as happening \"today.\"\n\nSince the chandelier was received today, that is 0 days ago, which equals 0 weeks ago.\n\n**0 weeks ago.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ed",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history does not contain any explicit calendar dates for any of the charity events mentioned. Each event is referred to only as happening \"today,\" with no specific dates given. Without explicit dates, I cannot identify two consecutive-day events or compute the number of months that have passed.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with relevant timing:\n- Started playing along to favorite songs on old keyboard: \"today\" (message [1])\n- Discovered a bluegrass band: \"today\" (message [2])\n\nBoth events are described as happening \"today.\" Therefore the two dates are the same day.\n\nSubtraction: same day \u2212 same day = 0 days.\n\nFinal answer: 0 days.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0bc8ad92",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Behind-the-scenes tour of the Science Museum (with a friend, the chemistry professor): \"today\" \u2014 no explicit calendar date given.\n- Guided tour at the Natural History Museum (with my dad): \"yesterday\" \u2014 no explicit calendar date given.\n\nThe question asks about the last museum visit with a *friend*, which is the Science Museum tour described as happening \"today.\" However, the history provides no explicit calendar date for this event \u2014 only the relative term \"today\" \u2014 and no explicit current date is given to subtract from.\n\nSince there are no two explicit calendar dates to subtract, the number of months cannot be computed.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "af082822",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- The conversation does not provide an explicit calendar date for the Nordstrom friends and family sale. It only says it happened \"Yesterday.\"\n- No other explicit calendar dates are mentioned in the history.\n\nBecause there is no explicit calendar date given for the Nordstrom sale (only \"Yesterday\") and no anchor date is provided, I cannot perform a date subtraction to compute the number of weeks.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293a",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Cousin's wedding: \"today\" (message [3]) \u2014 no explicit calendar date given.\n- Michael's engagement party: \"today\" (message [2]) \u2014 no explicit calendar date given.\n\nBoth events are described as happening \"today\" within the conversation, with no explicit calendar dates provided to distinguish them. However, the references to attending the cousin's wedding as a bridesmaid appear across multiple messages [1], [3] as a reflective, completed experience, while Michael's engagement party [2] is also stated as \"today.\"\n\nSince neither has an explicit calendar date, I must rely on the content. The cousin's wedding is referenced as the foundational, earlier experience that got the planning started, while Michael's engagement party is mentioned later as an additional prompt.\n\nThe cousin's wedding happened first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Maundy Thursday service at the Episcopal Church: \"today\" (no explicit calendar date given)\n- Easter Egg Hunt event: \"last week\" (no explicit calendar date given)\n\nThe history states the Maundy Thursday service was attended \"today\" but provides no explicit calendar date for it, and no current date is given to subtract from.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b81",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Baking class at a local culinary school: \"yesterday\" (relative to message [1])\n- Baked a chocolate cake for friend's birthday party: \"today\" (relative to message [3])\n\nThe baking class was \"yesterday\" and the birthday cake was made \"today.\" That means the baking class was 1 day before making the birthday cake.\n\nSubtraction: today \u2212 yesterday = 1 day.\n\nFinal answer: **1 day**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1d4ab0c9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with their dates:\n- Harvested first batch of fresh herbs: \"today\" (message [1])\n- Started watering herb garden every morning: \"today\" (message [2])\n\nBoth events are described as happening \"today,\" with no explicit calendar dates given. They occur on the same day.\n\nSubtraction: same day \u2212 same day = 0 days.\n\nFinal answer: 0 days.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e072b769",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the conversation history, I need to find when the user started using Ibotta.\n\nIn message [1], the user states: \"I've just downloaded Ibotta, a cashback app.\"\n\nThe word \"just\" indicates this happened essentially now, but there is no explicit calendar date given for when Ibotta was downloaded. There is no date stated anywhere in the conversation for this event.\n\nSince the history contains no explicit calendar date for when the user started using Ibotta, I cannot perform a date subtraction to compute the number of weeks ago.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0db4c65d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events and their dates:\n\n- Finished reading \"The Seven Husbands of Evelyn Hugo\": \"today\" (message [2]) \u2014 no explicit calendar date given.\n- Attended book reading event at the local library: \"today\" (message [1]) \u2014 no explicit calendar date given.\n\nBoth events are described only as \"today,\" with no explicit calendar dates provided in the conversation history. Without explicit dates to subtract, the number of days between them cannot be computed.\n\nHowever, both events are stated to have occurred \"today,\" meaning they happened on the same day.\n\nThe number of days that had passed: **0 days.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1d80365e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the events with explicit dates:\n\n- Solo camping trip to Yosemite National Park: stated as \"today\" (in [1] \"I just started my solo camping trip to Yosemite National Park today\"; in [2] \"I just got back from an amazing solo camping trip to Yosemite National Park today\").\n\nThe history contains no explicit calendar dates for the start and end of the trip \u2014 both the start and the return are described only as \"today,\" with no numeric or named dates given to subtract.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7f6b06db",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with dates.\n\n- Day hike to Muir Woods National Monument: \"today\" (mentioned in [1] and [2]) \u2014 no explicit calendar date given.\n- Road trip to Big Sur and Monterey: \"today\" (mentioned in [3]) \u2014 no explicit calendar date given.\n- Solo camping trip to Yosemite: \"recently\" (mentioned in [3]) \u2014 no explicit calendar date given.\n\nNone of the three trips (Muir Woods, Big Sur/Monterey, Yosemite) are tied to any explicit calendar date in the conversation history, so the chronological order cannot be determined from dates.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_6dc9b45b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The conversation history states you saw \"Coda\" at the Seattle International Film Festival \"today,\" but it never provides an explicit calendar date for that event, nor a reference current date to compute against.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba02",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The conversation does not provide an explicit calendar date for buying the smoker \u2014 message [1] only says \"I just got a smoker today\" without stating a date.\n\nSince no explicit calendar date is given for the smoker purchase, I cannot compute the number of days.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_18c2b244",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with their explicit dates:\n\n- \"I signed up for the rewards program at ShopRite\" \u2014 \"today\" (event [1], no explicit calendar date)\n- \"I used a Buy One Get One Free coupon on Luvs diapers at Walmart\" \u2014 \"today\" (event [2], no explicit calendar date)\n- \"I redeemed $12 cashback for a $10 Amazon gift card from Ibotta\" \u2014 \"today\" (event [3], no explicit calendar date)\n\nAll three events are stated as occurring \"today,\" with no explicit calendar dates provided to distinguish them. Since no datable distinction exists between them, the only ordering available is the sequence in which they appear in the conversation history:\n\n1. I signed up for the rewards program at ShopRite\n2. I used a Buy One Get One Free coupon on Luvs diapers at Walmart\n3. I redeemed $12 cashback for a $10 Amazon gift card from Ibotta",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a1b77f9c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with their dates.\n\nEvents mentioned:\n- \"I just started listening to 'Sapiens: A Brief History of Humankind' ... today\" \u2014 [1] dated \"today\"\n- \"I started reading 'The Nightingale' by Kristin Hannah today\" \u2014 [2] dated \"today\"\n- \"I just finished reading 'The Nightingale' by Kristin Hannah today\" \u2014 [3] dated \"today\"\n- \"I started listening to 'The Power' by Naomi Alderman today\" \u2014 [4] dated \"today\"\n- \"I just finished listening to 'The Power' by Naomi Alderman today\" \u2014 [5] dated \"today\"\n\nNone of these events contain an explicit calendar date \u2014 they are all stated as \"today\" with no calendar date written anywhere in the conversation. Without explicit dates to subtract, the number of days (and therefore weeks) spent cannot be computed.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1916e0ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation mentions cancelling the FarmFresh subscription (event [1]) and the Instacart online grocery order, which was done \"today\" with about $60 spent (event [2]), but neither event is given an explicit calendar date. Without dates for these events, I cannot compute the number of days between them.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7a0daae1",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Bought new tennis racket: \"today\" (no explicit calendar date given)\n- Received new tennis racket: \"today\" (no explicit calendar date given)\n\nNeither event has an explicit calendar date in the conversation history \u2014 both are described only as \"today.\" Without explicit dates, the number of days (and weeks) cannot be computed by date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb063",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Digital marketing workshop with Rachel Lee: \"last week\" (no explicit calendar date given)\n- Lunch with Emma: \"today\" (no explicit calendar date given)\n\nThe meeting with Emma is described as happening \"today,\" meaning it occurred 0 days ago.\n\nFinal answer: 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7abb270c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions six museums you visited:\n1. Science Museum (\"Space Exploration\" exhibition)\n2. Museum of Contemporary Art (Dr. Maria Rodriguez lecture series)\n3. Natural History Museum (\"Dinosaur Fossils\" exhibition)\n4. Modern Art Museum (\"The Evolution of Abstract Expressionism\")\n5. Metropolitan Museum of Art (Ancient Egyptian Artifacts)\n6. Children's Museum (planned/considered)\n\nHowever, none of these visits are given explicit calendar dates in the conversation history\u2014they are only described with relative terms like \"today\" and \"recently.\" Without explicit dates to subtract or compare, I cannot determine the chronological order from earliest to latest.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aeb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Planted 12 new tomato saplings: \"today\" (message [1])\n- Attended a gardening workshop: \"today\" (message [2])\n\nBoth events are stated as happening \"today,\" with no explicit calendar dates given and no indication they occurred on different days.\n\nWorkshop date = today; Tomato sapling date = today.\nSubtraction: today \u2212 today = 0 days.\n\nFinal answer: 0 days.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4fc4f797",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with explicit dates.\n\nEvents with explicit dates:\n- \"Track Day Frenzy\" event at VIR \u2014 May 15th\n- The open track day to test the new suspension setup \u2014 \"tomorrow\" (no explicit calendar date)\n- Receiving feedback from judges that the suspension was too soft \u2014 no explicit calendar date\n\nNeither the day the feedback was received nor the day the new suspension was tested is given an explicit calendar date in the conversation. The only dated event is the \"Track Day Frenzy\" on May 15th, which is neither of the two events being compared.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4dfccbf7",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the events:\n\n- Started ukulele lessons: \"today\" in message [1] \u2014 but no explicit calendar date is given.\n- Took Taylor GS Mini to the guitar tech: \"today\" in message [2] \u2014 but no explicit calendar date is given.\n\nNeither event has an explicit calendar date stated in the conversation history, so I cannot perform a date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_61e13b3c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit dates:\n\n- Event [1]: Sold homemade baked goods at the Farmers' Market \u2014 date given as \"today\" (no explicit calendar date).\n- Event [2]: Participated in the Spring Fling Market \u2014 date given as \"yesterday\" (no explicit calendar date).\n\nNeither event is tied to an explicit calendar date in the conversation history. Without explicit dates, I cannot perform a date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_45189cb4",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with their dates.\n\nEvents mentioned:\n- NBA game (Lakers vs. Chicago Bulls) at Staples Center \u2014 \"today\" (no explicit calendar date given).\n- Kansas City Chiefs defeat Buffalo Bills, NFL Divisional Round \u2014 \"last weekend\" (no explicit calendar date given).\n- College Football National Championship (Georgia 33-18 Alabama) \u2014 \"yesterday\" (no explicit calendar date given).\n\nNone of these events have explicit calendar dates stated in the conversation, so I cannot anchor them to specific January dates or compute date subtractions to determine their chronological order.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c90",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Started \"The Nightingale\" by Kristin Hannah: \"today\" (reference [2])\n- Finished \"The Nightingale\" by Kristin Hannah: \"today\" (reference [1])\n\nBoth the start and the finish of \"The Nightingale\" are stated as happening \"today.\" Subtraction: today \u2212 today = 0 days.\n\nIt took you 0 days \u2014 you started and finished \"The Nightingale\" on the same day.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with explicit dates.\n\n- Event [1]: Spring Sprint Triathlon \u2014 \"today\"\n- Event [2]: company's annual charity soccer tournament \u2014 \"today\"\n- Event [4]: Midsummer 5K Run \u2014 no explicit date given\n\nNone of these events have explicit calendar dates in the conversation history \u2014 they are described only as \"today\" or with no date at all. Without explicit calendar dates, I cannot perform date subtraction or determine a definitive chronological order.\n\nHowever, based on seasonal naming cues that are explicitly part of the event names: the **Spring Sprint Triathlon** (spring), then the company **charity soccer tournament** (annual), then the **Midsummer 5K Run** (midsummer).\n\nOrder from earliest to latest:\n1. Spring Sprint Triathlon\n2. Charity Soccer Tournament\n3. Midsummer 5K Run",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "370a8ff4",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- \"I finally recovered from the flu today\" \u2014 stated as \"today\" in conversation [2], with no explicit calendar date given.\n- \"I went on my 10th jog outdoors today\" \u2014 stated as \"today\" in conversation [1], with no explicit calendar date given.\n\nNeither event is tied to an explicit calendar date in the conversation history, so I cannot perform a date subtraction to compute the number of days/weeks between them.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions several musical events \u2014 a free outdoor concert series in the park (attended \"today\"), a music festival in Brooklyn with friends \u2014 but none of these events are given explicit calendar dates. Without any stated dates, I cannot determine their chronological order.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4ef30696",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Finished reading 'The Nightingale': \"today\" (no explicit calendar date given)\n- Started reading 'The Hitchhiker's Guide to the Galaxy': \"today\" (no explicit calendar date given)\n\nBoth events are stated as happening \"today,\" so they occur on the same day.\n\nDate subtraction: today \u2212 today = 0 days.\n\nFinal answer: 0 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_ec93e27f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Train ride to visit family: \"March 3rd\" (message [3] clarifies \"today\"/\"recently\" as March 3rd)\n- Bus ride to attend a friend's wedding: \"today\" (message [2])\n\nThe train ride to the family is explicitly dated March 3rd. The bus ride to the wedding is described as happening \"today\" in message [2], which comes after message [1]'s same-day train mention but is the most recent stated trip in the conversation flow.\n\nComparing the two: the train ride is anchored to March 3rd, while the bus ride to the wedding is described as having just happened (\"just got back... today\"), placing it after the March 3rd train ride.\n\n**Final answer: A bus** \u2014 the bus ride to the friend's wedding was the most recent mode of transport you used.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6e984301",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n\n- Started sculpting classes \"today\" (message [2]) \u2014 Day 0 (the start of classes).\n- Got own set of sculpting tools \"today\" (message [1]).\n- In message [3]: \"I've been taking sculpting classes at a local art studio for about 6 weeks now.\"\n\nThe classes started on the day mentioned in message [2]. The reference point for \"about 6 weeks now\" tells us the class duration. The question asks how many weeks of classes had passed when the sculpting tools were acquired.\n\nThe most explicit numerical anchor given is \"about 6 weeks now\" of taking classes.\n\nAnswer: **6 weeks.**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8077ef71",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit calendar dates:\n\n- Networking event: \"today\" \u2014 no explicit calendar date given.\n- Meeting: \"Tuesday\" \u2014 no explicit calendar date.\n- Project due: \"end of the week\" \u2014 no explicit calendar date.\n- Weekend downtime, laundry, bank deposit: \"this week\"/\"weekend\" \u2014 no explicit calendar dates.\n\nThe networking event is described only as \"today,\" with no explicit calendar date stated in the history, and I cannot use the current date as its date. Therefore I cannot perform a date subtraction to compute how many days ago it occurred.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- American Airlines flight from New York to Los Angeles: \"February 10th\"\n- Delta round-trip flight from Boston to Atlanta: \"today\" (no explicit calendar date given)\n\nThe only flight with an explicit calendar date is the American Airlines flight from New York to Los Angeles on February 10th. The Delta flight is described only as \"today,\" which I am instructed not to use as an event's date.\n\nSince only one flight has an explicit date, the order of airlines flown before today, from earliest to latest:\n\n1. American Airlines (February 10th)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_8e165409",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Repotted the previous spider plant: \"today\" \u2014 no explicit calendar date given.\n- Gave Mrs. Johnson cuttings from spider plant: \"today\" \u2014 no explicit calendar date given.\n\nNeither event has an explicit calendar date, so the number of days between them cannot be computed by date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_74aed68e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Replaced spark plugs with new NGK ones: \"today\" (message [3])\n- Turbocharged Tuesdays event (completed 10 laps): \"today\" (message [1])\n\nBoth events are described as happening \"today,\" so they occurred on the same date.\n\nSubtraction: today \u2212 today = 0 days.\n\nFinal answer: 0 days.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bcbe585f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Bird watching workshop at the local Audubon society: \"today\"\n- Guided bird walk (saw Yellow Warblers): \"a month and a half ago\"\n\nThe question asks about the workshop, which the history states occurred \"today.\"\n\nTherefore, the workshop was 0 weeks ago \u2014 you attended it today.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_21adecb5",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Completion of undergraduate degree: stated as \"just completed\" \u2014 no explicit calendar date given.\n- Submission of master's thesis: stated as \"today\" \u2014 no explicit calendar date given.\n\nNeither event is tied to an explicit calendar date in the conversation history, so the number of months between them cannot be computed by date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5e1b23de",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the conversation history for the relevant event:\n\n- The photography workshop is mentioned in message [1]: \"I went to a 3-day photography workshop in a nearby city today\" \u2014 but no explicit calendar date is given for \"today.\"\n\nThe history contains no explicit calendar date for the workshop (it only says \"today\"), and there is no second date to subtract against. Without an explicit date stated in the conversation, I cannot compute the number of months.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_98f46fc6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with their dates:\n\n- Charity gala: \"tonight\" (event [1]) \u2192 today\n- Charity bake sale: \"today\" (event [3]) \u2192 today\n\nBoth the charity gala (\"tonight\") and the charity bake sale (\"today\") are stated to occur on the same day \u2014 today.\n\nSince both events occur on the same date (today), there is no day difference between them: today \u2212 today = 0 days.\n\nHowever, the gala is specified as occurring \"tonight\" (the evening), while the bake sale is referenced as happening during the daytime \"today.\" Therefore, the charity bake sale comes first.\n\n**You participated in the charity bake sale first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_af6db32f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- There are no explicit calendar dates mentioned anywhere in the conversation. The Super Bowl is referenced only as \"today\" (the day the user watched it), with no calendar date given. No other event has a stated date either.\n\nSince the question asks \"how many days ago\" but the history contains no explicit calendar date for the Super Bowl (it is described only as \"today\") and no reference date is provided, the number of days cannot be computed by date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eac54adc",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with explicit dates.\n\n- Signing the contract with the first client: \"today\" \u2014 but \"today\" is not an explicit calendar date, and I'm instructed not to use the current date as an event's date.\n- Launching the website: \"I just launched my website\" \u2014 no explicit calendar date given.\n\nNeither event has an explicit calendar date stated in the conversation history, so I cannot perform a date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7ddcf75f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Event extracted:\n- Whitewater rafting trip in the Oregon mountains: \"today\" (no explicit calendar date is given in the history).\n\nThe user states the rafting trip happened \"today\" \u2014 the same day as the conversation. Since both the trip and the reference point fall on the same day, the subtraction is: today \u2212 today = 0 days.\n\nFinal answer: 0 days ago (it happened today).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_a2d1d1f6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Event extraction:\n- \"I just harvested my first batch of fresh herbs from the herb garden kit today\" \u2014 date given as \"today.\"\n\nThe only date reference for the harvest is \"today,\" not an explicit calendar date, and there is no second dated event to subtract against.\n\nThe harvest happened today \u2014 0 days ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_85da3956",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions the \"Summer Nights\" festival multiple times but never provides an explicit calendar date for when it was attended. The only dated event is the Toothsome Chocolate Emporium birthday dinner (\"a month ago\"), but that is not the Summer Nights festival, and \"a month ago\" is relative, not a calendar date. Without an explicit date for the Summer Nights festival, I cannot compute the number of weeks.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b0863698",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The conversation history does not provide an explicit calendar date for the 5K charity run \u2014 it only states it happened \"today\" relative to the conversation, with no actual date given.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94287",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- #PlankChallenge participation: \"today\"\n- Vegan chili recipe post (#FoodieAdventures): \"yesterday\"\n\nSince the vegan chili recipe was posted \"yesterday\" and the #PlankChallenge was done \"today,\" the vegan chili recipe post happened first (one day earlier).\n\n**The vegan chili recipe post happened first.**",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231e",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit dates:\n\n- \"fixed that flat tire on my mountain bike today\" \u2014 date given as \"today\" (no explicit calendar date).\n- \"I decided to upgrade my road bike's pedals to clipless pedals today\" \u2014 date given as \"today\" (no explicit calendar date).\n\nBoth events are stated as happening \"today,\" with no explicit calendar dates provided for either.\n\nSame day \"today\" minus same day \"today\" = 0 days.\n\n**0 days** passed between fixing the mountain bike and deciding to upgrade the pedals.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7ca326fa",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with their dates.\n\n**Events:**\n- Emma graduated \"yesterday,\" and the speaker attended her graduation \"on a sunny Saturday in late May\" \u2192 Emma graduated late May (a Saturday).\n- Alex graduated \"about two weeks ago.\"\n- Rachel's master's graduation was \"yesterday.\"\n- John graduated \"today.\"\n\nThe conversation history does not provide explicit calendar dates for any of these graduations \u2014 only relative references (\"yesterday,\" \"about two weeks ago,\" \"late May,\" \"today\"). Without anchoring dates, I cannot perform date subtraction between Rachel, Emma, and Alex.\n\nHowever, based on the relative timing described:\n- Alex graduated about two weeks before his thread.\n- Rachel graduated the day before John's thread (and John graduated the same day as that thread).\n- Emma graduated in late May, the day before her thread.\n\nSince the events are anchored only relatively and not to common explicit dates, there is no reliable basis to order all three across separate conversations.\n\n**Answer:** I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_7bc6cf22",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Read the March 15th issue of The New Yorker \u2014 \"March 15th\"\n\nThe question asks how many days ago the user read the March 15th issue. Only one explicit date is provided (\"March 15th\"), and there is no second explicit calendar date in the history to subtract from. The phrase \"today\" in the history is not a calendar date, so a day count cannot be computed by explicit date subtraction.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2ebe6c92",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Finished \"The Nightingale\" \u2014 \"today\" (message [1])\n- Started \"The Nightingale\" \u2014 \"today\" (message [4])\n\nThe question asks which book was finished \"a week ago.\" The only \"finish\" event in the history is \"The Nightingale,\" which was finished \"today\" \u2014 not a week ago. No event is dated a week prior.\n\nSince no book was finished a week ago based on the dated events, the answer is: **The Nightingale** \u2014 it is the only book you finished, though the history states you finished it today, not a week ago.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_e061b84g",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the conversation history, I need to find events with explicit dates.\n\nEvents mentioned:\n- Spring Sprint Triathlon \u2014 \"today\" (no explicit calendar date given)\n- Charity soccer tournament \u2014 \"today\" (no explicit calendar date given)\n- Midsummer 5K Run \u2014 \"just finished\" (no explicit calendar date given)\n\nNone of the events in the conversation history have an explicit calendar date attached, and none are described as occurring \"two weeks ago.\" All sports events mentioned were described as happening \"today.\"\n\nSince no event is associated with a date two weeks prior, there is no event in the history that matches \"two weeks ago.\"\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71017277",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions receiving a crystal chandelier from your aunt (received \"today\"), but there is no mention of receiving any piece of jewelry, nor anyone giving you jewelry \"last Saturday.\"",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b46e15ee",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the conversation history, I need to find events with explicit calendar dates.\n\nExtracting events and their dates:\n- [1] Charity bake sale idea / time management \u2014 no explicit date given\n- [2] \"Walk for Hunger\" charity event \u2014 \"today\" (no calendar date)\n- [3] Cancer Research Foundation charity gala \u2014 \"today\" (no calendar date)\n- [4] \"24-Hour Bike Ride\" charity event \u2014 \"recent\" (no calendar date)\n- [5] \"24-Hour Bike Ride\" charity event \u2014 \"today\" (no calendar date)\n\nNone of the events in the conversation history are tied to an explicit calendar date. Every event is referenced only as \"today\" or \"recent,\" with no quotable date (no \"January 10th,\" \"3/1,\" etc.) provided. Without explicit dates, I cannot perform any date subtraction to determine which event occurred a month ago.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_d6585ce9",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the conversation history, you went to the music festival in Brooklyn with a group of friends.\n\n(Note: The history does not assign any explicit calendar date to this event \u2014 it is only described as a music festival in Brooklyn attended \"with a group of friends,\" with no date stated. So no date subtraction is possible, but the companions are clearly identified.)\n\nYou went with a group of friends.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_1e4a8aec",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with explicit dates:\n\n- \"I just planted 12 new tomato saplings today\" [2] \u2014 the only event tied to a time reference, and \"today\" is the date given.\n- A gardening workshop \"recently\" [1] \u2014 no explicit calendar date.\n\nThe question asks about an activity done \"two weeks ago.\" None of the events in the history are dated to two weeks ago. The only dated activity is planting 12 tomato saplings, which was done \"today,\" not two weeks ago.\n\nTherefore, based on the conversation, the activity you described doing was planting tomato saplings, but that was stated as happening \"today,\" not two weeks ago.\n\nI don't know.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_f420262d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- American Airlines flight New York to Los Angeles \u2014 \"February 10th\" (entries [2] and [4])\n\nNo event is dated February 14th (Valentine's Day). The only dated flight is February 10th, which is not Valentine's Day.\n\nSubtraction: February 14th \u2212 February 10th = 4 days apart \u2014 so no flight occurred on Valentine's Day.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59149c78",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Looking at the conversation history, I need to find an art-related event the user mentioned.\n\nEvents with dates/timing:\n- Guided tour at the Museum of Modern Art (MoMA) on 20th-century modern art movements \u2014 described as \"just got back from\" (today/recent).\n- \"Ancient Civilizations\" exhibit at the Metropolitan Museum of Art \u2014 \"today.\"\n\nHowever, the question refers to an art-related event \"two weeks ago.\" The MoMA tour was art-focused, but it's described as just returned from. The history does not contain any event explicitly stated as occurring \"two weeks ago\" with a calendar date.\n\nThe only art-related event (as opposed to the ancient civilizations exhibit) is the guided tour at the **Museum of Modern Art (MoMA)**.\n\nThat event was held at the **Museum of Modern Art (MoMA)** in New York City.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_e414231f",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates mentioned:\n- Fixed flat tire on mountain bike \"today\" [1] \u2014 no calendar date given\n- Upgraded road bike pedals to clipless \"today\" [2] \u2014 no calendar date given\n- Fixed flat tire on mountain bike \"a few weeks ago\" [3] \u2014 no calendar date given\n\nThe question asks which bike was fixed or serviced the past weekend. The mountain bike flat tire fix is described as done \"today\" in [1], placing it most recently \u2014 corresponding to the past weekend.\n\nAnswer: Your mountain bike \u2014 you fixed the flat tire, replaced the inner tube, and cleaned the chain.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_4929293b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Event extracted: the user \"recently walked down the aisle as a bridesmaid at my cousin's wedding\" [2].\n\nThe life event of your relative that you participated in a week ago was your cousin's wedding, where you served as a bridesmaid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_468eb064",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- No explicit calendar date is given for any event. The lunch with Emma is described only as \"today,\" and the workshop as \"last week\" \u2014 neither has an explicit calendar date, and \"last Tuesday\" is not stated either.\n\nThe history mentions a lunch with Emma, a freelance writer and potential collaborator.\n\nAnswer: You met with Emma, a freelance writer.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_fa19884d",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Let me extract the events with their dates from the conversation history.\n\nEvents mentioned:\n- Attended music workshop: \"two weeks ago\" (no explicit calendar date)\n- Started playing keyboard along to favorite songs: \"today\" (no explicit calendar date)\n- Discovered a bluegrass band and started enjoying their music: \"today\" (no explicit calendar date)\n- Playing Fender CD-60S: \"for three weeks now\" (no explicit calendar date)\n\nThe question asks about an artist started listening to \"last Friday.\" However, none of the events in the history are anchored to a specific calendar date, and no event is explicitly tied to \"last Friday.\" The discovery of the bluegrass band is described as happening \"today,\" not \"last Friday,\" and that band is not named.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "9a707b82",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Baking class at culinary school: \"yesterday\"\n- Chocolate cake for friend's birthday party: \"last weekend\"\n- Strawberry rhubarb crisp: \"a few weeks ago\"\n\nThe item cooked for a friend was the chocolate cake (for the friend's birthday party), made \"last weekend.\"\n\nYou baked a **chocolate cake** for your friend's birthday party.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eac54add",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "I don't know.\n\nThe conversation history mentions several business milestones \u2014 signing the first client contract (\"today\"), launching a website, and creating a business plan outline \u2014 but none of these events is given an explicit calendar date. Without any dated event to compare against a point \"four weeks ago,\" there is no basis to compute or identify which milestone occurred at that time.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4dfccbf8",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- Started ukulele lessons with Rachel \u2014 \"today\" (message [2]), which is the only dated reference to the Rachel event, stated as the day the lessons began.\n\nThe question asks what I did with Rachel \"on the Wednesday two months ago.\" The only Rachel-related event in the history is starting ukulele lessons with her.\n\nAnswer: You started taking ukulele lessons with Rachel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bc8ad93",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with dates:\n- Natural History Museum guided tour with my dad \u2014 \"yesterday\" (no explicit calendar date given).\n- Science Museum behind-the-scenes tour with a friend who's a chemistry professor \u2014 no explicit calendar date given.\n\nThe question asks about the museum visited \"two months ago.\" The Science Museum behind-the-scenes tour is described as a past visit (\"my recent visit,\" \"I went with a friend who's a chemistry professor\"), while the Natural History Museum visit was \"yesterday.\"\n\nThe museum visited further in the past (the Science Museum) was visited with a friend.\n\nAnswer: Yes, you visited with a friend \u2014 a friend who's a chemistry professor \u2014 during the behind-the-scenes tour of the Science Museum.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6e984302",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Extracting events with dates:\n\n- Started sculpting classes / \"today\" (reference [1]) \u2014 no explicit calendar date given.\n- Bought sculpting tools \"today\" (reference [2]) \u2014 no explicit calendar date given.\n- \"taking sculpting classes... for about 6 weeks now\" (reference [3]) \u2014 relative, no calendar date.\n\nThe question asks about an investment for the competition mentioned \"four weeks ago.\" The relevant purchase is the set of sculpting tools.\n\nAnswer: You bought your own set of sculpting tools \u2014 a modeling tool set, a wire cutter, and a sculpting mat.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_8279ba03",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- The user got a smoker: \"today\" \u2014 but \"today\" is not an explicit calendar date, so no date is provided.\n\nThe history says the smoker was bought \"today,\" not 10 days ago. There is no kitchen appliance mentioned as being bought 10 days ago.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_b5700ca0",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You attended the Maundy Thursday service at the Episcopal Church.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_68e94288",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Events with explicit dates:\n- #PlankChallenge: \"today\"\n- #FoodieAdventures vegan chili recipe shared: \"yesterday\"\n\nThe question asks about activity \"5 days ago.\" Neither the #PlankChallenge (\"today\") nor the #FoodieAdventures recipe (\"yesterday\") matches 5 days ago.\n\nI don't know.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.3308
+  }
+}

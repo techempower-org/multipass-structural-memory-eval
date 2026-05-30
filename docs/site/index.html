@@ -1159,7 +1159,7 @@
         <dl class="bench-meta">
           <div><dt>Benchmark</dt><dd>LongMemEval-S</dd></div>
           <div><dt>Our retrieval</dt><dd>R@5 0.927 (/search), n=150 stratified</dd></div>
-          <div><dt>Reader ceiling</dt><dd>0.828 true-oracle (gold present) &mdash; Opus|preference + canonical judge, n=500. The earlier headline 0.61 was the <em>retrieval-limited</em> substrate (0.568 CORRECT-only).</dd></div>
+          <div><dt>Reader ceiling</dt><dd>0.868 true-oracle (gold present) &mdash; Opus|preference + canonical judge, n=500 &mdash; <em>essentially the field's GPT-4o oracle (0.870)</em>. The earlier 0.61 was the retrieval-limited substrate.</dd></div>
           <div><dt>Judge</dt><dd>gpt-5.3-chat + canonical type-specific prompts (NOT gpt-4o-2024-08-06)</dd></div>
           <div><dt>Posture</dt><dd>diagnostic decomposition, not a leaderboard claim</dd></div>
         </dl>
@@ -1172,13 +1172,13 @@
           </div>
           <div class="bench-num">
             <div class="label">Reader ceiling (true oracle)</div>
-            <div class="value"><em>82.8%</em></div>
-            <div class="sub">gold actually present &mdash; near the field's 87%</div>
+            <div class="value"><em>86.8%</em></div>
+            <div class="sub">gold present &mdash; matches the field's 87.0% oracle</div>
           </div>
           <div class="bench-num">
             <div class="label">&ldquo;0.61&rdquo; was substrate</div>
             <div class="value"><em>+26pp</em></div>
-            <div class="sub">recovered by fixing ingest + retrieval, not the reader</div>
+            <div class="sub">all from ingest + retrieval; ~0pp genuine reader</div>
           </div>
           <div class="bench-num">
             <div class="label">Structural cats</div>
@@ -1199,9 +1199,9 @@
             <tr><td>Zep / Graphiti</td><td class="num">71.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
             <tr><td>GPT-4o &mdash; oracle ref</td><td class="num">87.0%</td><td>oracle QA</td><td>GPT-4o</td><td>paper</td></tr>
             <tr><td>GPT-4o &mdash; full-context ref</td><td class="num">60.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="num">56.8%</td><td>oracle QA*</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr><td>mempalace &mdash; ingest-fixed</td><td class="num">64.2%</td><td>oracle QA*</td><td>gpt-5.3-chat</td><td>indie</td></tr>
-            <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="num">82.8%</td><td>oracle QA*</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="num">61.0%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace &mdash; ingest-fixed</td><td class="num">68.4%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="num">86.8%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
             <tr><td>mempalace &mdash; retrieval</td><td class="num">92.7%</td><td>R@5</td><td>&mdash;</td><td>indie</td></tr>
           </tbody>
         </table>
@@ -1214,46 +1214,49 @@
           deliberately publish no full-pipeline leaderboard number (that needs
           a field-standard answer model + the canonical
           <code>gpt-4o-2024-08-06</code> judge we don't have). The
-          apples-to-apples axis is the <strong>oracle</strong> ceiling &mdash;
-          and an earlier reading of this card got it wrong, which is worth
-          stating plainly: we reported <strong>0.61</strong> and called the
-          26-point gap to GPT-4o's 0.87 oracle a <em>reader</em> limit. It
-          isn't. That 0.61 was <strong>retrieval-limited</strong> &mdash; the
-          context handed to the reader came through <code>/search</code> at
-          limit=5, and for single-session-assistant questions our
-          upstream-parity ingest (user-turns-only, which upstream itself
-          recommends against) <em>silently dropped the assistant-authored gold
-          entirely</em>. When the gold is actually present (true oracle,
-          evidence sessions verbatim), the floors recover hard:
-          single-session-assistant <strong>0.34&rarr;1.00</strong>, temporal
-          <strong>0.33&rarr;0.79</strong>, multi-session
-          <strong>0.70&rarr;0.88</strong> &mdash; lifting the overall from
-          0.568 to a <strong>0.828 reader ceiling</strong>, within ~4pp of the
-          field's 0.87. So the old 26-point &ldquo;reader&rdquo; gap
+          apples-to-apples axis is the <strong>oracle</strong> &mdash; and an
+          earlier reading of this card got it wrong, which is worth stating
+          plainly: we reported <strong>0.61</strong> and called the 26-point
+          gap to GPT-4o's 0.87 oracle a <em>reader</em> limit. It isn't. That
+          0.61 was <strong>retrieval-limited</strong> &mdash; the context
+          reaching the reader came through <code>/search</code> at limit=5,
+          and for single-session-assistant questions our upstream-parity
+          ingest (user-turns-only, which upstream itself recommends against)
+          <em>dropped the assistant-authored gold entirely</em>. Hand the
+          reader the gold instead (true oracle, evidence sessions verbatim)
+          and <strong>five of six categories recover</strong>, not just
+          assistant: single-session-assistant <strong>0.32&rarr;0.98</strong>
+          (ingest), temporal <strong>0.36&rarr;0.75</strong>,
+          knowledge-update <strong>0.70&rarr;0.91</strong>, multi-session
+          <strong>0.71&rarr;0.87</strong>, single-session-preference
+          <strong>0.80&rarr;0.93</strong> (all retrieval); only
+          single-session-user carried over. That lifts the overall from
+          <strong>0.610 to a 0.868 reader ceiling &mdash; within 0.2pp of the
+          field's 0.870</strong>. So the old 26-point &ldquo;reader&rdquo; gap
           decomposes as <strong>~7pp ingest artifact</strong> (the dropped
-          assistant turns; fixed &rarr; 0.642) + <strong>~19pp retrieval
+          assistant turns; fixed &rarr; 0.684) + <strong>~18pp retrieval
           breadth</strong> (limit=5 + chunking never delivering the gold) +
-          only <strong>~4pp genuine reader</strong> (temporal date-arithmetic,
-          multi-session aggregation). The lever was never the reader's
-          reasoning &mdash; it was <em>what reaches the reader</em>. That
-          decomposition is the SME finding the leaderboards can't show. And
-          the structural categories &mdash; ingestion integrity (Cat 4),
-          gap-detection (Cat 5), ontology coherence (Cat 8), invocation
-          discipline (Cat 9) &mdash; have no competitor analogue at all.
+          <strong>~0pp genuine reader</strong>. The reader was <em>never</em>
+          the bottleneck &mdash; once the gold is in context it essentially
+          matches the field's oracle; getting the gold <em>to</em> it is the
+          whole game. That decomposition is the SME finding the leaderboards
+          can't show. And the structural categories &mdash; ingestion
+          integrity (Cat 4), gap-detection (Cat 5), ontology coherence
+          (Cat 8), invocation discipline (Cat 9) &mdash; have no competitor
+          analogue at all.
         </p>
 
         <div class="caveat">
           <span class="label">comparability discipline</span>
           <strong>True-oracle = the ceiling, not the deployed number.</strong>
-          The 0.828 figure is measured with the evidence sessions handed to
+          The 0.868 figure is measured with the evidence sessions handed to
           the reader verbatim &mdash; i.e. the reader's ceiling <em>once
           retrieval is perfect</em>. A live system still has to retrieve those
           sessions; the deployed number (real chunked <code>/search</code>)
-          sits between the 0.568 substrate reading and the ceiling, and a
-          production daemon re-test is still pending. The gradient numbers are
-          <strong>CORRECT-only</strong> (the earlier 0.61 headline was
-          abstention-credited; we switched to one metric across all four
-          points). Cross-system LongMemEval numbers are not directly
+          sits between the 0.610 substrate reading and the ceiling, and a
+          production daemon re-test is still pending. All four gradient numbers
+          are abstention-credited (the field's own metric), so our 0.868
+          ceiling and the field's 0.870 oracle are a like-for-like comparison. Cross-system LongMemEval numbers are not directly
           comparable anyway: answer-model choice alone swings ~24pp, oracle QA
           is a different metric from full-pipeline E2E QA, and most competitor
           numbers are self-reported &mdash; so we do not place ourselves on

@@ -200,10 +200,45 @@ scripts/run_longmemeval_omega.py                                     # the runne
 tests/test_run_longmemeval_omega.py                                  # session-level scoring tests
 ```
 
+## The definitive single-config head-to-head (#119) — spec for whoever runs it
+
+The numbers above are honest and **publishable now** (the QA cell is 0.593 vs the
+same-reader 0.580, ≈ parity, caveated "comparator is oracle-n500 not strat150-S"). What
+would make the apples-cell *pixel-perfect* and retire every cross-config caveat
+(0.580 / 0.593 / 0.610 / 0.900 / 0.953) is a **single run where every variable below is
+held identical across both systems**. This is **infra, not a flag-swap** — the deployed
+mempalace `lme_*` wings are `upstream-exact`, so the mempalace leg needs a **fresh
+`sme-rich` strat150 ingest on a SCRATCH daemon** (Iris's isolated-palace pattern — **never
+prod**; prod already carries ~6.3% LME pollution awaiting cleanup, familiar#92).
+
+**The five constants that MUST match on both legs (get any wrong and the cell is invalid):**
+
+1. **Reader** — ONE model, both legs. Choice (opus vs o4-mini) + the ~$14 opus spend is
+   **JP's call** (surfaced, not picked unilaterally):
+   - `claude-opus-4-8` via Bedrock (`us.anthropic.claude-opus-4-8` inference profile;
+     `_BedrockOpenAIShim` in `sme/eval/answer_generator.py`; verified reachable) — Tau2
+     leader, ~$14 total, ~90 min/leg.
+   - `o4-mini` (Azure) — ~$0; OMEGA's `sme-rich` o4-mini number already exists (**0.593**),
+     so only the mempalace scratch-daemon leg would be new.
+2. **Judge** — `gpt-5.3-chat` + canonical type-specific LongMemEval prompts. Hold constant
+   (do **not** swap to a Bedrock judge — that adds a variable for no gain).
+3. **Rendering** — `--content-rules sme-rich` on **both** legs (dates present). The deployed
+   mempalace wings are `upstream-exact`, which is **why a fresh scratch ingest is required**
+   — this is the load-bearing constant the temporal (cat_6) finding exposed.
+4. **Retrieval breadth** — one fixed `limit` on both legs (e.g. top-5; or coordinate with
+   the #117 breadth-ladder if a wider K is chosen). Same K both sides.
+5. **Subset** — `--max-questions 150 --stratify-by question_type` on
+   `longmemeval_s_cleaned.json` (the deterministic `_stratified_cap` strat150 — **not** the
+   `longmemeval_oracle` n=500 the current 0.580 comparator used). Same subset both sides.
+
+Reader/judge are wired into both runners (`scripts/run_longmemeval_omega.py` and
+`scripts/run_longmemeval_mempalace.py`) via the shared `generate_answer` / `grade_answer`
+path, so once the scratch daemon is ingested `sme-rich`, the run is two pinned invocations.
+**Until then the published apples cell stays 0.593 vs 0.580 with its honest caveat.**
+
 ## Next
 
-- **E2E QA leg** (in flight): o4-mini reader + canonical `gpt-5.3-chat` judge, same
-  subset → first independent OMEGA QA number on our harness, directly comparable to the
-  mempalace E2E QA row.
+- **#119** — the definitive run above, gated on a scratch-daemon `sme-rich` mempalace ingest
+  + JP's reader/spend choice. Tracked, not launched.
 - Optional: Hindsight (MCP) and Mem0-OSS adapters on the same harness (`#178` Tier 3
-  follow-ups) to widen the independent multi-system table.
+  follow-ups) to widen the independent multi-system table — same five constants apply.

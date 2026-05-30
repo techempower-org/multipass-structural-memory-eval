@@ -126,8 +126,14 @@ only because cat_1 is half the sample and scores well.
 | **OVERALL — macro (headline)** — unweighted mean of the 4 cats | 150 | **0.593** |
 | OVERALL — micro (secondary; per-question, cat_1-weighted, 98/150) | 150 | 0.653 |
 
-sme-rich also lifts retrieval (R@5 0.953 vs upstream-exact 0.900 — the documented
-+date-frontmatter retrieval effect).
+sme-rich also lifts OMEGA's *own* retrieval (R@5 0.953 vs its upstream-exact 0.900 — the
+documented +date-frontmatter effect). **This 0.953 is NOT a comparator to mempalace's
+published R@5 0.927.** The published mempalace R@5 was measured `upstream-exact`
+(`docs/benchmarks/2026-05-29-longmemeval-s-results.md` reproduce command), so the fair,
+same-rendering R@5 pair is **OMEGA 0.900 vs mempalace 0.927** (both upstream-exact, mempalace
++2.7pp) — the figure on the live matrix. No mempalace `sme-rich` strat150 R@5 baseline
+exists, so pairing OMEGA's 0.953 against 0.927 would be a rendering-mismatch in OMEGA's
+favour; don't.
 
 ### The temporal-reasoning content-rendering finding (cat_6)
 

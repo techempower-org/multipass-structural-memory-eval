@@ -96,6 +96,49 @@ def _is_claude_model(model: str) -> bool:
     )
 
 
+# --- Local / ollama reader+judge lane (katana GPU, no rate limits, no cost) --
+# ollama exposes an OpenAI-compatible API at /v1/chat/completions, so we just
+# point an OpenAI client at it. This lane takes exploratory sweeps off the
+# Azure-429 ceiling entirely. Detection (checked AFTER Claude, so Bedrock ids —
+# which carry no ':' — are never caught here):
+#   - an explicit ``ollama/<model>`` prefix (stripped before the call), or
+#   - a bare ollama tag: phi4, qwen2.5:*, qwen3.5:*, gemma4:*, or ANY id with a
+#     ':' tag (the ollama naming convention, e.g. ``llama3.1:8b``).
+_OLLAMA_PREFIX = "ollama/"
+_OLLAMA_BARE_MODELS = {"phi4"}
+_OLLAMA_BARE_PREFIXES = ("qwen2.5:", "qwen3.5:", "gemma4:")
+
+
+def _is_local_model(model: str) -> bool:
+    if model.startswith(_OLLAMA_PREFIX):
+        return True
+    if model in _OLLAMA_BARE_MODELS:
+        return True
+    if model.startswith(_OLLAMA_BARE_PREFIXES):
+        return True
+    # ollama convention: a ':' tag marks a local model (e.g. "llama3.1:8b").
+    # Claude/Bedrock and Azure/OpenAI ids never contain ':', so this is safe.
+    return ":" in model
+
+
+def _ollama_model_id(model: str) -> str:
+    """The ollama API wants the bare tag, so drop any ``ollama/`` prefix."""
+    return model[len(_OLLAMA_PREFIX):] if model.startswith(_OLLAMA_PREFIX) else model
+
+
+def _ollama_client() -> Optional[Any]:
+    """An OpenAI-SDK client pointed at the local ollama server, or None if the
+    SDK isn't installed. Base URL overridable via ``OLLAMA_BASE_URL``."""
+    try:
+        from openai import OpenAI  # type: ignore[import-not-found]
+    except ImportError:
+        log.info("answer_generator: openai SDK not installed — ollama lane unavailable")
+        return None
+    base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+    # ollama ignores the key, but the OpenAI client requires a non-empty one.
+    return OpenAI(base_url=base_url, api_key="ollama")
+
+
 # Models (keyed by resolved Bedrock id) known to reject `temperature` with a
 # 400. Newer models (e.g. opus-4-8) deprecate the param; once a model 400s on
 # it we record it here and stop sending temperature on subsequent calls, so
@@ -169,12 +212,21 @@ def _bedrock_client() -> Optional[Any]:
 
 
 def _client_for_model(model: str) -> Optional[Any]:
-    """Pick a reader client by model id: Claude/Bedrock models route to the
-    AnthropicBedrock shim, everything else to the Azure/OpenAI default. Cached
-    per provider so a mixed sweep builds each client at most once."""
-    key = "bedrock" if _is_claude_model(model) else "default"
+    """Pick a reader client by model id and cache it per provider so a mixed
+    sweep builds each client at most once. Three lanes:
+      - Claude/Bedrock ids        -> AnthropicBedrock shim
+      - local/ollama ids          -> OpenAI client pointed at localhost:11434
+      - everything else (gpt-*…)  -> Azure/OpenAI default
+    Claude is checked first so Bedrock ids (no ':') never fall into the local
+    lane's ':'-tag heuristic."""
+    if _is_claude_model(model):
+        key, factory = "bedrock", _bedrock_client
+    elif _is_local_model(model):
+        key, factory = "ollama", _ollama_client
+    else:
+        key, factory = "default", _default_client
     if key not in _provider_cache:
-        _provider_cache[key] = _bedrock_client() if key == "bedrock" else _default_client()
+        _provider_cache[key] = factory()
     return _provider_cache[key]
 
 
@@ -226,9 +278,12 @@ def generate_answer(
 
     template = prompt_template or READER_PROMPT_TEMPLATE
     prompt = template.format(context=ctx, question=question)
+    # ollama wants the bare tag, so strip any ``ollama/`` prefix before the call.
+    wire_model = _ollama_model_id(reader_model) if _is_local_model(reader_model) \
+        else reader_model
     try:
         kwargs: dict[str, Any] = dict(
-            model=reader_model,
+            model=wire_model,
             messages=[{"role": "user", "content": prompt}],
         )
         if not _is_reasoning_model(reader_model):

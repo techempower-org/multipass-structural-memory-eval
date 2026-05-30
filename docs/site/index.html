@@ -1311,7 +1311,7 @@
         </p>
 
         <div class="bench-foot">
-          <span>Source &middot; jp_realm_v0_1_rlm_{qwen35_4b,gemma4e4b}_{n5,n20}.json</span>
+          <span>Source &middot; jp-realm RLM A/B + published Tau2 scores (run artifacts recorded in the upstream issue, not committed to this fork)</span>
           <a href="https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/3">M0nkeyFl0wer/multipass-structural-memory-eval#3</a>
         </div>
       </article>
@@ -1351,7 +1351,7 @@
           <div class="bench-num">
             <div class="label">R@5 &minus; QA gap</div>
             <div class="value"><em>38pp</em></div>
-            <div class="sub">retrieval finds gold; reader leaves it on the table</div>
+            <div class="sub">retrieval finds the session; the QA gap is downstream &mdash; substrate-bound (see comparison card)</div>
           </div>
         </div>
 
@@ -1558,9 +1558,12 @@
           highest. Its retrieval is genuinely weaker than daemon-direct's
           97%. And unlike the daemon legs, Familiar's QA (31.0%)
           slightly <em>exceeds</em> its R@5 &mdash; the reader does fine
-          with what it gets; the limit is what reaches it. The opposite
-          shape from #44/#45, where retrieval is near-ceiling and the
-          reader is the bottleneck.
+          with what it gets; the limit is what reaches it. A different
+          shape from #44/#45, where retrieval finds the session but &mdash;
+          as the true-oracle correction later showed &mdash; the gold
+          <em>content</em> still often didn't reach the reader. Both point
+          the same way: the limit is what reaches the reader, not its
+          reasoning.
         </p>
 
         <div class="caveat">
@@ -1648,7 +1651,7 @@
           <strong>~0.974</strong> while the reader leaves a <strong>~45pp
           gap</strong> (techempower-org/multipass-structural-memory-eval#116).
           <em>Encoder tuning is a legitimate retrieval improvement, but
-          it is not the lever for end-to-end QA &mdash; the reader is.</em>
+          it is not the lever for end-to-end QA &mdash; what reaches the reader is.</em>
         </p>
 
         <div class="caveat">
@@ -1734,7 +1737,7 @@
         <div class="bench-head">
           <div>
             <span class="eyebrow no-rule">LongMemEval oracle &middot; reader sweep (Pass A)</span>
-            <h3>The reader is the bottleneck &mdash; <em>measured directly</em></h3>
+            <h3>A large R@5&rarr;QA gap &mdash; <em>measured directly</em></h3>
           </div>
           <span class="bench-pill live">headline &middot; 2026-05-29</span>
         </div>
@@ -1766,7 +1769,7 @@
           <div class="bench-num">
             <div class="label">R@5&rarr;QA gap</div>
             <div class="value"><em>~45pp</em></div>
-            <div class="sub">ceiling clears; reader does not</div>
+            <div class="sub">ceiling clears; QA doesn't &mdash; on this limited context</div>
           </div>
         </div>
 
@@ -1781,12 +1784,19 @@
         </table>
 
         <p class="bench-prose">
-          With retrieval pinned at the 0.974 oracle ceiling, both readers
+          With the search-default context pinned (R@5 0.974), both readers
           answer correctly only <strong>~50%</strong> &mdash; a
-          <strong>~45pp R@5&rarr;QA gap</strong>, the reader bottleneck
-          measured directly (larger than the 38pp E2E estimate).
-          Age-fused context is <em>harder</em> for readers (QA drops to
-          43&ndash;47%). Self-judge caveat: gpt-5.3-chat judges its own
+          <strong>~45pp R@5&rarr;QA gap</strong>.
+          <em>Correction (see the comparison card):</em> this gap is
+          <strong>substrate, not the reader</strong>. The true-oracle test
+          later showed that &ldquo;R@5 found the session&rdquo; does not mean
+          the gold <em>content</em> reached the reader &mdash; limit=5 +
+          chunking (and, for assistant-authored answers, the user-only ingest)
+          often left the answer out of the context entirely. Hand the reader
+          the gold verbatim and QA rises to a <strong>0.868 ceiling</strong>,
+          near GPT-4o's oracle. So the ~50% reflects what reached the reader,
+          not a reasoning limit. Age-fused context is <em>harder</em> still
+          (QA 43&ndash;47%). Self-judge caveat: gpt-5.3-chat judges its own
           family on its own reader leg, which may inflate it.
         </p>
 
@@ -2208,8 +2218,10 @@
           0.510. The judge-prompt confound was <strong>real</strong> (preference
           collapse and label noise were genuine measurement artifacts) but it is
           <em>not</em> the bulk of the 35pp gap. The residual ~31&ndash;36pp is
-          <strong>reader/substrate, not the scorer</strong> &mdash; consistent
-          with the unified #116 finding that the reader is the lever.
+          <strong>reader/substrate, not the scorer</strong> &mdash; and the
+          true-oracle test (see the comparison card) later resolved which:
+          it is <em>substrate</em> (what reaches the reader), not the
+          reader's reasoning.
         </p>
 
         <p class="bench-prose">

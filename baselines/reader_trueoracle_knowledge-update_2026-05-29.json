@@ -1,0 +1,687 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-true-oracle/trueoracle_knowledge-update.json",
+    "pinned_metadata": {
+      "slice": "knowledge-update",
+      "content_rules": "sme-rich",
+      "retrieval": "TRUE-ORACLE evidence-sessions",
+      "endpoint": "true-oracle"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 5,
+    "timestamp_utc": "2026-05-30T04:03:19.234565+00:00"
+  },
+  "n_questions": 78,
+  "n_configs": 1,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 78,
+          "qa_acc": 0.9103,
+          "labels": {
+            "CORRECT": 68,
+            "ERROR": 1,
+            "INCORRECT": 6,
+            "ABSTAIN": 3
+          }
+        },
+        "by_question_type": {
+          "knowledge-update": {
+            "n": 78,
+            "qa_acc": 0.9103,
+            "labels": {
+              "CORRECT": 68,
+              "ERROR": 1,
+              "INCORRECT": 6,
+              "ABSTAIN": 3
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "6a1eabeb",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your personal best time in the charity 5K run is 25:50.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6aeb4375",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have tried four Korean restaurants in your city.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "830ce83f",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Rachel moved back to the suburbs (near Tampa, Florida).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "852ce960",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "$400,000.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "945e3d21",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Three times a week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d7c942c3",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes, your mom is now using the same grocery list app as you, so you can share lists and keep track of what you need together.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "71315a70",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've spent 10-12 hours on your abstract ocean sculpture.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89941a93",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You currently own four bikes: a road bike, a mountain bike, a commuter bike, and a new hybrid bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ce6d2d27",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Friday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9ea5eabc",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your most recent family trip was to Paris.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07741c44",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Under your bed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a1eacc2a",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have written 7 short stories since you started writing regularly.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "184da446",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've read 220 pages so far.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "031748ae",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "When you started your role as Senior Software Engineer, you led 4 engineers. Now you lead 5 engineers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4d6b87c8",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "25 titles.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0f05491a",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You need 120 stars to reach the Gold level on your Starbucks Rewards app.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "08e075c7",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've been using your Fitbit Charge 3 for 9 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f9e8c073",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Five sessions.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41698283",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You most recently purchased a 70-200mm zoom lens.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2698e78f",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You see Dr. Smith every week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b6019101",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You watched 5 MCU films in the last 3 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "45dc21b6",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've tried out 3 of Emma's recipes so far.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5a4f22c0",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Rachel is currently working at TechCorp.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6071bd76",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Less water per tablespoon. You switched from 1 tablespoon per 6 ounces to 1 tablespoon per 5 ounces \u2014 fewer ounces of water per tablespoon of coffee, making it a stronger ratio.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e493bb7c",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Above your bed in your bedroom.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "618f13b2",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Six times.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "72e3ee87",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have completed 50 episodes of the Crash Course Science series.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4ea545c",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes. You previously went to the gym three times a week (Tuesdays, Thursdays, and Saturdays), but now you go four times a week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "01493427",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have added 25 new postcards to your collection since you started collecting again.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6a27ffc2",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have completed 30 videos of Corey Schafer's Python programming series so far.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2133c1b5",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've been living in your Harajuku apartment for 3 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "18bc8abd",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Kansas City Masterpiece BBQ sauce.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "db467c8c",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your parents have been staying with you in the US for nine months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7a87bd0c",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "4 weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e61a7584",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've had Luna for about 9 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1cea1afa",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You currently have 600 Instagram followers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ed4ddc30",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "20 dozen eggs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8fb83627",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have finished reading five issues of National Geographic.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b01defab",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes, you finished reading \"The Nightingale\" by Kristin Hannah, and you found it amazing\u2014a powerful and emotional read.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "22d2cb42",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You got your guitar serviced at Rhythm Central, the music shop on Main St.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e4e4c46",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your current highest score in Ticket to Ride is 132 points.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4b24c848",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've bought five tops from H&M so far.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7e974930",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You earned $420 at the Downtown Farmers Market on your most recent visit.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "603deb26",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "10 times.",
+          "autoeval_label": "ERROR"
+        },
+        {
+          "question_id": "59524333",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Based on your most recent statement, you usually go to the gym at 6:00 pm.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5831f84d",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "15 Crash Course videos.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eace081b",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Oahu.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "affe2881",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've seen 32 different species of birds in your local park.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "50635ada",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Premier Silver.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e66b632c",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your most recent personal best time for the charity 5K run was 26 minutes and 30 seconds.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0ddfec37",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "15 autographed baseballs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f685340e",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Previously you played tennis with your friends at the local park weekly. Now you play every other week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc5ded98",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You dedicate about two hours each day to coding exercises.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dfde3500",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Wednesday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "69fee5aa",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have 38 pre-1920 American coins \u2014 37 originally, plus the 1915-S Barber quarter you added.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7401057b",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Two free nights' stays.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cf22b7bf",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've lost 10 pounds since you started going to the gym consistently 3 months ago.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a2f3aa27",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have close to 1300 followers on Instagram.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c7dc5443",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your current record in the volleyball league is 5-2.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06db6396",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have completed 5 projects since starting painting classes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3ba21379",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You're currently working on a Ford F-150 pickup truck model.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9bbe84a2",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your previous goal was to reach level 100 (before the end of the year), which you later updated to level 150.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "10e09553",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You caught 7 largemouth bass with Alex on the 7/10 trip to Lake Michigan.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dad224aa",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You wake up at 7:30 am on Saturdays.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ba61f0b9",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "6 women are on the team led by your former manager Rachel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "42ec0761",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes, you have a spare screwdriver that you picked up when you organized your computer desk, so you're all set for opening up your laptop.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5c40ec5b",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have met up with Alex twice.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c6853660",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You increased the limit \u2014 to two cups in the morning.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "26bdc477",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've taken your Canon EOS 80D on five trips.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0977f2af",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "An Instant Pot.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6aeb4375_abs",
+          "question_type": "knowledge-update",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You haven't mentioned trying any Italian restaurants \u2014 only Korean restaurants.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "031748ae_abs",
+          "question_type": "knowledge-update",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You lead a team of 5 engineers.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2698e78f_abs",
+          "question_type": "knowledge-update",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You see Dr. Smith every week. (There's no mention of a Dr. Johnson in the history \u2014 your therapist is Dr. Smith, whom you see weekly.)",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "2133c1b5_abs",
+          "question_type": "knowledge-update",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You haven't mentioned living in Shinjuku \u2014 your apartment is in Harajuku, and as of your most recent statement, you've been living there for 3 months.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "0ddfec37_abs",
+          "question_type": "knowledge-update",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You haven't added any autographed footballs \u2014 your collection additions were autographed baseballs (20 of them in the past few months).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f685340e_abs",
+          "question_type": "knowledge-update",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You don't play table tennis \u2014 you play (regular) tennis with your friends at the local park every other week.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "89941a94",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Yes. Before purchasing the new bike, you had a road bike in addition to your mountain bike and commuter bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07741c45",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You currently keep your old sneakers under your bed for storage.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.9103
+  }
+}

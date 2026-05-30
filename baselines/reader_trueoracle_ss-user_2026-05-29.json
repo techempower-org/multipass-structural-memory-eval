@@ -1,0 +1,621 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-true-oracle/trueoracle_ss-user.json",
+    "pinned_metadata": {
+      "slice": "ss-user",
+      "content_rules": "sme-rich",
+      "retrieval": "TRUE-ORACLE evidence-sessions",
+      "endpoint": "true-oracle"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 5,
+    "timestamp_utc": "2026-05-30T04:03:08.764875+00:00"
+  },
+  "n_questions": 70,
+  "n_configs": 1,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 70,
+          "qa_acc": 0.9286,
+          "labels": {
+            "CORRECT": 63,
+            "INCORRECT": 5,
+            "ABSTAIN": 2
+          }
+        },
+        "by_question_type": {
+          "single-session-user": {
+            "n": 70,
+            "qa_acc": 0.9286,
+            "labels": {
+              "CORRECT": 63,
+              "INCORRECT": 5,
+              "ABSTAIN": 2
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "e47becba",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You graduated with a degree in Business Administration.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "118b2229",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your daily commute is 45 minutes each way, totaling 90 minutes (1.5 hours) round trip.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51a45a95",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You redeemed it through a coupon from your email inbox (a Target/Cartwheel offer), used at Target.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58bf7951",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You attended a production of The Glass Menagerie at the local community theater.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1e043500",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Summer Vibes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c5e8278d",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your last name before you changed it was Johnson.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ade9755",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Serenity Yoga.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6f9b354f",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "A lighter shade of gray.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58ef2f1c",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You volunteered at the \"Love is in the Air\" fundraising dinner on Valentine's Day (February 14th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f8c5f88b",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You bought your new tennis racket from a sports store downtown.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5d3d2817",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your previous occupation was a marketing specialist at a small startup, where you also managed a team of interns.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7527f7e2",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You spent $800 on the designer handbag.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c960da58",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You have 20 playlists on Spotify.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3b6f954b",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You attended the University of Melbourne for your study abroad program.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "726462e0",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You got a 10% discount on your first purchase from the new clothing brand.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "94f70d80",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "It took you 4 hours to assemble the IKEA bookshelf.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "66f24dbb",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "For your sister's birthday, you bought her a yellow dress and a matching pair of earrings.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ad7109d1",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your new internet plan is 500 Mbps.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "af8d2e46",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You packed 7 shirts for your Costa Rica trip.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dccbc061",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You were a staunch atheist.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8c3f81d",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Nike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8ebdbe50",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You completed a certification in Data Science last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6b168ec8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You own three bikes: a road bike, a mountain bike, and a commuter bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75499fd8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Max is a Golden Retriever.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "21436231",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You caught 12 largemouth bass on your last fishing trip to Lake Michigan.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "95bcc1c8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You watched 10 amateur comedians perform at the open mic night.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0862e8bf",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your cat's name is Luna.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "853b0a1d",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You were 18 years old.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a06e4cfe",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your preferred gin-to-vermouth ratio for a classic gin martini is 3:1, with a dash of citrus bitters.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "37d43f65",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You upgraded your laptop's RAM to 16GB.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b86304ba",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Triple what you paid for it.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d52b4f67",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You attended your cousin's wedding at the Grand Ballroom.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "25e5aa4f",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You completed your Bachelor's degree in Computer Science at UCLA.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "caf9ead2",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "It took around 5 hours to move everything into the new apartment.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8550ddae",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You tried a lavender gin fizz recipe last weekend, improvising with honey and water since you didn't have simple syrup.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "60d45044",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your favorite rice is Japanese short-grain rice.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3f1e9474",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You had a conversation about destiny with your friend Sarah.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "86b68151",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You bought your new bookshelf from IKEA.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "577d4d32",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "7 pm.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ec81a493",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your signed poster from your favorite artist's debut album is a limited edition of only 500 copies worldwide.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "15745da0",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've been collecting vintage cameras for three months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e01b8e2f",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Hawaii (specifically the Hawaiian islands), which you visited for a week with your family last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bc8a6e93",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You baked a lemon blueberry cake for your niece's birthday party.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ccb36322",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Spotify.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "001be529",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Over a year.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b320f3f8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "A rare blue Snaggletooth action figure.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "19b5f2b3",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You were in Japan for two weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4fd1909e",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You attended the Imagine Dragons concert at the Xfinity Center on June 15th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "545bd2b5",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You've been averaging around 2 hours of screen time on Instagram per day.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8a137a7f",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You didn't replace a bulb in your bedside lamp \u2014 you currently have a Philips LED bulb in it, which provides the warm tone you like.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "76d63226",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your new Samsung TV is 55 inches.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "86f00804",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You're currently reading \"The Seven Husbands of Evelyn Hugo\" by Taylor Jenkins Reid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8e9d538c",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You found 17 skeins of worsted weight yarn in your stash.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "311778f1",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You spent around 10 hours watching documentaries on Netflix last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c19f7a0b",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You usually get home from work around 6:30 pm on weeknights.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4100d0a0",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You are of mixed Irish and Italian ethnicity.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "29f2956b",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You dedicate 30 minutes daily to practicing guitar.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1faac195",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Emily lives in Denver.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "faba32e5",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Alex marinated the BBQ ribs in the special sauce for 24 hours before grilling them.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f4f1d8a4",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Your sister gave you the new stand mixer as a birthday gift last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c14c00dd",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You currently use a lavender scented shampoo from Trader Joe's.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "36580ce8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Bronchitis \u2014 you initially thought it was just a cold, but it turned out to be bronchitis.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3d86fd0a",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You met Sophia at a coffee shop in the city.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a82c026e",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You finally beat the last boss in the Dark Souls 3 DLC last weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0862e8bf_abs",
+          "question_type": "single-session-user",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You don't have a hamster \u2014 the pet you've mentioned is your cat, Luna.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "15745da0_abs",
+          "question_type": "single-session-user",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You've been collecting for three months.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "bc8a6e93_abs",
+          "question_type": "single-session-user",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You baked a lemon blueberry cake \u2014 though you mentioned it was for your niece's birthday party, not your uncle's.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "19b5f2b3_abs",
+          "question_type": "single-session-user",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You haven't been to Korea yet \u2014 you're only planning to visit. The two-week solo trip you mentioned was in Japan, not Korea.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "29f2956b_abs",
+          "question_type": "single-session-user",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "You haven't mentioned practicing violin. You practice guitar for 30 minutes daily.",
+          "autoeval_label": "ABSTAIN"
+        },
+        {
+          "question_id": "f4f1d8a4_abs",
+          "question_type": "single-session-user",
+          "is_abstention": true,
+          "sme_category": null,
+          "hypothesis": "Your dad didn't give you the birthday gift \u2014 your sister gave you a stand mixer as a birthday gift last month.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.9286
+  }
+}

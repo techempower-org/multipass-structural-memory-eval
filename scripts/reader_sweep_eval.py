@@ -21,22 +21,40 @@ Phase 1; Phase 2 is offline):
 
   dry-run       Size the sweep (config count, LLM-call count) without running.
 
+Two operating modes (JP greenlit phi4-default for exploration):
+
+  DEFAULT (exploratory)  reader + judge are LOCAL (phi4 via ollama). No
+                         Azure/Bedrock calls → no 429s, no cost, unlimited
+                         concurrency. The right mode for iterating on prompts /
+                         context-widths / sweep shape.
+  --headline             opt into the rate-limited Azure/Bedrock readers + the
+                         canonical LongMemEval judge, for publishable numbers.
+
+Explicit --reader-models / --judge ALWAYS win over either mode's default.
+
 Usage:
 
-    # Phase 2 sizing (no daemon, no LLM):
+    # Exploratory sizing (default = local phi4, no LLM hit in dry-run):
     reader_sweep_eval.py dry-run \
         --pinned baselines/pinned_context_search-default.json \
-        --reader-models gpt-4.1-mini gpt-4o gpt-4o-mini \
         --prompts baseline cot extractive \
         --context-widths 2000 6000 full
 
-    # Phase 2 run (offline; needs reader+judge API keys, NOT the daemon):
+    # Exploratory run (default = phi4 reader + phi4 judge, all local/free):
     reader_sweep_eval.py reader-sweep \
         --pinned baselines/pinned_context_search-default.json \
-        --reader-models gpt-4.1-mini gpt-4o \
         --prompts baseline cot \
-        --judge gpt-4o \
         --json baselines/reader_sweep_<date>.json
+
+    # Headline run (Azure/Bedrock readers + canonical gpt-4o judge):
+    reader_sweep_eval.py reader-sweep --headline \
+        --pinned baselines/pinned_context_search-default.json \
+        --json baselines/reader_sweep_headline_<date>.json
+
+    # Explicit models always win (here: a local sweep on a bigger ollama model):
+    reader_sweep_eval.py reader-sweep \
+        --pinned baselines/pinned_context_search-default.json \
+        --reader-models qwen2.5:14b-instruct-q4_K_M --judge phi4
 """
 
 from __future__ import annotations
@@ -64,7 +82,20 @@ from sme.eval.reader_sweep import (  # noqa: E402
 
 log = logging.getLogger("reader_sweep_eval")
 
-DEFAULT_JUDGE = "gpt-4o"
+# Two operating modes (JP greenlit phi4-default for exploration):
+#   - DEFAULT (exploratory): reader + judge are LOCAL (phi4 via ollama). No
+#     Azure/Bedrock calls, so no 429s, no cost, and concurrency is unlimited —
+#     the right mode for iterating on prompts / context-widths / sweep shape.
+#   - --headline: opt into the rate-limited Azure/Bedrock readers + the
+#     canonical LongMemEval judge, for publishable numbers.
+# Explicit --reader-models / --judge ALWAYS win over either mode's default.
+EXPLORATORY_READERS = ["phi4"]
+EXPLORATORY_JUDGE = "phi4"
+HEADLINE_READERS = ["gpt-4.1-mini", "gpt-4o"]
+HEADLINE_JUDGE = "gpt-4o"
+
+# Back-compat alias — some callers/imports reference DEFAULT_JUDGE.
+DEFAULT_JUDGE = EXPLORATORY_JUDGE
 
 
 def _parse_widths(raw: list[str]) -> list[Optional[int]]:
@@ -73,6 +104,23 @@ def _parse_widths(raw: list[str]) -> list[Optional[int]]:
     for w in raw:
         out.append(None if w.lower() == "full" else int(w))
     return out
+
+
+def _resolve_models(args: argparse.Namespace) -> None:
+    """Fill in reader/judge defaults from the operating mode, in place.
+
+    Explicit ``--reader-models`` / ``--judge`` always win (back-compat). When a
+    value is omitted it comes from ``--headline`` (Azure/Bedrock + canonical
+    judge) or, by default, the local exploratory lane (phi4 via ollama).
+    ``--judge`` defaults to the argparse sentinel ``None`` so we can tell an
+    explicit value apart from an unset one. ``dry-run`` has no ``--judge``.
+    """
+    headline = getattr(args, "headline", False)
+    if args.reader_models is None:
+        args.reader_models = HEADLINE_READERS if headline else EXPLORATORY_READERS
+    # dry-run has no --judge; only the reader-sweep subcommand sets it.
+    if hasattr(args, "judge") and args.judge is None:
+        args.judge = HEADLINE_JUDGE if headline else EXPLORATORY_JUDGE
 
 
 def _build_matrix(args: argparse.Namespace) -> SweepMatrix:
@@ -84,6 +132,7 @@ def _build_matrix(args: argparse.Namespace) -> SweepMatrix:
 
 
 def cmd_dry_run(args: argparse.Namespace) -> int:
+    _resolve_models(args)
     _, records = load_pinned_context(args.pinned)
     matrix = _build_matrix(args)
     est = estimate_sweep_calls(len(records), matrix)
@@ -101,6 +150,7 @@ def cmd_dry_run(args: argparse.Namespace) -> int:
 
 
 def cmd_reader_sweep(args: argparse.Namespace) -> int:
+    _resolve_models(args)
     meta, records = load_pinned_context(args.pinned)
     matrix = _build_matrix(args)
 
@@ -118,6 +168,7 @@ def cmd_reader_sweep(args: argparse.Namespace) -> int:
             "issue": "techempower-org/multipass-structural-memory-eval#116",
             "pinned_context": str(args.pinned),
             "pinned_metadata": meta,
+            "mode": "headline" if args.headline else "exploratory",
             "judge_model": args.judge,
             "reader_models": list(args.reader_models),
             "prompts": list(args.prompts),
@@ -143,7 +194,9 @@ def cmd_reader_sweep(args: argparse.Namespace) -> int:
     return 0
 
 
-def main(argv: Optional[list[str]] = None) -> int:
+def build_parser() -> argparse.ArgumentParser:
+    """Construct the CLI parser. Exposed so tests drive the real parser rather
+    than a hand-rolled copy that could drift from production."""
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("-v", "--verbose", action="store_true")
@@ -152,8 +205,17 @@ def main(argv: Optional[list[str]] = None) -> int:
     def _add_sweep_args(sp: argparse.ArgumentParser) -> None:
         sp.add_argument("--pinned", required=True, type=Path,
                         help="Phase-1 pinned-context JSON")
-        sp.add_argument("--reader-models", nargs="+", required=True,
-                        help="Reader model ids to sweep")
+        sp.add_argument("--reader-models", nargs="+", default=None,
+                        help="Reader model ids to sweep. Omit to use the mode "
+                             "default: local phi4 (exploratory) or "
+                             f"{HEADLINE_READERS} (--headline). Explicit values "
+                             "always win.")
+        sp.add_argument("--headline", action="store_true",
+                        help="Opt into the rate-limited Azure/Bedrock readers + "
+                             "the canonical LongMemEval judge for publishable "
+                             "numbers. Default is the local exploratory lane "
+                             "(phi4 via ollama — no 429s, free, unlimited "
+                             "concurrency).")
         sp.add_argument("--prompts", nargs="+", default=["baseline"],
                         choices=sorted(PROMPT_VARIANTS),
                         help=f"Prompt variants (default: baseline). "
@@ -168,7 +230,11 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     sp_run = sub.add_parser("reader-sweep", help="Run the offline reader sweep")
     _add_sweep_args(sp_run)
-    sp_run.add_argument("--judge", default=DEFAULT_JUDGE, help="Judge model id")
+    sp_run.add_argument(
+        "--judge", default=None,
+        help=f"Judge model id. Omit to use the mode default: local phi4 "
+             f"(exploratory) or {HEADLINE_JUDGE!r} (--headline). Explicit "
+             f"value always wins.")
     sp_run.add_argument(
         "--concurrency", type=int, default=DEFAULT_CONCURRENCY,
         help=f"Parallel reader/judge calls per config via a thread pool "
@@ -179,8 +245,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     )
     sp_run.add_argument("--json", type=Path, default=None)
     sp_run.set_defaults(func=cmd_reader_sweep)
+    return p
 
-    args = p.parse_args(argv)
+
+def main(argv: Optional[list[str]] = None) -> int:
+    args = build_parser().parse_args(argv)
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.WARNING,
         format="%(levelname)s %(name)s: %(message)s",

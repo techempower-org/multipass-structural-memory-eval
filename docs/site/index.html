@@ -1588,13 +1588,13 @@
               <td class="sys">mempalace <span class="note">deployed substrate (this work)</span></td>
               <td class="store verb">verbatim</td>
               <td class="num">92.7%</td>
-              <td class="num">61.0% <span class="note">/search limit=5; ceiling 86.8% w/ gold</span></td>
+              <td class="num">58.0% <span class="note">o4-mini reader · retrieved ctx · canonical gpt-5.3-chat judge · n=150 macro ‖<br>comparator = oracle-n500, not strat150-S (closest apples, not pixel-perfect) · opus deployed&rarr;oracle gradient 0.567&rarr;0.868 in field card</span></td>
             </tr>
             <tr>
               <td class="sys">OMEGA <span class="note">first independent competitor run</span></td>
               <td class="store">extraction</td>
               <td class="num">90.0%</td>
-              <td class="pending">pending <span class="note">sme-rich QA in flight</span></td>
+              <td class="num">59.3% <span class="note">sme-rich · o4-mini reader · retrieved ctx · canonical gpt-5.3-chat judge · n=150 macro ✦<br>≈ parity (+1.3pp), same reader + context</span></td>
             </tr>
             <tr>
               <td class="sys">Hindsight <span class="note">extraction, cloud-extractor</span></td>
@@ -1607,18 +1607,41 @@
         </div>
 
         <p class="bench-prose" style="font-size:13px;opacity:.85;">
-          Today the head-to-head we can stand behind is <strong>R@5</strong>:
-          mempalace <strong>0.927</strong> vs OMEGA <strong>0.900</strong> on the
-          identical subset &mdash; a 2.7pp (four-question) edge, retrieval-only,
-          no answer-model confound. The <strong>E2E QA</strong> column fills in as
-          each competitor finishes on our judge: OMEGA&rsquo;s sme-rich QA run is in
-          flight, and Hindsight&rsquo;s cloud-extractor throughput makes a full QA
-          pass cost-gated for now &mdash; deferred rather than guessed. mempalace&rsquo;s
-          own 0.610 is the <em>deployed</em> <code>/search</code> number (limit=5),
-          not its ceiling; hand the reader the gold and it reaches 0.868 (see the
-          field card below for the full decomposition). When the QA column is
-          complete, <strong>this</strong> table &mdash; not the leaderboard &mdash; is
-          the comparison to read.
+          The honest read: <strong>mempalace&rsquo;s edge is retrieval (R@5 +2.7pp);
+          reader/QA is at parity (OMEGA +1.3pp, same-reader).</strong> On
+          <strong>R@5</strong>, mempalace <strong>0.927</strong> vs OMEGA
+          <strong>0.900</strong> &mdash; a fair same-rendering pair (both measured
+          upstream-exact, <code>--content-rules</code>), so the 2.7pp edge is real:
+          retrieval-only, no answer-model confound. On <strong>E2E QA</strong>, held to
+          <em>same reader, same context</em> (o4-mini, retrieved, macro n=150),
+          mempalace <strong>0.580</strong> vs OMEGA sme-rich <strong>0.593</strong>
+          &mdash; <strong>&asymp; parity</strong> (OMEGA +1.3pp): two
+          verbatim-vs-extraction systems land within a question of each other once
+          reader and context are pinned. Hindsight&rsquo;s cloud-extractor throughput
+          keeps its QA pass cost-gated &mdash; deferred rather than guessed.
+          <em>Don&rsquo;t</em> confuse the 0.580 comparator with mempalace&rsquo;s
+          <strong>deployed&rarr;oracle gradient</strong> (deployed-E2E ladder
+          0.567&rarr;0.760 as retrieval widens limit&nbsp;5&rarr;50 &rarr; 0.868 oracle
+          ceiling): that gradient is an opus reader on retrieved/oracle context and
+          lives in the field card below &mdash; it is <em>not</em> the like-for-like
+          OMEGA comparison. This table &mdash; not the leaderboard &mdash; is the one to
+          read.
+        </p>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &#10022; <strong>OMEGA&rsquo;s 0.593 is the <em>fair</em> sme-rich number</strong>
+          (our harness, n=150, o4-mini reader + gpt-5.3-chat judge). OMEGA&rsquo;s
+          upstream-exact run scored just <strong>0.37</strong> &mdash; but that was
+          <em>date-starved</em>: its reader context dropped session timestamps, and the
+          temporal category (cat_6) jumped <strong>0.04&rarr;0.36</strong> once we
+          restored the dates. Scoring the date-stripped 0.37 against mempalace would be
+          the unfair comparison, so we use the date-restored sme-rich figure. (We ran
+          the same date-confound check on our own LoCoMo numbers &mdash; see the
+          explainer below &mdash; and there it came back clean, which is why we trust
+          0.593 here.) <strong>On R@5</strong>, the comparison stays upstream-exact on
+          both sides (mempalace 0.927, OMEGA 0.900) &mdash; OMEGA&rsquo;s sme-rich R@5
+          of <strong>0.953</strong> is <em>not</em> a comparator here, because no
+          same-rendering mempalace pair exists for it; mixing renderings is exactly the
+          apples-to-oranges this table refuses.
         </p>
       </article>
 
@@ -1699,8 +1722,8 @@
           </thead>
           <tbody>
             <tr class="grp"><td colspan="8">mempalace &mdash; this work (verbatim-first)</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">61.0%</td><td class="num">&mdash;</td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
-            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">68.4%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">&mdash;</td><td class="num">0.567&rarr;0.760 <span class="mtag">limit 5&rarr;50 ‖</span></td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
+            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">68.4% <span class="mtag">limit=5 ‖</span></td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
             <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">86.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
 
             <tr class="grp"><td colspan="8">the field &mdash; E2E QA leaderboard (sorted by LongMemEval E2E QA; storage paradigm per MemPalace survey + independent check)</td></tr>
@@ -1765,6 +1788,23 @@
           LoCoMo QA here (~0.39) is an <em>our-harness</em> figure (gpt-5.3-chat reader) &mdash;
           not comparable to the field&rsquo;s 0.75&ndash;0.93 (stronger answer models +
           looser graders; cf. the event-ordering Kendall-&tau; vs binary-judge mismatch).
+        </p>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &#8214; <strong>The deployed-E2E column is a retrieval-breadth ladder</strong>
+          (real <code>/search</code>&rarr;reader&rarr;judge, opus reader, n=150):
+          <strong>limit=5 0.567</strong> (85/150) &rarr; <strong>limit=20 0.740</strong>
+          (111/150) &rarr; <strong>limit=50 0.760</strong> (114/150). Deployed QA was
+          <strong>retrieval-limited at limit=5</strong>; widening to 20 recovers
+          <strong>+17.3pp</strong> and it plateaus by 50 &mdash; concrete proof the gap
+          to the 0.868 oracle ceiling is <em>retrieval breadth</em>, not the reader.
+          (One content-filtered judge call at limit=50, qid&nbsp;95228167, is counted
+          wrong &mdash; a conservative floor; scored correct it is 0.767, which
+          doesn&rsquo;t touch the plateau.) These are a <strong>live re-query</strong>
+          and supersede the 05-29 cached 0.610 (pre-retrieval-drift pinned context).
+          Only the <strong>0.868 ceiling</strong> sits under <em>oracle QA</em> (gold
+          handed to the reader, retrieval bypassed) &mdash; the like-for-like to the
+          field&rsquo;s GPT-4o 0.870 oracle
+          (techempower-org/multipass-structural-memory-eval#117).
         </p>
 
         <p class="bench-prose">
@@ -2075,20 +2115,151 @@
         </p>
 
         <div class="caveat">
-          <span class="label">temporal date-confound &middot; under verification</span>
-          There is also a likely <strong>temporal confound</strong>: LoCoMo questions
-          lean on session <em>dates</em>, and an early diagnosis suggests our flat
-          reader context may not have carried the session timestamps the gold answer
-          depends on. Cassia is re-running with dates preserved
-          (techempower-org/multipass-structural-memory-eval#108 / #110); the corrected
-          number will be slotted in here. Until then, treat ~0.38 as a
-          <strong>floor under our strictest conditions</strong>, not a substrate verdict
-          &mdash; and <em>not</em> apples-to-apples with the field&rsquo;s 0.75&ndash;0.93.
+          <span class="label">temporal date-confound &middot; ruled out</span>
+          We checked for the same temporal date-confound that bit OMEGA here, and
+          <strong>ruled it out.</strong> Cassia&rsquo;s diagnostic (n=50 temporal,
+          capture-context) found <strong>100% of reader contexts carried a date</strong>
+          &mdash; zero date-stripped. The failures break down as <strong>retrieval-miss
+          24</strong> / genuine-reasoning-fail 8 / IDK-despite-evidence 5: the gold
+          isn&rsquo;t reaching the reader, or the reasoning genuinely misses &mdash;
+          <em>not</em> date-starvation. So unlike OMEGA (whose upstream-exact run
+          <em>was</em> date-starved &mdash; cat_6 jumped 0.04&rarr;0.36 once dates were
+          restored), LoCoMo&rsquo;s 0.384 overall / 0.26 temporal is the genuine
+          retrieval-ceiling-plus-reasoning number, not an artifact. Treat it as a
+          <strong>real reading under our strictest conditions</strong> &mdash; still
+          <em>not</em> apples-to-apples with the field&rsquo;s 0.75&ndash;0.93 (stronger
+          answer models + looser graders), but honestly ours
+          (techempower-org/multipass-structural-memory-eval#108 / #110).
         </div>
 
         <div class="bench-foot">
           <span>Source &middot; baselines/locomo_*_flat_*.json + longmemeval/locomo daemon age-fused (n=250, isolated scratch palace) &middot; KG A/B: palace-daemon#202</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/108">techempower-org/multipass-structural-memory-eval#108</a>
+        </div>
+      </article>
+
+      <!-- BEAM — bucket regime-shift -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">BEAM &middot; bucket regime-shift</span>
+            <h3>As the haystack grows, the regime flips to <em>retrieval</em></h3>
+          </div>
+          <span class="bench-pill live">verified &middot; 2026-05-30</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Benchmark</dt><dd>BEAM (bucketed by haystack size)</dd></div>
+          <div><dt>Substrate</dt><dd>flat-local mempalace</dd></div>
+          <div><dt>Reader</dt><dd>gpt-5.3-chat</dd></div>
+          <div><dt>Judge</dt><dd>o4-mini</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">100K &mdash; full-context regime</div>
+            <div class="value"><em>0.649</em></div>
+            <div class="sub">whole bucket fits; needle abilities intact</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">500K &mdash; retrieval regime</div>
+            <div class="value"><em>0.487</em></div>
+            <div class="sub">retrieval kicks in; needle abilities collapse</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">1M &mdash; deep retrieval</div>
+            <div class="value"><em>0.471</em></div>
+            <div class="sub">plateaus &mdash; &minus;0.016 vs 500K; 10M deferred (cost)</div>
+          </div>
+        </div>
+
+        <div class="matrix-scroll">
+        <table class="bench-tbl cat-tbl" aria-label="BEAM per-bucket overall E2E QA (100K, 500K, 1M) and the per-ability regime shift: a cliff from the 100K full-context bucket to the 500K retrieval bucket, then a plateau to 1M. Sortable by bucket.">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="0" data-type="text">Bucket</th>
+              <th class="sortable num" data-col="1" data-type="num">Overall QA</th>
+              <th>Regime</th>
+              <th>Per-ability (info-ext &middot; temporal &middot; multi-session &middot; summ.)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cat">100K <span class="catname">full-context</span></td>
+              <td class="num"><strong>0.649</strong></td>
+              <td>whole bucket in context</td>
+              <td class="src">0.85 &middot; 0.75 &middot; 0.60 &middot; 0.87</td>
+            </tr>
+            <tr>
+              <td class="cat">500K <span class="catname">retrieval</span></td>
+              <td class="num"><strong>0.487</strong></td>
+              <td>real retrieval (needle-in-haystack)</td>
+              <td class="src"><strong>0.40</strong> &middot; <strong>0.26</strong> &middot; <strong>0.24</strong> &middot; 0.87 (holds)</td>
+            </tr>
+            <tr>
+              <td class="cat">1M <span class="catname">deep retrieval</span></td>
+              <td class="num"><strong>0.471</strong></td>
+              <td>retrieval-limited (plateau)</td>
+              <td class="src">flat vs 500K; a couple abilities tick <em>up</em></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <p class="bench-prose">
+          BEAM is the one benchmark here with a genuine <strong>regime shift &mdash; a
+          cliff, then a plateau</strong>. At 100K the whole haystack fits in context,
+          so the reader operates in a <em>full-context</em> regime and the needle
+          abilities are intact. The <strong>cliff is 100K&rarr;500K</strong>
+          (0.649&rarr;0.487, &minus;0.162): the system crosses into a <em>real
+          retrieval</em> regime and the needle-dependent abilities collapse &mdash;
+          <strong>info-extraction 0.85&rarr;0.40</strong>,
+          <strong>temporal 0.75&rarr;0.26</strong>,
+          <strong>multi-session 0.60&rarr;0.24</strong> &mdash; while the
+          retrieval-light ability holds flat (<strong>summarization 0.87</strong> in
+          both, because summarizing doesn&rsquo;t need a specific needle). Then it
+          <strong>plateaus</strong>: 500K&rarr;1M is essentially flat
+          (0.487&rarr;0.471, &minus;0.016) and a couple of needle abilities even tick
+          <em>up</em>. So once you&rsquo;re retrieval-limited at a low top-K,
+          <strong>haystack size barely matters</strong> &mdash; the bottleneck is
+          retrieval breadth, not corpus scale. That asymmetry is the tell: a
+          <strong>retrieval-recall ceiling, not a reader ceiling</strong> &mdash; the
+          same finding as our LongMemEval decomposition (the reader is fine once the
+          gold is in context; getting it there is the whole game).
+        </p>
+
+        <div class="caveat">
+          <span class="label">grader artifact &middot; event_ordering 0.0</span>
+          <strong>event_ordering scores 0.0 in all three buckets &mdash; that is a
+          grader mismatch, not a substrate failure.</strong> BEAM grades ordering with
+          Kendall-&tau;-b (a rank correlation); our binary judge floors any
+          full-sequence answer that isn&rsquo;t an exact match. It drags all buckets
+          equally, so the regime-shift story is unaffected, but it means the
+          <em>absolute</em> substrate is stronger than the headline overall numbers
+          suggest. (Same Kendall-&tau;-vs-binary-judge mismatch flagged on LoCoMo.)
+        </div>
+
+        <div class="caveat">
+          <span class="label">1M floor &middot; reader-window overflow</span>
+          At 1M, <strong>58 of 700 questions (~8%) overflowed the reader&rsquo;s
+          context window</strong> and hard-zeroed &mdash; a mechanical floor, not a
+          retrieval verdict. A real 1M deployment needs sub-session chunking to feed
+          the reader; until then, treat 0.471 as a <em>conservative</em> 1M reading
+          carrying an ~8% overflow penalty the plateau would otherwise sit above.
+        </div>
+
+        <div class="caveat">
+          <span class="label">comparability &middot; not the field&rsquo;s BEAM-1M</span>
+          These buckets are <strong>flat-local mempalace</strong> &mdash; <em>not</em>
+          directly comparable to the field&rsquo;s published BEAM-1M (Mem0 70.1 /
+          True&nbsp;Memory 76.6 / Hindsight 73.9), which run different infrastructure
+          and stronger answer models. Read the columns as our own regime-shift
+          diagnostic, not a leaderboard placement. 10M is deferred on cost.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/beam_{100k,500k,1m}_flat_*.json &middot; BEAM bucket-regime harness (techempower-org#177)</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/177">techempower-org/multipass-structural-memory-eval#177</a>
         </div>
       </article>
 

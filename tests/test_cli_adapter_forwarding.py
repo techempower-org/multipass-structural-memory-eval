@@ -161,6 +161,24 @@ def test_mempalace_daemon_drops_db_path(stub_loader):
     }
 
 
+def test_mempalace_daemon_keeps_age_fused_kwargs(stub_loader):
+    """#140 — the daemon adapter must forward `search_endpoint` and
+    `candidate_strategy` so `sme-eval retrieve --age-fused` actually hits
+    /search/age-fused. These were missing from the accepts-list and got
+    silently dropped at the registry boundary, making --age-fused a no-op
+    (a Cat 1 'age-fused' run was really plain /search). Guard against that
+    drop-list drift regressing again."""
+    stub_loader("mempalace-daemon")
+    out = _load_adapter(
+        "mempalace-daemon",
+        api_url="http://localhost:8085",
+        search_endpoint="/search/age-fused",
+        candidate_strategy="hybrid",
+    )
+    assert out.captured_kwargs["search_endpoint"] == "/search/age-fused"
+    assert out.captured_kwargs["candidate_strategy"] == "hybrid"
+
+
 def test_mempalace_keeps_kg_path_and_collection_name(stub_loader):
     stub_loader("mempalace")
     out = _load_adapter(

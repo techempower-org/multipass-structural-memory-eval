@@ -145,6 +145,8 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         accepts=frozenset({
             "api_url", "api_key", "env_file", "kind", "api_timeout",
             "prefer_graph_endpoint", "read_only",
+            # #140 — age-fused endpoint selection + candidate-pool strategy
+            "search_endpoint", "candidate_strategy",
         }),
     ),
     _AdapterSpec(
@@ -1221,6 +1223,28 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
         adapter_kwargs["kind"] = args.kind
     if getattr(args, "query_mode", None):
         adapter_kwargs["default_query_mode"] = args.query_mode
+    # #140 — daemon search-endpoint selection. --age-fused is shorthand for
+    # --search-endpoint /search/age-fused (the vector + AGE-graph RRF path).
+    search_endpoint = getattr(args, "search_endpoint", "/search")
+    if getattr(args, "age_fused", False):
+        search_endpoint = "/search/age-fused"
+    if search_endpoint and search_endpoint != "/search":
+        adapter_kwargs["search_endpoint"] = search_endpoint
+    candidate_strategy = getattr(args, "candidate_strategy", None)
+    if candidate_strategy:
+        adapter_kwargs["candidate_strategy"] = candidate_strategy
+        # Footgun guard (#140): the daemon silently drops candidate_strategy
+        # on the plain /search endpoint, so the ablation has no effect there.
+        # Warn loudly rather than letting a run think it isolated a strategy.
+        if search_endpoint == "/search":
+            log.warning(
+                "--candidate-strategy=%s is set but --search-endpoint is "
+                "'/search', which silently IGNORES candidate_strategy. Use "
+                "--age-fused (or --search-endpoint /search/age-fused) for the "
+                "strategy to take effect. See "
+                "techempower-org/multipass-structural-memory-eval#140.",
+                candidate_strategy,
+            )
     # mock_inference is bool — explicit None means "use adapter default"
     mock = getattr(args, "mock_inference", None)
     if mock is not None:
@@ -1744,6 +1768,31 @@ def main(argv: list[str] | None = None) -> int:
         help="(ladybugdb) /search mode: semantic | hybrid | graph | "
         "path. Defaults to 'hybrid' (full pipeline). Use 'semantic' as "
         "Condition C (structure disabled).",
+    )
+    ret.add_argument(
+        "--search-endpoint",
+        metavar="PATH",
+        default="/search",
+        help="(mempalace-daemon) which daemon search endpoint to hit. "
+        "Default '/search' (vector/BM25). Use '/search/age-fused' to "
+        "exercise the vector + AGE-graph RRF fusion path — the only "
+        "endpoint that honors --candidate-strategy and the AGE graph "
+        "walk. See techempower-org/multipass-structural-memory-eval#140.",
+    )
+    ret.add_argument(
+        "--age-fused",
+        dest="age_fused",
+        action="store_true",
+        help="(mempalace-daemon) shorthand for "
+        "--search-endpoint /search/age-fused.",
+    )
+    ret.add_argument(
+        "--candidate-strategy",
+        metavar="STRATEGY",
+        choices=["vector", "union", "hybrid"],
+        help="(mempalace-daemon) candidate pool strategy: vector | union "
+        "| hybrid. Only honored on /search/age-fused; the plain /search "
+        "endpoint silently ignores it.",
     )
     ret.add_argument(
         "--collection-name",

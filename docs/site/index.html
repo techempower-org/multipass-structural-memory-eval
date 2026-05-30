@@ -1159,7 +1159,7 @@
         <dl class="bench-meta">
           <div><dt>Benchmark</dt><dd>LongMemEval-S</dd></div>
           <div><dt>Our retrieval</dt><dd>R@5 0.927 (/search), n=150 stratified</dd></div>
-          <div><dt>Our oracle QA</dt><dd>0.610 best &mdash; Opus|preference reader + canonical judge, abstention-credited, n=500</dd></div>
+          <div><dt>Our oracle QA</dt><dd>0.613 best &mdash; Opus|preference reader + canonical judge, n=150 stratified (corroborated 0.610 at n=500)</dd></div>
           <div><dt>Judge</dt><dd>gpt-5.3-chat + canonical type-specific prompts (NOT gpt-4o-2024-08-06)</dd></div>
           <div><dt>Posture</dt><dd>diagnostic decomposition, not a leaderboard claim</dd></div>
         </dl>
@@ -1243,7 +1243,7 @@
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; ours: baselines/reader_sweep_passA_canonical-judge_opus-preference_*.json + longmemeval_s_strat150_*.reagg.json &middot; field: docs/research/2026-05-29-comparison-readiness.md</span>
+          <span>Source &middot; ours: baselines/reader_sweep_stacked_opus-pref_canonical-judge_2026-05-29.json (n=150) + reader_sweep_passA_canonical-judge_opus-preference_*.json (n=500) + longmemeval_s_strat150_*.reagg.json &middot; field: docs/research/2026-05-29-comparison-readiness.md</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
         </div>
       </article>

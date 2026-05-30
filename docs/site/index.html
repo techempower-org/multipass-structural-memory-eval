@@ -1588,13 +1588,13 @@
               <td class="sys">mempalace <span class="note">deployed substrate (this work)</span></td>
               <td class="store verb">verbatim</td>
               <td class="num">92.7%</td>
-              <td class="num">58.0% <span class="note">o4-mini reader, retrieved ‖<br>(opus/oracle gradient 0.610&rarr;0.868 in field card)</span></td>
+              <td class="num">58.0% <span class="note">o4-mini reader · retrieved ctx · canonical gpt-5.3-chat judge · n=150 macro ‖<br>comparator = oracle-n500, not strat150-S (closest apples, not pixel-perfect) · opus/oracle gradient 0.610&rarr;0.868 in field card</span></td>
             </tr>
             <tr>
               <td class="sys">OMEGA <span class="note">first independent competitor run</span></td>
               <td class="store">extraction</td>
               <td class="num">90.0%</td>
-              <td class="num">59.3% <span class="note">sme-rich · o4-mini reader, retrieved ✦<br>same-reader-same-context — ≈ parity</span></td>
+              <td class="num">59.3% <span class="note">sme-rich · o4-mini reader · retrieved ctx · canonical gpt-5.3-chat judge · n=150 macro ✦<br>≈ parity (+1.3pp), same reader + context</span></td>
             </tr>
             <tr>
               <td class="sys">Hindsight <span class="note">extraction, cloud-extractor</span></td>
@@ -1607,17 +1607,19 @@
         </div>
 
         <p class="bench-prose" style="font-size:13px;opacity:.85;">
-          The honest read: on <strong>E2E QA</strong>, held to <em>same reader, same
-          context</em> (o4-mini, retrieved, macro n=150), mempalace
-          <strong>0.580</strong> vs OMEGA sme-rich <strong>0.593</strong> &mdash;
-          <strong>&asymp; parity</strong> (OMEGA +1.3pp). That is the stable finding:
-          two verbatim-vs-extraction systems land within a question of each other once
-          reader and context are pinned. (<strong>R@5</strong> is shown above but is
-          <em>under re-rendering review</em> &mdash; matching OMEGA&rsquo;s sme-rich
-          render moves its R@5 too, so we are not yet drawing a headline from the
-          retrieval column.) Hindsight&rsquo;s cloud-extractor throughput keeps its QA
-          pass cost-gated &mdash; deferred rather than guessed. <em>Don&rsquo;t</em>
-          confuse the 0.580 comparator with mempalace&rsquo;s
+          The honest read: <strong>mempalace&rsquo;s edge is retrieval (R@5 +2.7pp);
+          reader/QA is at parity (OMEGA +1.3pp, same-reader).</strong> On
+          <strong>R@5</strong>, mempalace <strong>0.927</strong> vs OMEGA
+          <strong>0.900</strong> &mdash; a fair same-rendering pair (both measured
+          upstream-exact, <code>--content-rules</code>), so the 2.7pp edge is real:
+          retrieval-only, no answer-model confound. On <strong>E2E QA</strong>, held to
+          <em>same reader, same context</em> (o4-mini, retrieved, macro n=150),
+          mempalace <strong>0.580</strong> vs OMEGA sme-rich <strong>0.593</strong>
+          &mdash; <strong>&asymp; parity</strong> (OMEGA +1.3pp): two
+          verbatim-vs-extraction systems land within a question of each other once
+          reader and context are pinned. Hindsight&rsquo;s cloud-extractor throughput
+          keeps its QA pass cost-gated &mdash; deferred rather than guessed.
+          <em>Don&rsquo;t</em> confuse the 0.580 comparator with mempalace&rsquo;s
           <strong>deployed&rarr;oracle gradient</strong> (0.610 deployed &rarr; 0.684
           ingest-fixed &rarr; 0.868 oracle ceiling): that gradient is an opus reader on
           oracle context and lives in the field card below &mdash; it is <em>not</em>
@@ -1634,7 +1636,11 @@
           the unfair comparison, so we use the date-restored sme-rich figure. (We ran
           the same date-confound check on our own LoCoMo numbers &mdash; see the
           explainer below &mdash; and there it came back clean, which is why we trust
-          0.593 here.)
+          0.593 here.) <strong>On R@5</strong>, the comparison stays upstream-exact on
+          both sides (mempalace 0.927, OMEGA 0.900) &mdash; OMEGA&rsquo;s sme-rich R@5
+          of <strong>0.953</strong> is <em>not</em> a comparator here, because no
+          same-rendering mempalace pair exists for it; mixing renderings is exactly the
+          apples-to-oranges this table refuses.
         </p>
       </article>
 

@@ -1,0 +1,980 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-floorlift/pin_ss-assistant_smerich.json",
+    "pinned_metadata": {
+      "slice": "ss-assistant",
+      "content_rules": "sme-rich",
+      "retrieval": "full-single-session (single-session questions, no chunking)",
+      "source": "local re-pin (no daemon)",
+      "endpoint": "oracle-full"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference",
+      "assistant_trust"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 6,
+    "timestamp_utc": "2026-05-30T03:32:04.960597+00:00"
+  },
+  "n_questions": 56,
+  "n_configs": 2,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 56,
+          "qa_acc": 0.9821,
+          "labels": {
+            "CORRECT": 55,
+            "INCORRECT": 1
+          }
+        },
+        "by_question_type": {
+          "single-session-assistant": {
+            "n": 56,
+            "qa_acc": 0.9821,
+            "labels": {
+              "CORRECT": 55,
+              "INCORRECT": 1
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "7161e7e2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Admon was assigned to the 8 am - 4 pm (Day Shift) on Sunday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4f10528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Miss Bee Providore.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89527b6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Plesiosaur had a blue scaly body.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e9327a54",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Sugar Factory at Icon Park \u2014 it offers an enormous menu of sweet treats, including specialty drinks and giant milkshakes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4c36ccef",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ae235be",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "At the Lake Charles Refinery, the refining processes are:\n\n1. **Atmospheric distillation** \u2013 the first step, where crude oil is heated and separated into different fractions based on their boiling points.\n2. **Fluid catalytic cracking (FCC)** \u2013 breaks down heavier fractions of crude oil into lighter, more valuable products like gasoline and diesel fuel.\n3. **Alkylation** \u2013 combines smaller molecules into larger ones to create high-octane gasoline components.\n4. **Hydrotreating** \u2013 removes impurities from the gasoline and diesel fractions to improve their quality.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7e00a6cb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "International Budget Hostel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1903aded",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Transcriptionist",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ceb54acb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The other four options were:\n\n1. Sexual fixations\n2. Problematic sexual behaviors\n3. Sexual impulsivity\n4. Compulsive sexuality",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f523d9fe",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You used \"Doc Martin\" as your example \u2014 the show that only had the last season available.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e5e2d1a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "38 subjects.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fea54f57",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "\"Evolution\" is the song that best exemplifies the band's growth and development as artists.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc539528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Ruby, Python, or PHP.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dc439ea3",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Hoop Dance.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "18dcd5a5",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The party will face 4 mummies in the temple.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "488d3006",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The GR-90.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58470ed2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Borges said: \"The Library is a sphere whose exact center is any one of its hexagons and whose circumference is inaccessible.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf51dda",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The three objectives outlined were:\n\n1. To identify molecular subtypes of endometrial cancer using a combination of genomic and transcriptomic approaches.\n\n2. To investigate the clinical and biological significance of the identified molecular subtypes, including their association with patient outcomes and response to therapy.\n\n3. To develop biomarkers for the early detection and prognosis of endometrial cancer based on the identified molecular subtypes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1d4da289",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The two-factor authentication methods referred to were biometric authentication (such as fingerprint or facial recognition) and one-time passwords (OTP).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8464fc84",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8aef76bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Mod Podge.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "71a3fd6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The phone number of the Speyer tourism board (Speyer Tourismus Marketing GmbH) is +49 (0) 62 32 / 14 23 - 0.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2bf43736",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Chapter 4 of Book 1 of the second part, titled \"Vocal Prayer and Meditation.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "70b3e69b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Manolo Garc\u00eda.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8752c811",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The 27th parameter was Sound effects (e.g., ambient, diegetic, non-diegetic, etc.).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3249768e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The fifth bottle was Absinthe.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1b9b7252",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Mindful.org",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1568498a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "28. Kg3",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6222b6eb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The 6S (Second Simulation of a Satellite Signal in the Solar Spectrum) algorithm is the one implemented in the SIAC_GEE tool.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e8a79c70",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "2-3 eggs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d596882b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "By Chloe \u2014 the plant-based eatery with multiple locations throughout the city, offering vegan burgers, salads, pastas, and baked goods.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e3fc4d6e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Dr. Arati Prabhakar is the President's Chief Advisor for Science and Technology, and also the Director of the White House Office of Science and Technology Policy.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51b23612",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Soviet cartoon you're referring to is \"Nu, pogodi!\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3e321797",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "10 minutes, then wash off with cold water.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e982271f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Revolution Hall",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "352ab8bd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The average improvement in framerate when using the Hardware-Aware Modular Training (HAMT) agent was approximately 20%.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fca762bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Memrise.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7a8d0b71",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "$2,000 was allocated for influencer marketing in the campaign plan.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a40e080f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The two companies were Patagonia and Southwest Airlines.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8b9d4367",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Jaipur Rugs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5809eb10",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The construction of the house began in 2014.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41275add",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Mayo Clinic video I recommended was \"How to Sit Properly at a Desk to Avoid Back Pain\": https://www.youtube.com/watch?v=UfOvNlX9Hh0",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4388e9dd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Andy was wearing an untidy, stained white shirt.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4baee567",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Chiefs played the Jaguars 12 times at Arrowhead Stadium.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "561fabcd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Fissionator.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b759caee",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Instagram handle is @jessica_poole_jewellery (Jessica Poole).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ac031881",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The designation on your jumpsuit was \"LIV\" (with a square around it), which is the Roman numeral for 54.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28bcfaac",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "MusicTheory.net",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "16c90bf4",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "A Pilsner (or lager).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8f1aeed",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Pennsylvania.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eaca4986",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The chorus in the second (romantic) song used these notes: C D E F G A B A G F E D C.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c7cf7dfd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Nostalgia.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e48988bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Patagonia.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1de5cff2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Veja.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "65240037",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The recommended ratio is 1:10 \u2014 mix a few drops of tea tree oil with a carrier oil (such as coconut oil, jojoba oil, or almond oil) at a 1:10 ratio.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "778164c6",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Escovitch Fish.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    },
+    {
+      "config": "claude-opus-4-8|assistant_trust|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 56,
+          "qa_acc": 1.0,
+          "labels": {
+            "CORRECT": 56
+          }
+        },
+        "by_question_type": {
+          "single-session-assistant": {
+            "n": 56,
+            "qa_acc": 1.0,
+            "labels": {
+              "CORRECT": 56
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "7161e7e2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "On Sunday, Admon was assigned to the 8 am - 4 pm (Day Shift).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4f10528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Miss Bee Providore \u2014 their Miss Bee's Nasi Goreng is the dish you planned to try.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89527b6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Plesiosaur had a blue scaly body.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e9327a54",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Sugar Factory at Icon Park \u2014 it offers an enormous menu of sweet treats, including specialty drinks and giant milkshakes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4c36ccef",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ae235be",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "At the Lake Charles Refinery, the following refining processes are used:\n\n1. **Atmospheric distillation** \u2013 the first step, where crude oil is heated and separated into different fractions based on their boiling points.\n2. **Fluid catalytic cracking (FCC)** \u2013 breaks down heavier fractions of crude oil into lighter, more valuable products such as gasoline and diesel fuel.\n3. **Alkylation** \u2013 combines smaller molecules to form larger ones, creating high-octane gasoline components.\n4. **Hydrotreating** \u2013 removes impurities from the gasoline and diesel fractions to improve their quality.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7e00a6cb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The International Budget Hostel.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1903aded",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The 7th job in the list was **Transcriptionist**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ceb54acb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The other four options were:\n\n1. **Sexual fixations** \u2013 implies a strong preoccupation with sexual thoughts or behaviors that may interfere with other areas of life.\n2. **Problematic sexual behaviors** \u2013 a straightforward phrase describing behaviors that cause problems or difficulties in an individual's life.\n3. **Sexual impulsivity** \u2013 emphasizes the impulsive or compulsive nature of certain sexual behaviors and the difficulty controlling them.\n4. **Compulsive sexuality** \u2013 emphasizes the compulsive nature of certain sexual behaviors and the difficulty breaking free from them.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f523d9fe",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You used \"Doc Martin\" as your example \u2014 the show that, after a while, had only the last season available on Netflix.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e5e2d1a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The study published in the journal Music and Medicine involved 38 subjects.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fea54f57",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The song you said best exemplified the band's growth and development was \"Evolution.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc539528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "For back-end development, the specific programming languages I recommended you learn were **Ruby, Python, or PHP**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dc439ea3",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Hoop Dance \u2014 I described it as a traditional dance involving intricate movements with multiple hoops, often performed by skilled dancers at powwows.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "18dcd5a5",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The party will face **4 mummies** in the temple.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "488d3006",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The GR-90.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58470ed2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Borges said: \"The Library is a sphere whose exact center is any one of its hexagons and whose circumference is inaccessible.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf51dda",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The three objectives outlined for the project were:\n\n1. To identify molecular subtypes of endometrial cancer using a combination of genomic and transcriptomic approaches.\n\n2. To investigate the clinical and biological significance of the identified molecular subtypes, including their association with patient outcomes and response to therapy.\n\n3. To develop biomarkers for the early detection and prognosis of endometrial cancer based on the identified molecular subtypes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1d4da289",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The two-factor authentication methods I referred to were biometric authentication and one-time passwords (OTP).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8464fc84",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Roscioli \u2014 the famous deli near the Vatican that serves the best cured meats, cheeses, and traditional Roman cuisine.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8aef76bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You recommended sealing the newspaper flower vase with Mod Podge (or another sealant) to make it water-resistant.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "71a3fd6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The phone number of the Speyer tourism board is +49 (0) 62 32 / 14 23 - 0.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2bf43736",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Chapter 4 of Book 1 of the second part, titled \"Vocal Prayer and Meditation.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "70b3e69b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Spanish-Catalan singer-songwriter you were referring to is **Manolo Garc\u00eda**. He has spoken publicly about his support for unity between Catalonia and Spain, expressing his belief that Catalonia is an integral part of Spain and that the two should work together to resolve their differences.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8752c811",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The 27th parameter was **Sound effects** (e.g., ambient, diegetic, non-diegetic, etc.).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3249768e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The fifth bottle was Absinthe.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1b9b7252",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Mindful.org is the website that had free guided imagery exercises like \"The Mountain Meditation\" and \"The Body Scan Meditation.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1568498a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "28. Kg3",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6222b6eb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The 6S (Second Simulation of a Satellite Signal in the Solar Spectrum) algorithm is the one implemented in the SIAC_GEE tool.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e8a79c70",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "2-3 eggs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d596882b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "That was By Chloe \u2014 a popular plant-based eatery with multiple locations throughout the city, offering vegan burgers, salads, pastas, and baked goods.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e3fc4d6e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Dr. Arati Prabhakar is the President's Chief Advisor for Science and Technology (and Director of the White House Office of Science and Technology Policy).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51b23612",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Soviet cartoon was \"Nu, pogodi!\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3e321797",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Leave the tomato juice mixed with lemon juice on for 10 minutes, then wash it off with cold water.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e982271f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The last venue on that list was Revolution Hall.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "352ab8bd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The average improvement in framerate when using the Hardware-Aware Modular Training (HAMT) agent was approximately 20%.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fca762bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Memrise \u2014 it uses mnemonics to help learners memorize words, phrases, and grammatical concepts.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7a8d0b71",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The influencer marketing budget was allocated $2,000 in the campaign plan.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a40e080f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The two companies were:\n\n1. **Patagonia** - the outdoor clothing and gear company known for its commitment to environmental conservation and employee well-being, offering flexible work arrangements, generous maternity and paternity leave, and investments in employee education and wellness.\n\n2. **Southwest Airlines** - the airline that emphasizes its employees (whom they call \"Warriors\") with top-of-the-line training, generous benefits packages, and a positive work environment.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8b9d4367",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Jaipur Rugs employs over 40,000 people in the rug-manufacturing industry.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5809eb10",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The construction of the house began in 2014.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41275add",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Mayo Clinic video I recommended was \"How to Sit Properly at a Desk to Avoid Back Pain\": https://www.youtube.com/watch?v=UfOvNlX9Hh0",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4388e9dd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Andy was wearing an untidy, stained white shirt.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4baee567",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Chiefs played the Jaguars 12 times at Arrowhead Stadium in Kansas City.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "561fabcd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You finally decided to name it the **Fissionator**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b759caee",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The Instagram handle is @jessica_poole_jewellery \u2014 Jessica Poole, the UK-based designer who works with unusual gemstones.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ac031881",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The designation on your jumpsuit was \"LIV\" (with a square around it), which is the Roman numeral for 54 \u2014 leading you to file number 54.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28bcfaac",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "MusicTheory.net \u2014 it offers free lessons and exercises on music theory, covering topics such as rhythm, chords, and scales.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "16c90bf4",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "You specifically recommended a Pilsner or lager.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8f1aeed",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Pennsylvania.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eaca4986",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The chorus in the second (more romantic) song used these notes:\n\nC D E F G A B A G F E D C\n\nThis was repeated for each line of the chorus:\n- \"You're the one I want, the one I need\"\n- \"In your eyes, I see my destiny\"\n- \"With you by my side, I can face anything\"\n- \"Forever and always, my heart will sing\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c7cf7dfd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Nostalgia.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e48988bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The company I mentioned was **Patagonia**, the outdoor clothing and gear company known for its strong commitment to sustainability throughout its supply chain \u2014 including sustainable sourcing (organic cotton, recycled polyester), greener transportation, optimized packaging, a clothing take-back program for recycling and repair, and third-party environmental certifications.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1de5cff2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Veja \u2014 the French brand that produces eco-friendly sneakers using organic cotton, recycled plastic bottles, and wild rubber sourced from the Amazon rainforest.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "65240037",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "The recommended ratio is 1:10 \u2014 mix a few drops of tea tree oil with a carrier oil (such as coconut oil, jojoba oil, or almond oil) in a 1:10 ratio.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "778164c6",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": null,
+          "hypothesis": "Grilled Snapper with Mango Salsa.",
+          "autoeval_label": "CORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|assistant_trust|ctx=full",
+    "qa_acc": 1.0
+  }
+}

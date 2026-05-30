@@ -75,7 +75,13 @@ def _adapter(monkeypatch, **kwargs):
     monkeypatch.delenv("HINDSIGHT_API_KEY", raising=False)
     defaults = dict(base_url="http://h", bank_id="b1")
     defaults.update(kwargs)
-    return HindsightAdapter(**defaults)
+    a = HindsightAdapter(**defaults)
+    # These tests exercise the urllib HTTP-fallback path by mocking
+    # urlopen. hindsight-client is now installed in the venv, so the SDK
+    # probe succeeds at construction — force it off so the mocked HTTP
+    # layer is what runs. (The SDK path is covered by tests/test_hindsight_live.py.)
+    a._client = None
+    return a
 
 
 def test_query_success_builds_context(monkeypatch, fake_urlopen_factory):
@@ -129,7 +135,9 @@ def test_query_reflect_with_answer_only_envelope(monkeypatch, fake_urlopen_facto
     assert "Synthesized response." in result.context_string
 
 
-def test_query_request_body_includes_bank_and_top_k(monkeypatch, fake_urlopen_factory):
+def test_query_request_body_uses_recall_budget_not_top_k(monkeypatch, fake_urlopen_factory):
+    # The real hindsight recall has no top_k — it budgets by max_tokens +
+    # a qualitative budget tier, and we slice to n_results client-side.
     captured = {}
 
     def capture(req):
@@ -137,11 +145,14 @@ def test_query_request_body_includes_bank_and_top_k(monkeypatch, fake_urlopen_fa
         return _RECALL_OK
 
     fake_urlopen_factory({"POST http://h/recall": capture})
-    a = _adapter(monkeypatch, n_results=7)
+    a = _adapter(monkeypatch, n_results=7, recall_max_tokens=2048, recall_budget="high")
     a.query("hello")
     assert captured["body"]["bank_id"] == "b1"
     assert captured["body"]["query"] == "hello"
-    assert captured["body"]["top_k"] == 7
+    assert "top_k" not in captured["body"]
+    assert captured["body"]["max_tokens"] == 2048
+    assert captured["body"]["budget"] == "high"
+    assert captured["body"]["include_source_facts"] is True
 
 
 def test_query_api_key_sent_as_bearer(monkeypatch, fake_urlopen_factory):

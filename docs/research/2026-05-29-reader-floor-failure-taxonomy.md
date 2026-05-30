@@ -18,11 +18,14 @@ age-fused}_2026-05-29.json`, reader = `claude-opus-4-8|preference`, judge =
 canonical) back to `longmemeval_oracle.json` to recover the question, the gold
 answer, and the gold-bearing turns (the `has_answer` turns, with their
 `role`). Then re-ingest a sample of failing haystacks into the **live
-palace-daemon** (`sme-rich` content rules, the sweep default) and replay the
-exact `/search` retrieval to measure, per failure, **whether the answer was
-actually in the context the reader received**. That last step is what
-separates a *reader* fault from a *substrate* fault. All probe scripts are in
-`scratch/lucid-diagnosis/`.
+palace-daemon** using **`sme-rich` content rules** (which keep assistant turns)
+and replay the exact `/search` retrieval to measure, per failure, **whether the
+answer was actually in the context the reader received**. That last step is
+what separates a *reader* fault from a *substrate* fault. **Caveat (important):**
+the *published* n=500 pinned context was built with a different content rule
+(`upstream-exact`, which strips assistant turns), so this probe characterizes
+the floor on the `sme-rich` substrate — see the substrate-mode confound box in
+§0. All probe scripts are in `scratch/lucid-diagnosis/`.
 
 **Bottom line up front:** the three floors have three *different* root causes,
 and only one of them is a retrieval problem.
@@ -49,13 +52,29 @@ into `<parent>_chunk_NNNNNN` sub-drawers. `/search` then returns the **top-N
 chunks** (the sweep pinned at `limit=5`), which the adapter concatenates into
 `context_string`. Two consequences:
 
-1. With the default `sme-rich` rules, assistant turns **are** ingested (role
-   headers `## user` / `## assistant`, evidence turns marked
-   `<!-- evidence -->`). Assistant content is *not* dropped at ingest. (The
-   alternate `upstream-exact` rule *would* drop them — `loader.py:333` keeps
-   only `t.role == "user"` — but that was not the sweep default. I verified
-   live that `sme-rich` round-trips the assistant turns into the retrieved
-   context.)
+1. Content rules decide whether assistant turns even exist in the substrate,
+   and **this is a confound on the published number** (see the box below).
+   Under `sme-rich`, assistant turns **are** ingested (role headers
+   `## user` / `## assistant`, evidence turns marked `<!-- evidence -->`) — I
+   verified live that `sme-rich` round-trips them into the retrieved context.
+   Under `upstream-exact` they are **dropped** (`loader.py:333` keeps only
+   `t.role == "user"`).
+
+   > **Substrate-mode confound (reconciled with Nyx's Phase-2 re-pin).** My
+   > live probe re-ingested with `sme-rich`, so the gold (in an assistant turn)
+   > was present and the reader still abstained → on that substrate the floor
+   > **is** the reader. But Nyx's Phase-2 check of the *published* n=500 pinned
+   > context found the gold **absent in 33/51** ss-assistant questions —
+   > meaning that pinned context was almost certainly built with
+   > `upstream-exact`, which stripped the assistant turns. So the **published
+   > ss-assistant floor (0.24/0.32) conflates an ingest-drop with the reader**;
+   > it is not "pure reader." The clean test of my "floor is the reader"
+   > prediction is a re-pin on `sme-rich` (gold actually present) — Nyx is
+   > running that locally via the flat adapter. My finding is the hypothesis;
+   > her sme-rich re-pin is the confirmation. The `assistant_trust` prompt fix
+   > is expected to move the floor **only on a substrate where the gold is
+   > present** — on upstream-exact no prompt can recover a turn that was never
+   > ingested.
 2. Because retrieval is chunk-level and capped at 5, a long session can have
    its answer **split across chunks** or **ranked out**, and a session with
    many *superseded drafts* floods the top-5 with stale near-duplicates.
@@ -86,9 +105,13 @@ re-ingest + replay `/search` at `limit=5`):
 - ANSWER-PARTIAL: 4 / 38.
 - ANSWER-ABSENT (retrieval/chunk genuinely dropped it): **5 / 38**.
 
-So ~76% of this floor is a **pure reader fault**, not retrieval. The reader's
-own words give the mechanism away. Representative PRESENT cases (answer
-verbatim in context, reader abstained):
+So ~76% of this floor is a **pure reader fault** *on the `sme-rich` substrate*
+— when the assistant turn is present, the reader still abstains. (On the
+`upstream-exact` substrate the published number was measured on, much of the
+gold was never ingested — see the §0 confound box; the `assistant_trust` fix
+only applies where the gold is present.) The reader's own words give the
+mechanism away. Representative PRESENT cases (answer verbatim in context,
+reader abstained):
 
 - **`1903aded`** — Q: "what was the 7th job in the list you provided?" Gold:
   *Transcriptionist.* The retrieved chunk is the assistant's numbered list

@@ -54,6 +54,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from sme.eval.reader_sweep import (  # noqa: E402
+    DEFAULT_CONCURRENCY,
     PROMPT_VARIANTS,
     SweepMatrix,
     estimate_sweep_calls,
@@ -109,6 +110,7 @@ def cmd_reader_sweep(args: argparse.Namespace) -> int:
     report_core = run_sweep(
         records=records, matrix=matrix, judge_model=args.judge,
         progress=_progress if args.verbose else None,
+        concurrency=args.concurrency,
     )
     report = {
         "run_metadata": {
@@ -120,6 +122,7 @@ def cmd_reader_sweep(args: argparse.Namespace) -> int:
             "reader_models": list(args.reader_models),
             "prompts": list(args.prompts),
             "context_widths": list(args.context_widths),
+            "concurrency": args.concurrency,
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         },
         **report_core,
@@ -166,6 +169,14 @@ def main(argv: Optional[list[str]] = None) -> int:
     sp_run = sub.add_parser("reader-sweep", help="Run the offline reader sweep")
     _add_sweep_args(sp_run)
     sp_run.add_argument("--judge", default=DEFAULT_JUDGE, help="Judge model id")
+    sp_run.add_argument(
+        "--concurrency", type=int, default=DEFAULT_CONCURRENCY,
+        help=f"Parallel reader/judge calls per config via a thread pool "
+             f"(default {DEFAULT_CONCURRENCY}; 1 = serial). The calls are "
+             f"network-I/O-bound, so K>1 is a near-linear speed-up. Results are "
+             f"identical to serial. Raising K too high risks provider 429 "
+             f"rate-limit errors.",
+    )
     sp_run.add_argument("--json", type=Path, default=None)
     sp_run.set_defaults(func=cmd_reader_sweep)
 

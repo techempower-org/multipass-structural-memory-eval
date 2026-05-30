@@ -83,6 +83,80 @@ def test_generate_answer_through_shim():
     assert ans == "PONG"
 
 
+class _TemperatureRejectingBedrock:
+    """Mimics a model (e.g. opus-4-8) that 400s when `temperature` is sent.
+
+    Records every create() kwarg set so the test can assert which calls carried
+    temperature and how many requests were made.
+    """
+    def __init__(self):
+        self.calls: list[dict] = []
+
+        class _Messages:
+            def create(inner, **kw):  # noqa: N805
+                self.calls.append(kw)
+                if "temperature" in kw:
+                    raise ValueError(
+                        "400 Bad Request: temperature is not supported by this model"
+                    )
+                return SimpleNamespace(
+                    content=[SimpleNamespace(type="text", text="OK")]
+                )
+        self.messages = _Messages()
+
+
+def test_temperature_deprecation_cached_per_model():
+    """First temperature call to a deprecating model pays the retry (2 requests);
+    every later call skips temperature entirely (1 request each). The cache is
+    keyed on the resolved Bedrock id, so a different model is unaffected."""
+    import sme.eval.answer_generator as ag
+    # Isolate the module-level cache for this test.
+    ag._TEMPERATURE_DEPRECATED.clear()
+    fake = _TemperatureRejectingBedrock()
+    shim = _BedrockOpenAIShim(fake)
+    bid = _CLAUDE_BEDROCK_IDS["claude-opus-4-8"]
+
+    # First call: sends temperature, 400s, retries without it → 2 requests.
+    r1 = shim.chat.completions.create(
+        model="claude-opus-4-8",
+        messages=[{"role": "user", "content": "q"}],
+        temperature=0.0,
+    )
+    assert r1.choices[0].message.content == "OK"
+    assert len(fake.calls) == 2
+    assert "temperature" in fake.calls[0]
+    assert "temperature" not in fake.calls[1]
+    assert bid in ag._TEMPERATURE_DEPRECATED
+
+    # Second call: model is cached, so temperature is never sent → 1 request.
+    fake.calls.clear()
+    shim.chat.completions.create(
+        model="claude-opus-4-8",
+        messages=[{"role": "user", "content": "q2"}],
+        temperature=0.0,
+    )
+    assert len(fake.calls) == 1
+    assert "temperature" not in fake.calls[0]
+
+    ag._TEMPERATURE_DEPRECATED.clear()
+
+
+def test_temperature_passed_through_when_model_accepts_it():
+    """A model that accepts temperature is never added to the cache, and every
+    call keeps sending temperature (single request, no retry)."""
+    import sme.eval.answer_generator as ag
+    ag._TEMPERATURE_DEPRECATED.clear()
+    fake = _FakeBedrock()  # accepts temperature, returns PONG
+    shim = _BedrockOpenAIShim(fake)
+    shim.chat.completions.create(
+        model="claude-opus-4-8",
+        messages=[{"role": "user", "content": "q"}],
+        temperature=0.0,
+    )
+    assert fake.last["temperature"] == 0.0
+    assert _CLAUDE_BEDROCK_IDS["claude-opus-4-8"] not in ag._TEMPERATURE_DEPRECATED
+
+
 def test_judge_routes_claude_to_bedrock(monkeypatch):
     """#116 Opus-judge: _client_for_judge sends claude-* judges to the Bedrock
     shim and everything else to the Azure/OpenAI default. Monkeypatched so the

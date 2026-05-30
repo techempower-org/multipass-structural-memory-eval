@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import itertools
 import json
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Iterable, Optional
@@ -39,6 +40,13 @@ from sme.eval.answer_generator import (
     generate_answer,
 )
 from sme.eval.longmemeval_judge import grade_answer
+
+# Default fan-out for the offline reader/judge sweep. Reader + judge calls are
+# network-I/O-bound (1-3s each, mostly latency), so thread-based concurrency is
+# the right lever — the OpenAI/Azure and AnthropicBedrock sync clients are
+# thread-safe for concurrent .create() calls. 8 is conservative; raising it
+# risks provider 429s (rate limits), so document that before cranking it up.
+DEFAULT_CONCURRENCY = 8
 
 # Extraction-prompt variants for the prompt axis. The "terse" default is the
 # answer_generator baseline; the others probe whether prompt scaffolding moves
@@ -117,6 +125,44 @@ def load_pinned_context(path: Path) -> tuple[dict, list[dict]]:
     return doc.get("run_metadata", {}), records
 
 
+def _grade_one_record(
+    r: dict,
+    *,
+    config: ReaderConfig,
+    prompt_template: str,
+    judge_model: str,
+    reader_client: Optional[Any],
+    judge_client: Optional[Any],
+) -> dict:
+    """Reader + judge for a single pinned record. Pure over its inputs (no
+    shared mutable state), so it's safe to run concurrently across questions —
+    the unit of work submitted to the ThreadPoolExecutor in ``run_one_config``.
+    """
+    hypothesis = generate_answer(
+        r["question"], r["context_string"],
+        reader_model=config.reader_model,
+        client=reader_client,
+        max_context_chars=config.max_context_chars,
+        prompt_template=prompt_template,
+    )
+    qtype = "abstention" if r.get("is_abstention") else r["question_type"]
+    judge = grade_answer(
+        question_type=qtype,
+        question=r["question"],
+        gold_answer=r["gold_answer"],
+        hypothesis=hypothesis,
+        judge_model=judge_model,
+        client=judge_client,
+    )
+    return {
+        "question_id": r["question_id"],
+        "question_type": r["question_type"],
+        "sme_category": r.get("sme_category"),
+        "hypothesis": hypothesis,
+        "autoeval_label": judge.get("autoeval_label"),
+    }
+
+
 def run_one_config(
     *,
     records: list[dict],
@@ -125,47 +171,60 @@ def run_one_config(
     reader_client: Optional[Any] = None,
     judge_client: Optional[Any] = None,
     progress: Optional[Callable[[int, int, str], None]] = None,
+    concurrency: int = 1,
 ) -> dict:
     """Replay every pinned record through one reader config, then judge.
 
     Retrieval is NOT re-run — ``context_string`` comes straight from the
     pinned file, so R@5 is constant. Returns a per-config result block with
     per-question judge labels + the aggregate QA-acc.
+
+    ``concurrency`` fans the per-question reader+judge calls out across a
+    ``ThreadPoolExecutor`` (the calls are network-I/O-bound). Results are
+    identical to serial regardless of K: per-question output is reassembled in
+    the original record order, so answers, judge labels, and the aggregate are
+    independent of execution order. ``concurrency=1`` runs strictly serially.
     """
     prompt_template = PROMPT_VARIANTS.get(config.prompt)
     if prompt_template is None:
         raise KeyError(f"unknown prompt variant {config.prompt!r}; "
                        f"known: {sorted(PROMPT_VARIANTS)}")
 
-    per_q: list[dict] = []
-    for i, r in enumerate(records):
-        if progress:
-            progress(i + 1, len(records), r["question_id"])
-        hypothesis = generate_answer(
-            r["question"], r["context_string"],
-            reader_model=config.reader_model,
-            client=reader_client,
-            max_context_chars=config.max_context_chars,
-            prompt_template=prompt_template,
+    n = len(records)
+    per_q: list[Optional[dict]] = [None] * n
+
+    def _work(i: int, r: dict) -> tuple[int, dict]:
+        return i, _grade_one_record(
+            r, config=config, prompt_template=prompt_template,
+            judge_model=judge_model, reader_client=reader_client,
+            judge_client=judge_client,
         )
-        qtype = "abstention" if r.get("is_abstention") else r["question_type"]
-        judge = grade_answer(
-            question_type=qtype,
-            question=r["question"],
-            gold_answer=r["gold_answer"],
-            hypothesis=hypothesis,
-            judge_model=judge_model,
-            client=judge_client,
-        )
-        per_q.append({
-            "question_id": r["question_id"],
-            "question_type": r["question_type"],
-            "sme_category": r.get("sme_category"),
-            "hypothesis": hypothesis,
-            "autoeval_label": judge.get("autoeval_label"),
-        })
-    return {"config": config.label, "summary": aggregate_labels(per_q),
-            "per_question": per_q}
+
+    k = max(1, int(concurrency))
+    if k == 1 or n <= 1:
+        # Serial path — identical behaviour to the pre-concurrency loop.
+        for i, r in enumerate(records):
+            if progress:
+                progress(i + 1, n, r["question_id"])
+            per_q[i] = _grade_one_record(
+                r, config=config, prompt_template=prompt_template,
+                judge_model=judge_model, reader_client=reader_client,
+                judge_client=judge_client,
+            )
+    else:
+        done = 0
+        with ThreadPoolExecutor(max_workers=min(k, n)) as pool:
+            futures = [pool.submit(_work, i, r) for i, r in enumerate(records)]
+            for fut in futures:
+                i, row = fut.result()
+                per_q[i] = row
+                done += 1
+                if progress:
+                    progress(done, n, row["question_id"])
+
+    rows = [row for row in per_q if row is not None]
+    return {"config": config.label, "summary": aggregate_labels(rows),
+            "per_question": rows}
 
 
 def aggregate_labels(per_q: list[dict]) -> dict:
@@ -206,18 +265,24 @@ def run_sweep(
     reader_client: Optional[Any] = None,
     judge_client: Optional[Any] = None,
     progress: Optional[Callable[[int, int, str], None]] = None,
+    concurrency: int = 1,
 ) -> dict:
     """Run the full reader sweep over a pinned-context record set.
 
     Returns ``{configs: [...], best, ceiling_note}``. ``best`` is the config
     with the highest overall QA-acc — the headline #116 signal.
+
+    ``concurrency`` is forwarded to each config's per-question fan-out (see
+    ``run_one_config``). Configs themselves run sequentially so the per-config
+    pool size stays bounded at K; the speed-up is within each config's question
+    set, which is where the call volume lives.
     """
     results = []
     for cfg in matrix.configs():
         results.append(run_one_config(
             records=records, config=cfg, judge_model=judge_model,
             reader_client=reader_client, judge_client=judge_client,
-            progress=progress,
+            progress=progress, concurrency=concurrency,
         ))
     best = max(
         results, key=lambda r: r["summary"]["overall"].get("qa_acc", 0.0),

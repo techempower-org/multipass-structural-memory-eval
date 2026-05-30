@@ -110,11 +110,46 @@ judge = gpt-5.3-chat + canonical prompts.
 Stacked baselines:
 `baselines/reader_sweep_passA_canonical-judge_opus-preference_{search-default,age-fused}_2026-05-29.json`.
 
+## 8. Stacked best-config (n=150 stratified) — the comparison-card number
+
+The single cleanest "best defensible oracle QA" reading: the #116 winning
+reader (`claude-opus-4-8` + `preference` prompt) with the canonical judge,
+on the **same strat150 `/search` pinned context** the reader-only 0.593 number
+used. The ONLY changed variable vs that 0.593 reference is the judge
+(generic gpt-5.3-chat → canonical type-specific prompts). n=150 (25/type),
+**0 abstention records** in the stratified sample (so abstention-credited ==
+harness), **0 ERROR rows**.
+
+| question_type | n | reader-only (generic judge) | stacked (canonical judge) | delta |
+|---|---|---|---|---|
+| single-session-preference | 25 | 0.7600 | 0.8400 | +0.0800 |
+| single-session-user | 25 | 0.8800 | 0.8800 | +0.0000 |
+| single-session-assistant | 25 | 0.2400 | 0.2400 | +0.0000 |
+| multi-session | 25 | 0.4400 | 0.4800 | +0.0400 |
+| knowledge-update | 25 | 0.7600 | 0.7200 | −0.0400 |
+| temporal-reasoning | 25 | 0.4800 | 0.5200 | +0.0400 |
+| **OVERALL** | **150** | **0.5933** | **0.6133** | **+0.0200** |
+
+**Reading.** Stacking the canonical judge onto the best reader adds **+2.0pp**
+(0.593 → 0.613): preference +8pp (the rubric template credits more correct
+personalizations even on top of the preference-tuned reader), temporal +4pp
+(off-by-one clause), multi-session +4pp, knowledge-update −4pp (canonical KU
+template stricter). **0.613 is our best defensible oracle QA number.** That the
+judge swap moves only +2pp on the best reader confirms the thesis: the residual
+gap vs the published 87% oracle is **reader/substrate, not the scorer** — the
+floor is single-session-assistant (0.24), multi-session (0.48), and temporal
+(0.52). Verification gate (before the run): a captured-prompt test confirmed the
+reader-sweep judge path fires the canonical rubric/unanswerable templates, not
+the old generic rubric.
+
+
 ## Artifacts
 
 - Judge: `sme/eval/longmemeval_judge.py`
 - Tests: `tests/test_longmemeval_judge.py`, `tests/test_longmemeval_judge_replicates.py`
 - Corrected baselines: `baselines/reader_sweep_passA_canonical-judge_{search-default,age-fused}_2026-05-29.json`
 - Stacked baselines: `baselines/reader_sweep_passA_canonical-judge_opus-preference_{search-default,age-fused}_2026-05-29.json`
+- Stacked best-config (n=150): `baselines/reader_sweep_stacked_opus-pref_canonical-judge_2026-05-29.json`
+- Reader-only reference (0.593, generic judge): `baselines/reader_sweep_passB_promptfix_2026-05-29.json`
 - Confounded baselines (corrected here): `baselines/reader_sweep_passA_{search-default,age-fused}_2026-05-29.json`
 - Open question #2 resolved: `docs/related_work/longmemeval.md`

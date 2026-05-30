@@ -1948,8 +1948,8 @@
             <tr>
               <td class="cat">3 <span class="catname">Dissonance</span></td>
               <td>Detect and surface conflicting facts</td>
-              <td class="reading gap">gap &mdash; flat floor 90.3%; structured <code>ContradictionPair[]</code> path not wired for the daemon adapter</td>
-              <td class="src">good-dog-corpus &middot; flat baseline</td>
+              <td class="reading">(structural &minus; flat) <strong>+1.00</strong> &middot; structural 1.00 (6/6 seeded pairs, precision 1.00) vs flat 0.00 <span class="src"><code>ContradictionPair[]</code> now wired through the daemon /graph + adapters (#200)</span></td>
+              <td class="src">good-dog-corpus &middot; good-dog-graph</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -1969,8 +1969,8 @@
             <tr>
               <td class="cat">6 <span class="catname">Archive</span></td>
               <td>Current vs historical state, supersession tracking</td>
-              <td class="reading gap">gap &mdash; flat floor 100%; real signal is <code>_superseded_by</code> / <code>valid_from</code>&ndash;<code>valid_to</code>, not read by the matcher</td>
-              <td class="src">good-dog-corpus &middot; flat baseline</td>
+              <td class="reading">(structural &minus; flat) <strong>+1.00</strong> &middot; supersession completeness 1.00 (8/8 supersedes &rarr; <code>_superseded_by</code>, 5 chains incl. the 4-doc Hill&rsquo;s chain) vs flat 0.00 <span class="src">derived through the daemon /graph + adapters (#200)</span></td>
+              <td class="src">good-dog-corpus &middot; good-dog-graph</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -1997,8 +1997,8 @@
             <tr>
               <td class="cat">9a <span class="catname">Handshake</span></td>
               <td>Does the model actually invoke memory when it has access?</td>
-              <td class="reading"><strong>familiar 78.3%</strong> vs RLM 46.7% <span class="src">both RLM orchestrators (Qwen-7B, Llama-70B) plateau 46.7% &mdash; ceiling is willingness to invoke, not retrieval</span></td>
-              <td class="src">jp-realm-v0.1 &middot; familiar / rlm</td>
+              <td class="reading"><strong>opus-4-8 (Tau2 99.3): 100% invocation, 98.3% recall</strong> &mdash; invokes on every question, exceeds the deterministic 78.3% ceiling. Recall monotonic in Tau2: gemma4 41.7 &rarr; qwen3.5 75.0 &rarr; opus-4-8 98.3 <span class="src">prior RLM Qwen-7B/Llama-70B plateaued 46.7% (7&ndash;27% invocation) &mdash; ceiling was willingness to invoke, not retrieval (#194). 4B arms&rsquo; on-harness invocation-rate is a backfill follow-up; recall carried from the validated 2026-05-15 RLM run</span></td>
+              <td class="src">jp-realm-v0.1 &middot; familiar / rlm / opus-4-8</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -2031,22 +2031,24 @@
 
         <div class="caveat">
           <span class="label">honest gaps &middot; not category failures</span>
-          Four readings are &ldquo;not cleanly runnable against mempalace right
+          Two readings remain &ldquo;not cleanly runnable against mempalace right
           now,&rdquo; flagged per the diagnostic posture:
-          <strong>Cat 3 / Cat 6</strong> have only flat good-dog baselines &mdash; the
-          structured-field plumbing (<code>ContradictionPair[]</code>,
-          <code>_superseded_by</code>) isn&rsquo;t wired through the daemon adapter, so
-          the honest <code>(structural &minus; flat)</code> headline is uncomputable.
           <strong>Cat 2c Condition A</strong> and <strong>Cat 7 A/B/C deltas</strong>
           both need a flat baseline on jp-realm, whose source notes live in JP&rsquo;s
           private palace, not the repo &mdash; so 2c stays Condition-B-only and Cat 7
           is a single-condition tokens-per-correct figure.
-          <strong>Cat 9a</strong> model coverage is three orchestrators from
-          2026-04-30; the high-Tau2 cross-validation is the pending experiment above.
+          (<strong>Cat 3 / Cat 6</strong> were in this list until #200 wired the
+          structured-field plumbing &mdash; <code>ContradictionPair[]</code> and
+          <code>_superseded_by</code> through the daemon &mdash; so both now report a
+          real <code>(structural &minus; flat)</code> +1.00.) On <strong>Cat 9a</strong>,
+          the high-Tau2 cross-validation is now done (opus-4-8 above); the one
+          outstanding piece is backfilling the two 4B arms&rsquo; on-harness
+          invocation rate &mdash; their recall is carried from the validated
+          2026-05-15 RLM run.
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, cat4_daemon_age, cat5_daemon_age, cat8_daemon_age, candidate_strategy_age}_2026-05-29.json + docs/ideas.md (Cat 9a) + docs/good_dog_cat3_cat6_findings.md (flat floors) &middot; docs/benchmarks/2026-05-30-multipass-cat-matrix.md</span>
+          <span>Source &middot; baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, cat4_daemon_age, cat5_daemon_age, cat8_daemon_age, candidate_strategy_age}_2026-05-29.json + Cat 3/6 docs/benchmarks/2026-05-30-cat3-cat6-structural-plumbing.md (#200) + Cat 9a docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md (#194) &middot; docs/benchmarks/2026-05-30-multipass-cat-matrix.md</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/115">techempower-org/multipass-structural-memory-eval#115</a>
         </div>
       </article>

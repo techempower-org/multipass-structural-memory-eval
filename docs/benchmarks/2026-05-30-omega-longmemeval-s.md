@@ -26,8 +26,10 @@ session-level R@K metric** as the published mempalace-daemon baseline — OMEGA'
   no one else has run.
 
 **E2E QA** (o4-mini reader + canonical `gpt-5.3-chat` judge, same n=150, `sme-rich` =
-dates present): OMEGA QA = **0.593 macro / 0.653 micro** — ≈ at parity with the
-same-reader mempalace-daemon retrieved-context comparator (0.580 macro). See the *E2E QA
+dates present): OMEGA QA = **0.593 macro** (headline; micro 0.653 secondary) — ≈ at parity
+with the same-reader mempalace-daemon retrieved-context comparator (**0.580 macro**, both
+labeled "o4-mini reader, retrieved context"). The mempalace 0.610/0.868 oracle figures are
+a different axis (the mempalace gradient), **not** the OMEGA comparator. See the *E2E QA
 leg* section below, including the temporal-reasoning content-rendering finding (cat_6) that
 cross-validates SME's "what reaches the reader is the lever" ingest thesis.
 
@@ -110,18 +112,22 @@ Reader **o4-mini**, judge **`gpt-5.3-chat` + canonical type-specific prompts**, 
 stratified subset. **The headline OMEGA QA number is the `sme-rich` run** (dates present);
 the `upstream-exact` run is reported only as a date-stripped diagnostic (see below).
 
+**Headline: macro 0.593.** Macro (unweighted mean of the four equal-n categories) is the
+published number because it matches the stratified-equal-n philosophy *and* the averaging of
+the 0.580 comparator. Micro (per-question) is a clearly-labeled secondary — it runs higher
+only because cat_1 is half the sample and scores well.
+
 | OMEGA QA (sme-rich, fair) | n | QA |
 |---|---:|---:|
 | cat_1 — single-session | 75 | 0.773 |
 | cat_2c — multi-session | 25 | 0.480 |
 | cat_3_partial — knowledge-update | 25 | 0.760 |
 | cat_6 — temporal-reasoning | 25 | 0.360 |
-| **OVERALL — macro** (unweighted mean of the 4 cats) | 150 | **0.593** |
-| **OVERALL — micro** (per-question, 98/150) | 150 | **0.653** |
+| **OVERALL — macro (headline)** — unweighted mean of the 4 cats | 150 | **0.593** |
+| OVERALL — micro (secondary; per-question, cat_1-weighted, 98/150) | 150 | 0.653 |
 
-(Macro and micro differ because cat_1 is half the sample and scores high; cite the same
-averaging the comparator uses.) sme-rich also lifts retrieval (R@5 0.953 vs upstream-exact
-0.900 — the documented +date-frontmatter retrieval effect).
+sme-rich also lifts retrieval (R@5 0.953 vs upstream-exact 0.900 — the documented
++date-frontmatter retrieval effect).
 
 ### The temporal-reasoning content-rendering finding (cat_6)
 

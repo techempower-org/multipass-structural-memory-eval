@@ -135,6 +135,43 @@ def _make_flat_adapter(per_q_vault: Path) -> SMEAdapter:
     )
 
 
+def _make_omega_adapter(per_q_vault: Path) -> SMEAdapter:
+    """Build an OmegaAdapter from a per-question vault.
+
+    OMEGA is a local SQLite memory store. We isolate it per question by
+    pointing OMEGA_HOME at a ``_omega/`` dir inside the question's vault
+    (the adapter sets the env var + drops OMEGA's cached store singleton,
+    so no cross-question contamination and the user's real ~/.omega is
+    never touched). Each .md session file becomes one ``omega.store``
+    call; ``query_structured`` then drives retrieval.
+
+    omega-memory is an optional SME extra — if not installed, raise a
+    clear error so the user can pip-install it or pick another adapter.
+    """
+    try:
+        import omega  # noqa: F401
+    except ImportError as e:  # pragma: no cover — env-dependent
+        raise RuntimeError(
+            "OmegaAdapter requires omega-memory. Install with "
+            "`pip install 'sme-eval[omega]'` or pass a different --adapter."
+        ) from e
+
+    from sme.adapters.omega import OmegaAdapter
+
+    omega_home = per_q_vault / "_omega"
+    adapter = OmegaAdapter(omega_home=str(omega_home), n_results=5)
+    corpus: list[dict] = []
+    for md_file in sorted(per_q_vault.rglob("*.md")):
+        if not md_file.is_file():
+            continue
+        text = md_file.read_text(encoding="utf-8", errors="replace")
+        if text.strip():
+            corpus.append({"content": text, "type": "summary"})
+    if corpus:
+        adapter.ingest_corpus(corpus)
+    return adapter
+
+
 def _make_mempalace_adapter(per_q_vault: Path) -> SMEAdapter:  # pragma: no cover — heavy
     raise RuntimeError(
         "mempalace adapter not yet wired into cross_validate_longmemeval; "
@@ -206,6 +243,7 @@ _ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "flat": _make_flat_adapter,
     "karpathy-compiled": _make_karpathy_compiled_adapter,
     "mempalace": _make_mempalace_adapter,
+    "omega": _make_omega_adapter,
 }
 
 

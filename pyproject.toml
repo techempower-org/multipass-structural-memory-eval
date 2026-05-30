@@ -75,6 +75,11 @@ sme-eval = "sme.cli:main"
 Repository = "https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval"
 Issues = "https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues"
 
+[tool.pytest.ini_options]
+markers = [
+    "live: drives a real external/optional dependency end-to-end (deselect with -m 'not live')",
+]
+
 [tool.setuptools.packages.find]
 include = ["sme*"]
 exclude = ["tests*", "docs*"]

@@ -1,0 +1,114 @@
+{
+  "conditions": {
+    "A": {
+      "label": "A: flat (no structure)",
+      "total": 30,
+      "full_recall": 21,
+      "partial_hits": 29,
+      "mean_recall": 0.8333333333333334,
+      "mean_tokens": 465.9,
+      "tokens_per_correct": 665.5714285714286,
+      "by_hop": {
+        "1": {
+          "hops": 1,
+          "n": 27,
+          "mean_recall": 0.8518518518518519,
+          "hit_rate": 0.9629629629629629,
+          "mean_tokens": 463.6666666666667,
+          "correct_count": 20
+        },
+        "2": {
+          "hops": 2,
+          "n": 3,
+          "mean_recall": 0.6666666666666666,
+          "hit_rate": 1.0,
+          "mean_tokens": 486.0,
+          "correct_count": 1
+        }
+      }
+    },
+    "B": {
+      "label": "B: daemon /search (hybrid pipeline)",
+      "total": 30,
+      "full_recall": 26,
+      "partial_hits": 30,
+      "mean_recall": 0.9333333333333333,
+      "mean_tokens": 789.0666666666667,
+      "tokens_per_correct": 910.4615384615385,
+      "by_hop": {
+        "1": {
+          "hops": 1,
+          "n": 27,
+          "mean_recall": 0.9444444444444444,
+          "hit_rate": 1.0,
+          "mean_tokens": 817.074074074074,
+          "correct_count": 24
+        },
+        "2": {
+          "hops": 2,
+          "n": 3,
+          "mean_recall": 0.8333333333333334,
+          "hit_rate": 1.0,
+          "mean_tokens": 537.0,
+          "correct_count": 2
+        }
+      }
+    },
+    "C": {
+      "label": "C: daemon age-fused (graph RRF)",
+      "total": 30,
+      "full_recall": 24,
+      "partial_hits": 30,
+      "mean_recall": 0.9,
+      "mean_tokens": 483709.8,
+      "tokens_per_correct": 604637.25,
+      "by_hop": {
+        "1": {
+          "hops": 1,
+          "n": 27,
+          "mean_recall": 0.9259259259259259,
+          "hit_rate": 1.0,
+          "mean_tokens": 483185.44444444444,
+          "correct_count": 23
+        },
+        "2": {
+          "hops": 2,
+          "n": 3,
+          "mean_recall": 0.6666666666666666,
+          "hit_rate": 1.0,
+          "mean_tokens": 488429.0,
+          "correct_count": 1
+        }
+      }
+    }
+  },
+  "delta_B_minus_A": {
+    "1": {
+      "recall_delta_pp": 9.259259259259256,
+      "tokens_delta": 353.40740740740733
+    },
+    "2": {
+      "recall_delta_pp": 16.666666666666675,
+      "tokens_delta": 51.0
+    }
+  },
+  "delta_B_minus_C": {
+    "1": {
+      "recall_delta_pp": 1.851851851851849,
+      "tokens_delta": -482368.37037037034
+    },
+    "2": {
+      "recall_delta_pp": 16.666666666666675,
+      "tokens_delta": -487892.0
+    }
+  },
+  "ratio_B_over_A": {
+    "1": 1.108695652173913,
+    "2": 1.2500000000000002
+  },
+  "verdict": "structure adds value at uniform scale",
+  "verdict_details": [
+    "B - C is positive at hops 2 \u2014 structure contributes real value",
+    "B beats flat but the advantage does not grow with depth \u2014 traversal may not be active, benefits may come from re-ranking"
+  ]
+}

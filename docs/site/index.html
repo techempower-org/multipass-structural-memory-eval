@@ -1941,8 +1941,8 @@
             <tr>
               <td class="cat">2c <span class="catname">Stairway</span></td>
               <td>Multi-hop retrieval recall by hop depth &mdash; does structure scale?</td>
-              <td class="reading"><strong>mean recall 0.933</strong> <span class="src">Condition-B only; hop-1 0.944, hop-2 0.833</span></td>
-              <td class="src">jp-realm-v0.1 &middot; daemon (AGE)</td>
+              <td class="reading">(structural &minus; flat) <strong>+10pp</strong> &middot; A flat 0.833 / B hybrid 0.933 / C age-fused 0.900 @K=5 &middot; grows with depth (B/A 1.11&times;&rarr;1.25&times;) <span class="src">B&minus;A +9.3pp@1-hop, +16.7pp@2-hop; graph-RRF sub-layer (C) is a neutral-to-slightly-negative tax vs B &mdash; third data point for the age-fusion-null thesis (#203)</span></td>
+              <td class="src">jp-realm-v0.1 &middot; flat / daemon / age-fused</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -1976,8 +1976,8 @@
             <tr>
               <td class="cat">7 <span class="catname">Abacus</span></td>
               <td>Does structure earn its token overhead? (graph vs no-graph)</td>
-              <td class="reading"><strong>52.9k</strong> tokens/correct (jp-realm Cat 1, age-fused) <span class="src">A/B/C deltas need a flat Condition-A run &mdash; see gaps</span></td>
-              <td class="src">jp-realm-v0.1 &middot; daemon</td>
+              <td class="reading">structure earns it: <strong>+10pp recall for 1.69&times; context</strong> (A vs B, token-comparable: 466&rarr;789 tok/q) <span class="src">flat is cheaper per-correct but lands 5 fewer correct (21/30 vs 26/30); the structural lift is hybrid retrieval, not graph traversal (#203)</span></td>
+              <td class="src">jp-realm-v0.1 &middot; flat / daemon</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -2030,21 +2030,18 @@
         </div>
 
         <div class="caveat">
-          <span class="label">honest gaps &middot; not category failures</span>
-          Two readings remain &ldquo;not cleanly runnable against mempalace right
-          now,&rdquo; flagged per the diagnostic posture:
-          <strong>Cat 2c Condition A</strong> and <strong>Cat 7 A/B/C deltas</strong>
-          both need a flat baseline on jp-realm, whose source notes live in JP&rsquo;s
-          private palace, not the repo &mdash; so 2c stays Condition-B-only and Cat 7
-          is a single-condition tokens-per-correct figure.
-          (<strong>Cat 3 / Cat 6</strong> were in this list until #200 wired the
-          structured-field plumbing &mdash; <code>ContradictionPair[]</code> and
-          <code>_superseded_by</code> through the daemon &mdash; so both now report a
-          real <code>(structural &minus; flat)</code> +1.00.) On <strong>Cat 9a</strong>,
-          the high-Tau2 cross-validation is now done (opus-4-8 above); the one
-          outstanding piece is backfilling the two 4B arms&rsquo; on-harness
-          invocation rate &mdash; their recall is carried from the validated
-          2026-05-15 RLM run.
+          <span class="label">gaps closed &middot; every category now reports a real reading</span>
+          The four readings once flagged &ldquo;not cleanly runnable&rdquo; are all
+          resolved: <strong>Cat 3 / Cat 6</strong> got their structured-field plumbing
+          (<code>ContradictionPair[]</code>, <code>_superseded_by</code> through the
+          daemon) and now report <code>(structural &minus; flat)</code> +1.00 (#200);
+          <strong>Cat 9a</strong>&rsquo;s high-Tau2 cross-validation landed (opus-4-8
+          above) (#194); and <strong>Cat 2c / Cat 7</strong> got their information-matched
+          flat Condition-A baseline on jp-realm, giving the +10pp B&minus;A structural
+          deltas (#203). One minor follow-up remains &mdash; backfilling the two 4B
+          arms&rsquo; on-harness invocation rate for Cat 9a (their recall is carried from
+          the validated 2026-05-15 RLM run). Per the diagnostic posture, each cell is a
+          controlled reading of one substrate, not a leaderboard score.
         </div>
 
         <div class="bench-foot">

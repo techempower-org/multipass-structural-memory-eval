@@ -47,12 +47,29 @@
 #   SME_BENCH_HEARTBEAT_SECONDS   marker-touch interval (default: 300; must be
 #                                 well under the daemon's 6h stale-age guard)
 #   PALACE_BENCH_PID              override the marker PID (default: $$)
+#   SME_BENCH_ALLOW_CONCURRENT_INGEST
+#                                 set 1 to permit ≥2 CONCURRENT ingest-heavy
+#                                 benches. Default 0 → a 2nd concurrent ingest
+#                                 bench is REFUSED (exit 4). See the gate below.
+#
+# ⚠️  CONCURRENT-INGEST SAFETY GATE (mempalace#331)
+# Live familiar runs with MEMPALACE_KG_WRITETHROUGH=1, which takes the daemon's
+# *inline* KG write-through path — and that path has a data race under
+# concurrent writers (autocommit=False shared connection → transaction-span
+# interleaving → silently dropped/mis-committed KG triples). The mempalace
+# ingest thread-safety audit's RLock fix (mempalace#331) is NOT yet merged or
+# deployed to familiar. Until it is, running ≥2 ingest-heavy benches
+# concurrently risks KG CORRUPTION. A SINGLE ingest bench is safe (no
+# concurrent writer); retrieval-only is always safe (no writes). So this
+# wrapper REFUSES a 2nd concurrent ingest bench by default; flip
+# SME_BENCH_ALLOW_CONCURRENT_INGEST=1 only after #331 is deployed to familiar.
 
 set -euo pipefail
 
 PALACE_DAEMON_HOST="${PALACE_DAEMON_HOST:-familiar}"
 PALACE_BENCH_LOCK_PATH="${PALACE_BENCH_LOCK_PATH:-/srv/mempalace-data/palace/.bench-active.lock}"
 SME_BENCH_MAX_INGEST="${SME_BENCH_MAX_INGEST:-3}"
+SME_BENCH_ALLOW_CONCURRENT_INGEST="${SME_BENCH_ALLOW_CONCURRENT_INGEST:-0}"
 SME_BENCH_MIN_AVAIL_MIB="${SME_BENCH_MIN_AVAIL_MIB:-2048}"
 SME_BENCH_HEARTBEAT_SECONDS="${SME_BENCH_HEARTBEAT_SECONDS:-300}"
 _BENCH_PID="${PALACE_BENCH_PID:-$$}"
@@ -89,6 +106,13 @@ bench_acquire() {
         count=$(_bench_refcount)
         avail=$(_bench_avail_mib)
         echo "bench_runner: ingest gate — ${count} bench(es) registered, ${avail} MiB avail on ${PALACE_DAEMON_HOST}"
+        # mempalace#331 safety gate: refuse a 2nd CONCURRENT ingest bench while
+        # the inline KG-write-through race is live on familiar (WRITETHROUGH=1,
+        # RLock fix not yet deployed). A single ingest bench (count 0) is safe.
+        if [ "${count:-0}" -ge 1 ] && [ "${SME_BENCH_ALLOW_CONCURRENT_INGEST}" != "1" ]; then
+            echo "bench_runner: REFUSE — ${count} ingest bench(es) already registered and concurrent ingest is GATED (mempalace#331: live KG-write-through race under concurrent writers). A single ingest bench is safe; flip SME_BENCH_ALLOW_CONCURRENT_INGEST=1 only after #331's RLock is deployed to familiar." >&2
+            return 4
+        fi
         if [ "${count:-0}" -ge "${SME_BENCH_MAX_INGEST}" ]; then
             echo "bench_runner: REFUSE — ${count} ingest benches already registered (cap ${SME_BENCH_MAX_INGEST}). Re-run when one finishes." >&2
             return 2

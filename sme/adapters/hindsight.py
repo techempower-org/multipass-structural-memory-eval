@@ -80,6 +80,8 @@ class HindsightAdapter(SMEAdapter):
         api_key: Optional[str] = None,
         n_results: int = 10,
         use_reflect: bool = False,
+        recall_max_tokens: int = 4096,
+        recall_budget: str = "mid",
         api_timeout: float = DEFAULT_TIMEOUT,
         read_only: bool = True,
     ) -> None:
@@ -89,6 +91,11 @@ class HindsightAdapter(SMEAdapter):
         self.api_key = api_key or os.environ.get("HINDSIGHT_API_KEY")
         self.n_results = n_results
         self.use_reflect = use_reflect
+        # recall has no top_k — it budgets retrieval by token count + a
+        # qualitative budget tier ('low'|'mid'|'high'). We over-fetch and
+        # slice to n_results in query().
+        self.recall_max_tokens = recall_max_tokens
+        self.recall_budget = recall_budget
         self.api_timeout = api_timeout
         # Lazy SDK probe — adapter still works without the SDK.
         self._client = _try_load_sdk(self.base_url, self.api_key)
@@ -119,6 +126,7 @@ class HindsightAdapter(SMEAdapter):
                     context=row.get("context"),
                     timestamp=row.get("timestamp"),
                     metadata=row.get("metadata"),
+                    document_id=row.get("document_id") or row.get("id"),
                 )
                 stored += 1
             except Exception as e:
@@ -152,20 +160,28 @@ class HindsightAdapter(SMEAdapter):
         retrieved: list[Entity] = []
         edges: list[Edge] = []
         for i, hit in enumerate(hits[:k]):
-            text = hit.get("content") or hit.get("text") or hit.get("memory", "")
+            text = hit.get("text") or hit.get("content") or hit.get("memory", "")
             mem_id = str(hit.get("id") or f"hindsight_hit:{i}")
             mem_kind = hit.get("type") or hit.get("kind") or "memory"
             score = hit.get("score") or hit.get("relevance")
+            # document_id is the ingest-unit id we supplied at retain time
+            # (e.g. the LongMemEval/LoCoMo session id). It's the join key
+            # for drawer-style R@K — Entity.id is set to it when present so
+            # the harness's hit_at_K logic compares like-for-like against
+            # expected session ids.
+            doc_id = hit.get("document_id")
+            entity_id = doc_id if doc_id else f"hindsight:{mem_id}"
             context_parts.append(f"[{i + 1}] [{mem_kind}] {text}")
             retrieved.append(
                 Entity(
-                    id=f"hindsight:{mem_id}",
+                    id=str(entity_id),
                     name=mem_id,
                     entity_type=f"hindsight:{mem_kind}",
                     properties={
                         "_table": "hindsight_memory",
                         "kind": mem_kind,
                         "score": score,
+                        "document_id": doc_id,
                         "bank_id": self.bank_id,
                     },
                 )
@@ -290,41 +306,55 @@ class HindsightAdapter(SMEAdapter):
         context: Optional[str] = None,
         timestamp: Optional[str] = None,
         metadata: Optional[dict] = None,
+        document_id: Optional[str] = None,
     ) -> None:
+        # Verified against hindsight-client v0.7.1:
+        # retain(bank_id, content, timestamp=None, context=None,
+        #        document_id=None, metadata=None, ...). document_id is the
+        # caller-supplied ingest-unit id that recall hits echo back, so it's
+        # what makes R@K against the originating session possible.
+        kwargs: dict[str, Any] = {"bank_id": self.bank_id, "content": content}
+        if context is not None:
+            kwargs["context"] = context
+        if timestamp is not None:
+            kwargs["timestamp"] = timestamp
+        if metadata is not None:
+            kwargs["metadata"] = metadata
+        if document_id is not None:
+            kwargs["document_id"] = document_id
         if self._client is not None:
-            # SDK call shape per the README:
-            # client.retain(bank_id=..., content=..., context=..., timestamp=...)
-            kwargs: dict[str, Any] = {
-                "bank_id": self.bank_id,
-                "content": content,
-            }
-            if context is not None:
-                kwargs["context"] = context
-            if timestamp is not None:
-                kwargs["timestamp"] = timestamp
-            if metadata is not None:
-                kwargs["metadata"] = metadata
             self._client.retain(**kwargs)
             return
-
-        body: dict[str, Any] = {"bank_id": self.bank_id, "content": content}
-        if context is not None:
-            body["context"] = context
-        if timestamp is not None:
-            body["timestamp"] = timestamp
-        if metadata is not None:
-            body["metadata"] = metadata
-        self._http_post(f"{self.base_url}/retain", body)
+        self._http_post(f"{self.base_url}/retain", kwargs)
 
     def _recall_or_reflect(self, endpoint: str, query: str, k: int) -> Any:
+        # NOTE: the real hindsight-client recall/reflect (verified against
+        # v0.7.1) does NOT take a top_k. recall budgets by max_tokens; ranking
+        # is internal (RRF + cross-encoder rerank). We over-fetch with a
+        # generous max_tokens and slice to k in query(). include_source_facts
+        # surfaces the originating raw fact (and its document_id) so R@K can
+        # map a recall hit back to the ingested unit.
         if self._client is not None:
             method = getattr(self._client, endpoint, None)
             if method is None:
                 raise _HindsightError(
                     f"INTERNAL: hindsight client has no {endpoint!r} method"
                 )
-            return method(bank_id=self.bank_id, query=query, top_k=k)
-        body = {"bank_id": self.bank_id, "query": query, "top_k": k}
+            if endpoint == "recall":
+                return method(
+                    bank_id=self.bank_id, query=query,
+                    max_tokens=self.recall_max_tokens,
+                    budget=self.recall_budget,
+                    include_source_facts=True,
+                )
+            return method(bank_id=self.bank_id, query=query, budget=self.recall_budget)
+        # HTTP fallback — the real REST surface mirrors the SDK kwargs.
+        body: dict[str, Any] = {"bank_id": self.bank_id, "query": query}
+        if endpoint == "recall":
+            body.update(max_tokens=self.recall_max_tokens,
+                        budget=self.recall_budget, include_source_facts=True)
+        else:
+            body["budget"] = self.recall_budget
         return self._http_post(f"{self.base_url}/{endpoint}", body)
 
     def _http_get(self, url: str) -> Any:
@@ -390,23 +420,50 @@ def _try_load_sdk(base_url: str, api_key: Optional[str]):
         return None
 
 
+def _hit_to_dict(hit: Any) -> dict:
+    """Normalise one recall hit to a plain dict. Handles both the SDK's
+    Pydantic ``RecallResult`` (verified v0.7.1: id/text/type/document_id/
+    metadata/source_fact_ids) and the HTTP-fallback dict."""
+    if isinstance(hit, dict):
+        return hit
+    # Pydantic model → dict
+    dump = getattr(hit, "model_dump", None)
+    if callable(dump):
+        try:
+            return dump()
+        except Exception:  # noqa: BLE001 — fall through to attr scrape
+            pass
+    return {
+        k: getattr(hit, k, None)
+        for k in ("id", "text", "type", "document_id", "context",
+                  "metadata", "source_fact_ids", "entities", "tags")
+    }
+
+
 def _extract_hits(raw: Any) -> list[dict]:
-    """Hindsight's response schema isn't documented in the README in
-    full. Be defensive — accept ``results``, ``memories``, ``hits``,
-    a top-level list, or a string answer wrapped in a dict.
+    """Normalise a recall/reflect response into a list of hit dicts.
+
+    The real hindsight-client returns a Pydantic ``RecallResponse`` with a
+    ``.results`` list of ``RecallResult`` (recall) or a ``ReflectResponse``
+    with ``.answer``/``.facts`` (reflect). The HTTP fallback returns the
+    equivalent JSON dict. Tolerate both, plus a bare list.
     """
     if raw is None:
         return []
+    # SDK Pydantic objects expose attributes, not dict keys.
+    results_attr = getattr(raw, "results", None)
+    if isinstance(results_attr, list):
+        return [_hit_to_dict(h) for h in results_attr]
+    answer_attr = getattr(raw, "answer", None)
+    if isinstance(answer_attr, str) and answer_attr:
+        return [{"text": answer_attr, "type": "reflect_answer"}]
     if isinstance(raw, list):
-        return [h for h in raw if isinstance(h, dict)]
+        return [_hit_to_dict(h) for h in raw]
     if isinstance(raw, dict):
         for key in ("results", "memories", "hits"):
             inner = raw.get(key)
             if isinstance(inner, list):
-                return [h for h in inner if isinstance(h, dict)]
-        # Reflect may return an "answer" string with no per-hit list —
-        # treat the whole envelope as a single hit so the answer text
-        # still flows into context_string.
+                return [_hit_to_dict(h) for h in inner]
         if isinstance(raw.get("answer"), str):
-            return [{"content": raw["answer"], "type": "reflect_answer"}]
+            return [{"text": raw["answer"], "type": "reflect_answer"}]
     return []

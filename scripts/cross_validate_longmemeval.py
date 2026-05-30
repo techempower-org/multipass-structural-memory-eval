@@ -204,6 +204,53 @@ def _make_omega_adapter(per_q_vault: Path) -> SMEAdapter:
     return adapter
 
 
+def _make_hindsight_adapter(per_q_vault: Path) -> SMEAdapter:
+    """Build a HindsightAdapter from a per-question vault.
+
+    Hindsight is a Docker-hosted server that owns a single store; it
+    isolates memories per ``bank_id``. We give each per-question vault its
+    own unique bank (derived from the vault dir name) so prior questions
+    can't leak into the current question's recall — the same role the
+    daemon adapter's per-question wing plays. Each .md session file is a
+    ``retain`` with ``document_id`` = the session id (file stem), so recall
+    hits map back to the originating session for R@K.
+
+    NOTE (extraction-based, #184): Hindsight stores LLM-EXTRACTED facts,
+    not raw sessions. Retrieval is fact-level; session-level R@K is mediated
+    by the extractor (a fact extracted *from* the evidence session ranking
+    top-K), which is softer than a raw-chunk R@K. The QA number (reader +
+    judge over recalled facts) is the cleaner apples-to-apples metric.
+
+    Requires hindsight-client + a reachable server (HINDSIGHT_BASE_URL).
+    """
+    try:
+        import hindsight_client  # noqa: F401
+    except ImportError as e:  # pragma: no cover — env-dependent
+        raise RuntimeError(
+            "HindsightAdapter requires hindsight-client. Install with "
+            "`pip install hindsight-client` and run a Hindsight server, "
+            "or pass a different --adapter."
+        ) from e
+
+    from sme.adapters.hindsight import HindsightAdapter
+
+    # Unique bank per question vault — the isolation primitive.
+    bank_id = f"sme_{per_q_vault.name}"
+    adapter = HindsightAdapter(bank_id=bank_id, n_results=5)
+    corpus: list[dict] = []
+    for md_file in sorted(per_q_vault.rglob("*.md")):
+        if not md_file.is_file():
+            continue
+        text = md_file.read_text(encoding="utf-8", errors="replace")
+        if text.strip():
+            # document_id = session id (file stem) → recall hits trace back
+            # to the originating session for session-level R@K.
+            corpus.append({"content": text, "document_id": md_file.stem})
+    if corpus:
+        adapter.ingest_corpus(corpus)
+    return adapter
+
+
 def _make_mempalace_adapter(per_q_vault: Path) -> SMEAdapter:  # pragma: no cover — heavy
     raise RuntimeError(
         "mempalace adapter not yet wired into cross_validate_longmemeval; "
@@ -276,6 +323,7 @@ _ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "karpathy-compiled": _make_karpathy_compiled_adapter,
     "mempalace": _make_mempalace_adapter,
     "omega": _make_omega_adapter,
+    "hindsight": _make_hindsight_adapter,
 }
 
 

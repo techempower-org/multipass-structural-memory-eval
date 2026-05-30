@@ -328,12 +328,15 @@ class OmegaAdapter(SMEAdapter):
                 or hit.get("memory_type")
                 or "?"
             )
-            score = (
-                hit.get("relevance")
-                if hit.get("relevance") is not None
-                else hit.get("strength")
-                if hit.get("strength") is not None
-                else hit.get("score") or hit.get("similarity") or hit.get("rank")
+            # Use ``is not None`` (not ``or``) — a legitimate 0.0 score /
+            # rank is falsy and would otherwise be dropped.
+            score = next(
+                (
+                    hit.get(k)
+                    for k in ("relevance", "strength", "score", "similarity", "rank")
+                    if hit.get(k) is not None
+                ),
+                None,
             )
             mem_id = str(hit.get("id") or f"omega_hit:{i}")
             context_parts.append(f"[{i + 1}] [{mem_type}] {text}")
@@ -389,55 +392,49 @@ class OmegaAdapter(SMEAdapter):
         # those first so edges are present, then read.
         self._await_omega_background()
 
-        # Prefer reading through OMEGA's OWN live store connection. OMEGA
-        # runs in WAL mode; the data lives mostly in the -wal file, and a
-        # separate connection's view of it is racy across consecutive
-        # in-process store rebinds (it can transiently read zero rows
-        # before the WAL frames are mapped). The store's own connection
-        # always sees its own writes, so it's the deterministic source of
-        # truth. Fall back to a fresh connection only if the live one
-        # isn't reachable (e.g. a future OMEGA renames the attribute).
-        conn = self._omega_live_conn()
-        if conn is not None:
-            return _read_omega_memories(conn), _read_omega_edges(conn)
-
         if not Path(self.db_path).exists():
             log.warning("omega db not found at %s; returning empty snapshot",
                         self.db_path)
             return [], []
 
-        try:
-            fallback = sqlite3.connect(self.db_path)
-        except sqlite3.Error as e:
-            log.warning("could not open omega db: %s", e)
-            return [], []
-        try:
-            return _read_omega_memories(fallback), _read_omega_edges(fallback)
-        finally:
-            fallback.close()
-
-    def _omega_live_conn(self) -> Optional[sqlite3.Connection]:
-        """Return OMEGA's live store connection if it points at our db.
-
-        OMEGA's SQLiteStore keeps an open ``_conn``. Using it for the
-        snapshot avoids the cross-connection WAL race. We verify the
-        store's ``db_path`` matches ours so we never read a sibling
-        adapter's store by accident."""
-        try:
-            bridge = getattr(self._omega, "bridge", None)
-            get_store = getattr(bridge, "_get_store", None)
-            if not callable(get_store):
-                return None
-            store = get_store()
-            store_db = str(getattr(store, "db_path", ""))
-            if os.path.realpath(store_db) != os.path.realpath(self.db_path):
-                return None
-            conn = getattr(store, "_conn", None)
-            if isinstance(conn, sqlite3.Connection):
-                return conn
-        except Exception as e:  # noqa: BLE001
-            log.debug("omega live-conn unavailable: %s", e)
-        return None
+        # Read from our OWN fresh connection, NOT OMEGA's live store
+        # connection: OMEGA's connection is shared with its auto-relate
+        # daemon thread, and issuing our SELECTs on it concurrently with
+        # that thread's writes yields a racy/empty view (and sqlite3
+        # connections are thread-bound, so a cross-thread read would raise
+        # ProgrammingError). We open read-WRITE (not mode=ro) so the
+        # connection can map the WAL -shm index — a mode=ro connection that
+        # can't map -shm reads only the main db file and may miss
+        # WAL-resident rows. We only SELECT, so this is non-destructive. A
+        # short bounded retry absorbs the window where OMEGA's background
+        # thread briefly holds a write transaction (during which a SELECT
+        # can transiently see zero synchronously-written rows).
+        last_err: Optional[sqlite3.Error] = None
+        for attempt in range(4):
+            try:
+                conn = sqlite3.connect(self.db_path, timeout=2.0)
+            except sqlite3.Error as e:
+                log.warning("could not open omega db: %s", e)
+                return [], []
+            try:
+                entities = _read_omega_memories(conn)
+                edges = _read_omega_edges(conn)
+            except sqlite3.Error as e:
+                # Corruption / locking / unexpected schema — degrade
+                # gracefully (the adapter never raises from a read).
+                last_err = e
+                entities, edges = [], []
+            finally:
+                conn.close()
+            # A non-empty memories read is authoritative. An empty read on
+            # an early attempt may be the background-write window; retry
+            # briefly before accepting "genuinely empty".
+            if entities or attempt == 3:
+                if not entities and last_err is not None:
+                    log.warning("omega snapshot read error: %s", last_err)
+                return entities, edges
+            self._await_omega_background(timeout=0.5)
+        return [], []
 
     # --- optional helpers ---------------------------------------------
 

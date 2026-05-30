@@ -282,6 +282,22 @@ def test_query_n_results_truncates(monkeypatch, isolate_omega_home):
     a.close()
 
 
+def test_query_preserves_zero_score(monkeypatch, isolate_omega_home):
+    """A legitimate 0.0 relevance must be kept, not dropped as falsy."""
+    _install_fake_omega(
+        monkeypatch,
+        query_structured_fn=lambda t, limit=10, **kw: [
+            {"id": "z", "content": "zero-scored hit",
+             "event_type": "summary", "relevance": 0.0},
+        ],
+    )
+    from sme.adapters.omega import OmegaAdapter
+    a = OmegaAdapter(omega_home=str(isolate_omega_home / "h"))
+    result = a.query("x")
+    assert result.retrieved_entities[0].properties["score"] == 0.0
+    a.close()
+
+
 def test_query_internal_error_captured(monkeypatch, isolate_omega_home):
     def boom(t, limit=10, **kw):
         raise RuntimeError("query crash")

@@ -279,14 +279,22 @@ def _default_client() -> Optional[Any]:
 
 
 def _client_for_judge(judge_model: str) -> Optional[Any]:
-    """Route the judge client by model id — claude-* judges go through the
-    AnthropicBedrock shim (reusing the reader-side routing), everything else
-    through the Azure/OpenAI default. Lets ``--judge claude-opus-4-8`` test
-    whether a stronger judge re-scores answers more fairly (#116). The Bedrock
-    shim already retries without ``temperature`` for opus-4-8."""
-    from sme.eval.answer_generator import _is_claude_model, _bedrock_client
+    """Route the judge client by model id, reusing the reader-side routing:
+      - claude-* judges        -> AnthropicBedrock shim (``--judge claude-opus-4-8``
+        tests whether a stronger judge re-scores more fairly, #116; the shim
+        already retries without ``temperature`` for opus-4-8).
+      - local/ollama judges    -> OpenAI client at localhost:11434 (no-cost,
+        no-rate-limit judge lane on the katana GPU).
+      - everything else        -> Azure/OpenAI default.
+    Claude is checked first so Bedrock ids (no ':') never fall into the local
+    lane's ':'-tag heuristic."""
+    from sme.eval.answer_generator import (
+        _bedrock_client, _is_claude_model, _is_local_model, _ollama_client,
+    )
     if _is_claude_model(judge_model):
         return _bedrock_client()
+    if _is_local_model(judge_model):
+        return _ollama_client()
     return _default_client()
 
 
@@ -346,9 +354,13 @@ def grade_answer(
     prompt = _prompt_for_question_type(
         question_type, question, gold_answer, hypothesis
     )
+    # ollama wants the bare tag, so strip any ``ollama/`` prefix before the call.
+    from sme.eval.answer_generator import _is_local_model, _ollama_model_id
+    wire_model = _ollama_model_id(judge_model) if _is_local_model(judge_model) \
+        else judge_model
     try:
         called = _call_openai(
-            client=client, model=judge_model, prompt=prompt,
+            client=client, model=wire_model, prompt=prompt,
             temperature=temperature,
         )
     except Exception as e:  # noqa: BLE001 — judge errors are diagnostic

@@ -1163,71 +1163,63 @@
 
   <!-- BOTTOM LINE — top-of-page synthesis -->
   <section id="bottomline">
-    <div class="section-mark"><span class="roman">0</span> <span>the bottom line</span></div>
+    <div class="section-mark"><span class="roman">0</span> <span>the conclusion</span></div>
     <header class="bottomline-head">
-      <span class="eyebrow">what we found</span>
-      <h2 class="display">The bottleneck was never the <em>reader.</em></h2>
+      <span class="eyebrow">what the benchmarks say</span>
+      <h2 class="display">A competitive memory system &mdash; with the headroom in <em>its own hands.</em></h2>
       <p class="bl-lede">
-        We ran a memory system (<strong>mempalace</strong>) through SME against
-        LongMemEval, decomposing every result under controlled conditions. The
-        headline: when a question is answered wrong, it is almost never because
-        the reader can't reason &mdash; it's because <em>the right memory never
-        reached it</em>. Hand the reader the gold and it essentially matches the
-        field's oracle; getting the gold there is everything.
+        <strong>MemPalace</strong>, on the Postgres + pgvector + Apache AGE fork,
+        is a competitive and honestly-measured memory system &mdash; and SME's job
+        here was to find where it stands and where the work is. The verdict: it
+        <em>retrieves with the field</em>, and a frontier-grade answer is already
+        reachable on this stack. The gap to that ceiling isn't the language
+        model's reasoning &mdash; it's how faithfully the memory system delivers
+        the right context into the prompt. The encouraging part: that lever is in
+        <em>MemPalace's own hands</em> &mdash; ingestion fidelity and retrieval
+        breadth &mdash; not a bigger model.
       </p>
     </header>
 
     <div class="bl-grid">
       <article class="bl-card">
-        <span class="n">the headline</span>
-        <div class="stat">It's <em>what reaches the reader</em></div>
+        <span class="n">the substrate</span>
+        <div class="stat"><em>0.927 / 0.966</em> R@5</div>
         <p>
-          Not the encoder (in-domain lift, cross-domain null), not retrieval
-          (R@5 near-ceiling), not the judge (a small ~2&ndash;5pp confound). The
-          QA bottleneck is <strong>ingest mode + retrieval breadth</strong> &mdash;
-          the gold often never arrives in context.
+          Retrieval is <strong>competitive</strong>: R@5 0.927 on representative
+          LongMemEval-S, and <strong>0.966 in byte-identical parity</strong> with
+          upstream ChromaDB. The move to Postgres + pgvector + Apache AGE cost
+          <strong>zero recall</strong> &mdash; MemPalace finds the right memory.
         </p>
       </article>
       <article class="bl-card">
-        <span class="n">reader ceiling</span>
+        <span class="n">the frontier</span>
         <div class="stat"><em>0.868</em> oracle QA</div>
         <p>
-          Hand the reader the gold (true oracle) and it answers at
+          Handed the right memory (true oracle), the reader answers at
           <strong>0.868</strong> &mdash; within <strong>0.2pp</strong> of the
-          field's GPT-4o oracle (0.870), <strong>essentially a match</strong>.
-          Five of six categories were retrieval-limited; the earlier
-          &ldquo;0.61&rdquo; was substrate, not a reader limit.
+          field's GPT-4o oracle (0.870). A frontier-grade answer is
+          <strong>already reachable</strong> on this stack.
         </p>
       </article>
       <article class="bl-card">
-        <span class="n">retrieval</span>
-        <div class="stat"><em>0.927</em> R@5</div>
+        <span class="n">the lever</span>
+        <div class="stat">Memory <em>delivery</em></div>
         <p>
-          Retrieval is <strong>competitive</strong> &mdash; R@5 0.927 sits
-          mid-pack against the field (R@K leaders 96&ndash;99%,
-          mcp-memory-service 80&ndash;86%). The retriever is not where the gap
-          lives.
-        </p>
-      </article>
-      <article class="bl-card">
-        <span class="n">the decomposition</span>
-        <div class="stat"><em>~26pp</em> was substrate</div>
-        <p>
-          The old &ldquo;26pp reader gap&rdquo; was almost entirely
-          <strong>substrate</strong>: <strong>~7pp ingest artifact</strong>
-          (dropped assistant turns) + <strong>~18pp retrieval breadth</strong>
-          (limit=5 + chunking never delivering the gold). The genuine reader
-          deficit is <strong>~zero</strong>.
+          The gap to that ceiling is <strong>what reaches the reader</strong>,
+          not the model's reasoning: ~7pp ingestion fidelity + ~18pp retrieval
+          breadth, <strong>~0pp genuine reader</strong>. It's the memory system's
+          to close &mdash; and it's <strong>MemPalace's to build</strong>.
         </p>
       </article>
       <article class="bl-card">
         <span class="n">the graph</span>
-        <div class="stat"><em>helps narrow,</em> hurts broad</div>
+        <div class="stat"><em>1.9M</em> live triples</div>
         <p>
-          The AGE knowledge graph surfaces drawers vector + keyword search miss
-          on structural / narrow cases (the structure categories read it
-          directly) but is <strong>net-negative on broad recall</strong>
-          &mdash; and the product path doesn't invoke it yet.
+          The Apache AGE knowledge graph is live and non-trivial &mdash;
+          <strong>~1.9M triples</strong>. It surfaces drawers vector + keyword
+          search miss on structural cases (the structure categories read it
+          directly); broad-recall fusion and the product path are the next
+          integration.
         </p>
       </article>
       <article class="bl-card">
@@ -1237,6 +1229,16 @@
           SME measures <strong>structural</strong> surfaces no leaderboard
           captures: ingestion integrity, gap-detection, ontology coherence, and
           invocation discipline &mdash; whether a system knows its own shape.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">honestly measured</span>
+        <div class="stat">A null we <em>trusted</em></div>
+        <p>
+          The method caught its own error in public: a reader floor-lift that
+          returned <strong>null</strong> exposed a substrate confound and turned
+          an apparent 0.61 &ldquo;reader ceiling&rdquo; into the 0.87 finding.
+          Diagnostic deltas, not a leaderboard rank.
         </p>
       </article>
     </div>

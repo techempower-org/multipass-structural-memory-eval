@@ -1,0 +1,1307 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/echo-breadth/pinned_strat150_limit50.json",
+    "pinned_metadata": {
+      "diagnostic": "pinned_context",
+      "issue": "techempower-org/multipass-structural-memory-eval#117",
+      "adapter": "mempalace-daemon",
+      "search_endpoint": "/search",
+      "retrieval_limit": 50,
+      "subset": "stratified-25-per-type",
+      "source_pinned": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/sme-bench-2026-05-29/pinned_search-default_strat150.json",
+      "note": "Read-only re-query of already-ingested lme_* wings in prod familiar palace at higher breadth. No re-ingest, no writes.",
+      "n_questions": 150,
+      "n_empty_context": 0,
+      "timestamp_utc": "2026-05-30T16:15:26.834220+00:00"
+    },
+    "mode": "headline",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 6,
+    "timestamp_utc": "2026-05-30T16:17:55.891360+00:00"
+  },
+  "n_questions": 150,
+  "n_configs": 1,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 150,
+          "qa_acc": 0.76,
+          "labels": {
+            "INCORRECT": 35,
+            "CORRECT": 114,
+            "ERROR": 1
+          }
+        },
+        "by_question_type": {
+          "knowledge-update": {
+            "n": 25,
+            "qa_acc": 0.84,
+            "labels": {
+              "INCORRECT": 4,
+              "CORRECT": 21
+            }
+          },
+          "multi-session": {
+            "n": 25,
+            "qa_acc": 0.72,
+            "labels": {
+              "INCORRECT": 7,
+              "CORRECT": 18
+            }
+          },
+          "single-session-assistant": {
+            "n": 25,
+            "qa_acc": 0.28,
+            "labels": {
+              "INCORRECT": 18,
+              "CORRECT": 7
+            }
+          },
+          "single-session-preference": {
+            "n": 25,
+            "qa_acc": 0.84,
+            "labels": {
+              "CORRECT": 21,
+              "INCORRECT": 3,
+              "ERROR": 1
+            }
+          },
+          "single-session-user": {
+            "n": 25,
+            "qa_acc": 1.0,
+            "labels": {
+              "CORRECT": 25
+            }
+          },
+          "temporal-reasoning": {
+            "n": 25,
+            "qa_acc": 0.88,
+            "labels": {
+              "CORRECT": 22,
+              "INCORRECT": 3
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "6a1eabeb",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Your personal best time in the charity 5K run was 27:12.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6aeb4375",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Four.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "830ce83f",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "The suburbs (she moved back to the suburbs, not far from a major city).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "852ce960",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "$400,000.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "945e3d21",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You attend yoga classes three times a week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d7c942c3",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "No. Your mom is still using her old paper list, while you use the grocery list app.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71315a70",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You've spent 10-12 hours on your abstract ocean sculpture.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89941a93",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Four bikes \u2014 your road bike, mountain bike, commuter bike, and a new hybrid bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ce6d2d27",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Friday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "9ea5eabc",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Paris.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "07741c44",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Under your bed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a1eacc2a",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You have written 7 short stories since you started writing regularly.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "184da446",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You've read 220 pages of \"A Short History of Nearly Everything\" so far.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "031748ae",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "When you just started your new role as Senior Software Engineer, you led 4 engineers. Now, you lead 5 engineers.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4d6b87c8",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "25",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0f05491a",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "125 stars.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "08e075c7",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "9 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f9e8c073",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You attended five sessions of the bereavement support group.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41698283",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "A Canon EF 70-200mm f/2.8L IS III USM lens.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2698e78f",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You see Dr. Smith every week.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b6019101",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "You watched 5 MCU films in the last 3 months.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "45dc21b6",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "3 of Emma's recipes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5a4f22c0",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "TechCorp.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6071bd76",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "More water per tablespoon. You switched from 1 tablespoon per 5 ounces to 1 tablespoon per 6 ounces.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e493bb7c",
+          "question_type": "knowledge-update",
+          "is_abstention": false,
+          "sme_category": "cat_3_partial",
+          "hypothesis": "Above your bed in your bedroom.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0a995998",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Two items: the new pair of boots to pick up from Zara (exchanged from the pair bought on 2/5), and your dry cleaning for the navy blue blazer.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "6d550036",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, you have led or are currently leading **three** projects:\n\n1. **The team of five engineers** as a senior software engineer (currently leading) \u2014 including the June product feature launch project [1, 2].\n2. **The high-priority project** you completed two months ahead of schedule, which boosted company revenue [1].\n3. **The data analysis team** for the market analysis/new product launch in your Marketing Research class project [7].",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_59c863d7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, you've worked on or bought 6 model kits:\n\n1. Revell F-15 Eagle (finished)\n2. Tamiya 1/48 scale Spitfire Mk.V (finished)\n3. 1/72 scale B-29 bomber (new kit from the model show)\n4. 1/24 scale '69 Camaro (from the model show)\n5. 1/16 scale German Tiger I tank (diorama project)",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b5ef892d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on your history, you took two camping trips in the United States this year: a 5-day trip to Yellowstone and a 3-day solo trip to Big Sur. That's 8 days total.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e831120c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "About three and a half weeks \u2014 two weeks for the 22 MCU movies and a week and a half for the main Star Wars films.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3a704032",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, in the last month you acquired:\n\n1. **Snake plant** \u2014 from your sister (mentioned in [1] as \"got from my sister last month\")\n\nThat's **1 plant** acquired in the last month.\n\n(Note: The peace lily and succulent were acquired \"two weeks ago,\" which falls within the last month as well. If you count those, the total would be **3 plants**: the snake plant, the peace lily, and the succulent.)\n\nGiven the timeframe of \"the last month,\" the answer is **3 plants**: the snake plant (from your sister), and the peace lily and succulent (from the nursery two weeks ago).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_d84a3211",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Your bike-related expenses total **$185**:\n\n- Chain replacement: $25\n- Bike lights: $40\n- Bell Zephyr helmet: $120",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "aae3761f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "15 hours.\n\n(Washington D.C.: 6 hours + Outer Banks: 4 hours + Tennessee mountains: 5 hours = 15 hours)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_f2262a51",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, you visited 4 different doctors: Dr. Smith (primary care physician), Dr. Patel (ENT specialist), Dr. Lee (dermatologist), and you also mentioned a follow-up with Dr. Lee for a biopsy.\n\nSo the answer is **4 doctors**: Dr. Smith, Dr. Patel, Dr. Lee, and Dr. Smith again \u2014 wait, to be precise: **Dr. Smith, Dr. Patel, and Dr. Lee are 3 distinct doctors.**\n\nYou visited **3 different doctors**: Dr. Smith, Dr. Patel, and Dr. Lee.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dd2973ad",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, your doctor's appointment was at 10 AM last Thursday [3]. You mentioned that you didn't get to bed until 2 AM last Wednesday, which made Thursday morning a struggle [2].\n\nSo the day before your Thursday doctor's appointment was Wednesday, and you went to bed at **2 AM**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c4a1ceb8",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on your conversation history, you've used three different types of citrus fruits in your cocktail recipes: orange (in your orange bitters and citrus-spice honey syrup), lime (in your Cucumber Gimlet, Daiquiri, and Cucumber Lime Refresher), and lemon (in your Sangria with orange and lemon slices).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_a56e767c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You attended 4 film festivals: AFI Fest, Austin Film Festival, Portland Film Festival, and Seattle International Film Festival.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6cb6f249",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "17 days total \u2014 a 10-day break in mid-February and a week-long (7-day) break in mid-January.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "46a3abf7",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You currently have three tanks: your 5-gallon tank with the betta fish Finley, your 20-gallon community tank \"Amazonia,\" and the 1-gallon tank you set up for your friend's kid.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "36b9f61e",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the luxury purchases you've mentioned: the Gucci handbag ($1,200), the leather boots from the high-end Italian designer ($500), and the luxury evening gown for the wedding ($800).\n\nYour total spent on luxury items is **$2,500**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28dc39ac",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, here are the games you've completed with their times:\n\n- The Last of Us Part II: 25 hours (most recent value \u2014 normal difficulty)\n- Hyper Light Drifter: 5 hours\n- Celeste: 10 hours\n- Assassin's Creed Odyssey: 70 hours\n\nTotal: **110 hours**",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_2f8be40d",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "You've attended 4 weddings this year: your cousin Rachel's wedding at the vineyard, your cousin Emily's wedding in the city, your college roommate/friend Emily and Sarah's rooftop garden wedding, and your friend Jen and Tom's rustic barn wedding (where you were also at the bachelor party and met Alex).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2e6d26dc",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Six babies: Jasper (David's son), Max (cousin Rachel's son), Charlotte (Mike and Emma's daughter), and the twins Ava and Lily (aunt's daughters), plus Aaliyah (Sarah's adopted daughter).",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_15e38248",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, here are the pieces of furniture you bought, assembled, or fixed in the past few months:\n\n1. **New coffee table** (wooden with metal legs) \u2014 bought from West Elm [10, 5, 2, 9]\n2. **IKEA bookshelf** \u2014 assembled for your home office about two months ago [1, 5]\n3. **Kitchen table** \u2014 fixed the wobbly leg last weekend [2]\n\nThat's **3 pieces of furniture**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "88432d0a",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, here's what you baked in the past two weeks:\n\n1. **Chocolate cake** for your sister's birthday party last weekend\n2. **Cookies** using the convection setting last Thursday\n3. **Sourdough bread** on Tuesday\n4. **Whole wheat baguette** last Saturday\n\nThat's **4 times** in the past two weeks.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "80ec1f4f",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Three: The Art Cube (2/15), the Natural History Museum (2/8), and \u2014 wait, let me recount.\n\nIn February you visited:\n1. The Art Cube (opening night, 2/15)\n2. The Natural History Museum (2/8)\n\nThat's two museums/galleries in February. (The Modern Art Museum workshop was in January, not February.)",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d23cf73b",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, here are the cuisines you've learned to cook or tried out in the past few months:\n\n1. **Korean** \u2014 made bibimbap from the cooking class recipe library, plus kimchi and kimchi fried rice\n2. **Vegan/plant-based** \u2014 attended a class on vegan cuisine (vegan lasagna with cashew-based ricotta)\n3. **Ethiopian** \u2014 tried a new Ethiopian restaurant and made misir wot and injera\n4. **Indian** \u2014 learned chicken tikka masala in a class, plus naan and saag paneer\n\nThat's **4 cuisines**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_7fce9456",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the conversation history, you viewed the following properties before making an offer on the Brookside townhouse:\n\n1. A 3-bedroom bungalow in the Oakwood neighborhood (January 22nd)\n2. A property in Cedar Creek (February 1st)\n3. A 1-bedroom condo in the downtown area (February 10th)\n4. A 2-bedroom condo (February 15th)\n\nYou viewed **4 properties** before making your offer on the Brookside townhouse (which you saw on February 22nd and put in an offer on February 25th).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d682f1a2",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Three: Fresh Fusion, Domino's Pizza, and Uber Eats.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7024f17c",
+          "question_type": "multi-session",
+          "is_abstention": false,
+          "sme_category": "cat_2c",
+          "hypothesis": "Based on the history, last week you did:\n- A 30-minute jog on Saturday (0.5 hours)\n- No yoga, since you mentioned you'd been slacking off and were only trying to get back into it\n\nSo you did 0.5 hours total (30 minutes of jogging and no yoga).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7161e7e2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on the conversation history (reference [1]), you asked me to create a shift rotation sheet, but the actual sheet content with the specific shift assignments isn't shown in the history. I don't know what specific rotation Admon was assigned on Sunday.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c4f10528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Miss Bee Providore.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89527b6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e9327a54",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4c36ccef",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ae235be",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The Lake Charles Refinery uses refining processes including: atmospheric and vacuum distillation, fluid catalytic cracking (FCC), hydrocracking, catalytic reforming, alkylation, hydrotreating, coking (delayed coking), and isomerization.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7e00a6cb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1903aded",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ceb54acb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f523d9fe",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Doc Martin.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e5e2d1a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fea54f57",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "\"Evolution\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc539528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation in [1] covered the difference between front-end and back-end development and you asked for resource/course recommendations, but the history doesn't contain any specific back-end programming languages that were recommended to you.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dc439ea3",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The hoop dance \u2014 a traditional game often performed by skilled dancers at powwows.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "18dcd5a5",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "488d3006",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on the conversation history, the trail recommended for the Natural Park of Moncayo mountain in Arag\u00f3n that takes you through the park's most stunning landscapes with panoramic views is the **Ruta de la Cumbre del Moncayo** (the Moncayo Summit Trail), which leads to the peak of Moncayo.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "58470ed2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8cf51dda",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history only shows your initial request to write a grants aim page on molecular subtypes and endometrial cancer [1], but it does not contain the actual content of that aim page or any three objectives that were outlined.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1d4da289",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on our earlier conversation about data privacy and security, the two-factor authentication methods I was referring to include:\n\n- **SMS/text message codes** sent to your phone\n- **Authenticator apps** (such as Google Authenticator or Authy) that generate time-based one-time codes\n- **Hardware security keys** (physical devices like a YubiKey)\n- **Biometric verification** such as fingerprint or facial recognition\n\nThese add a second layer of protection beyond just your password, requiring something you have (a device or key) or something you are (a biometric) in addition to something you know (your password).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8464fc84",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8aef76bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71a3fd6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history references a discussion about Speyer's tourism board contact details, but the actual phone number that was provided is not shown in the available text.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2bf43736",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The chapter on the prayer of beginners (the first stage/book of the second part) is **Chapter 1**, which covers vocal prayer and meditation.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "70b3e69b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Joan Manuel Serrat.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8752c811",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8a2466db",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your interest in Adobe Premiere Pro and color grading, here are resources to deepen your video editing skills:\n\n- **Adobe's official Premiere Pro tutorials** (helpx.adobe.com/premiere-pro/tutorials) \u2014 great for mastering tools you've been exploring like the Lumetri Color Panel, Curves, and Color Wheels.\n- **PremiereGal (YouTube)** \u2014 practical, focused tutorials including color grading and the Creative panel.\n- **Casey Faris (YouTube)** \u2014 excellent for cinematic looks, color grading workflows, and combining the Creative and Curves panels.\n- **Premiere Bro** (premierebro.com) \u2014 deep dives into specific Premiere Pro features and techniques.\n- **LinkedIn Learning** and **Skillshare** \u2014 structured courses on Premiere Pro color grading and editing fundamentals.\n- **Cinecom.net (YouTube)** \u2014 creative editing techniques and color grading for a polished, cinematic result.\n\nGiven your current focus on color grading with the Lumetri Color Panel, I'd especially recommend starting with Casey Faris and PremiereGal, since they cover the exact Curves, Creative panel, and Color Wheels workflows you've been working with.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06878be2",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your photography setup\u2014Sony A7R IV, Godox V1 flash, Sony 24-70mm f/2.8 lens, and the Gitzo GT3543LS tripod\u2014here are accessories that would complement it well:\n\n1. **Protective case/pouch for your Godox V1** \u2014 to safely store and transport your new flash.\n\n2. **A portable external battery pack** \u2014 one that can charge your Sony A7R IV and other devices on the go, perfect for long shoots or travel.\n\n3. **A quality camera bag designed for Sony cameras** \u2014 comfortable and durable, to carry your A7R IV, lens, flash, and accessories together.\n\n4. **Lens cleaning kit** \u2014 a proper microfiber cloth, lens brush, blower, and streak-free cleaning solution to safely maintain your 24-70mm f/2.8 lens.\n\n5. **An L-bracket or quick-release plate compatible with the Gitzo GT3543LS** \u2014 to make mounting and switching between orientations faster on your tripod.\n\n6. **Extra rechargeable batteries for the Godox V1** (lithium-ion packs) \u2014 so you never run out of flash power mid-shoot.\n\n7. **A wireless flash trigger/transmitter** \u2014 to fire your Godox V1 off-camera for more creative lighting setups.\n\nThese additions round out your kit for both studio-style and on-location shooting, including your candle product photography.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75832dbd",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Given your strong interest in multi-agent and multimodal reinforcement learning\u2014and your goal of becoming an AI researcher in robotics and autonomous systems\u2014I'd recommend focusing on these top-tier conferences: **NeurIPS, ICML, ICLR, CVPR, ICCV, and ICRA/CoRL** (the latter two being especially relevant for robotics and autonomous systems).\n\nFor publications specifically, look into the work of **Dr. Stefano V. Albrecht** at the University of Edinburgh, whose research in multi-agent reinforcement learning directly aligns with your interests. His group's papers on multi-agent RL would be an excellent starting point, along with recent NeurIPS and ICLR proceedings on multimodal RL agents and autonomous systems applied to environmental sustainability.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "0edc2aef",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your preferences, I'd suggest the **1 Hotel South Beach** in Miami. It matches what you clearly value in a hotel: it has stunning city and ocean views, a striking **rooftop pool** (you've specifically mentioned loving unique features like rooftop pools and balcony hot tubs), and an upscale spa\u2014similar to the Space Needle Romance Package you booked at The Edgewater in Seattle, which you chose for its hot tub, room service breakfast, and spa credit. The 1 Hotel South Beach also leans eco-friendly, which fits your stated appreciation for sustainable options (like that eco-friendly car wash you mentioned). It's a great match for your taste in view-focused, amenity-rich, romantic hotels.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "35a27287",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on what you've shared, I'd recommend looking for language and cultural exchange festivals \u2014 similar to the cultural festival you volunteered at last month where you connected with people from different backgrounds (you even met the Nigerian woman who taught you to make Akara at one of these events). Specifically, seek out French and Spanish language exchange meetups and multicultural food festivals in your area this weekend. Check Meetup.com and Eventbrite for \"language exchange\" and \"cultural festival\" events, and ask your tutor Juan, who's plugged into the local language school community, about any Spanish/Latin American cultural events happening this weekend. These align perfectly with your passion for language learning, conversational practice, and immersive cultural experiences.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "32260d93",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on what you've enjoyed, watch John Mulaney's \"Kid Gorgeous\" on Netflix tonight. You're an aspiring stand-up comedian who admires Mulaney's strong storytelling, so his special is the perfect fit \u2014 entertaining and a great study in craft.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "195a1a1b",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your stated preference for winding down in the evening and your goal of being in bed by 9:30 pm for good sleep, here are some calming evening activities for you:\n\n- **Guided sleep meditation** \u2014 You loved the \"Sleep\" meditation by Headspace and found the imagery/visualization especially relaxing. Continue with that, or try the \"Body Scan\" meditation by Insight Timer you were interested in.\n- **Guided imagery exercises** \u2014 Since you've been wanting to do these consistently (ideally right before bed) to help process emotions and find comfort.\n- **Morning pages-style journaling** \u2014 You enjoy free-form writing to clear your mind and reflect; an evening version could help you unload thoughts before sleep.\n- **Reading under your new warm, soft table lamps** \u2014 The warm, adjustable lighting you ordered for your bedroom would create a cozy, relaxing atmosphere.\n- **Gentle yoga or stretching** \u2014 A light wind-down flow (not the energetic core work) would complement your regular practice and ease you into rest.\n\nThese fit your preference for a calm, structured evening routine that prepares your mind and body for sleep.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "afdc33df",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your kitchen needs, here are practical tips to keep it clean and clutter-free:\n\n**Counters & Utensils:** Make the most of your new utensil holder by grouping tools by frequency of use\u2014keep your everyday spatulas and spoons front and center, and store rarely-used gadgets in a drawer instead. This keeps countertops clear, which was your goal when you bought the holder.\n\n**The Sink Area & Granite:** Wipe down your granite countertop daily with a soft cloth and a pH-neutral cleaner (avoid acidic cleaners like vinegar, which can dull granite). Since you've had scratches near the sink, keep that area dry and avoid dragging heavy or rough items across it.\n\n**Garbage Disposal:** Run it regularly with cold water, and freshen it by grinding ice cubes and citrus peels weekly to prevent buildup and odors\u2014this keeps that corner of the kitchen smelling clean.\n\n**Faucet:** Since your faucet has been leaking slightly, keep an eye on it and wipe up standing water around the base to prevent water spots and mineral buildup on the granite.\n\n**General routine:** Do a quick 5-minute reset each night\u2014wash or load dishes, wipe counters, and put utensils back in their holder. A little daily maintenance prevents the big messes from building up.\n\nTackling these one area at a time will keep your kitchen consistently tidy!",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "caf03d32",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your slow cooker journey, here's targeted advice:\n\n**For your yogurt (especially the cashew-based version):** Temperature control is your biggest lever. While you can wait the 2-3 hours, using a thermometer ensures the milk hits the right range \u2014 too hot kills the cultures, too cool and they won't activate properly. For the cashew base, soak the cashews thoroughly and blend until completely smooth, then strain through a nut milk bag (better than cheesecloth for getting that silky consistency you're after) to avoid grittiness.\n\n**For your plant-based dishes:** Layer your ingredients smartly \u2014 heartier vegetables (potatoes, carrots) go on the bottom near the heat, softer ones (zucchini, leafy greens) added in the last 30\u201360 minutes so they don't turn to mush. Beans and lentils are great for vegan slow cooker meals and benefit from the long, low cooking.\n\n**General fixes for better results:**\n- Don't lift the lid \u2014 every peek adds 15\u201320 minutes and drops the temperature.\n- Reduce liquid compared to stovetop recipes; slow cookers trap moisture, so dishes can come out watery.\n- Brown/saut\u00e9 aromatics first for deeper flavor (the same instinct that made your beef stew delicious).\n- Add dairy, fresh herbs, and delicate flavorings near the end.\n- For thin sauces, remove the lid for the last 30 minutes or stir in a cornstarch slurry.\n\nSince you're easing into more plant-based cooking, lentil-based stews and the cashew yogurt are great next steps to build on what's already working for you.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "54026fce",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Set up regular virtual coffee breaks with your team. Since you work from home and miss those watercooler conversations, this is a great fit. Bring it up in your next team meeting as a collaborative suggestion rather than something you're imposing, make sure everyone gets a chance to share their thoughts, and establish some ground rules\u2014like a regular schedule, a reliable video conferencing platform, and keeping the conversation light and casual with no work talk allowed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "06f04340",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Serve a dish featuring your homegrown cherry tomatoes and fresh basil and mint \u2014 like a fresh cherry tomato and basil salad or a pasta/bruschetta with cherry tomatoes, basil, and a touch of mint. These showcase exactly what you've been harvesting from your garden.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6b7dfb22",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on what you've been doing, here are inspiration ideas tailored to you:\n\n**Lean into your flowers and texture work.** You've been studying realistic flower paintings on Instagram and experimenting with palette knives for texture. Try painting flowers from your own balcony herb garden \u2014 the basil, rosemary, and other herbs you've been growing give you living, three-dimensional subjects with interesting shapes you can study up close and build texture into with your palette knife.\n\n**Use your 30-day painting challenge as a structured spark.** You already started one, so push it further by giving yourself a daily theme or constraint (one color, one technique, one subject). Constraints reliably break creative ruts.\n\n**Paint your other passions.** You're a Marvel/Spider-Man fan and collector, you love your Stranger Things creatures, and you're exploring your Indian American cultural identity. Try a series \u2014 Spider-Verse variant-cover-inspired pieces, or paintings inspired by Indian motifs, colors, and the cultural festival you attended. Painting things you're personally connected to tends to reignite motivation fast.\n\n**Tie it to your social reconnection goal.** Since you want to reconnect with people, paint subjects from shared moments (like Jen and Tom's rustic barn wedding) or post your work-in-progress to spark conversations with the acquaintances you're reaching out to \u2014 feedback and engagement are great motivators.\n\n**Refresh your environment.** Since you're setting up a dedicated studio space in your apartment, finish that setup \u2014 a fresh, optimized space often delivers a creative jolt on its own.\n\nGiven your tastes, I'd start with the **herb-garden flowers using palette-knife texture** as your next piece \u2014 it combines three things you're already invested in.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1a1907b4",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Make the Pimm's Cup with a Twist. It's perfect for your get-together \u2014 use Hendrick's gin, muddle cucumber slices for extra flavor and texture, and add your Ruby Red Grapefruit simple syrup for a balanced, slightly bitter note with a lovely pink hue. Serve it in a Collins glass to showcase the layers of color and garnishes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "09d032c9",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "38146c39",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your love of experimenting with sugars, add some turbinado or muscovado sugar to your chocolate chip cookie recipe. You discovered that turbinado sugar adds a richer flavor and that muscovado gives a stronger, more intense, caramel-like taste \u2014 both would deepen the flavor of your cookies. Sprinkling a little turbinado on top before baking would also give you that extra crunch you enjoyed with the sliced almonds on your cherry clafoutis.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d24813b1",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Bake a chocolate cake with caramel ganache frosting, or your lemon poppyseed cake \u2014 both are crowd-pleasers you've had success with. For something a little different, try the lemon lavender pound cake you've been wanting to experiment with. Round it out with a batch of chewy chocolate chip cookies, which travel and serve well for a group.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "57f827a0",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on what you've shared, here's how I'd approach rearranging your bedroom this weekend:\n\nStart by placing your Asus RT-AC68U router considerations aside and focus on the dresser\u2014since you're going for a mid-century modern walnut piece with brass accents, position it as a focal point along a wall where the satin finish can catch natural light, much like how your new bathroom light fixture brightened that space.\n\nA few specific tips for your room:\n\n- **Bed placement first:** Position your bed against the wall opposite the door or on the largest uninterrupted wall, then build everything else around it. This anchors the room.\n\n- **Improve that Wi-Fi while you're at it:** Since your bedroom signal is weak (20 feet and a couple walls from the living room router), avoid placing large furniture like the dresser between your bed/laptop area and the direction of the router\u2014dense furniture worsens the signal. Keep your laptop and smart speaker spots with a clearer line toward the living room.\n\n- **Create zones:** You liked the \"assign zones\" approach when organizing your bathroom cabinets\u2014apply the same logic here. Designate a sleep zone, a getting-ready zone (near the dresser/mirror), and keep them distinct.\n\n- **Reading nook:** Since you read your self-help book 20\u201330 minutes before bed, set up a comfortable spot with good lighting near the bed to support your sleep schedule goals.\n\n- **Cable management:** You mentioned cables behind your TV/computer getting messy\u2014use this rearrange as a chance to bundle and route cables cleanly so the room feels as tidy as your cabinets now do.\n\nPlace the dresser, bed, and reading nook first, then adjust smaller items around them.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "95228167",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Since you're considering upgrading from your Fender Stratocaster to a Gibson Les Paul, focus on these things when you're at the store:\n\n- **Play the Les Paul unplugged first** to feel its weight and resonance \u2014 Les Pauls are noticeably heavier than your Strat, so make sure it's comfortable for longer sessions.\n- **Test the neck profile** \u2014 Les Pauls have a thicker, rounder neck than the Strat. Make sure it suits your hand, especially since you like fingerpicking patterns like the intro to \"Blackbird.\"\n- **Look for a coil-tap or coil-splitting feature**, which you've been interested in \u2014 it'll give you more tonal flexibility and let you get closer to those brighter, single-coil-like sounds you're used to on the Strat.\n- **Try it in open D tuning** if the shop allows, since you've been exploring that \u2014 check that the guitar holds tuning well and the intonation stays solid.\n- **Check the humbuckers** by playing both clean and with some gain to hear that classic warm, full Les Paul tone across genres.\n- **Inspect the build quality** \u2014 fret finish, neck join, and hardware \u2014 especially since this is an investment upgrade.\n\nBring along a riff you know well (like Blackbird) so you can directly compare how it feels against your Strat.",
+          "autoeval_label": "ERROR"
+        },
+        {
+          "question_id": "505af2f5",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Since you're already making your own healthier creamer with almond milk, vanilla extract, and honey to cut down on sugar and save money, I'd recommend a spring-inspired Lemon Ginger creamer to match the seasonal flavor you wanted to try: blend almond milk with a little vanilla extract, honey, a small amount of fresh grated ginger, and a touch of lemon zest. Warm it gently to infuse the ginger and lemon, then strain. It keeps your sugar low (just honey to taste), stays budget-friendly, and ties right into the Lemon Ginger coffee flavor you said you'd try first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75f70248",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Yes, it likely could be. Your living room is a strong suspect because you have a cat that sheds a lot, which means dander and hair build up there. That kind of pet dander and dust is a common allergy trigger and could easily be causing your sneezing.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d6233ab6",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1da05512",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Buy a NAS device now. You've already identified a clear need \u2014 your home network storage is running low and you're backing up to a single external hard drive, which is both inconvenient and a single point of failure. A NAS solves both problems by giving you more capacity and a central backup location for your laptop and phone, plus the strong security features (encryption and access control) you've said matter to you. Go ahead and get one now rather than waiting.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "fca70973",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "For your next theme park weekend, I'd recommend heading back to Universal Studios Hollywood for Halloween Horror Nights. Based on your earlier interest, you should book the VIP Experience with the Gourmet Buffet and add on the Behind-the-Scenes Tour \u2014 it lets you skip the lines, enjoy exclusive dining, and get an insider look at the park. Since you've already explored Disneyland, Knott's Berry Farm (Knott's Scary Farm), and Six Flags Magic Mountain (Fright Fest), Halloween Horror Nights at Universal is the standout pick to round out your Halloween-themed thrill experience.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b6025781",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your meal prep history, here are some great new recipes to try next week:\n\n**Lentil Bolognese with Quinoa** \u2014 You mentioned wanting to try this, so make a batch to serve over quinoa. Pair it with your roasted sweet potatoes seasoned with the Classic Herbs/fresh rosemary you wanted to use up.\n\n**Chicken Fajitas** \u2014 You were planning to make these and wanted tips on tender chicken breast. This fits your interest in Mexican-inspired dishes and adds protein variety to your prep.\n\n**Homemade Sweet Potato Fries** \u2014 You loved the ones from that gastropub and wanted to replicate them at home. Try the double-frying technique for a crispy exterior, and prep a chipotle ranch or spicy mayo dipping sauce.\n\n**Homemade Granola** \u2014 A great grab-and-go snack to have on hand throughout the week, which you'd mentioned wanting to make.\n\nTo keep it fresh, I'd suggest building the week around the lentil bolognese and chicken fajitas as your two main proteins, with roasted sweet potatoes and quinoa as your bases, plus a batch of granola for snacking. This gives you both the plant-based and Mexican-inspired variety you've been gravitating toward.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a89d7624",
+          "question_type": "single-session-preference",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on your trip to Denver, you should dive into the music scene you love so much. You met Brandon Flowers there after a Killers concert, so catch a show at Red Rocks Amphitheater \u2014 it's clearly a favorite of yours. Get there early to grab dinner at The Ship Rock Grille and ask for a table with a view of the stage, like you were planning. Afterward, hit up the BBQ spots near Red Rocks. Since you enjoy live music and the city's vibe, check out Denver's other music venues and any festivals happening while you're there.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e47becba",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You graduated with a degree in Business Administration.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "118b2229",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Your daily commute is 45 minutes each way.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51a45a95",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You redeemed the $5 coffee creamer coupon through the Cartwheel app from Target, having found it in your email inbox.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58bf7951",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The Glass Menagerie.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1e043500",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Summer Vibes",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c5e8278d",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Johnson.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ade9755",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Serenity Yoga.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6f9b354f",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "A lighter shade of gray.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "58ef2f1c",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You volunteered at the \"Love is in the Air\" fundraising dinner in February, on Valentine's Day.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f8c5f88b",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "A sports store downtown.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "5d3d2817",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Marketing specialist at a small startup.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "7527f7e2",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "$800.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c960da58",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You have 20 playlists on Spotify.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "3b6f954b",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You attended the University of Melbourne for your study abroad program.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "726462e0",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "10% off.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "94f70d80",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "4 hours.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "66f24dbb",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "For your sister's birthday, you bought her a yellow dress and a pair of silver hoop earrings with a small pearl in the center to match.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "ad7109d1",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "500 Mbps.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "af8d2e46",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You didn't pack for a 5-day trip to Costa Rica \u2014 your Costa Rica trip is referenced as 7 shirts packed, of which you wore 3.\n\nI don't know the trip length, but the number of shirts you packed for Costa Rica was 7.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "dccbc061",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You were a staunch atheist.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8c3f81d",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Nike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8ebdbe50",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Data Science certification.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6b168ec8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You own three bikes: a road bike, a mountain bike, and a commuter bike.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "75499fd8",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Max is a Golden Retriever.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "21436231",
+          "question_type": "single-session-user",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "12 largemouth bass.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2655b836",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The GPS system issue on 3/22, which required taking the car back to the dealership where they replaced the entire system.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2487a7cb",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The 'Data Analysis using Python' webinar \u2014 you attended it two months ago, while the 'Effective Time Management' workshop was just last Saturday.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_76048e76",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The bike. You took it in for repairs in mid-February (for the gear-shifting issue), whereas you washed your Corolla later, on Monday, February 27th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2312f94c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Samsung Galaxy S22. You got it on February 20th, while the Dell XPS 13 arrived on February 25th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0bb5a684",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "7 days. The workshop was on January 10th and the team meeting was on January 17th.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "08f4fc43",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Sunday mass was on January 2nd and the Ash Wednesday service was on February 1st. That's 30 days (29 remaining days in January + 1 day in February).\n\n30 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2c63a862",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You started working with Rachel on February 15th and saw the house you loved on March 1st. That's **14 days**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_385a5000",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The tomatoes were started first. The tomatoes (along with peppers and cucumbers) were started indoors since February 20th, while the marigold seeds arrived on March 3rd.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "2a1811e2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Holi was on February 26th and the Sunday mass at St. Mary's Church was on March 19th, so 21 days had passed.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "bbf86515",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The 'Turbocharged Tuesdays' event was on June 14th, and the 'Rack Fest' was on June 18th. That's 4 days before.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_5dcc0aab",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You cleaned your white Adidas sneakers last month.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_0b2f1d21",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The malfunction of the stand mixer happened first.\n\nThe coffee maker was purchased about three weeks before the May 22, 2023 conversations (reference [3]). The stand mixer malfunctioned and was taken to the repair shop \"last month\" (reference [12], dated May 22), meaning roughly April\u2014which is earlier than the coffee maker's purchase about three weeks prior.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "f0853d11",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The 'Walk for Hunger' was on February 21st and the 'Coastal Cleanup' was on March 7th. That's 14 days (7 remaining days in February after the 21st, plus 7 days in March).\n\n14 days.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_6ed717ea",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The training pads for Luna.\n\nYou purchased the training pads about a month ago, while you got Max's orthopedic dog bed about three weeks ago. Since a month is longer ago than three weeks, the training pads came first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_70e84552",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Fixing the fence. You fixed the broken fence three weeks ago, while you trimmed the goats' hooves two weeks ago \u2014 so the fence repair came first.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "a3838d2b",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Based on the conversation history, the charity events you participated in before the \"Run for the Cure\" event (October 15th) were:\n\n1. **Walk for Wildlife** \u2014 June\n2. **Charity golf tournament** \u2014 July 17th\n3. **Food for Thought charity gala** \u2014 September 25th\n\nThat's **3 charity events** before the \"Run for the Cure\" event.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "gpt4_93159ced",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You've been working professionally for 9 years total. Since you've been at NovaTech for 4 years and 3 months, you worked for about 4 years and 9 months before starting your current job at NovaTech.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_2d58bcd6",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "You finished \"The Hate U Give\" first. You read it a few days before your book club meeting two weeks ago, while you finished \"The Nightingale\" (along with the other two novels) just last weekend.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_65aabe59",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The mesh network system. You set up the mesh router about 3 weeks ago, while the smart thermostat was set up a month ago \u2014 meaning the thermostat actually came first.\n\nWait, let me correct that: the smart thermostat was set up about a month ago, and the mesh network system about 3 weeks ago. So you set up the **smart thermostat first**.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "982b5123",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Three months ago.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "b9cfe692",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "Five and a half weeks combined \u2014 two and a half weeks for \"The Seven Husbands of Evelyn Hugo\" and three weeks for \"The Nightingale\".",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_4edbafa2",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The 3rd of June.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8090214",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "The Holiday Market was attended \"a week before Black Friday,\" and the iPhone 13 Pro was bought on Black Friday. So you attended the Holiday Market 7 days before buying the iPhone 13 Pro.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "gpt4_483dd43c",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "'The Crown'. You finished its third season on 2023/05/20, and started \"Game of Thrones\" about a month before your message later that same day \u2014 so you began watching \"The Crown\" first.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e4e14d04",
+          "question_type": "temporal-reasoning",
+          "is_abstention": false,
+          "sme_category": "cat_6",
+          "hypothesis": "About three weeks \u2014 you mentioned you had joined the \"Book Lovers Unite\" Facebook group three weeks ago, and the meetup was held last week.",
+          "autoeval_label": "CORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.76
+  }
+}

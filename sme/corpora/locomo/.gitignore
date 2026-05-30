@@ -1,0 +1,6 @@
+# LoCoMo upstream JSON (locomo10.json ~2.8 MB) — not committed.
+# Download per README.md.
+data/
+*.json
+!questions.yaml
+!*.yml

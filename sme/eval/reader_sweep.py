@@ -69,6 +69,42 @@ PROMPT_VARIANTS: dict[str, str] = {
         "Conversation history:\n{context}\n\n"
         "Question: {question}\n\nAnswer:"
     ),
+    # --- #116 diagnosed-failure fixes -------------------------------------
+    # Pass B showed Opus scoring WORST under the baseline prompt, driven by two
+    # failure modes the baseline prompt actively induces:
+    #   (1) knowledge-update PARTIALs — the reader hedges by presenting BOTH the
+    #       old and the updated value instead of committing to the latest one;
+    #   (2) single-session-preference 0.00 — the reader REFUSES to make a
+    #       recommendation ("the answer is not present"), because the baseline's
+    #       "say I don't know" instruction over-fires on inference questions.
+    # "committed" drops the over-eager abstention and tells the reader to commit
+    # to the single most-recent value on update questions.
+    "committed": (
+        "Answer the user's question using the conversation history below. Give a "
+        "single, direct, committed answer — do not hedge or present multiple "
+        "candidate answers. If the history shows a value that was later changed "
+        "or updated, answer with the MOST RECENT value only; do not also restate "
+        "the old value. Only say 'I don't know.' if the history is genuinely "
+        "silent on the question.\n\n"
+        "Conversation history:\n{context}\n\n"
+        "Question: {question}\n\nAnswer:"
+    ),
+    # "preference" additionally targets recommendation/preference questions: the
+    # reader must INFER the user's preferences from the history and tailor a
+    # recommendation, rather than refusing because no answer is stated verbatim.
+    "preference": (
+        "Answer the user's question using the conversation history below. Give a "
+        "single, direct, committed answer — do not hedge. If the history shows a "
+        "value that was later updated, answer with the MOST RECENT value only.\n"
+        "If the question asks for a recommendation, suggestion, or what the user "
+        "would prefer, INFER the user's preferences from what they have said and "
+        "done in the history and tailor your answer to them. Do NOT refuse just "
+        "because no explicit answer is stated — a well-reasoned inference from "
+        "their stated tastes is the expected answer. Only say 'I don't know.' if "
+        "the history contains nothing relevant to base an answer on.\n\n"
+        "Conversation history:\n{context}\n\n"
+        "Question: {question}\n\nAnswer:"
+    ),
 }
 
 

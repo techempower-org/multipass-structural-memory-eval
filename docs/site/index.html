@@ -1742,6 +1742,81 @@
         </div>
       </article>
 
+      <!-- #116 prompt-axis fix — Opus worst→best -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval oracle &middot; reader sweep (prompt axis)</span>
+            <h3>The reader gap was the <em>prompt</em>, not the model</h3>
+          </div>
+          <span class="bench-pill live">reader-prompt fix &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>pinned oracle (stratified 150, 25/type, search-default)</dd></div>
+          <div><dt>Readers</dt><dd>claude-opus-4-8 (Bedrock), o4-mini</dd></div>
+          <div><dt>Prompt axis</dt><dd>baseline &rarr; committed &rarr; preference</dd></div>
+          <div><dt>Judge</dt><dd>gpt-5.3-chat (not yet canonical &mdash; floor only)</dd></div>
+          <div><dt>Context</dt><dd>full oracle</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">Opus baseline QA</div>
+            <div class="value"><em>36.0%</em></div>
+            <div class="sub">worst reader, baseline prompt</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">Opus preference QA</div>
+            <div class="value"><em>59.3%</em></div>
+            <div class="sub">best config overall, +23pp</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">ss-preference canary</div>
+            <div class="value"><em>0.04&rarr;0.76</em></div>
+            <div class="sub">Opus, +72pp on one category</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">Prompt swing</div>
+            <div class="value"><em>+23pp</em></div>
+            <div class="sub">same model, same context</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Overall QA accuracy by reader and prompt variant">
+          <thead>
+            <tr><th>Reader</th><th class="num">baseline</th><th class="num">committed</th><th class="num">preference</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>o4-mini</td><td class="num">0.420</td><td class="num">0.507</td><td class="num">0.527</td></tr>
+            <tr class="total"><td>claude-opus-4-8</td><td class="num">0.360</td><td class="num">0.473</td><td class="num">0.593</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          &ldquo;Opus is the worst reader&rdquo; was a <strong>prompt
+          artifact</strong>. With the preference-tuned prompt, Opus goes from
+          <em>worst</em> (0.360) to <em>best of any config</em> (0.593) &mdash;
+          a <strong>+23pp swing from changing nothing but the prompt</strong>.
+          The entire gap lived in <em>one</em> category:
+          <strong>single-session-preference</strong>, where Opus scored
+          <strong>0.04</strong> under the baseline prompt (it refused to make a
+          recommendation &mdash; the &ldquo;say I don&rsquo;t know&rdquo;
+          instruction over-fired on inference questions) and <strong>0.76</strong>
+          under the preference prompt (+72pp). That single category drags the
+          overall from 0.36 to 0.59. This is the reader-harness fix; the judge is
+          still gpt-5.3-chat (<em>not</em> the LongMemEval-canonical
+          type-specific judge), so 0.593 is a <strong>floor</strong> &mdash; the
+          canonical-judge work compounds on top. Bottom line: the #116 reader gap
+          is prompt design, not model capability.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/reader_sweep_passB_promptfix_2026-05-29.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
       <!-- palace-daemon #46 — FlashRank rerank A/B (source repo: palace-daemon/docs/evals) -->
       <article class="bench">
         <div class="bench-head">

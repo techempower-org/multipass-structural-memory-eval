@@ -1462,7 +1462,7 @@
             <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">86.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td>indie</td></tr>
 
             <tr class="grp"><td colspan="8">the field &mdash; E2E QA leaderboard (sorted by LongMemEval E2E QA; storage paradigm per MemPalace survey + independent check)</td></tr>
-            <tr><td>OMEGA</td><td class="store">extraction</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">95.4%</td><td class="num">&mdash;</td><td>GPT-4.1</td><td>self</td></tr>
+            <tr><td>OMEGA</td><td class="store">extraction</td><td class="num">90.0% <sup>&Dagger;</sup></td><td class="num">&mdash;</td><td class="num">95.4%</td><td class="num">&mdash;</td><td>GPT-4.1</td><td>self / indie</td></tr>
             <tr><td>Mastra</td><td class="store">unstated</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">94.9%</td><td class="num">&mdash;</td><td>GPT-5-mini</td><td>self</td></tr>
             <tr><td>Mem0 (platform v3)</td><td class="store">hybrid</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">94.4%</td><td class="num">92.5%</td><td>undisclosed</td><td>self</td></tr>
             <tr><td>Hindsight</td><td class="store">extraction</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">91.4%</td><td class="num">89.6%</td><td>Gemini 3 Pro</td><td>indie</td></tr>
@@ -1499,6 +1499,18 @@
           row is a separate, extraction-based academic system (arXiv:2511.12960, 71.4% QA).
           Storage paradigms marked <em>unstated</em> are ones we could not pin to a primary
           source &mdash; left blank rather than guessed.
+        </p>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &Dagger; <strong>OMEGA R@5 0.900 is our own measurement</strong> &mdash; the first
+          independent head-to-head: OMEGA run on the <em>identical</em> n=150 stratified
+          LongMemEval-S subset, session-level R@K, same retrieval definition as mempalace
+          (which scores 0.927 on that subset &mdash; OMEGA trails by 2.7pp / 4 questions).
+          It is <strong>not</strong> comparable to OMEGA&rsquo;s self-reported 95.4%, which is
+          a different metric (E2E QA, not R@5) with a stronger answer model (GPT-4.1;
+          answer-model choice alone swings ~24pp). The on-harness R@5 is the apples-to-apples
+          number. (Note: OMEGA ships without its bge-small embedding model and silently falls
+          back to keyword-only FTS5; we ran <code>omega setup --download-model</code> to restore
+          semantic retrieval before measuring, so this is the fair number, not a crippled one.)
         </p>
 
         <p class="bench-prose">

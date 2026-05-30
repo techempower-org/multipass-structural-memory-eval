@@ -14,7 +14,7 @@ each `sme_category` is reported separately so KU's silent-overwrite
 reward doesn't drag a contradiction-flagging Cat 3 system's correlation
 down.
 
-Two corpora are wired (``--corpus``):
+Three corpora are wired (``--corpus``):
 
   - ``longmemeval`` (default): one haystack PER QUESTION; each question's
     sessions are materialized to a per-question vault, ingested, queried.
@@ -24,6 +24,12 @@ Two corpora are wired (``--corpus``):
     then queries every question in that sample against it. Adversarial
     (category-5) items are judged abstention-aware — the gold is a
     refusal, and the baited ``adversarial_answer`` is the wrong attractor.
+  - ``beam``: one (very long) conversation PER conversation_id shared by
+    its 20 probing questions (BEAM's topology, same per-conversation
+    ingest as LoCoMo). Graded at a token ``--bucket`` (100K/500K/1M/10M);
+    the bucket is recorded on every record because the same conversation
+    at a different bucket is a different retrieval problem. Abstention
+    items are judged abstention-aware.
 
 CLI:
 
@@ -537,6 +543,111 @@ def run_locomo_questions(
     return records
 
 
+def run_beam_questions(
+    questions: list[Any],  # list[BEAMQuestion]
+    *,
+    adapter_factory: AdapterFactory,
+    work_dir: Path,
+    skip_judge: bool,
+    skip_reader: bool,
+    reader_model: str,
+    judge_model: str,
+    reader_client: Optional[Any] = None,
+    judge_client: Optional[Any] = None,
+    capture_context: bool = False,
+    max_questions: Optional[int] = None,
+) -> list[dict]:
+    """Run a list of BEAMQuestions PER CONVERSATION.
+
+    BEAM shares one (very long) conversation across all of that
+    conversation's 20 probing questions — the same per-conversation
+    ingest topology as LoCoMo, not LongMemEval's per-question haystacks.
+    For each ``conversation_id`` we materialize that conversation's vault
+    ONCE, build the adapter from it, then query every question in the
+    conversation against the same vault (sme/corpora/beam/README.md).
+
+    The daemon adapter ignores the per-conversation vault path (it owns
+    the corpus and is queried over HTTP); the flat / full-context
+    adapters ingest the vault, so per-conversation materialization is
+    what makes their BEAM retrieval correct.
+
+    Abstention items carry ``is_abstention=True`` → judged abstention-
+    aware via ``_score_and_judge``.
+    """
+    from sme.corpora.beam import materialize_sme_corpus as beam_materialize
+
+    # Preserve input order but group by conversation_id so we materialize
+    # + ingest each conversation's vault exactly once.
+    by_conv: dict[str, list[Any]] = {}
+    order: list[str] = []
+    n_capped = 0
+    for q in questions:
+        if max_questions is not None and n_capped >= max_questions:
+            break
+        n_capped += 1
+        if q.conversation_id not in by_conv:
+            by_conv[q.conversation_id] = []
+            order.append(q.conversation_id)
+        by_conv[q.conversation_id].append(q)
+
+    records: list[dict] = []
+    for conv_id in order:
+        conv_qs = by_conv[conv_id]
+        # Materialize this conversation's full chat ONCE. All of the
+        # conversation's questions share the same sessions, so any one
+        # carries the full haystack — materialize just the first, capped
+        # to its own conversation.
+        out_dir = work_dir / conv_id
+        beam_materialize([conv_qs[0]], out_dir, max_questions=1)
+        per_conv_vault = out_dir / "vault" / conv_id
+
+        adapter = adapter_factory(per_conv_vault)
+        try:
+            for q in conv_qs:
+                try:
+                    try:
+                        result = adapter.query(q.question, n_results=5)
+                    except TypeError:
+                        result = adapter.query(q.question)
+                except Exception as e:  # noqa: BLE001 — record but continue
+                    result = QueryResult(answer="", context_string="", error=str(e))
+                rec = _score_and_judge(
+                    question=q.question,
+                    question_id=q.question_id,
+                    question_type=q.ability_type,
+                    sme_category=q.sme_category,
+                    is_abstention=q.is_abstention,
+                    gold_answer=q.gold_answer,
+                    expected=q.expected_sources_session_level(),
+                    result=result,
+                    skip_judge=skip_judge,
+                    skip_reader=skip_reader,
+                    reader_model=reader_model,
+                    judge_model=judge_model,
+                    reader_client=reader_client,
+                    judge_client=judge_client,
+                    capture_context=capture_context,
+                    extra_fields={
+                        "conversation_id": q.conversation_id,
+                        "bucket": q.bucket,
+                        "beam_ability": q.ability_type,
+                        "is_abstention": q.is_abstention,
+                        "rubric_nuggets": q.ground_truth_nuggets,
+                    },
+                )
+                records.append(rec)
+                log.info(
+                    "[%s] %s (%s / %s)",
+                    conv_id, q.question_id, q.ability_type, q.sme_category,
+                )
+        finally:
+            try:
+                adapter.close()
+            except Exception:  # noqa: BLE001
+                pass
+    return records
+
+
 # --- Aggregation ------------------------------------------------------------
 
 def _empty_category_slot() -> dict[str, Any]:
@@ -699,15 +810,28 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--dataset", required=True, type=Path,
                    help="Path to the dataset JSON. For --corpus longmemeval: "
                         "longmemeval_oracle.json (or _s / _m). For --corpus "
-                        "locomo: locomo10.json.")
+                        "locomo: locomo10.json. For --corpus beam: a cached "
+                        "per-bucket BEAM split (e.g. beam_100K.json) or the "
+                        "committed sample (sme/corpora/beam/sample/"
+                        "beam_100K_sample.json).")
     p.add_argument("--corpus", default="longmemeval",
-                   choices=["longmemeval", "locomo"],
+                   choices=["longmemeval", "locomo", "beam"],
                    help="Dataset shape. 'longmemeval' (default) = one "
                         "haystack per question. 'locomo' = one conversation "
                         "per sample shared by that sample's questions; "
                         "questions are grouped by sample_id and ingested "
                         "per sample, and adversarial (cat-5) items are judged "
-                        "abstention-aware.")
+                        "abstention-aware. 'beam' = one (very long) "
+                        "conversation per conversation_id shared by its 20 "
+                        "probing questions; grouped + ingested per "
+                        "conversation, graded at a token --bucket, and "
+                        "abstention items judged abstention-aware.")
+    p.add_argument("--bucket", default="100K",
+                   choices=["100K", "500K", "1M", "10M"],
+                   help="BEAM token bucket (only used with --corpus beam). "
+                        "The same conversation at a different bucket is a "
+                        "different retrieval problem, so the bucket is "
+                        "recorded on every record.")
     p.add_argument("--adapter", required=True,
                    choices=sorted(_ADAPTER_FACTORIES),
                    help="SME adapter to run.")
@@ -774,6 +898,21 @@ def run(args: argparse.Namespace,
                 judge_client=judge_client,
                 max_questions=args.max_questions,
             )
+        elif corpus == "beam":
+            from sme.corpora.beam import load_questions as load_beam
+            bucket = getattr(args, "bucket", "100K")
+            records = run_beam_questions(
+                list(load_beam(args.dataset, bucket=bucket)),
+                adapter_factory=factory,
+                work_dir=work_dir,
+                skip_judge=args.skip_judge,
+                skip_reader=args.skip_reader,
+                reader_model=args.reader_model,
+                judge_model=args.judge_model,
+                reader_client=reader_client,
+                judge_client=judge_client,
+                max_questions=args.max_questions,
+            )
         else:
             for i, q in enumerate(load_questions(args.dataset)):
                 if args.max_questions is not None and i >= args.max_questions:
@@ -804,6 +943,7 @@ def run(args: argparse.Namespace,
         "run_metadata": {
             "dataset": str(args.dataset),
             "corpus": corpus,
+            "bucket": (getattr(args, "bucket", None) if corpus == "beam" else None),
             "adapter": args.adapter,
             "reader_model": (None if args.skip_reader or args.skip_judge
                              else args.reader_model),

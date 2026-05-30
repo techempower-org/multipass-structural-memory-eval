@@ -65,3 +65,7 @@ sme/corpora/*/.cache/
 sme/corpora/climate_research_v01/
 sme/corpora/personal_kg_pkm_v01/
 sme/corpora/canadian_politics_v01/
+
+# jp-realm flat (Condition A) ChromaDB — binary, rebuilt from the committed
+# sanitized flat_source.jsonl via scripts/ingest_jprealm_flat_chroma.py (#125)
+sme/corpora/jp_realm_v0_1/flat_chroma/

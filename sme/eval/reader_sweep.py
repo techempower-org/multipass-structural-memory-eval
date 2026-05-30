@@ -156,6 +156,32 @@ PROMPT_VARIANTS: dict[str, str] = {
         "Conversation history:\n{context}\n\n"
         "Question: {question}\n\nAnswer:"
     ),
+    # "temporal_cot_v2" (refined §2a, Lucid #160) — LEADS with relative-date
+    # anchoring. Her sub-mode split found temporal is 73% reasoning-error and the
+    # single biggest sub-mode (44%) is the reader collapsing relative-time
+    # expressions ("today"/"just got back") to a 0-delta instead of anchoring to
+    # the turn's session _Date: header. v1 (temporal_cot) was +0.0; this leads
+    # with relative-time resolution before subtraction. Clause verbatim from the
+    # refined §2a draft on main.
+    "temporal_cot_v2": (
+        "Answer the user's question using the conversation history below. Give a "
+        "single, direct, committed answer — do not hedge.\n"
+        "This is a temporal question. Each turn belongs to a session with a known "
+        "date (the session's \"Date:\" header). When the user describes an event "
+        "with a RELATIVE expression — \"today\", \"yesterday\", \"just got back "
+        "from\", \"last week\", \"X days/weeks ago\" — resolve it to a concrete "
+        "calendar date using THAT turn's session date as the anchor; do NOT treat "
+        "\"today\" as 0 or as the same day for events stated in different "
+        "sessions. Then: (1) list every event the question refers to with its "
+        "resolved calendar date; (2) never use the current/question date as an "
+        "event's date unless the user said so; (3) compute the day-delta by "
+        "explicit date subtraction. State the resolved dates and the subtraction, "
+        "then give the final number.\n"
+        "Only say 'I don't know.' if the history contains nothing relevant to "
+        "base an answer on.\n\n"
+        "Conversation history:\n{context}\n\n"
+        "Question: {question}\n\nAnswer:"
+    ),
     # "dedup_count" (§3a) — multi-session floor. Forces an explicit
     # enumerate -> dedup -> count/sum procedure; the dedup clause kills the
     # double-count failure (same item restated across sessions counted twice).

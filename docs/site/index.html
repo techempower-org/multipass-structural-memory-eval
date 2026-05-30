@@ -1886,6 +1886,55 @@
         </div>
       </article>
 
+      <!-- #116 judge axis — Opus-as-judge re-judge -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval oracle &middot; reader sweep (judge axis)</span>
+            <h3>A stronger judge <em>doesn't rescue</em> the gap</h3>
+          </div>
+          <span class="bench-pill live">judge axis &middot; 2026-05-30</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>pinned oracle (stratified 150, search-default)</dd></div>
+          <div><dt>Readers</dt><dd>claude-opus-4-8 / o4-mini / gpt-5.3-chat (same answers as Pass B)</dd></div>
+          <div><dt>Judge re-scored</dt><dd>gpt-5.3-chat &rarr; claude-opus-4-8</dd></div>
+          <div><dt>Method</dt><dd>same hypotheses, different judge</dd></div>
+        </dl>
+
+        <table class="bench-tbl" aria-label="QA accuracy, gpt-5.3-chat judge vs Opus judge, by reader">
+          <thead>
+            <tr><th>Reader (answers fixed)</th><th class="num">QA gpt5.3-judge</th><th class="num">QA Opus-judge</th><th class="num">&Delta;</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>claude-opus-4-8</td><td class="num">0.393</td><td class="num">0.420</td><td class="num">+0.027</td></tr>
+            <tr><td>o4-mini</td><td class="num">0.467</td><td class="num">0.480</td><td class="num">+0.013</td></tr>
+            <tr><td>gpt-5.3-chat</td><td class="num">0.447</td><td class="num">0.480</td><td class="num">+0.033</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          To isolate the <em>judge</em> variable, the identical Pass B
+          reader answers were re-graded with <strong>Opus-4.8 as judge</strong>
+          (the original judge was gpt-5.3-chat). Every reader lifts modestly
+          &mdash; <strong>+1&ndash;3pp</strong> &mdash; mostly by rescuing
+          single-session-preference questions (the Opus reader's preference
+          category moves <strong>0.00&rarr;0.12</strong>). But the Opus judge
+          does <em>not</em> change the ranking and does <em>not</em> rescue
+          the Opus reader, which stays the lowest at <strong>0.420</strong>.
+          So the judge confound is <strong>real but small</strong>: the
+          dominant factor in the reader gap is <em>prompt design</em>, not
+          judge strictness. A prompt-fix sweep is in progress &mdash; that
+          card follows.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/reader_sweep_passB_opus_REJUDGED_2026-05-29.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
     </div>
   </section>
 

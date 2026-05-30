@@ -411,10 +411,20 @@ def _score_and_judge(
     # that return retrieved_entities=None on error.
     retrieved_entity_ids = [e.id for e in (result.retrieved_entities or [])]
     expected_set = set(expected)
-    rank_1 = retrieved_entity_ids[0] if retrieved_entity_ids else None
+
+    # The flat baseline labels each retrieved entity ``chunk:<doc_id>``
+    # (e.g. ``chunk:S0``), while ``expected`` carries bare session ids
+    # (``S0``). Normalise a leading ``chunk:`` before the hit-at-K
+    # comparison so per-session retrieval recall is real; the raw ids are
+    # still stored verbatim on the record for provenance.
+    def _norm_id(rid: str) -> str:
+        return rid[len("chunk:"):] if rid.startswith("chunk:") else rid
+
+    norm_ids = [_norm_id(rid) for rid in retrieved_entity_ids]
+    rank_1 = norm_ids[0] if norm_ids else None
     hit_at_1 = rank_1 in expected_set if rank_1 is not None else False
-    hit_at_5 = any(rid in expected_set for rid in retrieved_entity_ids[:5])
-    hit_at_10 = any(rid in expected_set for rid in retrieved_entity_ids[:10])
+    hit_at_5 = any(rid in expected_set for rid in norm_ids[:5])
+    hit_at_10 = any(rid in expected_set for rid in norm_ids[:10])
 
     record: dict[str, Any] = {
         "question_id": question_id,
@@ -594,6 +604,7 @@ def run_beam_questions(
     judge_client: Optional[Any] = None,
     capture_context: bool = False,
     max_questions: Optional[int] = None,
+    n_results: int = 5,
 ) -> list[dict]:
     """Run a list of BEAMQuestions PER CONVERSATION.
 
@@ -609,7 +620,16 @@ def run_beam_questions(
     adapters ingest the vault, so per-conversation materialization is
     what makes their BEAM retrieval correct.
 
-    Abstention items carry ``is_abstention=True`` → judged abstention-
+    ``n_results`` is the per-query retrieval depth (top-K sessions). At
+    the 100K bucket conversations have 3-5 sessions, so the default K=5
+    returns the whole conversation (effectively full-context QA). At the
+    500K/1M buckets conversations have ~10 sessions each totalling
+    >500K/>1M tokens, far beyond any reader window - there K must be set
+    low (2-3) so the retrieved top-K fits the reader. The bucket is
+    recorded on every record, so a reading always states which regime it
+    was taken in (sme/corpora/beam/README.md).
+
+    Abstention items carry ``is_abstention=True``→ judged abstention-
     aware via ``_score_and_judge``.
     """
     from sme.corpora.beam import materialize_sme_corpus as beam_materialize
@@ -644,7 +664,7 @@ def run_beam_questions(
             for q in conv_qs:
                 try:
                     try:
-                        result = adapter.query(q.question, n_results=5)
+                        result = adapter.query(q.question, n_results=n_results)
                     except TypeError:
                         result = adapter.query(q.question)
                 except Exception as e:  # noqa: BLE001 — record but continue
@@ -870,6 +890,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
                         "The same conversation at a different bucket is a "
                         "different retrieval problem, so the bucket is "
                         "recorded on every record.")
+    p.add_argument("--beam-n-results", type=int, default=5,
+                   help="BEAM per-query retrieval depth (top-K sessions; "
+                        "only used with --corpus beam). Default 5 returns "
+                        "the whole conversation at the 100K bucket (3-5 "
+                        "sessions). At 500K/1M (~10 sessions, >500K/>1M "
+                        "tokens) set this low (2-3) so the retrieved top-K "
+                        "fits the reader window.")
     p.add_argument("--adapter", required=True,
                    choices=sorted(_ADAPTER_FACTORIES),
                    help="SME adapter to run.")
@@ -950,6 +977,7 @@ def run(args: argparse.Namespace,
                 reader_client=reader_client,
                 judge_client=judge_client,
                 max_questions=args.max_questions,
+                n_results=getattr(args, "beam_n_results", 5),
             )
         else:
             for i, q in enumerate(load_questions(args.dataset)):
@@ -982,6 +1010,8 @@ def run(args: argparse.Namespace,
             "dataset": str(args.dataset),
             "corpus": corpus,
             "bucket": (getattr(args, "bucket", None) if corpus == "beam" else None),
+            "beam_n_results": (getattr(args, "beam_n_results", 5)
+                               if corpus == "beam" else None),
             "adapter": args.adapter,
             "reader_model": (None if args.skip_reader or args.skip_judge
                              else args.reader_model),

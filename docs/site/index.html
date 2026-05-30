@@ -2010,6 +2010,103 @@
         </div>
       </article>
 
+      <!-- canonical judge — fixing the judge prompts un-collapses preference but confirms the gap is the reader -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval oracle &middot; canonical type-specific judge</span>
+            <h3>Fixing the judge <em>un-collapses preference</em> &mdash; but the gap is the reader</h3>
+          </div>
+          <span class="bench-pill live">canonical judge &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>LongMemEval-S oracle, n=500 (all 6 types + 30 abstention)</dd></div>
+          <div><dt>Reader</dt><dd>gpt-5.3-chat (held constant, baseline prompt, full context)</dd></div>
+          <div><dt>Judge</dt><dd>gpt-5.3-chat + canonical type-specific prompts (NOT gpt-4o-2024-08-06 &mdash; not deployed here)</dd></div>
+          <div><dt>Method</dt><dd>same reader answers, paraphrased rubric &rarr; verbatim LongMemEval templates</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">preference /search</div>
+            <div class="value"><em>+20.0pp</em></div>
+            <div class="sub">0.133 &rarr; 0.333, un-collapsed</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">preference age-fused</div>
+            <div class="value"><em>+26.7pp</em></div>
+            <div class="sub">0.100 &rarr; 0.367, un-collapsed</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">spurious ABSTAIN</div>
+            <div class="value"><em>21 &rarr; 0</em></div>
+            <div class="sub">old judge invented them on temporal Qs</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">residual oracle gap</div>
+            <div class="value"><em>~31&ndash;36pp</em></div>
+            <div class="sub">reader/substrate, not the scorer</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Corrected vs confounded QA accuracy by question type, search-default and age-fused">
+          <thead>
+            <tr><th>Question type</th><th class="num">/search &Delta;</th><th class="num">age-fused &Delta;</th></tr>
+          </thead>
+          <tbody>
+            <tr class="total"><td>single-session-preference</td><td class="num">+20.0pp</td><td class="num">+26.7pp</td></tr>
+            <tr><td>single-session-user</td><td class="num">+0.0pp</td><td class="num">+1.4pp</td></tr>
+            <tr><td>single-session-assistant</td><td class="num">+0.0pp</td><td class="num">+7.1pp</td></tr>
+            <tr><td>multi-session</td><td class="num">&minus;3.8pp</td><td class="num">&minus;6.0pp</td></tr>
+            <tr><td>knowledge-update</td><td class="num">&minus;5.1pp</td><td class="num">&minus;9.0pp</td></tr>
+            <tr><td>temporal-reasoning</td><td class="num">&minus;2.3pp</td><td class="num">&minus;2.3pp</td></tr>
+            <tr class="total"><td>OVERALL (harness)</td><td class="num">0.510</td><td class="num">0.456</td></tr>
+            <tr><td>OVERALL (+abstention)</td><td class="num">0.562</td><td class="num">0.510</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          The companion card swaps the judge <em>model</em> (Opus-as-judge) and
+          finds it doesn't help. This card swaps the judge <em>prompts</em>:
+          porting LongMemEval's verbatim type-specific templates &mdash; in
+          particular the <strong>rubric-based</strong> preference template the
+          old paraphrased judge lacked. That <strong>un-collapses
+          single-session-preference</strong> (+20.0pp / +26.7pp, the largest
+          single-category move) and <strong>removes the spurious-ABSTAIN
+          noise</strong> (the old judge emitted 34 ABSTAIN labels, 21 on
+          <em>non</em>-abstention temporal questions; the canonical binary judge
+          can't). The stricter, more faithful templates pull KU and
+          multi-session <em>down</em> a few points &mdash; that is the old judge
+          having over-credited via a softer rubric, not a regression. The
+          headline: <strong>the overall did NOT move toward the published 87%
+          oracle</strong> &mdash; corrected, abstention-credited it is 0.562 /
+          0.510. The judge-prompt confound was <strong>real</strong> (preference
+          collapse and label noise were genuine measurement artifacts) but it is
+          <em>not</em> the bulk of the 35pp gap. The residual ~31&ndash;36pp is
+          <strong>reader/substrate, not the scorer</strong> &mdash; consistent
+          with the unified #116 finding that the reader is the lever.
+        </p>
+
+        <p class="bench-prose">
+          <strong>Disclosure.</strong> Judge is gpt-5.3-chat with canonical
+          prompts, <em>not</em> the canonical gpt-4o-2024-08-06 snapshot (not
+          deployed on this resource) &mdash; the fix is the prompts, not the
+          model. 2 ERROR rows per run from an Azure content-filter trip
+          (graceful retry-then-ERROR by design; counted as wrong, a 0.4%
+          asymmetry vs the confounded denominator). Absolute numbers are
+          <em>understated</em> by the aggregator&rsquo;s ABSTAIN dead-code bug
+          (#148) &mdash; it never credits a correct ABSTAIN &mdash; but that
+          depresses both runs identically, so the <strong>deltas are
+          valid</strong>.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/reader_sweep_passA_canonical-judge_{search-default,age-fused}_2026-05-29.json &middot; docs/benchmarks/2026-05-29-canonical-judge-passA.md</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
     </div>
   </section>
 

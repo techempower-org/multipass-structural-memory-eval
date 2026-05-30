@@ -840,6 +840,78 @@
   }
   .vlegend .vbadge { margin-right: 0.35rem; }
 
+  /* MULTIPASS MATRIX — SME's unique structural-diagnostics layer (no competitor analogue) */
+  .multipass {
+    border: var(--rule) solid var(--refract);
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--refract) 7%, transparent),
+      color-mix(in srgb, var(--obsidian) 30%, transparent));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--refract) 16%, transparent),
+                0 1px 40px -20px color-mix(in srgb, var(--refract) 55%, transparent);
+  }
+  .multipass .bench-head { border-bottom-color: var(--hair-strong); }
+  .multipass h3 em { color: var(--refract); }
+  .multipass .bench-pill.unique {
+    color: var(--void);
+    background: var(--refract);
+    border-color: var(--refract);
+    font-weight: 500;
+  }
+  @media (prefers-color-scheme: light) {
+    .multipass .bench-pill.unique { color: var(--obsidian); }
+  }
+  .multipass-lede {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
+    color: var(--ice-dim);
+    margin: 0 0 1.5rem;
+    padding: 0.85rem 1.1rem;
+    border-left: 2px solid var(--refract);
+    background: color-mix(in srgb, var(--refract) 7%, transparent);
+  }
+  .multipass-lede strong { color: var(--ice); font-weight: 500; }
+  .multipass-lede .pinned { color: var(--refract); }
+  .bench-tbl.cat-tbl th { color: var(--refract); opacity: 0.95; }
+  .bench-tbl.cat-tbl td.cat {
+    color: var(--refract);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .bench-tbl.cat-tbl td.cat .catname {
+    display: block;
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    color: var(--ice-ghost);
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+    font-weight: 400;
+  }
+  .bench-tbl.cat-tbl td.reading { color: var(--ice); }
+  .bench-tbl.cat-tbl td.reading strong { color: var(--refract); font-weight: 600; }
+  .bench-tbl.cat-tbl td.gap { color: var(--stellar); font-style: italic; }
+  .bench-tbl.cat-tbl td.src {
+    font-size: 10px;
+    color: var(--ice-ghost);
+    letter-spacing: 0.02em;
+  }
+  /* "none" competitor-analogue chip — the headline of this matrix */
+  .nabadge {
+    display: inline-block;
+    font-family: var(--f-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border: var(--rule) solid color-mix(in srgb, var(--refract) 55%, transparent);
+    border-radius: 2px;
+    color: var(--refract);
+    white-space: nowrap;
+  }
+  .multipass .caveat { border-left-color: var(--refract); background: color-mix(in srgb, var(--refract) 7%, transparent); }
+  .multipass .caveat .label { color: var(--refract); }
+
   .bench-prose {
     color: var(--ice-dim);
     font-size: 14.5px;
@@ -1776,6 +1848,166 @@
         <div class="bench-foot">
           <span>Source &middot; ours: baselines/reader_trueoracle_{ss-assistant,temporal,multi-session}_2026-05-29.json + reader_sweep_passA_canonical-judge_opus-preference_*.json (n=500 deployed) + longmemeval_s_strat150_*.reagg.json (R@5) &middot; docs/benchmarks/2026-05-29-true-oracle-floor.md &middot; field: docs/research/2026-05-29-comparison-readiness.md</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
+      <!-- MULTIPASS — SME structural diagnostics (Cat 1-9, no competitor analogue) -->
+      <article class="bench multipass">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">Multipass &middot; what the system knows about its own structure</span>
+            <h3>SME structural diagnostics &mdash; <em>no competitor analogue</em></h3>
+          </div>
+          <span class="bench-pill unique">unique contribution</span>
+        </div>
+
+        <p class="multipass-lede">
+          The apples-to-apples and field tables answer <em>&ldquo;how does this
+          system rank?&rdquo;</em> This third matrix answers a different question:
+          <strong>what does the memory system know about its own structure?</strong>
+          These nine categories are <span class="pinned">SME&rsquo;s unique
+          contribution</span> &mdash; LongMemEval, LoCoMo, BEAM, Mem0&rsquo;s and
+          Zep&rsquo;s evaluations all measure end-to-end QA or retrieval recall.
+          <strong>None of them</strong> diagnose canonical-collision dedup, edge-type
+          monoculture, structural holes, ontology drift, or harness invocation rate.
+          The <span class="pinned">analogue</span> column is
+          <strong>none</strong> for every row, by construction &mdash; that
+          <em>is</em> the headline. Substrate under test: <strong>mempalace</strong>
+          via the <code>mempalace-daemon</code> adapter against the live palace-daemon,
+          reading the populated AGE knowledge graph (1,106 entities / 169k edges,
+          2026-05-29 snapshot). Diagnostic readings of one substrate &mdash; not
+          leaderboard scores.
+        </p>
+
+        <div class="matrix-scroll">
+        <table class="bench-tbl cat-tbl" aria-label="Multipass / SME Cat 1-9 structural-diagnostics matrix for mempalace: category, what it measures, the MemPalace reading, corpus and adapter, and the competitor-analogue column which is 'none' for every row. Sortable by Cat, corpus, adapter, and analogue.">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="0" data-type="text">Cat</th>
+              <th>What it measures</th>
+              <th>MemPalace reading</th>
+              <th class="sortable" data-col="3" data-type="text">Corpus / adapter</th>
+              <th class="sortable" data-col="4" data-type="text">Analogue</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cat">1 <span class="catname">Lookup</span></td>
+              <td>Find a specific memory from a natural-language query</td>
+              <td class="reading"><strong>R@5 0.867</strong> <span class="src">full-recall 22/30; hop-1 0.889, hop-2 0.667</span></td>
+              <td class="src">jp-realm-v0.1 &middot; daemon /search/age-fused</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">2c <span class="catname">Stairway</span></td>
+              <td>Multi-hop retrieval recall by hop depth &mdash; does structure scale?</td>
+              <td class="reading"><strong>mean recall 0.933</strong> <span class="src">Condition-B only; hop-1 0.944, hop-2 0.833</span></td>
+              <td class="src">jp-realm-v0.1 &middot; daemon (AGE)</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">3 <span class="catname">Dissonance</span></td>
+              <td>Detect and surface conflicting facts</td>
+              <td class="reading gap">gap &mdash; flat floor 90.3%; structured <code>ContradictionPair[]</code> path not wired for the daemon adapter</td>
+              <td class="src">good-dog-corpus &middot; flat baseline</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">4 <span class="catname">Threshold</span></td>
+              <td>Is ingestion producing a clean graph? (dedup, field coverage, monoculture)</td>
+              <td class="reading">4a collisions <strong>0</strong>/1,106 &middot; 4b coverage <strong>1.000</strong> &middot; 4c entropy 0.020 <span class="src">tunnel 98.98% &mdash; severe monoculture, expected</span></td>
+              <td class="src">live palace (AGE) &middot; daemon</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">5 <span class="catname">Missing Room</span></td>
+              <td>Identify what&rsquo;s structurally missing (components, holes, gaps)</td>
+              <td class="reading"><strong>498 components</strong> &middot; largest 606 (54.8%) &middot; isolates 496 &middot; bridges 2 &middot; Betti-1 0 &middot; candidate gaps 0/1</td>
+              <td class="src">live palace (AGE) &middot; daemon</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">6 <span class="catname">Archive</span></td>
+              <td>Current vs historical state, supersession tracking</td>
+              <td class="reading gap">gap &mdash; flat floor 100%; real signal is <code>_superseded_by</code> / <code>valid_from</code>&ndash;<code>valid_to</code>, not read by the matcher</td>
+              <td class="src">good-dog-corpus &middot; flat baseline</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">7 <span class="catname">Abacus</span></td>
+              <td>Does structure earn its token overhead? (graph vs no-graph)</td>
+              <td class="reading"><strong>52.9k</strong> tokens/correct (jp-realm Cat 1, age-fused) <span class="src">A/B/C deltas need a flat Condition-A run &mdash; see gaps</span></td>
+              <td class="src">jp-realm-v0.1 &middot; daemon</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">7b <span class="catname">Latency</span></td>
+              <td>Query latency distribution (YCSB p50 / p95)</td>
+              <td class="reading">p50 <strong>vector 626ms</strong> / union 429ms / hybrid 2064ms &middot; p95 4.7s / 636ms / 5.6s</td>
+              <td class="src">live palace (AGE) &middot; daemon (candidate-strategy)</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">8 <span class="catname">Blueprint</span></td>
+              <td>Does the actual graph match what the system claims to do?</td>
+              <td class="reading">8a type coverage <strong>0.333</strong> &middot; 8b edge vocab 0.667 &middot; 8d drift 0.556 &middot; 8e claims 0.50 <span class="src">&ldquo;hierarchical&rdquo; FAILS (modularity 0.009); introspection 0.0</span></td>
+              <td class="src">live palace (AGE) &middot; daemon</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">9a <span class="catname">Handshake</span></td>
+              <td>Does the model actually invoke memory when it has access?</td>
+              <td class="reading"><strong>familiar 78.3%</strong> vs RLM 46.7% <span class="src">both RLM orchestrators (Qwen-7B, Llama-70B) plateau 46.7% &mdash; ceiling is willingness to invoke, not retrieval</span></td>
+              <td class="src">jp-realm-v0.1 &middot; familiar / rlm</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+            <tr>
+              <td class="cat">9b <span class="catname">Call-through</span></td>
+              <td>Given an invocation, does the tool call complete and return a valid result?</td>
+              <td class="reading">live surfaces reachable <span class="src">clean floor; mock-model probe path</span></td>
+              <td class="src">&mdash;</td>
+              <td><span class="nabadge">none</span></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="matrix-controls">
+          <span>Every row&rsquo;s <strong>competitor analogue is none</strong> &mdash; that is the point of this table, not a gap in it. The readings are diagnostic deltas on a single substrate, never cross-system leaderboard scores. <strong>Click Cat, corpus, or analogue to sort.</strong></span>
+        </div>
+
+        <div class="caveat">
+          <span class="label">Cat-9 &middot; orchestrator-model selection (Tau2 prior)</span>
+          <strong>Cat-9a Handshake recall tracks the orchestrator&rsquo;s Tau2
+          tool-agent score, not its parameter count.</strong> A +37.7pp Tau2 gap
+          predicted a +30&ndash;33pp Cat-9a recall gap to within ~5pp. The live data
+          bears it out: RLM with <strong>Qwen-7B and Llama-70B both plateau at the
+          same 46.7%</strong> despite a ~10&times; parameter difference &mdash; both
+          ceiling at <em>willingness to invoke the tool</em>, not at retrieval. The
+          deterministic <code>familiar</code> pipeline consistently invokes and lands
+          at 78.3%. The lever for raising 9a is a high-Tau2 orchestrator (Opus 4.6
+          99.3%, GPT-5.4 98.9%, GLM-5 ~98%), not more parameters
+          (techempower-org/multipass-structural-memory-eval#194).
+        </div>
+
+        <div class="caveat">
+          <span class="label">honest gaps &middot; not category failures</span>
+          Four readings are &ldquo;not cleanly runnable against mempalace right
+          now,&rdquo; flagged per the diagnostic posture:
+          <strong>Cat 3 / Cat 6</strong> have only flat good-dog baselines &mdash; the
+          structured-field plumbing (<code>ContradictionPair[]</code>,
+          <code>_superseded_by</code>) isn&rsquo;t wired through the daemon adapter, so
+          the honest <code>(structural &minus; flat)</code> headline is uncomputable.
+          <strong>Cat 2c Condition A</strong> and <strong>Cat 7 A/B/C deltas</strong>
+          both need a flat baseline on jp-realm, whose source notes live in JP&rsquo;s
+          private palace, not the repo &mdash; so 2c stays Condition-B-only and Cat 7
+          is a single-condition tokens-per-correct figure.
+          <strong>Cat 9a</strong> model coverage is three orchestrators from
+          2026-04-30; the high-Tau2 cross-validation is the pending experiment above.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, cat4_daemon_age, cat5_daemon_age, cat8_daemon_age, candidate_strategy_age}_2026-05-29.json + docs/ideas.md (Cat 9a) + docs/good_dog_cat3_cat6_findings.md (flat floors) &middot; docs/benchmarks/2026-05-30-multipass-cat-matrix.md</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/115">techempower-org/multipass-structural-memory-eval#115</a>
         </div>
       </article>
 
@@ -3343,7 +3575,7 @@
     }
 
     makeSortable(document.getElementById('memMatrix'), document.getElementById('matrixReset'));
-    document.querySelectorAll('table.apples-tbl').forEach(function(t){ makeSortable(t, null); });
+    document.querySelectorAll('table.apples-tbl, table.cat-tbl').forEach(function(t){ makeSortable(t, null); });
   })();
 </script>
 

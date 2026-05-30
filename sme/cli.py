@@ -128,6 +128,12 @@ def _oracle_retrieval_loader() -> type[SMEAdapter]:
     return OracleRetrievalAdapter
 
 
+def _good_dog_graph_loader() -> type[SMEAdapter]:
+    from sme.adapters.good_dog_graph import GoodDogGraphAdapter
+
+    return GoodDogGraphAdapter
+
+
 _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
     _AdapterSpec(
         aliases=("ladybugdb", "ladybug"),
@@ -232,6 +238,12 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         aliases=("oracle", "oracle-retrieval", "oracle_retrieval"),
         loader=_oracle_retrieval_loader,
         accepts=frozenset({"questions"}),
+    ),
+    _AdapterSpec(
+        aliases=("good-dog-graph", "good_dog_graph", "good-dog"),
+        loader=_good_dog_graph_loader,
+        accepts=frozenset({"vault_dir", "n_results", "read_only"}),
+        rename={"db_path": "vault_dir"},
     ),
 )
 
@@ -977,6 +989,73 @@ def cmd_cat5(args: argparse.Namespace) -> int:
             "gap_precision": report.gap_precision,
             "detection_level": report.detection_level,
         }
+        Path(args.json).write_text(json.dumps(out, indent=2, default=str))
+        print(f"\nJSON report written to {args.json}")
+
+    adapter.close()
+    return 0
+
+
+def cmd_cat3(args: argparse.Namespace) -> int:
+    """Run Category 3 (contradiction detection) against a system."""
+    from sme.categories.contradiction import format_report, score_cat3
+
+    adapter = _load_adapter_from_args(args)
+    entities, edges = adapter.get_graph_snapshot()
+    surfaced = adapter.get_contradiction_pairs()
+    log.info(
+        "snapshot: %d entities, %d edges; %d contradiction pairs surfaced",
+        len(entities), len(edges), len(surfaced),
+    )
+
+    report = score_cat3(
+        entities,
+        edges,
+        surfaced,
+        flat_detection_rate=args.flat_detection_rate,
+    )
+
+    print()
+    print("=" * 70)
+    print(f" {args.adapter} ({_source_label(args)})")
+    print("=" * 70)
+    print(format_report(report))
+
+    if args.json:
+        out = dict(report.to_dict())
+        out["adapter"] = args.adapter
+        out["source"] = _source_label(args)
+        Path(args.json).write_text(json.dumps(out, indent=2, default=str))
+        print(f"\nJSON report written to {args.json}")
+
+    adapter.close()
+    return 0
+
+
+def cmd_cat6(args: argparse.Namespace) -> int:
+    """Run Category 6 (temporal supersession) against a system."""
+    from sme.categories.supersession import format_report, score_cat6
+
+    adapter = _load_adapter_from_args(args)
+    entities, edges = adapter.get_graph_snapshot()
+    log.info("snapshot: %d entities, %d edges", len(entities), len(edges))
+
+    report = score_cat6(
+        entities,
+        edges,
+        flat_completeness=args.flat_completeness,
+    )
+
+    print()
+    print("=" * 70)
+    print(f" {args.adapter} ({_source_label(args)})")
+    print("=" * 70)
+    print(format_report(report))
+
+    if args.json:
+        out = dict(report.to_dict())
+        out["adapter"] = args.adapter
+        out["source"] = _source_label(args)
         Path(args.json).write_text(json.dumps(out, indent=2, default=str))
         print(f"\nJSON report written to {args.json}")
 
@@ -2056,6 +2135,62 @@ def main(argv: list[str] | None = None) -> int:
     )
     c5.add_argument("--json", metavar="PATH", help="write full report as JSON")
     c5.set_defaults(func=cmd_cat5)
+
+    # --- cat3 subcommand ---------------------------------------------
+
+    c3 = sub.add_parser(
+        "cat3",
+        help="Run Category 3 (The Dissonance — contradiction detection) "
+        "against a system. Reads the structured ContradictionPair[] "
+        "channel (adapter.get_contradiction_pairs) and reports the "
+        "(structural − flat) detection-rate delta.",
+    )
+    c3.add_argument("--adapter", required=True)
+    _add_db_or_api_args(c3)
+    c3.add_argument(
+        "--collection-name", metavar="NAME",
+        help="(mempalace/flat) ChromaDB collection name",
+    )
+    c3.add_argument(
+        "--kg-path", metavar="PATH",
+        help="(mempalace) SQLite knowledge graph path override",
+    )
+    c3.add_argument(
+        "--flat-detection-rate", type=float, default=0.0,
+        help="flat-baseline contradiction detection rate for the "
+        "(structural − flat) delta. Default 0.0 — a flat retriever "
+        "surfaces no structured pairs by construction.",
+    )
+    c3.add_argument("--json", metavar="PATH", help="write full report as JSON")
+    c3.set_defaults(func=cmd_cat3)
+
+    # --- cat6 subcommand ---------------------------------------------
+
+    c6 = sub.add_parser(
+        "cat6",
+        help="Run Category 6 (The Archive — temporal supersession) against "
+        "a system. Verifies the reserved _superseded_by edge property is "
+        "derived from supersedes edges and reports the (structural − flat) "
+        "supersession-completeness delta.",
+    )
+    c6.add_argument("--adapter", required=True)
+    _add_db_or_api_args(c6)
+    c6.add_argument(
+        "--collection-name", metavar="NAME",
+        help="(mempalace/flat) ChromaDB collection name",
+    )
+    c6.add_argument(
+        "--kg-path", metavar="PATH",
+        help="(mempalace) SQLite knowledge graph path override",
+    )
+    c6.add_argument(
+        "--flat-completeness", type=float, default=0.0,
+        help="flat-baseline supersession completeness for the "
+        "(structural − flat) delta. Default 0.0 — a flat retriever has "
+        "no edges and no _superseded_by field.",
+    )
+    c6.add_argument("--json", metavar="PATH", help="write full report as JSON")
+    c6.set_defaults(func=cmd_cat6)
 
     # --- cat2c subcommand --------------------------------------------
 

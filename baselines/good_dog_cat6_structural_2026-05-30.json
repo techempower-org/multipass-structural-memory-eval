@@ -1,0 +1,45 @@
+{
+  "category": "cat_6_supersession",
+  "seeded_supersedes_edges": 8,
+  "resolved_supersedes_edges": 8,
+  "superseded_entities": 7,
+  "structural_completeness": 1.0,
+  "flat_completeness": 0.0,
+  "completeness_delta": 1.0,
+  "detection_level": "structured",
+  "superseded_by": {
+    "pub_calgary_rpob_23m2006": "pub_calgary_rpob_47m2021",
+    "pub_hills_vitd_announcement_2019_01": "pub_hills_vitd_expansion_2019_03",
+    "pub_hills_vitd_expansion_2019_03": "pub_hills_vitd_expansion_2019_05",
+    "pub_hills_vitd_expansion_2019_05": "pub_hills_warning_letter_2019_11",
+    "pub_montreal_2016_bsl_bylaw": "pub_montreal_2018_repeal_bylaw",
+    "pub_ontario_dola_statute": "pub_ontario_bill_132_2005",
+    "pub_schenkel_1947_wolf_expression": "pub_avsab_2008_dominance_position"
+  },
+  "chains": [
+    [
+      "pub_schenkel_1947_wolf_expression",
+      "pub_avsab_2008_dominance_position"
+    ],
+    [
+      "pub_calgary_rpob_23m2006",
+      "pub_calgary_rpob_47m2021"
+    ],
+    [
+      "pub_hills_vitd_announcement_2019_01",
+      "pub_hills_vitd_expansion_2019_03",
+      "pub_hills_vitd_expansion_2019_05",
+      "pub_hills_warning_letter_2019_11"
+    ],
+    [
+      "pub_montreal_2016_bsl_bylaw",
+      "pub_montreal_2018_repeal_bylaw"
+    ],
+    [
+      "pub_ontario_dola_statute",
+      "pub_ontario_bill_132_2005"
+    ]
+  ],
+  "adapter": "good-dog-graph",
+  "source": "?"
+}

@@ -49,12 +49,15 @@ from pathlib import Path
 from typing import Optional
 
 from sme.adapters.base import (
+    ContradictionPair,
     Edge,
     Entity,
     HarnessDescriptor,
     ProbeResult,
     QueryResult,
     SMEAdapter,
+    annotate_superseded_edges,
+    contradiction_pairs_from_edges,
 )
 
 log = logging.getLogger(__name__)
@@ -535,6 +538,13 @@ class MemPalaceAdapter(SMEAdapter):
                     self.kg_path,
                 )
 
+        # Cat 6 plumbing: derive the reserved ``_superseded_by`` edge
+        # property from KG triples whose predicate normalizes to
+        # ``supersedes``. MemPalace stores the predicate verbatim in the
+        # triples table, so the relation is already present — this only
+        # stamps the structured field Cat 6 reads.
+        annotate_superseded_edges(edges)
+
         return entities, edges
 
     def _read_kg(self) -> tuple[list[Entity], list[Edge]]:
@@ -596,6 +606,28 @@ class MemPalaceAdapter(SMEAdapter):
             pass
 
         return ents, edges
+
+    # --- Cat 3 contradiction surfacing --------------------------------
+
+    def get_contradiction_pairs(self) -> list[ContradictionPair]:
+        """Surface contradiction pairs from the KG ``contradicts`` edges.
+
+        Overrides the base default (which walks the full graph snapshot
+        — an expensive per-drawer ChromaDB scan on a large palace) by
+        reading only the SQLite KG layer. A palace whose KG has no
+        ``contradicts`` triples returns ``[]`` and scores 0 on Cat 3 —
+        the honest reading for a system that retrieves but does not model
+        contradictions.
+        """
+        if not (self.include_kg and os.path.exists(self.kg_path)):
+            return []
+        try:
+            ents, edges = self._read_kg()
+        except Exception as e:  # pragma: no cover
+            log.warning("get_contradiction_pairs: KG read failed: %s", e)
+            return []
+        node_names = {e.id: e.name for e in ents}
+        return contradiction_pairs_from_edges(edges, node_names=node_names)
 
     # --- Cat 8 ontology source ----------------------------------------
 

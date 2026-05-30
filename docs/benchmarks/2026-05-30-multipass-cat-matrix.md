@@ -42,10 +42,10 @@ Cat 9a is the older `familiar` vs `rlm` handshake reading on jp-realm-v0.1.
 |---|---|---|---|---|---|---|---|
 | **1** | The Lookup | Can it find a specific memory from a natural-language query? | **R@5 = 0.867** (full-recall 22/30; by-hop 1: 0.889, 2: 0.667) | jp-realm-v0.1 | mempalace-daemon `/search/age-fused` | 2026-05-29 | none |
 | **2c** | The Stairway | Multi-hop retrieval recall by hop depth — does structure scale with depth? | **mean recall 0.933** (Condition B only; hop-1: 0.944 / n27, hop-2: 0.833 / n3) | jp-realm-v0.1 | mempalace-daemon (AGE) | 2026-05-29 | none |
-| **3** | The Dissonance | Does it detect and surface conflicting facts? | **gap** — flat floor 90.3% (substring); structured `ContradictionPair[]` path not wired for the daemon adapter | good-dog-corpus | flat baseline | 2026-05-24 | none |
+| **3** | The Dissonance | Does it detect and surface conflicting facts? | **(structural − flat) +1.00** — structural detection 1.00 (6/6 seeded pairs, precision 1.00) vs flat 0.00 structured pairs; `ContradictionPair[]` now wired through the daemon `/graph` + direct adapters (#200) | good-dog-corpus | good-dog-graph | 2026-05-30 | none |
 | **4** | The Threshold (Ingestigation) | Is the extraction pipeline producing a clean graph (dedup, field coverage, monoculture)? | 4a collisions **0** / 1,106 keys · 4b coverage **1.000** · 4c normalized entropy **0.020** (tunnel = 98.98% — severe monoculture, expected for a tunnel-dense palace) | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
 | **5** | The Missing Room | Can it identify what's structurally missing (components, holes, gaps)? | **498 components**, largest 606 (54.8%), isolates 496 (44.8%), bridges 2, Betti-1 **0**, candidate gaps 0/1 | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
-| **6** | The Archive | Current vs. historical state, supersession tracking | **gap** — flat floor 100% (substring can't distinguish consolidation-aware from flat RAG); real signal is `_superseded_by` / `valid_from`–`valid_to`, not read by the matcher | good-dog-corpus | flat baseline | 2026-05-24 | none |
+| **6** | The Archive | Current vs. historical state, supersession tracking | **(structural − flat) +1.00** — supersession completeness 1.00 (8/8 supersedes edges resolved into `_superseded_by`, 5 chains incl. the 4-doc Hill's chain) vs flat 0.00; `_superseded_by` now derived through the daemon `/graph` + direct adapters (#200) | good-dog-corpus | good-dog-graph | 2026-05-30 | none |
 | **7** | The Abacus | Does structure earn its token overhead? (graph vs no-graph) | tokens-per-correct **52.9k** on jp-realm Cat 1 (age-fused). Token-efficiency A/B/C deltas need a flat Condition-A run (gap, see below) | jp-realm-v0.1 | mempalace-daemon | 2026-05-29 | none |
 | **7b** | Latency | Query latency distribution (YCSB p50/p95) | p50 **vector 626ms / union 429ms / hybrid 2064ms**; p95 4.7s / 636ms / 5.6s | live palace (AGE) | mempalace-daemon (candidate-strategy) | 2026-05-30 | none |
 | **8** | The Blueprint | Does the actual graph match what the system claims to do? | 8a type coverage **0.333** (2/6 declared types found) · 8b edge vocab **0.667** · 8d drift **0.556** · 8e claims **0.50** (2/4 testable pass; "hierarchical" claim FAILS — modularity 0.009) · introspection **0.0** | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
@@ -68,7 +68,13 @@ Cat 9a is the older `familiar` vs `rlm` handshake reading on jp-realm-v0.1.
 - **Cat 3 — The Dissonance.** Contradiction detection — does the system flag
   conflicting facts (old framing vs new framing) rather than silently returning
   one? The real signal lives in the structured `ContradictionPair[]` field of
-  `QueryResult`, which the substring matcher does not read.
+  `QueryResult`, which the substring matcher does not read. As of #200 the
+  `ContradictionPair[]` channel is wired through both palace adapters
+  (`get_contradiction_pairs()` + the daemon `/graph` projection), so the
+  structural reading is computable: on good-dog the structural detection rate is
+  1.00 vs a flat structured-detection floor of 0.00, a `(structural − flat)`
+  delta of **+1.00**. See
+  [`2026-05-30-cat3-cat6-structural-plumbing.md`](2026-05-30-cat3-cat6-structural-plumbing.md).
 - **Cat 4 — The Threshold (Ingestigation).** An *investigation* into what
   ingestion preserved: 4a canonical-collision dedup (distinct IDs that
   canonicalize to the same key), 4b required-field coverage, 4c edge-type
@@ -82,7 +88,13 @@ Cat 9a is the older `familiar` vs `rlm` handshake reading on jp-realm-v0.1.
 - **Cat 6 — The Archive.** Temporal reasoning: current vs historical state and
   supersession-chain tracking. The consolidation signal lives in
   `_superseded_by` edges and `valid_from`/`valid_to` properties — not in
-  substring overlap, which is why the flat floor is 100% and uninformative.
+  substring overlap, which is why the flat floor is 100% and uninformative. As
+  of #200 the reserved `_superseded_by` property is derived from `supersedes`
+  edges through both palace adapters, so supersession completeness is
+  computable: on good-dog every `supersedes` edge resolves into a
+  `_superseded_by` linkage (completeness 1.00 vs flat 0.00, `(structural − flat)`
+  **+1.00**), reconstructing all 5 seeded chains including the 4-document Hill's
+  vitamin-D recall chain.
 - **Cat 7 — The Abacus.** Token efficiency: does structure earn its overhead?
   Three-condition design (A flat / B full pipeline / C structure-disabled),
   pairwise judge (BenchmarkQED AutoE) to remove verbosity bias. 7d breaks
@@ -140,14 +152,18 @@ mempalace substrate right now" markers. Flagged per the diagnostic posture
 (deltas under controlled conditions, never absolute scores presented as more
 than they are).
 
-1. **Cat 3 / Cat 6 structural reading on mempalace.** Only flat good-dog
-   baselines exist (Cat 3 90.3%, Cat 6 100% on the substring matcher). The
+1. **Cat 3 / Cat 6 structural reading — CLOSED (#200, 2026-05-30).** The
    structured-field plumbing — `ContradictionPair[]` for Cat 3, `_superseded_by`
-   / `valid_from`–`valid_to` for Cat 6 — is **not wired through the
-   `mempalace-daemon` adapter**, so a true structural reading can't be produced
-   yet. The flat floors are corpus-side measurements, not system readings; the
-   honest headline for these cats is `(structural − flat)`, which is currently
-   uncomputable on mempalace.
+   for Cat 6 — is now wired through both palace adapters (`get_contradiction_pairs()`
+   + the daemon `/graph` projection in `_graph_mapping.project_graph`); no daemon
+   schema change was needed because the daemon already projects arbitrary
+   predicates verbatim. The structural reading on the good-dog corpus is Cat 3
+   `(structural − flat)` **+1.00** and Cat 6 **+1.00** (see
+   [`2026-05-30-cat3-cat6-structural-plumbing.md`](2026-05-30-cat3-cat6-structural-plumbing.md)).
+   Remaining caveat: the +1.00 is the ceiling case on a corpus that *declares*
+   its `contradicts` / `supersedes` edges. A *live* palace surfaces these cats
+   only insofar as its enrichment pipeline generates such edges — a separate
+   ingestion-quality (Cat 4) question, not an adapter gap.
 
 2. **Cat 2c Condition A (flat baseline).** The jp-realm-v0.1 corpus ships only
    `questions.yaml` — the source notes live in JP's private palace, not the
@@ -180,6 +196,8 @@ than they are).
 | Cat 7b latency | `baselines/candidate_strategy_age_2026-05-29.json` |
 | Cat 8 | `baselines/cat8_daemon_age_2026-05-29.json` |
 | Cat 9a | `docs/ideas.md` §"Live benchmark answers (2026-04-30)" |
+| Cat 3 (structural) | `baselines/good_dog_cat3_structural_2026-05-30.json` |
+| Cat 6 (structural) | `baselines/good_dog_cat6_structural_2026-05-30.json` |
 | Cat 3 / Cat 6 (flat floor) | `docs/good_dog_cat3_cat6_findings.md` |
 
 A 2026-05-30 read-only Cat 5 re-run against the live daemon reproduced the

@@ -1588,13 +1588,13 @@
               <td class="sys">mempalace <span class="note">deployed substrate (this work)</span></td>
               <td class="store verb">verbatim</td>
               <td class="num">92.7%</td>
-              <td class="num">61.0% <span class="note">deployed-E2E (0.610&rarr;0.684 ingest-fixed) &middot; /search limit=5 ‖<br>oracle ceiling 0.868 w/ gold handed to reader</span></td>
+              <td class="num">58.0% <span class="note">o4-mini reader, retrieved ‖<br>(opus/oracle gradient 0.610&rarr;0.868 in field card)</span></td>
             </tr>
             <tr>
               <td class="sys">OMEGA <span class="note">first independent competitor run</span></td>
               <td class="store">extraction</td>
               <td class="num">90.0%</td>
-              <td class="num">59.3% <span class="note">sme-rich · o4-mini reader ✦<br>vs mempalace 61.0% — near-parity</span></td>
+              <td class="num">59.3% <span class="note">sme-rich · o4-mini reader, retrieved ✦<br>same-reader-same-context — ≈ parity</span></td>
             </tr>
             <tr>
               <td class="sys">Hindsight <span class="note">extraction, cloud-extractor</span></td>
@@ -1607,20 +1607,21 @@
         </div>
 
         <p class="bench-prose" style="font-size:13px;opacity:.85;">
-          On <strong>R@5</strong>, mempalace <strong>0.927</strong> vs OMEGA
-          <strong>0.900</strong> on the identical subset &mdash; a 2.7pp
+          The honest read: <strong>mempalace&rsquo;s edge is retrieval; on the
+          reader/QA it is at parity.</strong> On <strong>R@5</strong>, mempalace
+          <strong>0.927</strong> vs OMEGA <strong>0.900</strong> &mdash; a 2.7pp
           (four-question) edge, retrieval-only, no answer-model confound. On
-          <strong>E2E QA</strong>, the head-to-head is now in: mempalace deployed
-          <strong>0.610</strong> vs OMEGA sme-rich <strong>0.593</strong> &mdash;
-          <strong>near-parity</strong> (mempalace +1.7pp), same n=150 subset and judge.
-          Hindsight&rsquo;s cloud-extractor throughput keeps its QA pass cost-gated for
-          now &mdash; deferred rather than guessed. mempalace&rsquo;s QA is
-          <strong>two different numbers</strong>, not one: the
-          <strong>deployed-E2E</strong> figure (0.610, rising to 0.684 once the
-          ingest drop is fixed) is the real <code>/search</code>&rarr;reader&rarr;judge
-          pipeline at limit=5; the <strong>oracle ceiling</strong> (0.868) hands the
-          gold to the reader and bypasses retrieval. This table &mdash; not the
-          leaderboard &mdash; is the comparison to read.
+          <strong>E2E QA</strong>, held to <em>same reader, same context</em>
+          (o4-mini, retrieved, macro n=150), mempalace <strong>0.580</strong> vs OMEGA
+          sme-rich <strong>0.593</strong> &mdash; <strong>&asymp; parity</strong>
+          (OMEGA +1.3pp). Hindsight&rsquo;s cloud-extractor throughput keeps its QA
+          pass cost-gated &mdash; deferred rather than guessed. <em>Don&rsquo;t</em>
+          confuse the 0.580 comparator with mempalace&rsquo;s
+          <strong>deployed&rarr;oracle gradient</strong> (0.610 deployed &rarr; 0.684
+          ingest-fixed &rarr; 0.868 oracle ceiling): that gradient is an opus reader on
+          oracle context and lives in the field card below &mdash; it is <em>not</em>
+          the like-for-like OMEGA comparison. This table &mdash; not the leaderboard
+          &mdash; is the one to read.
         </p>
         <p class="bench-prose" style="font-size:13px;opacity:.8;">
           &#10022; <strong>OMEGA&rsquo;s 0.593 is the <em>fair</em> sme-rich number</strong>

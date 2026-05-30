@@ -1372,16 +1372,16 @@
         <p class="bench-prose">
           The headline flips once the R@5 matcher is correct: the daemon
           finds the gold session in the top 5 <strong>97% of the
-          time</strong>. Retrieval is not the bottleneck on oracle.
-          The 38-point R@5&rarr;QA gap is the real finding &mdash; the
-          right session is retrieved, but the reader (o4-mini) fails to
-          extract the answer on ~40% of questions where it had the
-          evidence. cat_6 (temporal reasoning) is the only category
-          below R@5 ceiling (90.55%) and also the worst QA (40.94%):
-          temporal questions stress both retrieval and reasoning.
-          cat_1_negative's QA (90%) clears its R@5 because a correct
-          abstention is the right answer regardless of what was
-          retrieved.
+          time</strong>. The 38-point R@5&rarr;QA gap looked like a reader
+          failure &mdash; but the true-oracle correction (see the comparison
+          card) showed it is <strong>substrate</strong>: &ldquo;R@5 found the
+          session&rdquo; doesn't mean the gold <em>content</em> reached the
+          reader (limit=5 + chunking left it out), and with the gold actually
+          present QA rises to a 0.868 ceiling. cat_6 (temporal) is the only
+          category below the R@5 ceiling (90.55%) and also the worst QA
+          (40.94%): its evidence is the most fragmented across the limited
+          context. cat_1_negative's QA (90%) clears its R@5 because a correct
+          abstention is the right answer regardless of what was retrieved.
         </p>
 
         <div class="caveat">
@@ -2432,20 +2432,25 @@
 
       <article class="stage">
         <div class="date">2026-05-29</div>
-        <div class="title">Retrieval solved; the <em>reader</em> is the bottleneck.</div>
+        <div class="title">Retrieval finds the session; the gold doesn't <em>reach</em> the reader.</div>
         <div class="body">
           500 questions through the full ingest-retrieve-read-judge
-          pipeline. Once the chunk-suffix matcher bug
-          (<a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/98">techempower-org/multipass-structural-memory-eval#98</a>)
-          was fixed and the existing run re-scored, the headline flipped:
+          pipeline. After the chunk-suffix matcher fix
+          (<a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/98">techempower-org/multipass-structural-memory-eval#98</a>),
           <strong>R@5 = 97.0%</strong> on daemon-direct &mdash; the gold
-          session is in the top 5 almost every time. QA accuracy is
-          58.6%, a 38-point R@5&rarr;QA gap. The bottleneck on oracle is
-          not retrieval; it is the reader's ability to extract the answer
-          from context it has already been given. The age-fused leg makes
-          the same point louder: R@5 = 90.2% with QA = 17.4%, because its
-          snippets are 5.5&times; narrower
-          (<a href="https://github.com/techempower-org/palace-daemon/issues/150">techempower-org/palace-daemon#150</a>).
+          session is in the top 5 almost every time &mdash; yet QA was only
+          58.6%, a 38-point gap we first charged to the reader. The
+          true-oracle test corrected that: &ldquo;R@5 found the session&rdquo;
+          doesn't mean the gold <em>content</em> reached the reader (limit=5
+          + chunking, and user-only ingest dropping assistant turns, left it
+          out). Hand the reader the gold and QA rises to
+          <strong>0.868</strong> &mdash; within 0.2pp of GPT-4o's oracle. So
+          the bottleneck on oracle is not the reader's reasoning; it is
+          <em>what reaches the reader</em>. The age-fused leg makes the point
+          louder: R@5 = 90.2% with QA = 17.4%, because its snippets are
+          5.5&times; narrower
+          (<a href="https://github.com/techempower-org/palace-daemon/issues/150">techempower-org/palace-daemon#150</a>)
+          &mdash; less reaches the reader, worse QA.
         </div>
       </article>
 

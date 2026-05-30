@@ -172,27 +172,22 @@ class FakeIngestClient:
 
 
 class _CannedJudgeClient:
-    """Returns CORRECT for the temporal q, ABSTAIN for the abstention q."""
+    """Always votes 'yes'. The canonical judge maps yes -> ABSTAIN on the
+    abstention (unanswerable) template and yes -> CORRECT otherwise, so the
+    temporal q grades CORRECT and the abstention q grades ABSTAIN."""
 
     def __init__(self):
         self.calls = []
         outer = self
 
         class _Completions:
-            def create(self, *, model, messages, temperature=0.0):
+            def create(self, *, model, messages, temperature=0.0,
+                       max_tokens=None):
                 outer.calls.append(messages[0]["content"])
-                content = messages[0]["content"]
-                if "Abstention" in content:
-                    label, rationale = "ABSTAIN", "system refused"
-                else:
-                    label, rationale = "CORRECT", "matches gold"
-                payload = (
-                    '{"label": "' + label + '", '
-                    '"rationale": "' + rationale + '"}'
-                )
+                # Canonical binary verdict: the parser reads "yes" in the reply.
                 return SimpleNamespace(
                     choices=[SimpleNamespace(
-                        message=SimpleNamespace(content=payload))],
+                        message=SimpleNamespace(content="yes"))],
                     usage=SimpleNamespace(
                         prompt_tokens=20, completion_tokens=8,
                         total_tokens=28,

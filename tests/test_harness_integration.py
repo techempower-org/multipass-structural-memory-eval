@@ -1,15 +1,21 @@
 """Tests for Category 9: Harness Integration — The Handshake.
 
-Covers the 9b sub-test (call-through success) only — the minimum-viable
-surface currently implemented. Other sub-tests (9a, 9c–9g) are spec'd
-but not implemented and therefore have no tests here.
+Covers 9b (call-through success) and 9a (invocation rate). The 9a tests
+use a fake driver — no model API, no daemon — exercising the
+model-agnostic scorer in isolation, the same way the 9b tests use a
+stub adapter. The runtime drivers in ``sme.eval.cat9a_orchestrators``
+need a live model and are exercised by the runner script, not here.
+Other sub-tests (9c–9g) are spec'd but not implemented.
 """
 
 from __future__ import annotations
 
 from sme.adapters.base import HarnessDescriptor, ProbeResult, SMEAdapter
 from sme.categories.harness_integration import (
+    Cat9aQueryOutcome,
+    format_cat9a_report,
     format_cat9b_report,
+    run_cat9a,
     run_cat9b,
 )
 
@@ -198,3 +204,104 @@ def test_cat9b_probe_returning_bool_is_coerced():
     result = run_cat9b(adapter)
     assert result.successful_probes == 1
     assert result.failed_probes == 1
+
+
+# --- 9a: invocation-rate scorer (fake driver, no model) ----------------
+
+# A few jp-realm-shaped questions. The fake driver's behavior is keyed on
+# the question text so each test controls invoke/no-invoke + recall.
+_Q = [
+    {"id": "q1", "text": "What is familiar?", "expected_sources": ["familiar", "palace"]},
+    {"id": "q2", "text": "What is sigil?", "expected_sources": ["sigil", "version"]},
+    {"id": "q3", "text": "What is status?", "expected_sources": ["status"]},
+]
+
+
+def _driver_always_invokes(text):
+    # Issues a tool call and returns context containing every expected token.
+    ctx = "drawer: familiar palace sigil version status realm"
+    return Cat9aQueryOutcome(question_id="", tool_calls=1, context=ctx, answer="ans")
+
+
+def _driver_never_invokes(text):
+    # Answers from weights — zero tool calls, empty retrieval context.
+    return Cat9aQueryOutcome(question_id="", tool_calls=0, context="", answer="from memory")
+
+
+def test_cat9a_full_invocation_is_healthy():
+    result = run_cat9a(_Q, _driver_always_invokes, orchestrator="fake-high-tau2", tau2=99.0)
+    assert result.total_questions == 3
+    assert result.invoked_questions == 3
+    assert result.invocation_rate == 1.0
+    assert result.band == "healthy"
+    assert result.errored_questions == 0
+    # All expected tokens were in the context → full recall.
+    assert abs(result.mean_recall - 1.0) < 1e-9
+    assert result.hit_rate == 1.0
+    assert result.tau2 == 99.0
+
+
+def test_cat9a_zero_invocation_is_concerning():
+    result = run_cat9a(_Q, _driver_never_invokes, orchestrator="fake-low-tau2", tau2=20.0)
+    assert result.invoked_questions == 0
+    assert result.invocation_rate == 0.0
+    assert result.band == "concerning"
+    # No retrieval context → zero recall, the substrate is moot.
+    assert result.mean_recall == 0.0
+    assert result.hit_rate == 0.0
+
+
+def test_cat9a_partial_invocation_bands_warn():
+    # Invoke on 2 of 3 → 66.7% → warn (≥60%, <90%).
+    def driver(text):
+        if "sigil" in text:
+            return Cat9aQueryOutcome(question_id="", tool_calls=0, context="")
+        return Cat9aQueryOutcome(
+            question_id="", tool_calls=2, context="familiar palace status"
+        )
+
+    result = run_cat9a(_Q, driver, orchestrator="fake-mid", tau2=70.0)
+    assert result.invoked_questions == 2
+    assert abs(result.invocation_rate - 2 / 3) < 1e-9
+    assert result.band == "warn"
+
+
+def test_cat9a_driver_exception_counts_as_no_invoke():
+    # A driver that raises on one question must not abort the run; that
+    # question is recorded as errored + no-invoke (it never reached the tool).
+    def driver(text):
+        if "status" in text:
+            raise TimeoutError("model timed out")
+        return Cat9aQueryOutcome(question_id="", tool_calls=1, context="familiar palace sigil version")
+
+    result = run_cat9a(_Q, driver, orchestrator="fake-flaky", tau2=50.0)
+    assert result.total_questions == 3
+    assert result.invoked_questions == 2
+    assert result.errored_questions == 1
+    errored = [r for r in result.readings if r.outcome.error]
+    assert len(errored) == 1
+    assert "TimeoutError" in errored[0].outcome.error
+    assert errored[0].outcome.invoked is False
+
+
+def test_cat9a_recall_uses_substring_match_against_context():
+    # Context carries only one of two expected tokens → recall 0.5, hit True.
+    def driver(text):
+        return Cat9aQueryOutcome(question_id="", tool_calls=1, context="mentions familiar only")
+
+    q = [{"id": "q", "text": "?", "expected_sources": ["familiar", "palace"]}]
+    result = run_cat9a(q, driver, orchestrator="fake")
+    assert abs(result.readings[0].recall - 0.5) < 1e-9
+    assert result.readings[0].hit is True
+    assert result.readings[0].matched_sources == ["familiar"]
+
+
+def test_cat9a_report_carries_tau2_and_band():
+    result = run_cat9a(_Q, _driver_always_invokes, orchestrator="claude-opus-4-8", tau2=99.3,
+                       tau2_note="tau2-bench telecom")
+    report = format_cat9a_report(result, source_label="jp-realm-v0.1")
+    assert "Invocation Rate" in report
+    assert "claude-opus-4-8" in report
+    assert "99.3" in report
+    assert "tau2-bench telecom" in report
+    assert "100.0%" in report  # invocation rate

@@ -1568,6 +1568,7 @@ def cmd_longmem(args: argparse.Namespace) -> int:
 
     harness_ns = argparse.Namespace(
         dataset=Path(args.questions),
+        corpus=getattr(args, "corpus", "longmemeval"),
         adapter=args.adapter,
         max_questions=args.max_questions,
         reader_model=args.answer_model,
@@ -2214,7 +2215,18 @@ def main(argv: list[str] | None = None) -> int:
         "--questions",
         required=True,
         metavar="JSON",
-        help="Path to longmemeval_oracle.json / longmemeval_s.json / _m.",
+        help="Path to the dataset JSON. --corpus longmemeval (default): "
+             "longmemeval_oracle.json / _s / _m. --corpus locomo: "
+             "locomo10.json.",
+    )
+    lm.add_argument(
+        "--corpus",
+        default="longmemeval",
+        choices=["longmemeval", "locomo"],
+        help="Dataset shape. 'longmemeval' (default) = one haystack per "
+             "question. 'locomo' = one conversation per sample (questions "
+             "grouped by sample_id, ingested per sample; cat-5 adversarial "
+             "judged abstention-aware). Composes with --age-fused / --kind.",
     )
     lm.add_argument(
         "--answer-model",

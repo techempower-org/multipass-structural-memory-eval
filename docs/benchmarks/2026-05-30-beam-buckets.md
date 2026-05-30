@@ -15,8 +15,8 @@ ABSTAIN on abstention items, over judged items):
 | Bucket | regime | n | E2E QA pass-rate | notes |
 |---|---|---:|---:|---|
 | **100K** | full-conversation context (`n_results=5` ≥ 3-5 sessions ⇒ whole conv) | 400 | **0.649** | 235 CORRECT + 24 ABSTAIN / 399 judged (1 judge ERROR) |
-| 500K | retrieval (`n_results=3` of 10 sessions) | 700 | _running_ | top-3 ≈ 145K-tok ctx |
-| 1M | retrieval (`n_results=2` of 10 sessions) | 700 | _chained_ | top-2 ≈ 175-330K-tok ctx |
+| **500K** | retrieval (`n_results=3` of 10 sessions) | 700 | **0.487** | 293 CORRECT + 48 ABSTAIN / 700 judged |
+| 1M | retrieval (`n_results=2` of 10 sessions) | 700 | _running_ | top-2 ≈ 175-330K-tok ctx |
 | 10M | — | — | **deferred** | only Mem0/Hindsight publish it; out of scope tonight |
 
 **Diagnostic posture (per CLAUDE.md): this is a delta under controlled
@@ -85,6 +85,45 @@ score). Filed as a follow-up.
 and a full-context reader sees both the old and new statements with no recency
 signal, so it often answers with the stale value.
 
+## 500K bucket (complete) — the retrieval regime
+
+**E2E QA pass-rate 0.487** (293 CORRECT + 48 ABSTAIN / 700 judged, n=700, 35
+conversations, `n_results=3`, 0 judge errors). Same reader/judge as 100K.
+
+| BEAM ability | SME cat | n | pass-rate | vs 100K |
+|---|---|---:|---:|---:|
+| summarization | unmapped | 70 | 0.871 | +0.121 |
+| preference_following | unmapped | 70 | 0.814 | −0.061 |
+| abstention | cat_1_neg | 70 | 0.686 | +0.086 |
+| contradiction_resolution | cat_3 | 70 | 0.686 | −0.189 |
+| instruction_following | unmapped | 70 | 0.643 | −0.126 |
+| information_extraction | cat_1 | 70 | 0.400 | −0.450 |
+| knowledge_update | cat_3 | 70 | 0.271 | −0.154 |
+| temporal_reasoning | cat_6 | 70 | 0.257 | −0.493 |
+| multi_session_reasoning | cat_2c | 70 | 0.243 | −0.357 |
+| **event_ordering** | cat_6 | 70 | **0.000** | (same grader floor) |
+
+**This is the BEAM signal, working as designed.** 100K (full conversation in
+context) → 500K (top-3 of 10 sessions) is the transition from "reader sees
+everything" to "retrieval must find the needle." The split is exactly along
+retrieval-dependence:
+
+- **Hold up (retrieval-light):** summarization (0.87), preference_following
+  (0.81), abstention (0.69), contradiction_resolution (0.69). These are
+  answerable from *gist* or from broadly-distributed signal — top-3 retrieval
+  still surfaces enough.
+- **Collapse (retrieval-heavy, needle-in-haystack):** information_extraction
+  (0.85→0.40), temporal_reasoning (0.75→0.26), multi_session_reasoning
+  (0.60→0.24), knowledge_update (0.42→0.27). These need the *specific* evidence
+  turn, and top-3-of-10 retrieval at the session granularity misses it.
+
+The honest read: the **substrate ceiling** is the full-context 100K (0.649); the
+**500K drop to 0.487 is a retrieval-recall ceiling**, not a reader ceiling — a
+better retriever (finer chunking than per-session, or more than top-3) would
+recover most of the information_extraction / multi_session loss. event_ordering
+remains a hard 0.0 from the same tau-b grader mismatch (see above), dragging both
+buckets' headline down equally.
+
 ## What changed in the harness for the larger buckets
 
 - `--beam-n-results` (default 5 = the 100K full-context regime; set 2-3 for the
@@ -119,7 +158,9 @@ PYTHONPATH=. ./venv/bin/python scripts/cross_validate_longmemeval.py \
 ```
 baselines/beam_100K_qa_2026-05-30.json        # full per-question report (400q)
 baselines/beam_100K_summary_2026-05-30.json   # headline + per-ability/-category rates
-# 500K / 1M appended as they land
+baselines/beam_500K_qa_2026-05-30.json        # full per-question report (700q)
+baselines/beam_500K_summary_2026-05-30.json   # headline + per-ability/-category rates
+# 1M appended when it lands (running at n_results=2)
 ```
 
 ## Next

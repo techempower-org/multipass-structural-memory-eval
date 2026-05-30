@@ -1,0 +1,249 @@
+{
+  "bucket": "500K",
+  "beam_n_results": 3,
+  "adapter": "flat",
+  "reader_model": "gpt-5.3-chat",
+  "judge_model": "o4-mini",
+  "overall": {
+    "n": 700,
+    "judged": 700,
+    "strict_pass_rate": 0.4871,
+    "lenient_pass_rate": 0.4871,
+    "labels": {
+      "correct": 293,
+      "partial": 0,
+      "incorrect": 359,
+      "abstain": 48,
+      "error": 0,
+      "skipped": 0
+    }
+  },
+  "by_ability": {
+    "abstention": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.6857,
+      "lenient_pass_rate": 0.6857,
+      "labels": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 22,
+        "abstain": 48,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "contradiction_resolution": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.6857,
+      "lenient_pass_rate": 0.6857,
+      "labels": {
+        "correct": 48,
+        "partial": 0,
+        "incorrect": 22,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "event_ordering": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.0,
+      "lenient_pass_rate": 0.0,
+      "labels": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 70,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "information_extraction": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.4,
+      "lenient_pass_rate": 0.4,
+      "labels": {
+        "correct": 28,
+        "partial": 0,
+        "incorrect": 42,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "instruction_following": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.6429,
+      "lenient_pass_rate": 0.6429,
+      "labels": {
+        "correct": 45,
+        "partial": 0,
+        "incorrect": 25,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "knowledge_update": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.2714,
+      "lenient_pass_rate": 0.2714,
+      "labels": {
+        "correct": 19,
+        "partial": 0,
+        "incorrect": 51,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "multi_session_reasoning": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.2429,
+      "lenient_pass_rate": 0.2429,
+      "labels": {
+        "correct": 17,
+        "partial": 0,
+        "incorrect": 53,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "preference_following": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.8143,
+      "lenient_pass_rate": 0.8143,
+      "labels": {
+        "correct": 57,
+        "partial": 0,
+        "incorrect": 13,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "summarization": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.8714,
+      "lenient_pass_rate": 0.8714,
+      "labels": {
+        "correct": 61,
+        "partial": 0,
+        "incorrect": 9,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "temporal_reasoning": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.2571,
+      "lenient_pass_rate": 0.2571,
+      "labels": {
+        "correct": 18,
+        "partial": 0,
+        "incorrect": 52,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "by_sme_category": {
+    "cat_1": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.4,
+      "lenient_pass_rate": 0.4,
+      "labels": {
+        "correct": 28,
+        "partial": 0,
+        "incorrect": 42,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "cat_1_negative": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.6857,
+      "lenient_pass_rate": 0.6857,
+      "labels": {
+        "correct": 0,
+        "partial": 0,
+        "incorrect": 22,
+        "abstain": 48,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "cat_2c": {
+      "n": 70,
+      "judged": 70,
+      "strict_pass_rate": 0.2429,
+      "lenient_pass_rate": 0.2429,
+      "labels": {
+        "correct": 17,
+        "partial": 0,
+        "incorrect": 53,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "cat_3_partial": {
+      "n": 140,
+      "judged": 140,
+      "strict_pass_rate": 0.4786,
+      "lenient_pass_rate": 0.4786,
+      "labels": {
+        "correct": 67,
+        "partial": 0,
+        "incorrect": 73,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "cat_6": {
+      "n": 140,
+      "judged": 140,
+      "strict_pass_rate": 0.1286,
+      "lenient_pass_rate": 0.1286,
+      "labels": {
+        "correct": 18,
+        "partial": 0,
+        "incorrect": 122,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    },
+    "unmapped": {
+      "n": 210,
+      "judged": 210,
+      "strict_pass_rate": 0.7762,
+      "lenient_pass_rate": 0.7762,
+      "labels": {
+        "correct": 163,
+        "partial": 0,
+        "incorrect": 47,
+        "abstain": 0,
+        "error": 0,
+        "skipped": 0
+      }
+    }
+  }
+}

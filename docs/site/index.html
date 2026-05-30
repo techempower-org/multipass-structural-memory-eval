@@ -1146,6 +1146,108 @@
 
     <div class="bench-list">
 
+      <!-- vs the field (synthesis) -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">Synthesis &middot; vs the memory-system field</span>
+            <h3>Where mempalace sits &mdash; and the <em>honest</em> gap</h3>
+          </div>
+          <span class="bench-pill live">comparison &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Benchmark</dt><dd>LongMemEval-S</dd></div>
+          <div><dt>Our retrieval</dt><dd>R@5 0.927 (/search), n=150 stratified</dd></div>
+          <div><dt>Our oracle QA</dt><dd>0.610 best &mdash; Opus|preference reader + canonical judge, abstention-credited, n=500</dd></div>
+          <div><dt>Judge</dt><dd>gpt-5.3-chat + canonical type-specific prompts (NOT gpt-4o-2024-08-06)</dd></div>
+          <div><dt>Posture</dt><dd>diagnostic decomposition, not a leaderboard claim</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">Retrieval R@5</div>
+            <div class="value"><em>92.7%</em></div>
+            <div class="sub">mid-pack vs the R@K field (80&ndash;99%)</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">Oracle QA (best)</div>
+            <div class="value"><em>61.0%</em></div>
+            <div class="sub">retrieval bypassed; our reader's ceiling</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">vs GPT-4o oracle</div>
+            <div class="value"><em>&minus;26pp</em></div>
+            <div class="sub">0.61 vs published 0.87 &mdash; reader/substrate</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">Structural cats</div>
+            <div class="value"><em>4/5/8/9</em></div>
+            <div class="sub">measured here; no field analogue</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="LongMemEval — published field vs ours, with metric disclosure">
+          <thead>
+            <tr><th>System</th><th class="num">LongMemEval</th><th>Metric</th><th>Answer model</th><th>Verif.</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OMEGA</td><td class="num">95.4%</td><td>E2E QA</td><td>GPT-4.1</td><td>self</td></tr>
+            <tr><td>Mem0 (platform v3)</td><td class="num">94.4%</td><td>E2E QA</td><td>undisclosed</td><td>self</td></tr>
+            <tr><td>Hindsight</td><td class="num">91.4%</td><td>E2E QA</td><td>Gemini 3 Pro</td><td>indie</td></tr>
+            <tr><td>True Memory (Pro)</td><td class="num">87.8%</td><td>E2E QA</td><td>gpt-4.1-mini</td><td>paper</td></tr>
+            <tr><td>Zep / Graphiti</td><td class="num">71.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>GPT-4o &mdash; oracle ref</td><td class="num">87.0%</td><td>oracle QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr><td>GPT-4o &mdash; full-context ref</td><td class="num">60.2%</td><td>E2E QA</td><td>GPT-4o</td><td>paper</td></tr>
+            <tr class="total"><td>mempalace (ours)</td><td class="num">61.0%</td><td>oracle QA</td><td>gpt-5.3-chat</td><td>indie</td></tr>
+            <tr><td>mempalace (ours)</td><td class="num">92.7%</td><td>R@5 retrieval</td><td>&mdash;</td><td>indie</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          The honest read: on <strong>retrieval</strong> mempalace is
+          competitive &mdash; R@5 0.927 sits mid-pack against the field's
+          R@K leaders (ChromaDB-baseline systems hit 96&ndash;99%;
+          mcp-memory-service 80&ndash;86%). On <strong>end-to-end QA</strong>
+          we are <em>not</em> at the frontier, and we deliberately publish no
+          full-pipeline QA leaderboard number &mdash; doing so honestly needs
+          a field-standard answer model and the canonical
+          <code>gpt-4o-2024-08-06</code> judge we don't have deployed. What we
+          <em>can</em> compare apples-to-apples is the <strong>oracle</strong>
+          setting (retrieval bypassed, reader handed the gold session): our
+          best stacked config tops out at <strong>0.61</strong> against the
+          published GPT-4o oracle ceiling of <strong>0.87</strong> &mdash; a
+          26-point gap that, having ruled out the encoder (in-domain lift,
+          cross-domain null), retrieval (near-ceiling), and the judge (a real
+          but ~5pp confound), is <strong>reader/substrate</strong>. Strikingly,
+          our oracle QA (0.61) lands near GPT-4o's <em>full-context</em> score
+          (0.602) &mdash; our reader, even handed the right session, performs
+          about as well as GPT-4o reading the entire haystack. That is the SME
+          finding the leaderboards can't show: <em>which layer is the lever</em>.
+          And the structural categories &mdash; ingestion integrity (Cat 4),
+          gap-detection (Cat 5), ontology coherence (Cat 8), invocation
+          discipline (Cat 9) &mdash; have no competitor analogue at all.
+        </p>
+
+        <div class="caveat">
+          <span class="label">comparability discipline</span>
+          Cross-system LongMemEval numbers are not directly comparable:
+          answer-model choice alone swings results ~24pp (GPT-4.1 vs
+          GPT-4o-mini), oracle QA (retrieval bypassed) is a different metric
+          from full-pipeline E2E QA, and most competitor numbers are
+          self-reported. Our oracle 0.61 is the rigorous apples-to-apples
+          point against the GPT-4o oracle reference; our R@5 0.927 is
+          comparable to the field's R@K column. We do not place ourselves on
+          the QA leaderboard. Field numbers are cited from the landscape
+          survey; ours are sourced from <code>baselines/</code>.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; ours: baselines/reader_sweep_passA_canonical-judge_opus-preference_*.json + longmemeval_s_strat150_*.reagg.json &middot; field: docs/research/2026-05-29-comparison-readiness.md</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
       <!-- Tau2 / Cat 9a -->
       <article class="bench">
         <div class="bench-head">
@@ -2006,6 +2108,103 @@
 
         <div class="bench-foot">
           <span>Source &middot; baselines/reader_sweep_passB_opus_REJUDGED_2026-05-29.json</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
+        </div>
+      </article>
+
+      <!-- canonical judge — fixing the judge prompts un-collapses preference but confirms the gap is the reader -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">LongMemEval oracle &middot; canonical type-specific judge</span>
+            <h3>Fixing the judge <em>un-collapses preference</em> &mdash; but the gap is the reader</h3>
+          </div>
+          <span class="bench-pill live">canonical judge &middot; 2026-05-29</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>LongMemEval-S oracle, n=500 (all 6 types + 30 abstention)</dd></div>
+          <div><dt>Reader</dt><dd>gpt-5.3-chat (held constant, baseline prompt, full context)</dd></div>
+          <div><dt>Judge</dt><dd>gpt-5.3-chat + canonical type-specific prompts (NOT gpt-4o-2024-08-06 &mdash; not deployed here)</dd></div>
+          <div><dt>Method</dt><dd>same reader answers, paraphrased rubric &rarr; verbatim LongMemEval templates</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">preference /search</div>
+            <div class="value"><em>+20.0pp</em></div>
+            <div class="sub">0.133 &rarr; 0.333, un-collapsed</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">preference age-fused</div>
+            <div class="value"><em>+26.7pp</em></div>
+            <div class="sub">0.100 &rarr; 0.367, un-collapsed</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">spurious ABSTAIN</div>
+            <div class="value"><em>21 &rarr; 0</em></div>
+            <div class="sub">old judge invented them on temporal Qs</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">residual oracle gap</div>
+            <div class="value"><em>~31&ndash;36pp</em></div>
+            <div class="sub">reader/substrate, not the scorer</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Corrected vs confounded QA accuracy by question type, search-default and age-fused">
+          <thead>
+            <tr><th>Question type</th><th class="num">/search &Delta;</th><th class="num">age-fused &Delta;</th></tr>
+          </thead>
+          <tbody>
+            <tr class="total"><td>single-session-preference</td><td class="num">+20.0pp</td><td class="num">+26.7pp</td></tr>
+            <tr><td>single-session-user</td><td class="num">+0.0pp</td><td class="num">+1.4pp</td></tr>
+            <tr><td>single-session-assistant</td><td class="num">+0.0pp</td><td class="num">+7.1pp</td></tr>
+            <tr><td>multi-session</td><td class="num">&minus;3.8pp</td><td class="num">&minus;6.0pp</td></tr>
+            <tr><td>knowledge-update</td><td class="num">&minus;5.1pp</td><td class="num">&minus;9.0pp</td></tr>
+            <tr><td>temporal-reasoning</td><td class="num">&minus;2.3pp</td><td class="num">&minus;2.3pp</td></tr>
+            <tr class="total"><td>OVERALL (harness)</td><td class="num">0.510</td><td class="num">0.456</td></tr>
+            <tr><td>OVERALL (+abstention)</td><td class="num">0.562</td><td class="num">0.510</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          The companion card swaps the judge <em>model</em> (Opus-as-judge) and
+          finds it doesn't help. This card swaps the judge <em>prompts</em>:
+          porting LongMemEval's verbatim type-specific templates &mdash; in
+          particular the <strong>rubric-based</strong> preference template the
+          old paraphrased judge lacked. That <strong>un-collapses
+          single-session-preference</strong> (+20.0pp / +26.7pp, the largest
+          single-category move) and <strong>removes the spurious-ABSTAIN
+          noise</strong> (the old judge emitted 34 ABSTAIN labels, 21 on
+          <em>non</em>-abstention temporal questions; the canonical binary judge
+          can't). The stricter, more faithful templates pull KU and
+          multi-session <em>down</em> a few points &mdash; that is the old judge
+          having over-credited via a softer rubric, not a regression. The
+          headline: <strong>the overall did NOT move toward the published 87%
+          oracle</strong> &mdash; corrected, abstention-credited it is 0.562 /
+          0.510. The judge-prompt confound was <strong>real</strong> (preference
+          collapse and label noise were genuine measurement artifacts) but it is
+          <em>not</em> the bulk of the 35pp gap. The residual ~31&ndash;36pp is
+          <strong>reader/substrate, not the scorer</strong> &mdash; consistent
+          with the unified #116 finding that the reader is the lever.
+        </p>
+
+        <p class="bench-prose">
+          <strong>Disclosure.</strong> Judge is gpt-5.3-chat with canonical
+          prompts, <em>not</em> the canonical gpt-4o-2024-08-06 snapshot (not
+          deployed on this resource) &mdash; the fix is the prompts, not the
+          model. 2 ERROR rows per run from an Azure content-filter trip
+          (graceful retry-then-ERROR by design; counted as wrong, a 0.4%
+          asymmetry vs the confounded denominator). Absolute numbers are
+          <em>understated</em> by the aggregator&rsquo;s ABSTAIN dead-code bug
+          (#148) &mdash; it never credits a correct ABSTAIN &mdash; but that
+          depresses both runs identically, so the <strong>deltas are
+          valid</strong>.
+        </p>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/reader_sweep_passA_canonical-judge_{search-default,age-fused}_2026-05-29.json &middot; docs/benchmarks/2026-05-29-canonical-judge-passA.md</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/116">techempower-org/multipass-structural-memory-eval#116</a>
         </div>
       </article>

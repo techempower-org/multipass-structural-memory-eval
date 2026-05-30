@@ -7,7 +7,7 @@
 
 ## Bottom line
 
-Porting LongMemEval's canonical type-specific judge prompts **un-collapsed the preference category exactly as predicted** (+20.0pp search-default, +26.7pp age-fused) and **removed the spurious-ABSTAIN noise** (the old judge invented 34 ABSTAIN labels, 21 of them on *non-abstention* temporal questions; the canonical binary judge can't). But it **did not move the overall oracle number toward 87%** — corrected, abstention-credited overall is **0.562** (search-default) / **0.510** (age-fused). **That is itself the finding** (Selene's "if it doesn't, that's the finding" branch): the judge-prompt mismatch explained the preference collapse and the labeling noise, but **the bulk of the 35pp oracle gap is NOT the judge** — it is the reader/substrate. The next lever is the reader, not the scorer.
+Porting LongMemEval's canonical type-specific judge prompts **un-collapsed the preference category exactly as predicted** (+20.0pp search-default, +26.7pp age-fused with the held-constant gpt-5.3-chat reader) and **removed the spurious-ABSTAIN noise** (the old judge invented 34 ABSTAIN labels, 21 of them on *non-abstention* temporal questions; the canonical binary judge can't). **Stacked with the #116 winning reader config** (`claude-opus-4-8|preference`), preference *explodes* — +66.7pp (0.133→0.800) search-default, +76.7pp (0.100→0.867) age-fused — and the stacked, abstention-credited overall reaches **0.610** (search-default) / **0.556** (age-fused), clearing the #116 0.593 reader-only floor on search-default. But even stacked it **does not reach the published 87% oracle**: the residual ~26–31pp is **reader/substrate** (multi-session synthesis + temporal reasoning are the floor), not the scorer. **The judge-prompt mismatch was a real, fixable measurement artifact (§4); it is necessary for a defensible QA row but not sufficient to close the oracle gap (§7).**
 
 ## What was wrong, and the fix
 
@@ -57,7 +57,60 @@ The reader-sweep aggregator's `qa_acc` **never credits a correct `ABSTAIN`**, be
 3. **KU and multi-session went *down* in the raw harness number** (−5 to −9pp). This is the canonical templates being **stricter and more faithful** than the loose paraphrase, not a regression — the old judge was over-crediting these via its softer rubric. With abstention crediting (`corr+abs`) they recover most of the apparent loss.
 4. **Overall did not move toward 87%.** Corrected, abstention-credited: 0.562 / 0.510. The judge fix is necessary for a *defensible* QA row (the preference collapse and the ABSTAIN noise were genuine measurement artifacts) but it is **not sufficient** to close the oracle gap. The residual ~31–36pp vs the published 87% oracle is a **reader/substrate** gap, not a scorer gap — consistent with the #116 unified finding that the reader is the bottleneck. The next lever is reader-prompt / reader-model work on the oracle context, not further judge tuning.
 
-## Stacked best-config (n=150 stratified) — the comparison-card number
+## 7. Stacked reader-fix + judge-fix (the headline-defensible number)
+
+The #116 prompt-axis sweep (PR #144) found the reader-prompt fix took
+`claude-opus-4-8` from worst (0.360 baseline) to best (0.593) — but that sweep
+still used `gpt-5.3-chat` with the *generic* judge prompt, so 0.593 is a FLOOR.
+Stacking the canonical type-specific judge on top of the winning reader config
+(`claude-opus-4-8|preference`) is the real headline. Same pinned context, n=500,
+judge = gpt-5.3-chat + canonical prompts.
+
+### 7.1 search-default
+
+| question_type | n | confounded | stacked (harness) | delta | stacked +abstention |
+|---|---|---|---|---|---|
+| single-session-preference | 30 | 0.1333 | 0.8000 | **+0.6667** | 0.8000 |
+| single-session-assistant | 56 | 0.2500 | 0.3214 | +0.0714 | 0.3214 |
+| single-session-user | 70 | 0.8429 | 0.8571 | +0.0143 | 0.9286 |
+| multi-session | 133 | 0.6767 | 0.6466 | −0.0301 | 0.7143 |
+| knowledge-update | 78 | 0.6795 | 0.6667 | −0.0128 | 0.7051 |
+| temporal-reasoning | 133 | 0.3083 | 0.3308 | +0.0226 | 0.3609 |
+| **OVERALL** | **500** | **0.5220** | **0.5680 (+4.6pp)** | | **0.6100** |
+
+### 7.2 age-fused
+
+| question_type | n | confounded | stacked (harness) | delta | stacked +abstention |
+|---|---|---|---|---|---|
+| single-session-preference | 30 | 0.1000 | 0.8667 | **+0.7667** | 0.8667 |
+| single-session-assistant | 56 | 0.2143 | 0.2679 | +0.0536 | 0.2679 |
+| single-session-user | 70 | 0.8714 | 0.8857 | +0.0143 | 0.9571 |
+| multi-session | 133 | 0.4662 | 0.4135 | −0.0526 | 0.4812 |
+| knowledge-update | 78 | 0.6795 | 0.6795 | +0.0000 | 0.7051 |
+| temporal-reasoning | 133 | 0.3158 | 0.3684 | +0.0526 | 0.3835 |
+| **OVERALL** | **500** | **0.4660** | **0.5200 (+5.4pp)** | | **0.5560** |
+
+### 7.3 Reading
+
+- **Preference exploded** — the reader-fix and the judge-fix *compound*:
+  +66.7pp (search-default) and +76.7pp (age-fused), preference reaching
+  0.80 / 0.87. Neither fix alone gets there; the rubric-respecting reader
+  prompt produces answers the canonical rubric-based judge can actually credit.
+- **Stacked overall, abstention-credited, clears the 0.593 floor on
+  search-default (0.610).** The stacked *harness* number for search-default
+  (0.568) sits just under the 0.593 floor only because the canonical judge is
+  stricter on KU/MR than the generic judge Solace's floor used — and because the
+  harness still doesn't credit the 26 correct abstentions. Crediting them puts
+  it at 0.610, above the floor.
+- The honest takeaway stands: even stacked, the oracle tops out at ~0.56–0.61,
+  ~26–31pp below the published 87% oracle ceiling. The remaining gap is
+  reader/substrate (multi-session synthesis + temporal reasoning are the floor),
+  not the scorer.
+
+Stacked baselines:
+`baselines/reader_sweep_passA_canonical-judge_opus-preference_{search-default,age-fused}_2026-05-29.json`.
+
+## 8. Stacked best-config (n=150 stratified) — the comparison-card number
 
 The single cleanest "best defensible oracle QA" reading: the #116 winning
 reader (`claude-opus-4-8` + `preference` prompt) with the canonical judge,
@@ -89,11 +142,13 @@ floor is single-session-assistant (0.24), multi-session (0.48), and temporal
 reader-sweep judge path fires the canonical rubric/unanswerable templates, not
 the old generic rubric.
 
+
 ## Artifacts
 
 - Judge: `sme/eval/longmemeval_judge.py`
 - Tests: `tests/test_longmemeval_judge.py`, `tests/test_longmemeval_judge_replicates.py`
 - Corrected baselines: `baselines/reader_sweep_passA_canonical-judge_{search-default,age-fused}_2026-05-29.json`
+- Stacked baselines: `baselines/reader_sweep_passA_canonical-judge_opus-preference_{search-default,age-fused}_2026-05-29.json`
 - Stacked best-config (n=150): `baselines/reader_sweep_stacked_opus-pref_canonical-judge_2026-05-29.json`
 - Reader-only reference (0.593, generic judge): `baselines/reader_sweep_passB_promptfix_2026-05-29.json`
 - Confounded baselines (corrected here): `baselines/reader_sweep_passA_{search-default,age-fused}_2026-05-29.json`

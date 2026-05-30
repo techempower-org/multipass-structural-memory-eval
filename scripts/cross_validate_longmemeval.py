@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Cross-validate SME's substring scorer against LongMemEval's GPT-4o judge.
 
-Runs every question in a LongMemEval JSON file (oracle / S / M) through
-the chosen SME adapter, scores the same retrieval with both:
+Runs every question in a benchmark dataset through the chosen SME
+adapter, scores the same retrieval with both:
 
   1. SME's substring matcher over `expected_sources` session ids
   2. LongMemEval's GPT-4o judge methodology (per-question-type prompts)
@@ -14,10 +14,22 @@ each `sme_category` is reported separately so KU's silent-overwrite
 reward doesn't drag a contradiction-flagging Cat 3 system's correlation
 down.
 
+Two corpora are wired (``--corpus``):
+
+  - ``longmemeval`` (default): one haystack PER QUESTION; each question's
+    sessions are materialized to a per-question vault, ingested, queried.
+  - ``locomo``: one conversation PER SAMPLE shared by all of that
+    sample's questions (LoCoMo's topology). The harness groups questions
+    by ``sample_id``, materializes the full sample vault ONCE, ingests it,
+    then queries every question in that sample against it. Adversarial
+    (category-5) items are judged abstention-aware — the gold is a
+    refusal, and the baited ``adversarial_answer`` is the wrong attractor.
+
 CLI:
 
     cross_validate_longmemeval.py
-        --dataset PATH                # longmemeval_oracle.json (required)
+        --dataset PATH                # dataset JSON (required)
+        --corpus {longmemeval,locomo} # dataset shape (default longmemeval)
         --adapter NAME                # flat | mempalace | full-context
         --max-questions N             # smoke-test cap (optional)
         --reader-model MODEL          # default gpt-4o-mini
@@ -292,10 +304,57 @@ def run_one_question(
         except Exception:  # noqa: BLE001
             pass
 
+    return _score_and_judge(
+        question=q.question,
+        question_id=q.question_id,
+        question_type=q.question_type,
+        sme_category=q.sme_category,
+        is_abstention=q.is_abstention,
+        gold_answer=q.answer,
+        expected=q.expected_sources_session_level(),
+        result=result,
+        skip_judge=skip_judge,
+        skip_reader=skip_reader,
+        reader_model=reader_model,
+        judge_model=judge_model,
+        reader_client=reader_client,
+        judge_client=judge_client,
+        capture_context=capture_context,
+    )
+
+
+def _score_and_judge(
+    *,
+    question: str,
+    question_id: str,
+    question_type: str,
+    sme_category: str,
+    is_abstention: bool,
+    gold_answer: str,
+    expected: list[str],
+    result: QueryResult,
+    skip_judge: bool,
+    skip_reader: bool,
+    reader_model: str,
+    judge_model: str,
+    reader_client: Optional[Any] = None,
+    judge_client: Optional[Any] = None,
+    capture_context: bool = False,
+    extra_fields: Optional[dict[str, Any]] = None,
+) -> dict:
+    """Score one retrieval (SME substring + rank-aware) and optionally run
+    the reader + judge. Shared by the LongMemEval (per-question) and LoCoMo
+    (per-sample) paths so both score identically.
+
+    ``is_abstention`` drives abstention-aware judging: when True, the judge
+    is invoked with ``question_type="abstention"`` regardless of the
+    retrieval question_type, so a correct refusal scores as success and a
+    fabricated answer scores INCORRECT. For LoCoMo this is wired from
+    ``LoCoMoQuestion.is_adversarial``.
+    """
     ctx = result.context_string or ""
 
     # 4. SME substring score
-    expected = q.expected_sources_session_level()
     sme_recall, matched = sme_substring_recall(ctx, expected)
 
     # Rank-ordered entity IDs (#58 — surfaced so the run-script wrapper
@@ -304,8 +363,8 @@ def run_one_question(
     # adaptmem's longmemeval_eval.py r1_misses framing: per-question
     # diagnostics on which question_types eat the recall budget. Adapter
     # retrieved_entities are in rank order; their .id is the session_id
-    # for the LongMemEval ingest topology (one drawer per session). None-
-    # guard against adapters that return retrieved_entities=None on error.
+    # for the per-session ingest topology. None-guard against adapters
+    # that return retrieved_entities=None on error.
     retrieved_entity_ids = [e.id for e in (result.retrieved_entities or [])]
     expected_set = set(expected)
     rank_1 = retrieved_entity_ids[0] if retrieved_entity_ids else None
@@ -314,10 +373,10 @@ def run_one_question(
     hit_at_10 = any(rid in expected_set for rid in retrieved_entity_ids[:10])
 
     record: dict[str, Any] = {
-        "question_id": q.question_id,
-        "question_type": q.question_type,
-        "sme_category": q.sme_category,
-        "is_abstention": q.is_abstention,
+        "question_id": question_id,
+        "question_type": question_type,
+        "sme_category": sme_category,
+        "is_abstention": is_abstention,
         "expected_sources": expected,
         "matched_sources": matched,
         "sme_recall": sme_recall,
@@ -329,13 +388,15 @@ def run_one_question(
         "hit_at_5": hit_at_5,
         "hit_at_10": hit_at_10,
     }
+    if extra_fields:
+        record.update(extra_fields)
 
     # #116 Phase 1 — persist the full retrieved context for offline reader
     # replay. Includes the fields the reader sweep needs as pinned records.
     if capture_context:
         record["context_string"] = ctx
-        record["question"] = q.question
-        record["gold_answer"] = q.answer
+        record["question"] = question
+        record["gold_answer"] = gold_answer
 
     # 5. Optional reader → hypothesis
     if skip_judge:
@@ -343,7 +404,7 @@ def run_one_question(
         record["judge"] = None
         return record
 
-    qtype_for_judge = "abstention" if q.is_abstention else q.question_type
+    qtype_for_judge = "abstention" if is_abstention else question_type
 
     if skip_reader:
         # Hand the judge the raw retrieval (option (a) in the planning
@@ -351,7 +412,7 @@ def run_one_question(
         hypothesis = ctx[:8000]  # cap to keep judge prompt manageable
     else:
         hypothesis = generate_hypothesis(
-            q.question, ctx,
+            question, ctx,
             reader_model=reader_model,
             client=reader_client,
         )
@@ -359,14 +420,121 @@ def run_one_question(
 
     judge = grade_answer(
         question_type=qtype_for_judge,
-        question=q.question,
-        gold_answer=q.answer,
+        question=question,
+        gold_answer=gold_answer,
         hypothesis=hypothesis,
         judge_model=judge_model,
         client=judge_client,
     )
     record["judge"] = judge
     return record
+
+
+# --- LoCoMo per-sample loop -------------------------------------------------
+
+def run_locomo_questions(
+    questions: list[Any],  # list[LoCoMoQuestion]
+    *,
+    adapter_factory: AdapterFactory,
+    work_dir: Path,
+    skip_judge: bool,
+    skip_reader: bool,
+    reader_model: str,
+    judge_model: str,
+    reader_client: Optional[Any] = None,
+    judge_client: Optional[Any] = None,
+    capture_context: bool = False,
+    max_questions: Optional[int] = None,
+) -> list[dict]:
+    """Run a list of LoCoMoQuestions PER SAMPLE.
+
+    LoCoMo shares one conversation across all of a sample's questions
+    (unlike LongMemEval's per-question haystacks). For each ``sample_id``
+    we materialize that sample's vault ONCE, build the adapter from it,
+    then query every question in the sample against the same vault — the
+    per-sample ingest topology from sme/corpora/locomo/README.md.
+
+    The daemon adapter ignores the per-sample vault path (it owns the
+    corpus and is queried over HTTP); the flat / full-context adapters
+    ingest the vault, so per-sample materialization is what makes their
+    LoCoMo retrieval correct (the whole conversation is in scope, not a
+    single question's slice).
+
+    Adversarial items carry ``is_adversarial=True`` → judged
+    abstention-aware via ``_score_and_judge``.
+    """
+    from sme.corpora.locomo import materialize_sme_corpus as locomo_materialize
+
+    # Preserve input order but group consecutive-or-not by sample_id so we
+    # materialize + ingest each sample's vault exactly once.
+    by_sample: dict[str, list[Any]] = {}
+    order: list[str] = []
+    n_capped = 0
+    for q in questions:
+        if max_questions is not None and n_capped >= max_questions:
+            break
+        n_capped += 1
+        if q.sample_id not in by_sample:
+            by_sample[q.sample_id] = []
+            order.append(q.sample_id)
+        by_sample[q.sample_id].append(q)
+
+    records: list[dict] = []
+    for sample_id in order:
+        sample_qs = by_sample[sample_id]
+        # Materialize this sample's full conversation ONCE. All of the
+        # sample's questions share the same sessions, so any one carries
+        # the full haystack — materialize just the first, capped to its
+        # own sample (the loader writes the shared conversation once).
+        out_dir = work_dir / sample_id
+        locomo_materialize([sample_qs[0]], out_dir, max_questions=1)
+        per_sample_vault = out_dir / "vault" / sample_id
+
+        # Build the adapter once for this sample (ingests the sample vault
+        # for flat / full-context; daemon ignores the path).
+        adapter = adapter_factory(per_sample_vault)
+        try:
+            for q in sample_qs:
+                try:
+                    try:
+                        result = adapter.query(q.question, n_results=5)
+                    except TypeError:
+                        result = adapter.query(q.question)
+                except Exception as e:  # noqa: BLE001 — record but continue
+                    result = QueryResult(answer="", context_string="", error=str(e))
+                rec = _score_and_judge(
+                    question=q.question,
+                    question_id=q.question_id,
+                    question_type=q.question_type,
+                    sme_category=q.sme_category,
+                    is_abstention=q.is_adversarial,
+                    gold_answer=q.gold_answer,
+                    expected=q.expected_sources_session_level(),
+                    result=result,
+                    skip_judge=skip_judge,
+                    skip_reader=skip_reader,
+                    reader_model=reader_model,
+                    judge_model=judge_model,
+                    reader_client=reader_client,
+                    judge_client=judge_client,
+                    capture_context=capture_context,
+                    extra_fields={
+                        "sample_id": q.sample_id,
+                        "locomo_category": q.category,
+                        "is_adversarial": q.is_adversarial,
+                    },
+                )
+                records.append(rec)
+                log.info(
+                    "[%s] %s (%s / %s)",
+                    sample_id, q.question_id, q.question_type, q.sme_category,
+                )
+        finally:
+            try:
+                adapter.close()
+            except Exception:  # noqa: BLE001
+                pass
+    return records
 
 
 # --- Aggregation ------------------------------------------------------------
@@ -529,7 +697,17 @@ def build_arg_parser() -> argparse.ArgumentParser:
         ),
     )
     p.add_argument("--dataset", required=True, type=Path,
-                   help="Path to longmemeval_oracle.json (or _s / _m).")
+                   help="Path to the dataset JSON. For --corpus longmemeval: "
+                        "longmemeval_oracle.json (or _s / _m). For --corpus "
+                        "locomo: locomo10.json.")
+    p.add_argument("--corpus", default="longmemeval",
+                   choices=["longmemeval", "locomo"],
+                   help="Dataset shape. 'longmemeval' (default) = one "
+                        "haystack per question. 'locomo' = one conversation "
+                        "per sample shared by that sample's questions; "
+                        "questions are grouped by sample_id and ingested "
+                        "per sample, and adversarial (cat-5) items are judged "
+                        "abstention-aware.")
     p.add_argument("--adapter", required=True,
                    choices=sorted(_ADAPTER_FACTORIES),
                    help="SME adapter to run.")
@@ -579,17 +757,13 @@ def run(args: argparse.Namespace,
         work_dir_ctx = tempfile.TemporaryDirectory(prefix="sme_xval_")
         work_dir = Path(work_dir_ctx.name)
 
+    corpus = getattr(args, "corpus", "longmemeval")
     records: list[dict] = []
     try:
-        for i, q in enumerate(load_questions(args.dataset)):
-            if args.max_questions is not None and i >= args.max_questions:
-                break
-            log.info(
-                "[%d] %s (%s / %s)",
-                i, q.question_id, q.question_type, q.sme_category,
-            )
-            rec = run_one_question(
-                q,
+        if corpus == "locomo":
+            from sme.corpora.locomo import load_questions as load_locomo
+            records = run_locomo_questions(
+                list(load_locomo(args.dataset)),
                 adapter_factory=factory,
                 work_dir=work_dir,
                 skip_judge=args.skip_judge,
@@ -598,9 +772,29 @@ def run(args: argparse.Namespace,
                 judge_model=args.judge_model,
                 reader_client=reader_client,
                 judge_client=judge_client,
-                content_rules=getattr(args, "content_rules", "sme-rich"),
+                max_questions=args.max_questions,
             )
-            records.append(rec)
+        else:
+            for i, q in enumerate(load_questions(args.dataset)):
+                if args.max_questions is not None and i >= args.max_questions:
+                    break
+                log.info(
+                    "[%d] %s (%s / %s)",
+                    i, q.question_id, q.question_type, q.sme_category,
+                )
+                rec = run_one_question(
+                    q,
+                    adapter_factory=factory,
+                    work_dir=work_dir,
+                    skip_judge=args.skip_judge,
+                    skip_reader=args.skip_reader,
+                    reader_model=args.reader_model,
+                    judge_model=args.judge_model,
+                    reader_client=reader_client,
+                    judge_client=judge_client,
+                    content_rules=getattr(args, "content_rules", "sme-rich"),
+                )
+                records.append(rec)
     finally:
         if work_dir_ctx is not None:
             work_dir_ctx.cleanup()
@@ -609,6 +803,7 @@ def run(args: argparse.Namespace,
     report = {
         "run_metadata": {
             "dataset": str(args.dataset),
+            "corpus": corpus,
             "adapter": args.adapter,
             "reader_model": (None if args.skip_reader or args.skip_judge
                              else args.reader_model),

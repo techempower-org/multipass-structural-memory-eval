@@ -1,0 +1,5959 @@
+[
+  {
+    "query": "Post-mortem section in pgvector-cutover-runbook",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 1,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Post-mortem section in pgvector-cutover-runbook",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 2,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Post-mortem section in pgvector-cutover-runbook",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 3,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Post-mortem section in pgvector-cutover-runbook",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 4,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Post-mortem section in pgvector-cutover-runbook",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 5,
+    "score": 0.544,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+    "expected": "2026-05-14-search-bench-hybrid-cutover.json",
+    "rank": 1,
+    "score": 0.623,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+    "expected": "2026-05-14-search-bench-hybrid-cutover.json",
+    "rank": 2,
+    "score": 0.639,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+    "expected": "2026-05-14-search-bench-hybrid-cutover.json",
+    "rank": 3,
+    "score": 0.589,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+    "expected": "2026-05-14-search-bench-hybrid-cutover.json",
+    "rank": 4,
+    "score": 0.602,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace search/recall/boost bench results \u2014 2026-05-14 hybrid era",
+    "expected": "2026-05-14-search-bench-hybrid-cutover.json",
+    "rank": 5,
+    "score": 0.621,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 1,
+    "score": 0.544,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 2,
+    "score": 0.473,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 3,
+    "score": 0.489,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 4,
+    "score": 0.458,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 5,
+    "score": 0.456,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 6,
+    "score": 0.5,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 7,
+    "score": 0.483,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 8,
+    "score": 0.499,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 9,
+    "score": 0.497,
+    "relevant": 0
+  },
+  {
+    "query": "Trigram index + complete schema in _create_table + test isolation",
+    "expected": "postgres.py",
+    "rank": 10,
+    "score": 0.563,
+    "relevant": 0
+  },
+  {
+    "query": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.479,
+    "relevant": 0
+  },
+  {
+    "query": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.53,
+    "relevant": 0
+  },
+  {
+    "query": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.48,
+    "relevant": 0
+  },
+  {
+    "query": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+    "expected": "migrate_to_postgres.py",
+    "rank": 4,
+    "score": 0.46,
+    "relevant": 0
+  },
+  {
+    "query": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+    "expected": "migrate_to_postgres.py",
+    "rank": 5,
+    "score": 0.504,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.375,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.376,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.52,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.375,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 7,
+    "score": 0.442,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 8,
+    "score": 0.39,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 9,
+    "score": 0.36,
+    "relevant": 0
+  },
+  {
+    "query": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+    "expected": "searcher.py",
+    "rank": 10,
+    "score": 0.452,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace rooms subcommand + example config.yaml",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.58,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace rooms subcommand + example config.yaml",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.698,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace rooms subcommand + example config.yaml",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.618,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace rooms subcommand + example config.yaml",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.766,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace rooms subcommand + example config.yaml",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode session for per-session manifest drawers",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.46,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode session for per-session manifest drawers",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.463,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode session for per-session manifest drawers",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.494,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode session for per-session manifest drawers",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.589,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode session for per-session manifest drawers",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid merger must bypass max_distance, not honor it",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.47,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid merger must bypass max_distance, not honor it",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.441,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid merger must bypass max_distance, not honor it",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.507,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid merger must bypass max_distance, not honor it",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.449,
+    "relevant": 0
+  },
+  {
+    "query": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.599,
+    "relevant": 0
+  },
+  {
+    "query": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.577,
+    "relevant": 0
+  },
+  {
+    "query": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.563,
+    "relevant": 0
+  },
+  {
+    "query": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.589,
+    "relevant": 0
+  },
+  {
+    "query": "Py3.9 compat \u2014 drop PEP 604 union in _ner_from_query",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.545,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid candidate strategy with graph integration (Phases 3+4)",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.416,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid candidate strategy with graph integration (Phases 3+4)",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.517,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid candidate strategy with graph integration (Phases 3+4)",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.418,
+    "relevant": 0
+  },
+  {
+    "query": "Hybrid candidate strategy with graph integration (Phases 3+4)",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.475,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.596,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.636,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.672,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres tsvector BM25 + backend-aware union dispatch (Phase 2)",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Emit only canonical rooms per hybrid-search-taxonomy spec",
+    "expected": "convo_miner.py",
+    "rank": 5,
+    "score": 0.555,
+    "relevant": 0
+  },
+  {
+    "query": "Emit only canonical rooms per hybrid-search-taxonomy spec",
+    "expected": "convo_miner.py",
+    "rank": 7,
+    "score": 0.528,
+    "relevant": 0
+  },
+  {
+    "query": "Unblock CI on 3.9/3.13 \u2014 jargon leak + eager psycopg2 import",
+    "expected": "knowledge_graph_age.py",
+    "rank": 3,
+    "score": 0.544,
+    "relevant": 0
+  },
+  {
+    "query": "Unblock CI on 3.9/3.13 \u2014 jargon leak + eager psycopg2 import",
+    "expected": "knowledge_graph_age.py",
+    "rank": 4,
+    "score": 0.639,
+    "relevant": 0
+  },
+  {
+    "query": "Unblock CI on 3.9/3.13 \u2014 jargon leak + eager psycopg2 import",
+    "expected": "knowledge_graph_age.py",
+    "rank": 5,
+    "score": 0.624,
+    "relevant": 0
+  },
+  {
+    "query": "Unblock CI on 3.9/3.13 \u2014 jargon leak + eager psycopg2 import",
+    "expected": "knowledge_graph_age.py",
+    "rank": 7,
+    "score": 0.612,
+    "relevant": 0
+  },
+  {
+    "query": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+    "expected": "postgres.py",
+    "rank": 1,
+    "score": 0.495,
+    "relevant": 0
+  },
+  {
+    "query": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+    "expected": "postgres.py",
+    "rank": 2,
+    "score": 0.613,
+    "relevant": 0
+  },
+  {
+    "query": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+    "expected": "postgres.py",
+    "rank": 3,
+    "score": 0.62,
+    "relevant": 0
+  },
+  {
+    "query": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+    "expected": "postgres.py",
+    "rank": 4,
+    "score": 0.53,
+    "relevant": 0
+  },
+  {
+    "query": "Advisory-lock + IF NOT EXISTS guard for lazy HNSW index",
+    "expected": "postgres.py",
+    "rank": 5,
+    "score": 0.628,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 2,
+    "score": 0.623,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 3,
+    "score": 0.6,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 5,
+    "score": 0.605,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 6,
+    "score": 0.636,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector migration 2026-05-14 status snapshot \u2014 Phases 4.1/4.2 executed",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 8,
+    "score": 0.609,
+    "relevant": 0
+  },
+  {
+    "query": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.542,
+    "relevant": 0
+  },
+  {
+    "query": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.571,
+    "relevant": 0
+  },
+  {
+    "query": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.662,
+    "relevant": 0
+  },
+  {
+    "query": "Backend-route _get_collection \u2014 postgres path alongside chroma (Step 1 of cutover)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.573,
+    "relevant": 0
+  },
+  {
+    "query": "Inline Cypher parameters instead of using AGE's $1 form",
+    "expected": "knowledge_graph_age.py",
+    "rank": 1,
+    "score": 0.501,
+    "relevant": 0
+  },
+  {
+    "query": "Inline Cypher parameters instead of using AGE's $1 form",
+    "expected": "knowledge_graph_age.py",
+    "rank": 2,
+    "score": 0.519,
+    "relevant": 0
+  },
+  {
+    "query": "Inline Cypher parameters instead of using AGE's $1 form",
+    "expected": "knowledge_graph_age.py",
+    "rank": 3,
+    "score": 0.576,
+    "relevant": 0
+  },
+  {
+    "query": "Inline Cypher parameters instead of using AGE's $1 form",
+    "expected": "knowledge_graph_age.py",
+    "rank": 4,
+    "score": 0.568,
+    "relevant": 0
+  },
+  {
+    "query": "Inline Cypher parameters instead of using AGE's $1 form",
+    "expected": "knowledge_graph_age.py",
+    "rank": 5,
+    "score": 0.57,
+    "relevant": 0
+  },
+  {
+    "query": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 1,
+    "score": 0.698,
+    "relevant": 0
+  },
+  {
+    "query": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 2,
+    "score": 0.673,
+    "relevant": 0
+  },
+  {
+    "query": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 3,
+    "score": 0.627,
+    "relevant": 0
+  },
+  {
+    "query": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 4,
+    "score": 0.685,
+    "relevant": 0
+  },
+  {
+    "query": "Make wrappers PALACE_DAEMON_HOOK_PY-overridable; rewrite tests (closes #68)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 5,
+    "score": 0.672,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.55,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.645,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.552,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve embeddings on rebuild \u2014 cherry-pick of upstream #1367 (embeddings portion only)",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.554,
+    "relevant": 0
+  },
+  {
+    "query": "Update runbook with daemon-state + repair-required findings",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 3,
+    "score": 0.472,
+    "relevant": 0
+  },
+  {
+    "query": "Update runbook with daemon-state + repair-required findings",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 4,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Update runbook with daemon-state + repair-required findings",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 6,
+    "score": 0.525,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.666,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.679,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.668,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 4,
+    "score": 0.698,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 5,
+    "score": 0.692,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 6,
+    "score": 0.644,
+    "relevant": 0
+  },
+  {
+    "query": "Call _prepare_palace_for_open before chromadb.PersistentClient",
+    "expected": "migrate_to_postgres.py",
+    "rank": 7,
+    "score": 0.66,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.618,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.482,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.516,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 4,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 5,
+    "score": 0.489,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 7,
+    "score": 0.447,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema uses two connections (autocommit toggle is forbidden mid-flight)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 9,
+    "score": 0.482,
+    "relevant": 0
+  },
+  {
+    "query": "Use pg_available_extensions.name (not extname) in preflight",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.528,
+    "relevant": 0
+  },
+  {
+    "query": "Use pg_available_extensions.name (not extname) in preflight",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.478,
+    "relevant": 0
+  },
+  {
+    "query": "Use pg_available_extensions.name (not extname) in preflight",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.509,
+    "relevant": 0
+  },
+  {
+    "query": "Use pg_available_extensions.name (not extname) in preflight",
+    "expected": "migrate_to_postgres.py",
+    "rank": 4,
+    "score": 0.527,
+    "relevant": 0
+  },
+  {
+    "query": "Use pg_available_extensions.name (not extname) in preflight",
+    "expected": "migrate_to_postgres.py",
+    "rank": 5,
+    "score": 0.452,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 1,
+    "score": 0.601,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 3,
+    "score": 0.546,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 4,
+    "score": 0.612,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 6,
+    "score": 0.686,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 7,
+    "score": 0.588,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 8,
+    "score": 0.524,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+    "expected": "pgvector-cutover-runbook.md",
+    "rank": 9,
+    "score": 0.536,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_6_verify + phase_7_done \u2014 Phases 3.5 + 3.6",
+    "expected": "migrate_to_postgres.py",
+    "rank": 8,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_5_kg \u2014 sqlite triples \u2192 AGE (Phase 3.4.c)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.52,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_5_kg \u2014 sqlite triples \u2192 AGE (Phase 3.4.c)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.499,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_5_kg \u2014 sqlite triples \u2192 AGE (Phase 3.4.c)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.575,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_5_kg \u2014 sqlite triples \u2192 AGE (Phase 3.4.c)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 5,
+    "score": 0.485,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 3,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 5,
+    "score": 0.49,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 6,
+    "score": 0.532,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile Phase 3.4 + mark plan-prescribed pause at 3.4.c",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 7,
+    "score": 0.532,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.632,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.715,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.715,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 4,
+    "score": 0.595,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_2_drawers \u2014 batched chromadb\u2192pgvector copy (Phase 3.3)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 5,
+    "score": 0.619,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema \u2014 extensions + checkpoint table (Phase 3.2)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 1,
+    "score": 0.576,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema \u2014 extensions + checkpoint table (Phase 3.2)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 2,
+    "score": 0.6,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema \u2014 extensions + checkpoint table (Phase 3.2)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 3,
+    "score": 0.552,
+    "relevant": 0
+  },
+  {
+    "query": "Phase_1_schema \u2014 extensions + checkpoint table (Phase 3.2)",
+    "expected": "migrate_to_postgres.py",
+    "rank": 4,
+    "score": 0.537,
+    "relevant": 0
+  },
+  {
+    "query": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.532,
+    "relevant": 0
+  },
+  {
+    "query": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.557,
+    "relevant": 0
+  },
+  {
+    "query": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.555,
+    "relevant": 0
+  },
+  {
+    "query": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.594,
+    "relevant": 0
+  },
+  {
+    "query": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Scaffold migrate-to-postgres CLI + phase 0 preflight",
+    "expected": "cli.py",
+    "rank": 6,
+    "score": 0.516,
+    "relevant": 0
+  },
+  {
+    "query": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+    "expected": "config.py",
+    "rank": 2,
+    "score": 0.581,
+    "relevant": 0
+  },
+  {
+    "query": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+    "expected": "config.py",
+    "rank": 3,
+    "score": 0.58,
+    "relevant": 0
+  },
+  {
+    "query": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+    "expected": "config.py",
+    "rank": 4,
+    "score": 0.602,
+    "relevant": 0
+  },
+  {
+    "query": "MEMPALACE_KG_BACKEND routing \u2014 sqlite default, age opt-in (Phase 2.4)",
+    "expected": "config.py",
+    "rank": 5,
+    "score": 0.619,
+    "relevant": 0
+  },
+  {
+    "query": "As_of temporal filter on query_triples (Phase 2.3)",
+    "expected": "knowledge_graph_age.py",
+    "rank": 1,
+    "score": 0.614,
+    "relevant": 0
+  },
+  {
+    "query": "As_of temporal filter on query_triples (Phase 2.3)",
+    "expected": "knowledge_graph_age.py",
+    "rank": 2,
+    "score": 0.492,
+    "relevant": 0
+  },
+  {
+    "query": "As_of temporal filter on query_triples (Phase 2.3)",
+    "expected": "knowledge_graph_age.py",
+    "rank": 3,
+    "score": 0.512,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 1,
+    "score": 0.565,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 3,
+    "score": 0.504,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 4,
+    "score": 0.524,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 5,
+    "score": 0.524,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 6,
+    "score": 0.524,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 7,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 8,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 9,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Add_triple + query_triples + clear on KnowledgeGraphAGE",
+    "expected": "knowledge_graph_age.py",
+    "rank": 10,
+    "score": 0.55,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile pgvector plan with what shipped via PR #21",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 1,
+    "score": 0.594,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile pgvector plan with what shipped via PR #21",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 4,
+    "score": 0.631,
+    "relevant": 0
+  },
+  {
+    "query": "Reconcile pgvector plan with what shipped via PR #21",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 5,
+    "score": 0.608,
+    "relevant": 0
+  },
+  {
+    "query": "Bump drawer count (160K \u2192 183K) + link palace-taxonomy spec",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.521,
+    "relevant": 0
+  },
+  {
+    "query": "Bump drawer count (160K \u2192 183K) + link palace-taxonomy spec",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.521,
+    "relevant": 0
+  },
+  {
+    "query": "Bump drawer count (160K \u2192 183K) + link palace-taxonomy spec",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Bump drawer count (160K \u2192 183K) + link palace-taxonomy spec",
+    "expected": "CLAUDE.md",
+    "rank": 6,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Inherit upstream Mission + Design Principles lede",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.554,
+    "relevant": 0
+  },
+  {
+    "query": "Inherit upstream Mission + Design Principles lede",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.6,
+    "relevant": 0
+  },
+  {
+    "query": "Inherit upstream Mission + Design Principles lede",
+    "expected": "CLAUDE.md",
+    "rank": 6,
+    "score": 0.42,
+    "relevant": 0
+  },
+  {
+    "query": "Inherit upstream Mission + Design Principles lede",
+    "expected": "CLAUDE.md",
+    "rank": 8,
+    "score": 0.406,
+    "relevant": 0
+  },
+  {
+    "query": "Inherit upstream Mission + Design Principles lede",
+    "expected": "CLAUDE.md",
+    "rank": 9,
+    "score": 0.41,
+    "relevant": 0
+  },
+  {
+    "query": "Make .sh wrappers route through palace-daemon (back-compat shim)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 1,
+    "score": 0.606,
+    "relevant": 0
+  },
+  {
+    "query": "Make .sh wrappers route through palace-daemon (back-compat shim)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 2,
+    "score": 0.585,
+    "relevant": 0
+  },
+  {
+    "query": "Make .sh wrappers route through palace-daemon (back-compat shim)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 3,
+    "score": 0.585,
+    "relevant": 0
+  },
+  {
+    "query": "Make .sh wrappers route through palace-daemon (back-compat shim)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 4,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Make .sh wrappers route through palace-daemon (back-compat shim)",
+    "expected": "mempal-precompact-hook.sh",
+    "rank": 5,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild_index accepts progress callback; default prints ETA",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.569,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild_index accepts progress callback; default prints ETA",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.579,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild_index accepts progress callback; default prints ETA",
+    "expected": "repair.py",
+    "rank": 6,
+    "score": 0.534,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild_index accepts progress callback; default prints ETA",
+    "expected": "repair.py",
+    "rank": 7,
+    "score": 0.518,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild_index accepts progress callback; default prints ETA",
+    "expected": "repair.py",
+    "rank": 8,
+    "score": 0.536,
+    "relevant": 0
+  },
+  {
+    "query": "Record #1459 + #1474 upstream merges; refresh open-PR queue",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.654,
+    "relevant": 0
+  },
+  {
+    "query": "Record #1459 + #1474 upstream merges; refresh open-PR queue",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.681,
+    "relevant": 0
+  },
+  {
+    "query": "Record #1459 + #1474 upstream merges; refresh open-PR queue",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.6,
+    "relevant": 0
+  },
+  {
+    "query": "Record #1459 + #1474 upstream merges; refresh open-PR queue",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.601,
+    "relevant": 0
+  },
+  {
+    "query": "Record #1459 + #1474 upstream merges; refresh open-PR queue",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.687,
+    "relevant": 0
+  },
+  {
+    "query": "Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet",
+    "expected": "deploy-docs.yml",
+    "rank": 1,
+    "score": 0.64,
+    "relevant": 0
+  },
+  {
+    "query": "Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet",
+    "expected": "deploy-docs.yml",
+    "rank": 2,
+    "score": 0.537,
+    "relevant": 0
+  },
+  {
+    "query": "Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet",
+    "expected": "deploy-docs.yml",
+    "rank": 3,
+    "score": 0.604,
+    "relevant": 0
+  },
+  {
+    "query": "Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet",
+    "expected": "deploy-docs.yml",
+    "rank": 4,
+    "score": 0.617,
+    "relevant": 0
+  },
+  {
+    "query": "Wire MEMPALACE_DOCS_GA_ID into deploy and harden gtag snippet",
+    "expected": "deploy-docs.yml",
+    "rank": 5,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+    "expected": "convo_miner.py",
+    "rank": 1,
+    "score": 0.487,
+    "relevant": 0
+  },
+  {
+    "query": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+    "expected": "convo_miner.py",
+    "rank": 3,
+    "score": 0.558,
+    "relevant": 0
+  },
+  {
+    "query": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+    "expected": "convo_miner.py",
+    "rank": 4,
+    "score": 0.441,
+    "relevant": 0
+  },
+  {
+    "query": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+    "expected": "convo_miner.py",
+    "rank": 5,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+    "expected": "convo_miner.py",
+    "rank": 6,
+    "score": 0.51,
+    "relevant": 0
+  },
+  {
+    "query": "Bulk pre-fetch already-mined set instead of N WHERE queries",
+    "expected": "convo_miner.py",
+    "rank": 8,
+    "score": 0.555,
+    "relevant": 0
+  },
+  {
+    "query": "Retire row inventory + companion check 5",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.377,
+    "relevant": 0
+  },
+  {
+    "query": "Retire row inventory + companion check 5",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.35,
+    "relevant": 0
+  },
+  {
+    "query": "Retire row inventory + companion check 5",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.315,
+    "relevant": 0
+  },
+  {
+    "query": "Track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.604,
+    "relevant": 0
+  },
+  {
+    "query": "Track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.604,
+    "relevant": 0
+  },
+  {
+    "query": "Track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.657,
+    "relevant": 0
+  },
+  {
+    "query": "Track f499814 chroma-chokepoint sanitizer + CLAUDE.md row 39",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.657,
+    "relevant": 0
+  },
+  {
+    "query": "Catch-all metadata sanitizer in add/upsert",
+    "expected": "chroma.py",
+    "rank": 1,
+    "score": 0.454,
+    "relevant": 0
+  },
+  {
+    "query": "Catch-all metadata sanitizer in add/upsert",
+    "expected": "chroma.py",
+    "rank": 2,
+    "score": 0.509,
+    "relevant": 0
+  },
+  {
+    "query": "Catch-all metadata sanitizer in add/upsert",
+    "expected": "chroma.py",
+    "rank": 3,
+    "score": 0.559,
+    "relevant": 0
+  },
+  {
+    "query": "Catch-all metadata sanitizer in add/upsert",
+    "expected": "chroma.py",
+    "rank": 4,
+    "score": 0.492,
+    "relevant": 0
+  },
+  {
+    "query": "Catch-all metadata sanitizer in add/upsert",
+    "expected": "chroma.py",
+    "rank": 5,
+    "score": 0.587,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.531,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 7,
+    "score": 0.545,
+    "relevant": 0
+  },
+  {
+    "query": "Coerce empty metadata to sentinel in both rebuild paths",
+    "expected": "repair.py",
+    "rank": 8,
+    "score": 0.489,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill 6 YAML entries from stale PR #11 (work already on main)",
+    "expected": "fork-changes.yaml",
+    "rank": 3,
+    "score": 0.678,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill 6 YAML entries from stale PR #11 (work already on main)",
+    "expected": "fork-changes.yaml",
+    "rank": 4,
+    "score": 0.495,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill 6 YAML entries from stale PR #11 (work already on main)",
+    "expected": "fork-changes.yaml",
+    "rank": 5,
+    "score": 0.495,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill 6 YAML entries from stale PR #11 (work already on main)",
+    "expected": "fork-changes.yaml",
+    "rank": 6,
+    "score": 0.657,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill 6 YAML entries from stale PR #11 (work already on main)",
+    "expected": "fork-changes.yaml",
+    "rank": 7,
+    "score": 0.53,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.572,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.577,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.623,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 6,
+    "score": 0.623,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 7,
+    "score": 0.549,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 8,
+    "score": 0.569,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 9,
+    "score": 0.569,
+    "relevant": 0
+  },
+  {
+    "query": "Track repair-empty-meta fix + post-merge hook-routing change",
+    "expected": "CLAUDE.md",
+    "rank": 10,
+    "score": 0.601,
+    "relevant": 0
+  },
+  {
+    "query": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+    "expected": "hooks.json",
+    "rank": 1,
+    "score": 0.621,
+    "relevant": 0
+  },
+  {
+    "query": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+    "expected": "hooks.json",
+    "rank": 2,
+    "score": 0.715,
+    "relevant": 0
+  },
+  {
+    "query": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+    "expected": "hooks.json",
+    "rank": 3,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+    "expected": "hooks.json",
+    "rank": 4,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+    "expected": "hooks.json",
+    "rank": 5,
+    "score": 0.637,
+    "relevant": 0
+  },
+  {
+    "query": "Post-AGE-skeleton housekeeping \u2014 YAML + FORK_CHANGELOG + row 37",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.603,
+    "relevant": 0
+  },
+  {
+    "query": "Post-AGE-skeleton housekeeping \u2014 YAML + FORK_CHANGELOG + row 37",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.607,
+    "relevant": 0
+  },
+  {
+    "query": "Post-AGE-skeleton housekeeping \u2014 YAML + FORK_CHANGELOG + row 37",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.607,
+    "relevant": 0
+  },
+  {
+    "query": "Post-AGE-skeleton housekeeping \u2014 YAML + FORK_CHANGELOG + row 37",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.629,
+    "relevant": 0
+  },
+  {
+    "query": "Post-AGE-skeleton housekeeping \u2014 YAML + FORK_CHANGELOG + row 37",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.629,
+    "relevant": 0
+  },
+  {
+    "query": "KnowledgeGraphAGE skeleton + graph bootstrap",
+    "expected": "knowledge_graph_age.py",
+    "rank": 4,
+    "score": 0.491,
+    "relevant": 0
+  },
+  {
+    "query": "KnowledgeGraphAGE skeleton + graph bootstrap",
+    "expected": "knowledge_graph_age.py",
+    "rank": 5,
+    "score": 0.535,
+    "relevant": 0
+  },
+  {
+    "query": "KnowledgeGraphAGE skeleton + graph bootstrap",
+    "expected": "knowledge_graph_age.py",
+    "rank": 6,
+    "score": 0.486,
+    "relevant": 0
+  },
+  {
+    "query": "KnowledgeGraphAGE skeleton + graph bootstrap",
+    "expected": "knowledge_graph_age.py",
+    "rank": 7,
+    "score": 0.486,
+    "relevant": 0
+  },
+  {
+    "query": "KnowledgeGraphAGE skeleton + graph bootstrap",
+    "expected": "knowledge_graph_age.py",
+    "rank": 8,
+    "score": 0.49,
+    "relevant": 0
+  },
+  {
+    "query": "KnowledgeGraphAGE skeleton + graph bootstrap",
+    "expected": "knowledge_graph_age.py",
+    "rank": 9,
+    "score": 0.52,
+    "relevant": 0
+  },
+  {
+    "query": "Post-pgvector-merge housekeeping \u2014 YAML + FORK_CHANGELOG + row inventory",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.709,
+    "relevant": 0
+  },
+  {
+    "query": "Post-pgvector-merge housekeeping \u2014 YAML + FORK_CHANGELOG + row inventory",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.709,
+    "relevant": 0
+  },
+  {
+    "query": "Post-pgvector-merge housekeeping \u2014 YAML + FORK_CHANGELOG + row inventory",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.733,
+    "relevant": 0
+  },
+  {
+    "query": "Post-pgvector-merge housekeeping \u2014 YAML + FORK_CHANGELOG + row inventory",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.733,
+    "relevant": 0
+  },
+  {
+    "query": "Post-pgvector-merge housekeeping \u2014 YAML + FORK_CHANGELOG + row inventory",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.654,
+    "relevant": 0
+  },
+  {
+    "query": "Pivot to four-layer model + Auto Dream vindication framing",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.382,
+    "relevant": 0
+  },
+  {
+    "query": "Pivot to four-layer model + Auto Dream vindication framing",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.39,
+    "relevant": 0
+  },
+  {
+    "query": "Accept None as \"use default collection\" in get_collection",
+    "expected": "palace.py",
+    "rank": 1,
+    "score": 0.41,
+    "relevant": 0
+  },
+  {
+    "query": "Accept None as \"use default collection\" in get_collection",
+    "expected": "palace.py",
+    "rank": 2,
+    "score": 0.41,
+    "relevant": 0
+  },
+  {
+    "query": "Accept None as \"use default collection\" in get_collection",
+    "expected": "palace.py",
+    "rank": 3,
+    "score": 0.423,
+    "relevant": 0
+  },
+  {
+    "query": "Accept None as \"use default collection\" in get_collection",
+    "expected": "palace.py",
+    "rank": 4,
+    "score": 0.397,
+    "relevant": 0
+  },
+  {
+    "query": "Add optional PostgreSQL backend",
+    "expected": "postgres.py",
+    "rank": 1,
+    "score": 0.569,
+    "relevant": 0
+  },
+  {
+    "query": "Add optional PostgreSQL backend",
+    "expected": "postgres.py",
+    "rank": 2,
+    "score": 0.457,
+    "relevant": 0
+  },
+  {
+    "query": "Add optional PostgreSQL backend",
+    "expected": "postgres.py",
+    "rank": 3,
+    "score": 0.473,
+    "relevant": 0
+  },
+  {
+    "query": "Add optional PostgreSQL backend",
+    "expected": "postgres.py",
+    "rank": 4,
+    "score": 0.473,
+    "relevant": 0
+  },
+  {
+    "query": "Add optional PostgreSQL backend",
+    "expected": "postgres.py",
+    "rank": 5,
+    "score": 0.546,
+    "relevant": 0
+  },
+  {
+    "query": "Auto-pull embedding model when missing instead of silently scoring 0",
+    "expected": "orchestrator.py",
+    "rank": 1,
+    "score": 0.508,
+    "relevant": 0
+  },
+  {
+    "query": "Auto-pull embedding model when missing instead of silently scoring 0",
+    "expected": "orchestrator.py",
+    "rank": 2,
+    "score": 0.508,
+    "relevant": 0
+  },
+  {
+    "query": "Auto-pull embedding model when missing instead of silently scoring 0",
+    "expected": "orchestrator.py",
+    "rank": 3,
+    "score": 0.547,
+    "relevant": 0
+  },
+  {
+    "query": "Auto-pull embedding model when missing instead of silently scoring 0",
+    "expected": "orchestrator.py",
+    "rank": 4,
+    "score": 0.587,
+    "relevant": 0
+  },
+  {
+    "query": "Auto-pull embedding model when missing instead of silently scoring 0",
+    "expected": "orchestrator.py",
+    "rank": 5,
+    "score": 0.651,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot-pull-request-reviewer feedback on PR #1447",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.601,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot-pull-request-reviewer feedback on PR #1447",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.669,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot-pull-request-reviewer feedback on PR #1447",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.607,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot-pull-request-reviewer feedback on PR #1447",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.609,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot-pull-request-reviewer feedback on PR #1447",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot-pull-request-reviewer feedback on PR #1447",
+    "expected": "README.md",
+    "rank": 6,
+    "score": 0.645,
+    "relevant": 0
+  },
+  {
+    "query": "Explicit invitation for backend + model contributions",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.422,
+    "relevant": 0
+  },
+  {
+    "query": "Explicit invitation for backend + model contributions",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.422,
+    "relevant": 0
+  },
+  {
+    "query": "Explicit invitation for backend + model contributions",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.444,
+    "relevant": 0
+  },
+  {
+    "query": "Explicit invitation for backend + model contributions",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.492,
+    "relevant": 0
+  },
+  {
+    "query": "Expand README into a full reproduction guide",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.505,
+    "relevant": 0
+  },
+  {
+    "query": "Expand README into a full reproduction guide",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.675,
+    "relevant": 0
+  },
+  {
+    "query": "Add modern-tier candidates that initial search missed",
+    "expected": "candidates.yaml",
+    "rank": 1,
+    "score": 0.55,
+    "relevant": 0
+  },
+  {
+    "query": "Add modern-tier candidates that initial search missed",
+    "expected": "candidates.yaml",
+    "rank": 2,
+    "score": 0.457,
+    "relevant": 0
+  },
+  {
+    "query": "Add modern-tier candidates that initial search missed",
+    "expected": "candidates.yaml",
+    "rank": 3,
+    "score": 0.553,
+    "relevant": 0
+  },
+  {
+    "query": "Add modern-tier candidates that initial search missed",
+    "expected": "candidates.yaml",
+    "rank": 4,
+    "score": 0.427,
+    "relevant": 0
+  },
+  {
+    "query": "Add modern-tier candidates that initial search missed",
+    "expected": "candidates.yaml",
+    "rank": 5,
+    "score": 0.438,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 1,
+    "score": 0.601,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 2,
+    "score": 0.667,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 3,
+    "score": 0.568,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 4,
+    "score": 0.695,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 5,
+    "score": 0.707,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 6,
+    "score": 0.563,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 7,
+    "score": 0.721,
+    "relevant": 0
+  },
+  {
+    "query": "Address gemini-code-assist review on PR #1447",
+    "expected": "metrics.py",
+    "rank": 8,
+    "score": 0.682,
+    "relevant": 0
+  },
+  {
+    "query": "Refresh cloud lineup + document structured-outputs gotcha",
+    "expected": "candidates.yaml",
+    "rank": 3,
+    "score": 0.404,
+    "relevant": 0
+  },
+  {
+    "query": "Refresh cloud lineup + document structured-outputs gotcha",
+    "expected": "candidates.yaml",
+    "rank": 5,
+    "score": 0.479,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector + AGE migration implementation plan (4 phases, 92 steps)",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 1,
+    "score": 0.694,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector + AGE migration implementation plan (4 phases, 92 steps)",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 2,
+    "score": 0.694,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector + AGE migration implementation plan (4 phases, 92 steps)",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 4,
+    "score": 0.714,
+    "relevant": 0
+  },
+  {
+    "query": "Pgvector + AGE migration implementation plan (4 phases, 92 steps)",
+    "expected": "2026-05-10-pgvector-age-migration-impl.md",
+    "rank": 5,
+    "score": 0.714,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres + pgvector + apache age substrate migration design",
+    "expected": "2026-05-10-pgvector-age-migration-design.md",
+    "rank": 1,
+    "score": 0.976,
+    "relevant": 1
+  },
+  {
+    "query": "Postgres + pgvector + apache age substrate migration design",
+    "expected": "2026-05-10-pgvector-age-migration-design.md",
+    "rank": 2,
+    "score": 0.618,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres + pgvector + apache age substrate migration design",
+    "expected": "2026-05-10-pgvector-age-migration-design.md",
+    "rank": 3,
+    "score": 0.662,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres + pgvector + apache age substrate migration design",
+    "expected": "2026-05-10-pgvector-age-migration-design.md",
+    "rank": 4,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Postgres + pgvector + apache age substrate migration design",
+    "expected": "2026-05-10-pgvector-age-migration-design.md",
+    "rank": 5,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Add cloud-tier ceiling measurements",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 1,
+    "score": 0.841,
+    "relevant": 1
+  },
+  {
+    "query": "Add cloud-tier ceiling measurements",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 3,
+    "score": 0.416,
+    "relevant": 1
+  },
+  {
+    "query": "Add cloud-tier ceiling measurements",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 4,
+    "score": 0.354,
+    "relevant": 1
+  },
+  {
+    "query": "Add cloud-tier ceiling measurements",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 5,
+    "score": 0.497,
+    "relevant": 1
+  },
+  {
+    "query": "Update analysis with reproducibility + hallucination findings",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 5,
+    "score": 0.417,
+    "relevant": 0
+  },
+  {
+    "query": "Commit first matrix run + analysis report",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 1,
+    "score": 0.421,
+    "relevant": 0
+  },
+  {
+    "query": "Commit first matrix run + analysis report",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 2,
+    "score": 0.413,
+    "relevant": 0
+  },
+  {
+    "query": "Commit first matrix run + analysis report",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 3,
+    "score": 0.413,
+    "relevant": 0
+  },
+  {
+    "query": "Commit first matrix run + analysis report",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 4,
+    "score": 0.414,
+    "relevant": 0
+  },
+  {
+    "query": "Commit first matrix run + analysis report",
+    "expected": "2026-05-10-analysis.md",
+    "rank": 5,
+    "score": 0.417,
+    "relevant": 0
+  },
+  {
+    "query": "Add think parameter to classify()",
+    "expected": "llm_client.py",
+    "rank": 5,
+    "score": 0.37,
+    "relevant": 0
+  },
+  {
+    "query": "Add CSV-to-markdown report renderer",
+    "expected": "summarize.py",
+    "rank": 1,
+    "score": 0.534,
+    "relevant": 0
+  },
+  {
+    "query": "Add CSV-to-markdown report renderer",
+    "expected": "summarize.py",
+    "rank": 2,
+    "score": 0.517,
+    "relevant": 0
+  },
+  {
+    "query": "Add CSV-to-markdown report renderer",
+    "expected": "summarize.py",
+    "rank": 3,
+    "score": 0.578,
+    "relevant": 0
+  },
+  {
+    "query": "Add CSV-to-markdown report renderer",
+    "expected": "summarize.py",
+    "rank": 4,
+    "score": 0.539,
+    "relevant": 0
+  },
+  {
+    "query": "Add CSV-to-markdown report renderer",
+    "expected": "summarize.py",
+    "rank": 5,
+    "score": 0.509,
+    "relevant": 0
+  },
+  {
+    "query": "Use Ollama HTTP /api/ps for vram_resident_mb",
+    "expected": "metrics.py",
+    "rank": 1,
+    "score": 0.545,
+    "relevant": 0
+  },
+  {
+    "query": "Use Ollama HTTP /api/ps for vram_resident_mb",
+    "expected": "metrics.py",
+    "rank": 2,
+    "score": 0.56,
+    "relevant": 0
+  },
+  {
+    "query": "Use Ollama HTTP /api/ps for vram_resident_mb",
+    "expected": "metrics.py",
+    "rank": 3,
+    "score": 0.557,
+    "relevant": 0
+  },
+  {
+    "query": "Use Ollama HTTP /api/ps for vram_resident_mb",
+    "expected": "metrics.py",
+    "rank": 4,
+    "score": 0.572,
+    "relevant": 0
+  },
+  {
+    "query": "Use Ollama HTTP /api/ps for vram_resident_mb",
+    "expected": "metrics.py",
+    "rank": 5,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Add synthetic dataset for model evaluation harness",
+    "expected": "dataset.jsonl",
+    "rank": 1,
+    "score": 0.392,
+    "relevant": 0
+  },
+  {
+    "query": "Add synthetic dataset for model evaluation harness",
+    "expected": "dataset.jsonl",
+    "rank": 2,
+    "score": 0.392,
+    "relevant": 0
+  },
+  {
+    "query": "Add synthetic dataset for model evaluation harness",
+    "expected": "dataset.jsonl",
+    "rank": 3,
+    "score": 0.482,
+    "relevant": 0
+  },
+  {
+    "query": "Add synthetic dataset for model evaluation harness",
+    "expected": "dataset.jsonl",
+    "rank": 4,
+    "score": 0.497,
+    "relevant": 0
+  },
+  {
+    "query": "Add synthetic dataset for model evaluation harness",
+    "expected": "dataset.jsonl",
+    "rank": 5,
+    "score": 0.502,
+    "relevant": 0
+  },
+  {
+    "query": "Add small-model evaluation harness",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.793,
+    "relevant": 1
+  },
+  {
+    "query": "Add small-model evaluation harness",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.428,
+    "relevant": 0
+  },
+  {
+    "query": "Add small-model evaluation harness",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.428,
+    "relevant": 0
+  },
+  {
+    "query": "Add small-model evaluation harness",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.623,
+    "relevant": 0
+  },
+  {
+    "query": "Add small-model evaluation harness",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.478,
+    "relevant": 1
+  },
+  {
+    "query": "Symmetric source_file resolve + perf optimizations",
+    "expected": "sync.py",
+    "rank": 5,
+    "score": 0.44,
+    "relevant": 0
+  },
+  {
+    "query": "Add gitignore-aware drawer prune (#1252)",
+    "expected": "sync.py",
+    "rank": 1,
+    "score": 0.587,
+    "relevant": 0
+  },
+  {
+    "query": "Add gitignore-aware drawer prune (#1252)",
+    "expected": "sync.py",
+    "rank": 2,
+    "score": 0.585,
+    "relevant": 0
+  },
+  {
+    "query": "Add gitignore-aware drawer prune (#1252)",
+    "expected": "sync.py",
+    "rank": 3,
+    "score": 0.549,
+    "relevant": 0
+  },
+  {
+    "query": "Add gitignore-aware drawer prune (#1252)",
+    "expected": "sync.py",
+    "rank": 4,
+    "score": 0.656,
+    "relevant": 0
+  },
+  {
+    "query": "Add gitignore-aware drawer prune (#1252)",
+    "expected": "sync.py",
+    "rank": 5,
+    "score": 0.541,
+    "relevant": 0
+  },
+  {
+    "query": "Close sqlite connections during cleanup",
+    "expected": "knowledge_graph.py",
+    "rank": 1,
+    "score": 0.572,
+    "relevant": 0
+  },
+  {
+    "query": "Close sqlite connections during cleanup",
+    "expected": "knowledge_graph.py",
+    "rank": 2,
+    "score": 0.508,
+    "relevant": 0
+  },
+  {
+    "query": "Close sqlite connections during cleanup",
+    "expected": "knowledge_graph.py",
+    "rank": 3,
+    "score": 0.555,
+    "relevant": 0
+  },
+  {
+    "query": "Close sqlite connections during cleanup",
+    "expected": "knowledge_graph.py",
+    "rank": 4,
+    "score": 0.529,
+    "relevant": 0
+  },
+  {
+    "query": "Close sqlite connections during cleanup",
+    "expected": "knowledge_graph.py",
+    "rank": 5,
+    "score": 0.576,
+    "relevant": 0
+  },
+  {
+    "query": "Tighten canonical temporal datetime support",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.509,
+    "relevant": 0
+  },
+  {
+    "query": "Tighten canonical temporal datetime support",
+    "expected": "config.py",
+    "rank": 2,
+    "score": 0.377,
+    "relevant": 0
+  },
+  {
+    "query": "Support Python 3.9 type annotations",
+    "expected": "knowledge_graph.py",
+    "rank": 1,
+    "score": 0.441,
+    "relevant": 0
+  },
+  {
+    "query": "Support Python 3.9 type annotations",
+    "expected": "knowledge_graph.py",
+    "rank": 2,
+    "score": 0.546,
+    "relevant": 0
+  },
+  {
+    "query": "Support Python 3.9 type annotations",
+    "expected": "knowledge_graph.py",
+    "rank": 3,
+    "score": 0.421,
+    "relevant": 0
+  },
+  {
+    "query": "Support Python 3.9 type annotations",
+    "expected": "knowledge_graph.py",
+    "rank": 4,
+    "score": 0.428,
+    "relevant": 0
+  },
+  {
+    "query": "Support Python 3.9 type annotations",
+    "expected": "knowledge_graph.py",
+    "rank": 5,
+    "score": 0.432,
+    "relevant": 0
+  },
+  {
+    "query": "Canonicalize temporal datetime support",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.465,
+    "relevant": 0
+  },
+  {
+    "query": "Canonicalize temporal datetime support",
+    "expected": "config.py",
+    "rank": 3,
+    "score": 0.522,
+    "relevant": 0
+  },
+  {
+    "query": "Use Optional[Path] for py39 compat",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.452,
+    "relevant": 0
+  },
+  {
+    "query": "Use Optional[Path] for py39 compat",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.503,
+    "relevant": 0
+  },
+  {
+    "query": "Use Optional[Path] for py39 compat",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.613,
+    "relevant": 0
+  },
+  {
+    "query": "Use Optional[Path] for py39 compat",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.457,
+    "relevant": 0
+  },
+  {
+    "query": "Per-target PID guard with atomic claim (#1212, #1206)",
+    "expected": "hooks_cli.py",
+    "rank": 1,
+    "score": 0.504,
+    "relevant": 0
+  },
+  {
+    "query": "Per-target PID guard with atomic claim (#1212, #1206)",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.489,
+    "relevant": 0
+  },
+  {
+    "query": "Per-target PID guard with atomic claim (#1212, #1206)",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.417,
+    "relevant": 0
+  },
+  {
+    "query": "Per-target PID guard with atomic claim (#1212, #1206)",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.451,
+    "relevant": 0
+  },
+  {
+    "query": "Per-target PID guard with atomic claim (#1212, #1206)",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.418,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PATH visibility (PR #1414)",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.434,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PATH visibility (PR #1414)",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.484,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PATH visibility (PR #1414)",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.435,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PATH visibility (PR #1414)",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.441,
+    "relevant": 0
+  },
+  {
+    "query": "Recommend uv as the package manager",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.564,
+    "relevant": 0
+  },
+  {
+    "query": "Recommend uv as the package manager",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.571,
+    "relevant": 0
+  },
+  {
+    "query": "Recommend uv as the package manager",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.671,
+    "relevant": 0
+  },
+  {
+    "query": "Recommend uv as the package manager",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.671,
+    "relevant": 0
+  },
+  {
+    "query": "Recommend uv as the package manager",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Reserve byte 0 as lock sentinel for Windows portability",
+    "expected": "palace.py",
+    "rank": 1,
+    "score": 0.387,
+    "relevant": 0
+  },
+  {
+    "query": "Reserve byte 0 as lock sentinel for Windows portability",
+    "expected": "palace.py",
+    "rank": 2,
+    "score": 0.455,
+    "relevant": 0
+  },
+  {
+    "query": "Reserve byte 0 as lock sentinel for Windows portability",
+    "expected": "palace.py",
+    "rank": 4,
+    "score": 0.531,
+    "relevant": 0
+  },
+  {
+    "query": "Reserve byte 0 as lock sentinel for Windows portability",
+    "expected": "palace.py",
+    "rank": 5,
+    "score": 0.572,
+    "relevant": 0
+  },
+  {
+    "query": "Detach Popen children so the hook can exit on Windows",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.592,
+    "relevant": 0
+  },
+  {
+    "query": "Detach Popen children so the hook can exit on Windows",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Detach Popen children so the hook can exit on Windows",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Detach Popen children so the hook can exit on Windows",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.516,
+    "relevant": 0
+  },
+  {
+    "query": "Detach Popen children so the hook can exit on Windows",
+    "expected": "hooks_cli.py",
+    "rank": 6,
+    "score": 0.498,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-strict migration completion in fork-ahead table",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.577,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-strict migration completion in fork-ahead table",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.523,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-strict migration completion in fork-ahead table",
+    "expected": "README.md",
+    "rank": 6,
+    "score": 0.504,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill missing commit refs + retire moot row 15 hedge",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.744,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill missing commit refs + retire moot row 15 hedge",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.586,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill missing commit refs + retire moot row 15 hedge",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.525,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill missing commit refs + retire moot row 15 hedge",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.525,
+    "relevant": 0
+  },
+  {
+    "query": "Backfill missing commit refs + retire moot row 15 hedge",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.494,
+    "relevant": 0
+  },
+  {
+    "query": "Update last-sync reference to 2026-05-07",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.52,
+    "relevant": 0
+  },
+  {
+    "query": "Update last-sync reference to 2026-05-07",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.584,
+    "relevant": 0
+  },
+  {
+    "query": "Update last-sync reference to 2026-05-07",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.518,
+    "relevant": 0
+  },
+  {
+    "query": "Update last-sync reference to 2026-05-07",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.524,
+    "relevant": 0
+  },
+  {
+    "query": "Update last-sync reference to 2026-05-07",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.533,
+    "relevant": 0
+  },
+  {
+    "query": "Use token-boundary matching in detect_room",
+    "expected": "miner.py",
+    "rank": 1,
+    "score": 0.611,
+    "relevant": 0
+  },
+  {
+    "query": "Use token-boundary matching in detect_room",
+    "expected": "miner.py",
+    "rank": 2,
+    "score": 0.548,
+    "relevant": 1
+  },
+  {
+    "query": "Use token-boundary matching in detect_room",
+    "expected": "miner.py",
+    "rank": 3,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Use token-boundary matching in detect_room",
+    "expected": "miner.py",
+    "rank": 4,
+    "score": 0.513,
+    "relevant": 0
+  },
+  {
+    "query": "Use token-boundary matching in detect_room",
+    "expected": "miner.py",
+    "rank": 5,
+    "score": 0.495,
+    "relevant": 0
+  },
+  {
+    "query": "Use token-boundary matching in detect_room",
+    "expected": "miner.py",
+    "rank": 6,
+    "score": 0.495,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.503,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.451,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.546,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.473,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 6,
+    "score": 0.582,
+    "relevant": 0
+  },
+  {
+    "query": "Record daemon-routing migration completion (rows 33+34)",
+    "expected": "CLAUDE.md",
+    "rank": 7,
+    "score": 0.465,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route status, search, mine when PALACE_DAEMON_URL is set",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.689,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route status, search, mine when PALACE_DAEMON_URL is set",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.689,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route status, search, mine when PALACE_DAEMON_URL is set",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.671,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route status, search, mine when PALACE_DAEMON_URL is set",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.696,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route status, search, mine when PALACE_DAEMON_URL is set",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.669,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route mcp_server.py via handle_request chokepoint",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.575,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route mcp_server.py via handle_request chokepoint",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.584,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route mcp_server.py via handle_request chokepoint",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.617,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route mcp_server.py via handle_request chokepoint",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.602,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route mcp_server.py via handle_request chokepoint",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.642,
+    "relevant": 0
+  },
+  {
+    "query": "Daemon-route mcp_server.py via handle_request chokepoint",
+    "expected": "mcp_server.py",
+    "rank": 6,
+    "score": 0.575,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild closets on hash change + backfill legacy state",
+    "expected": "diary_ingest.py",
+    "rank": 2,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild closets on hash change + backfill legacy state",
+    "expected": "diary_ingest.py",
+    "rank": 3,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild closets on hash change + backfill legacy state",
+    "expected": "diary_ingest.py",
+    "rank": 4,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild closets on hash change + backfill legacy state",
+    "expected": "diary_ingest.py",
+    "rank": 5,
+    "score": 0.533,
+    "relevant": 0
+  },
+  {
+    "query": "Detect same-size edits via content hash",
+    "expected": "diary_ingest.py",
+    "rank": 5,
+    "score": 0.49,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 1,
+    "score": 0.49,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 2,
+    "score": 0.449,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 3,
+    "score": 0.403,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 4,
+    "score": 0.431,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 5,
+    "score": 0.419,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 6,
+    "score": 0.485,
+    "relevant": 0
+  },
+  {
+    "query": "Refuse symlinks at export targets",
+    "expected": "exporter.py",
+    "rank": 7,
+    "score": 0.431,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _call_llm on JSONDecodeError instead of bailing",
+    "expected": "closet_llm.py",
+    "rank": 1,
+    "score": 0.58,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _call_llm on JSONDecodeError instead of bailing",
+    "expected": "closet_llm.py",
+    "rank": 2,
+    "score": 0.517,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _call_llm on JSONDecodeError instead of bailing",
+    "expected": "closet_llm.py",
+    "rank": 3,
+    "score": 0.602,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _call_llm on JSONDecodeError instead of bailing",
+    "expected": "closet_llm.py",
+    "rank": 4,
+    "score": 0.562,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _call_llm on JSONDecodeError instead of bailing",
+    "expected": "closet_llm.py",
+    "rank": 5,
+    "score": 0.493,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _call_llm on JSONDecodeError instead of bailing",
+    "expected": "closet_llm.py",
+    "rank": 6,
+    "score": 0.475,
+    "relevant": 0
+  },
+  {
+    "query": "Run SQLite integrity preflight before chromadb open",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Run SQLite integrity preflight before chromadb open",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.577,
+    "relevant": 0
+  },
+  {
+    "query": "Run SQLite integrity preflight before chromadb open",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.531,
+    "relevant": 0
+  },
+  {
+    "query": "Run SQLite integrity preflight before chromadb open",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.619,
+    "relevant": 0
+  },
+  {
+    "query": "Run SQLite integrity preflight before chromadb open",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.586,
+    "relevant": 0
+  },
+  {
+    "query": "Use configured collection in recovery paths",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.454,
+    "relevant": 0
+  },
+  {
+    "query": "Use configured collection in recovery paths",
+    "expected": "config.py",
+    "rank": 2,
+    "score": 0.571,
+    "relevant": 0
+  },
+  {
+    "query": "Use configured collection in recovery paths",
+    "expected": "config.py",
+    "rank": 3,
+    "score": 0.571,
+    "relevant": 0
+  },
+  {
+    "query": "Use configured collection in recovery paths",
+    "expected": "config.py",
+    "rank": 4,
+    "score": 0.461,
+    "relevant": 0
+  },
+  {
+    "query": "Use configured collection in recovery paths",
+    "expected": "config.py",
+    "rank": 5,
+    "score": 0.525,
+    "relevant": 0
+  },
+  {
+    "query": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+    "expected": "miner.py",
+    "rank": 1,
+    "score": 0.491,
+    "relevant": 0
+  },
+  {
+    "query": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+    "expected": "miner.py",
+    "rank": 2,
+    "score": 0.362,
+    "relevant": 0
+  },
+  {
+    "query": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+    "expected": "miner.py",
+    "rank": 3,
+    "score": 0.365,
+    "relevant": 0
+  },
+  {
+    "query": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+    "expected": "miner.py",
+    "rank": 4,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+    "expected": "miner.py",
+    "rank": 5,
+    "score": 0.401,
+    "relevant": 0
+  },
+  {
+    "query": "Harden Windows mine against ONNX bad_alloc + silent partial exits",
+    "expected": "miner.py",
+    "rank": 6,
+    "score": 0.416,
+    "relevant": 0
+  },
+  {
+    "query": "Quote ChromaBackend annotation for Python 3.9 compatibility",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.5,
+    "relevant": 0
+  },
+  {
+    "query": "Quote ChromaBackend annotation for Python 3.9 compatibility",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.532,
+    "relevant": 0
+  },
+  {
+    "query": "Quote ChromaBackend annotation for Python 3.9 compatibility",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.531,
+    "relevant": 0
+  },
+  {
+    "query": "Quote ChromaBackend annotation for Python 3.9 compatibility",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.465,
+    "relevant": 0
+  },
+  {
+    "query": "Retry tool_search once on Chroma \"Error finding id\" transient (#1315)",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.759,
+    "relevant": 0
+  },
+  {
+    "query": "Retry tool_search once on Chroma \"Error finding id\" transient (#1315)",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.669,
+    "relevant": 0
+  },
+  {
+    "query": "Retry tool_search once on Chroma \"Error finding id\" transient (#1315)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.671,
+    "relevant": 0
+  },
+  {
+    "query": "Retry tool_search once on Chroma \"Error finding id\" transient (#1315)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.657,
+    "relevant": 0
+  },
+  {
+    "query": "Retry tool_search once on Chroma \"Error finding id\" transient (#1315)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.706,
+    "relevant": 0
+  },
+  {
+    "query": "Apply ruff format",
+    "expected": "render_jsonl.py",
+    "rank": 1,
+    "score": 0.594,
+    "relevant": 0
+  },
+  {
+    "query": "Apply ruff format",
+    "expected": "render_jsonl.py",
+    "rank": 2,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Apply ruff format",
+    "expected": "render_jsonl.py",
+    "rank": 3,
+    "score": 0.631,
+    "relevant": 0
+  },
+  {
+    "query": "Apply ruff format",
+    "expected": "render_jsonl.py",
+    "rank": 4,
+    "score": 0.599,
+    "relevant": 0
+  },
+  {
+    "query": "Apply ruff format",
+    "expected": "render_jsonl.py",
+    "rank": 5,
+    "score": 0.61,
+    "relevant": 0
+  },
+  {
+    "query": "Clarify contributor git identity setup",
+    "expected": "CONTRIBUTING.md",
+    "rank": 3,
+    "score": 0.74,
+    "relevant": 1
+  },
+  {
+    "query": "Clarify contributor git identity setup",
+    "expected": "CONTRIBUTING.md",
+    "rank": 4,
+    "score": 0.74,
+    "relevant": 1
+  },
+  {
+    "query": "Clarify contributor git identity setup",
+    "expected": "CONTRIBUTING.md",
+    "rank": 5,
+    "score": 0.739,
+    "relevant": 0
+  },
+  {
+    "query": "Run 2 results \u2014 heading-aware-md wins markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 1,
+    "score": 0.54,
+    "relevant": 0
+  },
+  {
+    "query": "Run 2 results \u2014 heading-aware-md wins markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 2,
+    "score": 0.607,
+    "relevant": 0
+  },
+  {
+    "query": "Run 2 results \u2014 heading-aware-md wins markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 3,
+    "score": 0.587,
+    "relevant": 0
+  },
+  {
+    "query": "Run 2 results \u2014 heading-aware-md wins markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 4,
+    "score": 0.547,
+    "relevant": 0
+  },
+  {
+    "query": "Run 2 results \u2014 heading-aware-md wins markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 5,
+    "score": 0.518,
+    "relevant": 0
+  },
+  {
+    "query": "Document A/B/C ablation findings + add markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 1,
+    "score": 0.448,
+    "relevant": 0
+  },
+  {
+    "query": "Document A/B/C ablation findings + add markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 2,
+    "score": 0.405,
+    "relevant": 0
+  },
+  {
+    "query": "Document A/B/C ablation findings + add markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 3,
+    "score": 0.627,
+    "relevant": 0
+  },
+  {
+    "query": "Document A/B/C ablation findings + add markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 4,
+    "score": 0.494,
+    "relevant": 0
+  },
+  {
+    "query": "Document A/B/C ablation findings + add markdown probes",
+    "expected": "2026-05-06-chunking-strategy-ablation.md",
+    "rank": 5,
+    "score": 0.629,
+    "relevant": 1
+  },
+  {
+    "query": "Add chunk_strategy_ablation.py \u2014 A/B/C chunkers \u00d7 chunk_size sweep",
+    "expected": "chunk_strategy_ablation.py",
+    "rank": 1,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Add chunk_strategy_ablation.py \u2014 A/B/C chunkers \u00d7 chunk_size sweep",
+    "expected": "chunk_strategy_ablation.py",
+    "rank": 2,
+    "score": 0.63,
+    "relevant": 0
+  },
+  {
+    "query": "Add chunk_strategy_ablation.py \u2014 A/B/C chunkers \u00d7 chunk_size sweep",
+    "expected": "chunk_strategy_ablation.py",
+    "rank": 3,
+    "score": 0.615,
+    "relevant": 0
+  },
+  {
+    "query": "Add chunk_strategy_ablation.py \u2014 A/B/C chunkers \u00d7 chunk_size sweep",
+    "expected": "chunk_strategy_ablation.py",
+    "rank": 4,
+    "score": 0.649,
+    "relevant": 0
+  },
+  {
+    "query": "Add chunk_strategy_ablation.py \u2014 A/B/C chunkers \u00d7 chunk_size sweep",
+    "expected": "chunk_strategy_ablation.py",
+    "rank": 5,
+    "score": 0.614,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _get_collection once on transient failure (#1286)",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.551,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _get_collection once on transient failure (#1286)",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.715,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _get_collection once on transient failure (#1286)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.611,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _get_collection once on transient failure (#1286)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.605,
+    "relevant": 0
+  },
+  {
+    "query": "Retry _get_collection once on transient failure (#1286)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.657,
+    "relevant": 0
+  },
+  {
+    "query": "Address PR #1310 review feedback",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.5,
+    "relevant": 0
+  },
+  {
+    "query": "Address PR #1310 review feedback",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.667,
+    "relevant": 0
+  },
+  {
+    "query": "Address PR #1310 review feedback",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.667,
+    "relevant": 0
+  },
+  {
+    "query": "Address PR #1310 review feedback",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.512,
+    "relevant": 0
+  },
+  {
+    "query": "Address PR #1310 review feedback",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.506,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.73,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.635,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.713,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.713,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.676,
+    "relevant": 0
+  },
+  {
+    "query": "Add --mode from-sqlite to recover palaces with corrupt HNSW (#1308)",
+    "expected": "repair.py",
+    "rank": 6,
+    "score": 0.652,
+    "relevant": 0
+  },
+  {
+    "query": "Fix ruff bugbear and silent-except findings",
+    "expected": "convo_miner.py",
+    "rank": 1,
+    "score": 0.553,
+    "relevant": 0
+  },
+  {
+    "query": "Fix ruff bugbear and silent-except findings",
+    "expected": "convo_miner.py",
+    "rank": 3,
+    "score": 0.524,
+    "relevant": 0
+  },
+  {
+    "query": "Fix ruff bugbear and silent-except findings",
+    "expected": "convo_miner.py",
+    "rank": 4,
+    "score": 0.589,
+    "relevant": 0
+  },
+  {
+    "query": "Fix ruff bugbear and silent-except findings",
+    "expected": "convo_miner.py",
+    "rank": 5,
+    "score": 0.589,
+    "relevant": 0
+  },
+  {
+    "query": "Reject non-http(s) endpoints",
+    "expected": "closet_llm.py",
+    "rank": 1,
+    "score": 0.467,
+    "relevant": 0
+  },
+  {
+    "query": "Reject non-http(s) endpoints",
+    "expected": "closet_llm.py",
+    "rank": 2,
+    "score": 0.551,
+    "relevant": 0
+  },
+  {
+    "query": "Reject non-http(s) endpoints",
+    "expected": "closet_llm.py",
+    "rank": 4,
+    "score": 0.497,
+    "relevant": 0
+  },
+  {
+    "query": "Reject non-http(s) endpoints",
+    "expected": "closet_llm.py",
+    "rank": 6,
+    "score": 0.442,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 1,
+    "score": 0.417,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 3,
+    "score": 0.333,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 4,
+    "score": 0.424,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 5,
+    "score": 0.324,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 6,
+    "score": 0.424,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 7,
+    "score": 0.33,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "layers.py",
+    "rank": 10,
+    "score": 0.316,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.417,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.333,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.424,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.324,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 6,
+    "score": 0.424,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 7,
+    "score": 0.33,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp similarity to [0,1] to avoid negative values",
+    "expected": "mcp_server.py",
+    "rank": 10,
+    "score": 0.316,
+    "relevant": 0
+  },
+  {
+    "query": "MCP server JSON output ensure_ascii=False for non-ASCII support",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.491,
+    "relevant": 0
+  },
+  {
+    "query": "MCP server JSON output ensure_ascii=False for non-ASCII support",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.541,
+    "relevant": 0
+  },
+  {
+    "query": "MCP server JSON output ensure_ascii=False for non-ASCII support",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.499,
+    "relevant": 0
+  },
+  {
+    "query": "MCP server JSON output ensure_ascii=False for non-ASCII support",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.501,
+    "relevant": 0
+  },
+  {
+    "query": "MCP server JSON output ensure_ascii=False for non-ASCII support",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.551,
+    "relevant": 0
+  },
+  {
+    "query": "Add validation for missing name parameter in tools/call requests",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.443,
+    "relevant": 0
+  },
+  {
+    "query": "Add validation for missing name parameter in tools/call requests",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.544,
+    "relevant": 0
+  },
+  {
+    "query": "Add validation for missing name parameter in tools/call requests",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.468,
+    "relevant": 0
+  },
+  {
+    "query": "Add validation for missing name parameter in tools/call requests",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.583,
+    "relevant": 0
+  },
+  {
+    "query": "Add validation for missing name parameter in tools/call requests",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.522,
+    "relevant": 0
+  },
+  {
+    "query": "Include null id in JSON-RPC invalid request error responses and add validation tests",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.685,
+    "relevant": 0
+  },
+  {
+    "query": "Include null id in JSON-RPC invalid request error responses and add validation tests",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.689,
+    "relevant": 0
+  },
+  {
+    "query": "Include null id in JSON-RPC invalid request error responses and add validation tests",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.66,
+    "relevant": 0
+  },
+  {
+    "query": "Include null id in JSON-RPC invalid request error responses and add validation tests",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.676,
+    "relevant": 0
+  },
+  {
+    "query": "Include null id in JSON-RPC invalid request error responses and add validation tests",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.654,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp effective_distance to valid cosine range [0, 2]",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.472,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp effective_distance to valid cosine range [0, 2]",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.442,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp effective_distance to valid cosine range [0, 2]",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.331,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp effective_distance to valid cosine range [0, 2]",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.482,
+    "relevant": 0
+  },
+  {
+    "query": "Clamp effective_distance to valid cosine range [0, 2]",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.423,
+    "relevant": 0
+  },
+  {
+    "query": "Guard against None metadata/doc in search result loops",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.525,
+    "relevant": 0
+  },
+  {
+    "query": "Guard against None metadata/doc in search result loops",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Guard against None metadata/doc in search result loops",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.466,
+    "relevant": 0
+  },
+  {
+    "query": "Guard against None metadata/doc in search result loops",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.488,
+    "relevant": 0
+  },
+  {
+    "query": "Guard against None metadata/doc in search result loops",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.475,
+    "relevant": 0
+  },
+  {
+    "query": "Record hook_verbatim_mode toggle (row 32)",
+    "expected": "fork-changes.yaml",
+    "rank": 8,
+    "score": 0.453,
+    "relevant": 0
+  },
+  {
+    "query": "Add hook_verbatim_mode toggle for transcript ingest",
+    "expected": "normalize.py",
+    "rank": 2,
+    "score": 0.468,
+    "relevant": 0
+  },
+  {
+    "query": "Add hook_verbatim_mode toggle for transcript ingest",
+    "expected": "normalize.py",
+    "rank": 3,
+    "score": 0.418,
+    "relevant": 0
+  },
+  {
+    "query": "Add hook_verbatim_mode toggle for transcript ingest",
+    "expected": "normalize.py",
+    "rank": 4,
+    "score": 0.476,
+    "relevant": 0
+  },
+  {
+    "query": "Add hook_verbatim_mode toggle for transcript ingest",
+    "expected": "normalize.py",
+    "rank": 5,
+    "score": 0.399,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PRs #6/#7/#8/#10 (#12)",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.568,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PRs #6/#7/#8/#10 (#12)",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.579,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PRs #6/#7/#8/#10 (#12)",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.586,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on PRs #6/#7/#8/#10 (#12)",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve dashed project names + route through normalize_wing_name (#10)",
+    "expected": "hooks_cli.py",
+    "rank": 1,
+    "score": 0.592,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve dashed project names + route through normalize_wing_name (#10)",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.454,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve dashed project names + route through normalize_wing_name (#10)",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.454,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve dashed project names + route through normalize_wing_name (#10)",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.603,
+    "relevant": 0
+  },
+  {
+    "query": "Preserve dashed project names + route through normalize_wing_name (#10)",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.585,
+    "relevant": 0
+  },
+  {
+    "query": "Drop wing_ prefix from transcript-derived wings (#9)",
+    "expected": "hooks_cli.py",
+    "rank": 1,
+    "score": 0.432,
+    "relevant": 0
+  },
+  {
+    "query": "Drop wing_ prefix from transcript-derived wings (#9)",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.527,
+    "relevant": 0
+  },
+  {
+    "query": "Drop wing_ prefix from transcript-derived wings (#9)",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.484,
+    "relevant": 0
+  },
+  {
+    "query": "Drop wing_ prefix from transcript-derived wings (#9)",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.512,
+    "relevant": 0
+  },
+  {
+    "query": "Drop wing_ prefix from transcript-derived wings (#9)",
+    "expected": "hooks_cli.py",
+    "rank": 6,
+    "score": 0.416,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 1,
+    "score": 0.754,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 2,
+    "score": 0.668,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 3,
+    "score": 0.671,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 5,
+    "score": 0.699,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 6,
+    "score": 0.726,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 7,
+    "score": 0.666,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 9,
+    "score": 0.677,
+    "relevant": 0
+  },
+  {
+    "query": "Retire mempalace_session_recovery collection + read tool (#8)",
+    "expected": "palace.py",
+    "rank": 10,
+    "score": 0.668,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace mined + purge --source-file (#7)",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.673,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace mined + purge --source-file (#7)",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.733,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace mined + purge --source-file (#7)",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.733,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace mined + purge --source-file (#7)",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.718,
+    "relevant": 0
+  },
+  {
+    "query": "Mempalace mined + purge --source-file (#7)",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.718,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 1,
+    "score": 0.599,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.571,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.651,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 6,
+    "score": 0.549,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 7,
+    "score": 0.561,
+    "relevant": 0
+  },
+  {
+    "query": "Drop checkpoint write path (verbatim-only, part 1) (#6)",
+    "expected": "hooks_cli.py",
+    "rank": 8,
+    "score": 0.588,
+    "relevant": 0
+  },
+  {
+    "query": "Route mining through daemon when PALACE_DAEMON_URL is set (#2)",
+    "expected": "hooks_cli.py",
+    "rank": 1,
+    "score": 0.664,
+    "relevant": 0
+  },
+  {
+    "query": "Route mining through daemon when PALACE_DAEMON_URL is set (#2)",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.691,
+    "relevant": 0
+  },
+  {
+    "query": "Route mining through daemon when PALACE_DAEMON_URL is set (#2)",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.695,
+    "relevant": 0
+  },
+  {
+    "query": "Route mining through daemon when PALACE_DAEMON_URL is set (#2)",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.673,
+    "relevant": 0
+  },
+  {
+    "query": "Route mining through daemon when PALACE_DAEMON_URL is set (#2)",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.729,
+    "relevant": 0
+  },
+  {
+    "query": "Preflight SQLite integrity before rebuild",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.505,
+    "relevant": 0
+  },
+  {
+    "query": "Preflight SQLite integrity before rebuild",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.492,
+    "relevant": 0
+  },
+  {
+    "query": "Preflight SQLite integrity before rebuild",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.526,
+    "relevant": 0
+  },
+  {
+    "query": "Preflight SQLite integrity before rebuild",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.497,
+    "relevant": 0
+  },
+  {
+    "query": "Preflight SQLite integrity before rebuild",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.52,
+    "relevant": 0
+  },
+  {
+    "query": "Verify write roundtrip before bailout",
+    "expected": "migrate.py",
+    "rank": 1,
+    "score": 0.606,
+    "relevant": 0
+  },
+  {
+    "query": "Verify write roundtrip before bailout",
+    "expected": "migrate.py",
+    "rank": 3,
+    "score": 0.42,
+    "relevant": 0
+  },
+  {
+    "query": "Verify write roundtrip before bailout",
+    "expected": "migrate.py",
+    "rank": 4,
+    "score": 0.37,
+    "relevant": 0
+  },
+  {
+    "query": "Verify write roundtrip before bailout",
+    "expected": "migrate.py",
+    "rank": 5,
+    "score": 0.442,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine partial HNSW flush without metadata",
+    "expected": "chroma.py",
+    "rank": 2,
+    "score": 0.649,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine partial HNSW flush without metadata",
+    "expected": "chroma.py",
+    "rank": 3,
+    "score": 0.649,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine partial HNSW flush without metadata",
+    "expected": "chroma.py",
+    "rank": 4,
+    "score": 0.651,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine partial HNSW flush without metadata",
+    "expected": "chroma.py",
+    "rank": 5,
+    "score": 0.65,
+    "relevant": 0
+  },
+  {
+    "query": "Fsync parent dir after rename for ext4 durability",
+    "expected": "entity_registry.py",
+    "rank": 1,
+    "score": 0.553,
+    "relevant": 0
+  },
+  {
+    "query": "Fsync parent dir after rename for ext4 durability",
+    "expected": "entity_registry.py",
+    "rank": 2,
+    "score": 0.55,
+    "relevant": 0
+  },
+  {
+    "query": "Fsync parent dir after rename for ext4 durability",
+    "expected": "entity_registry.py",
+    "rank": 3,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Fsync parent dir after rename for ext4 durability",
+    "expected": "entity_registry.py",
+    "rank": 4,
+    "score": 0.42,
+    "relevant": 0
+  },
+  {
+    "query": "Fsync parent dir after rename for ext4 durability",
+    "expected": "entity_registry.py",
+    "rank": 5,
+    "score": 0.468,
+    "relevant": 0
+  },
+  {
+    "query": "Fsync parent dir after rename for ext4 durability",
+    "expected": "entity_registry.py",
+    "rank": 9,
+    "score": 0.398,
+    "relevant": 0
+  },
+  {
+    "query": "Atomic write to prevent partial corruption on crash",
+    "expected": "entity_registry.py",
+    "rank": 1,
+    "score": 0.619,
+    "relevant": 0
+  },
+  {
+    "query": "Atomic write to prevent partial corruption on crash",
+    "expected": "entity_registry.py",
+    "rank": 3,
+    "score": 0.607,
+    "relevant": 0
+  },
+  {
+    "query": "Atomic write to prevent partial corruption on crash",
+    "expected": "entity_registry.py",
+    "rank": 5,
+    "score": 0.658,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine bloated HNSW link payloads",
+    "expected": "chroma.py",
+    "rank": 1,
+    "score": 0.696,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine bloated HNSW link payloads",
+    "expected": "chroma.py",
+    "rank": 2,
+    "score": 0.684,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine bloated HNSW link payloads",
+    "expected": "chroma.py",
+    "rank": 3,
+    "score": 0.684,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine bloated HNSW link payloads",
+    "expected": "chroma.py",
+    "rank": 4,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine bloated HNSW link payloads",
+    "expected": "chroma.py",
+    "rank": 5,
+    "score": 0.548,
+    "relevant": 0
+  },
+  {
+    "query": "Quarantine bloated HNSW link payloads",
+    "expected": "chroma.py",
+    "rank": 6,
+    "score": 0.528,
+    "relevant": 0
+  },
+  {
+    "query": "Record cfg.init chunking-defaults fix",
+    "expected": "fork-changes.yaml",
+    "rank": 1,
+    "score": 0.661,
+    "relevant": 0
+  },
+  {
+    "query": "Record cfg.init chunking-defaults fix",
+    "expected": "fork-changes.yaml",
+    "rank": 3,
+    "score": 0.59,
+    "relevant": 0
+  },
+  {
+    "query": "Record cfg.init chunking-defaults fix",
+    "expected": "fork-changes.yaml",
+    "rank": 4,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Record cfg.init chunking-defaults fix",
+    "expected": "fork-changes.yaml",
+    "rank": 5,
+    "score": 0.509,
+    "relevant": 0
+  },
+  {
+    "query": "Record cfg.init chunking-defaults fix",
+    "expected": "fork-changes.yaml",
+    "rank": 6,
+    "score": 0.485,
+    "relevant": 0
+  },
+  {
+    "query": "Don't write chunking defaults in cfg.init()",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.573,
+    "relevant": 0
+  },
+  {
+    "query": "Don't write chunking defaults in cfg.init()",
+    "expected": "config.py",
+    "rank": 2,
+    "score": 0.626,
+    "relevant": 0
+  },
+  {
+    "query": "Don't write chunking defaults in cfg.init()",
+    "expected": "config.py",
+    "rank": 3,
+    "score": 0.534,
+    "relevant": 0
+  },
+  {
+    "query": "Don't write chunking defaults in cfg.init()",
+    "expected": "config.py",
+    "rank": 4,
+    "score": 0.562,
+    "relevant": 0
+  },
+  {
+    "query": "Don't write chunking defaults in cfg.init()",
+    "expected": "config.py",
+    "rank": 5,
+    "score": 0.514,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 1,
+    "score": 0.559,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 2,
+    "score": 0.432,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 3,
+    "score": 0.41,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 4,
+    "score": 0.425,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 5,
+    "score": 0.435,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 6,
+    "score": 0.39,
+    "relevant": 0
+  },
+  {
+    "query": "Extract Windows UTF-8 reconfigure into shared helper",
+    "expected": "_stdio.py",
+    "rank": 7,
+    "score": 0.437,
+    "relevant": 0
+  },
+  {
+    "query": "Retry KG handlers once on concurrent close race",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.516,
+    "relevant": 0
+  },
+  {
+    "query": "Retry KG handlers once on concurrent close race",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.516,
+    "relevant": 0
+  },
+  {
+    "query": "Retry KG handlers once on concurrent close race",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.47,
+    "relevant": 0
+  },
+  {
+    "query": "Retry KG handlers once on concurrent close race",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.437,
+    "relevant": 0
+  },
+  {
+    "query": "Post-sync update \u2014 row 15 merged via #1262/#1289/#1303",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.508,
+    "relevant": 0
+  },
+  {
+    "query": "Post-sync update \u2014 row 15 merged via #1262/#1289/#1303",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.534,
+    "relevant": 0
+  },
+  {
+    "query": "Post-sync update \u2014 row 15 merged via #1262/#1289/#1303",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.498,
+    "relevant": 0
+  },
+  {
+    "query": "Post-sync update \u2014 row 15 merged via #1262/#1289/#1303",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.502,
+    "relevant": 0
+  },
+  {
+    "query": "Per-stream stdio errors policy on Windows",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.478,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.526,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.549,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.446,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.564,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 6,
+    "score": 0.502,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 7,
+    "score": 0.41,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 8,
+    "score": 0.391,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "cli.py",
+    "rank": 9,
+    "score": 0.379,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 1,
+    "score": 0.526,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 2,
+    "score": 0.549,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 4,
+    "score": 0.446,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 5,
+    "score": 0.564,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 6,
+    "score": 0.502,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 7,
+    "score": 0.41,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 8,
+    "score": 0.391,
+    "relevant": 0
+  },
+  {
+    "query": "Reconfigure stdio to UTF-8 on Windows",
+    "expected": "fact_checker.py",
+    "rank": 9,
+    "score": 0.379,
+    "relevant": 0
+  },
+  {
+    "query": "Release SQLite file lock on close_palace/close (#1067)",
+    "expected": "chroma.py",
+    "rank": 1,
+    "score": 0.698,
+    "relevant": 0
+  },
+  {
+    "query": "Release SQLite file lock on close_palace/close (#1067)",
+    "expected": "chroma.py",
+    "rank": 2,
+    "score": 0.746,
+    "relevant": 0
+  },
+  {
+    "query": "Release SQLite file lock on close_palace/close (#1067)",
+    "expected": "chroma.py",
+    "rank": 3,
+    "score": 0.606,
+    "relevant": 0
+  },
+  {
+    "query": "Release SQLite file lock on close_palace/close (#1067)",
+    "expected": "chroma.py",
+    "rank": 4,
+    "score": 0.606,
+    "relevant": 0
+  },
+  {
+    "query": "Release SQLite file lock on close_palace/close (#1067)",
+    "expected": "chroma.py",
+    "rank": 5,
+    "score": 0.602,
+    "relevant": 0
+  },
+  {
+    "query": "Release SQLite file lock on close_palace/close (#1067)",
+    "expected": "chroma.py",
+    "rank": 6,
+    "score": 0.564,
+    "relevant": 0
+  },
+  {
+    "query": "Drain KG cache on tool_reconnect",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.492,
+    "relevant": 0
+  },
+  {
+    "query": "Drain KG cache on tool_reconnect",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.462,
+    "relevant": 0
+  },
+  {
+    "query": "Replace eager _kg with lazy per-path cache (#1136)",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.635,
+    "relevant": 0
+  },
+  {
+    "query": "Replace eager _kg with lazy per-path cache (#1136)",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.684,
+    "relevant": 0
+  },
+  {
+    "query": "Replace eager _kg with lazy per-path cache (#1136)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.687,
+    "relevant": 0
+  },
+  {
+    "query": "Replace eager _kg with lazy per-path cache (#1136)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.504,
+    "relevant": 0
+  },
+  {
+    "query": "Replace eager _kg with lazy per-path cache (#1136)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.484,
+    "relevant": 0
+  },
+  {
+    "query": "Drop \u00a75.5 from kg_add docstring/schema",
+    "expected": "mcp_server.py",
+    "rank": 7,
+    "score": 0.409,
+    "relevant": 0
+  },
+  {
+    "query": "Drop \u00a75.5 from kg_add docstring/schema",
+    "expected": "mcp_server.py",
+    "rank": 8,
+    "score": 0.409,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on #1306",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.561,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on #1306",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on #1306",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.531,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on #1306",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.601,
+    "relevant": 0
+  },
+  {
+    "query": "Address Copilot review on #1306",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.505,
+    "relevant": 0
+  },
+  {
+    "query": "Basename source_file in tool_get_drawer responses",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.493,
+    "relevant": 0
+  },
+  {
+    "query": "Basename source_file in tool_get_drawer responses",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.499,
+    "relevant": 0
+  },
+  {
+    "query": "Basename source_file in tool_get_drawer responses",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.521,
+    "relevant": 0
+  },
+  {
+    "query": "Basename source_file in tool_get_drawer responses",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.526,
+    "relevant": 0
+  },
+  {
+    "query": "Basename source_file in tool_get_drawer responses",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.576,
+    "relevant": 0
+  },
+  {
+    "query": "Omit palace_path from tool_status responses (+ docs)",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.546,
+    "relevant": 0
+  },
+  {
+    "query": "Omit palace_path from tool_status responses (+ docs)",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.546,
+    "relevant": 0
+  },
+  {
+    "query": "Omit palace_path from tool_status responses (+ docs)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.62,
+    "relevant": 0
+  },
+  {
+    "query": "Omit palace_path from tool_status responses (+ docs)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.567,
+    "relevant": 0
+  },
+  {
+    "query": "Omit palace_path from tool_status responses (+ docs)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.564,
+    "relevant": 0
+  },
+  {
+    "query": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.455,
+    "relevant": 0
+  },
+  {
+    "query": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.475,
+    "relevant": 0
+  },
+  {
+    "query": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.455,
+    "relevant": 0
+  },
+  {
+    "query": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.452,
+    "relevant": 0
+  },
+  {
+    "query": "Case-insensitive agent name in diary_write/diary_read (#1243)",
+    "expected": "mcp_server.py",
+    "rank": 6,
+    "score": 0.444,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 1,
+    "score": 0.695,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 2,
+    "score": 0.692,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 3,
+    "score": 0.663,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 4,
+    "score": 0.646,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 5,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 6,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Wire quarantine_stale_hnsw into _client() to prevent SIGSEGV on stale HNSW (#1121, #1132, #1263)",
+    "expected": "chroma.py",
+    "rank": 7,
+    "score": 0.624,
+    "relevant": 0
+  },
+  {
+    "query": "Forward valid_to and source params in kg_add/kg_invalidate (#1314)",
+    "expected": "mcp_server.py",
+    "rank": 6,
+    "score": 0.593,
+    "relevant": 0
+  },
+  {
+    "query": "Forward valid_to and source params in kg_add/kg_invalidate (#1314)",
+    "expected": "mcp_server.py",
+    "rank": 7,
+    "score": 0.473,
+    "relevant": 0
+  },
+  {
+    "query": "Write compress output to mempalace_closets so palace can read them (#1244)",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.657,
+    "relevant": 0
+  },
+  {
+    "query": "Write compress output to mempalace_closets so palace can read them (#1244)",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.675,
+    "relevant": 0
+  },
+  {
+    "query": "Write compress output to mempalace_closets so palace can read them (#1244)",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.566,
+    "relevant": 0
+  },
+  {
+    "query": "Write compress output to mempalace_closets so palace can read them (#1244)",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.581,
+    "relevant": 0
+  },
+  {
+    "query": "Write compress output to mempalace_closets so palace can read them (#1244)",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.532,
+    "relevant": 0
+  },
+  {
+    "query": "Use is_dir() for palace root check (review feedback)",
+    "expected": "hooks_cli.py",
+    "rank": 1,
+    "score": 0.58,
+    "relevant": 0
+  },
+  {
+    "query": "Use is_dir() for palace root check (review feedback)",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.6,
+    "relevant": 0
+  },
+  {
+    "query": "Use is_dir() for palace root check (review feedback)",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.531,
+    "relevant": 0
+  },
+  {
+    "query": "Use is_dir() for palace root check (review feedback)",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.536,
+    "relevant": 0
+  },
+  {
+    "query": "Use is_dir() for palace root check (review feedback)",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.568,
+    "relevant": 0
+  },
+  {
+    "query": "Treat absent ~/.mempalace as auto-save off",
+    "expected": "hooks_cli.py",
+    "rank": 2,
+    "score": 0.646,
+    "relevant": 0
+  },
+  {
+    "query": "Treat absent ~/.mempalace as auto-save off",
+    "expected": "hooks_cli.py",
+    "rank": 3,
+    "score": 0.608,
+    "relevant": 0
+  },
+  {
+    "query": "Treat absent ~/.mempalace as auto-save off",
+    "expected": "hooks_cli.py",
+    "rank": 4,
+    "score": 0.727,
+    "relevant": 0
+  },
+  {
+    "query": "Treat absent ~/.mempalace as auto-save off",
+    "expected": "hooks_cli.py",
+    "rank": 5,
+    "score": 0.751,
+    "relevant": 0
+  },
+  {
+    "query": "Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)",
+    "expected": "hooks.json",
+    "rank": 1,
+    "score": 0.588,
+    "relevant": 0
+  },
+  {
+    "query": "Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)",
+    "expected": "hooks.json",
+    "rank": 2,
+    "score": 0.668,
+    "relevant": 0
+  },
+  {
+    "query": "Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)",
+    "expected": "hooks.json",
+    "rank": 3,
+    "score": 0.586,
+    "relevant": 0
+  },
+  {
+    "query": "Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)",
+    "expected": "hooks.json",
+    "rank": 4,
+    "score": 0.625,
+    "relevant": 0
+  },
+  {
+    "query": "Quote CLAUDE_PLUGIN_ROOT / CODEX_PLUGIN_ROOT in hooks.json (#1076) (#1077)",
+    "expected": "hooks.json",
+    "rank": 5,
+    "score": 0.545,
+    "relevant": 0
+  },
+  {
+    "query": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.613,
+    "relevant": 0
+  },
+  {
+    "query": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.566,
+    "relevant": 0
+  },
+  {
+    "query": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.568,
+    "relevant": 0
+  },
+  {
+    "query": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.568,
+    "relevant": 0
+  },
+  {
+    "query": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.504,
+    "relevant": 0
+  },
+  {
+    "query": "Add candidate_strategy=\"union\" for vector\u222aBM25 reranking pool",
+    "expected": "searcher.py",
+    "rank": 6,
+    "score": 0.57,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot review on #1303",
+    "expected": "mcp_server.py",
+    "rank": 1,
+    "score": 0.56,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot review on #1303",
+    "expected": "mcp_server.py",
+    "rank": 2,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot review on #1303",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.52,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot review on #1303",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.591,
+    "relevant": 0
+  },
+  {
+    "query": "Address copilot review on #1303",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.503,
+    "relevant": 0
+  },
+  {
+    "query": "Pass embedding_function= on collection reopen (#1299)",
+    "expected": "mcp_server.py",
+    "rank": 3,
+    "score": 0.509,
+    "relevant": 0
+  },
+  {
+    "query": "Pass embedding_function= on collection reopen (#1299)",
+    "expected": "mcp_server.py",
+    "rank": 4,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Pass embedding_function= on collection reopen (#1299)",
+    "expected": "mcp_server.py",
+    "rank": 5,
+    "score": 0.59,
+    "relevant": 0
+  },
+  {
+    "query": "Restore backup on repair failure",
+    "expected": "cli.py",
+    "rank": 1,
+    "score": 0.399,
+    "relevant": 0
+  },
+  {
+    "query": "Restore backup on repair failure",
+    "expected": "cli.py",
+    "rank": 2,
+    "score": 0.48,
+    "relevant": 0
+  },
+  {
+    "query": "Restore backup on repair failure",
+    "expected": "cli.py",
+    "rank": 3,
+    "score": 0.48,
+    "relevant": 0
+  },
+  {
+    "query": "Restore backup on repair failure",
+    "expected": "cli.py",
+    "rank": 4,
+    "score": 0.406,
+    "relevant": 0
+  },
+  {
+    "query": "Restore backup on repair failure",
+    "expected": "cli.py",
+    "rank": 5,
+    "score": 0.405,
+    "relevant": 0
+  },
+  {
+    "query": "Restore backup on repair failure",
+    "expected": "cli.py",
+    "rank": 6,
+    "score": 0.405,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.5,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.437,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 4,
+    "score": 0.547,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.443,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 6,
+    "score": 0.489,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 7,
+    "score": 0.447,
+    "relevant": 0
+  },
+  {
+    "query": "Rebuild collections through temp staging",
+    "expected": "repair.py",
+    "rank": 8,
+    "score": 0.467,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 1,
+    "score": 0.547,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 2,
+    "score": 0.497,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 3,
+    "score": 0.562,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 5,
+    "score": 0.472,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 6,
+    "score": 0.536,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 8,
+    "score": 0.496,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 9,
+    "score": 0.511,
+    "relevant": 0
+  },
+  {
+    "query": "Decode BLOB embeddings.seq_id in max-seq-id heuristic (#1254)",
+    "expected": "repair.py",
+    "rank": 10,
+    "score": 0.537,
+    "relevant": 0
+  },
+  {
+    "query": "Upstream-PRs table \u2014 add #1262 + #1286, update sync status",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.534,
+    "relevant": 0
+  },
+  {
+    "query": "Upstream-PRs table \u2014 add #1262 + #1286, update sync status",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.55,
+    "relevant": 0
+  },
+  {
+    "query": "Upstream-PRs table \u2014 add #1262 + #1286, update sync status",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.577,
+    "relevant": 0
+  },
+  {
+    "query": "Upstream-PRs table \u2014 add #1262 + #1286, update sync status",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.528,
+    "relevant": 0
+  },
+  {
+    "query": "Upstream-PRs table \u2014 add #1262 + #1286, update sync status",
+    "expected": "CLAUDE.md",
+    "rank": 5,
+    "score": 0.549,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 \u2014 correct \"stable metadata\" wording, audit four call sites",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.558,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 \u2014 correct \"stable metadata\" wording, audit four call sites",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.586,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 \u2014 correct \"stable metadata\" wording, audit four call sites",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.576,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 \u2014 correct \"stable metadata\" wording, audit four call sites",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.491,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 reclassified \u2014 get-then-create guard not in fork main",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.523,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 reclassified \u2014 get-then-create guard not in fork main",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.66,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 reclassified \u2014 get-then-create guard not in fork main",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.468,
+    "relevant": 0
+  },
+  {
+    "query": "Row 15 reclassified \u2014 get-then-create guard not in fork main",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.457,
+    "relevant": 0
+  },
+  {
+    "query": "Reject partial ISO dates to avoid silent empty result sets",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.493,
+    "relevant": 0
+  },
+  {
+    "query": "Reject partial ISO dates to avoid silent empty result sets",
+    "expected": "config.py",
+    "rank": 3,
+    "score": 0.479,
+    "relevant": 0
+  },
+  {
+    "query": "Reject partial ISO dates to avoid silent empty result sets",
+    "expected": "config.py",
+    "rank": 5,
+    "score": 0.495,
+    "relevant": 0
+  },
+  {
+    "query": "Reject partial ISO dates to avoid silent empty result sets",
+    "expected": "config.py",
+    "rank": 6,
+    "score": 0.475,
+    "relevant": 0
+  },
+  {
+    "query": "Validate ISO-8601 date formats at MCP boundary",
+    "expected": "config.py",
+    "rank": 1,
+    "score": 0.53,
+    "relevant": 0
+  },
+  {
+    "query": "Validate ISO-8601 date formats at MCP boundary",
+    "expected": "config.py",
+    "rank": 2,
+    "score": 0.518,
+    "relevant": 0
+  },
+  {
+    "query": "Validate ISO-8601 date formats at MCP boundary",
+    "expected": "config.py",
+    "rank": 3,
+    "score": 0.411,
+    "relevant": 0
+  },
+  {
+    "query": "Validate ISO-8601 date formats at MCP boundary",
+    "expected": "config.py",
+    "rank": 4,
+    "score": 0.403,
+    "relevant": 0
+  },
+  {
+    "query": "Validate ISO-8601 date formats at MCP boundary",
+    "expected": "config.py",
+    "rank": 5,
+    "score": 0.467,
+    "relevant": 0
+  },
+  {
+    "query": "Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.622,
+    "relevant": 0
+  },
+  {
+    "query": "Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.54,
+    "relevant": 0
+  },
+  {
+    "query": "Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.498,
+    "relevant": 0
+  },
+  {
+    "query": "Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.451,
+    "relevant": 0
+  },
+  {
+    "query": "Cite RFC 002 + in-flight adapter PRs (#23 OpenCode, #274/#232 Cursor, #169 Pi, #702 Cursor+factory.ai)",
+    "expected": "README.md",
+    "rank": 8,
+    "score": 0.5,
+    "relevant": 0
+  },
+  {
+    "query": "Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.634,
+    "relevant": 0
+  },
+  {
+    "query": "Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.611,
+    "relevant": 0
+  },
+  {
+    "query": "Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.613,
+    "relevant": 0
+  },
+  {
+    "query": "Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.612,
+    "relevant": 0
+  },
+  {
+    "query": "Add multi-agent support roadmap (Claude Code, OpenCode, Cursor, Aider, Gemini CLI, Codex CLI, Warp)",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.639,
+    "relevant": 0
+  },
+  {
+    "query": "Close \"what this fork has learned\" with Karlton's two-hard-things; add InfoQ Grafana / pgvector-AGE / Plummer / Karlton to Sources",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.563,
+    "relevant": 0
+  },
+  {
+    "query": "Close \"what this fork has learned\" with Karlton's two-hard-things; add InfoQ Grafana / pgvector-AGE / Plummer / Karlton to Sources",
+    "expected": "README.md",
+    "rank": 6,
+    "score": 0.502,
+    "relevant": 0
+  },
+  {
+    "query": "Close \"what this fork has learned\" with Karlton's two-hard-things; add InfoQ Grafana / pgvector-AGE / Plummer / Karlton to Sources",
+    "expected": "README.md",
+    "rank": 7,
+    "score": 0.502,
+    "relevant": 0
+  },
+  {
+    "query": "Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.557,
+    "relevant": 0
+  },
+  {
+    "query": "Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.557,
+    "relevant": 0
+  },
+  {
+    "query": "Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.543,
+    "relevant": 0
+  },
+  {
+    "query": "Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.577,
+    "relevant": 0
+  },
+  {
+    "query": "Note Grafana Loki + o11y-bench as adjacent verbatim-first / Cat 9 precedent; add agent-shaped CLI to What's next",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.606,
+    "relevant": 0
+  },
+  {
+    "query": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+    "expected": "README.md",
+    "rank": 1,
+    "score": 0.643,
+    "relevant": 0
+  },
+  {
+    "query": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+    "expected": "README.md",
+    "rank": 2,
+    "score": 0.643,
+    "relevant": 0
+  },
+  {
+    "query": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+    "expected": "README.md",
+    "rank": 3,
+    "score": 0.644,
+    "relevant": 0
+  },
+  {
+    "query": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+    "expected": "README.md",
+    "rank": 4,
+    "score": 0.666,
+    "relevant": 0
+  },
+  {
+    "query": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+    "expected": "README.md",
+    "rank": 5,
+    "score": 0.651,
+    "relevant": 0
+  },
+  {
+    "query": "Flip principles to positive framing; promote verbatim-vs-derivative axis; add what-we've-learned + what's-next",
+    "expected": "README.md",
+    "rank": 7,
+    "score": 0.389,
+    "relevant": 0
+  },
+  {
+    "query": "Flip principles to positive framing; promote verbatim-vs-derivative axis; add what-we've-learned + what's-next",
+    "expected": "README.md",
+    "rank": 9,
+    "score": 0.397,
+    "relevant": 0
+  },
+  {
+    "query": "Address release review feedback",
+    "expected": "entity_detector.py",
+    "rank": 1,
+    "score": 0.487,
+    "relevant": 0
+  },
+  {
+    "query": "Address release review feedback",
+    "expected": "entity_detector.py",
+    "rank": 2,
+    "score": 0.465,
+    "relevant": 0
+  },
+  {
+    "query": "Address release review feedback",
+    "expected": "entity_detector.py",
+    "rank": 3,
+    "score": 0.444,
+    "relevant": 0
+  },
+  {
+    "query": "Address release review feedback",
+    "expected": "entity_detector.py",
+    "rank": 4,
+    "score": 0.453,
+    "relevant": 0
+  },
+  {
+    "query": "Stop ChromaDB from crashing when reopening an existing palace",
+    "expected": "chroma.py",
+    "rank": 1,
+    "score": 0.757,
+    "relevant": 0
+  },
+  {
+    "query": "Stop ChromaDB from crashing when reopening an existing palace",
+    "expected": "chroma.py",
+    "rank": 2,
+    "score": 0.753,
+    "relevant": 0
+  },
+  {
+    "query": "Stop ChromaDB from crashing when reopening an existing palace",
+    "expected": "chroma.py",
+    "rank": 3,
+    "score": 0.635,
+    "relevant": 0
+  },
+  {
+    "query": "Stop ChromaDB from crashing when reopening an existing palace",
+    "expected": "chroma.py",
+    "rank": 4,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Stop ChromaDB from crashing when reopening an existing palace",
+    "expected": "chroma.py",
+    "rank": 5,
+    "score": 0.659,
+    "relevant": 0
+  },
+  {
+    "query": "Add Gemini CLI JSONL to module-level supported formats list",
+    "expected": "normalize.py",
+    "rank": 1,
+    "score": 0.55,
+    "relevant": 0
+  },
+  {
+    "query": "Add Gemini CLI JSONL to module-level supported formats list",
+    "expected": "normalize.py",
+    "rank": 2,
+    "score": 0.528,
+    "relevant": 0
+  },
+  {
+    "query": "Add Gemini CLI JSONL to module-level supported formats list",
+    "expected": "normalize.py",
+    "rank": 3,
+    "score": 0.514,
+    "relevant": 0
+  },
+  {
+    "query": "Add Gemini CLI JSONL to module-level supported formats list",
+    "expected": "normalize.py",
+    "rank": 4,
+    "score": 0.512,
+    "relevant": 0
+  },
+  {
+    "query": "Add Gemini CLI JSONL to module-level supported formats list",
+    "expected": "normalize.py",
+    "rank": 5,
+    "score": 0.658,
+    "relevant": 0
+  },
+  {
+    "query": "Capture today's fork-ahead arc in CLAUDE.md + YAML",
+    "expected": "CLAUDE.md",
+    "rank": 1,
+    "score": 0.552,
+    "relevant": 0
+  },
+  {
+    "query": "Capture today's fork-ahead arc in CLAUDE.md + YAML",
+    "expected": "CLAUDE.md",
+    "rank": 2,
+    "score": 0.628,
+    "relevant": 0
+  },
+  {
+    "query": "Capture today's fork-ahead arc in CLAUDE.md + YAML",
+    "expected": "CLAUDE.md",
+    "rank": 3,
+    "score": 0.628,
+    "relevant": 0
+  },
+  {
+    "query": "Capture today's fork-ahead arc in CLAUDE.md + YAML",
+    "expected": "CLAUDE.md",
+    "rank": 4,
+    "score": 0.555,
+    "relevant": 0
+  },
+  {
+    "query": "Restore daemon routing on .mcp.json without embedded credential",
+    "expected": ".mcp.json",
+    "rank": 1,
+    "score": 0.632,
+    "relevant": 0
+  },
+  {
+    "query": "Restore daemon routing on .mcp.json without embedded credential",
+    "expected": ".mcp.json",
+    "rank": 2,
+    "score": 0.632,
+    "relevant": 0
+  },
+  {
+    "query": "Restore daemon routing on .mcp.json without embedded credential",
+    "expected": ".mcp.json",
+    "rank": 3,
+    "score": 0.523,
+    "relevant": 0
+  },
+  {
+    "query": "Restore daemon routing on .mcp.json without embedded credential",
+    "expected": ".mcp.json",
+    "rank": 4,
+    "score": 0.523,
+    "relevant": 0
+  },
+  {
+    "query": "Restore daemon routing on .mcp.json without embedded credential",
+    "expected": ".mcp.json",
+    "rank": 5,
+    "score": 0.514,
+    "relevant": 0
+  },
+  {
+    "query": "Scrub embedded API key + daemon URL from manifests",
+    "expected": ".mcp.json",
+    "rank": 1,
+    "score": 0.554,
+    "relevant": 0
+  },
+  {
+    "query": "Scrub embedded API key + daemon URL from manifests",
+    "expected": ".mcp.json",
+    "rank": 2,
+    "score": 0.554,
+    "relevant": 0
+  },
+  {
+    "query": "Scrub embedded API key + daemon URL from manifests",
+    "expected": ".mcp.json",
+    "rank": 3,
+    "score": 0.469,
+    "relevant": 0
+  },
+  {
+    "query": "Scrub embedded API key + daemon URL from manifests",
+    "expected": ".mcp.json",
+    "rank": 4,
+    "score": 0.556,
+    "relevant": 0
+  },
+  {
+    "query": "Scrub embedded API key + daemon URL from manifests",
+    "expected": ".mcp.json",
+    "rank": 5,
+    "score": 0.466,
+    "relevant": 0
+  },
+  {
+    "query": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+    "expected": "searcher.py",
+    "rank": 1,
+    "score": 0.576,
+    "relevant": 0
+  },
+  {
+    "query": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+    "expected": "searcher.py",
+    "rank": 2,
+    "score": 0.597,
+    "relevant": 0
+  },
+  {
+    "query": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+    "expected": "searcher.py",
+    "rank": 3,
+    "score": 0.57,
+    "relevant": 0
+  },
+  {
+    "query": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+    "expected": "searcher.py",
+    "rank": 4,
+    "score": 0.689,
+    "relevant": 0
+  },
+  {
+    "query": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+    "expected": "searcher.py",
+    "rank": 5,
+    "score": 0.599,
+    "relevant": 0
+  },
+  {
+    "query": "Hoist CLOSET_RANK_BOOSTS to module level for ablation",
+    "expected": "searcher.py",
+    "rank": 6,
+    "score": 0.54,
+    "relevant": 0
+  }
+]

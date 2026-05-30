@@ -1,0 +1,91 @@
+{
+  "_about": "Two-domain probe set for the cross-encoder cross-domain robustness probe (#104 / mempalace#306). Splits queries into a code/technical domain (mempalace internals, source-file-shaped) and a conversational domain (decision/recall-shaped, 'what did we decide about X'). Each query is run READ-ONLY against the live daemon's /search/age-fused, which returns both the pre-rerank fusion score (rrf_score) and the post-rerank cross-encoder score (rerank_score, model ms-marco-TinyBERT-L-2-v2 — our shipped chat-domain default). The A/B is reconstructed offline: rerank-off = order by rrf_score, rerank-on = order by rerank_score, over the SAME candidate set. Tests whether the shipped CE lifts the conversational domain more than the code domain (the domain-mismatch asymmetry).",
+  "_label_method": "A candidate hit is 'relevant' iff any substring in relevant.content_any appears in its text (case-insensitive), AND (if relevant.source_glob is given) its source_file basename matches the glob. Substring labels survive drawer-id churn and re-mining, per the existing rerank_eval_queries.json convention.",
+  "_caveat": "The literal sprint5 experiment plugs an OUT-OF-DOMAIN code-trained CE (codecrossenc-v2) into the rerank slot; that checkpoint is not on this host, so this probe instead tests the INVERSE-but-equivalent question with the assets we have: does our shipped chat-domain CE under-serve code-domain queries relative to conversational ones? Same domain-mismatch curve, measured from the chat-CE side.",
+  "queries": [
+    {
+      "id": "code-searcher-tsquery",
+      "domain": "code",
+      "query": "searcher plainto_tsquery ILIKE fallback underscore identifiers",
+      "intent": "Find the searcher.py text-search query construction with the ILIKE fallback for underscore identifiers.",
+      "relevant": {"source_glob": "searcher.py", "content_any": ["plainto_tsquery", "ILIKE", "tsquery"]}
+    },
+    {
+      "id": "code-postgres-trigram",
+      "domain": "code",
+      "query": "postgres trigram index create_table schema test isolation",
+      "intent": "Find the postgres.py _create_table with the trigram index and complete schema.",
+      "relevant": {"source_glob": "postgres.py", "content_any": ["trigram", "_create_table", "gin", "pg_trgm"]}
+    },
+    {
+      "id": "code-migrate-like-escape",
+      "domain": "code",
+      "query": "migrate_to_postgres LIKE percent escape canonical room fixture",
+      "intent": "Find the migrate_to_postgres.py LIKE %% escape and canonical-room fixture handling.",
+      "relevant": {"source_glob": "migrate_to_postgres.py", "content_any": ["LIKE", "escape", "canonical", "migrate"]}
+    },
+    {
+      "id": "code-cross-encoder-rerank",
+      "domain": "code",
+      "query": "cross_encoder_rerank trust gate margin top-1 override",
+      "intent": "Find the cross-encoder rerank module / trust-gated override logic.",
+      "relevant": {"content_any": ["cross_encoder", "rerank", "CrossEncoder", "ms-marco"]}
+    },
+    {
+      "id": "code-recency-decay",
+      "domain": "code",
+      "query": "recency decay half-life effective_distance time weighting",
+      "intent": "Find the recency.py decay / effective_distance weighting code.",
+      "relevant": {"content_any": ["recency", "decay", "half_life", "effective_distance"]}
+    },
+    {
+      "id": "code-calibrator-pav",
+      "domain": "code",
+      "query": "isotonic calibrator PAV confidence load save MEMPALACE_CALIBRATION_PATH",
+      "intent": "Find the confidence-calibration plumbing (PAV isotonic calibrator load/save).",
+      "relevant": {"content_any": ["_pav", "Calibrator", "calibrat", "MEMPALACE_CALIBRATION_PATH", "isotonic"]}
+    },
+    {
+      "id": "conv-pgvector-cutover-decision",
+      "domain": "conversational",
+      "query": "what did we decide about the pgvector cutover and the rollback plan",
+      "intent": "Recall the decision around the pgvector cutover and its rollback/runbook.",
+      "relevant": {"content_any": ["pgvector", "cutover", "rollback", "runbook"]}
+    },
+    {
+      "id": "conv-kill-cascade-incident",
+      "domain": "conversational",
+      "query": "why did the palace daemon keep restarting in a kill cascade incident",
+      "intent": "Recall the kill-cascade incident explanation (duplicate systemd units).",
+      "relevant": {"content_any": ["kill cascade", "kill-cascade", "restart", "systemd"]}
+    },
+    {
+      "id": "conv-encoder-swap-null",
+      "domain": "conversational",
+      "query": "what happened when we tried swapping the encoder to FT-300, did it help",
+      "intent": "Recall the FT-300 encoder swap being a robust null result.",
+      "relevant": {"content_any": ["FT-300", "encoder swap", "null", "+1.7"]}
+    },
+    {
+      "id": "conv-hyde-diagnosis",
+      "domain": "conversational",
+      "query": "did HyDE work as a vocabulary bridge or was it a zero-rescue dead end",
+      "intent": "Recall the HyDE diagnosis (0-rescue, 0-regression).",
+      "relevant": {"content_any": ["HyDE", "rescue", "vocabulary", "bridge"]}
+    },
+    {
+      "id": "conv-rrf-lift-decision",
+      "domain": "conversational",
+      "query": "what was the multi-encoder RRF lift on the git probes and did it hold",
+      "intent": "Recall the RRF 3-way lift measurement and whether it held vs the new hybrid.",
+      "relevant": {"content_any": ["RRF", "3-way", "MRR", "encoder"]}
+    },
+    {
+      "id": "conv-backfill-gate",
+      "domain": "conversational",
+      "query": "when did the KG backfill finish and clear the gate for calibration fitting",
+      "intent": "Recall the backfill hitting 100% on 2026-05-28 clearing the calibration gate.",
+      "relevant": {"content_any": ["backfill", "100%", "gate", "2026-05-28"]}
+    }
+  ]
+}

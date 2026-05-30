@@ -1,0 +1,63 @@
+{
+  "experiment": "multi-encoder RRF validation gate \u2014 significance (#106 / mempalace#82)",
+  "posture": "paired significance tests on committed git-derived per-probe data; no network",
+  "source_artifact": "baselines/rrf_multi_encoder_age_2026-05-29.json",
+  "n_probes": 200,
+  "leg": "git-derived (commit-subject-shaped probes)",
+  "baseline": "current age-fused single-encoder hybrid",
+  "treatment": "RRF over encoders ['default', 'ft-code-1000', 'ft-code-5000']",
+  "mrr": {
+    "baseline": 0.360603,
+    "multi": 0.390456,
+    "delta": 0.02985300000000002
+  },
+  "recall_at_5_pct": {
+    "baseline": 43.0,
+    "multi": 45.0,
+    "delta_pp": 2.0
+  },
+  "recall_at_10_pct": {
+    "baseline": 46.0,
+    "multi": 49.0,
+    "delta_pp": 3.0
+  },
+  "bootstrap_mrr_delta": {
+    "delta_mrr_point": 0.029853,
+    "ci_95": [
+      0.0021309999999999983,
+      0.060058999999999994
+    ],
+    "excludes_zero": true,
+    "n_boot": 10000
+  },
+  "mcnemar_r_at_5": {
+    "b_lost": 3,
+    "c_gained": 7,
+    "n_discordant": 10,
+    "p_value": 0.34375
+  },
+  "mcnemar_r_at_10": {
+    "b_lost": 2,
+    "c_gained": 8,
+    "n_discordant": 10,
+    "p_value": 0.109375
+  },
+  "sign_test_rr": {
+    "n_pos": 22,
+    "n_neg": 8,
+    "n_nonzero": 30,
+    "p_value": 0.016124801710247993
+  },
+  "n_improved": 22,
+  "n_worsened": 8,
+  "n_unchanged": 170,
+  "verdict": {
+    "clears_gate_on_git_derived": true,
+    "rationale": "delta MRR +0.0299; bootstrap 95% CI [0.0021309999999999983, 0.060058999999999994] (excludes 0); McNemar R@5 p=0.3438; sign-test p=0.0161",
+    "open_questions": [
+      "Natural-language probe leg NOT in committed artifact \u2014 needs a fresh multi-encoder retrieval run over user-style queries to test whether the git-derived lift translates off commit-subject probes.",
+      "2-vs-3 encoder decomposition NOT in committed artifact \u2014 the solo and 2-encoder MRRs need a fresh run over the local FT-Code checkpoints (/home/jp/Downloads/ft1000/model, /home/jp/Projects/adaptmem-cache/model)."
+    ],
+    "recommendation": "Hand the git-derived significance verdict to mempalace#82. The lift is small (+0.03 MRR) and the current age-fused hybrid already absorbs most of the 2026-05-15 +0.0841 measured against the old single-encoder hybrid. Recommend NOT flipping the default on this evidence alone: the productization cost (multi-encoder ingest + schema) is high and the natural-query leg \u2014 the leg that matters for real usage \u2014 is unmeasured."
+  }
+}

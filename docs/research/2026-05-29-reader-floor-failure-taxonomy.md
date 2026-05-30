@@ -30,7 +30,7 @@ and only one of them is a retrieval problem.
 | Category | n=500 acc (search / age) | Dominant root cause | Lever |
 |---|---|---|---|
 | single-session-assistant | 0.32 / 0.27 | **Reader distrusts assistant-authored turns** — answer is present, reader abstains | **Prompt** (highest-confidence fix) |
-| temporal-reasoning | 0.33 / 0.37 | **Date mis-anchoring + arithmetic** (dates present) + some evidence-session drops | Prompt (CoT) + Context (per-event date surfacing) |
+| temporal-reasoning | 0.33 / 0.37 | **Relative-date collapse to "today" + date mis-anchoring** (dates present; 73% reasoning-error, only 2% retrieval-drop) | Prompt (CoT) + Context (per-event date surfacing) |
 | multi-session | 0.65 / 0.41 | **Aggregation over scattered + duplicated facts** — under-count / double-count | Prompt (dedup-then-count) + Context (cross-session co-location) |
 
 The single-session-assistant floor is **not** a substrate bug: in **29 of 38**
@@ -166,53 +166,68 @@ the two/three event dates live in *different* sessions, stated inline in prose
 
 **Failure-mode tally (search, 85):** 56 committed-but-wrong, 29 abstain.
 
+### Reasoning-error vs retrieval-drop: 73% / 2% (the floor is almost all reader)
+
+The key question for prioritization — *how much of this floor is even
+addressable by a reader prompt vs. how much needs the retrieve-all full-pipeline
+fix?* I classified all 85 failures (`scratch/lucid-diagnosis/temporal_split.py`)
+by whether the reader **denies an event that the oracle actually contains**
+(→ retrieval-drop / not-read) vs **names the events / produces a number and
+mis-reasons** (→ reasoning-error):
+
+| Bucket | Count | Lever |
+|---|---|---|
+| **REASONING-ERROR** (named events / attempted a number, got it wrong) | **62/85 (73%)** | **Prompt-addressable** |
+| ABSTAIN-UNCLEAR (bare "I don't know", no specific event denied) | 21/85 (25%) | Prompt or breadth |
+| **RETRIEVAL-DROP** (denied an event the oracle HAS) | **2/85 (2%)** | Needs retrieve-all |
+
+**Only 2 of 85** are genuine retrieval drops (`bbf86515` "Rack Fest",
+`f0853d11` "Coastal Cleanup" — the reader says "no mention of X" when X is in
+the oracle). The temporal floor is overwhelmingly a **reasoning** problem, so a
+good prompt should move most of it; the retrieve-all change is a small
+top-up, not the main lever.
+
 ### Root cause: three reasoning sub-modes over scattered inline dates
 
-1. **Date mis-anchoring (most common).** Both dates are present, but the reader
-   binds the wrong date to one event — frequently substituting the
-   **question_date** (the "now") for the second event's actual date.
-   - `0bb5a684`: workshop Jan 10 (sess 0), meeting **Jan 17** (sess 1). Gold 7
-     days. Reader read the meeting as **Jan 13** (the question_date) → "3
-     days." It never anchored to the Jan 17 stated in session 1.
-2. **Arithmetic / ordering errors with both dates present.**
-   - `gpt4_385a5000`: marigolds started **March 3**, tomatoes **Feb 20**. Q:
-     which first? Gold *Tomatoes.* Reader: *"marigolds were started first"* —
-     ignored that Feb 20 < March 3.
-   - `a3838d2b`: count events **before** "Run for the Cure" (Oct 15); 4 such
-     events exist across 6 sessions. Reader: *"zero — it was your first."*
-3. **Missing evidence session (genuine retrieval drop).**
-   - `bbf86515`: reader says *"no event called 'Rack Fest'"* but session 1
-     states "the 'Rack Fest' … on June 18th." One of the two evidence sessions
-     did not reach the reader.
-   - `f0853d11`: reader says *"no reference to a 'Coastal Cleanup' event"* but
-     session 0 states "Coastal Cleanup event on March 7th." Same drop.
+1. **Relative-date collapse to "today" (the single biggest sub-mode — 37/85,
+   44%).** Events are stated relative to *that session's* date ("I just got
+   back from X", "I attended Y today", "Z was yesterday"). The reader reads the
+   relative phrasing **literally with no anchor** and answers "0 days / same
+   day / today" — instead of resolving "today" to the session's own `_Date:`.
+   Examples: `gpt4_fa19884c` "both events happened 'today,' so 0 days";
+   `gpt4_8279ba02` "you bought the smoker today, so 0 days ago";
+   `gpt4_1d4ab0c9`, `4dfccbf7`, `af082822`, … This is the cleanest single fix
+   in the category: **bind relative-time expressions to the session date.**
+2. **Date mis-anchoring.** Both dates present, but the reader binds the wrong
+   one — frequently substituting the **question_date** (the "now") for an
+   event's actual date. `0bb5a684`: workshop Jan 10 (sess 0), meeting **Jan
+   17** (sess 1), gold 7 days; reader read the meeting as **Jan 13** (the
+   question_date) → "3 days."
+3. **Arithmetic / ordering errors with both dates present.** `gpt4_385a5000`:
+   marigolds March 3, tomatoes Feb 20, "which first?" gold *Tomatoes*; reader
+   said "marigolds." `a3838d2b`: count events before "Run for the Cure"; reader
+   said "zero — it was your first."
 
-**Evidence-session coverage (live-daemon replay, `probe_sessions.py`, `limit=5`):**
-the dominant temporal failures are sub-modes (1) and (2) — the dates *are* in the
-retrieved context and the reader mis-reasons — with a genuine retrieval-drop
-minority (sub-mode 3). Token-presence is the wrong instrument for this category
-(the gold is a *derived* number — "7 days" — that never appears verbatim), so the
-diagnosis rests on the anchor-token coverage probe + manual read of the cases
-above: mis-anchoring and arithmetic errors over present dates account for the
-majority (56/85 are committed-but-wrong, i.e. the reader *had enough to attempt*
-and got it wrong), while the abstain cases (29/85) are split between "couldn't do
-the subtraction" and the retrieval-drop minority.
+The retrieval-drop minority (sub-mode below the line): `bbf86515`, `f0853d11`
+— one of two evidence sessions did not reach the reader.
 
 ### Interventions
 
-**(a) Prompt — temporal CoT with explicit date extraction.** A targeted
-variant that forces the reader to (1) list every dated event it can find with
-its date, (2) identify the two the question asks about, (3) compute the delta
-explicitly, and (4) never use "today"/the question date as an event date unless
-the question says so. Draft clause:
+**(a) Prompt — temporal CoT, leading with relative-date anchoring.** Because
+the largest sub-mode (44%) is "today/0-delta" collapse, the prompt must FIRST
+resolve relative-time expressions against each turn's own session date, then do
+explicit subtraction. Draft clause:
 
-> *This is a temporal question. First, extract EVERY event mentioned in the
-> history together with its explicit calendar date (quote the date as written,
-> e.g. "January 10th", "3/1", "since February 20th"). Do NOT use the current
-> date as an event's date. Then identify the two events the question compares,
-> and compute the number of days between their dates by explicit date
-> subtraction. State the two dates and the subtraction, then give the final
-> number.*
+> *This is a temporal question. Each turn belongs to a session with a known
+> date (the session's "Date:" header). When the user describes an event with a
+> RELATIVE expression — "today", "yesterday", "just got back from", "last
+> week", "X days/weeks ago" — resolve it to a concrete calendar date using
+> THAT turn's session date as the anchor; do NOT treat "today" as 0 or as the
+> same day for events stated in different sessions. Then: (1) list every event
+> the question refers to with its resolved calendar date; (2) never use the
+> current/question date as an event's date unless the user said so; (3) compute
+> the day-delta by explicit date subtraction. State the resolved dates and the
+> subtraction, then give the final number.*
 
 **(b) Context-shaping — surface per-event dates, not just session dates.** The
 `sme-rich` rendering carries a `_Date:` **session** header, but the dates that
@@ -310,10 +325,14 @@ understood.
 - **Highest-confidence, lowest-cost win first:** the ss-assistant
   assistant-turn-trust clause. 29/38 of that floor's failures already have the
   answer in context; this is the cleanest "preference"-style flip available.
-- **`limit=5` is doing real damage** on temporal and multi-session (evidence
-  drops, partial mention sets). For *single*-session-assistant and the short
-  LongMemEval haystacks, raising the retrieval breadth is nearly free and
-  recovers the substrate tail.
+- **`limit=5` retrieval-drop is a *small* lever, not the main one.** Quantified:
+  temporal is only **2%** genuine retrieval-drop (73% is reasoning); ss-assistant
+  is **~13%** (5/38) substrate. Multi-session under-count is the case where
+  breadth plausibly helps most, but even there 36/38 failures are
+  committed-but-wrong (the reader had enough to commit and mis-aggregated).
+  Raising breadth is nearly free on these short haystacks and worth doing as a
+  top-up — but the dominant gap is the reader's reasoning/trust, not what
+  reached it.
 - **age-fused is not uniformly better** as a reader substrate: it helps
   knowledge-update slightly but *hurts* multi-session (−24pp) and is roughly
   flat on the other floors. Treat endpoint choice as per-category.
@@ -323,8 +342,10 @@ understood.
 1. **ss-assistant prompt variant** with the assistant-turn-trust + final-draft
    clause (§1a). Re-run the n=500 (or stratified n=150) Pass A on
    single-session-assistant only; expect the largest single lift.
-2. **temporal CoT variant** with explicit date-extraction + no-question-date
-   anchoring (§2a); pair with all-session retrieval for the haystack (§2b).
+2. **temporal CoT variant** leading with **relative-date anchoring** (resolve
+   "today"/"yesterday"/"just got back" to the turn's session date — the 44%
+   sub-mode), then no-question-date anchoring + explicit subtraction (§2a). The
+   retrieve-all pairing (§2b) is a 2%-of-floor top-up, not the lever.
 3. **multi-session dedup-then-count variant** (§3a); pair with higher retrieval
    breadth and prefer `/search` over `/search/age-fused` for count questions
    (§3b).
@@ -332,5 +353,8 @@ understood.
    per-haystack date/fact ledger injected into context (§1b, §2b, §3b).
 
 All claims here are reproducible from `scratch/lucid-diagnosis/{join,classify,
-probe_present,probe_sessions}.py` against the n=500 baselines + the live
-daemon.
+probe_present,probe_sessions,temporal_split}.py` against the n=500 baselines +
+the live daemon. Reader-vs-substrate splits: ss-assistant from `probe_present`
+(live `/search` replay), temporal from `temporal_split` (hypothesis-vs-oracle
+denial classification), both numeric categories cross-checked by the
+committed-vs-abstain tallies in the n=500 baselines.

@@ -1,0 +1,986 @@
+{
+  "run_metadata": {
+    "diagnostic": "reader_sweep",
+    "issue": "techempower-org/multipass-structural-memory-eval#116",
+    "pinned_context": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/nyx-floorlift/pin_ss-assistant.json",
+    "pinned_metadata": {
+      "diagnostic": "pinned_context",
+      "issue": "techempower-org/multipass-structural-memory-eval#116",
+      "adapter": "mempalace-daemon",
+      "search_endpoint": "/search",
+      "snippet_width": "/search",
+      "n_questions": 500,
+      "source_questions": "sme/corpora/longmemeval/data/longmemeval_oracle.json",
+      "timestamp_utc": "2026-05-29T17:37:24.499807+00:00",
+      "slice": "ss-assistant"
+    },
+    "mode": "exploratory",
+    "judge_model": "gpt-5.3-chat",
+    "reader_models": [
+      "claude-opus-4-8"
+    ],
+    "prompts": [
+      "preference",
+      "assistant_trust"
+    ],
+    "context_widths": [
+      "full"
+    ],
+    "concurrency": 6,
+    "timestamp_utc": "2026-05-30T03:20:34.806588+00:00"
+  },
+  "n_questions": 56,
+  "n_configs": 2,
+  "configs": [
+    {
+      "config": "claude-opus-4-8|preference|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 56,
+          "qa_acc": 0.3393,
+          "labels": {
+            "INCORRECT": 37,
+            "CORRECT": 19
+          }
+        },
+        "by_question_type": {
+          "single-session-assistant": {
+            "n": 56,
+            "qa_acc": 0.3393,
+            "labels": {
+              "INCORRECT": 37,
+              "CORRECT": 19
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "7161e7e2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your request to create the shift rotation sheet, but it does not contain the actual completed sheet or any assigned rotation for Admon on Sunday. There's no value in the history to recall.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c4f10528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Miss Bee Providore.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89527b6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history only contains the request to write the children's book \u2014 it does not include the actual book content or any image descriptions, so there's no information about the color of the Plesiosaur's scaly body.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e9327a54",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for dessert spot recommendations, but it does not include the actual list of dessert spots that was suggested, so I can't identify the specific shop with the giant milkshakes.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4c36ccef",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ae235be",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about the refining processes at CITGO's three refineries, but it does not contain the actual answer or any details about the processes used at the Lake Charles Refinery.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7e00a6cb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for budget-friendly hostel suggestions in Amsterdam, but it doesn't contain the actual hostel names that were recommended, so I can't identify which one was near the Red Light District.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1903aded",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked me to brainstorm ideas for work from home jobs for seniors, but it does not contain the actual list of jobs I provided. Without that list in the history, I can't tell you what the 7th job was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ceb54acb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f523d9fe",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Doc Martin.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e5e2d1a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fea54f57",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "\"Evolution.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc539528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about resources and courses for learning front-end and back-end development, but it does not contain any specific back-end programming languages that were recommended to you.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dc439ea3",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The hand game (also known as the stick game), which is often performed by skilled dancers at powwows.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "18dcd5a5",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history provided only contains a request to create a D&D one-shot for level 8 PCs \u2014 there is no actual content from a \"Lost Temple of the Djinn\" one-shot, including any details about mummies, in the history available to me.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "488d3006",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "58470ed2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Borges said that the Library is a sphere whose exact center is any hexagon and whose circumference is unattainable (inaccessible).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf51dda",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history only shows a request to write a grant aim page on molecular subtypes and endometrial cancer, but it does not contain any response outlining three objectives for the project.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1d4da289",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Two-factor authentication methods typically include:\n\n- **SMS/text message codes** \u2014 a one-time code sent to your phone\n- **Authenticator apps** \u2014 such as Google Authenticator or Authy, which generate time-based codes\n- **Email codes** \u2014 a verification code sent to your registered email\n- **Hardware tokens/security keys** \u2014 physical devices like YubiKeys\n- **Biometric verification** \u2014 fingerprint or facial recognition\n- **Push notifications** \u2014 approving a login prompt on a trusted device\n\nThese methods add a second layer of verification beyond just your password, so that even if someone obtains your password, they still can't access your account without the second factor.\n\nThat said, given your concern about the hassle of extra steps, options like push notifications or biometric verification tend to be the least disruptive \u2014 they're quick and don't require you to remember or type in additional codes.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8464fc84",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8aef76bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71a3fd6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for the contact details of the Speyer tourism board, but it does not contain the actual phone number that was provided in response.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2bf43736",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked which chapter of the second part discusses the prayer of beginners, but the actual answer/content from that exchange isn't included here. I don't have the response that would have identified the specific chapter, so I can't reliably remind you of the chapter number.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "70b3e69b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows the questions you asked, but it does not include the responses with any specific example of a Spanish-Catalan singer-songwriter who supports unity between Catalonia and Spain. I have no record of that name to remind you of.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8752c811",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't include the actual content of the list of 100 prompt parameters\u2014it only shows the request being made. Without the response content, I can't identify what the 27th parameter was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3249768e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked for five bottles to make the widest variety of gin-based cocktails, but it does not contain the actual recommendation or list of bottles that was provided in response.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1b9b7252",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about guided imagery resources, but it doesn't contain the actual responses with the specific website name or the exercises you mentioned ('The Mountain Meditation' and 'The Body Scan Meditation'). I'm unable to recall a specific website from the history provided.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1568498a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "28. Kg3",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6222b6eb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "6S is the algorithm implemented in the SIAC_GEE tool.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e8a79c70",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on our conversation, a classic French omelette uses 2 to 3 eggs.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "d596882b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The vegan eatery with multiple locations throughout New York City that I recommended is by CHLOE.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e3fc4d6e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Dr. Arati Prabhakar is the President's Chief Advisor for Science and Technology (and Director of the White House Office of Science and Technology Policy).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51b23612",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any specific Soviet cartoon that I mentioned mocking Western culture. While we discussed political propaganda, humor, and satire in general terms, there's no record of a particular Soviet cartoon example being referenced.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3e321797",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any specific mention of applying tomato juice mixed with lemon juice or a recommended duration for leaving it on.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e982271f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that venues were requested, but the actual list of venue names and responses isn't included in what I can see\u2014only the user's questions are recorded, not the answers given.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "352ab8bd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fca762bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked me for recommendations for language apps, but it does not contain any response where specific apps were named. Therefore, there's no record of an app using mnemonics being mentioned.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7a8d0b71",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any information about a specific budget allocation for influencer marketing in the DHL Wellness Retreats campaign.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a40e080f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't show any specific companies being named in response to your question about others that prioritize employee safety like Triumvirate.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8b9d4367",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows the questions that were asked but does not contain any of the actual answers or responses, so there is no record of a specific company employing over 40,000 people in the rug-manufacturing industry in Chaudhary.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5809eb10",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The construction of the house began in 2014.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41275add",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any prior recommendation of a Mayo Clinic video (or any specific YouTube video) about workplace posture. The only relevant message is a brief question asking if there's a YouTube video to share, but no video was actually recommended in what's shown here.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4388e9dd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Andy was wearing an untidy, stained white shirt.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4baee567",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "12 games were played in Kansas.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "561fabcd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The Fissionator.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b759caee",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history only shows your request to write the blog post \u2014 it does not contain the actual blog post content or any specific designer names and their Instagram handles. So I have no record of a UK-based designer who works with unusual gemstones to reference here.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ac031881",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "LIV \u2014 the Roman numeral for 54, which led you to record 54.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28bcfaac",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "MusicTheory.net",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "16c90bf4",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "A Pilsner.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8f1aeed",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Pennsylvania.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "eaca4986",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain the actual songs or any chord progressions that were created. It only shows the request to create a sad song and to make it \"more romantic and heart-felting,\" but no song content or chord progressions are present in the history.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c7cf7dfd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e48988bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Patagonia.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1de5cff2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "65240037",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows a list of questions but does not include any answers or recommended dilution ratios, so I have no record of a specific ratio to remind you of.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "778164c6",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Escovitch Fish.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    },
+    {
+      "config": "claude-opus-4-8|assistant_trust|ctx=full",
+      "summary": {
+        "overall": {
+          "n": 56,
+          "qa_acc": 0.3036,
+          "labels": {
+            "INCORRECT": 39,
+            "CORRECT": 17
+          }
+        },
+        "by_question_type": {
+          "single-session-assistant": {
+            "n": 56,
+            "qa_acc": 0.3036,
+            "labels": {
+              "INCORRECT": 39,
+              "CORRECT": 17
+            }
+          }
+        }
+      },
+      "per_question": [
+        {
+          "question_id": "7161e7e2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your request to create the shift rotation sheet, but it does not include the assistant's actual response with the completed schedule. Therefore, I cannot tell you what shift Admon was assigned on Sunday.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c4f10528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Miss Bee Providore.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "89527b6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your request to write the children's book about dinosaurs, but it does not include the actual book content or any assistant reply describing a Plesiosaur image. Without that, there's no detail about the color of the Plesiosaur's scaly body to recall.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e9327a54",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that dessert spots were discussed, but the actual list of specific dessert shops the assistant recommended is not included in the visible turns, so I can't identify the particular shop with the giant milkshakes.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4c36ccef",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Roscioli.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6ae235be",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about the refining processes at CITGO's three refineries, but it does not contain the assistant's actual response detailing those processes\u2014including any information specific to the Lake Charles Refinery. Without that reply in the history, I cannot remind you of the specific processes.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7e00a6cb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The Bulldog Hotel/Hostel \u2014 it's located near the Red Light District in Amsterdam.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1903aded",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ceb54acb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "f523d9fe",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Doc Martin.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "0e5e2d1a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your questions about binaural beats studies, but it does not contain the assistant's previous replies with the specific details about a study published in Music and Medicine or its number of subjects. Without that content, I can't provide the subject count.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fea54f57",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "\"Evolution\" is the song I said best exemplifies the band's growth and development as artists.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "cc539528",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for resource and course recommendations, but it does not contain the assistant's actual reply listing any specific back-end programming languages. Without that response in the history, I can't tell you which languages were recommended.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "dc439ea3",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Based on our conversation, the hand game (also called the stick game) \u2014 performed with skilled, rhythmic movements \u2014 was noted, but the game often performed by skilled dancers at powwows is the **hoop dance**, which is a traditional dance game showcasing the dancers' agility and skill in manipulating multiple hoops.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "18dcd5a5",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your request to create a D&D one-shot for level 8 PCs, but it does not include the actual content of that one-shot \u2014 there's no assistant reply detailing the \"Lost Temple of the Djinn,\" its mummies, or any other specifics. I have nothing in the history to base a count on.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "488d3006",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The hiking trail I recommended is the **Ruta del Pico San Miguel** (the trail to the San Miguel Peak), which takes you through the park's most stunning landscapes and offers panoramic views of the surrounding mountainside.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "58470ed2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "In the conversation about The Library of Babel, Borges said: \"The Library is a sphere whose exact center is any hexagon and whose circumference is inaccessible.\"",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "8cf51dda",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your request to write a grant aim page on molecular subtypes and endometrial cancer, but it does not contain the assistant's response with the three objectives. There is no content in the history outlining the objectives, so I cannot remind you what they were.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1d4da289",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about steps companies take to ensure data privacy and security, but there is no prior assistant reply listing two-factor authentication methods (or any specific methods). Since I never specified the 2FA methods in the history provided, I can't remind you of details that weren't given.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8464fc84",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't include a specific deli recommendation near the Vatican for cured meats and cheeses. While restaurant recommendations near the Vatican were discussed, the history provided doesn't contain the name of that particular deli.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8aef76bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for DIY home decor project ideas, but it doesn't contain the actual list of projects or any details about a newspaper flower vase or a recommended sealant for it.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "71a3fd6b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked for the contact details of the Speyer tourism board, but it does not contain the assistant's reply with the actual phone number. Without that information in the history, I cannot confirm the specific number that was provided.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "2bf43736",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked which chapter of the second part discusses the prayer of beginners, but the assistant's actual reply identifying that chapter is not included in the history provided to me. Without that turn, I cannot reliably tell you the specific chapter number.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "70b3e69b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about works with a pro-Spanish perspective, but it does not contain the assistant's reply naming a specific Spanish-Catalan singer-songwriter who supports unity between Catalonia and Spain. There is no such example in the available history to remind you of.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8752c811",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked for a list of 100 prompt parameters, but it does not include the assistant's actual response containing that list. Without the list itself in the history, I can't identify what the 27th parameter was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3249768e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked for five bottles to make the widest variety of gin-based cocktails, but it does not contain the assistant's reply listing those five bottles. Without that response in the history, I can't tell you what the fifth bottle was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1b9b7252",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about recommendations for guided imagery exercises and resources, but it does not contain the assistant's actual reply listing any specific website or naming exercises like 'The Mountain Meditation' and 'The Body Scan Meditation.' Without that content, I can't reliably tell you which website was referenced.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "1568498a",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "28. Kg3",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "6222b6eb",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "6S is the algorithm implemented in the SIAC_GEE tool.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "e8a79c70",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows the questions that were asked, but it does not include the assistant's replies with the actual recipe details, so there is no stated number of eggs to confirm.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "d596882b",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked for vegan/vegetarian recommendations, but it doesn't contain the assistant's actual reply listing those eateries, so I can't identify the specific vegan spot with multiple locations that was recommended.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e3fc4d6e",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Dr. Arati Prabhakar is the President's Chief Advisor for Science and Technology (and Director of the White House Office of Science and Technology Policy).",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "51b23612",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked several questions about political propaganda, humor, and satire, but the assistant's actual replies aren't included here. There's no record of a specific Soviet cartoon mocking Western culture having been mentioned, so I can't accurately remind you of which one it was.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "3e321797",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any specific instructions about applying tomato juice mixed with lemon juice or how long to leave it on.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e982271f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The last venue I recommended in that list was the **Crystal Ballroom**.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "352ab8bd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history does not contain the paper's actual content (the references/sections were uploaded as files but their text is not shown here), and none of the visible messages mention the Hardware-Aware Modular Training (HAMT) agent or any framerate improvement figures.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "fca762bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked me for recommendations for language apps, but it doesn't contain my reply listing any specific apps. Since no apps were actually named in the history provided, I can't identify which one uses mnemonics.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "7a8d0b71",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history provided doesn't contain any details about a campaign plan with budget allocations for influencer marketing. The history only shows requests to write example emails for the retreats, but no actual budget figures or campaign plan with an influencer marketing allocation appears in the records available to me.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "a40e080f",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain a previous reply where I named two specific companies that prioritize employee safety like Triumvirate. The last message only asks whether I know of any such companies, but no answer listing two companies appears in the history.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "8b9d4367",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows that you asked about specific private sector businesses impactful in reducing poverty and unemployment in Chaudhary, but it does not contain the assistant's actual reply listing those companies. There is no mention of a company employing over 40,000 people in rug manufacturing in the available history, so I cannot identify it.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "5809eb10",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "The construction of the house began in 2014.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "41275add",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history doesn't contain any previous recommendation of a Mayo Clinic video (or any specific YouTube video) about workplace posture. The only relevant message is a brief request asking for a YouTube video to share, but no actual video\u2014Mayo Clinic or otherwise\u2014was provided in the history.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "4388e9dd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Andy was wearing an untidy, stained white shirt.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "4baee567",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "12 games were played in Kansas City.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "561fabcd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Fissionator.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "b759caee",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you requested a blog post about buying unique engagement rings directly from designers, including examples of designers and their Instagram accounts, but it does not contain the assistant's actual response with the list of designers and their Instagram handles. Without that content, I cannot identify the specific UK-based designer who works with unusual gemstones or their Instagram handle.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "ac031881",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Your jumpsuit designation was LIV \u2014 the Roman numerals for 54, which is why you looked for and found record 54 in the records room.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "28bcfaac",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "MusicTheory.net is the website I recommended for free music theory lessons and exercises.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "16c90bf4",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "You specifically recommended using a Pilsner.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "c8f1aeed",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your questions about fracking in the Marcellus Shale region, but it does not contain any assistant reply mentioning a specific state as an example with that monitoring requirement.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "eaca4986",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows your requests (\"Create a sad song with notes\" and \"be more romantic and heart-felting\"), but it does not contain the assistant's actual responses with the songs or any chord progressions. There's no record of a chorus chord progression for a second song to reference.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "c7cf7dfd",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows you asked about where to find high-quality materials and tools, but the assistant's actual reply with specific store names is not included in the history provided. I can't see a named India-based online store to remind you of.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "e48988bc",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Patagonia.",
+          "autoeval_label": "CORRECT"
+        },
+        {
+          "question_id": "1de5cff2",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history references discussions about sustainable high-end fashion brands, but it does not contain the specific list of brands that was provided, so I cannot identify which brand uses wild rubber sourced from the Amazon rainforest.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "65240037",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "I don't know.\n\nThe conversation history shows these were questions posed (in the references/topic list), but there is no assistant reply containing a specific dilution ratio. Since the history doesn't include a stated ratio, I can't remind you of a specific value.\n\nThat said, a commonly recommended dilution is about 1\u20132 drops of tea tree oil per teaspoon (roughly 12 drops) of carrier oil, or around a 1\u20135% concentration\u2014but this was not something established in our prior conversation.",
+          "autoeval_label": "INCORRECT"
+        },
+        {
+          "question_id": "778164c6",
+          "question_type": "single-session-assistant",
+          "is_abstention": false,
+          "sme_category": "cat_1",
+          "hypothesis": "Escovitch Fish.",
+          "autoeval_label": "INCORRECT"
+        }
+      ]
+    }
+  ],
+  "best": {
+    "config": "claude-opus-4-8|preference|ctx=full",
+    "qa_acc": 0.3393
+  }
+}

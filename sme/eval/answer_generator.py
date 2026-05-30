@@ -96,6 +96,13 @@ def _is_claude_model(model: str) -> bool:
     )
 
 
+# Models (keyed by resolved Bedrock id) known to reject `temperature` with a
+# 400. Newer models (e.g. opus-4-8) deprecate the param; once a model 400s on
+# it we record it here and stop sending temperature on subsequent calls, so
+# only the FIRST call to such a model pays the retry — not every call.
+_TEMPERATURE_DEPRECATED: set[str] = set()
+
+
 class _BedrockOpenAIShim:
     """Expose an ``AnthropicBedrock`` client with the OpenAI
     ``client.chat.completions.create(...)`` shape that ``generate_answer`` and
@@ -120,14 +127,18 @@ class _BedrockOpenAIShim:
         kw: dict[str, Any] = dict(model=bid, max_tokens=max_tokens, messages=conv)
         if system:
             kw["system"] = system
-        if temperature is not None:
+        # Only send temperature if this model hasn't already 400'd on it. Once a
+        # model is in the deprecation cache every later call sends one request.
+        if temperature is not None and bid not in _TEMPERATURE_DEPRECATED:
             kw["temperature"] = temperature
         try:
             resp = self._b.messages.create(**kw)
         except Exception as e:  # noqa: BLE001
             # Newer models (e.g. opus-4-8) deprecate `temperature`; retry once
-            # without it rather than maintaining a per-model capability list.
+            # without it and cache the deprecation so the retry is paid once
+            # per model, not on every call.
             if "temperature" in str(e) and "temperature" in kw:
+                _TEMPERATURE_DEPRECATED.add(bid)
                 kw.pop("temperature")
                 resp = self._b.messages.create(**kw)
             else:

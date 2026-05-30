@@ -457,6 +457,81 @@
     margin: 0;
   }
 
+  /* BOTTOM LINE — top-of-page synthesis */
+  .bottomline-head {
+    max-width: 860px;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .bottomline-head h2 {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    margin: 1rem 0 1.5rem;
+  }
+  .bl-lede {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ice-dim);
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    line-height: 1.5;
+    max-width: 62ch;
+  }
+  .bl-lede strong { font-style: normal; color: var(--ice); font-weight: 400; }
+  .bl-lede em { color: var(--prism); }
+  .bl-grid {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+  }
+  .bl-card {
+    position: relative;
+    border: var(--rule) solid var(--hair);
+    padding: 1.75rem 1.5rem 1.6rem;
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--obsidian-2) 65%, transparent),
+      color-mix(in srgb, var(--obsidian) 25%, transparent));
+    transition: border-color 0.4s, transform 0.4s;
+    display: flex; flex-direction: column;
+  }
+  .bl-card:hover { border-color: var(--prism); transform: translateY(-4px); }
+  .bl-card::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: 24px; right: 24px;
+    height: 2px;
+    background: var(--prism);
+    opacity: 0.4;
+  }
+  .bl-card .n {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--prism);
+  }
+  .bl-card .stat {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin: 1rem 0 0.5rem;
+    color: var(--ice);
+  }
+  .bl-card .stat em { font-style: italic; color: var(--prism); }
+  .bl-card p {
+    color: var(--ice-dim);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .bl-card p strong { color: var(--ice); font-weight: 500; }
+  .bl-card.wide { grid-column: span 3; }
+  @media (max-width: 860px) {
+    .bl-grid { grid-template-columns: 1fr; }
+    .bl-card.wide { grid-column: span 1; }
+  }
+
   /* BENCHMARKS */
   .benchmarks-head {
     max-width: 820px;
@@ -953,6 +1028,7 @@
       SME
     </span>
     <nav class="right" aria-label="primary">
+      <a href="#bottomline">Bottom line</a>
       <a href="#diagnostic">Diagnostic</a>
       <a href="#benchmarks">Benchmarks</a>
       <a href="#method">Method</a>
@@ -1082,6 +1158,99 @@
       <span class="passport-tag tag-1"><span class="n">cat 1</span>the lookup</span>
       <span class="passport-tag tag-2"><span class="n">cat 8</span>the blueprint</span>
       <span class="passport-tag tag-3"><span class="n">cat 9</span>the handshake</span>
+    </div>
+  </section>
+
+  <!-- BOTTOM LINE — top-of-page synthesis -->
+  <section id="bottomline">
+    <div class="section-mark"><span class="roman">0</span> <span>the bottom line</span></div>
+    <header class="bottomline-head">
+      <span class="eyebrow">what we found</span>
+      <h2 class="display">The bottleneck was never the <em>reader.</em></h2>
+      <p class="bl-lede">
+        We ran a memory system (<strong>mempalace</strong>) through SME against
+        LongMemEval, decomposing every result under controlled conditions. The
+        headline: when a question is answered wrong, it is almost never because
+        the reader can't reason &mdash; it's because <em>the right memory never
+        reached it</em>. Hand the reader the gold and it essentially matches the
+        field's oracle; getting the gold there is everything.
+      </p>
+    </header>
+
+    <div class="bl-grid">
+      <article class="bl-card">
+        <span class="n">the headline</span>
+        <div class="stat">It's <em>what reaches the reader</em></div>
+        <p>
+          Not the encoder (in-domain lift, cross-domain null), not retrieval
+          (R@5 near-ceiling), not the judge (a small ~2&ndash;5pp confound). The
+          QA bottleneck is <strong>ingest mode + retrieval breadth</strong> &mdash;
+          the gold often never arrives in context.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">reader ceiling</span>
+        <div class="stat"><em>0.868</em> oracle QA</div>
+        <p>
+          Hand the reader the gold (true oracle) and it answers at
+          <strong>0.868</strong> &mdash; within <strong>0.2pp</strong> of the
+          field's GPT-4o oracle (0.870), <strong>essentially a match</strong>.
+          Five of six categories were retrieval-limited; the earlier
+          &ldquo;0.61&rdquo; was substrate, not a reader limit.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">retrieval</span>
+        <div class="stat"><em>0.927</em> R@5</div>
+        <p>
+          Retrieval is <strong>competitive</strong> &mdash; R@5 0.927 sits
+          mid-pack against the field (R@K leaders 96&ndash;99%,
+          mcp-memory-service 80&ndash;86%). The retriever is not where the gap
+          lives.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">the decomposition</span>
+        <div class="stat"><em>~26pp</em> was substrate</div>
+        <p>
+          The old &ldquo;26pp reader gap&rdquo; was almost entirely
+          <strong>substrate</strong>: <strong>~7pp ingest artifact</strong>
+          (dropped assistant turns) + <strong>~18pp retrieval breadth</strong>
+          (limit=5 + chunking never delivering the gold). The genuine reader
+          deficit is <strong>~zero</strong>.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">the graph</span>
+        <div class="stat"><em>helps narrow,</em> hurts broad</div>
+        <p>
+          The AGE knowledge graph surfaces drawers vector + keyword search miss
+          on structural / narrow cases (the structure categories read it
+          directly) but is <strong>net-negative on broad recall</strong>
+          &mdash; and the product path doesn't invoke it yet.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">what's unique</span>
+        <div class="stat">Cat <em>4 / 5 / 8 / 9</em></div>
+        <p>
+          SME measures <strong>structural</strong> surfaces no leaderboard
+          captures: ingestion integrity, gap-detection, ontology coherence, and
+          invocation discipline &mdash; whether a system knows its own shape.
+        </p>
+      </article>
+    </div>
+
+    <div class="caveat" style="max-width: 860px;">
+      <span class="label">the posture</span>
+      <strong>These are diagnostic deltas under controlled conditions &mdash;
+      not a leaderboard claim.</strong> Cross-system LongMemEval numbers aren't
+      directly comparable (answer-model choice alone swings ~24pp; oracle QA is a
+      different metric from full-pipeline E2E QA; most competitor numbers are
+      self-reported), so we deliberately publish no full-pipeline ranking. The
+      0.868 is the reader's <em>ceiling</em> once retrieval is perfect; the
+      deployed number sits below it, pending a production daemon re-test. The
+      readings below show the work.
     </div>
   </section>
 

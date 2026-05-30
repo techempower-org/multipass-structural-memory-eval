@@ -208,18 +208,30 @@ would make the apples-cell *pixel-perfect* and retire every cross-config caveat
 (0.580 / 0.593 / 0.610 / 0.900 / 0.953) is a **single run where every variable below is
 held identical across both systems**. This is **infra, not a flag-swap** — the deployed
 mempalace `lme_*` wings are `upstream-exact`, so the mempalace leg needs a **fresh
-`sme-rich` strat150 ingest on a SCRATCH daemon** (Iris's isolated-palace pattern — **never
-prod**; prod already carries ~6.3% LME pollution awaiting cleanup, familiar#92).
+`sme-rich` strat150 ingest on a SCRATCH daemon**.
+
+> ⛔ **CRITICAL — NEVER run the mempalace leg against prod (`--api-url=http://familiar:8085`).**
+> `scripts/run_longmemeval_mempalace.py` **persists** each question's haystack into whatever
+> `--api-url` it hits. That is the exact mechanism that already put **611 `lme_*` wings /
+> 27,487 drawers (~6.3%) into JP's prod palace** (cleanup tracked in familiar#92). The
+> `sme-rich` ingest MUST target an **isolated scratch daemon** (Iris's throwaway
+> postgres+daemon pattern), and `--api-url` MUST point at that scratch daemon. (Read-only
+> GET probes against prod — e.g. the #117 breadth ladder — are fine; a fresh *ingest*
+> against prod is NOT.)
 
 **The five constants that MUST match on both legs (get any wrong and the cell is invalid):**
 
 1. **Reader** — ONE model, both legs. Choice (opus vs o4-mini) + the ~$14 opus spend is
-   **JP's call** (surfaced, not picked unilaterally):
+   **JP's call** (surfaced, not picked unilaterally). **Both reader paths carry the SAME
+   infra cost** — the only delta between them is $14 model spend + reader quality; the
+   scratch-daemon `sme-rich` ingest (below) is required either way, so "$0" is $0 *model*
+   cost, NOT a cheaper or faster run:
    - `claude-opus-4-8` via Bedrock (`us.anthropic.claude-opus-4-8` inference profile;
      `_BedrockOpenAIShim` in `sme/eval/answer_generator.py`; verified reachable) — Tau2
-     leader, ~$14 total, ~90 min/leg.
-   - `o4-mini` (Azure) — ~$0; OMEGA's `sme-rich` o4-mini number already exists (**0.593**),
-     so only the mempalace scratch-daemon leg would be new.
+     leader, ~$14 model spend, ~90 min/leg.
+   - `o4-mini` (Azure) — ~$0 model spend. OMEGA's `sme-rich` o4-mini number already exists
+     (**0.593**), so the OMEGA leg is done; but the mempalace leg STILL needs the full
+     scratch-daemon `sme-rich` strat150 ingest + run — identical infra to the opus path.
 2. **Judge** — `gpt-5.3-chat` + canonical type-specific LongMemEval prompts. Hold constant
    (do **not** swap to a Bedrock judge — that adds a variable for no gain).
 3. **Rendering** — `--content-rules sme-rich` on **both** legs (dates present). The deployed

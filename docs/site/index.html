@@ -1588,7 +1588,7 @@
               <td class="sys">mempalace <span class="note">deployed substrate (this work)</span></td>
               <td class="store verb">verbatim</td>
               <td class="num">92.7%</td>
-              <td class="num">58.0% <span class="note">o4-mini reader · retrieved ctx · canonical gpt-5.3-chat judge · n=150 macro ‖<br>comparator = oracle-n500, not strat150-S (closest apples, not pixel-perfect) · opus/oracle gradient 0.610&rarr;0.868 in field card</span></td>
+              <td class="num">58.0% <span class="note">o4-mini reader · retrieved ctx · canonical gpt-5.3-chat judge · n=150 macro ‖<br>comparator = oracle-n500, not strat150-S (closest apples, not pixel-perfect) · opus deployed&rarr;oracle gradient 0.567&rarr;0.868 in field card</span></td>
             </tr>
             <tr>
               <td class="sys">OMEGA <span class="note">first independent competitor run</span></td>
@@ -1620,11 +1620,12 @@
           reader and context are pinned. Hindsight&rsquo;s cloud-extractor throughput
           keeps its QA pass cost-gated &mdash; deferred rather than guessed.
           <em>Don&rsquo;t</em> confuse the 0.580 comparator with mempalace&rsquo;s
-          <strong>deployed&rarr;oracle gradient</strong> (0.610 deployed &rarr; 0.684
-          ingest-fixed &rarr; 0.868 oracle ceiling): that gradient is an opus reader on
-          oracle context and lives in the field card below &mdash; it is <em>not</em>
-          the like-for-like OMEGA comparison. This table &mdash; not the leaderboard
-          &mdash; is the one to read.
+          <strong>deployed&rarr;oracle gradient</strong> (deployed-E2E ladder
+          0.567&rarr;0.760 as retrieval widens limit&nbsp;5&rarr;50 &rarr; 0.868 oracle
+          ceiling): that gradient is an opus reader on retrieved/oracle context and
+          lives in the field card below &mdash; it is <em>not</em> the like-for-like
+          OMEGA comparison. This table &mdash; not the leaderboard &mdash; is the one to
+          read.
         </p>
         <p class="bench-prose" style="font-size:13px;opacity:.8;">
           &#10022; <strong>OMEGA&rsquo;s 0.593 is the <em>fair</em> sme-rich number</strong>
@@ -1721,7 +1722,7 @@
           </thead>
           <tbody>
             <tr class="grp"><td colspan="8">mempalace &mdash; this work (verbatim-first)</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">&mdash;</td><td class="num">61.0% <span class="mtag">limit=5 ‖</span></td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">&mdash;</td><td class="num">0.567&rarr;0.760 <span class="mtag">limit 5&rarr;50 ‖</span></td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
             <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">68.4% <span class="mtag">limit=5 ‖</span></td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
             <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">86.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
 
@@ -1789,13 +1790,20 @@
           looser graders; cf. the event-ordering Kendall-&tau; vs binary-judge mismatch).
         </p>
         <p class="bench-prose" style="font-size:13px;opacity:.8;">
-          &#8214; <strong>mempalace&rsquo;s 0.610 / 0.684 are deployed-E2E QA</strong>
-          (column <em>E2E QA</em>), not oracle &mdash; real <code>/search</code>&rarr;reader&rarr;judge
-          at limit=5. Only the <strong>0.868 ceiling</strong> sits under <em>oracle QA</em>
-          (gold handed to the reader, retrieval bypassed) &mdash; the like-for-like
-          comparison to the field&rsquo;s GPT-4o 0.870 oracle. The deployed&rarr;oracle gap
-          is retrieval breadth (limit=5 + chunking); Echo is re-running deployed QA at
-          limit=20/50 to recover it
+          &#8214; <strong>The deployed-E2E column is a retrieval-breadth ladder</strong>
+          (real <code>/search</code>&rarr;reader&rarr;judge, opus reader, n=150):
+          <strong>limit=5 0.567</strong> (85/150) &rarr; <strong>limit=20 0.740</strong>
+          (111/150) &rarr; <strong>limit=50 0.760</strong> (114/150). Deployed QA was
+          <strong>retrieval-limited at limit=5</strong>; widening to 20 recovers
+          <strong>+17.3pp</strong> and it plateaus by 50 &mdash; concrete proof the gap
+          to the 0.868 oracle ceiling is <em>retrieval breadth</em>, not the reader.
+          (One content-filtered judge call at limit=50, qid&nbsp;95228167, is counted
+          wrong &mdash; a conservative floor; scored correct it is 0.767, which
+          doesn&rsquo;t touch the plateau.) These are a <strong>live re-query</strong>
+          and supersede the 05-29 cached 0.610 (pre-retrieval-drift pinned context).
+          Only the <strong>0.868 ceiling</strong> sits under <em>oracle QA</em> (gold
+          handed to the reader, retrieval bypassed) &mdash; the like-for-like to the
+          field&rsquo;s GPT-4o 0.870 oracle
           (techempower-org/multipass-structural-memory-eval#117).
         </p>
 

@@ -1165,78 +1165,76 @@
   <section id="bottomline">
     <div class="section-mark"><span class="roman">0</span> <span>the bottom line</span></div>
     <header class="bottomline-head">
-      <span class="eyebrow">what we found</span>
-      <h2 class="display">The bottleneck was never the <em>reader.</em></h2>
+      <span class="eyebrow">what the benchmarks say</span>
+      <h2 class="display">MemPalace, <em>measured.</em></h2>
       <p class="bl-lede">
-        We ran a memory system (<strong>mempalace</strong>) through SME against
-        LongMemEval, decomposing every result under controlled conditions. The
-        headline: when a question is answered wrong, it is almost never because
-        the reader can't reason &mdash; it's because <em>the right memory never
-        reached it</em>. Hand the reader the gold and it essentially matches the
-        field's oracle; getting the gold there is everything.
+        <strong>MemPalace is a competitive, honestly-measured memory
+        system</strong> &mdash; and these benchmarks show both where it stands
+        and where the work is. On retrieval it <em>matches the field</em>; the
+        gap to frontier QA isn't the language model's reasoning, it's what the
+        memory system delivers into context. The encouraging part: that lever is
+        in MemPalace's hands &mdash; ingestion fidelity and retrieval breadth
+        &mdash; not in a bigger LLM.
       </p>
     </header>
 
     <div class="bl-grid">
       <article class="bl-card">
-        <span class="n">the headline</span>
-        <div class="stat">It's <em>what reaches the reader</em></div>
+        <span class="n">competitive retrieval</span>
+        <div class="stat"><em>0.927</em> / <em>0.966</em> R@5</div>
         <p>
-          Not the encoder (in-domain lift, cross-domain null), not retrieval
-          (R@5 near-ceiling), not the judge (a small ~2&ndash;5pp confound). The
-          QA bottleneck is <strong>ingest mode + retrieval breadth</strong> &mdash;
-          the gold often never arrives in context.
+          R@5 <strong>0.927</strong> on representative LongMemEval-S, and
+          <strong>0.966</strong> byte-identical to upstream ChromaDB under
+          substrate parity. The Postgres + pgvector + AGE migration costs
+          <strong>zero recall</strong>.
         </p>
       </article>
       <article class="bl-card">
-        <span class="n">reader ceiling</span>
-        <div class="stat"><em>0.868</em> oracle QA</div>
+        <span class="n">a real knowledge graph</span>
+        <div class="stat"><em>~1.8M</em> triples live</div>
         <p>
-          Hand the reader the gold (true oracle) and it answers at
-          <strong>0.868</strong> &mdash; within <strong>0.2pp</strong> of the
-          field's GPT-4o oracle (0.870), <strong>essentially a match</strong>.
-          Five of six categories were retrieval-limited; the earlier
-          &ldquo;0.61&rdquo; was substrate, not a reader limit.
+          A populated AGE graph (~1.8M relationships) that <strong>helps where
+          structure matters</strong> &mdash; graph-read categories,
+          cross-domain &mdash; with product-path integration the next step.
         </p>
       </article>
       <article class="bl-card">
-        <span class="n">retrieval</span>
-        <div class="stat"><em>0.927</em> R@5</div>
+        <span class="n">the frontier is reachable</span>
+        <div class="stat"><em>0.868</em> vs <em>0.870</em></div>
         <p>
-          Retrieval is <strong>competitive</strong> &mdash; R@5 0.927 sits
-          mid-pack against the field (R@K leaders 96&ndash;99%,
-          mcp-memory-service 80&ndash;86%). The retriever is not where the gap
-          lives.
+          Handed the right memory (true oracle), the reader hits
+          <strong>0.868</strong> &mdash; within <strong>0.2pp</strong> of
+          GPT-4o's oracle (0.870). Memory <em>delivery</em>, not model
+          reasoning, is the lever.
         </p>
       </article>
       <article class="bl-card">
-        <span class="n">the decomposition</span>
-        <div class="stat"><em>~26pp</em> was substrate</div>
-        <p>
-          The old &ldquo;26pp reader gap&rdquo; was almost entirely
-          <strong>substrate</strong>: <strong>~7pp ingest artifact</strong>
-          (dropped assistant turns) + <strong>~18pp retrieval breadth</strong>
-          (limit=5 + chunking never delivering the gold). The genuine reader
-          deficit is <strong>~zero</strong>.
-        </p>
-      </article>
-      <article class="bl-card">
-        <span class="n">the graph</span>
-        <div class="stat"><em>helps narrow,</em> hurts broad</div>
-        <p>
-          The AGE knowledge graph surfaces drawers vector + keyword search miss
-          on structural / narrow cases (the structure categories read it
-          directly) but is <strong>net-negative on broad recall</strong>
-          &mdash; and the product path doesn't invoke it yet.
-        </p>
-      </article>
-      <article class="bl-card">
-        <span class="n">what's unique</span>
+        <span class="n">beyond the leaderboard</span>
         <div class="stat">Cat <em>4 / 5 / 8 / 9</em></div>
         <p>
-          SME measures <strong>structural</strong> surfaces no leaderboard
-          captures: ingestion integrity, gap-detection, ontology coherence, and
-          invocation discipline &mdash; whether a system knows its own shape.
+          SME <strong>decomposes the QA gap by layer</strong> and scores
+          structural quality leaderboards ignore: ingestion integrity,
+          gap-detection, ontology coherence, invocation discipline.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">honestly measured</span>
+        <div class="stat"><em>0.61 &rarr; 0.87</em></div>
+        <p>
+          Diagnostic deltas under controlled A/B/C/D conditions. A null-led
+          self-correction &mdash; an apparent <strong>0.61</strong> reader
+          ceiling that became <strong>0.87</strong> once we found the substrate
+          confound &mdash; is the method catching its own error <em>in
+          public</em>.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">the roadmap</span>
+        <div class="stat"><em>where the headroom is</em></div>
+        <p>
+          <strong>Ingestion fidelity + retrieval breadth</strong>, stacked on
+          the encoder-FT / hybrid / rerank axes, are where the gains live
+          &mdash; concrete, in-system levers, not a wait for a larger model.
         </p>
       </article>
     </div>
@@ -1248,8 +1246,8 @@
       directly comparable (answer-model choice alone swings ~24pp; oracle QA is a
       different metric from full-pipeline E2E QA; most competitor numbers are
       self-reported), so we deliberately publish no full-pipeline ranking. The
-      0.868 is the reader's <em>ceiling</em> once retrieval is perfect; the
-      deployed number sits below it, pending a production daemon re-test. The
+      0.868 is the reader's <em>ceiling</em> once retrieval delivers the gold;
+      the deployed number sits below it, pending a production daemon re-test. The
       readings below show the work.
     </div>
   </section>

@@ -1,0 +1,233 @@
+{
+  "experiment": "CE cross-domain robustness on our corpus, rerank-on vs off (#104 / mempalace#306)",
+  "posture": "controlled-condition delta over a fixed candidate pool; rerank reconstructed offline from rrf_score vs rerank_score",
+  "rerank_model": "ms-marco-TinyBERT-L-2-v2",
+  "limit": 30,
+  "n_queries": 12,
+  "blocked_on": [
+    "Out-of-domain code-trained CE checkpoint (codecrossenc-v2-20260516) is not on this host \u2014 it was trained on macmini/Colab and never synced. That checkpoint IS the sprint5 treatment; without it the cross-domain hypothesis (H1/H2/H3) cannot be tested directly.",
+    "The live palace (familiar:8085) is conversational-only \u2014 source files are .jsonl/.txt/.md conversation logs, not indexed .py source. There is no genuine code domain in the corpus to contrast against, so a code-vs-conversational split is not measurable here."
+  ],
+  "per_query": [
+    {
+      "id": "code-searcher-tsquery",
+      "domain": "code",
+      "query": "searcher plainto_tsquery ILIKE fallback underscore identifiers",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 0,
+        "rank_off": null,
+        "rank_on": null,
+        "hit_off": 0,
+        "hit_on": 0,
+        "rr_off": 0.0,
+        "rr_on": 0.0
+      }
+    },
+    {
+      "id": "code-postgres-trigram",
+      "domain": "code",
+      "query": "postgres trigram index create_table schema test isolation",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 0,
+        "rank_off": null,
+        "rank_on": null,
+        "hit_off": 0,
+        "hit_on": 0,
+        "rr_off": 0.0,
+        "rr_on": 0.0
+      }
+    },
+    {
+      "id": "code-migrate-like-escape",
+      "domain": "code",
+      "query": "migrate_to_postgres LIKE percent escape canonical room fixture",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 0,
+        "rank_off": null,
+        "rank_on": null,
+        "hit_off": 0,
+        "hit_on": 0,
+        "rr_off": 0.0,
+        "rr_on": 0.0
+      }
+    },
+    {
+      "id": "code-cross-encoder-rerank",
+      "domain": "code",
+      "query": "cross_encoder_rerank trust gate margin top-1 override",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 14,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "code-recency-decay",
+      "domain": "code",
+      "query": "recency decay half-life effective_distance time weighting",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 15,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "code-calibrator-pav",
+      "domain": "code",
+      "query": "isotonic calibrator PAV confidence load save MEMPALACE_CALIBRATION_PATH",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 30,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "conv-pgvector-cutover-decision",
+      "domain": "conversational",
+      "query": "what did we decide about the pgvector cutover and the rollback plan",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 30,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "conv-kill-cascade-incident",
+      "domain": "conversational",
+      "query": "why did the palace daemon keep restarting in a kill cascade incident",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 26,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "conv-encoder-swap-null",
+      "domain": "conversational",
+      "query": "what happened when we tried swapping the encoder to FT-300, did it help",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 21,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "conv-hyde-diagnosis",
+      "domain": "conversational",
+      "query": "did HyDE work as a vocabulary bridge or was it a zero-rescue dead end",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 23,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "conv-rrf-lift-decision",
+      "domain": "conversational",
+      "query": "what was the multi-encoder RRF lift on the git probes and did it hold",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 21,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    },
+    {
+      "id": "conv-backfill-gate",
+      "domain": "conversational",
+      "query": "when did the KG backfill finish and clear the gate for calibration fitting",
+      "score": {
+        "n_candidates": 30,
+        "n_relevant_in_pool": 26,
+        "rank_off": 1,
+        "rank_on": 1,
+        "hit_off": 1,
+        "hit_on": 1,
+        "rr_off": 1.0,
+        "rr_on": 1.0
+      }
+    }
+  ],
+  "by_domain": {
+    "code": {
+      "n": 6,
+      "n_with_relevant_in_pool": 3,
+      "r_at_5": {
+        "off": 1.0,
+        "on": 1.0,
+        "delta": 0.0
+      },
+      "mrr": {
+        "off": 1.0,
+        "on": 1.0,
+        "delta": 0.0
+      }
+    },
+    "conversational": {
+      "n": 6,
+      "n_with_relevant_in_pool": 6,
+      "r_at_5": {
+        "off": 1.0,
+        "on": 1.0,
+        "delta": 0.0
+      },
+      "mrr": {
+        "off": 1.0,
+        "on": 1.0,
+        "delta": 0.0
+      }
+    }
+  },
+  "asymmetry": {
+    "code_mrr_delta": 0.0,
+    "conversational_mrr_delta": 0.0,
+    "conversational_minus_code": 0.0
+  },
+  "interpretation": {
+    "verdict": "INCONCLUSIVE \u2014 measurement degenerate, not a robustness finding",
+    "why": "first-relevant is rank 1 under BOTH orderings for every scored query \u2014 relevance labels are too loose to expose any rerank effect (the ordering swap cannot move a top-1 hit)",
+    "recommendation": "Do NOT read this as H3/robust. A valid run needs (a) the out-of-domain code-trained CE checkpoint in the rerank slot and (b) a corpus with a genuine code domain. The live palace here is conversational-only and the code-CE checkpoint is not on this host \u2014 see the report's blocked_on field."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "experiment": "isotonic confidence calibration fit (#105 / mempalace#250)",
+  "posture": "controlled-condition delta; before=identity(raw similarity), after=PAV isotonic",
+  "source": "baselines/confidence_calibration_pairs_2026-05-29.json",
+  "score_field": "similarity",
+  "n_pairs": 851,
+  "n_relevant": 11,
+  "base_rate": 0.012925969447708578,
+  "n_bins": 10,
+  "in_sample": {
+    "before_calibration": {
+      "ece": 0.5361081081081079,
+      "brier": 0.30570905052878966
+    },
+    "after_calibration": {
+      "ece": 0.0,
+      "brier": 0.008879517233441842
+    },
+    "note": "in-sample ECE for isotonic is optimistic (PAV fits the eval set); see cross_validated for the honest number."
+  },
+  "cross_validated": {
+    "n_folds": 5,
+    "n_oos": 851,
+    "before_calibration": {
+      "ece": 0.5361081081081079,
+      "brier": 0.30570905052878966
+    },
+    "after_calibration": {
+      "ece": 0.003584593399177894,
+      "brier": 0.010200226744302675
+    }
+  },
+  "before_calibration": {
+    "ece": 0.5361081081081079,
+    "brier": 0.30570905052878966
+  },
+  "after_calibration": {
+    "ece": 0.003584593399177894,
+    "brier": 0.010200226744302675
+  },
+  "delta_ece": -0.53252351470893,
+  "delta_brier": -0.295508823784487,
+  "calibrator_artifact": "baselines/confidence_calibrator_age_2026-05-29.json"
+}

@@ -170,13 +170,73 @@ def test_aggregate_qa_acc_counts_correct():
     assert agg["overall"]["labels"]["CORRECT"] == 2
 
 
-def test_aggregate_abstain_correct_only_on_abstention_questions():
+def test_aggregate_abstain_credited_via_is_abstention_flag():
+    """A correct ABSTAIN is credited when the row carries is_abstention=True —
+    regardless of the row's question_type. Abstention rows keep their ORIGINAL
+    question_type (single-session-preference, etc.), never the literal
+    "abstention", so detection must use the flag, not the string (#148)."""
     per_q = [
-        {"question_type": "abstention", "autoeval_label": "ABSTAIN"},   # right
-        {"question_type": "single-session-user", "autoeval_label": "ABSTAIN"},  # wrong
+        # Abstention question (kept its original type) that the model correctly
+        # refused -> credited.
+        {"question_type": "single-session-preference",
+         "is_abstention": True, "autoeval_label": "ABSTAIN"},
+        # Non-abstention question that the model wrongly refused -> not credited.
+        {"question_type": "single-session-user",
+         "is_abstention": False, "autoeval_label": "ABSTAIN"},
     ]
     agg = aggregate_labels(per_q)
     assert agg["overall"]["qa_acc"] == 0.5
+    # The credit lands in the row's real category, not a synthetic "abstention".
+    pref = agg["by_question_type"]["single-session-preference"]
+    assert pref["qa_acc"] == 1.0
+
+
+def test_aggregate_abstain_not_credited_without_flag_regression_guard():
+    """Rows that predate the is_abstention flag (older saved baselines) lack it
+    and fall back to False — preserving their as-recorded numbers. The literal
+    "abstention" question_type must NOT secretly re-credit them."""
+    per_q = [
+        {"question_type": "abstention", "autoeval_label": "ABSTAIN"},  # no flag
+        {"question_type": "single-session-user", "autoeval_label": "ABSTAIN"},
+    ]
+    agg = aggregate_labels(per_q)
+    # Neither is credited (no is_abstention flag present) -> 0.0.
+    assert agg["overall"]["qa_acc"] == 0.0
+
+
+def test_run_one_config_propagates_is_abstention_and_credits_refusal():
+    """End-to-end through run_one_config: an abstention record (kept its
+    original question_type) that the model correctly refuses must surface
+    is_abstention=True on the row AND be credited by the aggregator (#148)."""
+    rec = {
+        "question_id": "q_abs", "question": "What is my cat's name?",
+        "gold_answer": "The user has no cat.",
+        "question_type": "single-session-user", "is_abstention": True,
+        "context_string": "ctx",
+    }
+    reader = _FakeReader()
+    # _AbstainJudge votes "yes"; the canonical judge maps (abstention, yes) ->
+    # ABSTAIN. Routing to the abstention template is driven by the record's
+    # is_abstention flag inside _grade_one_record.
+    class _AbstainJudge:
+        def __init__(self):
+            self.chat = SimpleNamespace(
+                completions=SimpleNamespace(create=self._create))
+
+        def _create(self, *, model, messages, **kw):
+            return SimpleNamespace(choices=[SimpleNamespace(
+                message=SimpleNamespace(content="yes"))])
+
+    res = run_one_config(
+        records=[rec], config=ReaderConfig("m", "baseline", None),
+        judge_model="judge", reader_client=reader, judge_client=_AbstainJudge(),
+    )
+    row = res["per_question"][0]
+    assert row["is_abstention"] is True
+    assert row["question_type"] == "single-session-user"  # original type kept
+    assert row["autoeval_label"] == "ABSTAIN"
+    # The correct refusal is credited -> qa_acc 1.0 (was 0.0 before #148).
+    assert res["summary"]["overall"]["qa_acc"] == 1.0
 
 
 # --- run_one_config / run_sweep -------------------------------------------

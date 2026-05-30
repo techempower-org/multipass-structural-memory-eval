@@ -25,8 +25,13 @@ session-level R@K metric** as the published mempalace-daemon baseline — OMEGA'
   (per CLAUDE.md). The value is the *on-harness OMEGA-vs-mempalace* comparison, which
   no one else has run.
 
-**E2E QA** (o4-mini reader + canonical `gpt-5.3-chat` judge, same n=150) is reported in
-a follow-up section once that run lands; this note ships the R@5 leg.
+**E2E QA** (o4-mini reader + canonical `gpt-5.3-chat` judge, same n=150, `sme-rich` =
+dates present): OMEGA QA = **0.593 macro** (headline; micro 0.653 secondary) — ≈ at parity
+with the same-reader mempalace-daemon retrieved-context comparator (**0.580 macro**, both
+labeled "o4-mini reader, retrieved context"). The mempalace 0.610/0.868 oracle figures are
+a different axis (the mempalace gradient), **not** the OMEGA comparator. See the *E2E QA
+leg* section below, including the temporal-reasoning content-rendering finding (cat_6) that
+cross-validates SME's "what reaches the reader is the lever" ingest thesis.
 
 ## The embedding-model catch (verify the system is doing what it claims)
 
@@ -101,6 +106,70 @@ confirm.
    "OMEGA beats/underperforms its claim." The defensible comparison is
    **OMEGA-vs-mempalace on this harness** (identical corpus, reader, judge) — the moat.
 
+## E2E QA leg (follow-up — reader + canonical judge)
+
+Reader **o4-mini**, judge **`gpt-5.3-chat` + canonical type-specific prompts**, same n=150
+stratified subset. **The headline OMEGA QA number is the `sme-rich` run** (dates present);
+the `upstream-exact` run is reported only as a date-stripped diagnostic (see below).
+
+**Headline: macro 0.593.** Macro (unweighted mean of the four equal-n categories) is the
+published number because it matches the stratified-equal-n philosophy *and* the averaging of
+the 0.580 comparator. Micro (per-question) is a clearly-labeled secondary — it runs higher
+only because cat_1 is half the sample and scores well.
+
+| OMEGA QA (sme-rich, fair) | n | QA |
+|---|---:|---:|
+| cat_1 — single-session | 75 | 0.773 |
+| cat_2c — multi-session | 25 | 0.480 |
+| cat_3_partial — knowledge-update | 25 | 0.760 |
+| cat_6 — temporal-reasoning | 25 | 0.360 |
+| **OVERALL — macro (headline)** — unweighted mean of the 4 cats | 150 | **0.593** |
+| OVERALL — micro (secondary; per-question, cat_1-weighted, 98/150) | 150 | 0.653 |
+
+sme-rich also lifts OMEGA's *own* retrieval (R@5 0.953 vs its upstream-exact 0.900 — the
+documented +date-frontmatter effect). **This 0.953 is NOT a comparator to mempalace's
+published R@5 0.927.** The published mempalace R@5 was measured `upstream-exact`
+(`docs/benchmarks/2026-05-29-longmemeval-s-results.md` reproduce command), so the fair,
+same-rendering R@5 pair is **OMEGA 0.900 vs mempalace 0.927** (both upstream-exact, mempalace
++2.7pp) — the figure on the live matrix. No mempalace `sme-rich` strat150 R@5 baseline
+exists, so pairing OMEGA's 0.953 against 0.927 would be a rendering-mismatch in OMEGA's
+favour; don't.
+
+### The temporal-reasoning content-rendering finding (cat_6)
+
+The **`upstream-exact`** QA run (user-turns-only rendering — the R@5-parity rendering)
+floored **cat_6 (temporal-reasoning) at 0.04 (1/25)**, dragging its overall to 0.38. Root
+cause, spot-checked: retrieval was **fine** (cat_6 hit@5 = 0.96), but `upstream-exact`
+**strips the session dates**, and temporal questions need date arithmetic ("how many weeks
+ago", "days between X and Y", "order these three events"). The date-starved reader answered
+*"today"*, *"0 weeks ago"*, or *"I don't know."* Restoring dates (`sme-rich` frontmatter)
+lifted cat_6 to **0.36** — a **+0.32** swing from a rendering change, not a substrate change.
+
+**This cross-validates SME's own headline finding.** The published mempalace ingest-fidelity
+gradient says *what reaches the reader is the lever* — `upstream-exact` ingest starves the
+reader. OMEGA, an independent system, hit the **same wall**: retrieval intact, reader
+date-starved. A competitor confirming the ingest-fidelity axis **strengthens** the thesis;
+it is not an OMEGA weakness. The `upstream-exact` 0.38 / cat_6 0.04 numbers are a
+**date-stripped diagnostic**, NOT OMEGA's headline.
+
+### Comparator (read carefully — the obvious comparison is a category error)
+
+The mempalace **0.610** figure (`docs/benchmarks/2026-05-29-canonical-judge-passA.md`) is
+**NOT** an apples comparison to OMEGA's 0.593: it used reader **`claude-opus-4-8`** (not
+o4-mini) on **`ctx=full` ORACLE** context (retrieval bypassed) with an abstention-credit
+adjustment. Both a stronger reader and oracle context favor 0.610; pitting OMEGA's
+o4-mini/retrieved number against it understates OMEGA.
+
+The **clean same-reader comparator** is the mempalace-daemon run with the **identical
+reader (o4-mini) + judge (gpt-5.3-chat) on retrieved context**
+(`baselines/longmemeval_mempalace_daemon_2026-05-28-rerun.reagg.json`): macro over the four
+matching categories = **0.580** (cat_1 0.51, cat_2c 0.74, cat_3 0.65, cat_6 0.41). Against
+that, **OMEGA (0.593 macro) is ≈ at parity (+1.3pp)** with a different per-category profile
+(OMEGA leads cat_1/cat_3; the daemon leads cat_2c/cat_6). Residual caveat: that daemon run
+was `longmemeval_oracle` n=500, not the strat150-S subset, so haystack size differs — even
+this comparator is not pixel-perfect, and both numbers are **diagnostic deltas, not
+leaderboard scores**.
+
 ## Reproduce
 
 ```bash
@@ -113,21 +182,22 @@ confirm.
   --max-questions 150 --stratify-by question_type --content-rules upstream-exact \
   --skip-judge --json baselines/longmemeval_omega_strat150_r5_2026-05-30.json
 
-# E2E QA (reader + canonical judge)
+# E2E QA (reader + canonical judge) — sme-rich = dates present = the fair QA number
 ./venv/bin/python scripts/run_longmemeval_omega.py \
   --questions sme/corpora/longmemeval/data/longmemeval_s_cleaned.json \
-  --max-questions 150 --stratify-by question_type --content-rules upstream-exact \
+  --max-questions 150 --stratify-by question_type --content-rules sme-rich \
   --answer-model o4-mini --judge gpt-5.3-chat \
-  --json baselines/longmemeval_omega_strat150_qa_2026-05-30.json
+  --json baselines/longmemeval_omega_strat150_qa_smerich_2026-05-30.json
 ```
 
 ## Artifacts
 
 ```
-baselines/longmemeval_omega_strat150_r5_2026-05-30.json    # this note (R@5)
-baselines/longmemeval_omega_strat150_qa_2026-05-30.json    # E2E QA (follow-up)
-scripts/run_longmemeval_omega.py                           # the runner
-tests/test_run_longmemeval_omega.py                        # session-level scoring tests
+baselines/longmemeval_omega_strat150_r5_2026-05-30.json              # R@5 (PR #188)
+baselines/longmemeval_omega_strat150_qa_smerich_2026-05-30.json      # E2E QA — fair (headline)
+baselines/longmemeval_omega_strat150_qa_upstreamexact_2026-05-30.json # E2E QA — date-stripped diagnostic
+scripts/run_longmemeval_omega.py                                     # the runner
+tests/test_run_longmemeval_omega.py                                  # session-level scoring tests
 ```
 
 ## Next

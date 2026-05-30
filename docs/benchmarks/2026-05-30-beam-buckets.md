@@ -16,7 +16,7 @@ ABSTAIN on abstention items, over judged items):
 |---|---|---:|---:|---|
 | **100K** | full-conversation context (`n_results=5` ≥ 3-5 sessions ⇒ whole conv) | 400 | **0.649** | 235 CORRECT + 24 ABSTAIN / 399 judged (1 judge ERROR) |
 | **500K** | retrieval (`n_results=3` of 10 sessions) | 700 | **0.487** | 293 CORRECT + 48 ABSTAIN / 700 judged |
-| 1M | retrieval (`n_results=2` of 10 sessions) | 700 | _running_ | top-2 ≈ 175-330K-tok ctx |
+| **1M** | retrieval (`n_results=2` of 10 sessions) | 700 | **0.471** | 276 CORRECT + 53 ABSTAIN / 699 judged; **58 reader-window overflows** → INCORRECT (see below) |
 | 10M | — | — | **deferred** | only Mem0/Hindsight publish it; out of scope tonight |
 
 **Diagnostic posture (per CLAUDE.md): this is a delta under controlled
@@ -124,6 +124,50 @@ recover most of the information_extraction / multi_session loss. event_ordering
 remains a hard 0.0 from the same tau-b grader mismatch (see above), dragging both
 buckets' headline down equally.
 
+## 1M bucket (complete) — the regime plateaus
+
+**E2E QA pass-rate 0.471** (276 CORRECT + 53 ABSTAIN / 699 judged, n=700, 35
+conversations, `n_results=2`, 1 judge error). Same reader/judge.
+
+**Confound to state up front: 58 of 700 reader calls overflowed the window.** At
+1M a single conversation is ~1.09M-tok median (max ~1.84M); even top-2 of 10
+sessions exceeds `gpt-5.3-chat`'s input on the largest conversations. When the
+reader 400s the answer is empty → judged INCORRECT. This is the predicted,
+documented failure mode (not fabricated) — but it means the 1M headline carries a
+**~8% hard-zero floor from window overflow** on top of the retrieval-recall
+ceiling. A production 1M run would chunk below the session granularity (Mem0 keeps
+retrieval calls <7K tokens) rather than feed whole sessions.
+
+### The regime plateaus between 500K and 1M
+
+| BEAM ability | 100K | 500K | 1M | 500K→1M |
+|---|---:|---:|---:|---:|
+| summarization | 0.750 | 0.871 | 0.800 | −0.071 |
+| preference_following | 0.875 | 0.814 | 0.786 | −0.028 |
+| abstention | 0.600 | 0.686 | 0.757 | +0.071 |
+| contradiction_resolution | 0.875 | 0.686 | 0.500 | −0.186 |
+| instruction_following | 0.769 | 0.643 | 0.586 | −0.057 |
+| information_extraction | 0.850 | 0.400 | 0.414 | +0.014 |
+| knowledge_update | 0.425 | 0.271 | 0.343 | +0.072 |
+| temporal_reasoning | 0.750 | 0.257 | 0.200 | −0.057 |
+| multi_session_reasoning | 0.600 | 0.243 | 0.314 | +0.071 |
+| **event_ordering** | 0.000 | 0.000 | 0.000 | (grader floor) |
+| **overall** | **0.649** | **0.487** | **0.471** | **−0.016** |
+
+The big cliff is **100K → 500K** (−0.162: full-context → retrieval). **500K → 1M
+is essentially flat** (−0.016) — and that small net drop is mostly the 58 window
+overflows; several needle abilities actually tick *up* (multi_session 0.24→0.31,
+knowledge_update 0.27→0.34, information_extraction flat). The interpretation:
+once you are already retrieval-limited at low top-K (500K), making the haystack
+3× larger (1M) doesn't degrade much further — the retriever was already only
+seeing 2-3 of N sessions, so "N got bigger" changes little. The dominant lever is
+**retrieval breadth/granularity, not haystack size**, which is exactly the BEAM
+thesis and matches Mem0's <7K-tok-per-call design beating brute-force context.
+
+For reference, Mem0 reports **64.1 at 1M** (aggressive retrieval, <7K tok/call);
+our 0.471 is a *full-session-chunk, top-2* substrate reading with an 8% overflow
+floor — a different, deliberately simple retrieval regime, reported as such.
+
 ## What changed in the harness for the larger buckets
 
 - `--beam-n-results` (default 5 = the 100K full-context regime; set 2-3 for the
@@ -160,12 +204,22 @@ baselines/beam_100K_qa_2026-05-30.json        # full per-question report (400q)
 baselines/beam_100K_summary_2026-05-30.json   # headline + per-ability/-category rates
 baselines/beam_500K_qa_2026-05-30.json        # full per-question report (700q)
 baselines/beam_500K_summary_2026-05-30.json   # headline + per-ability/-category rates
-# 1M appended when it lands (running at n_results=2)
+baselines/beam_1M_qa_2026-05-30.json          # full per-question report (700q)
+baselines/beam_1M_summary_2026-05-30.json     # headline + per-ability/-category rates
 ```
 
 ## Next
 
 - **event_ordering tau-b grader** — replace the binary judge for this ability so
-  its number is meaningful (currently a hard 0.0 floor dragging the overall down).
-- 500K / 1M numbers (retrieval regime) appended to this note + baselines as they
-  complete; 10M remains deferred (cost).
+  its number is meaningful (currently a hard 0.0 floor dragging every bucket down).
+- **Sub-session chunking for 1M** — the 58 window overflows (and the
+  retrieval-recall ceiling generally) come from feeding whole sessions. Chunking
+  below the session and retrieving more, smaller passages (Mem0's <7K-tok/call
+  design) is the next lever; it would lift the needle abilities and remove the
+  overflow floor.
+- **10M** remains deferred (cost; only Mem0/Hindsight publish it).
+
+All three runnable buckets are now complete: **100K 0.649 (full-context) · 500K
+0.487 · 1M 0.471 (retrieval)** — the cliff is the full-context→retrieval
+transition (100K→500K), and the regime plateaus 500K→1M (haystack size matters
+far less than retrieval breadth).

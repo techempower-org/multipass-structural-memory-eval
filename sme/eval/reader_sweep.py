@@ -193,6 +193,13 @@ def _grade_one_record(
     return {
         "question_id": r["question_id"],
         "question_type": r["question_type"],
+        # Propagate the abstention flag (the same signal the loader sets from
+        # the `_abs` suffix and that we route the judge on at line above) so the
+        # aggregator can credit a correct refusal. Abstention rows keep their
+        # ORIGINAL question_type (e.g. single-session-preference), so a literal
+        # `question_type == "abstention"` check in aggregate_labels is dead —
+        # this flag is the detection signal instead (#148).
+        "is_abstention": bool(r.get("is_abstention")),
         "sme_category": r.get("sme_category"),
         "hypothesis": hypothesis,
         "autoeval_label": judge.get("autoeval_label"),
@@ -266,8 +273,15 @@ def run_one_config(
 def aggregate_labels(per_q: list[dict]) -> dict:
     """QA-acc + label histogram, overall and per question_type.
 
-    QA-acc counts CORRECT (and ABSTAIN on abstention questions) as right,
-    matching the LongMemEval judge convention used elsewhere in the harness.
+    QA-acc counts CORRECT (and a correct ABSTAIN on abstention questions) as
+    right, matching the LongMemEval judge convention used elsewhere in the
+    harness. Abstention is detected via the per-row ``is_abstention`` flag —
+    NOT a literal ``question_type == "abstention"`` check, because abstention
+    rows retain their original question_type (single-session-preference, etc.)
+    and so never carry the literal string. The old literal check was dead code
+    that scored every correct refusal as a miss (#148). Rows that predate the
+    flag (older saved baselines) lack ``is_abstention`` and fall back to False,
+    preserving their as-recorded numbers.
     """
     def _acc(rows: list[dict]) -> dict:
         n = len(rows)
@@ -279,7 +293,7 @@ def aggregate_labels(per_q: list[dict]) -> dict:
             lab = r.get("autoeval_label") or "ERROR"
             hist[lab] = hist.get(lab, 0) + 1
             if lab == "CORRECT" or (
-                lab == "ABSTAIN" and r["question_type"] == "abstention"
+                lab == "ABSTAIN" and r.get("is_abstention")
             ):
                 correct += 1
         return {"n": n, "qa_acc": round(correct / n, 4), "labels": hist}

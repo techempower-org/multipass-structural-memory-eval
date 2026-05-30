@@ -334,3 +334,98 @@ def test_arg_parser_requires_dataset_and_adapter():
     assert parsed.adapter == "full-context"
     assert parsed.skip_judge is False
     assert parsed.reader_model == "gpt-4o-mini"
+
+
+# --- BEAM bucket retrieval depth + hit-metric id normalization -------------
+
+def test_arg_parser_beam_n_results_default_and_override():
+    """``--beam-n-results`` defaults to 5 (the 100K full-context regime)
+    and is overridable for the 500K/1M retrieval regime."""
+    parser = harness.build_arg_parser()
+    default = parser.parse_args(["--dataset", "/tmp/x.json", "--adapter", "flat"])
+    assert default.beam_n_results == 5
+    override = parser.parse_args(
+        ["--dataset", "/tmp/x.json", "--adapter", "flat",
+         "--corpus", "beam", "--bucket", "1M", "--beam-n-results", "2"]
+    )
+    assert override.beam_n_results == 2
+
+
+def test_run_beam_questions_threads_n_results_to_adapter():
+    """The per-query retrieval depth reaches ``adapter.query`` so the
+    500K/1M buckets can bound the retrieved context to the reader window."""
+    seen: dict[str, int] = {}
+
+    class _RecordingAdapter:
+        def query(self, question, *, n_results=None):
+            seen["n_results"] = n_results
+            return harness.QueryResult(answer="", context_string="ctx",
+                                       retrieved_entities=[])
+
+        def close(self):
+            pass
+
+    # A minimal BEAMQuestion-shaped stand-in (only the attrs the runner
+    # touches). One conversation, one question, no abstention.
+    class _Q:
+        question_id = "1M::c1::q0"
+        conversation_id = "c1"
+        bucket = "1M"
+        ability_type = "information_extraction"
+        sme_category = "cat_1"
+        is_abstention = False
+        question = "what?"
+        gold_answer = "x"
+        ground_truth_nuggets = "x"
+        sessions: list = []
+
+        @staticmethod
+        def expected_sources_session_level():
+            return []
+
+        def to_sme_question(self):
+            return {"id": self.question_id, "bucket": self.bucket}
+
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as wd:
+        # adapter_factory ignores the vault path and returns our recorder;
+        # the runner still materializes the (empty-session) vault once.
+        recs = harness.run_beam_questions(
+            [_Q()],
+            adapter_factory=lambda _vault: _RecordingAdapter(),
+            work_dir=Path(wd),
+            skip_judge=True,
+            skip_reader=True,
+            reader_model="x",
+            judge_model="x",
+            n_results=2,
+        )
+    assert seen["n_results"] == 2
+    assert recs[0]["bucket"] == "1M"
+
+
+def test_chunk_prefixed_ids_normalize_for_hit_metric():
+    """The flat baseline labels entities ``chunk:S0``; expected sources
+    are bare ``S0``. Hit-at-K must normalize the prefix so per-session
+    retrieval recall is real, while the raw ids are preserved."""
+    from sme.adapters.base import Entity
+
+    result = harness.QueryResult(
+        answer="", context_string="S0 body",
+        retrieved_entities=[
+            Entity(id="chunk:S0", name="S0.md", entity_type="chunk"),
+            Entity(id="chunk:S3", name="S3.md", entity_type="chunk"),
+        ],
+    )
+    rec = harness._score_and_judge(
+        question="q", question_id="100K::c1::q0",
+        question_type="information_extraction", sme_category="cat_1",
+        is_abstention=False, gold_answer="x", expected=["S0"],
+        result=result, skip_judge=True, skip_reader=True,
+        reader_model="x", judge_model="x",
+    )
+    assert rec["hit_at_1"] is True          # chunk:S0 -> S0 matches expected
+    assert rec["hit_at_5"] is True
+    # raw ids preserved verbatim for provenance
+    assert rec["retrieved_entity_ids"] == ["chunk:S0", "chunk:S3"]

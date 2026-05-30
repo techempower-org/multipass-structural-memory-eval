@@ -1588,13 +1588,13 @@
               <td class="sys">mempalace <span class="note">deployed substrate (this work)</span></td>
               <td class="store verb">verbatim</td>
               <td class="num">92.7%</td>
-              <td class="num">61.0% <span class="note">/search limit=5; ceiling 86.8% w/ gold</span></td>
+              <td class="num">61.0% <span class="note">deployed-E2E (0.610&rarr;0.684 ingest-fixed) &middot; /search limit=5 ‖<br>oracle ceiling 0.868 w/ gold handed to reader</span></td>
             </tr>
             <tr>
               <td class="sys">OMEGA <span class="note">first independent competitor run</span></td>
               <td class="store">extraction</td>
               <td class="num">90.0%</td>
-              <td class="pending">pending <span class="note">sme-rich QA in flight</span></td>
+              <td class="num">59.3% <span class="note">sme-rich · o4-mini reader ✦<br>vs mempalace 61.0% — near-parity</span></td>
             </tr>
             <tr>
               <td class="sys">Hindsight <span class="note">extraction, cloud-extractor</span></td>
@@ -1607,18 +1607,32 @@
         </div>
 
         <p class="bench-prose" style="font-size:13px;opacity:.85;">
-          Today the head-to-head we can stand behind is <strong>R@5</strong>:
-          mempalace <strong>0.927</strong> vs OMEGA <strong>0.900</strong> on the
-          identical subset &mdash; a 2.7pp (four-question) edge, retrieval-only,
-          no answer-model confound. The <strong>E2E QA</strong> column fills in as
-          each competitor finishes on our judge: OMEGA&rsquo;s sme-rich QA run is in
-          flight, and Hindsight&rsquo;s cloud-extractor throughput makes a full QA
-          pass cost-gated for now &mdash; deferred rather than guessed. mempalace&rsquo;s
-          own 0.610 is the <em>deployed</em> <code>/search</code> number (limit=5),
-          not its ceiling; hand the reader the gold and it reaches 0.868 (see the
-          field card below for the full decomposition). When the QA column is
-          complete, <strong>this</strong> table &mdash; not the leaderboard &mdash; is
-          the comparison to read.
+          On <strong>R@5</strong>, mempalace <strong>0.927</strong> vs OMEGA
+          <strong>0.900</strong> on the identical subset &mdash; a 2.7pp
+          (four-question) edge, retrieval-only, no answer-model confound. On
+          <strong>E2E QA</strong>, the head-to-head is now in: mempalace deployed
+          <strong>0.610</strong> vs OMEGA sme-rich <strong>0.593</strong> &mdash;
+          <strong>near-parity</strong> (mempalace +1.7pp), same n=150 subset and judge.
+          Hindsight&rsquo;s cloud-extractor throughput keeps its QA pass cost-gated for
+          now &mdash; deferred rather than guessed. mempalace&rsquo;s QA is
+          <strong>two different numbers</strong>, not one: the
+          <strong>deployed-E2E</strong> figure (0.610, rising to 0.684 once the
+          ingest drop is fixed) is the real <code>/search</code>&rarr;reader&rarr;judge
+          pipeline at limit=5; the <strong>oracle ceiling</strong> (0.868) hands the
+          gold to the reader and bypasses retrieval. This table &mdash; not the
+          leaderboard &mdash; is the comparison to read.
+        </p>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &#10022; <strong>OMEGA&rsquo;s 0.593 is the <em>fair</em> sme-rich number</strong>
+          (our harness, n=150, o4-mini reader + gpt-5.3-chat judge). OMEGA&rsquo;s
+          upstream-exact run scored just <strong>0.37</strong> &mdash; but that was
+          <em>date-starved</em>: its reader context dropped session timestamps, and the
+          temporal category (cat_6) jumped <strong>0.04&rarr;0.36</strong> once we
+          restored the dates. Scoring the date-stripped 0.37 against mempalace would be
+          the unfair comparison, so we use the date-restored sme-rich figure. (We ran
+          the same date-confound check on our own LoCoMo numbers &mdash; see the
+          explainer below &mdash; and there it came back clean, which is why we trust
+          0.593 here.)
         </p>
       </article>
 
@@ -1699,8 +1713,8 @@
           </thead>
           <tbody>
             <tr class="grp"><td colspan="8">mempalace &mdash; this work (verbatim-first)</td></tr>
-            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">61.0%</td><td class="num">&mdash;</td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
-            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">68.4%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
+            <tr><td>mempalace &mdash; deployed substrate</td><td class="store verb">verbatim</td><td class="num">92.7%</td><td class="num">&mdash;</td><td class="num">61.0% <span class="mtag">limit=5 ‖</span></td><td class="num">38.8% <span class="mtag">daemon §</span></td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
+            <tr><td>mempalace &mdash; ingest-fixed</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">68.4% <span class="mtag">limit=5 ‖</span></td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
             <tr class="total"><td>mempalace &mdash; true-oracle ceiling</td><td class="store verb">verbatim</td><td class="num">&mdash;</td><td class="num">86.8%</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td>gpt-5.3-chat</td><td><span class="vbadge indie">indie</span></td></tr>
 
             <tr class="grp"><td colspan="8">the field &mdash; E2E QA leaderboard (sorted by LongMemEval E2E QA; storage paradigm per MemPalace survey + independent check)</td></tr>
@@ -1765,6 +1779,16 @@
           LoCoMo QA here (~0.39) is an <em>our-harness</em> figure (gpt-5.3-chat reader) &mdash;
           not comparable to the field&rsquo;s 0.75&ndash;0.93 (stronger answer models +
           looser graders; cf. the event-ordering Kendall-&tau; vs binary-judge mismatch).
+        </p>
+        <p class="bench-prose" style="font-size:13px;opacity:.8;">
+          &#8214; <strong>mempalace&rsquo;s 0.610 / 0.684 are deployed-E2E QA</strong>
+          (column <em>E2E QA</em>), not oracle &mdash; real <code>/search</code>&rarr;reader&rarr;judge
+          at limit=5. Only the <strong>0.868 ceiling</strong> sits under <em>oracle QA</em>
+          (gold handed to the reader, retrieval bypassed) &mdash; the like-for-like
+          comparison to the field&rsquo;s GPT-4o 0.870 oracle. The deployed&rarr;oracle gap
+          is retrieval breadth (limit=5 + chunking); Echo is re-running deployed QA at
+          limit=20/50 to recover it
+          (techempower-org/multipass-structural-memory-eval#117).
         </p>
 
         <p class="bench-prose">
@@ -2075,15 +2099,21 @@
         </p>
 
         <div class="caveat">
-          <span class="label">temporal date-confound &middot; under verification</span>
-          There is also a likely <strong>temporal confound</strong>: LoCoMo questions
-          lean on session <em>dates</em>, and an early diagnosis suggests our flat
-          reader context may not have carried the session timestamps the gold answer
-          depends on. Cassia is re-running with dates preserved
-          (techempower-org/multipass-structural-memory-eval#108 / #110); the corrected
-          number will be slotted in here. Until then, treat ~0.38 as a
-          <strong>floor under our strictest conditions</strong>, not a substrate verdict
-          &mdash; and <em>not</em> apples-to-apples with the field&rsquo;s 0.75&ndash;0.93.
+          <span class="label">temporal date-confound &middot; ruled out</span>
+          We checked for the same temporal date-confound that bit OMEGA here, and
+          <strong>ruled it out.</strong> Cassia&rsquo;s diagnostic (n=50 temporal,
+          capture-context) found <strong>100% of reader contexts carried a date</strong>
+          &mdash; zero date-stripped. The failures break down as <strong>retrieval-miss
+          24</strong> / genuine-reasoning-fail 8 / IDK-despite-evidence 5: the gold
+          isn&rsquo;t reaching the reader, or the reasoning genuinely misses &mdash;
+          <em>not</em> date-starvation. So unlike OMEGA (whose upstream-exact run
+          <em>was</em> date-starved &mdash; cat_6 jumped 0.04&rarr;0.36 once dates were
+          restored), LoCoMo&rsquo;s 0.384 overall / 0.26 temporal is the genuine
+          retrieval-ceiling-plus-reasoning number, not an artifact. Treat it as a
+          <strong>real reading under our strictest conditions</strong> &mdash; still
+          <em>not</em> apples-to-apples with the field&rsquo;s 0.75&ndash;0.93 (stronger
+          answer models + looser graders), but honestly ours
+          (techempower-org/multipass-structural-memory-eval#108 / #110).
         </div>
 
         <div class="bench-foot">

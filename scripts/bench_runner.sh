@@ -52,17 +52,20 @@
 #                                 benches. Default 0 → a 2nd concurrent ingest
 #                                 bench is REFUSED (exit 4). See the gate below.
 #
-# ⚠️  CONCURRENT-INGEST SAFETY GATE (mempalace#331)
-# Live familiar runs with MEMPALACE_KG_WRITETHROUGH=1, which takes the daemon's
-# *inline* KG write-through path — and that path has a data race under
-# concurrent writers (autocommit=False shared connection → transaction-span
-# interleaving → silently dropped/mis-committed KG triples). The mempalace
-# ingest thread-safety audit's RLock fix (mempalace#331) is NOT yet merged or
-# deployed to familiar. Until it is, running ≥2 ingest-heavy benches
-# concurrently risks KG CORRUPTION. A SINGLE ingest bench is safe (no
-# concurrent writer); retrieval-only is always safe (no writes). So this
-# wrapper REFUSES a 2nd concurrent ingest bench by default; flip
-# SME_BENCH_ALLOW_CONCURRENT_INGEST=1 only after #331 is deployed to familiar.
+# ⚠️  CONCURRENT-INGEST GATE — two barriers, one resolved, one not
+# (1) Thread-safety: RESOLVED. Live familiar runs MEMPALACE_KG_WRITETHROUGH=1
+#     (inline KG write-through), which had a concurrent-writer race; the
+#     mempalace#331 RLock fix is deployed to familiar (2026-05-29), so
+#     concurrent KG writes are now data-safe (no dropped triples).
+# (2) Prod contamination: NOT solved by the RLock. familiar:8085 fronts the
+#     PRODUCTION palace (live ~1.9M-triple AGE graph + JP's companion data).
+#     An ingest-heavy bench POSTs TEST DATA into whatever palace the daemon
+#     serves — so concurrent ingest against familiar pollutes prod regardless.
+# A SINGLE ingest bench is safe; retrieval-only is always safe (no writes).
+# So this wrapper REFUSES a 2nd concurrent ingest bench by default. The flag's
+# meaning is now "requires a scratch palace": flip
+# SME_BENCH_ALLOW_CONCURRENT_INGEST=1 ONLY when pointed at a throwaway/scratch
+# palace, NEVER against the prod familiar daemon.
 
 set -euo pipefail
 
@@ -106,11 +109,13 @@ bench_acquire() {
         count=$(_bench_refcount)
         avail=$(_bench_avail_mib)
         echo "bench_runner: ingest gate — ${count} bench(es) registered, ${avail} MiB avail on ${PALACE_DAEMON_HOST}"
-        # mempalace#331 safety gate: refuse a 2nd CONCURRENT ingest bench while
-        # the inline KG-write-through race is live on familiar (WRITETHROUGH=1,
-        # RLock fix not yet deployed). A single ingest bench (count 0) is safe.
+        # Refuse a 2nd CONCURRENT ingest bench by default. Thread-safety is
+        # resolved (mempalace#331 RLock deployed), but concurrent ingest POSTs
+        # test data into whatever palace the daemon serves — and familiar is
+        # PROD. A single ingest bench (count 0) is safe. The flag opts into
+        # concurrent ingest against a SCRATCH palace only, never prod.
         if [ "${count:-0}" -ge 1 ] && [ "${SME_BENCH_ALLOW_CONCURRENT_INGEST}" != "1" ]; then
-            echo "bench_runner: REFUSE — ${count} ingest bench(es) already registered and concurrent ingest is GATED (mempalace#331: live KG-write-through race under concurrent writers). A single ingest bench is safe; flip SME_BENCH_ALLOW_CONCURRENT_INGEST=1 only after #331's RLock is deployed to familiar." >&2
+            echo "bench_runner: REFUSE — ${count} ingest bench(es) already registered; concurrent ingest is GATED. Thread-safe per mempalace#331, but it would pollute the PROD palace (familiar). A single ingest bench is safe; set SME_BENCH_ALLOW_CONCURRENT_INGEST=1 ONLY against a scratch palace, never prod familiar." >&2
             return 4
         fi
         if [ "${count:-0}" -ge "${SME_BENCH_MAX_INGEST}" ]; then

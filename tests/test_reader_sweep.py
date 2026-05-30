@@ -53,14 +53,14 @@ class _FakeJudge:
 
     def _create(self, *, model, messages, **kw):
         body = messages[-1]["content"]
-        label = "INCORRECT"
+        verdict = "no"
         for m in self.good:
             if f"ans::{m}" in body:
-                label = "CORRECT"
-        # The judge parser reads the "label" key (see _parse_judge_reply).
-        payload = json.dumps({"label": label, "rationale": "x"})
+                verdict = "yes"
+        # The canonical judge parser reads "yes" in reply.lower() (see
+        # _parse_judge_reply) — a binary verdict, not a JSON label.
         return SimpleNamespace(
-            choices=[SimpleNamespace(message=SimpleNamespace(content=payload))]
+            choices=[SimpleNamespace(message=SimpleNamespace(content=verdict))]
         )
 
 
@@ -103,10 +103,10 @@ class _QuestionMatchJudge:
 
     def _create(self, *, model, messages, **kw):
         body = messages[-1]["content"]
-        # The judge prompt carries "Question: <q>" and "System answer:
-        # ans-for::<the question the reader actually saw>". CORRECT iff those
-        # two questions match — a misordering pairs the wrong answer with the
-        # question and flips this to INCORRECT.
+        # The canonical judge prompt carries "Question: <q>" and "Model
+        # Response: ans-for::<the question the reader actually saw>". The
+        # verdict is "yes" iff those two questions match — a misordering pairs
+        # the wrong answer with the question and flips this to "no".
         asked_q = ""
         answered_q = None
         for line in body.splitlines():
@@ -114,11 +114,10 @@ class _QuestionMatchJudge:
                 asked_q = line[len("Question:"):].strip()
             if "ans-for::" in line:
                 answered_q = line.split("ans-for::", 1)[1].strip()
-        label = "CORRECT" if (answered_q is not None and answered_q == asked_q) \
-            else "INCORRECT"
-        payload = json.dumps({"label": label, "rationale": "x"})
+        verdict = "yes" if (answered_q is not None and answered_q == asked_q) \
+            else "no"
         return SimpleNamespace(
-            choices=[SimpleNamespace(message=SimpleNamespace(content=payload))]
+            choices=[SimpleNamespace(message=SimpleNamespace(content=verdict))]
         )
 
 

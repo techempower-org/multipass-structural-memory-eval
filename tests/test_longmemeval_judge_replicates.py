@@ -1,12 +1,17 @@
 """Tests for judge variance / K-replicate functionality.
 
-Covers ``grade_answer_replicated``: backward compatibility for K=1,
-majority-vote aggregation for K>1, summed usage accounting, unanimous
-agreement, and the all-ERROR fallback.
+Covers ``grade_answer_replicated``: backward compatibility for K=1, majority-vote
+aggregation for K>1, summed usage accounting, unanimous agreement, and the
+all-ERROR fallback.
 
-Fakes match the SDK response shape used in ``test_longmemeval_judge.py``:
-an object with ``.choices[0].message.content`` and ``.usage.{prompt,
-completion,total}_tokens``.
+The canonical judge is binary (``'yes' in reply.lower()``), so replicates vote
+over CORRECT / INCORRECT (and ABSTAIN on abstention questions). ERROR is emitted
+only when the judge *call itself* fails — never from parsing a text reply — so
+the all-ERROR test scripts exceptions, not garbage strings.
+
+Fakes match the SDK response shape used in ``test_longmemeval_judge.py``: an
+object with ``.choices[0].message.content`` and ``.usage.{prompt,completion,
+total}_tokens``.
 """
 from __future__ import annotations
 
@@ -29,18 +34,25 @@ def _fake_response(content: str,
 
 
 class _ScriptedClient:
-    """Returns a different response per call, drawn from a list."""
+    """Returns a different response per call, drawn from a list. A list entry
+    that is an Exception instance is raised instead of returned (used to drive
+    the call-failure / ERROR path)."""
 
-    def __init__(self, contents: list[str]):
+    def __init__(self, contents: list):
         self._iter = iter(contents)
         self.calls: list[dict] = []
         outer = self
 
         class _Completions:
-            def create(self, *, model, messages, temperature=0.0):
+            def create(self, *, model, messages, temperature=0.0,
+                       max_tokens=None):
                 outer.calls.append({"model": model, "messages": messages,
-                                    "temperature": temperature})
-                return _fake_response(next(outer._iter))
+                                    "temperature": temperature,
+                                    "max_tokens": max_tokens})
+                item = next(outer._iter)
+                if isinstance(item, Exception):
+                    raise item
+                return _fake_response(item)
 
         class _Chat:
             completions = _Completions()
@@ -52,7 +64,7 @@ class _ScriptedClient:
 
 def test_single_replicate_backward_compat():
     """K=1 returns exactly the grade_answer shape, no replicate diagnostics."""
-    client = _ScriptedClient(['{"label": "CORRECT", "rationale": "good"}'])
+    client = _ScriptedClient(["yes"])
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hypothesis",
         replicates=1, client=client,
@@ -67,7 +79,7 @@ def test_single_replicate_backward_compat():
 
 def test_single_replicate_zero_also_delegates():
     """K=0 (or negative) treated as K=1 for safety."""
-    client = _ScriptedClient(['{"label": "CORRECT", "rationale": "ok"}'])
+    client = _ScriptedClient(["yes"])
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hyp",
         replicates=0, client=client,
@@ -79,19 +91,15 @@ def test_single_replicate_zero_also_delegates():
 # --- majority vote aggregation ---------------------------------------------
 
 def test_three_replicates_majority_vote():
-    """2/3 CORRECT, 1/3 PARTIAL → majority CORRECT, agreement_rate=2/3."""
-    client = _ScriptedClient([
-        '{"label": "CORRECT", "rationale": "good"}',
-        '{"label": "CORRECT", "rationale": "yes"}',
-        '{"label": "PARTIAL", "rationale": "maybe"}',
-    ])
+    """2/3 CORRECT, 1/3 INCORRECT -> majority CORRECT, agreement_rate=2/3."""
+    client = _ScriptedClient(["yes", "yes", "no"])
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hypothesis",
         replicates=3, client=client,
     )
     assert result["autoeval_label"] == "CORRECT"
     assert result["label_counts"]["CORRECT"] == 2
-    assert result["label_counts"]["PARTIAL"] == 1
+    assert result["label_counts"]["INCORRECT"] == 1
     assert result["agreement_rate"] == 2 / 3
     assert abs(result["flip_rate"] - 1 / 3) < 1e-9
     assert len(result["replicates"]) == 3
@@ -100,12 +108,8 @@ def test_three_replicates_majority_vote():
 
 
 def test_replicates_all_agree():
-    """Unanimous verdict → agreement_rate 1.0, flip_rate 0.0."""
-    client = _ScriptedClient([
-        '{"label": "INCORRECT", "rationale": "no"}',
-        '{"label": "INCORRECT", "rationale": "nope"}',
-        '{"label": "INCORRECT", "rationale": "wrong"}',
-    ])
+    """Unanimous verdict -> agreement_rate 1.0, flip_rate 0.0."""
+    client = _ScriptedClient(["no", "no", "no"])
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hyp",
         replicates=3, client=client,
@@ -120,10 +124,7 @@ def test_replicates_all_agree():
 
 def test_replicates_usage_summed():
     """usage tokens are summed across all replicate calls."""
-    client = _ScriptedClient([
-        '{"label": "CORRECT", "rationale": "a"}',
-        '{"label": "CORRECT", "rationale": "b"}',
-    ])
+    client = _ScriptedClient(["yes", "yes"])
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hyp",
         replicates=2, client=client,
@@ -137,10 +138,7 @@ def test_replicates_usage_summed():
 
 def test_temperature_override():
     """Explicit temperature is forwarded to every replicate call."""
-    client = _ScriptedClient([
-        '{"label": "CORRECT", "rationale": "x"}',
-        '{"label": "CORRECT", "rationale": "y"}',
-    ])
+    client = _ScriptedClient(["yes", "yes"])
     grade_answer_replicated(
         "single-session-user", "q?", "gold", "hyp",
         replicates=2, client=client, temperature=0.7,
@@ -150,10 +148,13 @@ def test_temperature_override():
 
 # --- failure-mode handling --------------------------------------------------
 
-def test_all_replicates_error_returns_first_with_trace():
-    """When every replicate ERRORs, return the first result with trace+summed usage."""
-    # Malformed JSON triggers ERROR label inside grade_answer.
-    client = _ScriptedClient(["garbage", "also garbage", "still garbage"])
+def test_all_replicates_error_returns_first_with_trace(monkeypatch):
+    """When every replicate ERRORs (the call fails), return the first result
+    with trace + summed usage. ERROR comes from a failed call, not a text
+    reply — so we script exceptions, and disable backoff sleep."""
+    monkeypatch.setattr("sme.eval.longmemeval_judge.time.sleep", lambda *_: None)
+    # Each replicate exhausts 3 retries -> 9 raised exceptions total.
+    client = _ScriptedClient([RuntimeError("boom")] * 9)
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hyp",
         replicates=3, client=client,
@@ -161,15 +162,18 @@ def test_all_replicates_error_returns_first_with_trace():
     assert result["autoeval_label"] == "ERROR"
     assert "replicates" in result
     assert len(result["replicates"]) == 3
-    assert result["usage"]["total_tokens"] == 45  # 15 * 3
+    # usage is zero for failed calls (no response object), but the trace is kept.
+    assert result["usage"]["total_tokens"] == 0
 
 
-def test_mixed_error_and_valid_excludes_error_from_vote():
+def test_mixed_error_and_valid_excludes_error_from_vote(monkeypatch):
     """ERROR replicates don't get a vote; remaining labels decide majority."""
+    monkeypatch.setattr("sme.eval.longmemeval_judge.time.sleep", lambda *_: None)
+    # First replicate: 3 failing attempts -> ERROR. Next two: a single "yes".
     client = _ScriptedClient([
-        "garbage-not-json",                                # ERROR
-        '{"label": "CORRECT", "rationale": "a"}',
-        '{"label": "CORRECT", "rationale": "b"}',
+        RuntimeError("x"), RuntimeError("x"), RuntimeError("x"),  # replicate 1
+        "yes",                                                     # replicate 2
+        "yes",                                                     # replicate 3
     ])
     result = grade_answer_replicated(
         "single-session-user", "q?", "gold", "hyp",
@@ -179,5 +183,5 @@ def test_mixed_error_and_valid_excludes_error_from_vote():
     assert result["label_counts"] == {"CORRECT": 2}
     # agreement_rate is over non-ERROR labels only.
     assert result["agreement_rate"] == 1.0
-    # But usage still sums across all 3 calls.
-    assert result["usage"]["total_tokens"] == 45
+    # Usage sums across the two successful calls (10+5 each).
+    assert result["usage"]["total_tokens"] == 30

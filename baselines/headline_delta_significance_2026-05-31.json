@@ -117,8 +117,9 @@
     },
     {
       "key": "cross_system_mempalace_vs_omega_strat150",
-      "description": "LongMemEval-S strat150 R@5: mempalace (age-fused, drawer-level) vs OMEGA (native) \u2014 headline cross-system delta.",
-      "status": "computed",
+      "description": "LongMemEval-S strat150 R@5: mempalace (age-fused) vs OMEGA \u2014 headline cross-system retrieval comparison.",
+      "status": "descriptive_only",
+      "not_comparable_reason": "differing per-question metric definitions: mempalace R@5 = drawer_hit_at_5 (drawer-level), OMEGA R@5 = omega_hit_at_5 (native unit), from different runners. Same strat150 subset but not the same hit semantics \u2192 not paired-comparable; a CI here would launder a methodology error into a rigorous-looking number.",
       "label_a": "mempalace",
       "path_a": "baselines/longmemeval_s_strat150_age_fused_2026-05-29.json",
       "label_b": "omega",
@@ -126,23 +127,11 @@
       "metrics": [
         {
           "metric": "r_at_5",
-          "status": "ok",
-          "non_identical_metric": true,
+          "status": "descriptive_only",
           "mean_mempalace": 0.92,
+          "n_mempalace": 150,
           "mean_omega": 0.9,
-          "delta_pp": 2.0,
-          "ci_low_pp": -2.0,
-          "ci_high_pp": 6.0,
-          "n_discordant": 9,
-          "fragile": true,
-          "one_side_all_zero": false,
-          "ci_straddles_zero": true,
-          "p_raw": 0.2384,
-          "n_paired": 150,
-          "n_dropped": 0,
-          "low_n": false,
-          "p_adjusted": 0.8376,
-          "significant": false
+          "n_omega": 150
         }
       ]
     },

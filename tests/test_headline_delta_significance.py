@@ -178,6 +178,44 @@ def test_no_paired_baseline_when_path_missing():
     assert out["status"] == "no_paired_baseline"
 
 
+def test_descriptive_only_emits_per_side_means_no_ci(tmp_path):
+    """comparable=False -> per-side point estimates, NO CI, with the reason.
+    A paired bootstrap on incomparable per-question metrics would launder a
+    methodology error into a rigorous-looking number, so we refuse the CI."""
+    a = _write(tmp_path, "a.json",
+               [{"question_id": f"q{i}", "fa": 1.0} for i in range(40)])
+    b = _write(tmp_path, "b.json",
+               [{"question_id": f"q{i}", "fb": 0.5} for i in range(40)])
+    cmp = hds.Comparison(
+        key="x", description="d",
+        label_a="A", path_a=a, label_b="B", path_b=b,
+        metrics=[hds.Metric("r", hds.recall_field("fa"), hds.recall_field("fb"))],
+        comparable=False,
+        not_comparable_reason="different hit semantics",
+    )
+    out = hds.run_comparison(cmp)
+    assert out["status"] == "descriptive_only"
+    assert out["not_comparable_reason"] == "different hit semantics"
+    m = out["metrics"][0]
+    assert m["status"] == "descriptive_only"
+    assert m["mean_A"] == pytest.approx(1.0)
+    assert m["mean_B"] == pytest.approx(0.5)
+    # No CI / delta / p — the whole point.
+    assert "delta_pp" not in m
+    assert "ci_low_pp" not in m
+    assert "p_raw" not in m
+
+
+def test_descriptive_only_excluded_from_bh_family():
+    """descriptive_only metrics carry no p_raw and must not enter BH-FDR."""
+    ok = {"status": "ok", "p_raw": 0.02}
+    desc = {"status": "descriptive_only", "mean_A": 0.9, "mean_B": 0.9}
+    comparisons = [{"metrics": [ok, desc]}]
+    hds.apply_family_fdr(comparisons, alpha=0.05)
+    assert "p_adjusted" in ok
+    assert "p_adjusted" not in desc
+
+
 def test_run_comparison_computes_over_files(tmp_path):
     # A clearly beats B on QA over 40 paired questions.
     a = _write(tmp_path, "a.json",

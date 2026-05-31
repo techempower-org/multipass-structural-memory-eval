@@ -1412,6 +1412,7 @@
     </span>
     <nav class="right" aria-label="primary">
       <a href="#bottomline">Bottom line</a>
+      <a href="#synthesis">Synthesis</a>
       <a href="#diagnostic">Diagnostic</a>
       <a href="#benchmarks">Benchmarks</a>
       <a href="#method">Method</a>
@@ -1639,6 +1640,109 @@
     </div>
   </section>
 
+  <!-- CAMPAIGN SYNTHESIS — the definitive results narrative (capstone) -->
+  <section id="synthesis">
+    <div class="section-mark"><span class="roman">0&middot;</span> <span>the synthesis</span></div>
+    <header class="bottomline-head">
+      <span class="eyebrow">campaign synthesis &middot; the definitive read</span>
+      <h2 class="display">What the whole campaign <em>found.</em></h2>
+      <p class="bl-lede">
+        SME was driven across <strong>nine diagnostic categories</strong>, <strong>nine
+        benched substrates</strong>, and a <strong>33-system published field</strong>. Five
+        findings carry the report. Every number traces to a committed <code>baselines/</code>
+        artifact, and we never blur <em>measured</em> (our harness) against <em>claimed</em>
+        (a vendor self-report). The interactive matrix below is the data; this is the story it tells.
+        <a href="https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/research/2026-05-31-sme-campaign-synthesis.md">Read the full synthesis &rarr;</a>
+      </p>
+    </header>
+
+    <div class="bl-grid">
+      <article class="bl-card">
+        <span class="n">finding 1 &middot; the bottleneck</span>
+        <div class="stat">Reader, <em>not retrieval</em></div>
+        <p>
+          Oracle retrieval R@5 <strong>0.974</strong>, deployed <strong>0.927</strong> &mdash; yet
+          QA tops out lower because the <em>reader</em> loses the points, not the retriever.
+          Widening top-5&rarr;top-20 buys <strong>+17.3pp QA</strong> (0.567&rarr;0.740) then
+          plateaus; the residual to the 0.868 ceiling is synthesis, not retrieval.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">finding 2 &middot; four nulls</span>
+        <div class="stat">The <em>vector backbone</em> is the lever</div>
+        <p>
+          Age-fusion showed no significant gain on three corpora (two
+          <strong>CI-confirmed null</strong> under FDR); the hybrid <strong>graph leg is inert</strong>
+          (hybrid &equiv; union, byte-identical); cross-encoder rerank is
+          <strong>neutral-to-negative</strong>. The dense-vector + BM25 backbone already does the
+          work &mdash; corroborated from outside: ai-memory (no graph) hits R@5 0.920, level with
+          the full stack.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">finding 3 &middot; storage-equivalence</span>
+        <div class="stat">The engine <em>isn&rsquo;t the variable</em></div>
+        <p>
+          ChromaDB &rarr; postgres+pgvector, holding embedding/corpus/reader/judge fixed: retrieval
+          <strong>0.833 == 0.833</strong> and QA <strong>0.392 &asymp; 0.384</strong> are statistically
+          identical. CI-confirmed &mdash; the paired QA delta is <strong>[&minus;2.0, +2.8]pp</strong>,
+          9/250 discordant, p_adj 0.84. The substrate carries the answer; the storage engine does not.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">finding 4 &middot; the framework catching itself</span>
+        <div class="stat">Artifact <em>&rarr; real KG</em></div>
+        <p>
+          A capped <code>/graph</code> projection reported Cat 4 &ldquo;98.98% one edge type, entropy
+          0.020.&rdquo; The <strong>real</strong> KG reads entropy <strong>0.645</strong>, a
+          <strong>61.87%</strong> giant component, modularity <strong>0.796</strong> (hierarchy PASS).
+          &ldquo;Monoculture / fragmented / flat&rdquo; &rarr; &ldquo;diverse / connected /
+          hierarchical.&rdquo; SME found its own measurement bug, fixed it, cross-checked it three ways.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">finding 5 &middot; ontology-sensitivity</span>
+        <div class="stat">Cat 4 <em>moves</em>, Cat 5 <em>holds</em></div>
+        <p>
+          Re-typing one graph flat&rarr;moderate&rarr;fine moves Cat 4 entropy
+          <strong>0.000&rarr;0.842&rarr;0.856</strong> &mdash; while Cat 5 topology
+          (components, giant size, Betti) is <strong>byte-identical</strong>. So compare systems on
+          Cat 5; report Cat 4 with its type-count. The same graph reads &ldquo;monoculture&rdquo; or
+          &ldquo;healthy&rdquo; purely by ontology granularity.
+        </p>
+      </article>
+      <article class="bl-card">
+        <span class="n">the field &middot; two-axis cost wall</span>
+        <div class="stat"><em>$0</em> vs <em>hours</em> to bench</div>
+        <p>
+          Cheap-to-bench needs <em>both</em> no write-time LLM <em>and</em> fast ingest: ai-memory is
+          $0 (R@5 0.920). The wall has two independent causes &mdash; a write-time LLM (Mem0 ~18h,
+          Hindsight ~150h) <em>and</em> slow ingest throughput (agentmemory is LLM-free yet
+          ~15h-walled). &ldquo;No write-time LLM&rdquo; is necessary but not sufficient.
+        </p>
+      </article>
+    </div>
+
+    <div class="caveat" style="max-width: 1080px;">
+      <span class="label">statistical rigor &middot; two honest tiers</span>
+      The campaign&rsquo;s &ldquo;&plusmn;1 question = noise&rdquo; language is replaced by
+      <strong>paired bootstrap CIs (10k resamples) + Benjamini-Hochberg FDR correction</strong>.
+      <strong>Tier 1 &mdash; CI-confirmed nulls:</strong> storage-equivalence and two of the four
+      age-fusion nulls are true paired per-question A/Bs, every CI straddling zero (p_adj 0.84).
+      <strong>Tier 2 &mdash; descriptive-only:</strong> the cross-system mempalace-vs-OMEGA R@5
+      (0.920 vs 0.900) and the remaining nulls are reported as point estimates with
+      <em>no CI</em> &mdash; their per-question metrics aren&rsquo;t paired-comparable, and computing a
+      CI would launder a methodology mismatch into a rigorous-looking number. A framework that
+      <em>declines</em> a tempting cross-system CI because the units don&rsquo;t match is the
+      measured-vs-claimed discipline enforced in code, not just prose.
+    </div>
+
+    <div class="bench-foot" style="max-width: 1080px;">
+      <span>Source &middot; docs/research/2026-05-31-sme-campaign-synthesis.md (Nebula, #178) &middot; every number traces to a committed baselines/ artifact (provenance index in the full doc) &middot; the data this narrates is the interactive field explorer below</span>
+      <a href="https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/research/2026-05-31-sme-campaign-synthesis.md">read the full synthesis</a>
+    </div>
+  </section>
+
   <!-- DIAGNOSTIC -->
   <section id="diagnostic">
     <div class="section-mark"><span class="roman">i</span> <span>the diagnostic posture</span></div>
@@ -1725,6 +1829,9 @@
           <a class="mlink theirs" href="#" onclick="return false">their claims</a> (the
           leaderboard or paper) are styled differently on purpose. Only 8 of the 33 carry a
           full SME column &mdash; that gap is the honest headline.
+          For the narrative this data supports &mdash; the five campaign findings, the
+          statistical rigor, and the cost-wall taxonomy &mdash; see
+          <a href="#synthesis">the synthesis above</a>.
         </p>
 
         <div class="fe-controls" role="group" aria-label="Field explorer filters">

@@ -113,6 +113,15 @@ class Comparison:
     label_b: str
     path_b: Optional[str]
     metrics: list[Metric]
+    # A paired bootstrap CI is only valid when the per-question metric is
+    # provably the SAME definition on both sides (same runner family, same hit
+    # semantics, same subset). When that can't be proven, ``comparable=False``
+    # demotes the comparison to descriptive-only (point estimates, NO CI, kept
+    # out of the BH family) with an explicit reason — a CI on incomparable
+    # pairing launders a methodology error into a rigorous-looking number, which
+    # is worse than no CI. The reason itself is a capstone comparability finding.
+    comparable: bool = True
+    not_comparable_reason: str = ""
 
 
 def _load(path: str) -> dict:
@@ -225,6 +234,30 @@ def _score_metric(
     }
 
 
+def _describe_metric(
+    metric: Metric,
+    a_by_id: dict[str, dict],
+    b_by_id: dict[str, dict],
+    label_a: str,
+    label_b: str,
+) -> dict:
+    """Per-side UNPAIRED point estimates only — no delta CI. Used for
+    descriptive-only comparisons where the per-question metric is not provably
+    the same definition on both sides, so a paired delta would be misleading."""
+    a_vals = [v for q in a_by_id.values() if (v := metric.extract_a(q)) is not None]
+    b_vals = [v for q in b_by_id.values() if (v := metric.extract_b(q)) is not None]
+    mean_a = sum(a_vals) / len(a_vals) if a_vals else None
+    mean_b = sum(b_vals) / len(b_vals) if b_vals else None
+    return {
+        "metric": metric.name,
+        "status": "descriptive_only",
+        f"mean_{label_a}": mean_a,
+        f"n_{label_a}": len(a_vals),
+        f"mean_{label_b}": mean_b,
+        f"n_{label_b}": len(b_vals),
+    }
+
+
 def run_comparison(cmp: Comparison) -> dict:
     if cmp.path_a is None or cmp.path_b is None:
         return {
@@ -241,6 +274,27 @@ def run_comparison(cmp: Comparison) -> dict:
 
     a, b = _load(cmp.path_a), _load(cmp.path_b)
     a_by_id, b_by_id = _index(a), _index(b)
+
+    # Comparability gate: only paired-CI a comparison whose per-question metric
+    # is provably the same definition on both sides. Otherwise emit per-side
+    # point estimates with the reason, and keep it out of the BH family.
+    if not cmp.comparable:
+        results = [
+            _describe_metric(m, a_by_id, b_by_id, cmp.label_a, cmp.label_b)
+            for m in cmp.metrics
+        ]
+        return {
+            "key": cmp.key,
+            "description": cmp.description,
+            "status": "descriptive_only",
+            "not_comparable_reason": cmp.not_comparable_reason,
+            "label_a": cmp.label_a,
+            "path_a": cmp.path_a,
+            "label_b": cmp.label_b,
+            "path_b": cmp.path_b,
+            "metrics": results,
+        }
+
     results = [
         _score_metric(m, a_by_id, b_by_id, cmp.label_a, cmp.label_b)
         for m in cmp.metrics
@@ -314,20 +368,31 @@ def build_comparisons(base: Path) -> list[Comparison]:
             ],
         ),
         # (c) cross-system R@5: mempalace vs OMEGA on the same strat150 set.
-        # NON-IDENTICAL METRIC: mempalace's R@5 is drawer_hit_at_5 (drawer-level)
-        # while OMEGA's is omega_hit_at_5 (its native unit). Comparable in
-        # spirit but not the same measurement — flagged so the capstone says so.
+        # DESCRIPTIVE-ONLY: the per-question "hit" is NOT the same definition —
+        # mempalace scores drawer_hit_at_5 (a drawer is in the top-5) while OMEGA
+        # scores omega_hit_at_5 (its own native retrieval unit), from different
+        # runners. The strat150 question subset matches, but the hit semantics
+        # don't, so a paired delta CI would be a methodology error dressed as
+        # rigor. We report per-side point estimates + the reason instead.
         Comparison(
             key="cross_system_mempalace_vs_omega_strat150",
-            description="LongMemEval-S strat150 R@5: mempalace (age-fused, "
-            "drawer-level) vs OMEGA (native) — headline cross-system delta.",
+            description="LongMemEval-S strat150 R@5: mempalace (age-fused) vs "
+            "OMEGA — headline cross-system retrieval comparison.",
             label_a="mempalace",
             path_a=p("longmemeval_s_strat150_age_fused_2026-05-29.json"),
             label_b="omega",
             path_b=p("longmemeval_omega_strat150_r5_2026-05-30.json"),
             metrics=[
-                Metric("r_at_5", drawer5, omega5, non_identical_metric=True),
+                Metric("r_at_5", drawer5, omega5),
             ],
+            comparable=False,
+            not_comparable_reason=(
+                "differing per-question metric definitions: mempalace R@5 = "
+                "drawer_hit_at_5 (drawer-level), OMEGA R@5 = omega_hit_at_5 "
+                "(native unit), from different runners. Same strat150 subset but "
+                "not the same hit semantics → not paired-comparable; a CI here "
+                "would launder a methodology error into a rigorous-looking number."
+            ),
         ),
         # CE-rerank on/off — committed artifact is summary-only (no per-q).
         Comparison(
@@ -426,6 +491,18 @@ def main() -> int:
     for c in comparisons:
         print(f"\n{c['key']}  [{c['status']}]")
         print(f"  {c['description']}")
+        if c["status"] == "descriptive_only":
+            print(f"  → NOT paired-comparable: {c['not_comparable_reason']}")
+            for m in c["metrics"]:
+                la, lb = c["label_a"], c["label_b"]
+                ma, mb = m.get(f"mean_{la}"), m.get(f"mean_{lb}")
+                ma_s = f"{ma:.3f}" if ma is not None else "n/a"
+                mb_s = f"{mb:.3f}" if mb is not None else "n/a"
+                print(
+                    f"    {m['metric']:14s} {la}={ma_s} (n={m.get(f'n_{la}')})  "
+                    f"{lb}={mb_s} (n={m.get(f'n_{lb}')})  [descriptive, no CI]"
+                )
+            continue
         if c["status"] != "computed":
             print(f"  → {c.get('note', '')}")
             continue

@@ -25,16 +25,22 @@ source at the published commit):
     corpus document into ≤``CHUNK_CHARS`` observations**, all tagged with the
     same ``sessionId``. Session-level R@K is unaffected because
     ``smart-search`` returns ``sessionId`` per hit.
-  * Retrieval: ``POST /agentmemory/smart-search`` body ``{query, limit}`` →
-    ``{mode:"compact", results:[{obsId, sessionId, title, type, score, ...}]}``.
-    Each hit carries ``sessionId`` directly — the LongMemEval R@K signal.
+  * Retrieval: ``POST /agentmemory/search`` body ``{query, limit, project,
+    format:"compact"}`` → ``{format:"compact", results:[{obsId, sessionId,
+    title, type, score, timestamp}], ...}``. Each hit carries ``sessionId``
+    directly — the LongMemEval R@K signal. We use ``/search`` rather than
+    ``/smart-search`` because ``mem::search`` is the only retrieval path that
+    accepts a ``project`` filter (smart-search ignores project), and the
+    project filter is what makes per-question isolation work (see below).
 
 Per-question reset: each ``ingest_corpus`` call uses a **fresh project name**
 (monotonic counter), so a new question's haystack lands in a clean project
-scope and ``smart-search`` (filtered by project) can't surface a prior
-question's observations. agentmemory has no clean "wipe all" REST endpoint, so
-project-rotation is the isolation mechanism (the agentmemory analogue of the
-daemon's per-question wing).
+scope. The search index is global, but ``mem::search`` post-filters hits by
+``project`` (resolving each hit's session → project), so a project-scoped
+``/search`` can't surface a prior question's observations. Project-rotation +
+the ``project`` search filter is the isolation mechanism (the agentmemory
+analogue of the daemon's per-question wing). ``smart-search`` would NOT isolate
+— it has no project filter — which is why this adapter uses ``/search``.
 
 Retrieval-only: ``get_graph_snapshot`` returns ``([], [])``.
 """
@@ -94,9 +100,9 @@ class AgentMemoryAdapter(SMEAdapter):
             counter-derived name is used.
         n_results: Default top-K for ``query()``.
         api_timeout: Per-request HTTP timeout in seconds.
-        include_lessons: Pass-through to smart-search ``includeLessons`` — left
-            True (server default) so the hybrid path is unchanged; lessons are
-            empty in a fresh project so this has no effect on R@K here.
+        include_lessons: Accepted for CLI/registry parity. Unused on the
+            ``/search`` path (that flag was a ``smart-search`` knob); kept so
+            an existing CLI invocation doesn't break.
         read_only: Accepted for CLI parity.
     """
 
@@ -178,13 +184,17 @@ class AgentMemoryAdapter(SMEAdapter):
         route: bool = False,  # accepted for CLI parity; agentmemory ranks itself
     ) -> QueryResult:
         k = n_results if n_results is not None else self.n_results
+        # /search (mem::search) is the only retrieval path that honours a
+        # `project` filter — required for per-question isolation. compact
+        # format returns one row per hit with sessionId + score.
         payload = {
             "query": question,
             "limit": k,
-            "includeLessons": self.include_lessons,
+            "project": self.project,
+            "format": "compact",
         }
         body = self._http_post(
-            f"{self.api_url}/agentmemory/smart-search", payload
+            f"{self.api_url}/agentmemory/search", payload
         )
         if isinstance(body, QueryResult):
             return body
@@ -221,7 +231,7 @@ class AgentMemoryAdapter(SMEAdapter):
             answer=context_string,
             context_string=context_string,
             retrieved_entities=retrieved,
-            retrieval_path=[f"smart-search:project={self.project};k={k}"],
+            retrieval_path=[f"search:project={self.project};k={k}"],
         )
 
     def get_graph_snapshot(self):

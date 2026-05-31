@@ -142,14 +142,17 @@ def test_agentmemory_ingest_rotates_project_and_observes_chunks(monkeypatch):
         assert "prompt" in p["data"]
 
 
-def test_agentmemory_query_parses_smart_search_session_ids(monkeypatch):
+def test_agentmemory_query_uses_search_with_project_filter(monkeypatch):
     b = AgentMemoryAdapter()
 
     def fake_post(url, payload):
-        assert url.endswith("/smart-search")
+        # /search (not /smart-search) so the project filter isolates results.
+        assert url.endswith("/agentmemory/search")
         assert payload["query"] == "trip?"
+        assert payload["project"] == b.project
+        assert payload["format"] == "compact"
         return {
-            "mode": "compact",
+            "format": "compact",
             "results": [
                 {"obsId": "o1", "sessionId": "S0", "title": "observation",
                  "type": "synthetic", "score": 0.88},
@@ -167,7 +170,7 @@ def test_agentmemory_query_parses_smart_search_session_ids(monkeypatch):
 def test_agentmemory_query_no_results(monkeypatch):
     b = AgentMemoryAdapter()
     monkeypatch.setattr(
-        b, "_http_post", lambda url, payload: {"mode": "compact", "results": []}
+        b, "_http_post", lambda url, payload: {"format": "compact", "results": []}
     )
     assert b.query("x").error == "NO_RESULTS"
 

@@ -347,6 +347,69 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         real-KG-only substrate for Cat 4/5/8 (see #147)."""
         return project_graph(body, kg_only=self.graph_kg_only)
 
+    def get_edge_type_distribution(self) -> Optional[dict[str, int]]:
+        """Exact ``{relation_type: count}`` over the FULL RELATION graph.
+
+        Cat 4's edge-type monoculture metric needs the true population
+        distribution, but ``get_graph_snapshot`` returns at most a capped
+        ``/graph`` sample — which under-counts the ``other`` sink and the
+        long tail, inflating entropy (the 5000-sample read 3.15 bits / 51
+        types vs the true 2.68 bits / 237 types / ``other`` 55.1%).
+
+        This issues somnia-2's exact aggregation over ``POST /cypher``::
+
+            MATCH ()-[r:RELATION]->() RETURN r.relation_type AS rt, count(*) AS n
+
+        The ``GROUP BY`` aggregates server-side without materializing the
+        1.92M-row match set, so it returns the exact distribution in seconds
+        where a row-returning ``MATCH ... RETURN src, dst`` OOMs AGE (the #160
+        trap). ``ORDER BY`` on the aggregate alias is omitted — the daemon's
+        RETURN-alias parser can't resolve it ("could not find rte for n"); the
+        caller sorts client-side.
+
+        ``tunnel`` is never in the result: tunnels are a separate structural
+        layer (``SHARED_VIA``), not ``:RELATION`` edges — so measuring
+        ``:RELATION`` is measuring the knowledge graph, not the nav scaffold.
+
+        Returns ``None`` when ``/cypher`` is unavailable (older daemon /
+        chroma backend / connection error) so Cat 4 falls back to counting
+        the sampled edges.
+        """
+        body = self._http_post(
+            f"{self.api_url}/cypher",
+            {
+                "cypher": (
+                    "MATCH ()-[r:RELATION]->() "
+                    "RETURN r.relation_type AS rt, count(*) AS n"
+                )
+            },
+        )
+        if isinstance(body, QueryResult):
+            log.info(
+                "/cypher relation distribution unavailable (%s); "
+                "Cat 4 falls back to the sampled edge list",
+                body.error,
+            )
+            return None
+        rows = body.get("rows") if isinstance(body, dict) else None
+        if not isinstance(rows, list):
+            return None
+        dist: dict[str, int] = {}
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            rt = row.get("rt")
+            n = row.get("n")
+            if rt is None or n is None:
+                continue
+            # agtype strings can arrive quoted; strip a single layer.
+            key = str(rt).strip('"')
+            try:
+                dist[key] = dist.get(key, 0) + int(n)
+            except (TypeError, ValueError):
+                continue
+        return dist or None
+
 
     def _snapshot_via_mcp(self) -> tuple[list[Entity], list[Edge]]:
         """Walk the four MCP read tools and project to (entities, edges).

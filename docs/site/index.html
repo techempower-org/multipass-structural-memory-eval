@@ -1914,9 +1914,10 @@
           <strong>none</strong> for every row, by construction &mdash; that
           <em>is</em> the headline. Substrate under test: <strong>mempalace</strong>
           via the <code>mempalace-daemon</code> adapter against the live palace-daemon,
-          reading the populated AGE knowledge graph (1,106 entities / 169k edges,
-          2026-05-29 snapshot). Diagnostic readings of one substrate &mdash; not
-          leaderboard scores.
+          reading the <strong>real</strong> AGE knowledge graph (12,849 entities /
+          1.92M-edge RELATION set, full-graph EXACT &mdash; not the earlier capped
+          <code>/graph</code> projection). Diagnostic readings of one substrate &mdash;
+          not leaderboard scores.
         </p>
 
         <div class="matrix-scroll">
@@ -1948,29 +1949,29 @@
             <tr>
               <td class="cat">3 <span class="catname">Dissonance</span></td>
               <td>Detect and surface conflicting facts</td>
-              <td class="reading">(structural &minus; flat) <strong>+1.00</strong> &middot; structural 1.00 (6/6 seeded pairs, precision 1.00) vs flat 0.00 <span class="src"><code>ContradictionPair[]</code> now wired through the daemon /graph + adapters (#200)</span></td>
-              <td class="src">good-dog-corpus &middot; good-dog-graph</td>
+              <td class="reading"><strong>0.00 emergent</strong> &middot; the live palace KG has <strong>0 <code>contradicts</code> edges</strong> &mdash; the enrichment pipeline generates no emergent contradiction structure on real content <span class="src">supersedes the earlier +1.00, which was a corpus-declared ceiling (good-dog-graph reading back hand-seeded edges, not detection). Cross-system: OMEGA auto-relate generated contradicts edges, recall 0.50 (#148/#215)</span></td>
+              <td class="src">live palace (real KG) &middot; daemon --real-kg</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
               <td class="cat">4 <span class="catname">Threshold</span></td>
               <td>Is ingestion producing a clean graph? (dedup, field coverage, monoculture)</td>
-              <td class="reading">4a collisions <strong>0</strong>/1,106 &middot; 4b coverage <strong>1.000</strong> &middot; 4c entropy 0.020 <span class="src">tunnel 98.98% &mdash; severe monoculture, expected</span></td>
-              <td class="src">live palace (AGE) &middot; daemon</td>
+              <td class="reading">4a collisions <strong>248</strong> (1.9%) &middot; 4b coverage <strong>1.00</strong> &middot; 4c norm-entropy <strong>0.340</strong> &middot; <code>other</code> 55.1% &middot; 237 types <span class="src">full-graph EXACT (server-side cypher over the 1.92M-edge RELATION set) &mdash; overturns the prior sampled 0.020/98.98%-tunnel capped-projection artifact. Real monoculture is the generic <code>other</code> relation. Fix-in-flight &rarr; ~0.64 post re-map (#211)</span></td>
+              <td class="src">live palace (real KG) &middot; daemon /cypher</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
               <td class="cat">5 <span class="catname">Missing Room</span></td>
               <td>Identify what&rsquo;s structurally missing (components, holes, gaps)</td>
-              <td class="reading"><strong>498 components</strong> &middot; largest 606 (54.8%) &middot; isolates 496 &middot; bridges 2 &middot; Betti-1 0 &middot; candidate gaps 0/1</td>
-              <td class="src">live palace (AGE) &middot; daemon</td>
+              <td class="reading">verdict: <strong>well-connected; exact WCC pending</strong> <span class="src">no absolute counts published &mdash; the prior 498-component / 44.8%-isolate figure was a capped-projection artifact; sampling under-states connectivity (edge-pull OOMs), so the real graph is &ge; as connected as any sample shows. Exact WCC pending server-side (#211)</span></td>
+              <td class="src">live palace (real KG) &middot; daemon</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
               <td class="cat">6 <span class="catname">Archive</span></td>
               <td>Current vs historical state, supersession tracking</td>
-              <td class="reading">(structural &minus; flat) <strong>+1.00</strong> &middot; supersession completeness 1.00 (8/8 supersedes &rarr; <code>_superseded_by</code>, 5 chains incl. the 4-doc Hill&rsquo;s chain) vs flat 0.00 <span class="src">derived through the daemon /graph + adapters (#200)</span></td>
-              <td class="src">good-dog-corpus &middot; good-dog-graph</td>
+              <td class="reading"><strong>0.00 emergent</strong> &middot; the live palace KG has <strong>0 <code>supersedes</code> edges</strong> &mdash; completeness 0.00 <span class="src">supersedes the earlier +1.00 (good-dog-graph declared ceiling, 8/8 hand-seeded). Cross-system: OMEGA also 0.00 &mdash; its temporal analogue <code>evolution</code> doesn&rsquo;t normalize to supersedes. Emergent supersession is unsolved in both (#148/#215)</span></td>
+              <td class="src">live palace (real KG) &middot; daemon --real-kg</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -1990,8 +1991,8 @@
             <tr>
               <td class="cat">8 <span class="catname">Blueprint</span></td>
               <td>Does the actual graph match what the system claims to do?</td>
-              <td class="reading">8a type coverage <strong>0.333</strong> &middot; 8b edge vocab 0.667 &middot; 8d drift 0.556 &middot; 8e claims 0.50 <span class="src">&ldquo;hierarchical&rdquo; FAILS (modularity 0.009); introspection 0.0</span></td>
-              <td class="src">live palace (AGE) &middot; daemon</td>
+              <td class="reading">verdict: <strong>&ldquo;hierarchical&rdquo; PASSES</strong> (modularity &gt;&gt;0.5 across every sample) &middot; introspection 0.0 deployed / 1.0 capability <span class="src">refutes the prior FAIL (modularity 0.009 was the same capped-projection artifact). No specific modularity published (limit-dependent); exact pending server-side. Introspection 1.0 capability merged, 0.0 on the deployed daemon (#147/#211)</span></td>
+              <td class="src">live palace (real KG) &middot; daemon</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
@@ -2016,6 +2017,22 @@
         </div>
 
         <div class="caveat">
+          <span class="label">cross-system headline &middot; emergent structure is largely unsolved</span>
+          The honest correction this matrix surfaces: <strong>generating typed
+          contradiction / supersession edges from raw content is largely unsolved in
+          <em>both</em> substrates.</strong> Emergent contradiction is <strong>0.00 in
+          mempalace</strong> (0 <code>contradicts</code> edges in the live KG) and
+          <strong>0.50 in OMEGA</strong> (auto-relate catches 1 of 2 ground-truth
+          themes, precision 0.25); emergent supersession is <strong>0.00 in both</strong>.
+          The earlier <strong>+1.00</strong> we published for Cat 3/6 <em>masked</em>
+          this &mdash; it was a corpus-<em>declared</em> ceiling (the good-dog-graph
+          adapter reading back hand-seeded edges), not <em>emergent</em> detection on
+          real content. Declared-ceiling and emergent are different questions; the matrix
+          now labels both, and the emergent column is the more honest one
+          (techempower-org/multipass-structural-memory-eval#215).
+        </div>
+
+        <div class="caveat">
           <span class="label">Cat-9 &middot; orchestrator-model selection (Tau2 prior)</span>
           <strong>Cat-9a Handshake recall tracks the orchestrator&rsquo;s Tau2
           tool-agent score, not its parameter count.</strong> A +37.7pp Tau2 gap
@@ -2030,22 +2047,25 @@
         </div>
 
         <div class="caveat">
-          <span class="label">gaps closed &middot; every category now reports a real reading</span>
-          The four readings once flagged &ldquo;not cleanly runnable&rdquo; are all
-          resolved: <strong>Cat 3 / Cat 6</strong> got their structured-field plumbing
-          (<code>ContradictionPair[]</code>, <code>_superseded_by</code> through the
-          daemon) and now report <code>(structural &minus; flat)</code> +1.00 (#200);
-          <strong>Cat 9a</strong>&rsquo;s high-Tau2 cross-validation landed (opus-4-8
-          above) (#194); and <strong>Cat 2c / Cat 7</strong> got their information-matched
-          flat Condition-A baseline on jp-realm, giving the +10pp B&minus;A structural
-          deltas (#203). One minor follow-up remains &mdash; backfilling the two 4B
-          arms&rsquo; on-harness invocation rate for Cat 9a (their recall is carried from
-          the validated 2026-05-15 RLM run). Per the diagnostic posture, each cell is a
-          controlled reading of one substrate, not a leaderboard score.
+          <span class="label">measurement honesty &middot; the structural column was re-measured over the real KG</span>
+          The structural cells carried <strong>four measurement traps</strong>, now
+          corrected (#215): a <strong>capped projection</strong> (the daemon
+          <code>/graph</code> sample was tunnel-dominated &mdash; Cat 4 read 0.020/98.98%,
+          Cat 8 &ldquo;hierarchical&rdquo; FAILED at 0.009; both artifacts, re-anchored
+          to the full-graph EXACT and a PASS verdict); a <strong>tautological scorer</strong>
+          (Cat 3/6 +1.00 was the good-dog-graph reading back hand-seeded edges &mdash; a
+          declared ceiling, not emergent detection; the honest emergent read is 0.00); an
+          <strong>optimistic sample</strong> and a <strong>non-convergent sample</strong>
+          (Cat 5/8 topology numbers are limit-dependent and OOM at full scale, so we
+          publish verdicts, not absolute counts). Cat 2c / Cat 7 keep their #203 flat
+          Condition-A deltas (+10pp). The one open follow-up is the two 4B arms&rsquo;
+          on-harness Cat 9a invocation rate. Per the diagnostic posture, each cell is a
+          controlled reading of one substrate &mdash; and we&rsquo;d rather publish a
+          0.00 emergent than a flattering declared 1.00.
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, cat4_daemon_age, cat5_daemon_age, cat8_daemon_age, candidate_strategy_age}_2026-05-29.json + Cat 3/6 docs/benchmarks/2026-05-30-cat3-cat6-structural-plumbing.md (#200) + Cat 9a docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md (#194) &middot; docs/benchmarks/2026-05-30-multipass-cat-matrix.md</span>
+          <span>Source &middot; structural column re-measured over the real KG: baselines/cross_system_multipass_matrix_2026-05-30.json + docs/benchmarks/2026-05-30-cross-system-multipass-matrix.md (#215, post #147/#210/#211) &middot; retrieval cats baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, candidate_strategy_age}_2026-05-29.json &middot; Cat 9a docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md (#194) &middot; Cat 2c/7 docs/benchmarks/2026-05-30-jprealm-flat-condA-cat2c-cat7.md (#203)</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/115">techempower-org/multipass-structural-memory-eval#115</a>
         </div>
       </article>

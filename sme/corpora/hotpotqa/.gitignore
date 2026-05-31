@@ -1,0 +1,7 @@
+# HotpotQA upstream JSON — not committed.
+# Dev distractor split (hotpot_dev_distractor_v1.json ~44 MB) and the
+# train split (hotpot_train_v1.1.json ~535 MB). Download per README.md.
+data/
+*.json
+!questions.yaml
+!*.yml

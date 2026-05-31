@@ -1,0 +1,42 @@
+{
+  "system": "omega",
+  "reading": "EMERGENT contradicts edges vs good-dog GROUND TRUTH themes",
+  "ground_truth_themes": [
+    "dominance_theory",
+    "grain_free_dcm"
+  ],
+  "ground_truth_contradicts_edges_in_corpus": 6,
+  "omega_emergent_contradicts_edges": 4,
+  "themes_detected": [
+    "grain_free_dcm"
+  ],
+  "theme_recall": 0.5,
+  "edge_precision_vs_ground_truth": 0.25,
+  "true_positive_edges": 1,
+  "surfaced_edges_detail": [
+    {
+      "src_file": "2020-12-vieira-de-castro-aversive-training-welfare.md",
+      "dst_file": "2008-avsab-dominance-position-statement.md",
+      "weight": 0.485,
+      "straddles_ground_truth_theme": null
+    },
+    {
+      "src_file": "akc-american-staffordshire-terrier.md",
+      "dst_file": "2008-avsab-dominance-position-statement.md",
+      "weight": 0.485,
+      "straddles_ground_truth_theme": null
+    },
+    {
+      "src_file": "2024-11-06-aurora-pit-bull-repeal-cpr.md",
+      "dst_file": "akc-american-staffordshire-terrier.md",
+      "weight": 0.485,
+      "straddles_ground_truth_theme": null
+    },
+    {
+      "src_file": "2022-03-freeman-jvim-prospective-dcm-diet.md",
+      "dst_file": "2018-11-tufts-petfoodology-beg-dcm.md",
+      "weight": 0.59,
+      "straddles_ground_truth_theme": "grain_free_dcm"
+    }
+  ]
+}

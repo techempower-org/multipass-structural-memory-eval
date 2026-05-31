@@ -1,0 +1,21 @@
+{
+  "adapter": "omega",
+  "source": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/cassia-crosssystem/omega_gooddog/omega.db",
+  "nodes": 18,
+  "edges": 54,
+  "components": 1,
+  "largest_component_size": 18,
+  "isolated_nodes": 0,
+  "bridges": [],
+  "betti_0_largest": 1,
+  "betti_1_largest": 1,
+  "h1_max_persistence": 1.0,
+  "h1_skipped": false,
+  "h1_skip_reason": "",
+  "candidate_gaps": [],
+  "candidate_gaps_considered": 0,
+  "flat_rarity_mode": false,
+  "gap_recall": null,
+  "gap_precision": null,
+  "detection_level": "L3"
+}

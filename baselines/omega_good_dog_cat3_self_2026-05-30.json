@@ -1,0 +1,77 @@
+{
+  "category": "cat_3_contradiction",
+  "seeded_pairs": 4,
+  "surfaced_pairs": 4,
+  "surfaced_seeded": 4,
+  "structural_detection_rate": 1.0,
+  "structural_precision": 1.0,
+  "flat_detection_rate": 0.0,
+  "flat_precision": 0.0,
+  "detection_delta": 1.0,
+  "detection_level": "structured",
+  "contradiction_pairs": 4,
+  "seeded_pair_keys": [
+    [
+      "omega:mem-63dc29f5158c",
+      "omega:mem-9fafa8eb7f13"
+    ],
+    [
+      "omega:mem-0bb2da60c556",
+      "omega:mem-6ac7b559d5ae"
+    ],
+    [
+      "omega:mem-9e4c91ae7a17",
+      "omega:mem-ddbfdfac4ec9"
+    ],
+    [
+      "omega:mem-0bb2da60c556",
+      "omega:mem-9e4c91ae7a17"
+    ]
+  ],
+  "matched_pair_keys": [
+    [
+      "omega:mem-63dc29f5158c",
+      "omega:mem-9fafa8eb7f13"
+    ],
+    [
+      "omega:mem-0bb2da60c556",
+      "omega:mem-6ac7b559d5ae"
+    ],
+    [
+      "omega:mem-9e4c91ae7a17",
+      "omega:mem-ddbfdfac4ec9"
+    ],
+    [
+      "omega:mem-0bb2da60c556",
+      "omega:mem-9e4c91ae7a17"
+    ]
+  ],
+  "pairs": [
+    {
+      "claim_a": "omega:mem-63dc29f5158c",
+      "claim_b": "omega:mem-9fafa8eb7f13",
+      "source_a": "omega:mem-63dc29f5158c",
+      "source_b": "omega:mem-9fafa8eb7f13"
+    },
+    {
+      "claim_a": "omega:mem-6ac7b559d5ae",
+      "claim_b": "omega:mem-0bb2da60c556",
+      "source_a": "omega:mem-6ac7b559d5ae",
+      "source_b": "omega:mem-0bb2da60c556"
+    },
+    {
+      "claim_a": "omega:mem-9e4c91ae7a17",
+      "claim_b": "omega:mem-0bb2da60c556",
+      "source_a": "omega:mem-9e4c91ae7a17",
+      "source_b": "omega:mem-0bb2da60c556"
+    },
+    {
+      "claim_a": "omega:mem-ddbfdfac4ec9",
+      "claim_b": "omega:mem-9e4c91ae7a17",
+      "source_a": "omega:mem-ddbfdfac4ec9",
+      "source_b": "omega:mem-9e4c91ae7a17"
+    }
+  ],
+  "adapter": "omega",
+  "source": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/cassia-crosssystem/omega_gooddog/omega.db"
+}

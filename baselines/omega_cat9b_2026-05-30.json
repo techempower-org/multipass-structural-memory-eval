@@ -1,0 +1,13 @@
+{
+  "adapter": "omega",
+  "source": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/cassia-crosssystem/omega_gooddog/omega.db",
+  "subtest": "9b",
+  "empty_manifest": true,
+  "total_probes": 0,
+  "successful_probes": 0,
+  "failed_probes": 0,
+  "call_through_rate": null,
+  "band": "n/a",
+  "by_kind": {},
+  "probes": []
+}

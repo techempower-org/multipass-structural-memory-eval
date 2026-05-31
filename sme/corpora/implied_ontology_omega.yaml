@@ -1,0 +1,66 @@
+# Implied ontology for OMEGA (omega-memory 1.4.15)
+#
+# Hand-extracted from the omega-memory package surface + README. This is
+# what OMEGA claims it is and does; Cat 8 (The Blueprint) tests these
+# claims against the actual graph OMEGA's auto-relate builds.
+#
+# Source of the declared vocabulary: OmegaAdapter.get_ontology_source()
+# (sme/adapters/omega.py ~485), which mirrors OMEGA's documented
+# event_type vocabulary and its edges-table edge_type vocabulary.
+#
+# NOTE on the cross-system caveat: OMEGA does NOT read corpus-declared
+# edges. It stores note text and a background auto-relate pass *generates*
+# typed edges. So the "declared vs effective" drift Cat 8 measures here is
+# the drift between OMEGA's documented edge vocabulary and what its
+# auto-relate actually emits — a genuine ontology-coherence reading, not a
+# corpus-seeding artifact.
+
+version: "omega-memory-1.4.15"
+source: "readme"
+source_repo: "pypi.org/project/omega-memory"
+extracted_on: "2026-05-30"
+extracted_by: "hand (Cassia, sme-dreamteam)"
+
+# --- Entity types declared --------------------------------------------
+# OMEGA stores each memory with an `event_type` drawn from a documented
+# vocabulary. SME projects these as entity_type = "memory:<event_type>".
+entity_types:
+  - decision
+  - lesson
+  - error
+  - summary
+  - user_preference
+
+# --- Edge types declared ----------------------------------------------
+# OMEGA's edges table carries a typed `edge_type`. The documented
+# relationship vocabulary (get_ontology_source) is:
+edge_types:
+  - related
+  - supersedes
+  - contradicts
+
+# --- Structural claims (operationalized via the claim library) --------
+structural_claims:
+
+  - id: typed_relationship_graph
+    text: "memories are linked into a typed relationship graph (related, supersedes, contradicts)"
+    # Matches claim library "typed.*(edge|relationship|graph)" family.
+    # Operationalized as: >1 distinct edge_type present in the graph.
+
+  - id: contradiction_detection
+    text: "OMEGA surfaces conflicting facts as contradicts edges"
+    # Cross-references Cat 3. Operationalized as: contradicts edges exist
+    # AND Cat 3 detection rate > 0 (the auto-relate emits real pairs).
+
+  - id: supersession_tracking
+    text: "superseding memories are linked to the memories they replace via supersedes edges"
+    # Cross-references Cat 6. Operationalized as: supersedes edges exist
+    # AND resolve into _superseded_by linkages.
+
+# --- Vocabulary claims (informational, adapter-specific) --------------
+vocabulary_claims:
+
+  - id: five_event_types
+    text: "memories carry one of 5 documented event_types"
+    expected_values: [decision, lesson, error, summary, user_preference]
+    # Cat 8 adapter check: distribution of entity_type over the snapshot.

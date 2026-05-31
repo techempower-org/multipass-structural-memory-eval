@@ -1447,10 +1447,10 @@
       </article>
       <article class="bl-card">
         <span class="n">the graph</span>
-        <div class="stat"><em>1.9M</em> live triples</div>
+        <div class="stat"><em>1.87M</em> live triples</div>
         <p>
           The Apache AGE knowledge graph is live and non-trivial &mdash;
-          <strong>~1.9M triples</strong>. It surfaces drawers vector + keyword
+          <strong>1,873,489 cleaned triples</strong>. It surfaces drawers vector + keyword
           search miss on structural cases (the structure categories read it
           directly); broad-recall fusion and the product path are the next
           integration.
@@ -1540,7 +1540,7 @@
   <section id="benchmarks">
     <div class="section-mark"><span class="roman">ii</span> <span>readings</span></div>
     <header class="benchmarks-head">
-      <span class="eyebrow">verified readings &middot; as of 2026-05-29</span>
+      <span class="eyebrow">verified readings &middot; as of 2026-05-31</span>
       <h2 class="display">The published <em>readings.</em></h2>
       <p class="lede">
         Every number below is sourced from a JSON in
@@ -1914,9 +1914,10 @@
           <strong>none</strong> for every row, by construction &mdash; that
           <em>is</em> the headline. Substrate under test: <strong>mempalace</strong>
           via the <code>mempalace-daemon</code> adapter against the live palace-daemon,
-          reading the <strong>real</strong> AGE knowledge graph (12,849 entities /
-          1.92M-edge RELATION set, full-graph EXACT &mdash; not the earlier capped
-          <code>/graph</code> projection). Diagnostic readings of one substrate &mdash;
+          reading the <strong>real</strong> AGE knowledge graph (1,156,314 entities /
+          1,873,489-edge cleaned RELATION set, full-graph EXACT &mdash; not the earlier
+          capped <code>/graph</code> projection, and post the <code>--drop-code-tokens</code>
+          junk DELETE). Diagnostic readings of one substrate &mdash;
           not leaderboard scores.
         </p>
 
@@ -1956,14 +1957,14 @@
             <tr>
               <td class="cat">4 <span class="catname">Threshold</span></td>
               <td>Is ingestion producing a clean graph? (dedup, field coverage, monoculture)</td>
-              <td class="reading">4a collisions <strong>248</strong> (1.9%) &middot; 4b coverage <strong>1.00</strong> &middot; 4c norm-entropy <strong>0.340</strong> &middot; <code>other</code> 55.1% &middot; 237 types <span class="src">full-graph EXACT (server-side cypher over the 1.92M-edge RELATION set) &mdash; overturns the prior sampled 0.020/98.98%-tunnel capped-projection artifact. Real monoculture is the generic <code>other</code> relation. Fix-in-flight &rarr; ~0.64 post re-map (#211)</span></td>
+              <td class="reading">4a collisions <strong>248</strong> (1.9%) &middot; 4b coverage <strong>1.00</strong> &middot; 4c norm-entropy <strong>0.645</strong> &middot; <code>other</code> 26.83% &middot; 40 types <span class="src">full-graph EXACT (server-side cypher over the cleaned 1,873,489-edge RELATION set) &mdash; <strong>RESOLVED</strong>. Overturns the prior sampled 0.020/98.98%-tunnel capped-projection artifact, then the post-relabel-pre-DELETE intermediate (0.340/55.05%/237). The re-map ran: <code>kg_predicate_norm</code> de-monoculture relabel (~520k edges) + a <code>--drop-code-tokens</code> DELETE (48,135 junk shell-cmd/stopword/DOM-method edges). Entropy 0.020&rarr;0.340&rarr;<strong>0.645</strong>; <code>other</code> 98.98%&rarr;55.05%&rarr;<strong>26.83%</strong> (#211)</span></td>
               <td class="src">live palace (real KG) &middot; daemon /cypher</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
               <td class="cat">5 <span class="catname">Missing Room</span></td>
               <td>Identify what&rsquo;s structurally missing (components, holes, gaps)</td>
-              <td class="reading">verdict: <strong>well-connected; exact WCC pending</strong> <span class="src">no absolute counts published &mdash; the prior 498-component / 44.8%-isolate figure was a capped-projection artifact; sampling under-states connectivity (edge-pull OOMs), so the real graph is &ge; as connected as any sample shows. Exact WCC pending server-side (#211)</span></td>
+              <td class="reading">largest component <strong>61.87%</strong> (715,435 of 1,156,314) &middot; isolates <strong>22.2%</strong> (256,782) &middot; <strong>325,965</strong> components <span class="src">EXACT full-graph WCC (server-side, post-DELETE) &mdash; replaces the bogus capped-projection 44.8%-isolate artifact. Honest note: isolates <em>rose</em> 20.4%&rarr;22.2% after the <code>--drop-code-tokens</code> DELETE &mdash; deleting 48k junk edges orphaned ~20k entities whose <em>only</em> edge was junk; pre-DELETE they were &ldquo;connected&rdquo; by noise, the cleaner graph honestly reports them isolated. The giant component is still well-connected (#211)</span></td>
               <td class="src">live palace (real KG) &middot; daemon</td>
               <td><span class="nabadge">none</span></td>
             </tr>
@@ -1984,14 +1985,14 @@
             <tr>
               <td class="cat">7b <span class="catname">Latency</span></td>
               <td>Query latency distribution (YCSB p50 / p95)</td>
-              <td class="reading">p50 <strong>vector 626ms</strong> / union 429ms / hybrid 2064ms &middot; p95 4.7s / 636ms / 5.6s</td>
+              <td class="reading">post-AGE-index golden set: p50 <strong>vector ~684ms</strong> / union ~515ms / hybrid ~689ms <span class="src">two honest facts, not a single-set win: on this drawer-query golden set the <strong>graph leg is inert</strong> (hybrid &asymp; union, ~689ms) &mdash; the AGE-index speedup lands on <em>entity-anchored</em> queries, not these. The earlier hybrid p50 2064ms was a <em>graph-firing</em> query set; the two sets aren&rsquo;t the same workload, so do <em>not</em> read a same-set 2064&rarr;689 improvement (#144/#227)</span></td>
               <td class="src">live palace (AGE) &middot; daemon (candidate-strategy)</td>
               <td><span class="nabadge">none</span></td>
             </tr>
             <tr>
               <td class="cat">8 <span class="catname">Blueprint</span></td>
               <td>Does the actual graph match what the system claims to do?</td>
-              <td class="reading">verdict: <strong>&ldquo;hierarchical&rdquo; PASSES</strong> (modularity &gt;&gt;0.5 across every sample) &middot; introspection 0.0 deployed / 1.0 capability <span class="src">refutes the prior FAIL (modularity 0.009 was the same capped-projection artifact). No specific modularity published (limit-dependent); exact pending server-side. Introspection 1.0 capability merged, 0.0 on the deployed daemon (#147/#211)</span></td>
+              <td class="reading"><strong>&ldquo;hierarchical&rdquo; PASSES</strong> &middot; modularity <strong>0.7961</strong> (218 communities) &middot; introspection <strong>1.0 LIVE</strong> <span class="src">EXACT full-graph (networkx, post-DELETE) &mdash; refutes the prior FAIL (modularity 0.009 was the capped-projection artifact) and replaces the verdict-only reading with a real number: 0.7961 &gt;&gt; 0.5. Introspection is now <strong>1.0 on the deployed daemon</strong> (daemon restarted, <code>/ontology</code> serving) &mdash; was 1.0 capability / 0.0 deployed (#147/#211)</span></td>
               <td class="src">live palace (real KG) &middot; daemon</td>
               <td><span class="nabadge">none</span></td>
             </tr>
@@ -2047,17 +2048,23 @@
         </div>
 
         <div class="caveat">
-          <span class="label">measurement honesty &middot; the structural column was re-measured over the real KG</span>
+          <span class="label">measurement honesty &middot; the structural column was re-measured over the real KG &mdash; and the exact counts now ship</span>
           The structural cells carried <strong>four measurement traps</strong>, now
-          corrected (#215): a <strong>capped projection</strong> (the daemon
+          corrected (#215) &mdash; and the fixes have <em>landed</em>: the re-map, the
+          junk-edge DELETE, and a full-graph networkx pass all ran, so the absolute counts
+          that were &ldquo;pending&rdquo; are now <strong>published EXACT</strong>, not
+          verdict-only. (1)&nbsp;The <strong>capped projection</strong> (the daemon
           <code>/graph</code> sample was tunnel-dominated &mdash; Cat 4 read 0.020/98.98%,
-          Cat 8 &ldquo;hierarchical&rdquo; FAILED at 0.009; both artifacts, re-anchored
-          to the full-graph EXACT and a PASS verdict); a <strong>tautological scorer</strong>
-          (Cat 3/6 +1.00 was the good-dog-graph reading back hand-seeded edges &mdash; a
-          declared ceiling, not emergent detection; the honest emergent read is 0.00); an
-          <strong>optimistic sample</strong> and a <strong>non-convergent sample</strong>
-          (Cat 5/8 topology numbers are limit-dependent and OOM at full scale, so we
-          publish verdicts, not absolute counts). Cat 2c / Cat 7 keep their #203 flat
+          Cat 8 &ldquo;hierarchical&rdquo; FAILED at 0.009) is re-anchored to the
+          full-graph EXACT: Cat 4 entropy <strong>0.645</strong> / <code>other</code>
+          <strong>26.83%</strong>, Cat 8 modularity <strong>0.7961</strong> (PASS).
+          (2)&nbsp;The <strong>tautological scorer</strong> (Cat 3/6 +1.00 was the
+          good-dog-graph reading back hand-seeded edges &mdash; a declared ceiling, not
+          emergent detection) is replaced by the honest emergent read, 0.00.
+          (3)&nbsp;The <strong>limit-dependent topology samples</strong> (Cat 5/8) that
+          used to OOM at full scale are now computed server-side over the whole graph:
+          Cat 5 WCC <strong>61.87%</strong> largest / <strong>22.2%</strong> isolates,
+          Cat 8 modularity <strong>0.7961</strong>. Cat 2c / Cat 7 keep their #203 flat
           Condition-A deltas (+10pp). The one open follow-up is the two 4B arms&rsquo;
           on-harness Cat 9a invocation rate. Per the diagnostic posture, each cell is a
           controlled reading of one substrate &mdash; and we&rsquo;d rather publish a
@@ -2065,7 +2072,7 @@
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; structural column re-measured over the real KG: baselines/cross_system_multipass_matrix_2026-05-30.json + docs/benchmarks/2026-05-30-cross-system-multipass-matrix.md (#215, post #147/#210/#211) &middot; retrieval cats baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, candidate_strategy_age}_2026-05-29.json &middot; Cat 9a docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md (#194) &middot; Cat 2c/7 docs/benchmarks/2026-05-30-jprealm-flat-condA-cat2c-cat7.md (#203)</span>
+          <span>Source &middot; structural column re-measured over the real KG, EXACT full-graph post-DELETE: baselines/cross_system_multipass_matrix_2026-05-30.json + docs/benchmarks/2026-05-30-cross-system-multipass-matrix.md + docs/benchmarks/2026-05-31-cat458-real-kg-crossvalidation.md (#215, post #147/#210/#211 + the prod re-map + --drop-code-tokens DELETE + networkx full-graph modularity) &middot; retrieval cats baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, candidate_strategy_age}_2026-05-29.json &middot; Cat 9a docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md (#194) &middot; Cat 2c/7 docs/benchmarks/2026-05-30-jprealm-flat-condA-cat2c-cat7.md (#203)</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/115">techempower-org/multipass-structural-memory-eval#115</a>
         </div>
       </article>
@@ -3023,6 +3030,132 @@
         <div class="bench-foot">
           <span>Source &middot; palace-daemon/docs/evals/rerank-eval-live-2026-05-27.json (run #2) &middot; rerank-eval-2026-05-27.json (run #1) &middot; rerank-candidates-2026-05-27.json</span>
           <a href="https://github.com/techempower-org/palace-daemon">techempower-org/palace-daemon</a>
+        </div>
+      </article>
+
+      <!-- #111 — hybrid scorer-weight tuning (recover MRR, keep R@5≈1.0) -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">#111 &middot; hybrid scorer-weight tuning</span>
+            <h3>A documented weight that <em>recovers MRR</em> without losing R@5</h3>
+          </div>
+          <span class="bench-pill live">verified &middot; 2026-05-31</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Corpus</dt><dd>live familiar palace (postgres + AGE)</dd></div>
+          <div><dt>Query set</dt><dd>12 labeled known-item (palace-daemon PR #64)</dd></div>
+          <div><dt>Method</dt><dd>in-process searcher, FlashRank OFF, weights set per sweep point</dd></div>
+          <div><dt>Knob</dt><dd><code>PALACE_HYBRID_VECTOR_WEIGHT</code> / <code>_BM25_WEIGHT</code> (mempalace#342)</dd></div>
+        </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">winning weight</div>
+            <div class="value"><em>0.85 / 0.15</em></div>
+            <div class="sub">vector / BM25</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">R@5</div>
+            <div class="value"><em>1.000</em></div>
+            <div class="sub">held &mdash; no recall lost</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">MRR</div>
+            <div class="value"><em>0.833</em></div>
+            <div class="sub">+2.5pp vs floor, +4.8pp vs default-hybrid</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Hybrid scorer-weight sweep: R@5, R@10, MRR by config">
+          <thead>
+            <tr><th>config</th><th class="num">R@5</th><th class="num">R@10</th><th class="num">MRR</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>vector / convex (default wts)</td><td class="num">0.917</td><td class="num">1.000</td><td class="num">0.808</td></tr>
+            <tr><td>union / convex (default wts)</td><td class="num">1.000</td><td class="num">1.000</td><td class="num">0.785</td></tr>
+            <tr><td>hybrid / convex (default 0.6/0.4)</td><td class="num">1.000</td><td class="num">1.000</td><td class="num">0.785</td></tr>
+            <tr class="total"><td>hybrid / convex (0.85/0.15)</td><td class="num">1.000</td><td class="num">1.000</td><td class="num">0.833</td></tr>
+          </tbody>
+        </table>
+
+        <p class="bench-prose">
+          The #111 acceptance criterion &mdash; <em>a documented hybrid weight
+          achieving R@5 &asymp; 1.000 without regressing MRR vs union/vector</em>
+          &mdash; is met by <strong>vector_weight 0.85 / bm25_weight 0.15</strong>.
+          The default 0.6/0.4 hybrid had <em>regressed</em> MRR to 0.785 (below the
+          0.808 union/vector floor); 0.85/0.15 lifts it to <strong>0.833</strong>
+          &mdash; +2.5pp over the floor, +4.8pp over the default-hybrid regression
+          &mdash; while R@5 stays pinned at 1.000. MRR turns out to be
+          <strong>non-monotonic in vector_weight</strong>: the earlier &ldquo;graph
+          promoted one query and demoted another&rdquo; reading was wrong; the real
+          mechanism is the convex blend over-weighting BM25 at 0.4. The weight ships
+          as an <strong>env knob</strong> (mempalace#342) &mdash; the deployed default
+          stays 0.6/0.4 because n=12 is below the n&ge;25 bar to flip a production
+          default.
+        </p>
+
+        <div class="caveat">
+          <span class="label">third age-fusion-null data point</span>
+          On these 12 golden queries the <strong>graph leg is inert</strong>:
+          <code>hybrid</code> scores <em>identically</em> to <code>union</code>
+          (R@5 1.000 / MRR 0.785 at default weights) &mdash; the lift comes from
+          BM25 pool-widening, not graph traversal. That joins the
+          <strong>Cat 2c/7 graph-RRF tax</strong> and the
+          <strong>#91 age-fusion R@5 null</strong> as a third independent reading
+          where the AGE graph half adds ~nothing to top-5 retrieval on
+          drawer-query workloads (it earns its keep on entity-anchored queries).
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/hybrid-scorer-weight-tuning-2026-05-31.json &middot; docs/benchmarks/2026-05-31-hybrid-scorer-weight-tuning.md (SME#227 + mempalace#342, both merged)</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/111">techempower-org/multipass-structural-memory-eval#111</a>
+        </div>
+      </article>
+
+      <!-- #103 — SME-side cross-encoder rerank A/B (PENDING Ember corpus-seeded run) -->
+      <article class="bench">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">#103 &middot; cross-encoder rerank A/B (SME side)</span>
+            <h3>A clean exit code <em>masked a near-empty corpus</em></h3>
+          </div>
+          <span class="bench-pill running">pending re-run &middot; 2026-05-31</span>
+        </div>
+
+        <dl class="bench-meta">
+          <div><dt>Probe set</dt><dd>200 git-derived probes (same set as the #162 fusion A/B)</dd></div>
+          <div><dt>Method</dt><dd>daemon <code>/search/hybrid</code> per-request <code>rerank</code> flag, read-only</dd></div>
+          <div><dt>Status</dt><dd>BLOCKED &mdash; target corpus absent from prod familiar</dd></div>
+        </dl>
+
+        <p class="bench-prose">
+          This is the <strong>SME-side</strong> rerank A/B &mdash; distinct from the
+          palace-daemon FlashRank A/B above (a 12-query live run). It ran clean
+          (EXIT=0, n=200, both legs) but is <strong>not a publishable rerank
+          verdict</strong>: the 200 git-derived probes target mempalace&rsquo;s own
+          git/docs corpus, and that corpus is <strong>no longer present in prod
+          familiar</strong> (now conversational-only). Only <strong>17/200</strong>
+          probe targets appeared in the top-10 (Recall@10 = 0.085); with the relevant
+          set absent, the rerank has nothing to reorder, so the delta (R@5 +0.005,
+          MRR +0.0073) is corpus-floor noise. This is a <em>measurement-validity</em>
+          finding &mdash; a clean exit masking a near-empty corpus &mdash; not a
+          failed run.
+        </p>
+
+        <div class="caveat">
+          <span class="label">PENDING &middot; corpus-seeded re-run in flight</span>
+          The real rerank number will come from a <strong>corpus-seeded scratch
+          palace</strong> (seed the git/docs targets so the relevant set is present,
+          then A/B rerank on/off). That run is in progress; this card will be
+          filled with the seeded numbers when it lands. Until then: <strong>do not
+          cite a rerank verdict from the blocked run.</strong>
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/ce_rerank_ab_2026-05-30.json (status: blocked_corpus_mismatch) &middot; docs/benchmarks/2026-05-30-ce-rerank-ab.md</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/103">techempower-org/multipass-structural-memory-eval#103</a>
         </div>
       </article>
 

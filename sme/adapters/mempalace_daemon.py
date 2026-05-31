@@ -106,10 +106,24 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         search_endpoint: str = "/search",
         read_only: bool = True,
         db_path: Optional[str] = None,
+        graph_kg_only: bool = False,
+        graph_limit: Optional[int] = None,
     ) -> None:
         self.kind = kind
         self.api_timeout = api_timeout
         self.prefer_graph_endpoint = prefer_graph_endpoint
+        # #147 — structural-category measurement fix. When graph_kg_only is
+        # True, get_graph_snapshot projects the REAL knowledge graph (KG
+        # entities + entity→entity RELATION edges) and EXCLUDES the
+        # wing/room/tunnel/member_of structural projection that otherwise
+        # swamps the topology (98.98% of edges in the default /graph snapshot
+        # are structural, not semantic). graph_limit raises the /graph KG
+        # sample cap (default 500 → e.g. 5000) so the RELATION sample is
+        # representative; the daemon's CTE-bounded read survives at that size
+        # where a raw Cypher walk OOMs. Both default off so retrieval and
+        # connectivity callers are unchanged.
+        self.graph_kg_only = graph_kg_only
+        self.graph_limit = graph_limit
         # #45 — alternate search endpoints (e.g. /search/age-fused) use a
         # POST + JSON body with field name `query` instead of `q`, and
         # respond with flat per-hit fields (drawer_id, wing, room,
@@ -304,7 +318,12 @@ class MemPalaceDaemonAdapter(SMEAdapter):
 
     def get_graph_snapshot(self) -> tuple[list[Entity], list[Edge]]:
         if self.prefer_graph_endpoint:
-            body = self._http_get(f"{self.api_url}/graph")
+            url = f"{self.api_url}/graph"
+            # #147 — raise the KG sample cap for structural-category runs so
+            # the RELATION-edge sample is representative of the real graph.
+            if self.graph_limit is not None:
+                url = f"{url}?limit={int(self.graph_limit)}"
+            body = self._http_get(url)
             # _http_get returns QueryResult on error; treat 404 specifically
             if isinstance(body, QueryResult):
                 if body.error and body.error.startswith("HTTP 404"):
@@ -324,8 +343,9 @@ class MemPalaceDaemonAdapter(SMEAdapter):
         """Turn the daemon's /graph response into (entities, edges).
         Delegates to the shared sme.adapters._graph_mapping module so
         FamiliarAdapter (which proxies the same /graph response) can
-        reuse the identical projection."""
-        return project_graph(body)
+        reuse the identical projection. ``graph_kg_only`` selects the
+        real-KG-only substrate for Cat 4/5/8 (see #147)."""
+        return project_graph(body, kg_only=self.graph_kg_only)
 
 
     def _snapshot_via_mcp(self) -> tuple[list[Entity], list[Edge]]:

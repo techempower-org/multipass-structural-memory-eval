@@ -853,3 +853,63 @@ def test_get_introspection_report_none_on_malformed_body(
     })
     a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
     assert a.get_introspection_report() is None
+
+
+# --- #147 real-KG structural measurement -----------------------------
+
+
+_GRAPH_BODY = {
+    "wings": {"a": 2, "b": 1},
+    "rooms": [
+        {"wing": "a", "rooms": {"shared": 2}},
+        {"wing": "b", "rooms": {"shared": 1}},
+    ],
+    "tunnels": [{"room": "shared", "wings": ["a", "b"]}],
+    "kg_entities": [
+        {"id": "Alice", "name": "Alice", "type": "entity"},
+        {"id": "Acme", "name": "Acme", "type": "entity"},
+    ],
+    "kg_triples": [
+        {"subject": "Alice", "object": "Acme", "predicate": "works_at"},
+    ],
+}
+
+
+def test_graph_kg_only_excludes_structural_edges(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """With graph_kg_only=True the snapshot is the real KG only — no tunnel /
+    member_of structural edges that otherwise swamp Cat 4/5/8 topology."""
+    fake_urlopen_factory({"GET http://daemon/graph": _GRAPH_BODY})
+    a = _adapter(monkeypatch, tmp_path, graph_kg_only=True)
+    entities, edges = a.get_graph_snapshot()
+    assert all(e.id.startswith("kg:") for e in entities)
+    assert {ed.edge_type for ed in edges} == {"works_at"}
+    assert all(ed.edge_type not in ("tunnel", "member_of") for ed in edges)
+
+
+def test_graph_kg_only_false_keeps_full_projection(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Default (graph_kg_only=False) is the full snapshot — structural edges
+    plus the KG layer. Guards the default path against the #147 flag."""
+    fake_urlopen_factory({"GET http://daemon/graph": _GRAPH_BODY})
+    a = _adapter(monkeypatch, tmp_path)  # default False
+    _, edges = a.get_graph_snapshot()
+    edtypes = {ed.edge_type for ed in edges}
+    assert "tunnel" in edtypes
+    assert "member_of" in edtypes
+    assert "works_at" in edtypes
+
+
+def test_graph_limit_threads_into_graph_url(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """graph_limit raises the /graph KG sample cap by adding ?limit=N — so the
+    daemon's CTE-bounded RELATION read returns a representative sample (#147)."""
+    fake_urlopen_factory({"GET http://daemon/graph?limit=5000": _GRAPH_BODY})
+    a = _adapter(monkeypatch, tmp_path, graph_kg_only=True, graph_limit=5000)
+    _, edges = a.get_graph_snapshot()
+    # The mock only registers the ?limit=5000 URL; a bare /graph would raise
+    # AssertionError, so reaching here proves the limit was applied.
+    assert {ed.edge_type for ed in edges} == {"works_at"}

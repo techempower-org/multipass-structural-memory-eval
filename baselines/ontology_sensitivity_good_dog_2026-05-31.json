@@ -1,0 +1,166 @@
+{
+  "corpus": "good-dog-corpus",
+  "verdict": "sensitive",
+  "conditions": [
+    {
+      "name": "flat",
+      "description": "all nodes one type, all edges one type",
+      "n_entity_types": 1,
+      "n_edge_types": 1,
+      "cat4": {
+        "canonical_collisions": 1,
+        "edge_type_entropy_normalized": 0.0,
+        "dominant_edge_type_fraction": 1.0
+      },
+      "cat5": {
+        "components": 4,
+        "largest_component_size": 44,
+        "isolated_nodes": 0,
+        "betti_0_largest": 1,
+        "betti_1_largest": 9
+      }
+    },
+    {
+      "name": "moderate",
+      "description": "the corpus as-authored (8 entity types, 10 edge types)",
+      "n_entity_types": 8,
+      "n_edge_types": 10,
+      "cat4": {
+        "canonical_collisions": 0,
+        "edge_type_entropy_normalized": 0.8419,
+        "dominant_edge_type_fraction": 0.3476
+      },
+      "cat5": {
+        "components": 4,
+        "largest_component_size": 44,
+        "isolated_nodes": 0,
+        "betti_0_largest": 1,
+        "betti_1_largest": 9
+      }
+    },
+    {
+      "name": "fine_grained",
+      "description": "person/org/publication split by source domain; mentions split by evidence",
+      "n_entity_types": 15,
+      "n_edge_types": 12,
+      "cat4": {
+        "canonical_collisions": 0,
+        "edge_type_entropy_normalized": 0.8563,
+        "dominant_edge_type_fraction": 0.2927
+      },
+      "cat5": {
+        "components": 4,
+        "largest_component_size": 44,
+        "isolated_nodes": 0,
+        "betti_0_largest": 1,
+        "betti_1_largest": 9
+      }
+    }
+  ],
+  "movements": [
+    {
+      "metric": "canonical_collisions",
+      "values": {
+        "flat": 1.0,
+        "moderate": 0.0,
+        "fine_grained": 0.0
+      },
+      "min": 0.0,
+      "max": 1.0,
+      "spread": 1.0,
+      "relative_spread": 3.0,
+      "stable": false
+    },
+    {
+      "metric": "edge_type_entropy_normalized",
+      "values": {
+        "flat": 0.0,
+        "moderate": 0.8419,
+        "fine_grained": 0.8563
+      },
+      "min": 0.0,
+      "max": 0.8563,
+      "spread": 0.8563,
+      "relative_spread": 1.5127,
+      "stable": false
+    },
+    {
+      "metric": "dominant_edge_type_fraction",
+      "values": {
+        "flat": 1.0,
+        "moderate": 0.3476,
+        "fine_grained": 0.2927
+      },
+      "min": 0.2927,
+      "max": 1.0,
+      "spread": 0.7073,
+      "relative_spread": 1.2937,
+      "stable": false
+    },
+    {
+      "metric": "components",
+      "values": {
+        "flat": 4.0,
+        "moderate": 4.0,
+        "fine_grained": 4.0
+      },
+      "min": 4.0,
+      "max": 4.0,
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "stable": true
+    },
+    {
+      "metric": "largest_component_size",
+      "values": {
+        "flat": 44.0,
+        "moderate": 44.0,
+        "fine_grained": 44.0
+      },
+      "min": 44.0,
+      "max": 44.0,
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "stable": true
+    },
+    {
+      "metric": "isolated_nodes",
+      "values": {
+        "flat": 0.0,
+        "moderate": 0.0,
+        "fine_grained": 0.0
+      },
+      "min": 0.0,
+      "max": 0.0,
+      "spread": 0.0,
+      "relative_spread": null,
+      "stable": true
+    },
+    {
+      "metric": "betti_0_largest",
+      "values": {
+        "flat": 1.0,
+        "moderate": 1.0,
+        "fine_grained": 1.0
+      },
+      "min": 1.0,
+      "max": 1.0,
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "stable": true
+    },
+    {
+      "metric": "betti_1_largest",
+      "values": {
+        "flat": 9.0,
+        "moderate": 9.0,
+        "fine_grained": 9.0
+      },
+      "min": 9.0,
+      "max": 9.0,
+      "spread": 0.0,
+      "relative_spread": 0.0,
+      "stable": true
+    }
+  ]
+}

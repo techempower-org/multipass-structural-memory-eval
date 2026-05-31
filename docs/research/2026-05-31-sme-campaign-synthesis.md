@@ -92,6 +92,8 @@ SME tests what a memory system knows about *its own structure*, not merely wheth
 
 Categories 1, 2c, 7, 9 are **retrieval/QA/integration** cats (runnable on any system). Categories 3, 4, 5, 6, 8 are **structural** cats — they need a typed-edge graph, so they are N/A for flat vector stores *by design* and N/A for systems that expose no graph endpoint (a real finding, see §3.3).
 
+**Cat 2c construct validity — designed → demonstrated.** Cat 2c was originally exercised on jp-realm-v0.1's 10 hand-authored multi-hop questions (construct *designed*). A HotpotQA loader (#43, `sme/corpora/hotpotqa/`) now *demonstrates* it on a public 7,405-question 2-hop corpus (the pinned `dev_distractor` split, 2 gold + 8 distractor paragraphs each). A dependency-free retrieval smoke on the real split returns **64% full multi-hop R@5 / 98% partial**, and — the signal Cat 2c is built to catch — **bridge (sequential 2-hop) ≈67% > comparison (parallel 2-hop) ≈47%**: chained-evidence questions retrieve better than parallel-compare questions, the token-overlap signature multi-hop targets. (E2E Cat 2c against the daemon is the downstream run; the loader is the prerequisite.)
+
 ---
 
 ## 3. The benched readings — per category
@@ -157,6 +159,7 @@ From `comparability_caveats` in the matrix:
 3. **Platform-vs-OSS.** Mem0's 92–94% are the *cloud platform v3*; the OSS package is 61–68% LoCoMo. Label every Mem0 number.
 4. **LoCoMo subset varies** (~1,540 full vs 200/300 subsets; adversarial often skipped; engram-2 uses a non-standard strict GPT-5.4 judge). Cross-comparisons unreliable without exact subset + judge.
 5. **Judge variation.** Most use a GPT-4o judge; engram-2 strict GPT-5.4; EverMind GPT-OSS-120b@temp0. Not interchangeable.
+6. **Ontology granularity (structural cats).** Cat 4's monoculture/entropy signals are *definitionally* a function of the system's ontology granularity, proven by the #45 sensitivity sweep (§5.5): the same graph re-typed flat → moderate → fine moves edge-type entropy from 0.000 → 0.842 → 0.856. **Cat 4 is only cross-comparable at matched type-granularity, and must be reported with the entity/edge type counts.** Cat 5 (topology) is the structural cat that *is* ontology-robust (§5.5) and safe to compare across differently-ontologized systems.
 
 ### 4.3 Content-filter handicap accounting
 
@@ -229,6 +232,26 @@ Root cause (Cat 4): `_graph_mapping.py` generated `tunnel` edges **combinatorial
 
 Two cross-validations make these trustworthy: (a) a direct-cypher full-graph aggregate reproduced the pre-fix `other` 55.05% / entropy 0.3402 **to the digit**; (b) the corrected numbers were verified read-only against the live AGE graph. The honesty note runs both ways — deleting junk edges *raised* isolates (20.4% → 22.2%) because ~20k entities whose only edge was junk became honestly isolated. The framework's own measurement surface was the bug; SME found it, fixed it, and cross-checked the fix from three vantage points.
 
+> **Read the corrected Cat 4 entropy 0.645 *as ontology-dependent*, not absolute.** The §5.5 sensitivity sweep proves Cat 4's entropy/monoculture signals move with the type vocabulary — and the prod re-map (mempalace#336) is precisely a vocabulary move (it relabeled 520k edges out of the `other` sink). So the 0.020 → 0.34 → 0.645 progression is partly the *real* de-monoculturing of a genuine defect and partly the headline metric tracking the changed ontology. The cell that is robust to all of this is **Cat 5's topology** (61.87% giant component), which the sweep shows is byte-identical under re-typing. Compare systems on Cat 5; report Cat 4 with its type-count.
+
+### 5.5 Ontology-sensitivity — Cat 4 sensitive, Cat 5 robust (a split finding)
+
+The #45 sweep (`docs/benchmarks/2026-05-31-ontology-sensitivity-cat45.md`, `baselines/ontology_sensitivity_good_dog_2026-05-31.json`) took **one** corpus (good-dog, 97 entities / 164 edges) and ran it through three deliberately-different ontologies — **flat** (1 type), **moderate** (8 entity / 10 edge as authored), **fine-grained** (15 entity / 12 edge, strict subtypes) — remapping *only the types*, leaving the node set, edge set, and every identity untouched (topology-preservation is the load-bearing invariant). The result is a clean split, both halves publishable:
+
+| metric | flat | moderate | fine-grained | robust? |
+|---|---|---|---|---|
+| **Cat 4** edge-type entropy (norm) | 0.000 | 0.842 | 0.856 | ✗ sensitive |
+| **Cat 4** dominant-edge fraction | 1.000 | 0.348 | 0.293 | ✗ sensitive |
+| **Cat 4** canonical collisions | **1 (false)** | 0 | 0 | ✗ sensitive |
+| **Cat 5** components | 4 | 4 | 4 | ✓ identical |
+| **Cat 5** largest component | 44 | 44 | 44 | ✓ identical |
+| **Cat 5** Betti-0 / Betti-1 | 1 / 9 | 1 / 9 | 1 / 9 | ✓ identical |
+
+- **Cat 5 (topology) is ROBUST** — components, largest-component size, isolates, and both Betti numbers are **byte-identical** across all three ontologies. Not luck: Cat 5's signals are functions of graph topology, and the topology is the same graph under every type vocabulary. **Cross-system Cat 5 comparison is valid even when systems use different ontologies.**
+- **Cat 4 (ingestion integrity) is SENSITIVE — by construction.** Normalized entropy is `H / log2(n_types)`, so it is **0.0 by definition** under a one-type ontology and climbs as types split; the dominant-fraction alarm is only interpretable relative to a fixed vocabulary. The sharpest illustration: a *too-coarse* ontology **manufactures a false canonical collision** (flat reports 1 collision because two distinct entities with the same name canonicalize together once `entity_type` is stripped) — an ingestion "defect" that does not exist.
+
+This is the cleanest demonstration of why SME is diagnostic-not-leaderboard: the *same graph* yields a "severe monoculture / one false collision" Cat 4 reading or a "healthy diverse vocabulary" reading depending purely on the type granularity, while its Cat 5 topology reading does not move at all.
+
 ---
 
 ## 6. Cost-wall taxonomy — verbatim-first vs extraction-based
@@ -291,7 +314,7 @@ Until then, the significance language in this draft is the campaign's informal s
 
 ## 9. What SME uniquely contributes
 
-No competing benchmark tests Cat 3/4/5/6/8 (ingestion integrity, gap detection, ontology coherence, contradiction/supersession) or Cat 9 (the handshake — invocation rate). The campaign produced the first independent structural-quality readings across memory systems *and* surfaced failure modes the QA leaderboards cannot see: the invocation plateau (Cat 9a), the removed-graph regression (Mem0-OSS), the no-graph-endpoint architecture (Hindsight), and — turned inward — its own capped-projection measurement artifact. The constitutional posture held throughout: lightweight, locally runnable, diagnostic-not-leaderboard, measured-never-blurred-with-claimed.
+No competing benchmark tests Cat 3/4/5/6/8 (ingestion integrity, gap detection, ontology coherence, contradiction/supersession) or Cat 9 (the handshake — invocation rate). The campaign produced the first independent structural-quality readings across memory systems *and* surfaced failure modes the QA leaderboards cannot see: the invocation plateau (Cat 9a), the removed-graph regression (Mem0-OSS), the no-graph-endpoint architecture (Hindsight), and — turned inward — its own capped-projection measurement artifact. It also delivered the meta-results a diagnostic framework owes its own readings: which categories are cross-comparable across differently-built systems (Cat 5 topology robust; Cat 4 ontology-sensitive, §5.5), and construct validity demonstrated on public corpora at scale rather than only designed on a seeded corpus (Cat 2c on HotpotQA's 7,405 questions, §2). The constitutional posture held throughout: lightweight, locally runnable, diagnostic-not-leaderboard, measured-never-blurred-with-claimed.
 
 ---
 
@@ -308,6 +331,8 @@ Every number above traces to a committed artifact:
 - **Graph-leg-inert + hybrid weight:** `docs/benchmarks/2026-05-31-hybrid-scorer-weight-tuning.md`
 - **CE-rerank NULL:** `docs/benchmarks/2026-05-31-ce-rerank-corpus-seeded.md`
 - **Measurement-artifact corrections:** `docs/benchmarks/2026-05-31-cat458-real-kg-crossvalidation.md` + `baselines/mempalace_cat{4,5,8}_realkg_*_2026-05-31.json`
+- **Ontology-sensitivity (Cat 4 sensitive / Cat 5 robust):** `docs/benchmarks/2026-05-31-ontology-sensitivity-cat45.md` + `baselines/ontology_sensitivity_good_dog_2026-05-31.json` (#45)
+- **HotpotQA Cat 2c construct validity:** `sme/corpora/hotpotqa/` (loader + README) + `scripts/hotpotqa_retrieval_smoke.py` (#43)
 - **Storage-equivalence retrieval:** `baselines/jp_realm_v0_1_{flat,postgres}_condA_*.json`
 - **Cost-wall taxonomy:** `docs/mem0_adapter.md`, `docs/hindsight_adapter.md`, #234 scoping (`scratch/nebula-234/scoping.md`)
 - **Spec / methodology:** `docs/sme_spec_v8.md`

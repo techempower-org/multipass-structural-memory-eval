@@ -966,6 +966,101 @@
     letter-spacing: 0.08em; color: var(--stellar);
   }
 
+  /* ============================================================
+     FIELD EXPLORER — the interactive 33-system field matrix
+     (cohesive with cat-tbl; the "fancy" lives in interaction + encoding)
+     ============================================================ */
+  .field-explorer .fe-controls {
+    display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem;
+    align-items: flex-start; margin: 0 0 1.1rem;
+    padding: 0.9rem 1.1rem;
+    border: var(--rule) solid var(--hair);
+    border-left: 2px solid var(--refract);
+    background: color-mix(in srgb, var(--refract) 5%, transparent);
+  }
+  .fe-filtergroup { display: flex; flex-direction: column; gap: 0.4rem; }
+  .fe-filtergroup > .fe-glabel {
+    font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ice-ghost);
+  }
+  .fe-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .fe-chip {
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.04em;
+    padding: 2px 9px; border-radius: 2px; cursor: pointer; user-select: none;
+    border: var(--rule) solid color-mix(in srgb, var(--ice-ghost) 50%, transparent);
+    background: transparent; color: var(--ice-dim);
+    transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+  }
+  .fe-chip:hover { border-color: var(--refract); color: var(--ice); }
+  .fe-chip[aria-pressed="true"] {
+    background: var(--refract); color: var(--void);
+    border-color: var(--refract); font-weight: 500;
+  }
+  @media (prefers-color-scheme: light) { .fe-chip[aria-pressed="true"] { color: var(--obsidian); } }
+  .fe-chip.heaton[aria-pressed="true"] { background: var(--stellar); border-color: var(--stellar); }
+  .fe-search {
+    font-family: var(--f-mono); font-size: 11px;
+    background: var(--void); color: var(--ice);
+    border: var(--rule) solid var(--hair-strong); border-radius: 2px;
+    padding: 3px 9px; min-width: 180px;
+  }
+  .fe-search::placeholder { color: var(--ice-ghost); }
+  .fe-count {
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ice-ghost); align-self: center;
+  }
+  .fe-count b { color: var(--refract); }
+  .fe-reset {
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; cursor: pointer; align-self: center;
+    background: transparent; border: var(--rule) solid var(--hair-strong);
+    color: var(--ice-dim); border-radius: 2px; padding: 3px 10px;
+  }
+  .fe-reset:hover { border-color: var(--refract); color: var(--ice); }
+
+  /* the two-group header separation — the hard honesty line */
+  .bench-tbl.field th.grp-pub {
+    color: var(--ice-ghost); border-bottom: 2px solid var(--hair-strong);
+  }
+  .bench-tbl.field th.grp-sme {
+    color: var(--refract); border-bottom: 2px solid var(--refract);
+  }
+  .bench-tbl.field th.seam, .bench-tbl.field td.seam {
+    border-left: 2px solid var(--refract);
+  }
+  .bench-tbl.field th .grp-tag {
+    display: block; font-size: 8.5px; letter-spacing: 0.1em; font-weight: 400;
+    text-transform: none; margin-top: 0.15rem; color: var(--ice-ghost);
+  }
+  .bench-tbl.field th.sortable { cursor: pointer; }
+  .bench-tbl.field td.sysname { white-space: nowrap; }
+  .bench-tbl.field td.sysname .sysn { color: var(--ice); font-weight: 500; }
+  .bench-tbl.field td.sysname .archc {
+    display: block; font-family: var(--f-mono); font-size: 8.5px;
+    letter-spacing: 0.05em; color: var(--ice-ghost); margin-top: 0.1rem;
+  }
+  /* status spine — a colored left edge per status group */
+  .bench-tbl.field tr[data-status="benched_on_multipass"] td.sysname { box-shadow: inset 3px 0 0 var(--refract); }
+  .bench-tbl.field tr[data-status="bench_in_flight"] td.sysname { box-shadow: inset 3px 0 0 var(--stellar); }
+  .bench-tbl.field tr[data-status="published_field_only"] td.sysname { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--ice-ghost) 60%, transparent); }
+  .bench-tbl.field tr[data-status="no_published_data"] td.sysname { box-shadow: inset 3px 0 0 transparent; }
+  .bench-tbl.field td.fcell { font-size: 11px; text-align: center; position: relative; }
+  /* heatmap — applied as inline bg via JS; this is the text contrast helper */
+  .bench-tbl.field td.fcell.heat { color: var(--void); font-weight: 600; }
+  @media (prefers-color-scheme: light) { .bench-tbl.field td.fcell.heat { color: var(--obsidian); } }
+  /* magic links — OUR receipts vs THEIR claims, visually distinct */
+  .bench-tbl.field a.mlink { text-decoration: none; border-bottom: 1px dotted; }
+  .bench-tbl.field a.mlink.ours { color: var(--refract); border-bottom-color: color-mix(in srgb, var(--refract) 60%, transparent); }
+  .bench-tbl.field a.mlink.theirs { color: var(--prism); border-bottom-style: dashed; border-bottom-color: color-mix(in srgb, var(--prism) 55%, transparent); }
+  .bench-tbl.field a.mlink:hover { border-bottom-style: solid; }
+  .bench-tbl.field a.mlink.ours::after { content: "\2197"; font-size: 0.7em; opacity: 0.7; }
+  .bench-tbl.field a.mlink.theirs::after { content: "\2197"; font-size: 0.7em; opacity: 0.55; }
+  .bench-tbl.field td.fcell .dash { color: var(--ice-ghost); }
+  .fe-rowhidden { display: none; }
+  .fe-legend2 { display: flex; flex-wrap: wrap; gap: 0.5rem 1.3rem; margin: 0.4rem 0 1.1rem; }
+  .fe-legend2 span { font-family: var(--f-mono); font-size: 10px; color: var(--ice-dim); display: inline-flex; align-items: center; gap: 0.4rem; }
+  .fe-swatch { width: 22px; height: 10px; border-radius: 1px; display: inline-block; }
+
   .bench-prose {
     color: var(--ice-dim);
     font-size: 14.5px;
@@ -1605,22 +1700,155 @@
 
     <div class="bench-list">
 
-      <!-- CROSS-SYSTEM MULTIPASS — 8 systems × Cat 1-9 (THE LEAD comparison matrix) -->
-      <article class="bench multipass">
+      <!-- FIELD EXPLORER — interactive 33-system full-field matrix (THE LEAD centerpiece) -->
+      <article class="bench multipass field-explorer" id="fieldExplorer">
         <div class="bench-head">
           <div>
-            <span class="eyebrow no-rule">Cross-system multipass &middot; every harness system &times; Cat 1&ndash;9</span>
-            <h3>The comparison matrix &mdash; <em>every system SME has wired, every category</em></h3>
+            <span class="eyebrow no-rule">Field explorer &middot; every memory system the survey names &times; every metric we have</span>
+            <h3>The full field &mdash; <em>sort it, filter it, follow the receipts</em></h3>
           </div>
-          <span class="bench-pill unique">lead matrix</span>
+          <span class="bench-pill unique">interactive</span>
         </div>
 
         <p class="multipass-lede">
-          This is the headline: the <em>same</em> SME Cat 1&ndash;9 run across
-          <span class="pinned">every memory system the harness touches</span> &mdash;
-          four memory products, a no-structure control, a diagnostic orchestrator arm,
-          and two wired-but-not-yet-benched baselines. It isn&rsquo;t a leaderboard of
-          eight competitors: the rows are <strong>grouped by role</strong>, and the most
+          Thirty-three memory systems, two kinds of number side by side:
+          <span class="pinned">Published</span> &mdash; what each system&rsquo;s own team or
+          a survey reports (self-reported, <strong>NOT our harness</strong>) &mdash; and
+          <span class="pinned">SME multipass</span> &mdash; the Cat&nbsp;1&ndash;9 readings
+          <strong>we measured ourselves</strong>. The two are kept in
+          <strong>unmistakably separate column-groups</strong>: never read a published QA
+          number as something we benched. <strong>Sort</strong> any column,
+          <strong>filter</strong> by status / architecture / metric, and
+          <strong>follow the magic links</strong> &mdash; every cell that has a source is
+          clickable: <a class="mlink ours" href="#" onclick="return false">our receipts</a>
+          (the baseline/doc that holds the reading) and
+          <a class="mlink theirs" href="#" onclick="return false">their claims</a> (the
+          leaderboard or paper) are styled differently on purpose. Only 8 of the 33 carry a
+          full SME column &mdash; that gap is the honest headline.
+        </p>
+
+        <div class="fe-controls" role="group" aria-label="Field explorer filters">
+          <div class="fe-filtergroup">
+            <span class="fe-glabel">Status</span>
+            <div class="fe-chips" data-facet="status">
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="benched_on_multipass">benched</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="bench_in_flight">in-flight</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="published_field_only">published-only</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="no_published_data">no-data</button>
+            </div>
+          </div>
+          <div class="fe-filtergroup">
+            <span class="fe-glabel">Architecture</span>
+            <div class="fe-chips" data-facet="arch_cat">
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="verbatim-first">verbatim-first</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="extraction">extraction</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="hybrid">hybrid</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="retrieval">retrieval</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="compile-upstream">compile-upstream</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="baseline-control">baseline-control</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="unspecified">unspecified</button>
+            </div>
+          </div>
+          <div class="fe-filtergroup">
+            <span class="fe-glabel">Show</span>
+            <div class="fe-chips" data-facet="metric">
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="has_pub">has published QA/R@K</button>
+              <button type="button" class="fe-chip" aria-pressed="false" data-val="has_sme">has SME multipass</button>
+            </div>
+          </div>
+          <div class="fe-filtergroup">
+            <span class="fe-glabel">View</span>
+            <div class="fe-chips">
+              <button type="button" class="fe-chip heaton" id="feHeat" aria-pressed="true" title="Color numeric cells by value">heatmap</button>
+            </div>
+          </div>
+          <input type="search" class="fe-search" id="feSearch" placeholder="filter by name…" aria-label="Filter systems by name">
+          <span class="fe-count" id="feCount"></span>
+          <button type="button" class="fe-reset" id="feReset">&#8634; reset</button>
+        </div>
+
+        <div class="fe-legend2" aria-label="Cell + link legend">
+          <span><span class="fe-swatch" style="background:linear-gradient(90deg,color-mix(in srgb,var(--stellar) 30%,transparent),var(--refract))"></span>heatmap: low&rarr;high</span>
+          <span><span class="etag" style="margin:0">E</span>emergent</span>
+          <span><span class="qadef">QA-def</span>verified, deferred</span>
+          <span><span class="nachip"><b>N/A</b>&middot;reason</span>measured-inapplicable (a finding)</span>
+          <span><span class="pill-notrun">not run</span>wired, not benched</span>
+          <span><a class="mlink ours" href="#" onclick="return false">our receipt</a></span>
+          <span><a class="mlink theirs" href="#" onclick="return false">their claim</a></span>
+        </div>
+
+        <div class="matrix-scroll">
+        <table class="bench-tbl field" id="fieldMatrix" aria-label="Interactive full-field matrix: 33 memory systems (rows) by published metrics (self-reported: LongMemEval QA, LoCoMo QA, BEAM-1M) and SME multipass Cat 1-9 (measured by us). Two clearly separated column groups. Sortable and filterable.">
+          <thead>
+            <tr>
+              <th rowspan="2" class="sortable" data-col="name" data-type="text">System</th>
+              <th rowspan="2" class="sortable" data-col="arch_cat" data-type="text">Arch</th>
+              <th rowspan="2" class="sortable" data-col="status" data-type="text">Status</th>
+              <th colspan="3" class="grp-pub seam">Published <span class="grp-tag">self-reported &mdash; NOT our harness</span></th>
+              <th colspan="10" class="grp-sme seam">SME multipass <span class="grp-tag">we measured (Cat 1&ndash;9)</span></th>
+            </tr>
+            <tr>
+              <th class="sortable seam" data-col="pub.lme" data-type="num">LME QA</th>
+              <th class="sortable" data-col="pub.loco" data-type="num">LoCoMo</th>
+              <th class="sortable" data-col="pub.beam" data-type="num">BEAM-1M</th>
+              <th class="sortable seam" data-col="sme.1" data-type="num">1</th>
+              <th class="sortable" data-col="sme.2c" data-type="num">2c</th>
+              <th class="sortable" data-col="sme.3" data-type="num">3</th>
+              <th class="sortable" data-col="sme.4" data-type="num">4</th>
+              <th class="sortable" data-col="sme.5" data-type="num">5</th>
+              <th class="sortable" data-col="sme.6" data-type="num">6</th>
+              <th class="sortable" data-col="sme.7" data-type="num">7</th>
+              <th class="sortable" data-col="sme.8" data-type="num">8</th>
+              <th class="sortable" data-col="sme.9a" data-type="num">9a</th>
+              <th class="sortable" data-col="sme.9b" data-type="num">9b</th>
+            </tr>
+          </thead>
+          <tbody id="fieldBody"><!-- rows rendered by JS from the embedded JSON --></tbody>
+        </table>
+        </div>
+        <div class="matrix-controls">
+          <span><strong>Click any column header to sort</strong> (numeric columns sort high&rarr;low first). Chips filter live + multi-select. The left edge of each system name is a <strong>status spine</strong>: refract = benched, amber = in-flight, grey = published-only. The vertical <strong>refract rule</strong> separates &ldquo;published&rdquo; from &ldquo;what we measured&rdquo; &mdash; the two groups are never the same claim.</span>
+        </div>
+
+        <div class="caveat">
+          <span class="label">the honesty line &middot; published &ne; benched-by-us</span>
+          The <strong>Published</strong> group is <em>self-reported</em> &mdash; each system&rsquo;s
+          own team or the landscape survey. <strong>We did not run those numbers.</strong> They
+          mix metrics (R@K recall is not QA accuracy &mdash; Celiums proved 100% retrieval can be
+          62% QA), mix answer models (a <strong>~24pp swing</strong> on the same benchmark between
+          GPT-4.1 and GPT-4o-mini), and mix subsets/judges. The <strong>SME multipass</strong>
+          group is the only apples-to-apples axis &mdash; and only <strong>8 of 33</strong> have one,
+          because benching a system through Cat 1&ndash;9 is real work. Mem0 appears <em>twice</em>
+          by design: the OSS package we benched, and the cloud platform-v3 number its team reports
+          (92&ndash;94% vs the OSS 61&ndash;68%) &mdash; &ldquo;almost never made explicit,&rdquo; per the survey.
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/cross_system_multipass_matrix_2026-05-30.json (field_roster, cassia-2 #165) &middot; published cells link to each system&rsquo;s cited leaderboard/paper; SME cells link to our baseline/doc artifacts. Field survey: memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/165">techempower-org/multipass-structural-memory-eval#165</a>
+        </div>
+
+        <script type="application/json" id="fieldData">{"rows":[{"id":"mempalace","name":"MemPalace (techempower-org fork)","status":"benched_on_multipass","arch_cat":"verbatim-first","arch":"hybrid (postgres+pgvector+BM25/vector/graph; verbatim-first ingest)","answer_model":"n/a (retrieval-only published)","verification":"indie (upstream 96.6% R@5 repro'd) / self (fork)","pub":{"lme":{"value":"-- (R@5 only: 0.984 held-out hybrid v4 / 96.6% upstream ChromaDB baseline; no E2E QA)","source":"https://github.com/MemPalace/mempalace/blob/develop/benchmarks/BENCHMARKS.md","st":"published_external","num":null},"loco":{"value":"-- (R@10 88.9% upstream, retrieval-only)","source":"https://github.com/MemPalace/mempalace/blob/develop/benchmarks/BENCHMARKS.md","st":"published_external","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":{"disp":"0.927","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":0.927},"2c":{"disp":"0.96","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":0.96},"3":{"disp":"0.0","state":"emergent","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":0.0},"4":{"disp":"entropy 0.645","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":null},"5":{"disp":"61.87% LC \u00b7 22.2% iso","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":null},"6":{"disp":"0.0","state":"emergent","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":0.0},"7":{"disp":"0.58","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":0.58},"8":{"disp":"mod 0.7961 \u00b7 PASS","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":null},"9a":{"disp":"0.983","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":0.983},"9b":{"disp":"reachable","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json","st":"sme_measured","num":null}},"note":"Fork publishes R@5 (0.984 held-out) + jp-realm 78.33% recall; NO published E2E QA. Upstream 96.6% R@5 is a ChromaDB baseline (palace features hurt it: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%). This is the ONLY published_field where SME provides the missing real measurements."},{"id":"omega","name":"OMEGA","status":"benched_on_multipass","arch_cat":"hybrid","arch":"embed + auto-relate (sqlite-vec + ONNX; typed-edge graph)","answer_model":"GPT-4.1","verification":"self","pub":{"lme":{"value":"95.4%","source":"https://omegamax.co/benchmarks","st":"published_external","num":0.9540000000000001},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":{"disp":"0.9","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":0.9},"2c":{"disp":"0.92","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":0.92},"3":{"disp":"recall 0.50","state":"emergent","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":null},"4":{"disp":"entropy 0.78","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":null},"5":{"disp":"1 comp \u00b7 0 iso","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":null},"6":{"disp":"0.0","state":"emergent","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":0.0},"7":{"disp":"0.593","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":0.593},"8":{"disp":"drift 0.875","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json","st":"sme_measured","num":null},"9a":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null},"9b":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null}},"note":"#1 on its self-leaderboard; solo dev, self-reported only. MemoryStress 38.3%. SME measured OMEGA on-harness at R@5 0.900 / QA 0.593 (o4-mini) \u2014 NOT comparable to the 95.4% (GPT-4.1)."},{"id":"hindsight","name":"Hindsight","status":"benched_on_multipass","arch_cat":"extraction","arch":"extraction (LLM fact-extraction per session ingest)","answer_model":"Gemini 3 Pro","verification":"indie (Virginia Tech + Washington Post) + paper (arXiv:2512.12818)","pub":{"lme":{"value":"91.4% (Gemini-3 Pro) / 89.0% (OSS-120B)","source":"https://arxiv.org/abs/2512.12818","st":"published_external","num":0.914},"loco":{"value":"89.61% (Gemini-3) / 85.67% (OSS-120B)","source":"https://arxiv.org/abs/2512.12818","st":"published_external","num":0.8961},"beam":{"value":"73.9%","source":"https://arxiv.org/abs/2512.12818","st":"published_external","num":0.7390000000000001}},"sme":{"1":{"disp":"0.914","state":"qadef","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md","st":"none","num":0.914},"2c":{"disp":null,"state":"qadef","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md","st":"none","num":null},"3":{"disp":null,"state":"na_graph","reason":"no endpoint","source":null,"st":"none","num":null},"4":{"disp":null,"state":"na_graph","reason":"no endpoint","source":null,"st":"none","num":null},"5":{"disp":null,"state":"na_graph","reason":"no endpoint","source":null,"st":"none","num":null},"6":{"disp":null,"state":"na_graph","reason":"no endpoint","source":null,"st":"none","num":null},"7":{"disp":null,"state":"qadef","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md","st":"none","num":null},"8":{"disp":null,"state":"na_graph","reason":"no endpoint","source":null,"st":"none","num":null},"9a":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null},"9b":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null}},"note":"Best independently-verified published numbers in the field. PersonaMem 86.6%/LifeBenchEN 71.5%. SME bench = verified+runnable, on-harness QA deferred (extraction-throughput-bound)."},{"id":"mem0","name":"Mem0-OSS","status":"benched_on_multipass","arch_cat":"extraction","arch":"extraction (OSS; graph layer removed)","answer_model":"undisclosed","verification":"indie (True Memory paper + Hindsight repo tested OSS) / self (platform)","pub":{"lme":{"value":"OSS: 67.8% (old alg) \u2014 platform v3 (cloud) claims 94.4-94.8%","source":"https://github.com/mem0ai/mem0","st":"published_external","num":null},"loco":{"value":"OSS: 61.4-68.5% (indie) \u2014 platform v3 claims 92.5%","source":"https://github.com/mem0ai/mem0","st":"published_external","num":null},"beam":{"value":"OSS README: 64.1% \u2014 platform v3 claims 70.1%","source":"https://github.com/mem0ai/mem0","st":"published_external","num":null}},"sme":{"1":{"disp":null,"state":"qadef","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md","st":"none","num":null},"2c":{"disp":null,"state":"qadef","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md","st":"none","num":null},"3":{"disp":null,"state":"na_graph","reason":"graph removed","source":null,"st":"none","num":null},"4":{"disp":null,"state":"na_graph","reason":"graph removed","source":null,"st":"none","num":null},"5":{"disp":null,"state":"na_graph","reason":"graph removed","source":null,"st":"none","num":null},"6":{"disp":null,"state":"na_graph","reason":"graph removed","source":null,"st":"none","num":null},"7":{"disp":null,"state":"qadef","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md","st":"none","num":null},"8":{"disp":null,"state":"na_graph","reason":"graph removed","source":null,"st":"none","num":null},"9a":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null},"9b":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null}},"note":"CRITICAL platform-vs-OSS split: the high 92-94% numbers are Mem0 PLATFORM v3 (cloud, new alg); OSS (what we benched, what True Memory/Hindsight tested) is 61-68% LoCoMo. The survey flags this is 'almost never made explicit.' SME benched the OSS package (verified+runnable, QA deferred)."},{"id":"flat","name":"flat (no-structure control)","status":"benched_on_multipass","arch_cat":"baseline-control","arch":"vector-only (no-structure control)","answer_model":"n/a","verification":"none (SME-internal control)","pub":{"lme":{"value":"n/a (internal control, not a product)","source":null,"st":"survey_only","num":null},"loco":{"value":"n/a","source":null,"st":"none","num":null},"beam":{"value":"n/a","source":null,"st":"none","num":null}},"sme":{"1":{"disp":"0.833","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json","st":"sme_measured","num":0.833},"2c":{"disp":"0.833","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json","st":"sme_measured","num":0.833},"3":{"disp":"0.0","state":"na_design","reason":"by design","source":null,"st":"none","num":0.0},"4":{"disp":null,"state":"na_design","reason":"by design","source":null,"st":"none","num":null},"5":{"disp":null,"state":"na_design","reason":"by design","source":null,"st":"none","num":null},"6":{"disp":"0.0","state":"na_design","reason":"by design","source":null,"st":"none","num":0.0},"7":{"disp":"0.384","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json","st":"sme_measured","num":0.384},"8":{"disp":null,"state":"na_design","reason":"by design","source":null,"st":"none","num":null},"9a":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null},"9b":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null}},"note":"Not a surveyed product \u2014 SME's no-structure baseline. No published field claims by construction."},{"id":"rlm","name":"rlm (Cat 9a orchestrator arm)","status":"benched_on_multipass","arch_cat":"baseline-control","arch":"LLM orchestrator over retrieval (invocation arm)","answer_model":"Qwen-7B / Llama-70B","verification":"none (SME-internal)","pub":{"lme":{"value":"n/a (SME diagnostic arm, not a product)","source":null,"st":"survey_only","num":null},"loco":{"value":"n/a","source":null,"st":"none","num":null},"beam":{"value":"n/a","source":null,"st":"none","num":null}},"sme":{"1":{"disp":"0.467","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json","st":"sme_measured","num":0.467},"2c":{"disp":null,"state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json","st":"sme_measured","num":null},"3":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"4":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"5":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"6":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"7":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"8":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"9a":{"disp":"0.467","state":"measured","reason":"","source":"https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json","st":"sme_measured","num":0.467},"9b":{"disp":null,"state":"na_harness","reason":"no harness","source":null,"st":"none","num":null}},"note":"Not a surveyed product \u2014 SME's Cat 9a orchestrator-invocation probe (the 46.7% plateau / 7-27% invocation). No published field claims."},{"id":"full_context","name":"full_context (Karpathy D1)","status":"benched_on_multipass","arch_cat":"compile-upstream","arch":"whole-vault-in-context (Karpathy D1 baseline)","answer_model":"n/a","verification":"none (Karpathy-style context baseline)","pub":{"lme":{"value":"n/a \u2014 methodology baseline; cf. survey's full-context GPT-4o 60.2% LongMemEval reference","source":null,"st":"survey_only","num":null},"loco":{"value":"n/a (cf. full-context ~52-66% LoCoMo reference)","source":null,"st":"survey_only","num":null},"beam":{"value":"n/a","source":null,"st":"none","num":null}},"sme":{"1":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"2c":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"3":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"4":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"5":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"6":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"7":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"8":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"9a":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"9b":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null}},"note":"Not a product \u2014 the whole-vault-in-context baseline. SME row is wired-but-not-benched. The survey's full-context GPT-4o reference (60.2% LongMemEval) is the spiritual comparator."},{"id":"karpathy_compiled","name":"karpathy_compiled (Karpathy D2)","status":"benched_on_multipass","arch_cat":"compile-upstream","arch":"LLM-compiled wiki (Karpathy D2 baseline)","answer_model":"n/a","verification":"none","pub":{"lme":{"value":"n/a \u2014 methodology baseline (LLM-compiled wiki)","source":null,"st":"survey_only","num":null},"loco":{"value":"n/a","source":null,"st":"none","num":null},"beam":{"value":"n/a","source":null,"st":"none","num":null}},"sme":{"1":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"2c":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"3":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"4":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"5":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"6":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"7":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"8":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"9a":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null},"9b":{"disp":null,"state":"notrun","reason":"","source":null,"st":"none","num":null}},"note":"Not a product \u2014 LLM-compiled-wiki context baseline. SME row wired-but-not-benched."},{"id":"longhand","name":"Longhand","status":"bench_in_flight","arch_cat":"verbatim-first","arch":"verbatim-first (no published benchmarks)","answer_model":"--","verification":"none (no published benchmarks)","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) \u2014 real cells drop in when she reports. Longhand publishes no quantitative benchmarks."},{"id":"postgres_ingest","name":"postgres_ingest","status":"bench_in_flight","arch_cat":"verbatim-first","arch":"verbatim-first (postgres ingest)","answer_model":"--","verification":"none (no published benchmarks)","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) \u2014 real cells drop in when she reports. "},{"id":"ladybugdb","name":"LadybugDB","status":"bench_in_flight","arch_cat":"verbatim-first","arch":"verbatim-first (LadybugDB)","answer_model":"--","verification":"none (no published benchmarks)","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) \u2014 real cells drop in when she reports. "},{"id":"mem0_platform_v3","name":"Mem0 Platform V3","status":"published_field_only","arch_cat":"extraction","arch":"extraction (cloud platform v3, new alg)","answer_model":"undisclosed 'production stack'","verification":"self","pub":{"lme":{"value":"94.4%","source":"https://mem0.ai/research","st":"published_external","num":0.9440000000000001},"loco":{"value":"92.5%","source":"https://mem0.ai/research","st":"published_external","num":0.925},"beam":{"value":"70.1%","source":"https://mem0.ai/research","st":"published_external","num":0.701}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Mem0 CLOUD platform v3 (new alg) \u2014 distinct from the OSS package SME benched. Cloud-only, not locally runnable."},{"id":"mastra","name":"Mastra","status":"published_field_only","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"GPT-5-mini","verification":"self","pub":{"lme":{"value":"94.87%","source":"https://mastra.ai/research/observational-memory","st":"published_external","num":0.9487000000000001},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Not in MemPalace README originally; added by survey."},{"id":"true_memory_pro","name":"True Memory Pro","status":"published_field_only","arch_cat":"verbatim-first","arch":"six-layer verbatim-first (HyDE + cross-encoder rerank)","answer_model":"gpt-4.1-mini","verification":"paper (arXiv:2605.04897)","pub":{"lme":{"value":"87.8%","source":"https://arxiv.org/abs/2605.04897","st":"published_external","num":0.878},"loco":{"value":"93.0%","source":"https://arxiv.org/abs/2605.04897","st":"published_external","num":0.93},"beam":{"value":"76.6%","source":"https://arxiv.org/abs/2605.04897","st":"published_external","num":0.7659999999999999}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Pro adds HyDE + larger reranker. 56-config ablation: 53/56 >90% LoCoMo (3.2pp spread) \u2014 architecture > component choice. No code release."},{"id":"true_memory_base","name":"True Memory Base","status":"published_field_only","arch_cat":"verbatim-first","arch":"six-layer verbatim-first (no HyDE)","answer_model":"gpt-4.1-mini","verification":"paper (arXiv:2605.04897)","pub":{"lme":{"value":"85.5%","source":"https://arxiv.org/abs/2605.04897","st":"published_external","num":0.855},"loco":{"value":"92.0%","source":"https://arxiv.org/abs/2605.04897","st":"published_external","num":0.92},"beam":{"value":"74.9%","source":"https://arxiv.org/abs/2605.04897","st":"published_external","num":0.7490000000000001}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":""},{"id":"supermemory","name":"Supermemory","status":"published_field_only","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"GPT-4o / Gemini-3 / GPT-5","verification":"indie (Hindsight repo + True Memory paper)","pub":{"lme":{"value":"81.6% (GPT-4o) / 85.2% (Gemini-3) / 84.6% (GPT-5)","source":"https://github.com/supermemoryai/supermemory","st":"published_external","num":0.816},"loco":{"value":"65.4% (per True Memory paper)","source":"https://github.com/supermemoryai/supermemory","st":"published_external","num":0.654},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"ConvoMem #1 claim, no score published."},{"id":"everos_evermind","name":"EverOS Evermind","status":"published_field_only","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"undisclosed","verification":"self (open eval data on HuggingFace)","pub":{"lme":{"value":"83.0%","source":"https://github.com/EverMind-AI/EverOS","st":"published_external","num":0.83},"loco":{"value":"93.05% (EverCore) / 92.73% (HyperMem)","source":"https://github.com/EverMind-AI/EverOS","st":"published_external","num":0.9305},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"EverMemBench (internal). Eval data published (EverMemOS_Eval_Results)."},{"id":"engram_paper","name":"Engram Paper","status":"published_field_only","arch_cat":"extraction","arch":"extraction/compression (~99% token reduction)","answer_model":"GPT-4o-mini","verification":"paper (arXiv:2511.12960)","pub":{"lme":{"value":"71.4%","source":"https://arxiv.org/abs/2511.12960","st":"published_external","num":0.7140000000000001},"loco":{"value":"77.55%","source":"https://arxiv.org/abs/2511.12960","st":"published_external","num":0.7755},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"ACADEMIC paper ENGRAM \u2014 distinct from EngramX/NickCirv (token-reduction only). ~99% token reduction vs full context."},{"id":"zep_graphiti","name":"Zep Graphiti","status":"published_field_only","arch_cat":"hybrid","arch":"temporal knowledge graph (Graphiti)","answer_model":"GPT-4o","verification":"self (blog) + paper (arXiv:2501.13956) + indie (LoCoMo via Hindsight)","pub":{"lme":{"value":"71.2% (GPT-4o) / 63.8% (GPT-4o-mini)","source":"https://blog.getzep.com/state-of-the-art-agent-memory/","st":"published_external","num":0.7120000000000001},"loco":{"value":"75.14% (Hindsight repo)","source":"https://blog.getzep.com/state-of-the-art-agent-memory/","st":"published_external","num":0.7514},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"DMR 94.8% (GPT-4-Turbo) on MemGPT's original metric."},{"id":"celiums","name":"Celiums","status":"published_field_only","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"Opus (best of 5)","verification":"self","pub":{"lme":{"value":"62.3%","source":"https://celiums.ai/blog/longmemeval-benchmark-honest-results/","st":"published_external","num":0.623},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"HONEST methodology: 100% retrieval, 62.3% QA \u2014 proves the R@5\u2260QA gap (the synthesis ceiling, not retrieval)."},{"id":"memmachine","name":"Memmachine","status":"published_field_only","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"gpt-4.1-mini","verification":"paper (arXiv:2604.04853)","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"91.7%","source":"https://arxiv.org/abs/2604.04853","st":"published_external","num":0.917},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"In survey LoCoMo table, not in README; surfaced for completeness."},{"id":"memobase","name":"Memobase","status":"published_field_only","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"undisclosed","verification":"indie (Hindsight benchmarks)","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"75.78%","source":"https://github.com/vectorize-io/hindsight-benchmarks","st":"published_external","num":0.7578},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"In survey LoCoMo table (indie via Hindsight repo); not in README."},{"id":"agentmemory","name":"Agentmemory","status":"published_field_only","arch_cat":"retrieval","arch":"retrieval (all-MiniLM-L6-v2)","answer_model":"n/a (retrieval only)","verification":"self","pub":{"lme":{"value":"-- (R@5 95.2% / R@10 98.6% / MRR 88.2% \u2014 RETRIEVAL ONLY, not QA)","source":"https://github.com/rohitg00/agentmemory","st":"published_external","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"R@5 only (all-MiniLM-L6-v2). Survey \u00a73: R@5 is NOT comparable to QA accuracy."},{"id":"engram_2","name":"Engram 2","status":"published_field_only","arch_cat":"retrieval","arch":"retrieval (Gemini Embed 2 + FTS5 + RRF)","answer_model":"GPT-5.4 (strict judge, LoCoMo only)","verification":"self","pub":{"lme":{"value":"-- (R@5 0.990 / R@10 0.998 / MRR 0.946 \u2014 RETRIEVAL)","source":"https://github.com/199-biotechnologies/engram-2","st":"published_external","num":null},"loco":{"value":"74.5% (STRICT judge GPT-5.4, 200q subset)","source":"https://github.com/199-biotechnologies/engram-2","st":"published_external","num":0.745},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"R@5 retrieval (Gemini Embed 2 + FTS5 + RRF) + a LoCoMo QA w/ a NON-STANDARD strict judge (not comparable to standard-judge LoCoMo). Distinct from academic ENGRAM."},{"id":"ai_memory","name":"Ai Memory","status":"published_field_only","arch_cat":"retrieval","arch":"retrieval (FTS5 + MiniLM + Gemma via Ollama; LLM query expansion)","answer_model":"n/a (retrieval only)","verification":"self","pub":{"lme":{"value":"-- (R@5 97.8% / R@10 99.0% / R@20 99.8% \u2014 RETRIEVAL)","source":"https://github.com/alphaonedev/ai-memory-mcp","st":"published_external","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"R@5 only, smart tier w/ LLM query expansion; all-local models. Not QA."},{"id":"mcp_memory_service","name":"Mcp Memory Service","status":"published_field_only","arch_cat":"retrieval","arch":"retrieval (all-MiniLM-L6-v2)","answer_model":"n/a (retrieval only)","verification":"self","pub":{"lme":{"value":"-- (R@5 80.4% turn / 86.0% session \u2014 RETRIEVAL)","source":"https://github.com/doobidoo/mcp-memory-service","st":"published_external","num":null},"loco":{"value":"-- (R@5 49.7% \u2014 RETRIEVAL)","source":"https://github.com/doobidoo/mcp-memory-service","st":"published_external","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"R@5 only (all-MiniLM-L6-v2). DevBench R@5 91.1%. Not QA."},{"id":"open_brain_ob1","name":"Open Brain Ob1","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Cost-optimization metrics only (73% invocation reduction); no retrieval/QA benchmarks."},{"id":"claude_mem","name":"Claude Mem","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"~10x token-savings claim; evals/swebench dir exists but no scores published."},{"id":"letta_memgpt","name":"Letta Memgpt","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Context-Bench is a MODEL eval, not a memory-system eval; no memory benchmarks. (MemGPT DMR 93.4% is the old metric.)"},{"id":"cognee","name":"Cognee","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"arXiv paper linked but no benchmark numbers in README."},{"id":"caviraoss_openmemory","name":"Caviraoss Openmemory","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Feature comparison only; no published benchmarks."},{"id":"engramx_nickcirv","name":"Engramx Nickcirv","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Token-reduction benchmarks (89% savings) only; no retrieval/QA. Distinct from academic ENGRAM paper."},{"id":"iai_mcp","name":"Iai Mcp","status":"no_published_data","arch_cat":"unspecified","arch":"unspecified (survey states no architecture)","answer_model":"--","verification":"none","pub":{"lme":{"value":"--","source":null,"st":"none","num":null},"loco":{"value":"--","source":null,"st":"none","num":null},"beam":{"value":"--","source":null,"st":"none","num":null}},"sme":{"1":null,"2c":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9a":null,"9b":null},"note":"Verbatim recall >=99% @10K items, latency <100ms; LongMemEval-S run EXISTS but score WITHHELD."}],"status_groups":{"benched_on_multipass":["mempalace","omega","hindsight","mem0","flat","rlm","full_context","karpathy_compiled"],"bench_in_flight":["longhand","postgres_ingest","ladybugdb"],"published_field_only":["mem0_platform_v3","mastra","true_memory_pro","true_memory_base","supermemory","everos_evermind","engram_paper","zep_graphiti","celiums","memmachine","memobase","agentmemory","engram_2","ai_memory","mcp_memory_service"],"no_published_data":["open_brain_ob1","claude_mem","letta_memgpt","cognee","caviraoss_openmemory","engramx_nickcirv","iai_mcp"]},"arch_legend":{"verbatim-first":"stores content verbatim, retrieves+synthesizes (low ingest cost)","extraction":"runs an LLM fact-extraction per ingest (throughput-bound)","hybrid":"graph + vector/embed structure combined","retrieval":"retrieval-only systems reporting R@K, no E2E QA pipeline","compile-upstream":"context-construction baseline (Karpathy D1/D2)","baseline-control":"SME-internal control / diagnostic arm, not a product","unspecified":"the survey states no architecture; not assigned (no fabrication)"},"caveats":{"R@K_vs_QA":"R@5 retrieval recall (MemPalace upstream, agentmemory, engram-2, ai-memory, mcp-memory-service) is NOT comparable to E2E QA accuracy (OMEGA, Mem0, Hindsight, True Memory, EverOS, Zep, Supermemory). Celiums proved 100% retrieval can = 62.3% QA. (survey \u00a73)","answer_model_swing":"~24pp swing on the SAME benchmark between answer models (GPT-4.1 95.4% vs GPT-4o-mini 71.4%). No apples-to-apples QA exists unless the answer model is held constant. (survey \u00a73)","platform_vs_oss":"Mem0's 92-94% are the CLOUD platform v3 (new alg); the OSS package is 61-68% LoCoMo. Survey: 'almost never made explicit.' Label every Mem0 number platform-vs-OSS.","locomo_subset":"LoCoMo question count varies (~1,540 full vs 200/300 subsets); adversarial category often skipped (Hindsight skips it); engram-2 uses a NON-STANDARD strict GPT-5.4 judge. LoCoMo cross-comparisons unreliable without exact subset+judge. (survey \u00a73)","judge_variation":"Most use GPT-4o judge (LongMemEval protocol); engram-2 strict GPT-5.4, EverMind GPT-OSS-120b@temp0. Not interchangeable.","mempalace_upstream_controversy":"Upstream 96.6% R@5 is a ChromaDB baseline (no palace features; enabling them HURTS: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%); LoCoMo 100% is structurally guaranteed at top-50. The fork publishes 0.984 R@5 held-out (no E2E QA). (survey \u00a7'MemPalace Upstream Benchmark Controversy')"}}</script>
+      </article>
+
+
+      <!-- CROSS-SYSTEM MULTIPASS — 8 benched systems × Cat 1-9 (the role-grouped zoom under the explorer) -->
+      <article class="bench multipass">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">Cross-system multipass &middot; the 8 benched systems &times; Cat 1&ndash;9</span>
+            <h3>The benched eight &mdash; <em>role-grouped, every category readable</em></h3>
+          </div>
+          <span class="bench-pill unique">drill-down</span>
+        </div>
+
+        <p class="multipass-lede">
+          The explorer above is the whole field at a glance; this is the
+          <strong>role-grouped zoom</strong> on the <span class="pinned">eight systems we
+          actually benched through Cat 1&ndash;9</span> &mdash; four memory products, a
+          no-structure control, a diagnostic orchestrator arm, and two
+          wired-but-not-yet-benched baselines. It isn&rsquo;t a leaderboard of eight
+          competitors: the rows are <strong>grouped by role</strong>, and the most
           informative reading is <span class="pinned">where each system can even be
           measured</span>. Two graph-native products (mempalace, OMEGA) take the full
           Cat 1&ndash;9; the extraction systems read <strong>N/A on the structural cats
@@ -4241,6 +4469,208 @@
 
     makeSortable(document.getElementById('memMatrix'), document.getElementById('matrixReset'));
     document.querySelectorAll('table.apples-tbl, table.cat-tbl').forEach(function(t){ makeSortable(t, null); });
+  })();
+
+  /* ============================================================
+     FIELD EXPLORER controller — renders the 33-system matrix from
+     embedded JSON, wires sort / multi-select filter / heatmap / magic links.
+     ============================================================ */
+  (function(){
+    var dataEl = document.getElementById('fieldData');
+    var body = document.getElementById('fieldBody');
+    if (!dataEl || !body) return;
+    var DB; try { DB = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    var rows = DB.rows || [];
+    var CATS = ['1','2c','3','4','5','6','7','8','9a','9b'];
+    var STATUS_LABEL = {benched_on_multipass:'benched', bench_in_flight:'in-flight',
+      published_field_only:'published-only', no_published_data:'no-data'};
+
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    // only emit a link for http(s) sources (data is repo-trusted, but guard the scheme anyway)
+    function safeUrl(u){ return (typeof u==='string' && /^https?:\/\//i.test(u)) ? u : null; }
+
+    // a published cell -> html (their-claim link if sourced)
+    function pubCellHtml(c){
+      if (!c || c.value==null || c.value==='--' || /^--/.test(String(c.value))) {
+        var v = (c && c.value && c.value!=='--') ? esc(c.value) : '<span class="dash">&mdash;</span>';
+        return v;
+      }
+      var txt = esc(c.value);
+      var u = safeUrl(c.source);
+      if (u && c.st==='published_external') {
+        return '<a class="mlink theirs" href="'+esc(u)+'" target="_blank" rel="noopener" title="their published claim">'+txt+'</a>';
+      }
+      return txt;
+    }
+    // an sme cell -> html by state (our-receipt link if measured + sourced)
+    function smeCellHtml(cell){
+      if (!cell) return '<span class="pill-notrun">not run</span>';
+      var st = cell.state;
+      if (st==='notrun') return '<span class="pill-notrun">not run</span>';
+      if (st==='nr')     return '<span class="nachip"><b>n/r</b></span>';
+      if (st==='na_design')  return '<span class="nachip"><b>N/A</b> &middot; by design</span>';
+      if (st==='na_graph')   return '<span class="nachip"><b>N/A</b> &middot; '+esc(cell.reason||'no graph')+'</span>';
+      if (st==='na_harness') return '<span class="nachip"><b>N/A</b> &middot; no harness</span>';
+      if (st==='qadef')      return '<span class="qadef">QA-def</span>';
+      // measured / emergent
+      var label = esc(cell.disp!=null ? cell.disp : (cell.num!=null ? cell.num : '—'));
+      var etag = (st==='emergent') ? '<span class="etag">E</span>' : '';
+      var u = safeUrl(cell.source);
+      if (u && cell.st==='sme_measured') {
+        return '<a class="mlink ours" href="'+esc(u)+'" target="_blank" rel="noopener" title="our measurement artifact">'+label+'</a>'+etag;
+      }
+      return label+etag;
+    }
+
+    // build rows once
+    rows.forEach(function(r){
+      var tr = document.createElement('tr');
+      tr.setAttribute('data-status', r.status);
+      tr.setAttribute('data-arch', r.arch_cat);
+      tr.setAttribute('data-name', (r.name||'').toLowerCase());
+      var hasPub = ['lme','loco','beam'].some(function(k){ var c=r.pub[k]; return c && c.value && c.value!=='--' && !/^--/.test(String(c.value)); });
+      var hasSme = CATS.some(function(c){ var x=r.sme[c]; return x && (x.state==='measured'||x.state==='emergent'); });
+      tr.setAttribute('data-haspub', hasPub?'1':'0');
+      tr.setAttribute('data-hassme', hasSme?'1':'0');
+
+      var cells = [];
+      cells.push('<td class="sysname"><span class="sysn">'+esc(r.name)+'</span><span class="archc">'+esc(r.arch_cat)+'</span></td>');
+      cells.push('<td>'+esc(r.arch_cat)+'</td>');
+      cells.push('<td><span class="qadef" style="color:var(--ice-dim)">'+esc(STATUS_LABEL[r.status]||r.status)+'</span></td>');
+      cells.push('<td class="fcell seam" data-num="'+(r.pub.lme.num!=null?r.pub.lme.num:'')+'">'+pubCellHtml(r.pub.lme)+'</td>');
+      cells.push('<td class="fcell" data-num="'+(r.pub.loco.num!=null?r.pub.loco.num:'')+'">'+pubCellHtml(r.pub.loco)+'</td>');
+      cells.push('<td class="fcell" data-num="'+(r.pub.beam.num!=null?r.pub.beam.num:'')+'">'+pubCellHtml(r.pub.beam)+'</td>');
+      CATS.forEach(function(c,i){
+        var cell=r.sme[c]; var n=(cell&&cell.num!=null)?cell.num:'';
+        cells.push('<td class="fcell'+(i===0?' seam':'')+'" data-num="'+n+'">'+smeCellHtml(cell)+'</td>');
+      });
+      tr.innerHTML = cells.join('');
+      body.appendChild(tr);
+    });
+
+    var allTr = Array.prototype.slice.call(body.querySelectorAll('tr'));
+
+    // ---- heatmap ----
+    var heatOn = true;
+    function lerp(a,b,t){ return a+(b-a)*t; }
+    function applyHeat(){
+      // per-column min/max over visible numeric cells
+      var tds = body.querySelectorAll('td.fcell');
+      // group by column index
+      var byCol = {};
+      allTr.forEach(function(tr){
+        if (tr.classList.contains('fe-rowhidden')) return;
+        var fcs = tr.querySelectorAll('td.fcell');
+        fcs.forEach(function(td,ci){
+          var n = parseFloat(td.getAttribute('data-num'));
+          if (!isNaN(n)) { (byCol[ci]=byCol[ci]||[]).push(n); }
+        });
+      });
+      var lo={}, hi={};
+      Object.keys(byCol).forEach(function(ci){ lo[ci]=Math.min.apply(null,byCol[ci]); hi[ci]=Math.max.apply(null,byCol[ci]); });
+      allTr.forEach(function(tr){
+        var fcs = tr.querySelectorAll('td.fcell');
+        fcs.forEach(function(td,ci){
+          var n = parseFloat(td.getAttribute('data-num'));
+          td.classList.remove('heat'); td.style.background='';
+          if (heatOn && !isNaN(n) && lo[ci]!=null && hi[ci]>lo[ci]) {
+            var t=(n-lo[ci])/(hi[ci]-lo[ci]);
+            // stellar(low) -> refract(high), as an alpha-scaled tint
+            var alpha = lerp(0.10, 0.62, t);
+            td.style.background = 'color-mix(in srgb, var(--refract) '+Math.round(alpha*100)+'%, transparent)';
+            if (t>0.55) td.classList.add('heat');
+          }
+        });
+      });
+    }
+
+    // ---- filters ----
+    var active = { status:new Set(), arch_cat:new Set(), metric:new Set() };
+    var searchTerm = '';
+    function passes(tr){
+      if (active.status.size && !active.status.has(tr.getAttribute('data-status'))) return false;
+      if (active.arch_cat.size && !active.arch_cat.has(tr.getAttribute('data-arch'))) return false;
+      if (active.metric.has('has_pub') && tr.getAttribute('data-haspub')!=='1') return false;
+      if (active.metric.has('has_sme') && tr.getAttribute('data-hassme')!=='1') return false;
+      if (searchTerm && tr.getAttribute('data-name').indexOf(searchTerm)<0) return false;
+      return true;
+    }
+    var countEl = document.getElementById('feCount');
+    function applyFilters(){
+      var shown=0;
+      allTr.forEach(function(tr){
+        var ok=passes(tr);
+        tr.classList.toggle('fe-rowhidden', !ok);
+        if (ok) shown++;
+      });
+      if (countEl) countEl.innerHTML = '<b>'+shown+'</b> / '+allTr.length+' systems';
+      applyHeat();
+    }
+
+    document.querySelectorAll('#fieldExplorer .fe-chips[data-facet] .fe-chip').forEach(function(chip){
+      var facet = chip.parentElement.getAttribute('data-facet');
+      chip.addEventListener('click', function(){
+        var on = chip.getAttribute('aria-pressed')==='true';
+        chip.setAttribute('aria-pressed', on?'false':'true');
+        if (on) active[facet].delete(chip.getAttribute('data-val'));
+        else active[facet].add(chip.getAttribute('data-val'));
+        applyFilters();
+      });
+    });
+    var searchEl = document.getElementById('feSearch');
+    if (searchEl) searchEl.addEventListener('input', function(){ searchTerm=searchEl.value.trim().toLowerCase(); applyFilters(); });
+    var heatBtn = document.getElementById('feHeat');
+    if (heatBtn) heatBtn.addEventListener('click', function(){
+      heatOn=!heatOn; heatBtn.setAttribute('aria-pressed', heatOn?'true':'false'); applyHeat();
+    });
+    var resetBtn = document.getElementById('feReset');
+    if (resetBtn) resetBtn.addEventListener('click', function(){
+      Object.keys(active).forEach(function(f){ active[f].clear(); });
+      document.querySelectorAll('#fieldExplorer .fe-chips[data-facet] .fe-chip').forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+      if (searchEl){ searchEl.value=''; } searchTerm='';
+      // restore original row order
+      origOrder.forEach(function(tr){ body.appendChild(tr); });
+      clearSortArrows();
+      applyFilters();
+    });
+
+    // ---- sort ----
+    var origOrder = allTr.slice();
+    var COLIDX = { name:0, arch_cat:1, status:2, 'pub.lme':3, 'pub.loco':4, 'pub.beam':5 };
+    CATS.forEach(function(c,i){ COLIDX['sme.'+c]=6+i; });
+    function clearSortArrows(){ document.querySelectorAll('#fieldMatrix th.sortable').forEach(function(th){ th.removeAttribute('data-dir'); }); }
+    function sortBy(th){
+      var col = th.getAttribute('data-col'), type = th.getAttribute('data-type');
+      var idx = COLIDX[col];
+      var dir = th.getAttribute('data-dir');
+      // numeric cols default desc (high first); text default asc
+      var nextDir = dir==='desc' ? 'asc' : (dir==='asc' ? 'desc' : (type==='num'?'desc':'asc'));
+      clearSortArrows(); th.setAttribute('data-dir', nextDir);
+      var rowsArr = allTr.slice();
+      rowsArr.sort(function(a,b){
+        var ca=a.children[idx], cb=b.children[idx];
+        var va, vb;
+        if (type==='num'){
+          va=parseFloat(ca.getAttribute('data-num')); vb=parseFloat(cb.getAttribute('data-num'));
+          var an=isNaN(va), bn=isNaN(vb);
+          if (an&&bn) return 0; if (an) return 1; if (bn) return -1;   // blanks always sink
+          return nextDir==='desc' ? vb-va : va-vb;
+        } else {
+          va=(ca.textContent||'').trim().toLowerCase(); vb=(cb.textContent||'').trim().toLowerCase();
+          if (va<vb) return nextDir==='asc'?-1:1;
+          if (va>vb) return nextDir==='asc'?1:-1;
+          return 0;
+        }
+      });
+      rowsArr.forEach(function(tr){ body.appendChild(tr); });
+      applyHeat();
+    }
+    document.querySelectorAll('#fieldMatrix th.sortable').forEach(function(th){
+      th.addEventListener('click', function(){ sortBy(th); });
+    });
+
+    // initial paint
+    applyFilters();
   })();
 </script>
 

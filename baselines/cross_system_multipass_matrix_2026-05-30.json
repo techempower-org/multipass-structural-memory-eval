@@ -19,7 +19,7 @@
     "verdict-exact-pending": "the adapter's absolute number is sample/limit-dependent (scales with --graph-limit, no feasible full-graph path); we publish the qualitative VERDICT, not the artifact number, with exact pending a server-side computation",
     "pending-adapter": "adapter not yet merged to main; slot reserved",
     "verified-qa-deferred": "adapter verified + runnable on the harness, but full on-harness QA is DEFERRED because the system is extraction-throughput-bound (an LLM fact-extraction per session ingest makes a strat150 run take many hours); we record the field-reported number + the deferral reason, NOT an on-harness QA number",
-    "N/A-no-graph-endpoint": "system exposes no standalone graph endpoint; the adapter's graph snapshot is empty, so structural cats cannot be evaluated (and would be gated behind the same extraction throughput regardless)"
+    "N/A-no-graph-endpoint": "system exposes no usable typed-edge graph; the adapter's snapshot has no edges, so structural cats cannot be evaluated. Two distinct causes seen: Hindsight serves no graph endpoint at all (extraction-then-retrieve); Mem0 OSS *removed* its graph-memory layer (now flat/vector) -- noted per-cell."
   },
   "categories": {
     "1": {
@@ -46,7 +46,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "verified-qa-deferred",
+        "note": "Adapter VERIFIED vs real mem0ai 2.0.4 (from_config/add/search) + live smoke GREEN on a local $0-cloud stack (ollama phi4 extractor + nomic-embed-text). On-harness QA DEFERRED: extraction-throughput-bound -- warm steady-state ~9s/ingest -> strat150 ingest ~18h CPU-local (same wall as Hindsight). Extraction is LOSSY by design (smoke stored 3/5 facts). No on-harness QA number slotted."
       }
     },
     "2c": {
@@ -72,7 +73,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "verified-qa-deferred",
+        "note": "Same as Cat 1 -- multi-hop QA deferred, extraction-throughput-bound (~18h strat150)."
       }
     },
     "3": {
@@ -101,7 +103,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-graph-endpoint",
+        "note": "N/A -- GRAPH MEMORY WAS REMOVED FROM mem0 OSS (mem0ai 2.0.4). `relations` are not populated and get_graph_snapshot() returns isolated entities with ZERO edges, so Cat 3/4/5/6/8 score against an empty edge set. This is a real finding distinct from Hindsight's 'no graph endpoint': Mem0 OSS *had* a graph layer and the open-source edition DROPPED it -- it is now a flat/vector store, not a graph. (The hosted Mem0 platform retains graph memory; the OSS package under test does not.)"
       }
     },
     "4": {
@@ -134,7 +137,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-graph-endpoint",
+        "note": "N/A -- GRAPH MEMORY WAS REMOVED FROM mem0 OSS (mem0ai 2.0.4). `relations` are not populated and get_graph_snapshot() returns isolated entities with ZERO edges, so Cat 3/4/5/6/8 score against an empty edge set. This is a real finding distinct from Hindsight's 'no graph endpoint': Mem0 OSS *had* a graph layer and the open-source edition DROPPED it -- it is now a flat/vector store, not a graph. (The hosted Mem0 platform retains graph memory; the OSS package under test does not.)"
       }
     },
     "5": {
@@ -165,7 +169,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-graph-endpoint",
+        "note": "N/A -- GRAPH MEMORY WAS REMOVED FROM mem0 OSS (mem0ai 2.0.4). `relations` are not populated and get_graph_snapshot() returns isolated entities with ZERO edges, so Cat 3/4/5/6/8 score against an empty edge set. This is a real finding distinct from Hindsight's 'no graph endpoint': Mem0 OSS *had* a graph layer and the open-source edition DROPPED it -- it is now a flat/vector store, not a graph. (The hosted Mem0 platform retains graph memory; the OSS package under test does not.)"
       }
     },
     "6": {
@@ -192,7 +197,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-graph-endpoint",
+        "note": "N/A -- GRAPH MEMORY WAS REMOVED FROM mem0 OSS (mem0ai 2.0.4). `relations` are not populated and get_graph_snapshot() returns isolated entities with ZERO edges, so Cat 3/4/5/6/8 score against an empty edge set. This is a real finding distinct from Hindsight's 'no graph endpoint': Mem0 OSS *had* a graph layer and the open-source edition DROPPED it -- it is now a flat/vector store, not a graph. (The hosted Mem0 platform retains graph memory; the OSS package under test does not.)"
       }
     },
     "7": {
@@ -218,7 +224,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "verified-qa-deferred",
+        "note": "Same as Cat 1 -- E2E QA deferred, extraction-throughput-bound."
       }
     },
     "8": {
@@ -250,7 +257,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-graph-endpoint",
+        "note": "N/A -- GRAPH MEMORY WAS REMOVED FROM mem0 OSS (mem0ai 2.0.4). `relations` are not populated and get_graph_snapshot() returns isolated entities with ZERO edges, so Cat 3/4/5/6/8 score against an empty edge set. This is a real finding distinct from Hindsight's 'no graph endpoint': Mem0 OSS *had* a graph layer and the open-source edition DROPPED it -- it is now a flat/vector store, not a graph. (The hosted Mem0 platform retains graph memory; the OSS package under test does not.)"
       }
     },
     "9a": {
@@ -274,7 +282,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-harness",
+        "note": "Cat 9a is an orchestrator-model property. Mem0 OSS is driven via its Python client API here (no model-in-the-loop), so substrate-level 9a is N/A -- same treatment as OMEGA/Hindsight/mempalace."
       }
     },
     "9b": {
@@ -294,7 +303,8 @@
       },
       "mem0": {
         "value": null,
-        "scoreability": "pending-adapter"
+        "scoreability": "N/A-no-harness",
+        "note": "Mem0Adapter declares no get_harness_manifest(); the SME adapter uses the client API path, so there is no harness surface to probe."
       }
     }
   },
@@ -311,8 +321,11 @@
     "mempalace_cat6_emergent": "baselines/mempalace_cat6_realkg_emergent_2026-05-31.json (re-scored --real-kg post-#147/#210)",
     "mempalace_cat4_exact": "baselines/mempalace_cat4_realkg_exact_2026-05-31.json (#211 server-side cypher aggregation, full-graph exact)",
     "mempalace_cat5_cat8_verdict": "team-lead adjudication (green-Somnia + Sage cross-validation): absolute numbers limit-dependent, no feasible full-graph path; published as verdict + exact-pending (palace-daemon#210-followup)",
-    "hindsight_all": "docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md + docs/hindsight_adapter.md (Iris, #220/#184); sme/adapters/hindsight.py"
+    "hindsight_all": "docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md + docs/hindsight_adapter.md (Iris, #220/#184); sme/adapters/hindsight.py",
+    "mem0_all": "docs/mem0_adapter.md + tests/test_mem0_live.py (Solara, #185/#221); verdict relayed via team-lead"
   },
   "rescore_note": "2026-05-31 (cassia-2, #148): mempalace structural column re-scored over the REAL KG after #147 (real-kg measurement) + #210 + #211 (exact RELATION aggregation). Cat 3/6 flipped from declared-ceiling +1.00 to emergent 0.00 (live palace has no contradicts/supersedes edges). Cat 4 anchored to the full-graph EXACT (0.340 norm / `other` 55.1% / 2.68 bits / 237 types / 248 collisions), overturning the sampled 0.020/98.98%-tunnel artifact. Cat 5/8 published as VERDICT (Cat 5: qualitatively well-connected; Cat 8: hierarchical PASSES) with absolute numbers held pending a server-side computation, because the adapter's --real-kg topology numbers are limit-dependent. All reads were READ-ONLY GET probes against prod familiar:8085; no ingest.",
-  "hindsight_note": "2026-05-31 (cassia-2, #146): Hindsight slotted as a VERDICT row per team-lead adjudication. Retrieval/QA cats = 'verified + runnable; full on-harness QA deferred (extraction-throughput-bound, ~150h strat150 ingest)' with the field-reported 91.4% recorded as a field number, NOT an on-harness measurement. The n=12 0.0 attempt was INVALIDATED by a mid-run SIGTERM and is excluded. Structural cats 3/4/5/6/8 = N/A (no graph endpoint). Cross-system headline: extraction-based memory (Hindsight, Mem0) is benchmark-throughput-bound; verbatim-first (mempalace) ingests at ~0 marginal cost -- the cost thesis the public leaderboards hide, now a multi-competitor data point."
+  "hindsight_note": "2026-05-31 (cassia-2, #146): Hindsight slotted as a VERDICT row per team-lead adjudication. Retrieval/QA cats = 'verified + runnable; full on-harness QA deferred (extraction-throughput-bound, ~150h strat150 ingest)' with the field-reported 91.4% recorded as a field number, NOT an on-harness measurement. The n=12 0.0 attempt was INVALIDATED by a mid-run SIGTERM and is excluded. Structural cats 3/4/5/6/8 = N/A (no graph endpoint). Cross-system headline: extraction-based memory (Hindsight, Mem0) is benchmark-throughput-bound; verbatim-first (mempalace) ingests at ~0 marginal cost -- the cost thesis the public leaderboards hide, now a multi-competitor data point.",
+  "mem0_note": "2026-05-31 (cassia-2, #146): Mem0-OSS slotted as a VERDICT row per Solara's #221 verdict. Retrieval/QA cats = verified + runnable, on-harness QA deferred (extraction-throughput-bound, ~9s/ingest warm -> ~18h strat150). Structural cats N/A because GRAPH MEMORY WAS REMOVED FROM mem0 OSS (zero edges) -- a distinct finding from Hindsight's no-endpoint. The matrix is now COMPLETE: mempalace + OMEGA fully scored; Hindsight + Mem0 verdict rows. Cross-system cost-wall finding now has BOTH extraction-cost numbers (Hindsight ~150h, Mem0 ~18h) vs verbatim-first mempalace ~0 marginal cost.",
+  "status": "COMPLETE — 4 systems (mempalace, omega, hindsight, mem0) across Cat 1-9"
 }

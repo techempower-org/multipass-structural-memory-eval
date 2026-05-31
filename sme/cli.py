@@ -140,6 +140,18 @@ def _good_dog_graph_loader() -> type[SMEAdapter]:
     return GoodDogGraphAdapter
 
 
+def _ai_memory_loader() -> type[SMEAdapter]:
+    from sme.adapters.ai_memory import AiMemoryAdapter
+
+    return AiMemoryAdapter
+
+
+def _agentmemory_loader() -> type[SMEAdapter]:
+    from sme.adapters.agentmemory import AgentMemoryAdapter
+
+    return AgentMemoryAdapter
+
+
 _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
     _AdapterSpec(
         aliases=("ladybugdb", "ladybug"),
@@ -259,6 +271,22 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         loader=_good_dog_graph_loader,
         accepts=frozenset({"vault_dir", "n_results", "read_only"}),
         rename={"db_path": "vault_dir"},
+    ),
+    _AdapterSpec(
+        aliases=("ai-memory", "ai_memory", "aimemory"),
+        loader=_ai_memory_loader,
+        accepts=frozenset({
+            "api_url", "namespace", "tier", "n_results", "api_timeout",
+            "read_only",
+        }),
+    ),
+    _AdapterSpec(
+        aliases=("agentmemory", "agent-memory", "agent_memory"),
+        loader=_agentmemory_loader,
+        accepts=frozenset({
+            "api_url", "project", "n_results", "api_timeout",
+            "include_lessons", "read_only",
+        }),
     ),
 )
 

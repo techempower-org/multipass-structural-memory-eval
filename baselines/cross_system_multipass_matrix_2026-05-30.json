@@ -557,10 +557,10 @@
         "source_type": "not_run"
       },
       "postgres_ingest": {
-        "value": null,
-        "metric": "LoCoMo E2E QA accuracy (n=250 stratified, identical subset to flat)",
+        "value": 0.392,
+        "metric": "LoCoMo-10 E2E QA accuracy (n=250 stratified, identical subset to flat; weighted 0.4337)",
         "scoreability": "scoreable",
-        "note": "postgres LoCoMo-10 E2E QA in flight (reader=judge=gpt-5.3-chat, exact 250-q subset flat used). Number lands shortly; compare to flat 0.384 unweighted / 0.4255 weighted.",
+        "note": "postgres+pgvector LoCoMo-10 E2E QA, reader=judge=gpt-5.3-chat, EXACT 250-q subset flat used. 0.392 vs flat 0.384 (Δ noise) — storage substrate ≈ flat on QA too. CONSERVATIVE: 4/250 reader calls hit Azure content_filter (LoCoMo×Azure artifact, non-deterministic) → empty answer → judged incorrect, IN n_scored; flat hit 0 filters on its 2026-05-29 run, so postgres carried a 4-q handicap and still matched flat. Lift is the graph/reader, not the backend.",
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/locomo10_postgres_e2e_stratified_2026-05-31.json",
         "source_type": "sme_measured"
       }

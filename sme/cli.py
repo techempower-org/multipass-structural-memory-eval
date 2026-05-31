@@ -834,7 +834,30 @@ def cmd_cat4(args: argparse.Namespace) -> int:
     entities, edges = adapter.get_graph_snapshot()
     log.info("snapshot: %d entities, %d edges", len(entities), len(edges))
 
-    report = score_ingestion_integrity(entities, edges)
+    # #147 follow-up — under --real-kg, Cat 4's monoculture metric should read
+    # the EXACT RELATION distribution (full server-side aggregation), not the
+    # capped graph sample (which under-counts the `other` sink + long tail,
+    # inflating entropy). Adapters without the capability return None and Cat 4
+    # counts the sampled edges as before.
+    edge_type_override = None
+    if getattr(args, "real_kg", False) and hasattr(
+        adapter, "get_edge_type_distribution"
+    ):
+        try:
+            edge_type_override = adapter.get_edge_type_distribution()
+            if edge_type_override:
+                log.info(
+                    "Cat 4 using exact RELATION distribution: %d types, "
+                    "%d edges",
+                    len(edge_type_override),
+                    sum(edge_type_override.values()),
+                )
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("exact edge-type distribution fetch failed: %s", e)
+
+    report = score_ingestion_integrity(
+        entities, edges, edge_type_counts_override=edge_type_override
+    )
 
     print()
     print("=" * 70)

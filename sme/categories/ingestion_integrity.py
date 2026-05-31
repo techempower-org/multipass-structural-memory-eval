@@ -154,6 +154,7 @@ def score_ingestion_integrity(
     canonicalize: Callable[[str, str], str] = default_canonical_key,
     collision_example_limit: int = 10,
     gap_example_limit: int = 10,
+    edge_type_counts_override: Optional[dict[str, int]] = None,
 ) -> IngestionIntegrityReport:
     """Produce a Cat 4 diagnostic reading for a graph snapshot.
 
@@ -165,6 +166,18 @@ def score_ingestion_integrity(
             articles, punctuation, or does richer normalization.
         collision_example_limit, gap_example_limit: cap the examples
             retained in the report for readability.
+        edge_type_counts_override: when supplied, the 4c monoculture
+            metrics (edge-type distribution, Shannon entropy,
+            concentration) are computed from this EXACT ``{type: count}``
+            map instead of counting the ``edges`` list. The daemon
+            adapter passes the full ``MATCH ()-[r:RELATION]->() RETURN
+            r.relation_type, count(*)`` aggregation here so Cat 4 reads
+            the true population distribution (1.92M edges, 237 types,
+            ``other`` 55.1%) rather than a capped ``/graph`` sample —
+            which under-counts the ``other`` sink and the long tail,
+            inflating entropy (#147 follow-up). Connectivity-dependent
+            signals (collisions, per-type components) still use the
+            sampled ``edges`` because they need the actual endpoints.
     """
     n = len(entities)
 
@@ -218,7 +231,16 @@ def score_ingestion_integrity(
 
     # --- 4c edge-type monoculture ------------------------------------
 
-    type_counts: Counter[str] = Counter(e.edge_type for e in edges if e.edge_type)
+    # Prefer the exact population distribution when the caller supplies it
+    # (daemon adapter's full RELATION aggregation). Falls back to counting the
+    # sampled edges, which is correct for file-backed adapters that return the
+    # whole graph but under-samples the long tail on a capped HTTP snapshot.
+    if edge_type_counts_override:
+        type_counts = Counter(
+            {k: int(v) for k, v in edge_type_counts_override.items() if k}
+        )
+    else:
+        type_counts = Counter(e.edge_type for e in edges if e.edge_type)
     total = sum(type_counts.values())
 
     if total and len(type_counts) > 1:

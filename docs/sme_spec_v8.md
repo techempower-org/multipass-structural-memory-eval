@@ -1047,7 +1047,7 @@ The appendix is populated incrementally as standard-corpus integration ([#43]) a
 | Category | Hand-authored evidence | Public-corpus evidence | Real-system case studies |
 |---|---|---|---|
 | **Cat 1 — The Lookup** | jp-realm-v0.1 (24 notes, 8 questions) | LongMemEval substrate parity (R@5 = 0.9660 byte-identical to upstream) | — |
-| **Cat 2c — The Stairway (multi-hop)** | jp-realm-v0.1 (10 multi-hop questions at hop depths 1/2/3) | HotpotQA integration pending ([#43]) | — |
+| **Cat 2c — The Stairway (multi-hop)** | jp-realm-v0.1 (10 multi-hop questions at hop depths 1/2/3) | HotpotQA loader landed ([#43] Phase 1): `sme/corpora/hotpotqa/` parses the dev-distractor split (7,405 questions, all 2-hop, 2 gold paragraphs each); lexical retrieval smoke recovers both gold paragraphs for 64% / ≥1 for 98% at top-5. Full Cat 2c cross-val run downstream. | — |
 | **Cat 3 — The Dissonance** | jp-realm-v0.1 (2 contradiction pairs) | — | — |
 | **Cat 4 — The Threshold (Ingestigation)** | jp-realm-v0.1 (3 alias pairs, 5 seeded defects) | MINE integration pending ([#43]) | Content-engine baseline pass 2026-05-05 (canonical-collision bug surfaced + rebuild informed; drafts at [`docs/issue-drafts/2026-05-05-content-engine-feedback/`](issue-drafts/2026-05-05-content-engine-feedback/)) |
 | **Cat 5 — The Missing Room** | jp-realm-v0.1 (1 structural gap between auth_engineering and privacy_research) | MINE / GraphRAG-Bench integration pending ([#43]) | — |

@@ -95,13 +95,35 @@ comparable *in spirit* to the daemon's `drawer_hit_at_K`, not identical. The QA
 number (canonical reader + judge over recalled facts) is the cleaner
 apples-to-apples metric across substrates.
 
-## Throughput note (the #184 bench wall)
+## Finding: extraction-based memory is benchmark-throughput-bound
 
-Fact extraction runs the LLM on **every session ingest** (LongMemEval-S
-averages ~48 sessions/question; the strat150 subset = ~7,200 session ingests).
-With the local phi4 extractor on CPU, measured extraction is ~60–96 s/session,
-i.e. the full strat150 run is ~150 hours — impractical for a CPU-local
-extractor. A defensible Hindsight QA row needs either a small indicative `n`, a
-GPU-accelerated extractor, or a fast cloud extraction provider (which trades off
-the local-only isolation posture). See the run's baseline JSON `run_metadata`
-for the actual `n`, extractor, and timing of any committed result.
+The headline result of the #184 investigation is **not a QA number** — it's an
+architectural one. Hindsight runs an **LLM fact-extraction on every session
+ingest**. Measured here (local phi4, CPU): **~60–96 s per session**.
+LongMemEval-S averages ~48 sessions/question, so the strat150 subset is ~7,200
+session ingests ≈ **150 hours** to benchmark.
+
+A verbatim-first system (mempalace) ingests raw text at **~zero marginal
+compute** — no per-ingest model call. The two architectures differ by *orders
+of magnitude in ingest/benchmark cost*, independent of retrieval quality.
+
+That asymmetry is a real tradeoff the public leaderboards hide. The
+verbatim-first thesis isn't only about recall fidelity; it's also that raw-text
+ingest is dramatically cheaper to populate and to evaluate. An
+extraction-based system pays an LLM tax on the way *in* (every memory written),
+in exchange for denser/structured recall units; a verbatim system pays nothing
+on ingest and defers all work to query time.
+
+### Consequence for this benchmark
+
+A full strat150 Hindsight QA row is not feasible CPU-locally. A defensible row
+needs one of: a **small indicative `n`** (too small to publish a QA number
+under the "don't conclude from partial-N" rule), a **GPU-accelerated
+extractor**, or a **fast cloud extraction provider** — the last trades off the
+local-only isolation posture and incurs ~7,200 reasoning-model extraction calls
+(a real $ cost, deferred to a human greenlight, not run unsupervised). An n=12
+attempt on a CPU-local server was invalidated when the scratch container was
+terminated mid-run (the runner kept POSTing to a dead endpoint) — a stable box
+is a hard prerequisite. The adapter + harness are verified and runnable; the
+full bench is **deferred on extraction throughput**, which is itself the
+finding.

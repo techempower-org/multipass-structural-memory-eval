@@ -1,0 +1,728 @@
+{
+  "run_metadata": {
+    "mode": "live",
+    "adapter": "palace-daemon (in-process search_memories)",
+    "diagnostic": "hybrid-scorer-weight-tuning",
+    "issue": "techempower-org/multipass-structural-memory-eval#111",
+    "queries": "scripts/evals/rerank_eval_queries.json (12-query golden set)",
+    "n_questions": 12,
+    "candidate_strategy": "hybrid",
+    "fusion_mode": "convex",
+    "search_limit": 20,
+    "url": "in-process against familiar:5433 postgres palace (mempalace_2026_05_13)",
+    "flashrank": "OFF (apples-to-apples with candidate-strategy-2026-05-28.json /mcp path)",
+    "timestamp_utc": "2026-05-31T17:28:47.733809+00:00",
+    "method_note": "In-process mempalace.searcher.search_memories run on familiar against the live postgres+AGE palace. PALACE_HYBRID_VECTOR_WEIGHT/BM25_WEIGHT set per weight point in the sweep process only; the prod daemon was NOT restarted or reconfigured. FlashRank disabled to match the candidate_strategy_eval harness path (/mcp tools/call, which bypasses the daemon REST rerank wrapper).",
+    "graph_note": "The graph leg of candidate_strategy=hybrid surfaced ZERO graph candidates for all 12 golden queries (every trace = drawer + bm25_postgres only); hybrid is byte-identical to union on this set. The hybrid-vs-vector difference is BM25 pool-widening recomputing corpus-relative BM25 IDF, which reshuffles the convex blend \u2014 NOT graph promotion/demotion. This corrects the attribution in baselines/candidate-strategy-2026-05-28.json."
+  },
+  "summary": {
+    "acceptance": {
+      "criterion": "R@5 ~= 1.000 WITHOUT regressing MRR vs union/vector (floor 0.808)",
+      "result": "SATISFIED",
+      "recommended_weight": {
+        "vector_weight": 0.85,
+        "bm25_weight": 0.15
+      },
+      "at_recommended": {
+        "vw": 0.85,
+        "bw": 0.15,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.8333,
+        "felipe": 3,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 1,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 3,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      "vs_union_vector_floor": {
+        "R@5": "+0.083",
+        "MRR": "+0.025"
+      },
+      "vs_default_hybrid_0.6_0.4": {
+        "R@5": "0.000",
+        "MRR": "+0.048"
+      }
+    },
+    "strategy_baseline_default_weights": {
+      "vector/convex": {
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8079,
+        "felipe": 1,
+        "ddarch": 9
+      },
+      "union/convex": {
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3
+      },
+      "hybrid/convex": {
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3
+      },
+      "hybrid/rrf": {
+        "R@5": 0.8333,
+        "R@10": 0.9167,
+        "MRR": 0.7847,
+        "felipe": 5,
+        "ddarch": 8
+      },
+      "union/rrf": {
+        "R@5": 0.8333,
+        "R@10": 0.9167,
+        "MRR": 0.7847,
+        "felipe": 5,
+        "ddarch": 8
+      }
+    },
+    "headline": {
+      "best_R@5": "hybrid @ vw>=0.55 (1.000)",
+      "best_MRR_at_R@5_1.0": "hybrid vw=0.85/bw=0.15 (MRR 0.833)",
+      "default_hybrid": "vw=0.6/bw=0.4 -> R@5 1.000, MRR 0.785 (the -2.3pp regression)",
+      "mechanism": "Non-monotonic MRR in vector_weight. The default 0.4 BM25 weight buries a strong vector match (rerank-implementation-plan, rank 4); raising vector_weight to 0.85 surfaces it to rank 1 (RR +0.75) while daemon-deploy-arch holds rank 3 (R@5 win preserved) and felipe slips 2->3 (RR -0.167). Net MRR 0.785 -> 0.833. Past vw=0.9 felipe collapses (rank 9) and R@5 drops to 0.917."
+    }
+  },
+  "sweeps": {
+    "fusion_mode_comparison_default_weights": [
+      {
+        "strategy": "vector",
+        "fusion": "convex",
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8079,
+        "felipe": 1,
+        "ddarch": 9,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 9,
+          "felipe-976-cherrypick": 1,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "strategy": "union",
+        "fusion": "convex",
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "strategy": "hybrid",
+        "fusion": "convex",
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "strategy": "hybrid",
+        "fusion": "rrf",
+        "R@5": 0.8333,
+        "R@10": 0.9167,
+        "MRR": 0.7847,
+        "felipe": 5,
+        "ddarch": 8,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 11,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 1,
+          "daemon-deploy-arch": 8,
+          "felipe-976-cherrypick": 5,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "strategy": "union",
+        "fusion": "rrf",
+        "R@5": 0.8333,
+        "R@10": 0.9167,
+        "MRR": 0.7847,
+        "felipe": 5,
+        "ddarch": 8,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 11,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 1,
+          "daemon-deploy-arch": 8,
+          "felipe-976-cherrypick": 5,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      }
+    ],
+    "coarse_weight_sweep": [
+      {
+        "vw": 0.6,
+        "bw": 0.4,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.5,
+        "bw": 0.5,
+        "R@5": 0.9167,
+        "R@10": 0.9167,
+        "MRR": 0.6997,
+        "felipe": 2,
+        "ddarch": 16,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 16,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.4,
+        "bw": 0.6,
+        "R@5": 0.9167,
+        "R@10": 0.9167,
+        "MRR": 0.7972,
+        "felipe": 1,
+        "ddarch": 15,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 1,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 15,
+          "felipe-976-cherrypick": 1,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.3,
+        "bw": 0.7,
+        "R@5": 0.9167,
+        "R@10": 0.9167,
+        "MRR": 0.7407,
+        "felipe": 1,
+        "ddarch": 18,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 1,
+          "hnsw-pin": 1,
+          "system-service-only": 3,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 18,
+          "felipe-976-cherrypick": 1,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.35,
+        "bw": 0.65,
+        "R@5": 0.9167,
+        "R@10": 0.9167,
+        "MRR": 0.7963,
+        "felipe": 1,
+        "ddarch": 18,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 1,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 18,
+          "felipe-976-cherrypick": 1,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.45,
+        "bw": 0.55,
+        "R@5": 0.9167,
+        "R@10": 0.9167,
+        "MRR": 0.7413,
+        "felipe": 1,
+        "ddarch": 16,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 16,
+          "felipe-976-cherrypick": 1,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.25,
+        "bw": 0.75,
+        "R@5": 0.9167,
+        "R@10": 0.9167,
+        "MRR": 0.688,
+        "felipe": 2,
+        "ddarch": 18,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 1,
+          "hnsw-pin": 1,
+          "system-service-only": 5,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 18,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.2,
+        "bw": 0.8,
+        "R@5": 0.8333,
+        "R@10": 0.8333,
+        "MRR": 0.6463,
+        "felipe": 5,
+        "ddarch": 18,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 1,
+          "hnsw-pin": 1,
+          "system-service-only": null,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 18,
+          "felipe-976-cherrypick": 5,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 4,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      }
+    ],
+    "fine_weight_sweep": [
+      {
+        "vw": 0.55,
+        "bw": 0.45,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.58,
+        "bw": 0.42,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.6,
+        "bw": 0.4,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.62,
+        "bw": 0.38,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.65,
+        "bw": 0.35,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.68,
+        "bw": 0.32,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.7,
+        "bw": 0.3,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7847,
+        "felipe": 2,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 2,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.75,
+        "bw": 0.25,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7708,
+        "felipe": 3,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 3,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.8,
+        "bw": 0.2,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.7708,
+        "felipe": 3,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 4,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 3,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.85,
+        "bw": 0.15,
+        "R@5": 1.0,
+        "R@10": 1.0,
+        "MRR": 0.8333,
+        "felipe": 3,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 1,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 3,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      },
+      {
+        "vw": 0.9,
+        "bw": 0.1,
+        "R@5": 0.9167,
+        "R@10": 1.0,
+        "MRR": 0.8148,
+        "felipe": 9,
+        "ddarch": 3,
+        "per_query": {
+          "kill-cascade": 1,
+          "rerank-spike": 3,
+          "hnsw-pin": 1,
+          "system-service-only": 1,
+          "rerank-implementation-plan": 1,
+          "daemon-deploy-arch": 3,
+          "felipe-976-cherrypick": 9,
+          "oom-sigkill-startup": 1,
+          "rerank-fallback-contract": 1,
+          "search-args-limit-param": 1,
+          "wing-room-taxonomy": 1,
+          "fuser-port-8085": 1
+        }
+      }
+    ]
+  },
+  "winning_point_per_query": {
+    "vw_0.85_bw_0.15": {
+      "kill-cascade": 1,
+      "rerank-spike": 3,
+      "hnsw-pin": 1,
+      "system-service-only": 1,
+      "rerank-implementation-plan": 1,
+      "daemon-deploy-arch": 3,
+      "felipe-976-cherrypick": 3,
+      "oom-sigkill-startup": 1,
+      "rerank-fallback-contract": 1,
+      "search-args-limit-param": 1,
+      "wing-room-taxonomy": 1,
+      "fuser-port-8085": 1
+    },
+    "default_0.6_0.4": {
+      "kill-cascade": 1,
+      "rerank-spike": 3,
+      "hnsw-pin": 1,
+      "system-service-only": 1,
+      "rerank-implementation-plan": 4,
+      "daemon-deploy-arch": 3,
+      "felipe-976-cherrypick": 2,
+      "oom-sigkill-startup": 1,
+      "rerank-fallback-contract": 1,
+      "search-args-limit-param": 1,
+      "wing-room-taxonomy": 1,
+      "fuser-port-8085": 1
+    }
+  },
+  "cat7b_post_index_latency": {
+    "note": "Post-AGE-index latency (4 edge-endpoint indexes applied to prod familiar 2026-05-30: idx_mentions_end_id/start_id, idx_relation_start_id/end_id). Daemon HTTP path (consumer-facing), prod-default FlashRank ON, warm steady-state, 12 golden queries x 4 reps = 48 calls/strategy, limit=20. The pre-index Cat 7b cell (vector 626 / union 429 / hybrid 2064 ms p50) was a DIFFERENT, graph-firing query mix \u2014 not directly comparable to this drawer-anchored golden set where the graph leg is inert.",
+    "vector": {
+      "n_calls": 48,
+      "p50_ms": 719.2,
+      "p95_ms": 4584.3,
+      "min_ms": 487.8,
+      "max_ms": 4711.0
+    },
+    "union": {
+      "n_calls": 48,
+      "p50_ms": 505.4,
+      "p95_ms": 589.7,
+      "min_ms": 411.0,
+      "max_ms": 618.3
+    },
+    "hybrid": {
+      "n_calls": 48,
+      "p50_ms": 746.2,
+      "p95_ms": 4586.0,
+      "min_ms": 471.8,
+      "max_ms": 4610.5
+    },
+    "pre_index_p50_ms": {
+      "vector": 626,
+      "union": 429,
+      "hybrid": 2064
+    },
+    "pre_index_p95_ms": {
+      "vector": 4700,
+      "union": 636,
+      "hybrid": 5600
+    },
+    "headline": "TWO facts, not one win: (1) on this golden set the graph leg is inert so post-index hybrid p50 746ms \u2248 union 505ms \u2248 vector 719ms \u2014 no graph walk to accelerate here; (2) the pre-index 2064ms hybrid p50 was a graph-FIRING query set (entity-anchored), so the AGE-index speedup lands on those queries, not on these drawer queries. Do NOT report 2064->746 as a same-set speedup.",
+    "p95_caveat": "vector & hybrid p95 ~4.5s is an intermittent per-query FlashRank rerank tail (single outlier; min ~480ms, repeated same-query x8 stays ~640ms with no tail). union via the same endpoint stays tight (590ms p95), so the tail is in the larger vector-candidate-pool rerank, not the graph walk."
+  }
+}

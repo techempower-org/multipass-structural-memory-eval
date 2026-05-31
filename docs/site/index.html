@@ -912,6 +912,60 @@
   .multipass .caveat { border-left-color: var(--refract); background: color-mix(in srgb, var(--refract) 7%, transparent); }
   .multipass .caveat .label { color: var(--refract); }
 
+  /* CROSS-SYSTEM 8-row matrix — role-group header rows + the not-run (wired, not benched) treatment */
+  .bench-tbl.xsys th { color: var(--refract); opacity: 0.95; vertical-align: bottom; }
+  .bench-tbl.xsys th .syssub {
+    display: block; font-size: 9px; letter-spacing: 0.03em;
+    color: var(--ice-ghost); text-transform: none; font-weight: 400; margin-top: 0.2rem;
+  }
+  .bench-tbl.xsys tr.rolegrp td {
+    background: color-mix(in srgb, var(--refract) 12%, transparent);
+    color: var(--refract);
+    font-family: var(--f-mono);
+    font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 500; padding-top: 0.7rem; padding-bottom: 0.4rem;
+    border-top: var(--rule) solid var(--hair-strong);
+  }
+  .bench-tbl.xsys tr.rolegrp.control td { color: var(--stellar); background: color-mix(in srgb, var(--stellar) 10%, transparent); }
+  .bench-tbl.xsys tr.rolegrp.diag td   { color: var(--prism);   background: color-mix(in srgb, var(--prism) 10%, transparent); }
+  .bench-tbl.xsys tr.rolegrp.notbenched td { color: var(--ice-ghost); background: color-mix(in srgb, var(--ice-ghost) 8%, transparent); }
+  .bench-tbl.xsys td.sys { color: var(--ice); font-weight: 500; white-space: nowrap; }
+  .bench-tbl.xsys td.cell { color: var(--ice-dim); font-size: 11px; }
+  .bench-tbl.xsys td.cell strong { color: var(--refract); }
+  /* the ONE absence-of-measurement state — visually unmistakable vs the N/A *findings* */
+  .bench-tbl.xsys tr.notbenched-row td {
+    color: var(--ice-ghost);
+    font-style: italic;
+    opacity: 0.65;
+  }
+  .pill-notrun {
+    display: inline-block;
+    font-family: var(--f-mono);
+    font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 1px 6px; border-radius: 2px;
+    border: var(--rule) dashed color-mix(in srgb, var(--ice-ghost) 70%, transparent);
+    color: var(--ice-ghost);
+    font-style: normal;
+    white-space: nowrap;
+  }
+  /* N/A finding chip — a measured result with a reason (solid, NOT muted) */
+  .nachip {
+    display: inline-block; font-family: var(--f-mono);
+    font-size: 8.5px; letter-spacing: 0.08em;
+    color: var(--ice-dim); white-space: nowrap;
+  }
+  .nachip b { color: var(--refract); font-weight: 600; letter-spacing: 0.12em; }
+  .etag {
+    display: inline-block; font-family: var(--f-mono); font-size: 8px;
+    padding: 0 4px; margin-left: 3px; border-radius: 2px;
+    background: var(--refract); color: var(--void); font-weight: 600;
+  }
+  @media (prefers-color-scheme: light) { .etag { color: var(--obsidian); } }
+  .qadef {
+    display: inline-block; font-family: var(--f-mono); font-size: 8.5px;
+    letter-spacing: 0.08em; color: var(--stellar);
+  }
+
   .bench-prose {
     color: var(--ice-dim);
     font-size: 14.5px;
@@ -1551,6 +1605,206 @@
 
     <div class="bench-list">
 
+      <!-- CROSS-SYSTEM MULTIPASS — 8 systems × Cat 1-9 (THE LEAD comparison matrix) -->
+      <article class="bench multipass">
+        <div class="bench-head">
+          <div>
+            <span class="eyebrow no-rule">Cross-system multipass &middot; every harness system &times; Cat 1&ndash;9</span>
+            <h3>The comparison matrix &mdash; <em>every system SME has wired, every category</em></h3>
+          </div>
+          <span class="bench-pill unique">lead matrix</span>
+        </div>
+
+        <p class="multipass-lede">
+          This is the headline: the <em>same</em> SME Cat 1&ndash;9 run across
+          <span class="pinned">every memory system the harness touches</span> &mdash;
+          four memory products, a no-structure control, a diagnostic orchestrator arm,
+          and two wired-but-not-yet-benched baselines. It isn&rsquo;t a leaderboard of
+          eight competitors: the rows are <strong>grouped by role</strong>, and the most
+          informative reading is <span class="pinned">where each system can even be
+          measured</span>. Two graph-native products (mempalace, OMEGA) take the full
+          Cat 1&ndash;9; the extraction systems read <strong>N/A on the structural cats
+          for three <em>different</em> architectural reasons</strong>; and an
+          <strong>N/A is a measured finding, not a blank</strong>. The single-substrate
+          mempalace deep-dive that follows is the supporting detail under this.
+        </p>
+
+        <div class="vlegend" aria-label="Cell-state legend">
+          <span><span class="vbadge indie">0.00</span>measured number</span>
+          <span><span class="etag" style="margin:0">E</span>emergent (system-generated structure)</span>
+          <span><span class="qadef">QA-def</span>verified + runnable, QA deferred</span>
+          <span><span class="nachip"><b>N/A</b>&nbsp;&middot;&nbsp;reason</span>measured inapplicable &mdash; a finding</span>
+          <span><span class="pill-notrun">not run</span>wired adapter, never benched</span>
+        </div>
+
+        <div class="matrix-scroll">
+        <table class="bench-tbl cat-tbl xsys" aria-label="Cross-system multipass matrix: every SME-wired memory system (rows, grouped by role: memory systems, baseline control, diagnostic arm, wired-not-benched baselines) by Cat 1-9 (columns). Cells carry the reading, an N/A-with-reason finding, or a 'not run' marker for wired-but-unbenched adapters. Sortable by system.">
+          <thead>
+            <tr>
+              <th class="sortable" data-col="0" data-type="text">System</th>
+              <th>1<span class="syssub">Lookup</span></th>
+              <th>2c<span class="syssub">Stairway</span></th>
+              <th>3<span class="syssub">Dissonance</span></th>
+              <th>4<span class="syssub">Threshold</span></th>
+              <th>5<span class="syssub">Missing&nbsp;Room</span></th>
+              <th>6<span class="syssub">Archive</span></th>
+              <th>7<span class="syssub">Abacus</span></th>
+              <th>8<span class="syssub">Blueprint</span></th>
+              <th>9a<span class="syssub">Handshake</span></th>
+              <th>9b<span class="syssub">Call-through</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="rolegrp"><td colspan="11">Memory systems &mdash; products under test</td></tr>
+            <tr>
+              <td class="sys">mempalace <span class="catname">verbatim + AGE graph</span></td>
+              <td class="cell"><strong>R@5 0.927</strong></td>
+              <td class="cell"><strong>R@5 0.960</strong></td>
+              <td class="cell">0.00<span class="etag">E</span></td>
+              <td class="cell">entropy <strong>0.645</strong> &middot; other 26.83%</td>
+              <td class="cell">largest <strong>61.87%</strong> &middot; iso 22.2%</td>
+              <td class="cell">0.00<span class="etag">E</span></td>
+              <td class="cell">QA <strong>0.580</strong></td>
+              <td class="cell">mod <strong>0.7961</strong> &middot; PASS</td>
+              <td class="cell"><strong>0.983</strong></td>
+              <td class="cell">reachable</td>
+            </tr>
+            <tr>
+              <td class="sys">OMEGA <span class="catname">embed + auto-relate</span></td>
+              <td class="cell">R@5 0.900</td>
+              <td class="cell">R@5 0.920</td>
+              <td class="cell">recall 0.50<span class="etag">E</span></td>
+              <td class="cell">entropy 0.78</td>
+              <td class="cell">1 comp &middot; 0 iso</td>
+              <td class="cell">0.00<span class="etag">E</span></td>
+              <td class="cell">QA 0.593</td>
+              <td class="cell">drift 0.875</td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+            </tr>
+            <tr>
+              <td class="sys">Hindsight <span class="catname">extraction competitor</span></td>
+              <td class="cell"><span class="qadef">QA-def</span></td>
+              <td class="cell"><span class="qadef">QA-def</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no endpoint</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no endpoint</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no endpoint</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no endpoint</span></td>
+              <td class="cell"><span class="qadef">QA-def</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no endpoint</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+            </tr>
+            <tr>
+              <td class="sys">Mem0-OSS <span class="catname">extraction competitor</span></td>
+              <td class="cell"><span class="qadef">QA-def</span></td>
+              <td class="cell"><span class="qadef">QA-def</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; graph removed</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; graph removed</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; graph removed</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; graph removed</span></td>
+              <td class="cell"><span class="qadef">QA-def</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; graph removed</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+            </tr>
+
+            <tr class="rolegrp control"><td colspan="11">Baseline &mdash; no-structure control (the floor the structural delta is measured against; not a competitor)</td></tr>
+            <tr>
+              <td class="sys">flat <span class="catname">ChromaDB vector, no graph</span></td>
+              <td class="cell">R@5 0.833</td>
+              <td class="cell">R@5 0.833</td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; by design</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; by design</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; by design</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; by design</span></td>
+              <td class="cell">QA 0.384</td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; by design</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+            </tr>
+
+            <tr class="rolegrp diag"><td colspan="11">Diagnostic arm &mdash; Cat 9a orchestrator-invocation probe (measures the model in front of the memory, not a product)</td></tr>
+            <tr>
+              <td class="sys">RLM <span class="catname">Qwen-7B / Llama-70B orchestrator</span></td>
+              <td class="cell">R@5 0.467</td>
+              <td class="cell">by-hop</td>
+              <td class="cell"><span class="nachip"><b>n/r</b></span></td>
+              <td class="cell"><span class="nachip"><b>n/r</b></span></td>
+              <td class="cell"><span class="nachip"><b>n/r</b></span></td>
+              <td class="cell"><span class="nachip"><b>n/r</b></span></td>
+              <td class="cell"><span class="nachip"><b>n/r</b></span></td>
+              <td class="cell"><span class="nachip"><b>n/r</b></span></td>
+              <td class="cell"><strong>0.467</strong> &middot; 7&ndash;27% invoke</td>
+              <td class="cell"><span class="nachip"><b>N/A</b> &middot; no harness</span></td>
+            </tr>
+
+            <tr class="rolegrp notbenched"><td colspan="11">Wired, not yet benched &mdash; harness has these adapters; no Cat run exists</td></tr>
+            <tr class="notbenched-row">
+              <td class="sys">full_context <span class="catname">Karpathy D1 &middot; whole-vault-in-context</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+            </tr>
+            <tr class="notbenched-row">
+              <td class="sys">karpathy_compiled <span class="catname">Karpathy D2 &middot; LLM-compiled wiki</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+              <td class="cell"><span class="pill-notrun">not run</span></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="matrix-controls">
+          <span>Rows are <strong>grouped by role</strong> &mdash; four memory products, one no-structure control, one diagnostic orchestrator arm, two wired-not-benched baselines &mdash; so the grid reads as <em>roles</em>, not eight competing systems. The two <strong>&ldquo;not run&rdquo;</strong> rows (Karpathy D1/D2) are wired adapters that have never been benched: an <em>absence of measurement</em>, rendered muted/dashed so they never read as a system that scored blanks. Every <strong>N/A</strong> cell is the opposite &mdash; a <em>measured</em> finding with a reason. <strong>Click System to sort.</strong></span>
+        </div>
+
+        <div class="caveat">
+          <span class="label">three structural-N/A systems &middot; three different reasons &mdash; the distinction is a feature</span>
+          The structural cats (3&ndash;8) read N/A for three architecturally <em>distinct</em>
+          reasons, and the difference is the point: <strong>flat</strong> is
+          <strong>N/A by design</strong> &mdash; it is the no-structure control, intentionally
+          graphless, the baseline the structural delta is measured against.
+          <strong>Hindsight</strong> is <strong>N/A &middot; no graph endpoint</strong> &mdash;
+          an extract-then-retrieve store that serves no standalone graph API at all.
+          <strong>Mem0-OSS</strong> is <strong>N/A &middot; graph layer removed</strong> &mdash;
+          it <em>once shipped</em> graph memory and the open-source edition dropped it (the hosted
+          platform keeps it; the OSS package under test returns isolated entities with zero edges).
+          Same cell value, three different architectural stories &mdash; that is diagnostic signal,
+          not noise.
+        </div>
+
+        <div class="caveat">
+          <span class="label">the capstone &middot; emergent typed structure is unsolved field-wide</span>
+          Across the two graph-native products, generating typed
+          <strong>contradiction / supersession</strong> edges from raw content is
+          <strong>~0</strong>: mempalace has <strong>0 contradicts and 0 supersedes</strong>
+          edges in the live KG (emergent 0.00 / 0.00); OMEGA catches contradiction at
+          <strong>recall 0.50</strong> (1 of 2 themes, precision 0.25) and supersession
+          <strong>0.00</strong>. SME is the only framework that even asks the question, and
+          the honest cross-field answer is &ldquo;not yet.&rdquo;
+        </div>
+
+        <div class="bench-foot">
+          <span>Source &middot; baselines/cross_system_multipass_matrix_2026-05-30.json (cassia-2, expanded #163) + docs/benchmarks/2026-05-30-cross-system-multipass-matrix.md &middot; mempalace structural cells = the EXACT post-re-map finals (#211/#226); OMEGA full Cat 1&ndash;9 (#178/#183); Hindsight (#220/#184) + Mem0-OSS (#221/#185) verdict rows; flat control (#125/#82); RLM 9a probe (#194). Footnote: oracle_retrieval (ceiling) + random_retrieval (floor) adapters are present in the registry but not run as matrix cells &mdash; they are diagnostic <em>bounds</em>, not products.</span>
+          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/163">techempower-org/multipass-structural-memory-eval#163</a>
+        </div>
+      </article>
+
       <!-- APPLES-TO-APPLES — systems we ran ourselves under identical conditions -->
       <article class="bench apples">
         <div class="bench-head">
@@ -1931,9 +2185,10 @@
         </div>
 
         <p class="multipass-lede">
-          The apples-to-apples and field tables answer <em>&ldquo;how does this
-          system rank?&rdquo;</em> This third matrix answers a different question:
-          <strong>what does the memory system know about its own structure?</strong>
+          The cross-system matrix above is the <em>comparison</em> &mdash; every system,
+          every category. This is the <strong>single-substrate deep-dive</strong> beneath
+          it: the same Cat 1&ndash;9 read in detail against <strong>mempalace alone</strong>,
+          answering <strong>what does the memory system know about its own structure?</strong>
           These nine categories are <span class="pinned">SME&rsquo;s unique
           contribution</span> &mdash; LongMemEval, LoCoMo, BEAM, Mem0&rsquo;s and
           Zep&rsquo;s evaluations all measure end-to-end QA or retrieval recall.
@@ -2122,168 +2377,6 @@
         <div class="bench-foot">
           <span>Source &middot; structural column re-measured over the real KG, EXACT full-graph post-DELETE: baselines/cross_system_multipass_matrix_2026-05-30.json + docs/benchmarks/2026-05-30-cross-system-multipass-matrix.md + docs/benchmarks/2026-05-31-cat458-real-kg-crossvalidation.md (#215, post #147/#210/#211 + the prod re-map + --drop-code-tokens DELETE + networkx full-graph modularity) &middot; retrieval cats baselines/{jp_realm_v0_1_daemon_age_fused, cat2c_daemon_age, candidate_strategy_age}_2026-05-29.json &middot; Cat 9a docs/benchmarks/2026-05-30-cat9a-tau2-orchestrator-ladder.md (#194) &middot; Cat 2c/7 docs/benchmarks/2026-05-30-jprealm-flat-condA-cat2c-cat7.md (#203)</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/115">techempower-org/multipass-structural-memory-eval#115</a>
-        </div>
-      </article>
-
-      <!-- CROSS-SYSTEM MULTIPASS — 4 systems × Cat 1-9 (the comparison matrix) -->
-      <article class="bench multipass">
-        <div class="bench-head">
-          <div>
-            <span class="eyebrow no-rule">Cross-system multipass &middot; 4 systems &times; Cat 1&ndash;9</span>
-            <h3>The comparison matrix &mdash; <em>every memory system, every category</em></h3>
-          </div>
-          <span class="bench-pill unique">cross-system &middot; 2026-05-31</span>
-        </div>
-
-        <p class="multipass-lede">
-          The matrix above is the <strong>single-substrate deep-dive</strong> (what
-          does <em>mempalace</em> know about its own structure?). This one is the
-          <strong>cross-system comparison</strong> JP asked for: the <em>same</em>
-          Cat 1&ndash;9 run against <span class="pinned">four memory systems</span> &mdash;
-          mempalace, OMEGA, Hindsight, Mem0-OSS. The headline isn&rsquo;t a leaderboard;
-          it is <strong>where each system can even be measured</strong>.
-          <strong>mempalace and OMEGA take the full Cat 1&ndash;9</strong> (both are
-          graph-native); <strong>Hindsight and Mem0-OSS read N/A on the structural cats
-          (3&ndash;8)</strong> because they have no queryable graph &mdash; and per the
-          legend, <span class="pinned">N/A is a finding, not a blank</span>. The
-          emergent-structure capstone: generating typed
-          <strong>contradiction / supersession</strong> edges from raw content is
-          <strong>~0 across <em>both</em> graph-native systems</strong> &mdash; the one
-          place the whole field is still empty.
-        </p>
-
-        <div class="vlegend" aria-label="Scoreability legend">
-          <span><span class="vbadge indie">scoreable</span>meaningfully runnable</span>
-          <span><span class="vbadge self">emergent</span>system-generated edges (not corpus-declared)</span>
-          <span><span class="vbadge paper">QA-deferred</span>verified + runnable, extraction-cost-gated</span>
-          <span><span class="nabadge">N/A</span>no structure / no harness to evaluate &mdash; a finding</span>
-        </div>
-
-        <div class="matrix-scroll">
-        <table class="bench-tbl cat-tbl" aria-label="Cross-system multipass matrix: SME Cat 1-9 rows by memory system (mempalace, OMEGA, Hindsight, Mem0-OSS). Cells carry the reading with final numbers, or N/A with the reason. Sortable by Cat.">
-          <thead>
-            <tr>
-              <th class="sortable" data-col="0" data-type="text">Cat</th>
-              <th>MemPalace <span class="catname">verbatim + AGE graph</span></th>
-              <th>OMEGA <span class="catname">extraction + graph</span></th>
-              <th>Hindsight <span class="catname">extraction</span></th>
-              <th>Mem0-OSS <span class="catname">flat/vector</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="cat">1 <span class="catname">Lookup</span></td>
-              <td class="reading"><strong>R@5 0.927</strong> <span class="src">LongMemEval-S strat150</span></td>
-              <td class="reading"><strong>R@5 0.900</strong> <span class="src">&minus;2.7pp = 4 q of 150</span></td>
-              <td class="reading">verified &middot; <strong>QA deferred</strong> <span class="src">extraction-cost-gated</span></td>
-              <td class="reading">verified &middot; <strong>QA deferred</strong> <span class="src">extraction-cost-gated</span></td>
-            </tr>
-            <tr>
-              <td class="cat">2c <span class="catname">Stairway</span></td>
-              <td class="reading"><strong>R@5 0.960</strong> <span class="src">multi-hop, same subset</span></td>
-              <td class="reading"><strong>R@5 0.920</strong> <span class="src">n=25/cat, &plusmn;1 q noise</span></td>
-              <td class="reading">verified &middot; <strong>QA deferred</strong></td>
-              <td class="reading">verified &middot; <strong>QA deferred</strong></td>
-            </tr>
-            <tr>
-              <td class="cat">3 <span class="catname">Dissonance</span></td>
-              <td class="reading"><strong>0.00</strong> emergent <span class="src">0 <code>contradicts</code> edges in the live KG &mdash; no emergent contradiction structure (the prior +1.00 was a corpus-declared ceiling)</span></td>
-              <td class="reading"><strong>recall 0.50 / prec 0.25</strong> emergent <span class="src">auto-relate generated 4 contradicts edges; caught 1 of 2 ground-truth themes (good-dog)</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no graph endpoint</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">graph layer removed from OSS</span></td>
-            </tr>
-            <tr>
-              <td class="cat">4 <span class="catname">Threshold</span></td>
-              <td class="reading">coverage <strong>1.00</strong> &middot; entropy <strong>0.645</strong> &middot; <code>other</code> 26.83% &middot; 40 types <span class="src">EXACT full-graph, post re-map + junk DELETE (1,873,489 edges)</span></td>
-              <td class="reading">collisions 0 &middot; coverage <strong>1.00</strong> &middot; entropy <strong>0.78</strong> <span class="src">good-dog emergent vocab, balanced &mdash; different corpus, directional</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no graph endpoint</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">graph layer removed from OSS</span></td>
-            </tr>
-            <tr>
-              <td class="cat">5 <span class="catname">Missing Room</span></td>
-              <td class="reading">largest comp <strong>61.87%</strong> &middot; isolates <strong>22.2%</strong> &middot; 325,965 comps <span class="src">EXACT full-graph WCC, post-DELETE (isolates rose 20.4%&rarr;22.2% as junk edges were the only thing connecting ~20k entities)</span></td>
-              <td class="reading"><strong>1 component &middot; 0 isolates</strong> &middot; Betti-1 1 <span class="src">small clean corpus, one fully-connected component (needed an adapter fix)</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no graph endpoint</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">graph layer removed from OSS</span></td>
-            </tr>
-            <tr>
-              <td class="cat">6 <span class="catname">Archive</span></td>
-              <td class="reading"><strong>0.00</strong> emergent <span class="src">0 <code>supersedes</code> edges in the live KG &mdash; completeness 0.00 (prior +1.00 was the declared ceiling)</span></td>
-              <td class="reading"><strong>0.00</strong> emergent <span class="src">0 supersedes; its temporal analogue <code>evolution</code> (17 edges) doesn&rsquo;t normalize to supersedes</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no graph endpoint</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">graph layer removed from OSS</span></td>
-            </tr>
-            <tr>
-              <td class="cat">7 <span class="catname">Abacus</span></td>
-              <td class="reading"><strong>QA 0.580</strong> <span class="src">o4-mini reader + gpt-5.3-chat judge, sme-rich, same-reader</span></td>
-              <td class="reading"><strong>QA 0.593</strong> <span class="src">&asymp; parity (+1.3pp), same reader + context; NOT comparable to OMEGA&rsquo;s self-reported 95.4% (GPT-4.1)</span></td>
-              <td class="reading">verified &middot; <strong>QA deferred</strong> <span class="src">~150h strat150 (cost wall)</span></td>
-              <td class="reading">verified &middot; <strong>QA deferred</strong> <span class="src">~18h strat150; extraction lossy by design</span></td>
-            </tr>
-            <tr>
-              <td class="cat">7b <span class="catname">Latency</span></td>
-              <td class="reading">p50 vector 684 / union 515 / hybrid 689 ms <span class="src">post-AGE-index golden set (graph leg inert here)</span></td>
-              <td><span class="nabadge">n/r</span> <span class="src">not run cross-system</span></td>
-              <td><span class="nabadge">n/r</span></td>
-              <td><span class="nabadge">n/r</span></td>
-            </tr>
-            <tr>
-              <td class="cat">8 <span class="catname">Blueprint</span></td>
-              <td class="reading">&ldquo;hierarchical&rdquo; <strong>PASS</strong> &middot; modularity <strong>0.7961</strong> (218 comms) &middot; introspection <strong>1.0 LIVE</strong> <span class="src">EXACT networkx full-graph; <code>/ontology</code> serving</span></td>
-              <td class="reading">type-cov 0.0* &middot; edge-vocab 0.333 &middot; <strong>drift 0.875</strong> &middot; introspection 0.0 <span class="src">documented vocab &ne; emergent vocab; *0% type-cov is a good-dog corpus artifact</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no graph endpoint</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">graph layer removed from OSS</span></td>
-            </tr>
-            <tr>
-              <td class="cat">9a <span class="catname">Handshake</span></td>
-              <td class="reading"><strong>0.983</strong> <span class="src">opus-4-8 orchestrator, Tau2 99.3 &mdash; 100% invocation</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no harness &mdash; driven via library API, no model-in-the-loop</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no harness (client API)</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no harness (client API)</span></td>
-            </tr>
-            <tr>
-              <td class="cat">9b <span class="catname">Call-through</span></td>
-              <td class="reading">reachable <span class="src">clean floor</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">adapter declares no harness manifest</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no harness manifest</span></td>
-              <td><span class="nabadge">N/A</span> <span class="src">no harness manifest</span></td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
-        <div class="matrix-controls">
-          <span>Two systems get the full Cat 1&ndash;9; two read <strong>N/A on the structural cats</strong> &mdash; a finding (no queryable graph), not a gap in the table. mempalace + OMEGA are graph-native and measured on <em>different</em> corpora for the structural cats (live palace vs good-dog), so structural cells are <strong>directional, not head-to-head</strong>. <strong>Click Cat to sort.</strong></span>
-        </div>
-
-        <div class="caveat">
-          <span class="label">the capstone &middot; emergent typed structure is unsolved field-wide</span>
-          The most informative cross-system reading isn&rsquo;t who wins &mdash; it is
-          that <strong>both graph-native systems emit ~0 emergent contradiction /
-          supersession structure.</strong> mempalace: <strong>0 <code>contradicts</code>
-          and 0 <code>supersedes</code> edges</strong> in the live KG. OMEGA: contradiction
-          <strong>recall 0.50</strong> (1 of 2 themes, precision 0.25) and supersession
-          <strong>0.00</strong> (its <code>evolution</code> type doesn&rsquo;t normalize).
-          Generating typed conflict/version edges from raw content is the open frontier
-          &mdash; SME is the only framework that even <em>asks</em> the question, and the
-          honest answer across the field is &ldquo;not yet.&rdquo;
-        </div>
-
-        <div class="caveat">
-          <span class="label">why two columns are N/A on Cat 3&ndash;8 &mdash; distinct causes</span>
-          <strong>Hindsight</strong> exposes <strong>no standalone graph endpoint</strong>
-          &mdash; it is an extract-then-retrieve store, not a queryable typed graph, so the
-          structural probes have nothing to read. <strong>Mem0-OSS</strong> reaches N/A by a
-          <em>different</em> road: it <strong>once had a graph-memory layer and the
-          open-source edition dropped it</strong> (the hosted Mem0 platform keeps graph
-          memory; the OSS package under test is now flat/vector with zero edges). Both also
-          read N/A on Cat 9a/9b &mdash; consumed through a library / client API with no
-          model-in-the-loop harness. Per the matrix legend, every N/A is reported as a real
-          diagnostic outcome, never a missing cell.
-        </div>
-
-        <div class="bench-foot">
-          <span>Source &middot; baselines/cross_system_multipass_matrix_2026-05-30.json + docs/benchmarks/2026-05-30-cross-system-multipass-matrix.md (cassia-2, #146) &middot; mempalace structural cells = the EXACT post-re-map finals (#211/#226); OMEGA full Cat 1&ndash;9 (#178/#183); Hindsight (#220/#184) + Mem0-OSS (#221/#185) verdict rows</span>
-          <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/146">techempower-org/multipass-structural-memory-eval#146</a>
         </div>
       </article>
 

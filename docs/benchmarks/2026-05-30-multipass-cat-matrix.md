@@ -43,12 +43,12 @@ Cat 9a is the older `familiar` vs `rlm` handshake reading on jp-realm-v0.1.
 | **1** | The Lookup | Can it find a specific memory from a natural-language query? | **R@5 = 0.867** (full-recall 22/30; by-hop 1: 0.889, 2: 0.667) | jp-realm-v0.1 | mempalace-daemon `/search/age-fused` | 2026-05-29 | none |
 | **2c** | The Stairway | Multi-hop retrieval recall by hop depth — does structure scale with depth? | **mean recall 0.933** (Condition B only; hop-1: 0.944 / n27, hop-2: 0.833 / n3) | jp-realm-v0.1 | mempalace-daemon (AGE) | 2026-05-29 | none |
 | **3** | The Dissonance | Does it detect and surface conflicting facts? | **(structural − flat) +1.00** — structural detection 1.00 (6/6 seeded pairs, precision 1.00) vs flat 0.00 structured pairs; `ContradictionPair[]` now wired through the daemon `/graph` + direct adapters (#200) | good-dog-corpus | good-dog-graph | 2026-05-30 | none |
-| **4** | The Threshold (Ingestigation) | Is the extraction pipeline producing a clean graph (dedup, field coverage, monoculture)? | 4a collisions **0** / 1,106 keys · 4b coverage **1.000** · 4c normalized entropy **0.020** (tunnel = 98.98% — severe monoculture, expected for a tunnel-dense palace) | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
-| **5** | The Missing Room | Can it identify what's structurally missing (components, holes, gaps)? | **498 components**, largest 606 (54.8%), isolates 496 (44.8%), bridges 2, Betti-1 **0**, candidate gaps 0/1 | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
+| **4** | The Threshold (Ingestigation) | Is the extraction pipeline producing a clean graph (dedup, field coverage, monoculture)? | 4c normalized entropy **0.4378** over the real `:RELATION` graph (1,921,600 edges, 236 types; dominant `other` **28.2%**) — exact full-graph aggregate post canonical re-map (520,043 edges relabeled out of the `other` sink). The earlier "0.020 / tunnel 98.98%" was a **measurement artifact** of the capped, tunnel-swamped `/graph` projection, not the KG (corrected #147/#211; re-map mempalace#336/#208) | live palace (AGE, full-graph cypher) | mempalace-daemon `--real-kg` | 2026-05-31 | none |
+| **5** | The Missing Room | Can it identify what's structurally missing (components, holes, gaps)? | exact full-graph WCC (`GET /graph/structural-stats`): **305,975 components**, largest **733,753 (63.46%** — well-connected giant component), isolates **236,169 (20.4%)** over 1,156,277 entities. Supersedes the capped-`/graph` artifact ("498 components / 44.8% isolates"), which was sampling-dominated (corrected palace-daemon#211 + SME#223) | live palace (AGE, server-side WCC) | mempalace-daemon | 2026-05-31 | none |
 | **6** | The Archive | Current vs. historical state, supersession tracking | **(structural − flat) +1.00** — supersession completeness 1.00 (8/8 supersedes edges resolved into `_superseded_by`, 5 chains incl. the 4-doc Hill's chain) vs flat 0.00; `_superseded_by` now derived through the daemon `/graph` + direct adapters (#200) | good-dog-corpus | good-dog-graph | 2026-05-30 | none |
 | **7** | The Abacus | Does structure earn its token overhead? (graph vs no-graph) | tokens-per-correct **52.9k** on jp-realm Cat 1 (age-fused). Token-efficiency A/B/C deltas need a flat Condition-A run (gap, see below) | jp-realm-v0.1 | mempalace-daemon | 2026-05-29 | none |
 | **7b** | Latency | Query latency distribution (YCSB p50/p95) | p50 **vector 626ms / union 429ms / hybrid 2064ms**; p95 4.7s / 636ms / 5.6s | live palace (AGE) | mempalace-daemon (candidate-strategy) | 2026-05-30 | none |
-| **8** | The Blueprint | Does the actual graph match what the system claims to do? | 8a type coverage **0.333** (2/6 declared types found) · 8b edge vocab **0.667** · 8d drift **0.556** · 8e claims **0.50** (2/4 testable pass; "hierarchical" claim FAILS — modularity 0.009) · introspection **0.0** | live palace (AGE) | mempalace-daemon | 2026-05-29 | none |
+| **8** | The Blueprint | Does the actual graph match what the system claims to do? | 8a type coverage **0.333** (wing+room of 6 declared — measured over the **structural** projection, where the declared vocab lives; the two-graph split routes vocab claims to structural, topology claims to the KG, #212) · 8b edge vocab **0.667** · 8e "hierarchical" claim **verdict PASS** over the real KG (the prior modularity-0.009 FAIL was the tunnel-scaffold artifact; exact full-graph modularity **pending-networkx** — not installed on the familiar daemon, so no fabricated number) · **introspection 1.0** (`GET /ontology` live on prod, self-reports declared-vs-effective drift; was 0.0, #205/#208) | live palace (AGE) | mempalace-daemon | 2026-05-31 | none |
 | **9a** | The Handshake (invocation) | Does the model actually invoke memory when it has access? | **opus-4-8 (Tau2 99.3): 100% invocation, 98.3% recall** — invokes on every question, exceeds the deterministic 78.3% ceiling. Recall monotonic in Tau2: gemma4 41.7 → qwen3.5 75.0 → opus-4-8 98.3. Prior RLM Qwen-7B/Llama-70B plateaued at 46.7% (7–27% invocation) — ceiling was *willingness to invoke*, not retrieval | jp-realm-v0.1 | familiar / rlm / opus-4-8 | 2026-04-30 + 2026-05-30 (#194) | none |
 | **9b** | Call-through success | Given an invocation, does the tool call complete and return a valid result? | live surfaces reachable (clean floor; mock-model probe path) | — | — | — | none |
 
@@ -209,7 +209,13 @@ than they are).
 | Cat 6 (structural) | `baselines/good_dog_cat6_structural_2026-05-30.json` |
 | Cat 3 / Cat 6 (flat floor) | `docs/good_dog_cat3_cat6_findings.md` |
 
-A 2026-05-30 read-only Cat 5 re-run against the live daemon reproduced the
-reading cleanly (the live palace has grown to 1,217 entities / 717-node largest
-component since the 05-29 snapshot — expected, it's JP's working palace). The
-05-29 snapshot remains the labeled defensible figure.
+**Cat 4/5/8 corrected to the real KG (2026-05-31).** The 05-29 Cat 4/5/8
+figures were measurement artifacts of the capped, tunnel-swamped `/graph`
+projection (e.g. the "498 components / 44.8% isolates / entropy 0.020 / tunnel
+98.98%" readings reflect a ≤1,217-node sample, not the real graph). The matrix
+rows above now carry the **exact full-graph** numbers — Cat 4 via the
+full-graph `relation_type` aggregate, Cat 5 via server-side WCC
+(`GET /graph/structural-stats`), Cat 8 introspection live via `GET /ontology`
+— verified read-only against the live AGE graph 2026-05-31. See
+`docs/benchmarks/2026-05-31-cat458-real-kg-crossvalidation.md` (post-re-map
+section) for the before/after and provenance.

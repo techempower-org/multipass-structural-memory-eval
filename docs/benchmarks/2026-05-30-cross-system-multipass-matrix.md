@@ -52,11 +52,11 @@ wall").
 | **1** | The Lookup (R@5) | **0.927** | **0.900** | Identical LongMemEval-S strat150 subset + rendering. ΔR@5 = −2.7pp = 4 questions of 150. |
 | **2c** | The Stairway (multi-hop R@5) | **0.960** | **0.920** | cat_2c on the same subset; n=25/cat, ±0.04 = ±1 question (sampling noise). |
 | **3** | The Dissonance (contradiction) | **0.00** *(emergent, real KG)* | **recall 0.50 / prec 0.25** *(emergent)* | **RE-SCORED** (see below): mempalace's live palace KG has **0 contradicts edges** — its enrichment pipeline generates no emergent contradiction structure on real content. The prior **+1.00 was a corpus-declared ceiling** (good-dog-graph reads back hand-seeded edges), now superseded. OMEGA: auto-relate **generated** 4 contradicts edges from good-dog text — caught 1 of 2 ground-truth themes (grain-free DCM ✓, dominance-theory ✗). Both are now emergent reads, but on **different corpora** (live palace vs good-dog). |
-| **4** | The Threshold (ingestion) | collisions **248** (1.9%) · coverage 1.00 · **entropy 0.340** (`other` 55.1%, 237 types) | collisions 0 · coverage 1.00 · **entropy 0.78** | **RE-ANCHORED to the full-graph EXACT** (#211 server-side cypher over the 1.92M-edge RELATION set): mempalace norm entropy **0.340**, dominant `other` 55.1%, 2.68 bits, 237 edge types, 248 collisions. This **overturns the prior sampled 0.020/98.98%-tunnel** reading (a capped-projection artifact). The real monoculture is the generic `other` relation (55.1%); the real graph has 237 types + 1.9% collisions the sample hid. OMEGA's good-dog emergent vocab is balanced (0.78). Different corpora — directional. |
-| **5** | The Missing Room (topology) | **qualitatively well-connected** *(verdict; exact pending)* | **1 component · 0 isolates · Betti-1 1** | **VERDICT ONLY** (see below): the prior 498-component / 44.8%-isolate reading was a **capped-projection artifact**. The adapter's `--real-kg` topology numbers are limit-dependent (no feasible full-graph path — edge-pull OOMs), so no absolute counts published: sampling under-states connectivity → real graph is **≥ as connected**. Exact WCC pending server-side. OMEGA on a small clean corpus = one fully-connected component (**required an adapter fix** for its edges to resolve). |
+| **4** | The Threshold (ingestion) | coverage 1.00 · **entropy 0.4378** (`other` 28.2%, 236 types) — post canonical re-map | collisions 0 · coverage 1.00 · **entropy 0.78** | **EXACT full-graph + canonical re-map applied** (#211 server-side cypher over 1.92M RELATION edges; mempalace#336/#208 relabel). Norm entropy **0.4378**, dominant `other` **28.2%** (541,438 edges; was 55.1% — 520,043 relabeled out of the sink, 0 deletions), 236 types. Overturns the prior sampled 0.020/98.98%-tunnel reading (capped-projection artifact). The generic `other` no longer dominates. *(Optional JP-gated junk-DELETE pass → ≈0.27/≈0.64/≈41 types; not yet applied.)* OMEGA's good-dog emergent vocab is balanced (0.78). Different corpora — directional. |
+| **5** | The Missing Room (topology) | **305,975 components · largest 63.46% · isolates 20.4%** (exact full-graph) | **1 component · 0 isolates · Betti-1 1** | **EXACT full-graph WCC** (palace-daemon#211 `GET /graph/structural-stats` + SME#223): 305,975 components over 1,156,277 entities, largest **733,753 (63.46%** — well-connected giant component), isolates **236,169 (20.4%)**. Replaces the verdict-only line — the prior 498-component / 44.8%-isolate reading was a capped-projection sampling artifact. OMEGA on a small clean corpus = one fully-connected component (**required an adapter fix** for its edges to resolve). |
 | **6** | The Archive (supersession) | **0.00** *(emergent, real KG)* | **0.00** *(emergent)* | **RE-SCORED**: mempalace's live palace KG has **0 supersedes edges** → completeness 0.00; the prior +1.00 was the good-dog-graph declared ceiling (8/8 hand-seeded edges, 5 chains), now superseded. OMEGA emitted **0 supersedes** too — its temporal analogue is `evolution` (17 edges), which doesn't normalize to supersedes. **Both land at 0.00 emergent supersession from different roots** — mempalace emits no supersedes edge at all; OMEGA emits a non-canonical temporal type. |
 | **7** | The Abacus (E2E QA) | **0.580** (same-reader) | **0.593** (same-reader) | o4-mini reader + gpt-5.3-chat judge, sme-rich. ≈ parity (+1.3pp), different per-cat profile. NOT comparable to OMEGA's self-reported 95.4% (GPT-4.1 reader). |
-| **8** | The Blueprint (ontology) | hierarchical claim **PASS** *(verdict; modularity ≫0.5, exact pending)* · introspection **0.0 deployed / 1.0 capability merged** | type-cov 0.0* · edge-vocab 0.333 · **drift 0.875** · introspection 0.0 | **VERDICT** (see below): the structural 'hierarchical' claim **PASSES** — modularity ≫0.5 across every sample, refuting the prior **FAIL (modularity 0.009)**, a capped-projection artifact. No specific modularity number published (limit-dependent; exact pending server-side). Introspection: **0.0 on the deployed prod daemon (familiar v1.9.1), but the capability IS merged** (the `/ontology` endpoint palace-daemon#205 + SME scorer #208) — pending prod deploy, NOT "no API". OMEGA drift 87.5%: its **documented** edge vocab ≠ its **emergent** vocab. *OMEGA 8a type-cov 0% is a corpus-coverage artifact (good-dog notes ingested as default `summary`). |
+| **8** | The Blueprint (ontology) | hierarchical claim **PASS** *(verdict; modularity pending-networkx on prod)* · **introspection 1.0** (live) | type-cov 0.0* · edge-vocab 0.333 · **drift 0.875** · introspection 0.0 | **VERDICT + introspection now LIVE**: the structural 'hierarchical' claim **PASSES** — modularity ≫0.5 across every sample, refuting the prior **FAIL (modularity 0.009)** capped-projection artifact. Exact full-graph modularity **pending-networkx** (not installed on the familiar daemon; the structural-stats response says so — no fabricated number). Introspection: **now 1.0 — `GET /ontology` is LIVE on the prod daemon** (palace-daemon#205 deployed + restarted; SME scorer #208), self-reporting declared-vs-effective drift. Was 0.0. OMEGA drift 87.5%: its **documented** edge vocab ≠ its **emergent** vocab. *OMEGA 8a type-cov 0% is a corpus-coverage artifact (good-dog notes ingested as default `summary`). |
 | **9a** | The Handshake (invocation) | **0.983** (opus-4-8 orch, Tau2 99.3) | **N/A — no harness** | Cat 9a is an **orchestrator-model** property, not a substrate property. mempalace's 0.983 is really opus-4-8's invocation rate in front of it. OMEGA was driven via its library API (no model-in-the-loop), so substrate-level 9a is N/A. |
 | **9b** | Call-through success | reachable (clean floor) | **N/A — no harness** | OmegaAdapter declares no `get_harness_manifest()` (library usage). Empty-manifest = does-not-apply (real finding: OMEGA ships an MCP server, but the SME adapter uses the library path). |
 
@@ -130,30 +130,31 @@ daemon, no ingest). So the cell is an emergent-vs-emergent *kind*-match, not a c
 A/B. Both systems landing at 0.00 emergent supersession is itself the finding (mempalace
 emits no `supersedes` edge; OMEGA emits a non-canonical `evolution` type).
 
-**Cat 4 — exact, publishable.** Anchored to the **full-graph EXACT** distribution (#211
-server-side cypher aggregation over the 1.92M-edge RELATION set — runs in seconds, not the
-slow `/graph` sample): normalized entropy **0.340**, dominant `other` **55.1%**, 2.68 bits
-across **237** edge types, 12,849 entities, **248** canonical collisions (1.9%). This
-**overturns** the sampled 0.020/98.98%-tunnel reading. The real monoculture is the generic
-`other` relation absorbing 55.1% of edges (the typed vocabulary isn't surfacing), and the
-real graph has both a long 237-type tail and 1.9% collisions that the capped sample
-reported as 0.
+**Cat 4 — exact + canonical re-map applied, publishable.** Anchored to the **full-graph
+EXACT** distribution (#211 server-side cypher aggregation over the 1.92M-edge RELATION set —
+runs in seconds, not the slow `/graph` sample), now **after the canonical re-map**
+(mempalace#336/#208, relabel-only): normalized entropy **0.4378**, dominant `other` **28.2%**
+(541,438 edges; down from 55.1% — 520,043 edges relabeled out of the sink into the 39
+canonical relations, 0 deletions), 2.68→ higher bits across **236** edge types, total still
+1,921,600. The generic `other` no longer dominates. This **overturns** the sampled
+0.020/98.98%-tunnel reading (capped-projection artifact). *(Optional JP-gated junk-DELETE
+pass would shift to ≈0.27 dominant / ≈0.64 entropy / ≈41 types; not yet applied.)*
 
-**Cat 5 / Cat 8 — VERDICT only, absolute numbers held.** Per team-lead adjudication
-(green-Somnia + Sage cross-validation): the adapter's `--real-kg` topology numbers
-(component count, isolate fraction, modularity) are **limit-dependent** — they scale with
-`--graph-limit` — and there is **no feasible full-graph path** (pulling all 1.92M edges
-OOMs). So we publish the qualitative verdict, never the sampled artifact:
-- **Cat 5:** sampling under-states connectivity, so the real graph is **≥ as connected** as
-  any sample shows → *qualitatively well-connected*. The prior 498-component / 44.8%-isolate
-  figure was a capped-projection artifact. Exact WCC pending a server-side computation.
-- **Cat 8:** the structural 'hierarchical' claim **PASSES** — modularity ≫0.5 across every
-  sample, decisively refuting the prior FAIL (modularity 0.009 was the same capped-projection
-  artifact). No specific modularity number is published (limit-dependent). **Introspection is
-  0.0 on the *deployed* prod daemon (familiar v1.9.1 runs older code), but the capability is
-  MERGED** — the `/ontology` introspection endpoint (palace-daemon#205) + the SME scorer
-  (#208) exist; the cell is "capability merged, pending prod `/ontology` deploy", NOT "no
-  health-check API". Exact structural metric pending server-side (palace-daemon #210-followup).
+**Cat 5 — EXACT full-graph, publishable.** Computed server-side (palace-daemon#211
+`GET /graph/structural-stats` + SME#223 consumer): union-find WCC over the whole 1.92M-edge
+RELATION graph. **305,975 components** over 1,156,277 entities, largest **733,753 (63.46%** —
+a well-connected giant component), isolates **236,169 (20.4%)**. Replaces the verdict-only
+line — the prior 498-component / 44.8%-isolate figure was a capped-projection sampling
+artifact.
+
+**Cat 8 — hierarchical PASS (verdict) + introspection now LIVE.** The structural
+'hierarchical' claim **PASSES** — modularity ≫0.5 across every sample, decisively refuting
+the prior FAIL (modularity 0.009 was a capped-projection artifact). Exact full-graph
+modularity is **pending-networkx** (not installed on the familiar daemon; the structural-stats
+response notes this — no fabricated number published). **Introspection is now 1.0** — the
+`/ontology` endpoint (palace-daemon#205) is **deployed and live on the prod familiar daemon**
+(restarted), self-reporting declared-vs-effective drift; the SME scorer (#208) credits it.
+Was 0.0.
 
 All re-score reads were **READ-ONLY GET probes** against prod `familiar:8085`; no ingest
 (the `--real-kg` path issues `/graph` GETs + a `POST /cypher` *read* aggregation only).

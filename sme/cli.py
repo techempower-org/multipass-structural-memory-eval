@@ -68,6 +68,12 @@ def _longhand_loader() -> type[SMEAdapter]:
     return LonghandAdapter
 
 
+def _postgres_ingest_loader() -> type[SMEAdapter]:
+    from sme.adapters.postgres_ingest import PostgresIngestAdapter
+
+    return PostgresIngestAdapter
+
+
 def _familiar_loader() -> type[SMEAdapter]:
     from sme.adapters.familiar import FamiliarAdapter
 
@@ -170,6 +176,13 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         loader=_longhand_loader,
         accepts=frozenset({
             "bin_path", "home_dir", "n_results", "timeout_s", "project",
+        }),
+    ),
+    _AdapterSpec(
+        aliases=("postgres-ingest", "postgres_ingest", "postgres"),
+        loader=_postgres_ingest_loader,
+        accepts=frozenset({
+            "dsn", "table_name", "n_results", "mempalace_path", "read_only",
         }),
     ),
     _AdapterSpec(

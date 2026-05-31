@@ -293,6 +293,57 @@ def _make_mempalace_daemon_adapter_factory(
     return _factory
 
 
+# Module-level singleton so the per-question/-conversation factory reuses one
+# postgres connection + DDL across the whole run (the adapter is explicitly
+# designed for this — close() is a no-op, shutdown() does the real teardown).
+# ingest_corpus TRUNCATEs on every call, so each question's haystack is
+# isolated exactly like the daemon's per-question wing / Hindsight's per-bank.
+_PG_INGEST_SINGLETON: Optional[SMEAdapter] = None
+
+
+def _make_postgres_adapter(per_q_vault: Path) -> SMEAdapter:
+    """Build (once) a PostgresIngestAdapter and re-ingest the per-question vault.
+
+    This is the postgres+pgvector twin of ``_make_flat_adapter``: same
+    all-MiniLM-L6-v2 embedding (PostgresCollection reuses Chroma's default
+    embedding function), the only swapped variable is the storage/retrieval
+    backend (chroma -> postgres+pgvector). That makes the LoCoMo E2E QA row
+    the "upstream MemPalace raw" ablation — mempalace's own verbatim postgres
+    storage WITHOUT the palace graph on top.
+
+    Requires SME_POSTGRES_DSN (no hardcoded DSN by design). Point it at an
+    isolated throwaway instance — never the prod substrate.
+    """
+    global _PG_INGEST_SINGLETON
+
+    import os as _os
+
+    if not _os.environ.get("SME_POSTGRES_DSN"):
+        raise RuntimeError(
+            "PostgresIngestAdapter requires SME_POSTGRES_DSN pointing at an "
+            "isolated throwaway postgres+pgvector instance (NOT prod). Pass a "
+            "different --adapter to skip postgres."
+        )
+
+    from sme.adapters.postgres_ingest import PostgresIngestAdapter
+
+    if _PG_INGEST_SINGLETON is None:
+        _PG_INGEST_SINGLETON = PostgresIngestAdapter(n_results=5)
+
+    corpus: list[dict] = []
+    for md_file in sorted(per_q_vault.rglob("*.md")):
+        if not md_file.is_file():
+            continue
+        text = md_file.read_text(encoding="utf-8", errors="replace")
+        if text.strip():
+            # id = session id (file stem) so recall hits trace back to the
+            # originating session for session-level R@K.
+            corpus.append({"id": md_file.stem, "document": text})
+    # TRUNCATE + upsert: prior question's haystack is wiped before this one.
+    _PG_INGEST_SINGLETON.ingest_corpus(corpus)
+    return _PG_INGEST_SINGLETON
+
+
 def _make_karpathy_compiled_adapter(per_q_vault: Path) -> SMEAdapter:
     """Condition D2 wiring — per-question stub-compiled wiki.
 
@@ -324,6 +375,7 @@ _ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "mempalace": _make_mempalace_adapter,
     "omega": _make_omega_adapter,
     "hindsight": _make_hindsight_adapter,
+    "postgres": _make_postgres_adapter,
 }
 
 

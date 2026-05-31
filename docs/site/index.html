@@ -1643,6 +1643,26 @@
           same-rendering mempalace pair exists for it; mixing renderings is exactly the
           apples-to-oranges this table refuses.
         </p>
+
+        <div class="caveat">
+          <span class="label">the cost wall &middot; why two QA cells are deferred, not blank</span>
+          <strong>Extraction-based memory systems are benchmark-throughput-bound &mdash;
+          a tradeoff the public leaderboards hide.</strong> Both competitors run an
+          <em>LLM fact-extraction on every session ingest</em>, and LongMemEval-S
+          averages ~48 sessions/question, so the strat150 subset is ~7,200 ingests:
+          <strong>Hindsight</strong> at ~60&ndash;96&nbsp;s/session (local phi4, CPU)
+          &rarr; <strong>&asymp;150&nbsp;hours</strong> to benchmark; <strong>Mem0-OSS</strong>
+          at a warm ~9&nbsp;s/ingest (ollama phi4 extractor) &rarr;
+          <strong>&asymp;18&nbsp;hours</strong>. A verbatim-first system
+          (<strong>mempalace</strong>) ingests raw text at <strong>~zero marginal
+          compute</strong> &mdash; orders of magnitude cheaper to evaluate. That is why
+          the apples table publishes their QA as <em>deferred</em> rather than a guessed
+          number: it isn&rsquo;t reluctance, it is a real architectural cost. (Mem0&rsquo;s
+          extraction is also <em>lossy by design</em> &mdash; the verification smoke
+          stored only 3 of 5 facts.) The field-reported 91.4% (Hindsight) / 94.4%
+          (Mem0&nbsp;platform) are their <em>own</em> leaderboard numbers on stronger
+          answer models, not on-harness figures.
+        </div>
       </article>
 
       <!-- vs the field (synthesis) -->
@@ -1860,7 +1880,13 @@
           <strong>~0pp genuine reader</strong>. The reader was <em>never</em>
           the bottleneck &mdash; once the gold is in context it essentially
           matches the field's oracle; getting the gold <em>to</em> it is the
-          whole game. That decomposition is the SME finding the leaderboards
+          whole game. The route here is itself a finding: an earlier
+          <strong>reader floor-lift</strong> &mdash; three category-specific
+          prompt clauses on the pinned <code>/search</code> context &mdash;
+          returned a <strong>clean null</strong> (net &minus;2 to +3 questions),
+          which is precisely what flagged that the binding constraint was
+          <em>substrate</em>, not prompt; the true-oracle test then confirmed it.
+          That decomposition is the SME finding the leaderboards
           can't show. And the structural categories &mdash; ingestion
           integrity (Cat 4), gap-detection (Cat 5), ontology coherence
           (Cat 8), invocation discipline (Cat 9) &mdash; have no competitor
@@ -2031,6 +2057,25 @@
           real content. Declared-ceiling and emergent are different questions; the matrix
           now labels both, and the emergent column is the more honest one
           (techempower-org/multipass-structural-memory-eval#215).
+        </div>
+
+        <div class="caveat">
+          <span class="label">why Hindsight &amp; Mem0 are N/A on the structural cats &mdash; a finding, not a blank</span>
+          <strong>&ldquo;N/A&rdquo; on Cat 3/4/5/6/8 is itself a structural finding:
+          the system has no typed graph to evaluate.</strong> The two extraction
+          competitors reach it by <em>different</em> roads. <strong>Mem0-OSS</strong>
+          once shipped a graph-memory layer and the open-source edition
+          <strong>dropped it</strong> &mdash; the package under test is now a flat /
+          vector store whose snapshot returns isolated entities with <strong>zero
+          edges</strong> (the hosted Mem0 platform keeps graph memory; the OSS one does
+          not). <strong>Hindsight</strong> exposes <strong>no standalone graph
+          endpoint</strong> at all &mdash; it is an <em>extract-then-retrieve</em> store,
+          not a queryable typed graph, so the structural probes have nothing to read.
+          Both also read <strong>N/A on Cat 9a/9b</strong> (driven through a library /
+          client API with no model-in-the-loop harness manifest &mdash; the Handshake is
+          an orchestrator property, and there is no orchestrator to measure). Per the
+          matrix legend, an N/A is reported as a real diagnostic outcome, never a missing
+          cell (techempower-org/multipass-structural-memory-eval#178).
         </div>
 
         <div class="caveat">

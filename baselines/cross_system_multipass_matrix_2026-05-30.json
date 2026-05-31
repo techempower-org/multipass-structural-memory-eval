@@ -1252,7 +1252,7 @@
         "source": null,
         "source_type": "not_benched"
       },
-      "arch_category": "unspecified"
+      "arch_category": "extraction"
     },
     "everos_evermind": {
       "status": "published_field_only",
@@ -1681,7 +1681,7 @@
         "source": null,
         "source_type": "not_benched"
       },
-      "arch_category": "unspecified"
+      "arch_category": "hybrid"
     },
     "cognee": {
       "status": "no_published_data",
@@ -1714,7 +1714,7 @@
         "source": null,
         "source_type": "not_benched"
       },
-      "arch_category": "unspecified"
+      "arch_category": "compile-upstream"
     },
     "caviraoss_openmemory": {
       "status": "no_published_data",

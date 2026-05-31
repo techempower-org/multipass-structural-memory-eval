@@ -3,7 +3,7 @@
 **Date:** 2026-05-30
 **Author:** Cassia (sme-dreamteam)
 **Issue:** [techempower-org/multipass-structural-memory-eval#178](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/178) (Tier 3 — independent multi-system head-to-head) + [#115](https://github.com/techempower-org/multipass-structural-memory-eval/issues/115) (the multipass matrix)
-**Status:** First cross-system structural matrix. mempalace (done, Muse #115) + OMEGA (this pass) populated; Hindsight (#107, Iris) + Mem0 (#185, Solara) slots reserved.
+**Status:** COMPLETE — first cross-system structural matrix across **4 systems**. mempalace (Muse #115, re-scored over the real KG #148) + OMEGA fully scored; Hindsight (Iris #220) + Mem0-OSS (Solara #221) as verdict rows (verified + runnable; full QA deferred — extraction-throughput-bound).
 **Matrix data:** `baselines/cross_system_multipass_matrix_2026-05-30.json` (Luna renders on the site)
 
 ---
@@ -42,6 +42,11 @@ putting two substrates through the identical categories.
 
 ## The matrix (mempalace + OMEGA columns)
 
+The two fully-scored columns (mempalace + OMEGA) are the table below; the
+**Hindsight + Mem0 verdict rows** follow it (those two are *verified + runnable*
+but their full on-harness QA is deferred — see "The extraction-throughput cost
+wall").
+
 | Cat | Name | mempalace | OMEGA | Notes / comparability |
 |---|---|---|---|---|
 | **1** | The Lookup (R@5) | **0.927** | **0.900** | Identical LongMemEval-S strat150 subset + rendering. ΔR@5 = −2.7pp = 4 questions of 150. |
@@ -54,6 +59,48 @@ putting two substrates through the identical categories.
 | **8** | The Blueprint (ontology) | hierarchical claim **PASS** *(verdict; modularity ≫0.5, exact pending)* · introspection **0.0 deployed / 1.0 capability merged** | type-cov 0.0* · edge-vocab 0.333 · **drift 0.875** · introspection 0.0 | **VERDICT** (see below): the structural 'hierarchical' claim **PASSES** — modularity ≫0.5 across every sample, refuting the prior **FAIL (modularity 0.009)**, a capped-projection artifact. No specific modularity number published (limit-dependent; exact pending server-side). Introspection: **0.0 on the deployed prod daemon (familiar v1.9.1), but the capability IS merged** (the `/ontology` endpoint palace-daemon#205 + SME scorer #208) — pending prod deploy, NOT "no API". OMEGA drift 87.5%: its **documented** edge vocab ≠ its **emergent** vocab. *OMEGA 8a type-cov 0% is a corpus-coverage artifact (good-dog notes ingested as default `summary`). |
 | **9a** | The Handshake (invocation) | **0.983** (opus-4-8 orch, Tau2 99.3) | **N/A — no harness** | Cat 9a is an **orchestrator-model** property, not a substrate property. mempalace's 0.983 is really opus-4-8's invocation rate in front of it. OMEGA was driven via its library API (no model-in-the-loop), so substrate-level 9a is N/A. |
 | **9b** | Call-through success | reachable (clean floor) | **N/A — no harness** | OmegaAdapter declares no `get_harness_manifest()` (library usage). Empty-manifest = does-not-apply (real finding: OMEGA ships an MCP server, but the SME adapter uses the library path). |
+
+### Competitor verdict rows — Hindsight + Mem0
+
+Both systems are **adapter-verified and runnable on the harness**, but their full
+on-harness QA is **deferred** — both run an LLM fact-extraction on *every session
+ingest*, which makes a strat150 run take many hours (see the cost-wall section). So
+their rows are **verdicts**, not on-harness QA numbers.
+
+| Cat | Hindsight (Iris, #220/#184) | Mem0-OSS (Solara, #185/#221) |
+|---|---|---|
+| **1 / 2c / 7** (retrieval + QA) | **verified + runnable; on-harness QA DEFERRED** — extraction-throughput-bound (~60–96 s/session → strat150 ingest ≈ 150 h). Field-reported **91.4%** LongMemEval QA is Hindsight's *own* leaderboard (GPT-4.1-class), **not** an on-harness number. The one n=12 indicative attempt was **INVALIDATED** by a mid-run container SIGTERM (box cleanup, not OOM) — it measured a dead server, so it is **excluded** (not a 0.0). | **verified + runnable; on-harness QA DEFERRED** — adapter verified vs real `mem0ai` 2.0.4 + live smoke green on a local $0 stack (ollama phi4 + nomic-embed-text). Extraction-throughput-bound: warm steady-state **~9 s/ingest → ~18 h** strat150. Extraction is **lossy by design** (smoke stored 3/5 facts). No on-harness QA number slotted. |
+| **3 / 4 / 5 / 6 / 8** (structural) | **N/A — no graph endpoint.** Hindsight exposes no standalone graph API; the adapter's snapshot probes an undocumented `/stats` that current Hindsight doesn't serve → empty. It is an *extraction-then-retrieve* memory, not a queryable typed graph. | **N/A — graph memory REMOVED from mem0 OSS.** `relations` aren't populated; the snapshot returns isolated entities with **zero edges**. Distinct cause from Hindsight: Mem0 OSS *had* a graph layer and the open-source edition **dropped it** — it's now a flat/vector store. (The hosted Mem0 platform keeps graph memory; the OSS package under test does not.) |
+| **9a / 9b** (handshake) | **N/A — no harness** (driven via client API; adapter declares no harness manifest). | **N/A — no harness** (Python client API; adapter declares no harness manifest). |
+
+---
+
+## The extraction-throughput cost wall (the 2-competitor finding)
+
+The single most reusable thing the cross-system pass surfaced about the
+*competitors* isn't a QA score — it's a **cost structure** the public leaderboards
+hide. Both extraction-based systems are **benchmark-throughput-bound**:
+
+- **Hindsight** runs an LLM fact-extraction per session ingest (~60–96 s/session
+  on the local reasoning model) → a strat150 ingest alone is ≈ **150 h**, and a
+  full QA run needs ~7,200 reasoning-model extraction calls.
+- **Mem0-OSS** (Solara, #221) is the same shape: warm steady-state ~9 s/ingest →
+  ~**18 h** for a full strat150 (CPU-local, ollama phi4 extractor). Its extraction
+  is also **lossy by design** (stored 3 of 5 smoke facts) — and notably, **mem0 OSS
+  removed its graph-memory layer entirely**, so it's now a flat/vector store with no
+  edges (Cat 3/4/5/6/8 N/A).
+
+Against that, **mempalace's verbatim-first ingest is ~0 marginal cost** — it
+stores content directly and enriches asynchronously, so a strat150 ingest is
+minutes, not hours. OMEGA sits between (a 384-dim ONNX embed per memory, no
+per-ingest LLM call).
+
+This is the **cost thesis the leaderboards don't show**: a system can post a high
+QA number while being *so* extraction-expensive that re-running it on a new
+corpus under controlled conditions is impractical. Two independent competitors
+(Hindsight, Mem0) hitting the same wall makes it a finding, not an anecdote —
+and it's exactly the kind of structural property SME exists to expose, the
+competitor-side analogue of the substrate diagnostics in the table above.
 
 ---
 
@@ -200,14 +247,20 @@ This is a genuine adapter-correctness fix the cross-system pass surfaced — wit
 3. **n=25/category on the retrieval cats** — every ±0.04 is ±1 question; per-cat patterns
    are hypotheses, not effects (Solara's #178 caveat carries through).
 
-## Coordination — Hindsight (#107) + Mem0 (#185)
+## Coordination — Hindsight (#107/#220, slotted) + Mem0 (#185, pending)
 
-The matrix scaffold (`baselines/cross_system_multipass_matrix_2026-05-30.json`) reserves a
-`hindsight` and a `mem0` slot in every category with `scoreability: "pending-adapter"`.
-When those adapters merge to main, the same pass runs:
-- retrieval cats (1/2c/7) on the LongMemEval-S strat150 subset (identical conditions);
-- structural cats (3/4/5/6/8) on good-dog **only if** the system exposes a graph — the
-  first question to each adapter owner is **"does this system expose typed edges, or is it
-  retrieval-only?"** A retrieval-only system records **N/A — no graph to evaluate** on
-  3/4/5/6/8 (a finding); a graph-bearing system runs them like OMEGA.
-- Cat 9a/9b: N/A unless the system exposes a harness surface via `get_harness_manifest()`.
+- **Hindsight (Iris, #220/#184) — SLOTTED** as a verdict row (above): verified +
+  runnable; retrieval/QA cats deferred (extraction-throughput-bound); structural cats
+  N/A (no graph endpoint); field-reported 91.4% recorded as a field number, the
+  SIGTERM-invalidated n=12 attempt excluded.
+- **Mem0-OSS (Solara, #185/#221) — SLOTTED** as a verdict row: verified + runnable;
+  retrieval/QA deferred (extraction-throughput-bound, ~9 s/ingest → ~18 h strat150);
+  structural cats N/A because **graph memory was removed from mem0 OSS** (zero edges) —
+  a distinct finding from Hindsight's no-endpoint (Mem0 *had* a graph layer and the OSS
+  edition dropped it).
+
+**The matrix is now COMPLETE across 4 systems** (mempalace, OMEGA, Hindsight, Mem0).
+The pass for any future graph-bearing adapter still runs the full structural set on
+good-dog; the first question to each adapter owner remains **"does this system expose
+typed edges, or is it retrieval/extraction-only?"** — retrieval/extraction-only records
+**N/A — no graph to evaluate** on 3/4/5/6/8 (a finding), as both Hindsight and Mem0 did.

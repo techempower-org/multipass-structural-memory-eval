@@ -70,47 +70,63 @@
         "value": 0.927,
         "metric": "R@5",
         "scoreability": "scoreable",
-        "note": "mempalace-daemon /search, session-level drawer_hit_at_K"
+        "note": "mempalace-daemon /search, session-level drawer_hit_at_K",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "value": 0.9,
         "metric": "R@5",
         "scoreability": "scoreable",
         "delta_vs_mempalace": -0.027,
-        "note": "OMEGA session-level hit@K, same subset/rendering; -2.7pp = 4 questions of 150"
+        "note": "OMEGA session-level hit@K, same subset/rendering; -2.7pp = 4 questions of 150",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": 0.914,
         "value_kind": "field-reported (Hindsight self-leaderboard)",
         "scoreability": "verified-qa-deferred",
-        "note": "Adapter VERIFIED + runnable on our harness (#220/#184); the phi4-vs-qwen JSON-extraction catch resolved (reasoning model required for strict-JSON extraction, like OMEGA's bge catch). On-harness QA/R@5 DEFERRED: Hindsight runs an LLM fact-extraction per session ingest (~60-96s/session here) -> strat150 ingest alone ~150h. Field-reported 91.4% LongMemEval QA is its own leaderboard (GPT-4.1-class extraction+reader), NOT an on-harness number. One n=12 indicative attempt was INVALIDATED by mid-run container SIGTERM (box cleanup, not OOM) and is NOT published -- it measured a dead server, not Hindsight."
+        "note": "Adapter VERIFIED + runnable on our harness (#220/#184); the phi4-vs-qwen JSON-extraction catch resolved (reasoning model required for strict-JSON extraction, like OMEGA's bge catch). On-harness QA/R@5 DEFERRED: Hindsight runs an LLM fact-extraction per session ingest (~60-96s/session here) -> strat150 ingest alone ~150h. Field-reported 91.4% LongMemEval QA is its own leaderboard (GPT-4.1-class extraction+reader), NOT an on-harness number. One n=12 indicative attempt was INVALIDATED by mid-run container SIGTERM (box cleanup, not OOM) and is NOT published -- it measured a dead server, not Hindsight.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md",
+        "source_type": "sme_measured"
       },
       "mem0": {
         "value": null,
         "scoreability": "verified-qa-deferred",
-        "note": "Adapter VERIFIED vs real mem0ai 2.0.4 (from_config/add/search) + live smoke GREEN on a local $0-cloud stack (ollama phi4 extractor + nomic-embed-text). On-harness QA DEFERRED: extraction-throughput-bound -- warm steady-state ~9s/ingest -> strat150 ingest ~18h CPU-local (same wall as Hindsight). Extraction is LOSSY by design (smoke stored 3/5 facts). No on-harness QA number slotted."
+        "note": "Adapter VERIFIED vs real mem0ai 2.0.4 (from_config/add/search) + live smoke GREEN on a local $0-cloud stack (ollama phi4 extractor + nomic-embed-text). On-harness QA DEFERRED: extraction-throughput-bound -- warm steady-state ~9s/ingest -> strat150 ingest ~18h CPU-local (same wall as Hindsight). Extraction is LOSSY by design (smoke stored 3/5 facts). No on-harness QA number slotted.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md",
+        "source_type": "sme_measured"
       },
       "flat": {
         "value": 0.833,
         "metric": "mean_recall (jp-realm Condition-A)",
         "scoreability": "scoreable",
-        "note": "flat ChromaDB vector retrieval, jp-realm-v0.1 Condition-A (the no-structure control): mean_recall 0.833, full-recall 21/30. This is the floor the structural systems' Cat 1 is measured against."
+        "note": "flat ChromaDB vector retrieval, jp-realm-v0.1 Condition-A (the no-structure control): mean_recall 0.833, full-recall 21/30. This is the floor the structural systems' Cat 1 is measured against.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "rlm": {
         "value": 0.467,
         "metric": "mean_recall (jp-realm)",
         "scoreability": "scoreable",
-        "note": "RLM (Qwen-7B and Llama-70B) both mean_recall 0.467 on jp-realm-v0.1 -- full-recall 10/30 (qwen7b) / 6/30 (llama70b). The ~10x parameter difference does NOT move recall: both ceiling at willingness-to-invoke, not retrieval (see Cat 9a)."
+        "note": "RLM (Qwen-7B and Llama-70B) both mean_recall 0.467 on jp-realm-v0.1 -- full-recall 10/30 (qwen7b) / 6/30 (llama70b). The ~10x parameter difference does NOT move recall: both ceiling at willingness-to-invoke, not retrieval (see Cat 9a).",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json",
+        "source_type": "sme_measured"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "2c": {
@@ -120,24 +136,32 @@
         "value": 0.96,
         "metric": "R@5 cat_2c",
         "scoreability": "scoreable",
-        "note": "0.933 mean by-hop on jp-realm AGE (Condition-B-only); 0.960 cat_2c on LongMemEval strat150"
+        "note": "0.933 mean by-hop on jp-realm AGE (Condition-B-only); 0.960 cat_2c on LongMemEval strat150",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "value": 0.92,
         "metric": "R@5 cat_2c",
         "scoreability": "scoreable",
         "delta_vs_mempalace": -0.04,
-        "note": "n=25/category, +-0.04 = +-1 question, within sampling noise"
+        "note": "n=25/category, +-0.04 = +-1 question, within sampling noise",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
         "scoreability": "verified-qa-deferred",
-        "note": "Same as Cat 1 -- multi-hop QA deferred, extraction-throughput-bound. Field 91.4% is aggregate, not per-hop."
+        "note": "Same as Cat 1 -- multi-hop QA deferred, extraction-throughput-bound. Field 91.4% is aggregate, not per-hop.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md",
+        "source_type": "sme_measured"
       },
       "mem0": {
         "value": null,
         "scoreability": "verified-qa-deferred",
-        "note": "Same as Cat 1 -- multi-hop QA deferred, extraction-throughput-bound (~18h strat150)."
+        "note": "Same as Cat 1 -- multi-hop QA deferred, extraction-throughput-bound (~18h strat150).",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md",
+        "source_type": "sme_measured"
       },
       "flat": {
         "value": 0.833,
@@ -147,23 +171,31 @@
           "1": 0.852,
           "2": 0.667
         },
-        "note": "flat Condition-A by-hop on jp-realm: hop-1 0.852 (n27) / hop-2 0.667 (n3). No depth scaling -- the expected flat signature (no traversal)."
+        "note": "flat Condition-A by-hop on jp-realm: hop-1 0.852 (n27) / hop-2 0.667 (n3). No depth scaling -- the expected flat signature (no traversal).",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "rlm": {
         "value": null,
         "metric": "by-hop available",
         "scoreability": "scoreable",
-        "note": "RLM by-hop present in the same jp-realm baselines; the headline Cat 9a finding (invocation plateau) is the load-bearing RLM reading, not multi-hop."
+        "note": "RLM by-hop present in the same jp-realm baselines; the headline Cat 9a finding (invocation plateau) is the load-bearing RLM reading, not multi-hop.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json",
+        "source_type": "sme_measured"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "3": {
@@ -175,7 +207,9 @@
         "metric": "EMERGENT contradicts edges over the real KG (entity->entity RELATION set, --real-kg)",
         "scoreability": "emergent",
         "corpus": "live palace AGE",
-        "note": "RE-SCORED post-#147/#210 over the real KG (1.92M-edge RELATION set, --graph-limit 5000): the live palace has 0 contradicts edges. Its enrichment pipeline generates NO emergent contradiction structure on real content. The prior +1.00 was a corpus-DECLARED ceiling (good-dog-graph reads back hand-seeded edges) and is NOT emergent detection -- superseded by this honest emergent read. CAVEAT: this is the live palace (JP's real content), while OMEGA's 0.50 is on good-dog -- different corpora, so the cell is an emergent-vs-emergent KIND-match, not a controlled A/B (mempalace can't ingest good-dog -- prod-only daemon, no ingest)."
+        "note": "RE-SCORED post-#147/#210 over the real KG (1.92M-edge RELATION set, --graph-limit 5000): the live palace has 0 contradicts edges. Its enrichment pipeline generates NO emergent contradiction structure on real content. The prior +1.00 was a corpus-DECLARED ceiling (good-dog-graph reads back hand-seeded edges) and is NOT emergent detection -- superseded by this honest emergent read. CAVEAT: this is the live palace (JP's real content), while OMEGA's 0.50 is on good-dog -- different corpora, so the cell is an emergent-vs-emergent KIND-match, not a controlled A/B (mempalace can't ingest good-dog -- prod-only daemon, no ingest).",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "theme_recall": 0.5,
@@ -183,7 +217,9 @@
         "metric": "EMERGENT contradicts edges vs good-dog ground-truth themes",
         "scoreability": "emergent",
         "corpus": "good-dog-corpus",
-        "note": "OMEGA auto-relate GENERATED 4 contradicts edges from note text (not corpus-declared). 1 of 2 ground-truth themes detected (grain-free DCM caught, dominance-theory missed); 1 of 4 edges is a true positive. The self-consistency read (sme-eval cat3 --adapter omega) is a tautological 1.00 and is NOT the comparable number; this emergent-vs-ground-truth read is."
+        "note": "OMEGA auto-relate GENERATED 4 contradicts edges from note text (not corpus-declared). 1 of 2 ground-truth themes detected (grain-free DCM caught, dominance-theory missed); 1 of 4 edges is a true positive. The self-consistency read (sme-eval cat3 --adapter omega) is a tautological 1.00 and is NOT the comparable number; this emergent-vs-ground-truth read is.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
@@ -203,17 +239,23 @@
       "rlm": {
         "value": null,
         "scoreability": "not-run",
-        "note": "RLM was run as the Cat 9a invocation arm on jp-realm, not through the structural cats. No contradiction-detection reading exists."
+        "note": "RLM was run as the Cat 9a invocation arm on jp-realm, not through the structural cats. No contradiction-detection reading exists.",
+        "source": null,
+        "source_type": "not_run"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "4": {
@@ -228,7 +270,9 @@
         "n_edge_types": 40,
         "n_edges": 1873489,
         "scoreability": "scoreable",
-        "note": "FINAL exact full-graph (post prod re-map + junk-DELETE, 2026-05-31): normalized entropy 0.645, dominant `other` 26.83% (502,573 edges), 40 distinct edge types, 1,873,489 total edges (1.92M minus 48,135 junk code-token edges DELETE'd). SUPERSEDES the earlier 0.340/55.1%/237-types reading: the kg_predicate_norm de-monoculture relabel (520k edges off the `other` sink) + the --drop-code-tokens DELETE (48,135 junk: shell cmds/stopwords/DOM methods) cut the monoculture nearly in half (55%->27%) and the type tail from 237->40. RESOLVED (#45). Both readings OVERTURN the original capped /graph 0.020/98.98%-tunnel artifact."
+        "note": "FINAL exact full-graph (post prod re-map + junk-DELETE, 2026-05-31): normalized entropy 0.645, dominant `other` 26.83% (502,573 edges), 40 distinct edge types, 1,873,489 total edges (1.92M minus 48,135 junk code-token edges DELETE'd). SUPERSEDES the earlier 0.340/55.1%/237-types reading: the kg_predicate_norm de-monoculture relabel (520k edges off the `other` sink) + the --drop-code-tokens DELETE (48,135 junk: shell cmds/stopwords/DOM methods) cut the monoculture nearly in half (55%->27%) and the type tail from 237->40. RESOLVED (#45). Both readings OVERTURN the original capped /graph 0.020/98.98%-tunnel artifact.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "collisions": 0,
@@ -236,7 +280,9 @@
         "edge_entropy_normalized": 0.78,
         "n_entities": 18,
         "scoreability": "scoreable",
-        "note": "good-dog auto-relate: 24 notes ingested -> 18 memories (6 content-hash deduped). 0 canonical collisions, 100% field coverage, normalized edge entropy 0.78 over 3 emergent types (temporal_cluster 61%, evolution 31%, contradicts 7%) -- a far more balanced edge vocabulary than the mempalace tunnel-monoculture."
+        "note": "good-dog auto-relate: 24 notes ingested -> 18 memories (6 content-hash deduped). 0 canonical collisions, 100% field coverage, normalized edge entropy 0.78 over 3 emergent types (temporal_cluster 61%, evolution 31%, contradicts 7%) -- a far more balanced edge vocabulary than the mempalace tunnel-monoculture.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
@@ -256,17 +302,23 @@
       "rlm": {
         "value": null,
         "scoreability": "not-run",
-        "note": "not run through Cat 4."
+        "note": "not run through Cat 4.",
+        "source": null,
+        "source_type": "not_run"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "5": {
@@ -282,7 +334,9 @@
           "capped_projection_isolates": 0.448,
           "note": "bogus capped /graph artifact"
         },
-        "note": "FINAL exact full-graph WCC (post-DELETE re-POST via /graph/structural-stats, 2026-05-31): largest component 61.87% (715,435 of 1,156,314 entities), isolates 22.2% (256,782), 325,965 components. Now a REAL number, replacing the verdict-only cell and the bogus capped-projection 44.8%-isolates artifact. HONEST NOTE: isolates rose vs pre-DELETE (20.4%->22.2%) because deleting 48k junk code-token edges orphaned ~20k entities whose ONLY edge was junk -- the cleaner graph honestly reports them isolated. The giant component is still well-connected."
+        "note": "FINAL exact full-graph WCC (post-DELETE re-POST via /graph/structural-stats, 2026-05-31): largest component 61.87% (715,435 of 1,156,314 entities), isolates 22.2% (256,782), 325,965 components. Now a REAL number, replacing the verdict-only cell and the bogus capped-projection 44.8%-isolates artifact. HONEST NOTE: isolates rose vs pre-DELETE (20.4%->22.2%) because deleting 48k junk code-token edges orphaned ~20k entities whose ONLY edge was junk -- the cleaner graph honestly reports them isolated. The giant component is still well-connected.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "components": 1,
@@ -290,7 +344,9 @@
         "isolates_fraction": 0.0,
         "betti_1": 1,
         "scoreability": "scoreable",
-        "note": "good-dog auto-relate: single fully-connected component, 0 isolates, one persistent H1 hole (max persistence 1.00). NOTE: required an adapter fix (entity id = node_id not integer id) so the 54 emergent edges resolve against the node set; pre-fix every edge dangled and the read collapsed to all-isolates."
+        "note": "good-dog auto-relate: single fully-connected component, 0 isolates, one persistent H1 hole (max persistence 1.00). NOTE: required an adapter fix (entity id = node_id not integer id) so the 54 emergent edges resolve against the node set; pre-fix every edge dangled and the read collapsed to all-isolates.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
@@ -310,17 +366,23 @@
       "rlm": {
         "value": null,
         "scoreability": "not-run",
-        "note": "not run through Cat 5."
+        "note": "not run through Cat 5.",
+        "source": null,
+        "source_type": "not_run"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "6": {
@@ -332,13 +394,17 @@
         "metric": "EMERGENT supersedes edges over the real KG (--real-kg)",
         "scoreability": "emergent",
         "corpus": "live palace AGE",
-        "note": "RE-SCORED post-#147/#210 over the real KG (--graph-limit 5000): the live palace has 0 supersedes edges -> supersession-completeness 0.00. Its enrichment pipeline generates NO emergent supersession structure on real content. The prior +1.00 was a corpus-DECLARED ceiling (good-dog-graph reads back 8/8 hand-seeded supersedes edges, 5 chains) and is NOT emergent detection -- superseded by this honest emergent read. Same corpus-mismatch caveat as Cat 3: live palace vs OMEGA's good-dog. Note both systems land at 0.00 emergent supersession from different roots -- OMEGA emits `evolution` (not normalized to supersedes); mempalace emits no supersedes edge at all."
+        "note": "RE-SCORED post-#147/#210 over the real KG (--graph-limit 5000): the live palace has 0 supersedes edges -> supersession-completeness 0.00. Its enrichment pipeline generates NO emergent supersession structure on real content. The prior +1.00 was a corpus-DECLARED ceiling (good-dog-graph reads back 8/8 hand-seeded supersedes edges, 5 chains) and is NOT emergent detection -- superseded by this honest emergent read. Same corpus-mismatch caveat as Cat 3: live palace vs OMEGA's good-dog. Note both systems land at 0.00 emergent supersession from different roots -- OMEGA emits `evolution` (not normalized to supersedes); mempalace emits no supersedes edge at all.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "value": 0.0,
         "metric": "(structural - flat) supersession-completeness delta",
         "scoreability": "emergent",
-        "note": "OMEGA auto-relate emitted 0 supersedes edges. Its temporal-shift analogue is the `evolution` edge type (17 edges), which does NOT carry directional supersession semantics and does not normalize to a supersedes predicate, so SME Cat 6 reads completeness 0.00. Honest finding: OMEGA has a temporal edge type but no SME-recognized supersession-completeness."
+        "note": "OMEGA auto-relate emitted 0 supersedes edges. Its temporal-shift analogue is the `evolution` edge type (17 edges), which does NOT carry directional supersession semantics and does not normalize to a supersedes predicate, so SME Cat 6 reads completeness 0.00. Honest finding: OMEGA has a temporal edge type but no SME-recognized supersession-completeness.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
@@ -358,17 +424,23 @@
       "rlm": {
         "value": null,
         "scoreability": "not-run",
-        "note": "not run through Cat 6."
+        "note": "not run through Cat 6.",
+        "source": null,
+        "source_type": "not_run"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "7": {
@@ -378,24 +450,32 @@
         "value": 0.58,
         "metric": "QA macro (same-reader retrieved-context comparator)",
         "scoreability": "scoreable",
-        "note": "o4-mini reader on retrieved context, 4-cat macro. The 52.9k tokens-per-correct on jp-realm Cat 1 is the mempalace single-condition efficiency reading; A/B/C deltas need a flat jp-realm baseline (gap)."
+        "note": "o4-mini reader on retrieved context, 4-cat macro. The 52.9k tokens-per-correct on jp-realm Cat 1 is the mempalace single-condition efficiency reading; A/B/C deltas need a flat jp-realm baseline (gap).",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "value": 0.593,
         "metric": "QA macro (same-reader retrieved-context)",
         "scoreability": "scoreable",
         "delta_vs_mempalace": 0.013,
-        "note": "OMEGA QA 0.593 macro ~= parity (+1.3pp) with the same-reader mempalace 0.580. Different per-cat profile (OMEGA leads cat_1/cat_3, daemon leads cat_2c/cat_6). NOT comparable to OMEGA's self-reported 95.4% (that uses GPT-4.1 reader). Caveat: daemon comparator was oracle-n500 not strat150-S."
+        "note": "OMEGA QA 0.593 macro ~= parity (+1.3pp) with the same-reader mempalace 0.580. Different per-cat profile (OMEGA leads cat_1/cat_3, daemon leads cat_2c/cat_6). NOT comparable to OMEGA's self-reported 95.4% (that uses GPT-4.1 reader). Caveat: daemon comparator was oracle-n500 not strat150-S.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
         "scoreability": "verified-qa-deferred",
-        "note": "Same as Cat 1 -- E2E QA deferred, extraction-throughput-bound. The ~7,200 reasoning-model extraction calls a full strat150 QA run needs are the cost wall this cell documents."
+        "note": "Same as Cat 1 -- E2E QA deferred, extraction-throughput-bound. The ~7,200 reasoning-model extraction calls a full strat150 QA run needs are the cost wall this cell documents.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md",
+        "source_type": "sme_measured"
       },
       "mem0": {
         "value": null,
         "scoreability": "verified-qa-deferred",
-        "note": "Same as Cat 1 -- E2E QA deferred, extraction-throughput-bound."
+        "note": "Same as Cat 1 -- E2E QA deferred, extraction-throughput-bound.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md",
+        "source_type": "sme_measured"
       },
       "flat": {
         "value": 0.384,
@@ -403,22 +483,30 @@
         "scoreability": "scoreable",
         "tokens_per_correct_jp_realm": 665.6,
         "qa_weighted": 0.4255,
-        "note": "flat LoCoMo-10 E2E QA: 0.384 unweighted (0.4255 proportion-weighted), n=250. jp-realm tokens-per-correct 665.6. This is Condition-A -- the no-structure efficiency/QA baseline the structural systems are compared against."
+        "note": "flat LoCoMo-10 E2E QA: 0.384 unweighted (0.4255 proportion-weighted), n=250. jp-realm tokens-per-correct 665.6. This is Condition-A -- the no-structure efficiency/QA baseline the structural systems are compared against.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "rlm": {
         "value": null,
         "scoreability": "not-run",
-        "note": "not run through Cat 7 (token-efficiency/QA)."
+        "note": "not run through Cat 7 (token-efficiency/QA).",
+        "source": null,
+        "source_type": "not_run"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "8": {
@@ -435,7 +523,9 @@
           "modularity": 0.009,
           "note": "capped-projection artifact"
         },
-        "note": "FINAL exact full-graph (networkx-computed, 2026-05-31): modularity 0.7961 across 218 communities -- 'hierarchical' PASSES with an EXACT number now (>>0.5), replacing the verdict-only cell and decisively refuting the prior FAIL (modularity 0.009 was a capped-projection artifact). Introspection 1.0 LIVE (daemon restarted, /ontology endpoint serving -- palace-daemon#205 + SME#208), up from 0.0-deployed. The system now surfaces its own ontology drift."
+        "note": "FINAL exact full-graph (networkx-computed, 2026-05-31): modularity 0.7961 across 218 communities -- 'hierarchical' PASSES with an EXACT number now (>>0.5), replacing the verdict-only cell and decisively refuting the prior FAIL (modularity 0.009 was a capped-projection artifact). Introspection 1.0 LIVE (daemon restarted, /ontology endpoint serving -- palace-daemon#205 + SME#208), up from 0.0-deployed. The system now surfaces its own ontology drift.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "type_coverage": 0.0,
@@ -443,7 +533,9 @@
         "drift": 0.875,
         "introspection": 0.0,
         "scoreability": "scoreable",
-        "note": "good-dog auto-relate vs OMEGA's declared README vocabulary. 8b edge-vocab coverage 33.3% (found `contradicts`; `related`/`supersedes` absent) + 2 UNDECLARED emergent types (`evolution`, `temporal_cluster`). 8d drift 87.5% -- OMEGA's documented edge model and its emergent edge model diverge substantially. 8a type-coverage 0% is a CORPUS-COVERAGE artifact (all good-dog notes ingested as the default `summary` event_type; the 5 declared types weren't exercised) -- caveat, not an OMEGA ontology failure. No introspection API."
+        "note": "good-dog auto-relate vs OMEGA's declared README vocabulary. 8b edge-vocab coverage 33.3% (found `contradicts`; `related`/`supersedes` absent) + 2 UNDECLARED emergent types (`evolution`, `temporal_cluster`). 8d drift 87.5% -- OMEGA's documented edge model and its emergent edge model diverge substantially. 8a type-coverage 0% is a CORPUS-COVERAGE artifact (all good-dog notes ingested as the default `summary` event_type; the 5 declared types weren't exercised) -- caveat, not an OMEGA ontology failure. No introspection API.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+        "source_type": "sme_measured"
       },
       "hindsight": {
         "value": null,
@@ -463,17 +555,23 @@
       "rlm": {
         "value": null,
         "scoreability": "not-run",
-        "note": "not run through Cat 8."
+        "note": "not run through Cat 8.",
+        "source": null,
+        "source_type": "not_run"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "9a": {
@@ -483,7 +581,9 @@
         "value": 0.983,
         "metric": "recall at 100% invocation (opus-4-8 orchestrator, Tau2 99.3)",
         "scoreability": "scoreable",
-        "note": "Cat 9a tracks the ORCHESTRATOR's Tau2 score, not the substrate. opus-4-8 -> 100% invocation / 98.3% recall on the daemon retrieval path."
+        "note": "Cat 9a tracks the ORCHESTRATOR's Tau2 score, not the substrate. opus-4-8 -> 100% invocation / 98.3% recall on the daemon retrieval path.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "value": null,
@@ -510,24 +610,32 @@
         "metric": "recall at low invocation (the orchestrator arm)",
         "scoreability": "scoreable",
         "invocation_rate": "7-27%",
-        "note": "THE RLM finding: Qwen-7B and Llama-70B both plateau at 46.7% recall with 7-27% tool-invocation -- the ceiling is WILLINGNESS TO INVOKE, not retrieval. This is the low rung of the Cat 9a Tau2 ladder (gemma4 41.7 -> qwen3.5 75.0 -> opus-4-8 98.3); RLM is the cautionary arm showing parameter count doesn't fix invocation. Cf. mempalace+opus-4-8 = 0.983 / 100% invocation on the same corpus."
+        "note": "THE RLM finding: Qwen-7B and Llama-70B both plateau at 46.7% recall with 7-27% tool-invocation -- the ceiling is WILLINGNESS TO INVOKE, not retrieval. This is the low rung of the Cat 9a Tau2 ladder (gemma4 41.7 -> qwen3.5 75.0 -> opus-4-8 98.3); RLM is the cautionary arm showing parameter count doesn't fix invocation. Cf. mempalace+opus-4-8 = 0.983 / 100% invocation on the same corpus.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json",
+        "source_type": "sme_measured"
       },
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     },
     "9b": {
       "name": "Call-through success",
       "mempalace": {
         "scoreability": "scoreable",
-        "note": "live surfaces reachable (clean floor)"
+        "note": "live surfaces reachable (clean floor)",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json",
+        "source_type": "sme_measured"
       },
       "omega": {
         "scoreability": "N/A-no-harness",
@@ -556,12 +664,16 @@
       "full_context": {
         "value": null,
         "scoreability": "not-run",
-        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "full_context (Karpathy condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but not yet run through any SME cat on a shared corpus. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       },
       "karpathy_compiled": {
         "value": null,
         "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0."
+        "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
+        "source": null,
+        "source_type": "not_run"
       }
     }
   },
@@ -607,491 +719,1068 @@
       "status": "benched_on_multipass",
       "display": "MemPalace (techempower-org fork)",
       "published_field": {
-        "longmemeval_qa": "-- (R@5 only: 0.984 held-out hybrid v4 / 96.6% upstream ChromaDB baseline; no E2E QA)",
-        "locomo_qa": "-- (R@10 88.9% upstream, retrieval-only)",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "-- (R@5 only: 0.984 held-out hybrid v4 / 96.6% upstream ChromaDB baseline; no E2E QA)",
+          "source": "https://github.com/MemPalace/mempalace/blob/develop/benchmarks/BENCHMARKS.md",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "-- (R@10 88.9% upstream, retrieval-only)",
+          "source": "https://github.com/MemPalace/mempalace/blob/develop/benchmarks/BENCHMARKS.md",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a (retrieval-only published)",
         "verification": "indie (upstream 96.6% R@5 repro'd) / self (fork)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) Appendix A (fork) + §2 LongMemEval",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Fork publishes R@5 (0.984 held-out) + jp-realm 78.33% recall; NO published E2E QA. Upstream 96.6% R@5 is a ChromaDB baseline (palace features hurt it: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%). This is the ONLY published_field where SME provides the missing real measurements."
+      },
+      "architecture": "hybrid (postgres+pgvector+BM25/vector/graph; verbatim-first ingest)",
+      "sme_source": {
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json (+ scratch FINAL-NUMBERS.md for Cat4/5/8 finals; cat3/6 emergent baselines; docs/benchmarks/2026-05-30-multipass-cat-matrix.md for Cat1/2c/7/9a)",
+        "source_type": "sme_measured"
       }
     },
     "omega": {
       "status": "benched_on_multipass",
       "display": "OMEGA",
       "published_field": {
-        "longmemeval_qa": "95.4%",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "95.4%",
+          "source": "https://omegamax.co/benchmarks",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "GPT-4.1",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) line 68/444 + Appendix A; omegamax.co/benchmarks",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "#1 on its self-leaderboard; solo dev, self-reported only. MemoryStress 38.3%. SME measured OMEGA on-harness at R@5 0.900 / QA 0.593 (o4-mini) — NOT comparable to the 95.4% (GPT-4.1)."
+      },
+      "architecture": "embed + auto-relate (sqlite-vec + ONNX; typed-edge graph)",
+      "sme_source": {
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json (+ omega_good_dog_cat{3,4,5,6,8} baselines; docs/benchmarks/2026-05-30-omega-longmemeval-s.md)",
+        "source_type": "sme_measured"
       }
     },
     "hindsight": {
       "status": "benched_on_multipass",
       "display": "Hindsight",
       "published_field": {
-        "longmemeval_qa": "91.4% (Gemini-3 Pro) / 89.0% (OSS-120B)",
-        "locomo_qa": "89.61% (Gemini-3) / 85.67% (OSS-120B)",
-        "beam_1m": "73.9%",
-        "beam_10m": "64.1%",
+        "longmemeval_qa": {
+          "value": "91.4% (Gemini-3 Pro) / 89.0% (OSS-120B)",
+          "source": "https://arxiv.org/abs/2512.12818",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "89.61% (Gemini-3) / 85.67% (OSS-120B)",
+          "source": "https://arxiv.org/abs/2512.12818",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "73.9%",
+          "source": "https://arxiv.org/abs/2512.12818",
+          "source_type": "published_external"
+        },
+        "beam_10m": {
+          "value": "64.1%",
+          "source": "https://arxiv.org/abs/2512.12818",
+          "source_type": "published_external"
+        },
         "answer_model": "Gemini 3 Pro",
         "verification": "indie (Virginia Tech + Washington Post) + paper (arXiv:2512.12818)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 71/103/120/447 + Appendix A",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Best independently-verified published numbers in the field. PersonaMem 86.6%/LifeBenchEN 71.5%. SME bench = verified+runnable, on-harness QA deferred (extraction-throughput-bound)."
+      },
+      "architecture": "extraction (LLM fact-extraction per session ingest)",
+      "sme_source": {
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md (+ baselines/omega_cat9b...; Iris #220/#184)",
+        "source_type": "sme_measured"
       }
     },
     "mem0": {
       "status": "benched_on_multipass",
       "display": "Mem0-OSS",
       "published_field": {
-        "longmemeval_qa": "OSS: 67.8% (old alg) — platform v3 (cloud) claims 94.4-94.8%",
-        "locomo_qa": "OSS: 61.4-68.5% (indie) — platform v3 claims 92.5%",
-        "beam_1m": "OSS README: 64.1% — platform v3 claims 70.1%",
-        "beam_10m": "OSS: 48.6% — platform v3: 50.5%",
+        "longmemeval_qa": {
+          "value": "OSS: 67.8% (old alg) — platform v3 (cloud) claims 94.4-94.8%",
+          "source": "https://github.com/mem0ai/mem0",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "OSS: 61.4-68.5% (indie) — platform v3 claims 92.5%",
+          "source": "https://github.com/mem0ai/mem0",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "OSS README: 64.1% — platform v3 claims 70.1%",
+          "source": "https://github.com/mem0ai/mem0",
+          "source_type": "published_external"
+        },
+        "beam_10m": {
+          "value": "OSS: 48.6% — platform v3: 50.5%",
+          "source": "https://github.com/mem0ai/mem0",
+          "source_type": "published_external"
+        },
         "answer_model": "undisclosed",
         "verification": "indie (True Memory paper + Hindsight repo tested OSS) / self (platform)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 109/111/121-122/204-213 + §'Mem0 Score Discrepancies'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "CRITICAL platform-vs-OSS split: the high 92-94% numbers are Mem0 PLATFORM v3 (cloud, new alg); OSS (what we benched, what True Memory/Hindsight tested) is 61-68% LoCoMo. The survey flags this is 'almost never made explicit.' SME benched the OSS package (verified+runnable, QA deferred)."
+      },
+      "architecture": "extraction (OSS; graph layer removed)",
+      "sme_source": {
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md (+ tests/test_mem0_live.py; Solara #185/#221)",
+        "source_type": "sme_measured"
       }
     },
     "flat": {
       "status": "benched_on_multipass",
       "display": "flat (no-structure control)",
       "published_field": {
-        "longmemeval_qa": "n/a (internal control, not a product)",
-        "locomo_qa": "n/a",
-        "beam_1m": "n/a",
+        "longmemeval_qa": {
+          "value": "n/a (internal control, not a product)",
+          "source": null,
+          "source_type": "survey_only"
+        },
+        "locomo_qa": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a",
         "verification": "none (SME-internal control)",
         "source": "SME-internal",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Not a surveyed product — SME's no-structure baseline. No published field claims by construction."
+      },
+      "architecture": "vector-only (no-structure control)",
+      "sme_source": {
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json (+ baselines/locomo10_flat_e2e_stratified_2026-05-29.json)",
+        "source_type": "sme_measured"
       }
     },
     "rlm": {
       "status": "benched_on_multipass",
       "display": "rlm (Cat 9a orchestrator arm)",
       "published_field": {
-        "longmemeval_qa": "n/a (SME diagnostic arm, not a product)",
-        "locomo_qa": "n/a",
-        "beam_1m": "n/a",
+        "longmemeval_qa": {
+          "value": "n/a (SME diagnostic arm, not a product)",
+          "source": null,
+          "source_type": "survey_only"
+        },
+        "locomo_qa": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "Qwen-7B / Llama-70B",
         "verification": "none (SME-internal)",
         "source": "SME-internal",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Not a surveyed product — SME's Cat 9a orchestrator-invocation probe (the 46.7% plateau / 7-27% invocation). No published field claims."
+      },
+      "architecture": "LLM orchestrator over retrieval (invocation arm)",
+      "sme_source": {
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json (+ ...rlm_llama70b...; docs/benchmarks/2026-05-30-multipass-cat-matrix.md Cat-9 note)",
+        "source_type": "sme_measured"
       }
     },
     "full_context": {
       "status": "benched_on_multipass",
       "display": "full_context (Karpathy D1)",
       "published_field": {
-        "longmemeval_qa": "n/a — methodology baseline; cf. survey's full-context GPT-4o 60.2% LongMemEval reference",
-        "locomo_qa": "n/a (cf. full-context ~52-66% LoCoMo reference)",
-        "beam_1m": "n/a",
+        "longmemeval_qa": {
+          "value": "n/a — methodology baseline; cf. survey's full-context GPT-4o 60.2% LongMemEval reference",
+          "source": null,
+          "source_type": "survey_only"
+        },
+        "locomo_qa": {
+          "value": "n/a (cf. full-context ~52-66% LoCoMo reference)",
+          "source": null,
+          "source_type": "survey_only"
+        },
+        "beam_1m": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a",
         "verification": "none (Karpathy-style context baseline)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §1 (full-context baseline references)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Not a product — the whole-vault-in-context baseline. SME row is wired-but-not-benched. The survey's full-context GPT-4o reference (60.2% LongMemEval) is the spiritual comparator."
+      },
+      "architecture": "whole-vault-in-context (Karpathy D1 baseline)",
+      "sme_source": {
+        "source": null,
+        "source_type": "wired_not_benched"
       }
     },
     "karpathy_compiled": {
       "status": "benched_on_multipass",
       "display": "karpathy_compiled (Karpathy D2)",
       "published_field": {
-        "longmemeval_qa": "n/a — methodology baseline (LLM-compiled wiki)",
-        "locomo_qa": "n/a",
-        "beam_1m": "n/a",
+        "longmemeval_qa": {
+          "value": "n/a — methodology baseline (LLM-compiled wiki)",
+          "source": null,
+          "source_type": "survey_only"
+        },
+        "locomo_qa": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "n/a",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a",
         "verification": "none",
         "source": "SME-internal (Karpathy D2 condition)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Not a product — LLM-compiled-wiki context baseline. SME row wired-but-not-benched."
+      },
+      "architecture": "LLM-compiled wiki (Karpathy D2 baseline)",
+      "sme_source": {
+        "source": null,
+        "source_type": "wired_not_benched"
       }
     },
     "longhand": {
       "status": "bench_in_flight",
       "display": "Longhand",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none (no published benchmarks)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) (Longhand: 'No benchmarks published', line 85/128)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. Longhand publishes no quantitative benchmarks."
       },
-      "sme_status": "bench-in-flight (#164, Twilight)"
+      "sme_status": "bench-in-flight (#164, Twilight)",
+      "architecture": "verbatim-first (no published benchmarks)",
+      "sme_source": {
+        "source": null,
+        "source_type": "bench_in_flight"
+      }
     },
     "postgres_ingest": {
       "status": "bench_in_flight",
       "display": "postgres_ingest",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none (no published benchmarks)",
         "source": "n/a (SME-internal verbatim-first adapter)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. "
       },
-      "sme_status": "bench-in-flight (#164, Twilight)"
+      "sme_status": "bench-in-flight (#164, Twilight)",
+      "architecture": "verbatim-first (postgres ingest)",
+      "sme_source": {
+        "source": null,
+        "source_type": "bench_in_flight"
+      }
     },
     "ladybugdb": {
       "status": "bench_in_flight",
       "display": "LadybugDB",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none (no published benchmarks)",
         "source": "n/a (SME-internal verbatim-first adapter)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. "
       },
-      "sme_status": "bench-in-flight (#164, Twilight)"
+      "sme_status": "bench-in-flight (#164, Twilight)",
+      "architecture": "verbatim-first (LadybugDB)",
+      "sme_source": {
+        "source": null,
+        "source_type": "bench_in_flight"
+      }
     },
     "mem0_platform_v3": {
       "status": "published_field_only",
       "display": "Mem0 Platform V3",
       "published_field": {
-        "longmemeval_qa": "94.4%",
-        "locomo_qa": "92.5%",
-        "beam_1m": "70.1%",
-        "beam_10m": "50.5%",
+        "longmemeval_qa": {
+          "value": "94.4%",
+          "source": "https://mem0.ai/research",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "92.5%",
+          "source": "https://mem0.ai/research",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "70.1%",
+          "source": "https://mem0.ai/research",
+          "source_type": "published_external"
+        },
+        "beam_10m": {
+          "value": "50.5%",
+          "source": "https://mem0.ai/research",
+          "source_type": "published_external"
+        },
         "answer_model": "undisclosed 'production stack'",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 70/101/121/445",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Mem0 CLOUD platform v3 (new alg) — distinct from the OSS package SME benched. Cloud-only, not locally runnable."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "extraction (cloud platform v3, new alg)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "mastra": {
       "status": "published_field_only",
       "display": "Mastra",
       "published_field": {
-        "longmemeval_qa": "94.87%",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "94.87%",
+          "source": "https://mastra.ai/research/observational-memory",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "GPT-5-mini",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 69/446",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Not in MemPalace README originally; added by survey."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "true_memory_pro": {
       "status": "published_field_only",
       "display": "True Memory Pro",
       "published_field": {
-        "longmemeval_qa": "87.8%",
-        "locomo_qa": "93.0%",
-        "beam_1m": "76.6%",
-        "beam_10m": "65.0% (prelim)",
+        "longmemeval_qa": {
+          "value": "87.8%",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "93.0%",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "76.6%",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
+        "beam_10m": {
+          "value": "65.0% (prelim)",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
         "answer_model": "gpt-4.1-mini",
         "verification": "paper (arXiv:2605.04897)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 81/99/118/448",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Pro adds HyDE + larger reranker. 56-config ablation: 53/56 >90% LoCoMo (3.2pp spread) — architecture > component choice. No code release."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "six-layer verbatim-first (HyDE + cross-encoder rerank)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "true_memory_base": {
       "status": "published_field_only",
       "display": "True Memory Base",
       "published_field": {
-        "longmemeval_qa": "85.5%",
-        "locomo_qa": "92.0%",
-        "beam_1m": "74.9%",
+        "longmemeval_qa": {
+          "value": "85.5%",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "92.0%",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "74.9%",
+          "source": "https://arxiv.org/abs/2605.04897",
+          "source_type": "published_external"
+        },
         "answer_model": "gpt-4.1-mini",
         "verification": "paper (arXiv:2605.04897)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 82/100/119/449",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "six-layer verbatim-first (no HyDE)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "supermemory": {
       "status": "published_field_only",
       "display": "Supermemory",
       "published_field": {
-        "longmemeval_qa": "81.6% (GPT-4o) / 85.2% (Gemini-3) / 84.6% (GPT-5)",
-        "locomo_qa": "65.4% (per True Memory paper)",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "81.6% (GPT-4o) / 85.2% (Gemini-3) / 84.6% (GPT-5)",
+          "source": "https://github.com/supermemoryai/supermemory",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "65.4% (per True Memory paper)",
+          "source": "https://github.com/supermemoryai/supermemory",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "GPT-4o / Gemini-3 / GPT-5",
         "verification": "indie (Hindsight repo + True Memory paper)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 78/110/389-392",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "ConvoMem #1 claim, no score published."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "everos_evermind": {
       "status": "published_field_only",
       "display": "EverOS Evermind",
       "published_field": {
-        "longmemeval_qa": "83.0%",
-        "locomo_qa": "93.05% (EverCore) / 92.73% (HyperMem)",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "83.0%",
+          "source": "https://github.com/EverMind-AI/EverOS",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "93.05% (EverCore) / 92.73% (HyperMem)",
+          "source": "https://github.com/EverMind-AI/EverOS",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "undisclosed",
         "verification": "self (open eval data on HuggingFace)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 79/98/451 + Appendix A",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "EverMemBench (internal). Eval data published (EverMemOS_Eval_Results)."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "engram_paper": {
       "status": "published_field_only",
       "display": "Engram Paper",
       "published_field": {
-        "longmemeval_qa": "71.4%",
-        "locomo_qa": "77.55%",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "71.4%",
+          "source": "https://arxiv.org/abs/2511.12960",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "77.55%",
+          "source": "https://arxiv.org/abs/2511.12960",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "GPT-4o-mini",
         "verification": "paper (arXiv:2511.12960)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 83/107/452",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "ACADEMIC paper ENGRAM — distinct from EngramX/NickCirv (token-reduction only). ~99% token reduction vs full context."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "extraction/compression (~99% token reduction)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "zep_graphiti": {
       "status": "published_field_only",
       "display": "Zep Graphiti",
       "published_field": {
-        "longmemeval_qa": "71.2% (GPT-4o) / 63.8% (GPT-4o-mini)",
-        "locomo_qa": "75.14% (Hindsight repo)",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "71.2% (GPT-4o) / 63.8% (GPT-4o-mini)",
+          "source": "https://blog.getzep.com/state-of-the-art-agent-memory/",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "75.14% (Hindsight repo)",
+          "source": "https://blog.getzep.com/state-of-the-art-agent-memory/",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "GPT-4o",
         "verification": "self (blog) + paper (arXiv:2501.13956) + indie (LoCoMo via Hindsight)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 80/106/453",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "DMR 94.8% (GPT-4-Turbo) on MemGPT's original metric."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "temporal knowledge graph (Graphiti)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "celiums": {
       "status": "published_field_only",
       "display": "Celiums",
       "published_field": {
-        "longmemeval_qa": "62.3%",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "62.3%",
+          "source": "https://celiums.ai/blog/longmemeval-benchmark-honest-results/",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "Opus (best of 5)",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 84/454/424-429",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "HONEST methodology: 100% retrieval, 62.3% QA — proves the R@5≠QA gap (the synthesis ceiling, not retrieval)."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "memmachine": {
       "status": "published_field_only",
       "display": "Memmachine",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "91.7%",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "91.7%",
+          "source": "https://arxiv.org/abs/2604.04853",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "gpt-4.1-mini",
         "verification": "paper (arXiv:2604.04853)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) line 102",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "In survey LoCoMo table, not in README; surfaced for completeness."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "memobase": {
       "status": "published_field_only",
       "display": "Memobase",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "75.78%",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "75.78%",
+          "source": "https://github.com/vectorize-io/hindsight-benchmarks",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "undisclosed",
         "verification": "indie (Hindsight benchmarks)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) line 105",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "In survey LoCoMo table (indie via Hindsight repo); not in README."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "agentmemory": {
       "status": "published_field_only",
       "display": "Agentmemory",
       "published_field": {
-        "longmemeval_qa": "-- (R@5 95.2% / R@10 98.6% / MRR 88.2% — RETRIEVAL ONLY, not QA)",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "-- (R@5 95.2% / R@10 98.6% / MRR 88.2% — RETRIEVAL ONLY, not QA)",
+          "source": "https://github.com/rohitg00/agentmemory",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a (retrieval only)",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 72/396-399/457",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "R@5 only (all-MiniLM-L6-v2). Survey §3: R@5 is NOT comparable to QA accuracy."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "retrieval (all-MiniLM-L6-v2)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "engram_2": {
       "status": "published_field_only",
       "display": "Engram 2",
       "published_field": {
-        "longmemeval_qa": "-- (R@5 0.990 / R@10 0.998 / MRR 0.946 — RETRIEVAL)",
-        "locomo_qa": "74.5% (STRICT judge GPT-5.4, 200q subset)",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "-- (R@5 0.990 / R@10 0.998 / MRR 0.946 — RETRIEVAL)",
+          "source": "https://github.com/199-biotechnologies/engram-2",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "74.5% (STRICT judge GPT-5.4, 200q subset)",
+          "source": "https://github.com/199-biotechnologies/engram-2",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "GPT-5.4 (strict judge, LoCoMo only)",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 73/108/401-406/456",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "R@5 retrieval (Gemini Embed 2 + FTS5 + RRF) + a LoCoMo QA w/ a NON-STANDARD strict judge (not comparable to standard-judge LoCoMo). Distinct from academic ENGRAM."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "retrieval (Gemini Embed 2 + FTS5 + RRF)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "ai_memory": {
       "status": "published_field_only",
       "display": "Ai Memory",
       "published_field": {
-        "longmemeval_qa": "-- (R@5 97.8% / R@10 99.0% / R@20 99.8% — RETRIEVAL)",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "-- (R@5 97.8% / R@10 99.0% / R@20 99.8% — RETRIEVAL)",
+          "source": "https://github.com/alphaonedev/ai-memory-mcp",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a (retrieval only)",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 76/408-413/458",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "R@5 only, smart tier w/ LLM query expansion; all-local models. Not QA."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "retrieval (FTS5 + MiniLM + Gemma via Ollama; LLM query expansion)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "mcp_memory_service": {
       "status": "published_field_only",
       "display": "Mcp Memory Service",
       "published_field": {
-        "longmemeval_qa": "-- (R@5 80.4% turn / 86.0% session — RETRIEVAL)",
-        "locomo_qa": "-- (R@5 49.7% — RETRIEVAL)",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "-- (R@5 80.4% turn / 86.0% session — RETRIEVAL)",
+          "source": "https://github.com/doobidoo/mcp-memory-service",
+          "source_type": "published_external"
+        },
+        "locomo_qa": {
+          "value": "-- (R@5 49.7% — RETRIEVAL)",
+          "source": "https://github.com/doobidoo/mcp-memory-service",
+          "source_type": "published_external"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "n/a (retrieval only)",
         "verification": "self",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 77/112/415-422/459",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "R@5 only (all-MiniLM-L6-v2). DevBench R@5 91.1%. Not QA."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "retrieval (all-MiniLM-L6-v2)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "open_brain_ob1": {
       "status": "no_published_data",
       "display": "Open Brain Ob1",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Cost-optimization metrics only (73% invocation reduction); no retrieval/QA benchmarks."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "claude_mem": {
       "status": "no_published_data",
       "display": "Claude Mem",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "~10x token-savings claim; evals/swebench dir exists but no scores published."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "letta_memgpt": {
       "status": "no_published_data",
       "display": "Letta Memgpt",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Context-Bench is a MODEL eval, not a memory-system eval; no memory benchmarks. (MemGPT DMR 93.4% is the old metric.)"
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "cognee": {
       "status": "no_published_data",
       "display": "Cognee",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "arXiv paper linked but no benchmark numbers in README."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "caviraoss_openmemory": {
       "status": "no_published_data",
       "display": "Caviraoss Openmemory",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Feature comparison only; no published benchmarks."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "engramx_nickcirv": {
       "status": "no_published_data",
       "display": "Engramx Nickcirv",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Token-reduction benchmarks (89% savings) only; no retrieval/QA. Distinct from academic ENGRAM paper."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     },
     "iai_mcp": {
       "status": "no_published_data",
       "display": "Iai Mcp",
       "published_field": {
-        "longmemeval_qa": "--",
-        "locomo_qa": "--",
-        "beam_1m": "--",
+        "longmemeval_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "locomo_qa": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
+        "beam_1m": {
+          "value": "--",
+          "source": null,
+          "source_type": "none"
+        },
         "answer_model": "--",
         "verification": "none",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
         "note": "Verbatim recall >=99% @10K items, latency <100ms; LongMemEval-S run EXISTS but score WITHHELD."
       },
-      "sme_status": "not-benched — no SME multipass adapter run for this system"
+      "sme_status": "not-benched — no SME multipass adapter run for this system",
+      "architecture": "unspecified (survey states no architecture)",
+      "sme_source": {
+        "source": null,
+        "source_type": "not_benched"
+      }
     }
   },
   "field_status_groups": {
@@ -1145,5 +1834,6 @@
     "judge_variation": "Most use GPT-4o judge (LongMemEval protocol); engram-2 strict GPT-5.4, EverMind GPT-OSS-120b@temp0. Not interchangeable.",
     "mempalace_upstream_controversy": "Upstream 96.6% R@5 is a ChromaDB baseline (no palace features; enabling them HURTS: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%); LoCoMo 100% is structurally guaranteed at top-50. The fork publishes 0.984 R@5 held-out (no E2E QA). (survey §'MemPalace Upstream Benchmark Controversy')"
   },
-  "field_roster_note": "2026-05-31 (cassia-2, #165): FULL-FIELD view. Every system in the survey (memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md) is a row, with TWO column-groups NEVER conflated: published_field = THEIR self-reported survey claims (verbatim, cited, answer-model + verification labeled, 'NOT SME-measured'); sme_multipass = OUR harness readings (the `categories` block) ONLY for benched systems, 'not-benched' elsewhere. Status groups: benched_on_multipass (6 + the 8-row matrix systems), bench_in_flight (longhand/postgres_ingest/ladybugdb via Twilight #164), published_field_only (survey numbers, no SME adapter), no_published_data (in the field, no numbers). NO fabrication: published cells are verbatim survey, sme cells are real or not-benched. Carries comparability_caveats (R@K≠QA, ~24pp answer-model swing, platform-vs-OSS, LoCoMo-subset, judge-variation) for luna-2 callouts. Epic #234."
+  "field_roster_note": "2026-05-31 (cassia-2, #165): FULL-FIELD view. Every system in the survey (memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md) is a row, with TWO column-groups NEVER conflated: published_field = THEIR self-reported survey claims (verbatim, cited, answer-model + verification labeled, 'NOT SME-measured'); sme_multipass = OUR harness readings (the `categories` block) ONLY for benched systems, 'not-benched' elsewhere. Status groups: benched_on_multipass (6 + the 8-row matrix systems), bench_in_flight (longhand/postgres_ingest/ladybugdb via Twilight #164), published_field_only (survey numbers, no SME adapter), no_published_data (in the field, no numbers). NO fabrication: published cells are verbatim survey, sme cells are real or not-benched. Carries comparability_caveats (R@K≠QA, ~24pp answer-model swing, platform-vs-OSS, LoCoMo-subset, judge-variation) for luna-2 callouts. Epic #234.",
+  "magic_links_note": "2026-05-31 (cassia-2, #165 addendum): per-cell source + source_type for 'magic links'. published_field metric cells = {value, source: survey-cited URL, source_type: published_external} -> link OUT to the system's leaderboard/paper. sme_multipass measured cells carry source = our GitHub blob path + source_type: sme_measured -> link to the artifact that holds the reading. not-benched / not-run / no-data cells have source: null (rendered un-linked). Each system also carries `architecture` (grounded in survey/our findings; 'unspecified' where the survey states none — NO fabricated architecture labels) for luna-2's architecture filter. GH blob base: https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/"
 }

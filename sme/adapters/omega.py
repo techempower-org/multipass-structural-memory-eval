@@ -643,7 +643,15 @@ def _read_omega_memories(conn: sqlite3.Connection) -> list[Entity]:
     if table is None:
         return []
     cols = _table_columns(conn, table)
-    id_col = _first_col(cols, ("id", "memory_id", "rowid"))
+    # Prefer ``node_id`` (the ``mem-<hash>`` stable id) over the integer
+    # ``id`` autoincrement: OMEGA's ``edges`` table references memories by
+    # ``node_id`` in its ``source_id`` / ``target_id`` columns, so the
+    # entity id MUST be ``node_id`` for edge endpoints to resolve against
+    # the node set. Using the integer ``id`` here silently dangles every
+    # edge (entity ids ``omega:3`` vs edge endpoints ``omega:mem-abc…``),
+    # which collapses the Cat 5 topology read to all-isolates and inflates
+    # the Cat 4 fragmentation signal. ``rowid`` last as the final fallback.
+    id_col = _first_col(cols, ("node_id", "id", "memory_id", "rowid"))
     content_col = _first_col(cols, ("content", "text", "memory"))
     type_col = _first_col(cols, ("event_type", "type", "memory_type", "kind"))
     if id_col is None or content_col is None:

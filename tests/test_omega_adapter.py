@@ -361,6 +361,64 @@ def test_snapshot_reads_memories_and_edges(fake_omega, isolate_omega_home):
     a.close()
 
 
+def _seed_omega_db_with_node_id(path):
+    """Build a fake OMEGA SQLite db matching the REAL 1.4.x snapshot shape:
+    ``memories`` carries BOTH an integer autoincrement ``id`` and the
+    stable ``node_id`` (``mem-<hash>``), and the ``edges`` table references
+    memories by ``node_id`` (not the integer ``id``). This is the schema
+    omega-memory actually writes — verified against a live good-dog ingest.
+    """
+    conn = sqlite3.connect(str(path))
+    conn.execute(
+        "CREATE TABLE memories ("
+        "id INTEGER PRIMARY KEY, node_id TEXT, content TEXT, event_type TEXT)"
+    )
+    conn.execute(
+        "CREATE TABLE edges ("
+        "id INTEGER, source_id TEXT, target_id TEXT, edge_type TEXT)"
+    )
+    conn.executemany(
+        "INSERT INTO memories VALUES (?,?,?,?)",
+        [
+            (3, "mem-aaa", "first", "summary"),
+            (16, "mem-bbb", "second", "summary"),
+            (9, "mem-ccc", "third", "summary"),
+        ],
+    )
+    conn.executemany(
+        "INSERT INTO edges VALUES (?,?,?,?)",
+        [
+            (1, "mem-aaa", "mem-bbb", "evolution"),
+            (2, "mem-bbb", "mem-ccc", "contradicts"),
+        ],
+    )
+    conn.commit()
+    conn.close()
+
+
+def test_snapshot_entity_ids_use_node_id_so_edges_resolve(
+    fake_omega, isolate_omega_home
+):
+    """Regression: OMEGA's edges reference memories by ``node_id``, so the
+    projected entity ids MUST be ``node_id`` (not the integer ``id``) or
+    every edge dangles — collapsing Cat 5 topology to all-isolates and
+    inflating the Cat 4 fragmentation signal."""
+    from sme.adapters.omega import OmegaAdapter
+    home = isolate_omega_home / "node_id_snap"
+    home.mkdir(parents=True, exist_ok=True)
+    _seed_omega_db_with_node_id(home / "omega.db")
+    a = OmegaAdapter(omega_home=str(home))
+    entities, edges = a.get_graph_snapshot()
+    # Entity ids resolve to node_id, NOT the integer id (omega:3 etc.).
+    assert {e.id for e in entities} == {"omega:mem-aaa", "omega:mem-bbb", "omega:mem-ccc"}
+    # Every edge endpoint lands on a real node — no dangling edges.
+    ent_ids = {e.id for e in entities}
+    for e in edges:
+        assert e.source_id in ent_ids, f"dangling source {e.source_id}"
+        assert e.target_id in ent_ids, f"dangling target {e.target_id}"
+    a.close()
+
+
 def test_snapshot_missing_db_returns_empty(fake_omega, isolate_omega_home):
     from sme.adapters.omega import OmegaAdapter
     a = OmegaAdapter(omega_home=str(isolate_omega_home / "missing_home"))

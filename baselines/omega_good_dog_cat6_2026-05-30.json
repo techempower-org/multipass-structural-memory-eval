@@ -1,0 +1,14 @@
+{
+  "category": "cat_6_supersession",
+  "seeded_supersedes_edges": 0,
+  "resolved_supersedes_edges": 0,
+  "superseded_entities": 0,
+  "structural_completeness": 0.0,
+  "flat_completeness": 0.0,
+  "completeness_delta": 0.0,
+  "detection_level": "structured",
+  "superseded_by": {},
+  "chains": [],
+  "adapter": "omega",
+  "source": "/home/jp/.claude/projects/-home-jp-Projects-multipass-structural-memory-eval/scratch/cassia-crosssystem/omega_gooddog/omega.db"
+}

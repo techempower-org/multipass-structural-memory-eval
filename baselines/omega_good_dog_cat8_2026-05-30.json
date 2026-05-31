@@ -1,0 +1,124 @@
+{
+  "8a_type_coverage": {
+    "score": 0.0,
+    "declared": [
+      "decision",
+      "error",
+      "lesson",
+      "summary",
+      "user_preference"
+    ],
+    "found": [],
+    "missing": [
+      "decision",
+      "error",
+      "lesson",
+      "summary",
+      "user_preference"
+    ],
+    "undeclared": [
+      "memory:summary"
+    ]
+  },
+  "8b_edge_vocabulary": {
+    "score": 0.3333333333333333,
+    "declared": [
+      "contradicts",
+      "related",
+      "supersedes"
+    ],
+    "found": [
+      "contradicts"
+    ],
+    "missing": [
+      "related",
+      "supersedes"
+    ],
+    "undeclared": [
+      "evolution",
+      "temporal_cluster"
+    ]
+  },
+  "8c_schema_alignment": {
+    "entity_type_distribution": {
+      "memory:summary": 18
+    },
+    "edge_type_distribution": {
+      "temporal_cluster": 33,
+      "evolution": 17,
+      "contradicts": 4
+    },
+    "edge_type_entropy_bits": 1.2372602014211587,
+    "entity_type_concentration": {
+      "top_type": "memory:summary",
+      "count": 18,
+      "total": 18,
+      "fraction": 1.0
+    },
+    "warning": "100.0% of entities are type 'memory:summary' \u2014 possible under-classification or over-specified ontology"
+  },
+  "8d_drift": {
+    "score": 0.875,
+    "declared": [
+      "contradicts",
+      "decision",
+      "error",
+      "lesson",
+      "related",
+      "summary",
+      "supersedes",
+      "user_preference"
+    ],
+    "effective": [
+      "contradicts",
+      "evolution",
+      "memory:summary",
+      "temporal_cluster"
+    ],
+    "hall_usage": null
+  },
+  "8e_claims": {
+    "pass_rate": 0.0,
+    "tested": 0,
+    "passed": 0,
+    "untestable": 2,
+    "detail": [
+      {
+        "id": "typed_relationship_graph",
+        "text": "memories are linked into a typed relationship graph (related, supersedes, contradicts)",
+        "status": "skipped",
+        "definition": "Defer to Category 3 results.\nPass if any ContradictionPair is returned on contradiction queries.",
+        "metrics": {},
+        "notes": "no Cat 3 data available"
+      },
+      {
+        "id": "contradiction_detection",
+        "text": "OMEGA surfaces conflicting facts as contradicts edges",
+        "status": "skipped",
+        "definition": "Defer to Category 3 results.\nPass if any ContradictionPair is returned on contradiction queries.",
+        "metrics": {},
+        "notes": "no Cat 3 data available"
+      },
+      {
+        "id": "supersession_tracking",
+        "text": "superseding memories are linked to the memories they replace via supersedes edges",
+        "status": "untestable",
+        "definition": "no library pattern matched",
+        "metrics": {},
+        "notes": ""
+      },
+      {
+        "id": "five_event_types",
+        "text": "memories carry one of 5 documented event_types",
+        "status": "untestable",
+        "definition": "vocabulary existence claim \u2014 no structural operationalization",
+        "metrics": {},
+        "notes": ""
+      }
+    ]
+  },
+  "introspection": {
+    "available": [],
+    "score": 0.0
+  }
+}

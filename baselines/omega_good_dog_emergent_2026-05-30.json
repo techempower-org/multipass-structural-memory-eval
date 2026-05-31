@@ -1,0 +1,58 @@
+{
+  "system": "omega",
+  "corpus": "good-dog-corpus (vault text, OMEGA auto-relate \u2014 EMERGENT)",
+  "n_notes_ingested": 24,
+  "entities": 18,
+  "edges": 54,
+  "edges_with_both_endpoints_resolved": "54/54",
+  "entity_type_distribution": {
+    "memory:summary": 18
+  },
+  "edge_type_distribution": {
+    "temporal_cluster": 33,
+    "evolution": 17,
+    "contradicts": 4
+  },
+  "contradicts_edges": 4,
+  "supersedes_edges": 0,
+  "cat3_vs_ground_truth": {
+    "ground_truth_themes": [
+      "dominance_theory",
+      "grain_free_dcm"
+    ],
+    "omega_emergent_contradicts_edges": 4,
+    "themes_detected": [
+      "grain_free_dcm"
+    ],
+    "theme_recall": 0.5,
+    "edge_precision_vs_ground_truth": 0.25,
+    "true_positive_edges": 1,
+    "surfaced_edges_detail": [
+      {
+        "src_file": "akc-american-staffordshire-terrier.md",
+        "dst_file": "2008-avsab-dominance-position-statement.md",
+        "weight": null,
+        "straddles_theme": null
+      },
+      {
+        "src_file": "2022-03-freeman-jvim-prospective-dcm-diet.md",
+        "dst_file": "2018-11-tufts-petfoodology-beg-dcm.md",
+        "weight": null,
+        "straddles_theme": "grain_free_dcm"
+      },
+      {
+        "src_file": "2024-11-06-aurora-pit-bull-repeal-cpr.md",
+        "dst_file": "akc-american-staffordshire-terrier.md",
+        "weight": null,
+        "straddles_theme": null
+      },
+      {
+        "src_file": "2020-12-vieira-de-castro-aversive-training-welfare.md",
+        "dst_file": "2008-avsab-dominance-position-statement.md",
+        "weight": null,
+        "straddles_theme": null
+      }
+    ]
+  },
+  "ingest_errors": []
+}

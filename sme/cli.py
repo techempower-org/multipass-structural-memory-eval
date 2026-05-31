@@ -16,7 +16,7 @@ import sys
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from sme.adapters.base import SMEAdapter
 from sme.topology import TopologyAnalyzer
@@ -519,11 +519,17 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         adapter_kwargs["collection_name"] = args.collection_name
     if args.kg_path:
         adapter_kwargs["kg_path"] = args.kg_path
-    # #147 — measure the real KG (excludes the structural projection) for the
-    # daemon adapter; dropped for adapters that don't accept the kwargs.
+    # Cat 8 keeps the PRIMARY snapshot structural — 8a/8b vocabulary coverage
+    # describes the wing/room scaffold, so it must be measured there (else 8a
+    # reads a misleading 0/6 over the untyped KG). The semantic graph:kg claims
+    # (hierarchical → modularity) are scored over a separately-fetched KG
+    # snapshot below (#212 routing). The legacy --real-kg forces a KG-only
+    # primary for back-compat; --structural-projection is the explicit scaffold
+    # opt-in (and simply means "don't bother fetching the KG snapshot").
     if getattr(args, "real_kg", False):
         adapter_kwargs["graph_kg_only"] = True
-    if getattr(args, "graph_limit", None) is not None:
+        adapter_kwargs["graph_limit"] = _resolved_graph_limit(args)
+    elif getattr(args, "graph_limit", None) is not None:
         adapter_kwargs["graph_limit"] = args.graph_limit
     adapter = _load_adapter(args.adapter, **adapter_kwargs)
     entities, edges = adapter.get_graph_snapshot()
@@ -568,10 +574,17 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         (c.get("graph") or "").lower() == "kg"
         for c in (implied.structural_claims + implied.retrieval_claims)
     )
-    if wants_kg and not getattr(args, "real_kg", False):
+    # Skip the KG fetch when the caller explicitly opted into the scaffold-only
+    # view (--structural-projection) — then graph:kg claims degrade to the
+    # structural primary with a note, which is what that opt-in asked for.
+    if (
+        wants_kg
+        and not getattr(args, "real_kg", False)
+        and not getattr(args, "structural_projection", False)
+    ):
         kg_kwargs = dict(adapter_kwargs)
         kg_kwargs["graph_kg_only"] = True
-        kg_kwargs.setdefault("graph_limit", args.graph_limit or 5000)
+        kg_kwargs["graph_limit"] = _resolved_graph_limit(args)
         try:
             kg_adapter = _load_adapter(args.adapter, **kg_kwargs)
             # Only adapters that actually accept graph_kg_only give a KG view;
@@ -755,13 +768,19 @@ def _load_adapter_from_args(args: argparse.Namespace) -> SMEAdapter:
     timeout = getattr(args, "familiar_timeout", None)
     if timeout is not None:
         adapter_kwargs["timeout_s"] = timeout
-    # #147 — real-KG structural measurement (mempalace-daemon only; dropped
-    # by _load_adapter for adapters that don't accept it).
-    if getattr(args, "real_kg", False):
+    # #147 default flip — Cat 4/5 measure the real KG BY DEFAULT (the honest
+    # graph). Only --structural-projection opts back into the wing/room/tunnel
+    # scaffold. Both knobs are no-ops for non-daemon adapters (dropped by
+    # _load_adapter), which expose a single graph regardless.
+    if _use_real_kg(args):
         adapter_kwargs["graph_kg_only"] = True
-    graph_limit = getattr(args, "graph_limit", None)
-    if graph_limit is not None:
-        adapter_kwargs["graph_limit"] = graph_limit
+        gl = _resolved_graph_limit(args)
+        if gl is not None:
+            adapter_kwargs["graph_limit"] = gl
+    else:
+        graph_limit = getattr(args, "graph_limit", None)
+        if graph_limit is not None:
+            adapter_kwargs["graph_limit"] = graph_limit
     return _load_adapter(args.adapter, **adapter_kwargs)
 
 
@@ -830,34 +849,67 @@ def _add_db_or_api_args(parser: argparse.ArgumentParser) -> None:
     _add_real_kg_args(parser)
 
 
-def _add_real_kg_args(parser: argparse.ArgumentParser) -> None:
-    """Add --real-kg / --graph-limit (mempalace-daemon real-KG measurement).
+# Default /graph KG sample cap for the real-KG path. The daemon-side default
+# (500 entities / 1000 triples) is too small to be representative of the
+# 1.92M-edge RELATION graph; 5000 is the validated working size (survives the
+# CTE-bounded read without OOM).
+_DEFAULT_GRAPH_LIMIT = 5000
 
-    #147: by default the daemon adapter projects the FULL /graph snapshot —
-    wings/rooms/tunnels/member_of structural scaffold plus a capped KG sample
-    — and the structural edges swamp the topology (98.98% of edges on the live
-    palace), so Cat 4/5/8 measure the scaffold, not the 1.92M-edge RELATION
-    graph. --real-kg projects the knowledge graph ONLY (KG entities +
-    entity→entity RELATION edges); --graph-limit raises the /graph KG sample
-    cap so that sample is representative. Both are no-ops for non-daemon
-    adapters (dropped by _load_adapter)."""
+
+def _add_real_kg_args(parser: argparse.ArgumentParser) -> None:
+    """Cat 4/5/8 graph-substrate selection (mempalace-daemon).
+
+    #147 made the real-KG read opt-in via --real-kg, which left a footgun: a
+    PLAIN cat4/5/8 run silently measured the wing/room/tunnel structural
+    scaffold (98.98% of edges on the live palace) and reported the ~0.020
+    tunnel-artifact instead of the real 1.92M-edge RELATION graph — i.e. the
+    default lied. This follow-up FLIPS the default: the honest real-KG
+    measurement is now the default, and the old structural-projection view is
+    an explicit opt-in (--structural-projection) for callers who genuinely want
+    to inspect the navigation scaffold.
+
+    Both knobs are no-ops for non-daemon adapters (they expose a single graph;
+    _load_adapter drops graph_kg_only)."""
+    parser.add_argument(
+        "--structural-projection",
+        action="store_true",
+        help="(mempalace-daemon) OPT IN to the OLD behaviour — measure the "
+        "wing/room/tunnel structural projection instead of the real KG. "
+        "Cat 4/5/8 then describe the navigation scaffold, NOT the "
+        "entity→entity RELATION graph. Default is the real KG (#147).",
+    )
     parser.add_argument(
         "--real-kg",
         action="store_true",
-        help="(mempalace-daemon) measure the real knowledge graph only — KG "
-        "entities + entity→entity RELATION edges — excluding the "
-        "wing/room/tunnel structural projection. Use for honest Cat 4/5/8 "
-        "structural metrics (#147). Pair with --graph-limit.",
+        help="(mempalace-daemon) deprecated no-op — the real KG is now the "
+        "default. Kept so existing invocations don't break; "
+        "--structural-projection is the new escape hatch.",
     )
     parser.add_argument(
         "--graph-limit",
         type=int,
         default=None,
         metavar="N",
-        help="(mempalace-daemon) raise the /graph KG sample cap to N (default "
-        "daemon-side is 500 entities / 1000 triples — too small for a "
-        "representative RELATION-edge sample on the full palace). e.g. 5000.",
+        help=f"(mempalace-daemon) /graph KG sample cap for the real-KG read "
+        f"(default {_DEFAULT_GRAPH_LIMIT}). Raise for a larger RELATION-edge "
+        f"sample; the daemon's CTE-bounded read survives well past this.",
     )
+
+
+def _use_real_kg(args: argparse.Namespace) -> bool:
+    """Resolve the graph substrate: real KG by default, structural only when
+    the caller explicitly opts in via --structural-projection (#147 default
+    flip). The legacy --real-kg flag is honoured but redundant."""
+    return not getattr(args, "structural_projection", False)
+
+
+def _resolved_graph_limit(args: argparse.Namespace) -> Optional[int]:
+    """Graph-limit for the real-KG read: explicit --graph-limit wins, else the
+    representative default. None under --structural-projection (the scaffold
+    read doesn't need the KG sample raised)."""
+    if getattr(args, "structural_projection", False):
+        return getattr(args, "graph_limit", None)
+    return getattr(args, "graph_limit", None) or _DEFAULT_GRAPH_LIMIT
 
 
 def cmd_cat4(args: argparse.Namespace) -> int:
@@ -872,13 +924,14 @@ def cmd_cat4(args: argparse.Namespace) -> int:
     entities, edges = adapter.get_graph_snapshot()
     log.info("snapshot: %d entities, %d edges", len(entities), len(edges))
 
-    # #147 follow-up — under --real-kg, Cat 4's monoculture metric should read
-    # the EXACT RELATION distribution (full server-side aggregation), not the
-    # capped graph sample (which under-counts the `other` sink + long tail,
-    # inflating entropy). Adapters without the capability return None and Cat 4
-    # counts the sampled edges as before.
+    # #147 follow-up — in the real-KG path (now the DEFAULT), Cat 4's
+    # monoculture metric reads the EXACT RELATION distribution (full
+    # server-side aggregation), not the capped graph sample (which
+    # under-counts the `other` sink + long tail, inflating entropy). Adapters
+    # without the capability return None and Cat 4 counts the sampled edges.
+    # Skipped under --structural-projection (the scaffold opt-out).
     edge_type_override = None
-    if getattr(args, "real_kg", False) and hasattr(
+    if _use_real_kg(args) and hasattr(
         adapter, "get_edge_type_distribution"
     ):
         try:
@@ -1077,10 +1130,15 @@ def cmd_cat5(args: argparse.Namespace) -> int:
         adapter_kwargs["kg_path"] = args.kg_path
     if args.collection_name:
         adapter_kwargs["collection_name"] = args.collection_name
-    # #147 — real-KG structural measurement (daemon adapter; dropped for others)
-    if getattr(args, "real_kg", False):
+    # #147 default flip — Cat 5 measures the real KG (RELATION-only) BY
+    # DEFAULT; --structural-projection opts back into the scaffold. Daemon
+    # adapter only; dropped for others.
+    if _use_real_kg(args):
         adapter_kwargs["graph_kg_only"] = True
-    if getattr(args, "graph_limit", None) is not None:
+        gl = _resolved_graph_limit(args)
+        if gl is not None:
+            adapter_kwargs["graph_limit"] = gl
+    elif getattr(args, "graph_limit", None) is not None:
         adapter_kwargs["graph_limit"] = args.graph_limit
 
     adapter = _load_adapter(args.adapter, **adapter_kwargs)

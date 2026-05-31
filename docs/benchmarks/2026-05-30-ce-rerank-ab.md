@@ -1,7 +1,14 @@
 # Cross-encoder rerank A/B — BLOCKED on corpus availability (2026-05-30)
 
+> **SUPERSEDED 2026-05-31** by `docs/benchmarks/2026-05-31-ce-rerank-corpus-seeded.md` — the A/B was
+> re-run on a scratch daemon seeded with the git/docs corpus (all 49/49 targets present). Real verdict:
+> rerank is neutral-to-slightly-negative (R@10 flat at 0.60 across legs, MRR slightly drops, bigger CE
+> ~3× slower) → keep rerank OFF / opt-in. Note also: this run's rerank-ON model label
+> `ms-marco-MiniLM-L-6-v2` was stale — that model isn't in this flashrank build; the daemon default
+> `ms-marco-TinyBERT-L-2-v2` actually ran. (Neither correction changes the BLOCKED conclusion below.)
+
 **Issue:** techempower-org/multipass-structural-memory-eval#103 (routed from techempower-org/mempalace#301)
-**Status:** **BLOCKED — target corpus absent from prod familiar.** Not a rerank verdict.
+**Status:** **BLOCKED — target corpus absent from prod familiar.** Not a rerank verdict. (Superseded — see banner above.)
 **Evidence JSON:** `baselines/ce_rerank_ab_2026-05-30.json` (`status: blocked_corpus_mismatch`)
 **Probe set:** `probes_v2_git_derived.json` (200 probes; same set as the #162 fusion A/B), generated 2026-05-23 from ~14 months of git history
 **Method:** daemon `POST /search/hybrid` per-request `rerank` flag — `rerank:false` vs `rerank:true`, read-only, against prod familiar (`familiar:8085`, Postgres/pgvector + Apache AGE)

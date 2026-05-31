@@ -1,0 +1,86 @@
+{
+  "issue": "techempower-org/multipass-structural-memory-eval#103",
+  "ran_at": "2026-05-31T11:46:09-0700",
+  "method": "corpus-seeded scratch daemon /search/hybrid, 3-leg model sweep (daemon restart per model)",
+  "corpus_note": "scratch palace-daemon (postgres pgvector + Apache AGE) on localhost:8086, seeded by POST /mine over the mempalace git/docs corpus the probes target. Unlike #225 (BLOCKED \u2014 corpus absent from conversational-only prod familiar, R@10 floored ~0.085), the target docs ARE present here so recall reflects real rerank lift, not corpus-absence.",
+  "prior_run_label_correction": "Nyx's #225 doc/JSON labeled the rerank model 'ms-marco-MiniLM-L-6-v2', but that model is NOT in this flashrank build (zoo = TinyBERT-L-2-v2, MiniLM-L-12-v2, MultiBERT-L-12). The daemon default is TinyBERT-L-2-v2, so #225's rerank-on leg actually ran TinyBERT-L-2. Labels in THIS report are the models that actually ran.",
+  "api_url": "http://localhost:8086",
+  "probe_set": "probes_v2_git_derived.json",
+  "n_probes": 200,
+  "fusion_mode": "rrf",
+  "candidate_strategy": "hybrid",
+  "n_results": 10,
+  "legs": {
+    "A_rerank_off": {
+      "label": "A_rerank_off",
+      "metrics": {
+        "n_probes": 200,
+        "mrr": 0.2994,
+        "recall_at_5": 0.51,
+        "recall_at_10": 0.6,
+        "found": 120
+      },
+      "latency": {
+        "n": 200,
+        "mean_ms": 548.85,
+        "p50_ms": 554.79,
+        "p95_ms": 754.07,
+        "max_ms": 1216.24
+      },
+      "rerank_model": "ms-marco (n/a \u2014 rerank off)",
+      "rerank_enabled": false
+    },
+    "B_rerank_tinybert_L2": {
+      "label": "B_rerank_tinybert_L2",
+      "metrics": {
+        "n_probes": 200,
+        "mrr": 0.2927,
+        "recall_at_5": 0.515,
+        "recall_at_10": 0.6,
+        "found": 120
+      },
+      "latency": {
+        "n": 200,
+        "mean_ms": 497.11,
+        "p50_ms": 475.49,
+        "p95_ms": 735.26,
+        "max_ms": 912.44
+      },
+      "rerank_model": "ms-marco-TinyBERT-L-2-v2",
+      "rerank_enabled": true
+    },
+    "C_rerank_minilm_L12": {
+      "label": "C_rerank_minilm_L12",
+      "metrics": {
+        "n_probes": 200,
+        "mrr": 0.284,
+        "recall_at_5": 0.505,
+        "recall_at_10": 0.6,
+        "found": 120
+      },
+      "latency": {
+        "n": 200,
+        "mean_ms": 1462.06,
+        "p50_ms": 1523.13,
+        "p95_ms": 1869.19,
+        "max_ms": 3130.89
+      },
+      "rerank_model": "ms-marco-MiniLM-L-12-v2",
+      "rerank_enabled": true
+    }
+  },
+  "deltas_vs_baseline": {
+    "B_rerank_tinybert_L2_vs_A": {
+      "mrr": -0.0067,
+      "recall_at_5": 0.005,
+      "recall_at_10": 0.0,
+      "latency_overhead_p50_ms": -79.3
+    },
+    "C_rerank_minilm_L12_vs_A": {
+      "mrr": -0.0154,
+      "recall_at_5": -0.005,
+      "recall_at_10": 0.0,
+      "latency_overhead_p50_ms": 968.34
+    }
+  }
+}

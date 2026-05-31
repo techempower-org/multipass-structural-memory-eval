@@ -245,3 +245,57 @@ def test_rename_sources_are_not_in_accepts():
                 f"adapter {spec.aliases[0]!r} both renames {src!r} away "
                 f"and lists it in accepts — pick one"
             )
+
+
+# --- #147 default flip: real-KG is the default, scaffold is opt-in --------
+
+
+import argparse  # noqa: E402
+
+from sme.cli import (  # noqa: E402
+    _DEFAULT_GRAPH_LIMIT,
+    _add_real_kg_args,
+    _resolved_graph_limit,
+    _use_real_kg,
+)
+
+
+def _parsed(*argv):
+    p = argparse.ArgumentParser()
+    _add_real_kg_args(p)
+    return p.parse_args(list(argv))
+
+
+def test_real_kg_is_the_default():
+    """A plain Cat 4/5/8 run measures the real KG — the honest default. This
+    is the footgun fix: before, the default silently reported the wing/room
+    tunnel scaffold (the ~0.020 artifact)."""
+    assert _use_real_kg(_parsed()) is True
+    assert _resolved_graph_limit(_parsed()) == _DEFAULT_GRAPH_LIMIT
+
+
+def test_structural_projection_opts_out_to_scaffold():
+    """--structural-projection is the explicit opt-in to the old scaffold view;
+    it disables the real-KG default and doesn't force the KG sample cap."""
+    a = _parsed("--structural-projection")
+    assert _use_real_kg(a) is False
+    assert _resolved_graph_limit(a) is None
+
+
+def test_legacy_real_kg_flag_is_a_noop():
+    """--real-kg still parses (back-compat) and still resolves to real-KG —
+    it's now redundant with the default, not a behaviour change."""
+    assert _use_real_kg(_parsed("--real-kg")) is True
+
+
+def test_explicit_graph_limit_overrides_default():
+    a = _parsed("--graph-limit", "9000")
+    assert _resolved_graph_limit(a) == 9000
+
+
+def test_structural_projection_with_explicit_limit_keeps_it():
+    """Even in scaffold mode an explicit --graph-limit is honoured (it sizes
+    whatever sampled read the scaffold path does)."""
+    a = _parsed("--structural-projection", "--graph-limit", "1000")
+    assert _use_real_kg(a) is False
+    assert _resolved_graph_limit(a) == 1000

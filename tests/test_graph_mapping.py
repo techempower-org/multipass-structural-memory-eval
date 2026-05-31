@@ -408,3 +408,109 @@ def test_returned_entities_and_edges_are_correct_types():
         assert isinstance(e, Entity)
     for ed in edges:
         assert isinstance(ed, Edge)
+
+
+# ── kg_only: real-KG-only projection (#147) ────────────────────────
+
+
+_MIXED_PAYLOAD = {
+    "wings": {"a": 3, "b": 2},
+    "rooms": [
+        {"wing": "a", "rooms": {"shared": 2, "general": 9}},
+        {"wing": "b", "rooms": {"shared": 1}},
+    ],
+    "tunnels": [{"room": "shared", "wings": ["a", "b"]}],
+    "kg_entities": [
+        {"id": "Alice", "name": "Alice", "type": "entity"},
+        {"id": "Anthropic", "name": "Anthropic", "type": "entity"},
+    ],
+    "kg_triples": [
+        {"subject": "Alice", "object": "Anthropic", "predicate": "works_at"},
+        {"subject": "Anthropic", "object": "Alice", "predicate": "employs"},
+    ],
+}
+
+
+def test_kg_only_excludes_structural_projection():
+    """kg_only drops wings/rooms/tunnels/member_of entirely — only the KG
+    entities + RELATION edges remain. This is the #147 fix: Cat 4/5/8 must
+    measure the real graph, not the structural scaffold."""
+    entities, edges = project_graph(_MIXED_PAYLOAD, kg_only=True)
+
+    # No wing/room entities; no structural (tunnel/member_of) edges.
+    assert all(e.id.startswith("kg:") for e in entities)
+    assert {e.entity_type for e in entities} == {"kg:entity"}
+    assert all(ed.edge_type not in ("tunnel", "member_of") for ed in edges)
+    assert all(ed.properties.get("_table") == "kg_triple" for ed in edges)
+    # Both RELATION edges survive with their real predicate as edge_type.
+    assert sorted(ed.edge_type for ed in edges) == ["employs", "works_at"]
+
+
+def test_full_projection_still_includes_structural_by_default():
+    """Default (kg_only=False) is unchanged — the full snapshot still carries
+    wings, rooms, tunnels, member_of plus the KG layer. Guards against the
+    #147 flag accidentally altering the default path."""
+    entities, edges = project_graph(_MIXED_PAYLOAD)
+    etypes = {e.entity_type for e in entities}
+    edtypes = {ed.edge_type for ed in edges}
+    assert "wing" in etypes
+    assert any(et.startswith("room:") for et in etypes)
+    assert "tunnel" in edtypes
+    assert "member_of" in edtypes
+    assert "works_at" in edtypes  # KG layer present in both modes
+
+
+def test_kg_only_empty_kg_yields_empty_graph():
+    """kg_only over a payload with no KG layer is an empty graph, NOT the
+    structural scaffold — confirms the scaffold is genuinely excluded."""
+    structural_only = {
+        "wings": {"a": 1},
+        "rooms": [{"wing": "a", "rooms": {"r": 1}}],
+        "tunnels": [{"room": "r", "wings": ["a", "b"]}],
+    }
+    entities, edges = project_graph(structural_only, kg_only=True)
+    assert entities == []
+    assert edges == []
+
+
+def test_kg_only_synthesizes_endpoint_nodes_for_unsampled_entities():
+    """The daemon samples kg_entities and kg_triples independently, so RELATION
+    endpoints often fall outside the entity sample. Under kg_only, project_graph
+    synthesizes a node for each missing endpoint so the graph is self-consistent
+    — otherwise Cat 5 would count the unsampled endpoints as isolates (a
+    sampling artifact, not real fragmentation). (#147)"""
+    payload = {
+        "kg_entities": [{"id": "Alice", "name": "Alice", "type": "entity"}],
+        # 'Bob' is an edge endpoint but NOT in the (capped) entity sample.
+        "kg_triples": [
+            {"subject": "Alice", "object": "Bob", "predicate": "knows"},
+        ],
+    }
+    entities, edges = project_graph(payload, kg_only=True)
+    ids = {e.id for e in entities}
+    assert ids == {"kg:Alice", "kg:Bob"}
+    # The synthesized endpoint carries the marker so consumers can tell it
+    # apart from a fully-sampled entity.
+    bob = next(e for e in entities if e.id == "kg:Bob")
+    assert bob.properties.get("_endpoint_only") is True
+    assert bob.entity_type == "kg:entity"
+    # The edge connects both, so neither is an isolate.
+    assert edges[0].source_id == "kg:Alice"
+    assert edges[0].target_id == "kg:Bob"
+
+
+def test_full_projection_does_not_synthesize_endpoints():
+    """Endpoint synthesis is kg_only-specific. Under the full projection the
+    structural scaffold supplies the expected node set, so an unsampled KG
+    endpoint must NOT spawn a synthetic node (would distort the default
+    snapshot consumers already rely on)."""
+    payload = {
+        "kg_entities": [{"id": "Alice", "name": "Alice", "type": "entity"}],
+        "kg_triples": [
+            {"subject": "Alice", "object": "Bob", "predicate": "knows"},
+        ],
+    }
+    entities, _ = project_graph(payload)  # default kg_only=False
+    ids = {e.id for e in entities}
+    assert "kg:Alice" in ids
+    assert "kg:Bob" not in ids

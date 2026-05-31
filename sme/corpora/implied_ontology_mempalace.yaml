@@ -60,23 +60,40 @@ hall_vocabulary:
 
 structural_claims:
 
+  # --- graph routing (#147 follow-up) ---
+  # MemPalace exposes two graphs; each topology claim must be scored over the
+  # right one or the reading is an artifact. ``graph: kg`` → the real
+  # entity→entity RELATION graph (the *knowledge*); ``graph: structural`` → the
+  # wing/room/tunnel/member_of navigation scaffold. Untagged defaults to
+  # structural (back-compat). The headline: hierarchical_organization scored
+  # over the structural scaffold reads modularity ~0.009 (FAIL, an artifact of
+  # the tunnel swamp); over the real KG it reads 0.815 (PASS).
+
   - id: hierarchical_organization
     text: "memories organized hierarchically into wings > halls > rooms > drawers"
     source_line: 15
+    graph: kg
     # Matches claim library pattern: "hierarchical|nested|tree.structured"
-    # Operationalized as: modularity > 0.5 AND degree distribution power-law
+    # Operationalized as: modularity > 0.5 AND degree distribution power-law.
+    # Scored over the real KG — the claim is about the organization of the
+    # *knowledge*, and the structural scaffold's tunnel edges swamp modularity.
 
   - id: cross_wing_tunnels
     text: "tunnels connect rooms from different wings"
     source_line: 204
+    graph: structural
     # Matches claim library pattern: "cross.*(wing|domain|type|community).*connect|tunnel"
-    # Operationalized as: inter-community edge density > 0
+    # Operationalized as: inter-community edge density > 0.
+    # Stays on the structural projection — tunnels ARE structural edges
+    # (SHARED_VIA), absent from the :RELATION knowledge graph by construction.
 
   - id: partitioned_by_type
     text: "entities are partitioned by type into wings (people and projects)"
     source_line: 15
+    graph: structural
     # Matches claim library pattern: "partition.*by.*type|organiz.*by.*type|wing.*type"
-    # Operationalized as: type homogeneity within communities > 0.9
+    # Operationalized as: type homogeneity within communities > 0.9.
+    # The "type" here is the wing partition — a structural-layer property.
 
   - id: wing_filtering_improves_retrieval
     text: "wing and room filtering improves retrieval by 34%"

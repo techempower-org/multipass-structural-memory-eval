@@ -349,6 +349,8 @@ def score_cat8(
     cat2b_results: Optional[dict] = None,
     claim_library: Optional[dict] = None,
     introspection_report: Optional[dict] = None,
+    kg_entities: Optional[list[Entity]] = None,
+    kg_edges: Optional[list[Edge]] = None,
 ) -> Cat8Report:
     """Produce a Cat 8 scorecard.
 
@@ -365,6 +367,17 @@ def score_cat8(
     populates, never a hand-set number. ``None`` (the default, and what
     every system without a self-report surface returns) keeps introspection
     at 0.0 — meaning "this system can't audit its own ontology."
+
+    kg_entities / kg_edges, when supplied, are the system's *semantic*
+    knowledge graph (entity→entity RELATION edges), distinct from the
+    primary ``entities``/``edges`` which carry the structural projection
+    (wings/rooms/tunnels). Claims tagged ``graph: kg`` (e.g. hierarchical
+    organization → modularity) are scored over this graph; claims tagged
+    ``graph: structural`` (or untagged) stay on the primary snapshot. This
+    is the two-graph split that resolves the modularity artifact — 0.009 on
+    the tunnel-swamped scaffold vs 0.815 on the real KG (#147 follow-up).
+    8a/8b vocabulary coverage always uses the primary structural snapshot,
+    since the declared entity/edge vocabulary describes that layer.
     """
     report = Cat8Report()
 
@@ -508,6 +521,8 @@ def score_cat8(
                 cat7_results=cat7_results,
                 cat3_results=cat3_results,
                 cat2b_results=cat2b_results,
+                kg_entities=kg_entities,
+                kg_edges=kg_edges,
             )
         )
 
@@ -523,6 +538,8 @@ def score_cat8(
                 cat7_results=cat7_results,
                 cat3_results=cat3_results,
                 cat2b_results=cat2b_results,
+                kg_entities=kg_entities,
+                kg_edges=kg_edges,
             )
         )
 
@@ -700,9 +717,40 @@ def _score_claim(
     cat7_results: Optional[dict] = None,
     cat3_results: Optional[dict] = None,
     cat2b_results: Optional[dict] = None,
+    kg_entities: Optional[list[Entity]] = None,
+    kg_edges: Optional[list[Edge]] = None,
 ) -> ClaimResult:
     claim_id = claim.get("id", "?")
     claim_text = claim.get("text", "")
+
+    # --- Two-graph routing (#147 follow-up) --------------------
+    #
+    # MemPalace exposes two graphs and a claim must be scored over the right
+    # one (else the readings are artifacts — see the modularity 0.009 vs 0.815
+    # split):
+    #   * "structural" — the wing/room/tunnel/member_of scaffold. Claims about
+    #     navigation topology (cross-wing tunnels, type-partitioned wings) live
+    #     here; their vocabulary IS the structural projection.
+    #   * "kg" — the real entity→entity RELATION graph. Topology claims about
+    #     the *knowledge* (hierarchical organization → modularity, community
+    #     structure) must be measured here, not over the nav scaffold.
+    #
+    # The claim's ``graph:`` field selects the substrate; it defaults to
+    # "structural" so existing single-snapshot callers are unchanged. When a
+    # claim asks for "kg" and the caller supplied a KG snapshot, topology is
+    # computed over it; otherwise we fall back to the primary snapshot (and
+    # note the fallback) so a missing KG snapshot degrades rather than lies.
+    graph_choice = (claim.get("graph") or "structural").lower()
+    topo_entities, topo_edges = entities, edges
+    graph_note = ""
+    if graph_choice == "kg":
+        if kg_entities is not None and kg_edges is not None:
+            topo_entities, topo_edges = kg_entities, kg_edges
+        else:
+            graph_note = (
+                " [graph=kg requested but no KG snapshot supplied; "
+                "scored over structural projection]"
+            )
 
     # Denylist: untestable UX/scalability/security claims
     if is_untestable(claim_text, library):
@@ -749,8 +797,12 @@ def _score_claim(
     notes = ""
 
     if "modularity" in metric.lower() and "degree" in metric.lower():
-        # Hierarchical structure: modularity > 0.5 AND degree power-law
-        mod = _compute_modularity(entities, edges)
+        # Hierarchical structure: modularity > 0.5 AND degree power-law.
+        # Scored over the routed graph (topo_*) — for the hierarchical claim
+        # that's the real KG, where modularity is 0.815 (vs 0.009 on the
+        # tunnel-swamped structural scaffold — the artifact this routing fixes).
+        metrics["graph"] = graph_choice
+        mod = _compute_modularity(topo_entities, topo_edges)
         metrics["modularity"] = mod
         mod_min = thr.get("modularity_min", 0.5)
         # Power-law fitting requires the `powerlaw` package. If not
@@ -770,9 +822,9 @@ def _score_claim(
             import powerlaw
 
             G = nx.Graph()
-            for e in entities:
+            for e in topo_entities:
                 G.add_node(e.id)
-            for ed in edges:
+            for ed in topo_edges:
                 if ed.source_id in G and ed.target_id in G:
                     G.add_edge(ed.source_id, ed.target_id)
             degrees = [d for _, d in G.degree() if d > 0]
@@ -795,22 +847,29 @@ def _score_claim(
                 metrics["powerlaw_note"] = "too few nodes for power-law fit"
         else:
             status = "pass" if mod > mod_min else "fail"
-        notes = f"modularity={mod:.3f} (threshold {mod_min})"
+        notes = f"modularity={mod:.3f} (threshold {mod_min}){graph_note}"
 
     elif "inter-community" in metric.lower() or "inter_community" in metric.lower():
-        density, inter = _compute_inter_community_edge_density(entities, edges)
+        metrics["graph"] = graph_choice
+        density, inter = _compute_inter_community_edge_density(
+            topo_entities, topo_edges
+        )
         metrics["inter_community_edges"] = inter
         metrics["inter_community_density"] = density
         thresh = thr.get("inter_community_density_min", 0.0)
         status = "pass" if density > thresh else "fail"
-        notes = f"{inter} inter-community edges ({density:.1%})"
+        notes = f"{inter} inter-community edges ({density:.1%}){graph_note}"
 
     elif "type homogeneity" in metric.lower() or "homogeneity" in metric.lower():
-        homog = _compute_type_homogeneity(entities, edges)
+        metrics["graph"] = graph_choice
+        homog = _compute_type_homogeneity(topo_entities, topo_edges)
         metrics["type_homogeneity"] = homog
         thresh = thr.get("type_homogeneity_min", 0.9)
         status = "pass" if homog >= thresh else "fail"
-        notes = f"weighted homogeneity {homog:.1%} (threshold {thresh:.0%})"
+        notes = (
+            f"weighted homogeneity {homog:.1%} "
+            f"(threshold {thresh:.0%}){graph_note}"
+        )
 
     elif "cat 7" in metric.lower() or "cat7" in metric.lower() or "pairwise win" in metric.lower():
         # Deferred to Cat 7 results. We don't have pairwise judge

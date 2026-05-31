@@ -556,6 +556,42 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         except Exception as e:  # pragma: no cover - defensive
             log.warning("introspection report fetch failed: %s", e)
 
+    # Two-graph routing (#147 follow-up): claims tagged `graph: kg` (e.g.
+    # hierarchical organization → modularity) must be scored over the real
+    # entity→entity KG, not the structural scaffold the primary snapshot
+    # carries. If any claim asks for the KG and we didn't already pull a
+    # KG-only primary snapshot, fetch a second KG snapshot. Only the
+    # mempalace-daemon adapter exposes graph_kg_only; others fall back to the
+    # structural snapshot (and _score_claim notes the fallback).
+    kg_entities = kg_edges = None
+    wants_kg = any(
+        (c.get("graph") or "").lower() == "kg"
+        for c in (implied.structural_claims + implied.retrieval_claims)
+    )
+    if wants_kg and not getattr(args, "real_kg", False):
+        kg_kwargs = dict(adapter_kwargs)
+        kg_kwargs["graph_kg_only"] = True
+        kg_kwargs.setdefault("graph_limit", args.graph_limit or 5000)
+        try:
+            kg_adapter = _load_adapter(args.adapter, **kg_kwargs)
+            # Only adapters that actually accept graph_kg_only give a KG view;
+            # for others this returns the same structural snapshot, so guard on
+            # the adapter advertising the knob.
+            if getattr(kg_adapter, "graph_kg_only", False):
+                kg_entities, kg_edges = kg_adapter.get_graph_snapshot()
+                log.info(
+                    "Cat 8 KG snapshot for graph=kg claims: %d entities, "
+                    "%d edges",
+                    len(kg_entities),
+                    len(kg_edges),
+                )
+            kg_adapter.close()
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("KG snapshot fetch failed: %s", e)
+    elif getattr(args, "real_kg", False):
+        # Primary snapshot is already KG-only; reuse it for graph=kg claims.
+        kg_entities, kg_edges = entities, edges
+
     library = load_claim_library()
     report = score_cat8(
         implied,
@@ -565,6 +601,8 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         cat7_results=cat7,
         claim_library=library,
         introspection_report=introspection_report,
+        kg_entities=kg_entities,
+        kg_edges=kg_edges,
     )
 
     # Render

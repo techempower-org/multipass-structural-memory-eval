@@ -443,6 +443,38 @@ class MemPalaceDaemonAdapter(SMEAdapter):
             "mentions_edges": stats.get("mentions"),
         }
 
+    def get_structural_stats(self) -> Optional[dict]:
+        """EXACT full-graph Cat 5 (connectivity) + Cat 8 (modularity) stats.
+
+        The ``/graph`` sample SME projects for Cat 5/8 is biased and
+        limit-dependent (the ``other`` relation fraction alone drifts 47%→58%
+        across sample sizes), so the sampled component/modularity figures are
+        not the real-graph values. The daemon's ``GET /graph/structural-stats``
+        serves the exact stats computed over the whole RELATION graph
+        (union-find WCC + Louvain modularity) — component_count,
+        largest_component_size/fraction, isolate_count, size histogram, and
+        modularity.
+
+        This is a READ ONLY: it returns the daemon's cached result (or
+        ``None`` if the daemon hasn't computed it yet → 404, or under chroma /
+        unreachable AGE → 503). It deliberately does NOT POST to trigger the
+        heavy full-graph compute — that's a GB-RAM/minutes spike on the box
+        serving the live palace, gated to an off-peak ops run, not something
+        the eval harness fires. When the cache is empty, Cat 5/8 fall back to
+        the sampled snapshot (clearly labelled sample-only).
+        """
+        body = self._http_get(f"{self.api_url}/graph/structural-stats")
+        if isinstance(body, QueryResult):
+            log.info(
+                "/graph/structural-stats unavailable (%s); Cat 5/8 fall back "
+                "to the sampled snapshot",
+                body.error,
+            )
+            return None
+        if not isinstance(body, dict) or "component_count" not in body:
+            return None
+        return body
+
 
     def _snapshot_via_mcp(self) -> tuple[list[Entity], list[Edge]]:
         """Walk the four MCP read tools and project to (entities, edges).

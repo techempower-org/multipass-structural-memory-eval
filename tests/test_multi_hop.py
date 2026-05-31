@@ -21,10 +21,12 @@ import json
 import pytest
 
 from sme.categories.multi_hop import (
+    _MIN_PAIRED_N,
     Cat2cReport,
     HopBreakdown,
     _build_condition_report,
     _verdict,
+    format_report,
     score_cat2c,
 )
 
@@ -366,3 +368,161 @@ def test_hop_breakdown_dataclass_fields():
     )
     assert bk.hops == 2
     assert bk.correct_count == 2
+
+
+# ── Statistical hygiene: paired bootstrap CIs + BH-FDR (#21) ─────────
+#
+# These test the WIRING of sme/stats into the Cat 2c readout — that
+# deltas get a CI + adjusted p attached, that small samples warn, and
+# that the legacy id-less path is unaffected. The CI/FDR math itself is
+# covered by tests/test_stats.py.
+
+
+def _qid(qid: str, min_hops: int, recall: float, tokens: float = 100.0) -> dict:
+    """A retrieve-results question carrying an id (needed to pair conditions)."""
+    return {
+        "id": qid,
+        "min_hops": min_hops,
+        "recall": recall,
+        "tokens": tokens,
+        "hit": recall > 0,
+    }
+
+
+def _condition(tmp_path, name: str, n: int, hop: int, recall_fn) -> str:
+    qs = [_qid(f"q{i}", hop, recall_fn(i)) for i in range(n)]
+    return _write_retrieve_json(tmp_path / f"{name}.json", qs)
+
+
+def test_paired_ci_attached_to_deltas(tmp_path):
+    """With shared question ids, each recall delta gains a bootstrap CI,
+    a paired n, a raw p, and (after the family correction) an adjusted p."""
+    a = _condition(tmp_path, "a", 40, 2, lambda i: 0.2)
+    b = _condition(tmp_path, "b", 40, 2, lambda i: 0.9)
+    report = score_cat2c(flat_json=a, graph_json=b)
+
+    d = report.delta_B_minus_A[2]
+    assert d["recall_delta_pp"] == pytest.approx(70.0)
+    # CI keys present, bracket the point estimate, n is the shared count.
+    # The point estimate (from aggregated mean_recall) and the CI bounds
+    # (from per-pair diffs) take different float paths, so allow epsilon.
+    eps = 1e-9
+    assert d["ci_low_pp"] - eps <= d["recall_delta_pp"] <= d["ci_high_pp"] + eps
+    assert d["n_paired"] == 40.0
+    assert "p_raw" in d
+    assert "p_adjusted" in d
+    assert d["significant"] == 1.0  # a 70pp lift is unambiguous
+    assert d["low_n"] == 0.0
+    assert report.alpha == 0.05
+
+
+def test_ci_has_real_width_under_per_pair_variance(tmp_path):
+    """A genuine per-question spread (not a constant offset) must produce a
+    non-degenerate CI — the whole point of the bootstrap."""
+    # B beats A on the even-indexed questions only → real variance in diffs.
+    a = _condition(tmp_path, "a", 50, 2, lambda i: 0.0)
+    b = _condition(tmp_path, "b", 50, 2, lambda i: 1.0 if i % 2 == 0 else 0.0)
+    report = score_cat2c(flat_json=a, graph_json=b)
+    d = report.delta_B_minus_A[2]
+    assert d["ci_high_pp"] - d["ci_low_pp"] > 5.0
+
+
+def test_low_n_warns_not_errors(tmp_path):
+    """Below the min paired-n threshold, a delta is flagged low_n (warn),
+    not dropped or errored — CIs are still computed and reported."""
+    n = _MIN_PAIRED_N - 5
+    a = _condition(tmp_path, "a", n, 3, lambda i: 0.2)
+    b = _condition(tmp_path, "b", n, 3, lambda i: 0.8)
+    report = score_cat2c(flat_json=a, graph_json=b)
+    d = report.delta_B_minus_A[3]
+    assert d["n_paired"] == float(n)
+    assert d["low_n"] == 1.0
+    assert "ci_low_pp" in d  # still computed, just flagged
+
+
+def test_bh_fdr_applied_across_whole_family(tmp_path):
+    """The BH correction spans every hop x {B-A, B-C} delta in one report:
+    each delta's p_adjusted is >= its p_raw, and the count of corrected
+    p-values matches the number of deltas with shared ids."""
+    a = _write_retrieve_json(
+        tmp_path / "a.json",
+        [_qid(f"a{i}", 1, 0.5) for i in range(40)]
+        + [_qid(f"b{i}", 2, 0.2) for i in range(40)],
+    )
+    b = _write_retrieve_json(
+        tmp_path / "b.json",
+        [_qid(f"a{i}", 1, 0.55) for i in range(40)]
+        + [_qid(f"b{i}", 2, 0.8) for i in range(40)],
+    )
+    c = _write_retrieve_json(
+        tmp_path / "c.json",
+        [_qid(f"a{i}", 1, 0.5) for i in range(40)]
+        + [_qid(f"b{i}", 2, 0.75) for i in range(40)],
+    )
+    report = score_cat2c(flat_json=a, graph_json=b, no_structure_json=c)
+
+    deltas = list(report.delta_B_minus_A.values()) + list(
+        report.delta_B_minus_C.values()
+    )
+    assert deltas, "expected B-A and B-C deltas"
+    for d in deltas:
+        assert "p_adjusted" in d
+        assert d["p_adjusted"] >= d["p_raw"] - 1e-12
+
+
+def test_no_ci_when_conditions_share_no_ids(tmp_path):
+    """If A and B annotate the same hop but with disjoint question ids, no
+    pairing is possible — the delta is reported bare, no CI keys, no crash."""
+    a = _write_retrieve_json(tmp_path / "a.json", [_qid("x1", 2, 0.5)])
+    b = _write_retrieve_json(tmp_path / "b.json", [_qid("y1", 2, 0.8)])
+    report = score_cat2c(flat_json=a, graph_json=b)
+    d = report.delta_B_minus_A[2]
+    assert d["recall_delta_pp"] == pytest.approx(30.0)
+    assert "ci_low_pp" not in d
+    assert report.alpha is None  # nothing to correct
+
+
+def test_legacy_idless_questions_unaffected(tmp_path):
+    """The pre-#21 retrieve JSON shape had no 'id' field. Deltas must still
+    compute from mean_recall; CIs simply don't attach (graceful fallback)."""
+    a = _write_retrieve_json(tmp_path / "a.json", [_q(2, 0.5, 100)])
+    b = _write_retrieve_json(tmp_path / "b.json", [_q(2, 0.8, 100)])
+    report = score_cat2c(flat_json=a, graph_json=b)
+    d = report.delta_B_minus_A[2]
+    assert d["recall_delta_pp"] == pytest.approx(30.0)
+    assert "ci_low_pp" not in d
+
+
+def test_to_dict_carries_ci_and_alpha(tmp_path):
+    """The JSON readout surfaces the CI fields and the family alpha."""
+    a = _condition(tmp_path, "a", 40, 2, lambda i: 0.2)
+    b = _condition(tmp_path, "b", 40, 2, lambda i: 0.9)
+    report = score_cat2c(flat_json=a, graph_json=b)
+    d = report.to_dict()
+    assert d["alpha"] == 0.05
+    delta = d["delta_B_minus_A"]["2"]
+    for key in ("ci_low_pp", "ci_high_pp", "p_raw", "p_adjusted", "n_paired"):
+        assert key in delta
+    # Whole thing is JSON-serializable.
+    json.loads(json.dumps(d))
+
+
+def test_format_report_renders_ci_bracket(tmp_path):
+    """The text scorecard prints the CI bracket + significance marker on
+    delta rows when CIs were computed."""
+    a = _condition(tmp_path, "a", 40, 2, lambda i: 0.2)
+    b = _condition(tmp_path, "b", 40, 2, lambda i: 0.9)
+    report = score_cat2c(flat_json=a, graph_json=b)
+    text = format_report(report)
+    assert "95% CI" in text
+    assert "p_adj=" in text
+    assert "n=40" in text
+
+
+def test_format_report_marks_low_n_rows(tmp_path):
+    n = _MIN_PAIRED_N - 5
+    a = _condition(tmp_path, "a", n, 2, lambda i: 0.2)
+    b = _condition(tmp_path, "b", n, 2, lambda i: 0.8)
+    report = score_cat2c(flat_json=a, graph_json=b)
+    text = format_report(report)
+    assert f"n<{_MIN_PAIRED_N}" in text

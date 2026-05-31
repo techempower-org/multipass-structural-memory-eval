@@ -55,6 +55,12 @@ hindsight = [
 ]
 mem0 = [
     "mem0ai>=0.1",
+    # mem0's ollama LLM/embedder providers import the `ollama` client lazily
+    # and, if it's absent, fall back to an interactive `input()` install prompt
+    # that EOFs in any non-interactive/bench run. Pin it so the local-only
+    # ($0-cloud) phi4 + nomic-embed-text stack works headless. Verified against
+    # mem0ai 2.0.4.
+    "ollama>=0.3",
 ]
 latency = [
     "hdrhistogram>=0.10",

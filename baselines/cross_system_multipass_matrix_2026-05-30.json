@@ -744,7 +744,8 @@
       "sme_source": {
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/mempalace_cat4_realkg_exact_2026-05-31.json (+ scratch FINAL-NUMBERS.md for Cat4/5/8 finals; cat3/6 emergent baselines; docs/benchmarks/2026-05-30-multipass-cat-matrix.md for Cat1/2c/7/9a)",
         "source_type": "sme_measured"
-      }
+      },
+      "arch_category": "verbatim-first"
     },
     "omega": {
       "status": "benched_on_multipass",
@@ -775,7 +776,8 @@
       "sme_source": {
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/longmemeval_omega_strat150_r5_2026-05-30.json (+ omega_good_dog_cat{3,4,5,6,8} baselines; docs/benchmarks/2026-05-30-omega-longmemeval-s.md)",
         "source_type": "sme_measured"
-      }
+      },
+      "arch_category": "hybrid"
     },
     "hindsight": {
       "status": "benched_on_multipass",
@@ -811,7 +813,8 @@
       "sme_source": {
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/benchmarks/2026-05-30-hindsight-longmemeval-s.md (+ baselines/omega_cat9b...; Iris #220/#184)",
         "source_type": "sme_measured"
-      }
+      },
+      "arch_category": "extraction"
     },
     "mem0": {
       "status": "benched_on_multipass",
@@ -847,7 +850,8 @@
       "sme_source": {
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/docs/mem0_adapter.md (+ tests/test_mem0_live.py; Solara #185/#221)",
         "source_type": "sme_measured"
-      }
+      },
+      "arch_category": "extraction"
     },
     "flat": {
       "status": "benched_on_multipass",
@@ -878,7 +882,8 @@
       "sme_source": {
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_flat_condA_2026-05-30.json (+ baselines/locomo10_flat_e2e_stratified_2026-05-29.json)",
         "source_type": "sme_measured"
-      }
+      },
+      "arch_category": "baseline-control"
     },
     "rlm": {
       "status": "benched_on_multipass",
@@ -909,7 +914,8 @@
       "sme_source": {
         "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_rlm_qwen7b_20260426.json (+ ...rlm_llama70b...; docs/benchmarks/2026-05-30-multipass-cat-matrix.md Cat-9 note)",
         "source_type": "sme_measured"
-      }
+      },
+      "arch_category": "baseline-control"
     },
     "full_context": {
       "status": "benched_on_multipass",
@@ -940,7 +946,8 @@
       "sme_source": {
         "source": null,
         "source_type": "wired_not_benched"
-      }
+      },
+      "arch_category": "compile-upstream"
     },
     "karpathy_compiled": {
       "status": "benched_on_multipass",
@@ -971,7 +978,8 @@
       "sme_source": {
         "source": null,
         "source_type": "wired_not_benched"
-      }
+      },
+      "arch_category": "compile-upstream"
     },
     "longhand": {
       "status": "bench_in_flight",
@@ -1003,7 +1011,8 @@
       "sme_source": {
         "source": null,
         "source_type": "bench_in_flight"
-      }
+      },
+      "arch_category": "verbatim-first"
     },
     "postgres_ingest": {
       "status": "bench_in_flight",
@@ -1035,7 +1044,8 @@
       "sme_source": {
         "source": null,
         "source_type": "bench_in_flight"
-      }
+      },
+      "arch_category": "verbatim-first"
     },
     "ladybugdb": {
       "status": "bench_in_flight",
@@ -1067,7 +1077,8 @@
       "sme_source": {
         "source": null,
         "source_type": "bench_in_flight"
-      }
+      },
+      "arch_category": "verbatim-first"
     },
     "mem0_platform_v3": {
       "status": "published_field_only",
@@ -1104,7 +1115,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "extraction"
     },
     "mastra": {
       "status": "published_field_only",
@@ -1136,7 +1148,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "true_memory_pro": {
       "status": "published_field_only",
@@ -1173,7 +1186,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "verbatim-first"
     },
     "true_memory_base": {
       "status": "published_field_only",
@@ -1204,7 +1218,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "verbatim-first"
     },
     "supermemory": {
       "status": "published_field_only",
@@ -1236,7 +1251,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "everos_evermind": {
       "status": "published_field_only",
@@ -1268,7 +1284,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "engram_paper": {
       "status": "published_field_only",
@@ -1300,7 +1317,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "extraction"
     },
     "zep_graphiti": {
       "status": "published_field_only",
@@ -1332,7 +1350,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "hybrid"
     },
     "celiums": {
       "status": "published_field_only",
@@ -1364,7 +1383,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "memmachine": {
       "status": "published_field_only",
@@ -1396,7 +1416,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "memobase": {
       "status": "published_field_only",
@@ -1428,7 +1449,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "agentmemory": {
       "status": "published_field_only",
@@ -1460,7 +1482,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "retrieval"
     },
     "engram_2": {
       "status": "published_field_only",
@@ -1492,7 +1515,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "retrieval"
     },
     "ai_memory": {
       "status": "published_field_only",
@@ -1524,7 +1548,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "retrieval"
     },
     "mcp_memory_service": {
       "status": "published_field_only",
@@ -1556,7 +1581,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "retrieval"
     },
     "open_brain_ob1": {
       "status": "no_published_data",
@@ -1588,7 +1614,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "claude_mem": {
       "status": "no_published_data",
@@ -1620,7 +1647,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "letta_memgpt": {
       "status": "no_published_data",
@@ -1652,7 +1680,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "cognee": {
       "status": "no_published_data",
@@ -1684,7 +1713,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "caviraoss_openmemory": {
       "status": "no_published_data",
@@ -1716,7 +1746,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "engramx_nickcirv": {
       "status": "no_published_data",
@@ -1748,7 +1779,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     },
     "iai_mcp": {
       "status": "no_published_data",
@@ -1780,7 +1812,8 @@
       "sme_source": {
         "source": null,
         "source_type": "not_benched"
-      }
+      },
+      "arch_category": "unspecified"
     }
   },
   "field_status_groups": {
@@ -1835,5 +1868,14 @@
     "mempalace_upstream_controversy": "Upstream 96.6% R@5 is a ChromaDB baseline (no palace features; enabling them HURTS: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%); LoCoMo 100% is structurally guaranteed at top-50. The fork publishes 0.984 R@5 held-out (no E2E QA). (survey §'MemPalace Upstream Benchmark Controversy')"
   },
   "field_roster_note": "2026-05-31 (cassia-2, #165): FULL-FIELD view. Every system in the survey (memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md) is a row, with TWO column-groups NEVER conflated: published_field = THEIR self-reported survey claims (verbatim, cited, answer-model + verification labeled, 'NOT SME-measured'); sme_multipass = OUR harness readings (the `categories` block) ONLY for benched systems, 'not-benched' elsewhere. Status groups: benched_on_multipass (6 + the 8-row matrix systems), bench_in_flight (longhand/postgres_ingest/ladybugdb via Twilight #164), published_field_only (survey numbers, no SME adapter), no_published_data (in the field, no numbers). NO fabrication: published cells are verbatim survey, sme cells are real or not-benched. Carries comparability_caveats (R@K≠QA, ~24pp answer-model swing, platform-vs-OSS, LoCoMo-subset, judge-variation) for luna-2 callouts. Epic #234.",
-  "magic_links_note": "2026-05-31 (cassia-2, #165 addendum): per-cell source + source_type for 'magic links'. published_field metric cells = {value, source: survey-cited URL, source_type: published_external} -> link OUT to the system's leaderboard/paper. sme_multipass measured cells carry source = our GitHub blob path + source_type: sme_measured -> link to the artifact that holds the reading. not-benched / not-run / no-data cells have source: null (rendered un-linked). Each system also carries `architecture` (grounded in survey/our findings; 'unspecified' where the survey states none — NO fabricated architecture labels) for luna-2's architecture filter. GH blob base: https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/"
+  "magic_links_note": "2026-05-31 (cassia-2, #165 addendum): per-cell source + source_type for 'magic links'. published_field metric cells = {value, source: survey-cited URL, source_type: published_external} -> link OUT to the system's leaderboard/paper. sme_multipass measured cells carry source = our GitHub blob path + source_type: sme_measured -> link to the artifact that holds the reading. not-benched / not-run / no-data cells have source: null (rendered un-linked). Each system also carries `architecture` (grounded in survey/our findings; 'unspecified' where the survey states none — NO fabricated architecture labels) for luna-2's architecture filter. GH blob base: https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/",
+  "arch_category_legend": {
+    "verbatim-first": "stores content verbatim, retrieves+synthesizes (low ingest cost)",
+    "extraction": "runs an LLM fact-extraction per ingest (throughput-bound)",
+    "hybrid": "graph + vector/embed structure combined",
+    "retrieval": "retrieval-only systems reporting R@K, no E2E QA pipeline",
+    "compile-upstream": "context-construction baseline (Karpathy D1/D2)",
+    "baseline-control": "SME-internal control / diagnostic arm, not a product",
+    "unspecified": "the survey states no architecture; not assigned (no fabrication)"
+  }
 }

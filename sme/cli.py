@@ -531,6 +531,17 @@ def cmd_cat8(args: argparse.Namespace) -> int:
                 d = json.load(f)
             cat7["graph_mean_recall"] = d.get("summary", {}).get("mean_recall")
 
+    # Introspection: ask the adapter whether the system can self-report its
+    # own ontology drift. Most adapters return None (no self-report surface),
+    # which keeps introspection at 0.0. The MemPalace daemon adapter fetches
+    # palace-daemon's GET /ontology here.
+    introspection_report = None
+    if not args.no_introspection:
+        try:
+            introspection_report = adapter.get_introspection_report()
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("introspection report fetch failed: %s", e)
+
     library = load_claim_library()
     report = score_cat8(
         implied,
@@ -539,6 +550,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         health,
         cat7_results=cat7,
         claim_library=library,
+        introspection_report=introspection_report,
     )
 
     # Render
@@ -634,10 +646,24 @@ def cmd_cat8(args: argparse.Namespace) -> int:
     print("Introspection")
     print(f"   available checks: {len(report.introspection_available)}")
     print(f"   score:            {report.introspection_score:.1%}")
-    print(
-        "   (most systems have no health-check APIs for type drift, "
-        "schema alignment, or self-testing — this is expected)"
-    )
+    if report.introspection_available:
+        for dim in report.introspection_available:
+            print(f"     ✓ {dim}")
+        if introspection_report:
+            drift = introspection_report.get("drift") or {}
+            if "drift_score" in drift:
+                print(f"   self-reported drift_score: {drift['drift_score']:.1%}")
+            absent = drift.get("declared_edge_types_absent")
+            if absent:
+                print(
+                    "   declared edge types absent at KG layer: "
+                    + ", ".join(absent)
+                )
+    else:
+        print(
+            "   (most systems have no self-report API for type drift, "
+            "schema alignment, or self-testing — this is expected)"
+        )
 
     if args.json:
         Path(args.json).write_text(
@@ -1967,6 +1993,13 @@ def main(argv: list[str] | None = None) -> int:
         "--cat7-graph",
         metavar="JSON",
         help="retrieve-results JSON for the system under test (Condition B).",
+    )
+    c8.add_argument(
+        "--no-introspection",
+        action="store_true",
+        help="skip the adapter self-report (GET /ontology for the daemon "
+        "adapter). Introspection then scores 0.0 as if no self-report "
+        "surface existed. Use for pure external scoring or offline runs.",
     )
     c8.add_argument("--json", metavar="PATH", help="write full report as JSON")
     c8.set_defaults(func=cmd_cat8)

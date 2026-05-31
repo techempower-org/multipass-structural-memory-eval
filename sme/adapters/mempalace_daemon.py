@@ -517,5 +517,38 @@ class MemPalaceDaemonAdapter(SMEAdapter):
             ),
         }
 
+    def get_introspection_report(self) -> Optional[dict]:
+        """Fetch the daemon's own declared-vs-effective ontology drift.
+
+        Consumes palace-daemon's ``GET /ontology`` (the introspection
+        surface added for SME Cat 8). The daemon reports what it actually
+        holds — populated AGE relationship labels, the MENTIONS ``etype``
+        distribution, entity/triple/mention counts — alongside the declared
+        MemPalace ontology and the drift between them. That self-report is
+        what lets Cat 8's introspection sub-test score above 0: the system
+        can now audit its own ontology rather than relying on SME to infer
+        the gap externally.
+
+        Returns ``None`` (preserving the introspection-0.0 baseline) when:
+          * the daemon predates ``/ontology`` (404),
+          * the backend is chroma / AGE is unreachable (503),
+          * any connection error occurs.
+
+        ``_http_get`` returns a ``QueryResult`` on any non-2xx; we treat that
+        sentinel as "no introspection available" rather than surfacing an
+        error, so an older daemon simply scores 0 like any other system
+        without the capability.
+        """
+        body = self._http_get(f"{self.api_url}/ontology")
+        if isinstance(body, QueryResult):
+            log.info(
+                "/ontology unavailable (%s); introspection scores 0",
+                body.error,
+            )
+            return None
+        if not isinstance(body, dict) or "drift" not in body:
+            return None
+        return body
+
     def close(self) -> None:
         pass

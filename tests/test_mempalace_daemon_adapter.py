@@ -771,3 +771,85 @@ def test_ingest_corpus_raises_with_helpful_message(monkeypatch, tmp_path):
     a = _adapter(monkeypatch, tmp_path)
     with pytest.raises(NotImplementedError, match="diagnostic-only"):
         a.ingest_corpus([])
+
+
+# --- introspection (GET /ontology) -----------------------------------
+
+
+_ONTOLOGY_BODY = {
+    "declared": {
+        "entity_types": ["wing", "hall", "room", "drawer", "closet", "tunnel"],
+        "edge_types": ["hall", "tunnel", "member_of"],
+    },
+    "effective": {
+        "edge_types": ["MENTIONS"],
+        "entity_kinds": {"PROPER_NOUN": 12000, "TECH_IDENT": 7000},
+        "entities": 267519,
+        "triples": 0,
+        "mentions": 5580000,
+    },
+    "drift": {
+        "declared_edge_types_present": [],
+        "declared_edge_types_absent": ["hall", "tunnel", "member_of"],
+        "entity_kinds_undeclared": ["PROPER_NOUN", "TECH_IDENT"],
+        "structure_claim": "hierarchical",
+        "structure_observed": "not_computed",
+        "drift_score": 1.0,
+    },
+}
+
+
+def test_get_introspection_report_returns_ontology_payload(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """The adapter fetches GET /ontology and returns the daemon's
+    declared-vs-effective drift report verbatim."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": _ONTOLOGY_BODY,
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    report = a.get_introspection_report()
+    assert report is not None
+    assert report["drift"]["drift_score"] == 1.0
+    assert report["effective"]["entity_kinds"]["PROPER_NOUN"] == 12000
+
+
+def test_get_introspection_report_none_on_404(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """An older daemon without /ontology returns 404 → None, preserving the
+    introspection-0.0 baseline (system scores like any other without the
+    capability)."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": urllib.error.HTTPError(
+            "http://daemon:8085/ontology", 404, "Not Found", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    assert a.get_introspection_report() is None
+
+
+def test_get_introspection_report_none_on_503(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Under the chroma backend / unreachable AGE the daemon answers 503 →
+    None, so the chroma access path scores introspection 0.0 honestly."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": urllib.error.HTTPError(
+            "http://daemon:8085/ontology", 503, "Service Unavailable", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    assert a.get_introspection_report() is None
+
+
+def test_get_introspection_report_none_on_malformed_body(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """A 200 response missing the 'drift' key isn't a usable introspection
+    report → None rather than a half-credited score."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": {"declared": {}, "effective": {}},
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    assert a.get_introspection_report() is None

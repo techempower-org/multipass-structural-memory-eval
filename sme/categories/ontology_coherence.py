@@ -348,6 +348,7 @@ def score_cat8(
     cat3_results: Optional[dict] = None,
     cat2b_results: Optional[dict] = None,
     claim_library: Optional[dict] = None,
+    introspection_report: Optional[dict] = None,
 ) -> Cat8Report:
     """Produce a Cat 8 scorecard.
 
@@ -355,6 +356,15 @@ def score_cat8(
     ``sme-eval retrieve --json``. When provided, claims matching the
     "improves retrieval" pattern are scored against it. Otherwise
     those claims are marked "untestable (no Cat 7 data)".
+
+    introspection_report, when provided, is the system's OWN
+    declared-vs-effective ontology drift (from
+    ``SMEAdapter.get_introspection_report`` — e.g. palace-daemon's
+    ``GET /ontology``). It drives the introspection sub-test: the score is
+    the fraction of self-report capability dimensions the system actually
+    populates, never a hand-set number. ``None`` (the default, and what
+    every system without a self-report surface returns) keeps introspection
+    at 0.0 — meaning "this system can't audit its own ontology."
     """
     report = Cat8Report()
 
@@ -561,14 +571,63 @@ def score_cat8(
 
     # --- Introspection --------------------------------------
 
-    # Most systems don't self-report drift. We check for the presence
-    # of health-check attributes on the adapter — this is wired at
-    # the CLI level. The scoring module reports 0 unless evidence
-    # is passed in.
-    report.introspection_available = []
-    report.introspection_score = 0.0
+    # Most systems don't self-report drift, so the default is 0.0 — a
+    # meaningful zero ("can't audit its own ontology"), distinct from a bad
+    # graph. When an introspection_report is passed in (the adapter exposed a
+    # self-report surface), credit the capability dimensions it genuinely
+    # populates. The score is evidence-driven, never hand-set.
+    report.introspection_available, report.introspection_score = (
+        _score_introspection(introspection_report)
+    )
 
     return report
+
+
+# ── Introspection scorer ─────────────────────────────────────────────
+
+
+# The three self-report capability dimensions a system can expose about its
+# own ontology. A system is credited 1/3 per dimension it actually populates,
+# so the introspection score is in {0, 1/3, 2/3, 1} and reflects a real
+# capability rather than a fabricated number.
+_INTROSPECTION_DIMENSIONS = (
+    "effective_entity_kinds",
+    "effective_edge_vocabulary",
+    "declared_vs_effective_drift",
+)
+
+
+def _score_introspection(report: Optional[dict]) -> tuple[list[str], float]:
+    """Credit the self-report dimensions an introspection report populates.
+
+    Expects the ``GET /ontology`` shape (declared / effective / drift). Each
+    of the three dimensions counts iff the report carries non-empty evidence
+    for it:
+
+      * effective_entity_kinds       — ``effective.entity_kinds`` is non-empty
+      * effective_edge_vocabulary    — ``effective.edge_types`` is non-empty
+      * declared_vs_effective_drift  — ``drift`` carries a ``drift_score``
+
+    Returns ``(available_dimensions, score)`` where score = count / 3.
+    A missing or malformed report scores 0.0 with an empty list — identical
+    to a system that has no self-report surface at all.
+    """
+    if not isinstance(report, dict):
+        return [], 0.0
+
+    effective = report.get("effective") or {}
+    drift = report.get("drift") or {}
+    available: list[str] = []
+
+    if isinstance(effective, dict) and effective.get("entity_kinds"):
+        available.append("effective_entity_kinds")
+    if isinstance(effective, dict) and effective.get("edge_types"):
+        available.append("effective_edge_vocabulary")
+    if isinstance(drift, dict) and "drift_score" in drift:
+        available.append("declared_vs_effective_drift")
+
+    score = len(available) / len(_INTROSPECTION_DIMENSIONS)
+    return available, score
 
 
 # ── Hall usage scorer (MemPalace-specific detail) ────────────────

@@ -858,3 +858,89 @@ def test_score_cat8_default_introspection_is_zero(empty_claim_library):
     )
     assert report.introspection_score == 0.0
     assert report.introspection_available == []
+
+
+# ── Two-graph claim routing (#147 follow-up) ───────────────────────
+
+
+def _hierarchical_ontology(graph: str | None) -> ImpliedOntology:
+    claim = {
+        "id": "hierarchical_organization",
+        "text": "memories organized hierarchically into wings > rooms",
+    }
+    if graph is not None:
+        claim["graph"] = graph
+    return ImpliedOntology(
+        version="t", source="declared", structural_claims=[claim]
+    )
+
+
+def _disconnected_pairs(prefix: str, n: int) -> tuple[list, list]:
+    """n disjoint 2-node components → high modularity (clear community split)."""
+    ents, edges = [], []
+    for i in range(n):
+        a, b = f"{prefix}{i}a", f"{prefix}{i}b"
+        ents += [_ent(a, "kg:entity"), _ent(b, "kg:entity")]
+        edges.append(_edge(a, b, "depends_on"))
+    return ents, edges
+
+
+def test_hierarchical_claim_routes_to_kg_graph():
+    """A `graph: kg` hierarchical claim is scored over the KG snapshot, not the
+    structural one. Mirrors the headline: a near-complete (low-modularity)
+    structural scaffold would FAIL, but a well-clustered KG PASSes."""
+    lib = load_claim_library()
+    ont = _hierarchical_ontology("kg")
+
+    # Structural snapshot: one dense blob → low modularity (would FAIL).
+    s_ents = [_ent(f"s{i}", "wing") for i in range(8)]
+    s_edges = [
+        _edge(f"s{i}", f"s{j}", "tunnel")
+        for i in range(8) for j in range(i + 1, 8)
+    ]
+    # KG snapshot: many disjoint communities → high modularity (PASS).
+    kg_ents, kg_edges = _disconnected_pairs("k", 30)
+
+    report = score_cat8(
+        ont, s_ents, s_edges, {},
+        claim_library=lib, kg_entities=kg_ents, kg_edges=kg_edges,
+    )
+    claim = next(c for c in report.claims if c.claim_id == "hierarchical_organization")
+    assert claim.metrics.get("graph") == "kg"
+    # Modularity came from the KG snapshot (high), so the claim PASSES.
+    assert claim.status == "pass"
+    assert claim.metrics["modularity"] > 0.5
+
+
+def test_hierarchical_claim_kg_requested_but_missing_falls_back():
+    """`graph: kg` with no KG snapshot supplied → scored over the structural
+    snapshot, with a note flagging the fallback (degrade, don't lie)."""
+    lib = load_claim_library()
+    ont = _hierarchical_ontology("kg")
+    kg_ents, kg_edges = _disconnected_pairs("s", 30)  # used as the PRIMARY here
+    report = score_cat8(ont, kg_ents, kg_edges, {}, claim_library=lib)
+    claim = next(c for c in report.claims if c.claim_id == "hierarchical_organization")
+    assert "no KG snapshot supplied" in claim.notes
+    # Still computed (over the primary) — high modularity → pass.
+    assert claim.metrics["modularity"] > 0.5
+
+
+def test_structural_claim_stays_on_structural_snapshot():
+    """A `graph: structural` (or untagged) claim ignores the KG snapshot."""
+    lib = load_claim_library()
+    ont = _hierarchical_ontology("structural")
+    # Primary (structural): well-clustered → pass.
+    s_ents, s_edges = _disconnected_pairs("s", 30)
+    # KG snapshot: one dense blob → low modularity. Must NOT be used.
+    kg_ents = [_ent(f"k{i}", "kg:entity") for i in range(8)]
+    kg_edges = [
+        _edge(f"k{i}", f"k{j}", "depends_on")
+        for i in range(8) for j in range(i + 1, 8)
+    ]
+    report = score_cat8(
+        ont, s_ents, s_edges, {},
+        claim_library=lib, kg_entities=kg_ents, kg_edges=kg_edges,
+    )
+    claim = next(c for c in report.claims if c.claim_id == "hierarchical_organization")
+    assert claim.metrics.get("graph") == "structural"
+    assert claim.status == "pass"  # scored over the well-clustered structural graph

@@ -3162,47 +3162,86 @@
         </div>
       </article>
 
-      <!-- #103 — SME-side cross-encoder rerank A/B (PENDING Ember corpus-seeded run) -->
+      <!-- #103 — SME-side cross-encoder rerank A/B (corpus-seeded; rerank neutral-to-negative) -->
       <article class="bench">
         <div class="bench-head">
           <div>
             <span class="eyebrow no-rule">#103 &middot; cross-encoder rerank A/B (SME side)</span>
-            <h3>A clean exit code <em>masked a near-empty corpus</em></h3>
+            <h3>Cross-encoder rerank is <em>neutral-to-negative</em> &mdash; keep it off</h3>
           </div>
-          <span class="bench-pill running">pending re-run &middot; 2026-05-31</span>
+          <span class="bench-pill live">verified &middot; 2026-05-31</span>
         </div>
 
         <dl class="bench-meta">
           <div><dt>Probe set</dt><dd>200 git-derived probes (same set as the #162 fusion A/B)</dd></div>
-          <div><dt>Method</dt><dd>daemon <code>/search/hybrid</code> per-request <code>rerank</code> flag, read-only</dd></div>
-          <div><dt>Status</dt><dd>BLOCKED &mdash; target corpus absent from prod familiar</dd></div>
+          <div><dt>Substrate</dt><dd>scratch daemon <em>seeded</em> with the mempalace git/docs corpus</dd></div>
+          <div><dt>Method</dt><dd>daemon <code>/search/hybrid</code> per-request <code>rerank</code> flag, read-only A/B</dd></div>
         </dl>
+
+        <div class="bench-numbers">
+          <div class="bench-num">
+            <div class="label">R@10 (all three legs)</div>
+            <div class="value"><em>0.60</em></div>
+            <div class="sub">identical &mdash; rerank reorders, doesn&rsquo;t recall more</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">MRR &Delta; (rerank on)</div>
+            <div class="value"><em>&minus;0.6pp</em></div>
+            <div class="sub">0.299 off &rarr; 0.293 TinyBERT &mdash; slightly hurt</div>
+          </div>
+          <div class="bench-num">
+            <div class="label">bigger model (L-12)</div>
+            <div class="value"><em>worse &amp; 3&times;</em></div>
+            <div class="sub">MRR 0.284, p50 1523 ms vs 475 ms</div>
+          </div>
+        </div>
+
+        <table class="bench-tbl" aria-label="Corpus-seeded rerank A/B: rerank off vs TinyBERT-L-2 (daemon default) vs MiniLM-L-12, n=200 git-derived probes">
+          <thead>
+            <tr><th>leg</th><th class="num">MRR</th><th class="num">R@5</th><th class="num">R@10</th><th class="num">found</th><th class="num">p50</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>rerank OFF</td><td class="num">0.299</td><td class="num">0.510</td><td class="num">0.60</td><td class="num">120/200</td><td class="num">555 ms</td></tr>
+            <tr><td>TinyBERT-L-2-v2 (daemon default)</td><td class="num">0.293</td><td class="num">0.515</td><td class="num">0.60</td><td class="num">120/200</td><td class="num">475 ms</td></tr>
+            <tr class="total"><td>MiniLM-L-12-v2 (bigger)</td><td class="num">0.284</td><td class="num">0.505</td><td class="num">0.60</td><td class="num">120/200</td><td class="num">1523 ms</td></tr>
+          </tbody>
+        </table>
 
         <p class="bench-prose">
           This is the <strong>SME-side</strong> rerank A/B &mdash; distinct from the
-          palace-daemon FlashRank A/B above (a 12-query live run). It ran clean
-          (EXIT=0, n=200, both legs) but is <strong>not a publishable rerank
-          verdict</strong>: the 200 git-derived probes target mempalace&rsquo;s own
-          git/docs corpus, and that corpus is <strong>no longer present in prod
-          familiar</strong> (now conversational-only). Only <strong>17/200</strong>
-          probe targets appeared in the top-10 (Recall@10 = 0.085); with the relevant
-          set absent, the rerank has nothing to reorder, so the delta (R@5 +0.005,
-          MRR +0.0073) is corpus-floor noise. This is a <em>measurement-validity</em>
-          finding &mdash; a clean exit masking a near-empty corpus &mdash; not a
-          failed run.
+          palace-daemon FlashRank known-item A/B above (a 12-query run that found a
+          +15&ndash;23% MRR lift on a different, answer-buried query shape). On a
+          <strong>corpus-seeded scratch daemon</strong> &mdash; the git/docs targets
+          re-ingested so the relevant set is actually present &mdash; the verdict is
+          the opposite: <strong>cross-encoder rerank is neutral-to-slightly-negative.</strong>
+          R@10 is <strong>identical at 0.60</strong> across all three legs (rerank only
+          reorders the top-K; it cannot recall what vector retrieval missed), MRR is
+          <em>slightly hurt</em> by rerank (0.299&rarr;0.293), and the bigger
+          <code>MiniLM-L-12-v2</code> is <strong>both worse on MRR and 3&times; the
+          latency</strong> (1523 ms vs 475 ms p50). Recommendation:
+          <strong>keep rerank OFF / opt-in</strong>, do not promote the bigger model.
+          This is the <strong>4th independent reading</strong> that the
+          structural/rerank layer doesn&rsquo;t lift retrieval &mdash; the vector
+          backbone is the lever (with the age-fusion null &times;3: Cat 2c/7 graph-RRF
+          tax, #91 age-fusion R@5, and the #111 graph-leg-inert finding).
         </p>
 
         <div class="caveat">
-          <span class="label">PENDING &middot; corpus-seeded re-run in flight</span>
-          The real rerank number will come from a <strong>corpus-seeded scratch
-          palace</strong> (seed the git/docs targets so the relevant set is present,
-          then A/B rerank on/off). That run is in progress; this card will be
-          filled with the seeded numbers when it lands. Until then: <strong>do not
-          cite a rerank verdict from the blocked run.</strong>
+          <span class="label">both halves of the story &middot; a measurement-validity catch, then the real number</span>
+          The first attempt (#225, on prod familiar) <strong>ran clean but measured
+          nothing</strong>: the 200 git-derived probes target mempalace&rsquo;s own
+          git/docs corpus, which is <strong>no longer present in conversational-only
+          prod familiar</strong> &mdash; only 17/200 targets surfaced (Recall@10 0.085),
+          so the rerank had nothing to reorder. A clean exit code masked a near-empty
+          corpus; that delta was corpus-floor noise, not a verdict. <strong>This
+          corpus-seeded re-run supersedes it</strong> with the relevant set actually
+          present. (It also corrects the #225 model label: <code>ms-marco-MiniLM-L-6-v2</code>
+          was never in the FlashRank build &mdash; #225&rsquo;s rerank leg actually ran
+          <code>TinyBERT-L-2-v2</code>, the same nano model that is the daemon default.)
         </div>
 
         <div class="bench-foot">
-          <span>Source &middot; baselines/ce_rerank_ab_2026-05-30.json (status: blocked_corpus_mismatch) &middot; docs/benchmarks/2026-05-30-ce-rerank-ab.md</span>
+          <span>Source &middot; baselines/ce_rerank_corpus_seeded_2026-05-31.json (corpus-seeded; supersedes the blocked baselines/ce_rerank_ab_2026-05-30.json) &middot; docs/benchmarks/2026-05-30-ce-rerank-ab.md</span>
           <a href="https://github.com/techempower-org/multipass-structural-memory-eval/issues/103">techempower-org/multipass-structural-memory-eval#103</a>
         </div>
       </article>

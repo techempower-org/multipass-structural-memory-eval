@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-31
 **Author:** Nebula (SME dream-team), synthesizing the full campaign
-**Status:** DRAFT — two sets of numbers are TODO-FILL pending in-flight runs (the ai-memory / agentmemory R@5 wave under #234/#177, and the bootstrap-CI / FDR significance pass under #21). Marked clearly inline. The synthesis is otherwise complete and every number traces to a committed `baselines/` artifact.
+**Status:** DRAFT — one TODO-FILL remains: the ai-memory / agentmemory R@5 wave (under #234/#177, benching now), marked clearly inline in §3.1/§6. The bootstrap-CI / FDR significance pass (#21) has **landed** and is folded into §8 (+ back-referenced from §5.2/§5.3). The synthesis is otherwise complete and every number traces to a committed `baselines/` artifact.
 **Posture:** Diagnostic, not a leaderboard. Every cell is a controlled reading of one substrate under stated conditions. We never blur *measured* (our harness) against *claimed* (a vendor's self-report), and we never mix R@K retrieval recall with end-to-end QA accuracy.
 
 ---
@@ -13,9 +13,9 @@ Over this campaign SME — the Structural Memory Evaluation framework — was dr
 
 1. **Retrieval is near-ceiling; the reader is the bottleneck.** On LongMemEval-S, oracle retrieval R@5 is 0.974 and the deployed substrate reaches R@5 ≈ 0.927 — yet end-to-end QA tops out far lower because the *reader* (retrieve → synthesize → answer) loses the points, not the *retriever*. Widening the retrieval window from top-5 to top-20 buys **+17.3pp QA** (0.567 → 0.740) and then plateaus; the residual gap to the 0.868 reader ceiling is synthesis, not retrieval.
 
-2. **Four independent structural levers came back NULL — the vector backbone is the lever.** Age-fusion (the AGE knowledge-graph re-ranker) showed no significant retrieval gain on *three* corpora (LongMemEval-S, LoCoMo, jp-realm); the hybrid retriever's **graph leg is inert** on the golden query set (hybrid ≡ union, byte-identical); and **cross-encoder reranking is neutral-to-negative** on a corpus-complete daemon (R@10 flat at 0.60, MRR drops, the big CE is 3× slower). The consistent message across all four: the **dense vector + BM25 backbone already does the work**, and the structural add-ons are targeted tools, not blanket improvements.
+2. **Four independent structural levers came back NULL — the vector backbone is the lever.** Age-fusion (the AGE knowledge-graph re-ranker) showed no significant retrieval gain on *three* corpora (LongMemEval-S, LoCoMo, jp-realm) — the two with paired baselines are **CI-confirmed non-significant** under FDR correction (§8); the hybrid retriever's **graph leg is inert** on the golden query set (hybrid ≡ union, byte-identical); and **cross-encoder reranking is neutral-to-negative** on a corpus-complete daemon (R@10 flat at 0.60, MRR drops, the big CE is 3× slower). The consistent message across all four: the **dense vector + BM25 backbone already does the work**, and the structural add-ons are targeted tools, not blanket improvements.
 
-3. **Storage substrate is equivalent on retrieval and QA — the engine isn't the variable.** Swapping ChromaDB for postgres+pgvector while holding embedding, corpus, reader, and judge fixed leaves both retrieval (R@5 0.833 == 0.833) and QA (0.392 ≈ 0.384) statistically identical. The substrate carries the answer; the storage engine does not.
+3. **Storage substrate is equivalent on retrieval and QA — the engine isn't the variable.** Swapping ChromaDB for postgres+pgvector while holding embedding, corpus, reader, and judge fixed leaves both retrieval (R@5 0.833 == 0.833) and QA (0.392 ≈ 0.384) statistically identical. The QA equivalence is now **CI-confirmed** (§8): the paired delta's 95% CI is [−2.0, +2.8]pp with 9/250 questions discordant, p_adj 0.84 — null, not eyeballed. The substrate carries the answer; the storage engine does not.
 
 4. **Three structural cells were measurement artifacts; the corrected readings overturn them.** A capped `/graph` projection reported Cat 4 as "98.98% one edge type, normalized entropy 0.020" — a combinatorial `tunnel`-scaffold artifact. The real knowledge graph reads **normalized entropy 0.645**, a **61.87% giant component** (Cat 5), and **Louvain modularity 0.796** (Cat 8, hierarchy PASS). The artifact said "monoculture / fragmented / flat"; the truth is "diverse / connected / hierarchical." This is the framework catching itself.
 
@@ -192,15 +192,15 @@ The single most important campaign result. On LongMemEval-S:
 
 ### 5.2 The four NULLs — the vector backbone is the lever
 
-| # | Lever tested | Result | Evidence |
-|---|---|---|---|
-| 1 | **Age-fusion on LongMemEval-S** | ΔR@5 = **−0.0067** (−1 q of 150); no significant gain | `2026-05-29-longmemeval-s-results.md` |
-| 2 | **Age-fusion on LoCoMo** | ΔQA = **+1.2pp** (noise, n=250); drawer-R@5 Δ = **exactly 0.0** | `2026-05-30-locomo-daemon-results.md` |
-| 3 | **Age-fusion on jp-realm** | no significant retrieval gain (same pattern) | matrix Cat 2c provenance |
-| 4a | **Hybrid graph leg (#111)** | **inert** — zero graph candidates on 12 golden queries; `hybrid` byte-identical to `union`; the only real lever is convex vector/BM25 weight | `2026-05-31-hybrid-scorer-weight-tuning.md` |
-| 4b | **Cross-encoder rerank (#103)** | **neutral-to-negative** — R@10 flat at 0.60 across all 3 legs, MRR *drops* (0.299 → 0.293 → 0.284), big CE 3× slower (1523ms vs 555ms) | `2026-05-31-ce-rerank-corpus-seeded.md` |
+| # | Lever tested | Result | Significance (§8) | Evidence |
+|---|---|---|---|---|
+| 1 | **Age-fusion on LongMemEval-S** | ΔR@5 = **−0.0067** (−1 q of 150); no significant gain | **CI-confirmed null** (CI [−5.3, +4.0], p_adj 0.84) | `2026-05-29-longmemeval-s-results.md` |
+| 2 | **Age-fusion on LoCoMo** | ΔQA = **+1.2pp** (noise, n=250); drawer-R@5 Δ = **exactly 0.0** | **CI-confirmed null** (ΔQA CI [−2.0, +2.0]; R@5 byte-identical) | `2026-05-30-locomo-daemon-results.md` |
+| 3 | **Age-fusion on jp-realm** | no significant retrieval gain (same pattern) | not separately CI-tested | matrix Cat 2c provenance |
+| 4a | **Hybrid graph leg (#111)** | **inert** — zero graph candidates on 12 golden queries; `hybrid` byte-identical to `union`; the only real lever is convex vector/BM25 weight | descriptive only (no paired baseline) | `2026-05-31-hybrid-scorer-weight-tuning.md` |
+| 4b | **Cross-encoder rerank (#103)** | **neutral-to-negative** — R@10 flat at 0.60 across all 3 legs, MRR *drops* (0.299 → 0.293 → 0.284), big CE 3× slower (1523ms vs 555ms) | descriptive only (no paired baseline) | `2026-05-31-ce-rerank-corpus-seeded.md` |
 
-The convergent message: **the dense-vector + BM25 backbone already does the retrieval work.** Age-fusion is a *targeted* re-ranker (directionally plausible on temporal/knowledge-update categories, but unproven at n=25/category — never reported as an effect). The graph leg and the cross-encoder add latency, not recall. The vector backbone — not the graph, not the reranker — is where retrieval quality lives.
+Two of the four NULLs are now **CI-confirmed** non-significant under FDR correction (§8.1); the other two are **descriptive-only** because no committed per-question paired baseline exists (§8.2) — the report keeps that distinction sharp. The convergent message: **the dense-vector + BM25 backbone already does the retrieval work.** Age-fusion is a *targeted* re-ranker (directionally plausible on temporal/knowledge-update categories, but unproven at n=25/category — never reported as an effect). The graph leg and the cross-encoder add latency, not recall. The vector backbone — not the graph, not the reranker — is where retrieval quality lives.
 
 Two methodology traps were caught in producing these NULLs, both worth preserving:
 - **The n=100 composition artifact.** An early non-stratified n=100 slice showed a +2.0pp age-fusion "win" — but the S corpus is sorted by `question_type`, so the first 100 were 70 single-session + 30 multi-session, zero temporal/KU. The "win" was category composition, not a real effect; it vanished on the stratified n=150. (Filed as #122; fixed by `--stratify-by question_type`.)
@@ -216,7 +216,7 @@ Holding embedding (all-MiniLM-L6-v2), corpus (jp-realm-v0.1 Cond-A / LoCoMo-10),
 | Cat 2c by-hop | hop-1 0.852 / hop-2 0.667 | hop-1 0.852 / hop-2 0.667 | **identical** |
 | Cat 7 LoCoMo E2E QA (n=250) | 0.384 | 0.392 | **+0.008 (noise)** |
 
-Both retrieval *and* QA are statistically identical. The substrate (embedding + corpus) carries the answer; the storage engine is not the variable. This validates the chroma→postgres migration and isolates "what the backend swap costs" from every other factor — equal recall confirms the migration, and the QA parity confirms it downstream too.
+Both retrieval *and* QA are statistically identical. The substrate (embedding + corpus) carries the answer; the storage engine is not the variable. This validates the chroma→postgres migration and isolates "what the backend swap costs" from every other factor — equal recall confirms the migration, and the QA parity confirms it downstream too. **This is the campaign's CI-confirmed central null (§8.1):** the QA delta's 95% CI is [−2.0, +2.8]pp (strict-correct basis) with only 9/250 questions discordant — "the engine is not the variable" is now a tested statement, not an eyeballed one.
 
 ### 5.4 The measurement-artifact corrections — the framework catching itself
 
@@ -303,12 +303,34 @@ Verbatim-first cohort. Un-provisionable on this harness: `ingest_corpus` raises 
 
 ## 8. Statistical rigor — bootstrap CIs + FDR correction
 
-> **TODO-FILL (in-flight, #21, Morpheus).** This section will carry the formal statistics for every delta claimed above:
-> - **Bootstrap confidence intervals** on each readout delta (R@5, QA, the four NULLs, the storage-equivalence Δ). The campaign has been disciplined about "±1 question = ±0.04 at n=25" informal noise bounds; this replaces them with resampled CIs.
-> - **Benjamini-Hochberg FDR correction** across the family of delta tests, so the multiple-comparisons problem across ~dozen A/B deltas is controlled. The expected outcome: the four NULLs survive as non-significant (CIs straddling 0), the retrieval-breadth ladder +17.3pp survives as significant, and the storage-equivalence Δ survives as non-significant — but these will be *stated with corrected p-values*, not asserted.
-> - When #21 lands, fold the per-delta CI/q-value table in here and back-reference it from §5.2 (NULLs) and §5.3 (equivalence) so every "noise" / "significant" word in this report is backed by a corrected statistic.
+The campaign's informal "±1 question = noise" language is now replaced by formal statistics (#21, `baselines/headline_delta_significance_2026-05-31.json`): **paired bootstrap confidence intervals** (10k resamples on per-question deltas, paired by `question_id`) plus a **Benjamini-Hochberg FDR correction** across the whole metric family (α = 0.05). The section's own honesty story is **two-tier** — some nulls are *CI-confirmed*, others are *descriptive-only* because no committed per-question paired baseline exists. Both are reported as what they are.
 
-Until then, the significance language in this draft is the campaign's informal sampling-bound convention (deltas within ±1–2 questions at the stated n are called noise), explicitly *not* a formal test.
+### 8.1 CI-backed comparisons (paired per-question, FDR-corrected)
+
+| Comparison | metric | Δ (pp) | 95% CI (pp) | n | n_discordant | p_adj | significant? |
+|---|---|---:|---|---:|---:|---:|:--:|
+| **Storage-equivalence** (postgres vs flat, LoCoMo) | qa_correct | **+0.4** | **[−2.0, +2.8]** | 250 | **9** | 0.84 | **No (null)** |
+| Storage-equivalence (same) | sme_recall | 0.0 | identical | 250 | 0 | — | definitional 0 |
+| Age-fusion (LongMemEval-S strat150) | drawer R@5 | −0.7 | [−5.3, +4.0] | 150 | 13 | 0.84 | No (null) |
+| Age-fusion (LoCoMo daemon) | qa_correct | 0.0 | [−2.0, +2.0] | 250 | 6 | 0.84 | No (null) |
+| Age-fusion (LoCoMo daemon) | drawer R@5 | 0.0 | identical | 250 | 0 | — | definitional 0 |
+| Cross-system mempalace vs OMEGA (strat150) | R@5 | +2.0 | [−2.0, +6.0] | 150 | 9 | 0.84 | No (null) |
+
+**Every CI-backed comparison is non-significant — every CI straddles zero, every adjusted p = 0.84.** Three findings rest on this:
+
+- **Storage-equivalence is now statistically null, not merely "looks equal" (§5.3).** The +0.4pp postgres-vs-flat QA delta has a 95% CI of [−2.0, +2.8]pp and only **9 of 250 questions discordant** — the runs answer 241/250 identically. The "the storage engine is not the variable" claim is CI-confirmed. **Basis note:** this CI is on the strict-correct per-question vector (abstentions excluded), so its means (postgres 0.264 / flat 0.260) sit below §3's 0.392/0.384, which count correct-abstentions. Both bases agree: the §3 correct-or-abstain delta (+0.8pp) and this strict-correct delta (+0.4pp) are *both* null, same direction. `sme_recall` is byte-identical across all 250 questions (a definitional 0).
+- **Two of the four NULLs (§5.2) are CI-confirmed.** Age-fusion on LongMemEval-S (ΔR@5 −0.7pp, CI [−5.3, +4.0]) and on LoCoMo (ΔQA 0.0pp, CI [−2.0, +2.0]; drawer R@5 byte-identical) are both formally non-significant. The vector-backbone-is-the-lever conclusion holds under correction.
+- **The cross-system mempalace-vs-OMEGA gap is null.** The +2.0pp R@5 lead has CI [−2.0, +6.0], p_adj 0.84 — formally indistinguishable, sharpening §3.1's "within sampling noise" into a tested statement.
+
+### 8.2 Descriptive-only (no paired per-question baseline — honestly flagged, NOT CI-backed)
+
+Two of the §5.2 NULLs and the §5.1 ladder cannot be CI-tested because no committed per-question paired baseline exists for one or both sides (the artifacts are summary-only):
+
+- **CE-rerank on/off (#103)** — `status: no_paired_baseline`. The R@10-flat / MRR-drops / 3×-slower finding stands as a **descriptive** result, not a CI-backed one.
+- **Hybrid-vs-union / graph-leg-inert (#111)** — `status: no_paired_baseline`. The "hybrid ≡ union, graph leg inert" finding is **descriptive** (and is itself a byte-identical-trace observation, which is stronger than a statistical tie, but not a bootstrap CI).
+- **The retrieval-breadth ladder (§5.1, +17.3pp limit5→20)** is a within-system QA accuracy ladder, not a paired A/B delta in this artifact; its significance is argued from effect size (17.3pp on n=150 = 26 questions, well outside any plausible noise band) rather than a committed paired CI. Treat the +17.3pp as a large descriptive effect, not an FDR-corrected one.
+
+**This two-tier split IS the §8 result:** the central equivalence claim and two of the four NULLs are statistically confirmed; the remaining nulls and the ladder are descriptive, and the report says which is which rather than dressing a summary-only finding in CI language.
 
 ---
 
@@ -336,4 +358,5 @@ Every number above traces to a committed artifact:
 - **Storage-equivalence retrieval:** `baselines/jp_realm_v0_1_{flat,postgres}_condA_*.json`
 - **Cost-wall taxonomy:** `docs/mem0_adapter.md`, `docs/hindsight_adapter.md`, #234 scoping (`scratch/nebula-234/scoping.md`)
 - **Spec / methodology:** `docs/sme_spec_v8.md`
-- **TODO-FILL pending:** #234/#177 (ai-memory + agentmemory R@5), #21 (bootstrap CIs + BH-FDR)
+- **Statistical significance (§8):** `baselines/headline_delta_significance_2026-05-31.json` (#21 / #245) — paired bootstrap CIs + BH-FDR
+- **TODO-FILL pending:** #234/#177 (ai-memory + agentmemory R@5) — last remaining fill

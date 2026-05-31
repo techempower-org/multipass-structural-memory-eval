@@ -1,0 +1,140 @@
+{
+  "status": "blocked_corpus_mismatch",
+  "_meta": {
+    "blocked_reason": "Target corpus (mempalace git/docs) is absent from prod familiar. The 200 git-derived probes expect mempalace source/docs (e.g. pgvector-cutover-runbook.md, postgres.py, searcher.py); familiar is now conversational-only.",
+    "evidence": {
+      "found_in_top10": "17/200 (R@10=0.085) — a floored corpus, not a result",
+      "historical_baseline": "baselines/mempalace_git_probes_v2_familiar_2026-05-16_n20.json scored mean_recall 0.47 on the SAME probes_v2 corpus_version against familiar on 2026-05-16",
+      "regression": "0.47 (2026-05-16) -> 0.085 (2026-05-30) = the mempalace git/docs corpus dropped out of familiar",
+      "spot_checks_rerank_off": [
+        {
+          "probe": "Trigram index + complete schema in _create_table + test isolation",
+          "expected": "postgres.py",
+          "expected_in_top10": false,
+          "top_hits": "all .jsonl conversation logs + bench .json"
+        },
+        {
+          "probe": "Plainto_tsquery + ILIKE fallback for underscore identifiers",
+          "expected": "searcher.py",
+          "expected_in_top10": false,
+          "top_hits": "all .jsonl conversation logs"
+        },
+        {
+          "probe": "Post-#995 API + canonical-room fixture + LIKE %% escape",
+          "expected": "migrate_to_postgres.py",
+          "expected_in_top10": false,
+          "top_hits": ".jsonl + the probe file itself, not the source tree"
+        }
+      ],
+      "daemon_health": "available_in_scope=409190, daemon v1.9.1 healthy — confirms corpus-content absence, not a daemon hiccup",
+      "latency_overhead_artifact": "overhead_mean_ms=-147.52 is physically impossible for an additive rerank stage; it is a sequential-leg warm-cache/load-drift artifact (leg B ran after leg A). Not interpretable."
+    },
+    "verdict": "#103 is NOT runnable against prod familiar. Do NOT flip the rerank default — insufficient data. Delta R@5 +0.005 / MRR +0.0073 are within corpus-floor noise."
+  },
+  "issue": "techempower-org/multipass-structural-memory-eval#103",
+  "ran_at": "2026-05-30T19:44:58-0700",
+  "method": "daemon /search/hybrid per-request rerank flag (read-only)",
+  "api_url": "http://familiar:8085",
+  "probe_set": "probes_v2_git_derived.json",
+  "n_probes": 200,
+  "fusion_mode": "rrf",
+  "candidate_strategy": "hybrid",
+  "n_results": 10,
+  "rerank_top_n": 25,
+  "rerank_model": "daemon-pinned cross-encoder/ms-marco-MiniLM-L-6-v2 (flashrank path)",
+  "writethrough_note": "evening PDT, low writethrough",
+  "label_a": "rerank-off",
+  "label_b": "rerank-on",
+  "metrics_a": {
+    "n_probes": 200,
+    "mrr": 0.0368,
+    "recall_at_5": 0.055,
+    "recall_at_10": 0.085,
+    "found": 17
+  },
+  "metrics_b": {
+    "n_probes": 200,
+    "mrr": 0.0441,
+    "recall_at_5": 0.06,
+    "recall_at_10": 0.085,
+    "found": 17
+  },
+  "delta": {
+    "mrr": 0.0073,
+    "recall_at_5": 0.005,
+    "recall_at_10": 0.0
+  },
+  "latency": {
+    "rerank_off": {
+      "n": 200,
+      "mean_ms": 2716.96,
+      "p50_ms": 2164.79,
+      "p95_ms": 6336.91,
+      "max_ms": 16047.87
+    },
+    "rerank_on": {
+      "n": 200,
+      "mean_ms": 2569.44,
+      "p50_ms": 2101.85,
+      "p95_ms": 5857.97,
+      "max_ms": 15771.34
+    },
+    "overhead_mean_ms": -147.52
+  },
+  "n_improved": 7,
+  "n_regressed": 3,
+  "improved": [
+    {
+      "query": "Post-mortem section in pgvector-cutover-runbook",
+      "rank_off": 7,
+      "rank_on": 2
+    },
+    {
+      "query": "Pgvector cutover runbook (Phases 4.1 + 4.2 wrap)",
+      "rank_off": 7,
+      "rank_on": 4
+    },
+    {
+      "query": "Route Stop/PreCompact through palace-daemon/clients/hook.py",
+      "rank_off": 4,
+      "rank_on": 1
+    },
+    {
+      "query": "Postgres + pgvector + apache age substrate migration design",
+      "rank_off": 2,
+      "rank_on": 1
+    },
+    {
+      "query": "Close sqlite connections during cleanup",
+      "rank_off": 9,
+      "rank_on": 4
+    },
+    {
+      "query": "Drop §5.5 from kg_add docstring/schema",
+      "rank_off": 8,
+      "rank_on": 6
+    },
+    {
+      "query": "Flip principles to positive framing; promote verbatim-vs-derivative axis; add what-we've-learned + what's-next",
+      "rank_off": 2,
+      "rank_on": 1
+    }
+  ],
+  "regressed": [
+    {
+      "query": "Document A/B/C ablation findings + add markdown probes",
+      "rank_off": 1,
+      "rank_on": 6
+    },
+    {
+      "query": "Upstream-PRs table — add #1262 + #1286, update sync status",
+      "rank_off": 4,
+      "rank_on": 6
+    },
+    {
+      "query": "Add substrate-exploration section (Postgres + pgvector + Apache AGE); update Cat 9 with E2E in-flight; note Postgres+AGE leverage on P4/P5",
+      "rank_off": 6,
+      "rank_on": 7
+    }
+  ]
+}

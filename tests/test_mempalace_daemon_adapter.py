@@ -771,3 +771,145 @@ def test_ingest_corpus_raises_with_helpful_message(monkeypatch, tmp_path):
     a = _adapter(monkeypatch, tmp_path)
     with pytest.raises(NotImplementedError, match="diagnostic-only"):
         a.ingest_corpus([])
+
+
+# --- introspection (GET /ontology) -----------------------------------
+
+
+_ONTOLOGY_BODY = {
+    "declared": {
+        "entity_types": ["wing", "hall", "room", "drawer", "closet", "tunnel"],
+        "edge_types": ["hall", "tunnel", "member_of"],
+    },
+    "effective": {
+        "edge_types": ["MENTIONS"],
+        "entity_kinds": {"PROPER_NOUN": 12000, "TECH_IDENT": 7000},
+        "entities": 267519,
+        "triples": 0,
+        "mentions": 5580000,
+    },
+    "drift": {
+        "declared_edge_types_present": [],
+        "declared_edge_types_absent": ["hall", "tunnel", "member_of"],
+        "entity_kinds_undeclared": ["PROPER_NOUN", "TECH_IDENT"],
+        "structure_claim": "hierarchical",
+        "structure_observed": "not_computed",
+        "drift_score": 1.0,
+    },
+}
+
+
+def test_get_introspection_report_returns_ontology_payload(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """The adapter fetches GET /ontology and returns the daemon's
+    declared-vs-effective drift report verbatim."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": _ONTOLOGY_BODY,
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    report = a.get_introspection_report()
+    assert report is not None
+    assert report["drift"]["drift_score"] == 1.0
+    assert report["effective"]["entity_kinds"]["PROPER_NOUN"] == 12000
+
+
+def test_get_introspection_report_none_on_404(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """An older daemon without /ontology returns 404 → None, preserving the
+    introspection-0.0 baseline (system scores like any other without the
+    capability)."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": urllib.error.HTTPError(
+            "http://daemon:8085/ontology", 404, "Not Found", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    assert a.get_introspection_report() is None
+
+
+def test_get_introspection_report_none_on_503(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Under the chroma backend / unreachable AGE the daemon answers 503 →
+    None, so the chroma access path scores introspection 0.0 honestly."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": urllib.error.HTTPError(
+            "http://daemon:8085/ontology", 503, "Service Unavailable", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    assert a.get_introspection_report() is None
+
+
+def test_get_introspection_report_none_on_malformed_body(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """A 200 response missing the 'drift' key isn't a usable introspection
+    report → None rather than a half-credited score."""
+    fake_urlopen_factory({
+        "GET http://daemon:8085/ontology": {"declared": {}, "effective": {}},
+    })
+    a = _adapter(monkeypatch, tmp_path, api_url="http://daemon:8085")
+    assert a.get_introspection_report() is None
+
+
+# --- #147 real-KG structural measurement -----------------------------
+
+
+_GRAPH_BODY = {
+    "wings": {"a": 2, "b": 1},
+    "rooms": [
+        {"wing": "a", "rooms": {"shared": 2}},
+        {"wing": "b", "rooms": {"shared": 1}},
+    ],
+    "tunnels": [{"room": "shared", "wings": ["a", "b"]}],
+    "kg_entities": [
+        {"id": "Alice", "name": "Alice", "type": "entity"},
+        {"id": "Acme", "name": "Acme", "type": "entity"},
+    ],
+    "kg_triples": [
+        {"subject": "Alice", "object": "Acme", "predicate": "works_at"},
+    ],
+}
+
+
+def test_graph_kg_only_excludes_structural_edges(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """With graph_kg_only=True the snapshot is the real KG only — no tunnel /
+    member_of structural edges that otherwise swamp Cat 4/5/8 topology."""
+    fake_urlopen_factory({"GET http://daemon/graph": _GRAPH_BODY})
+    a = _adapter(monkeypatch, tmp_path, graph_kg_only=True)
+    entities, edges = a.get_graph_snapshot()
+    assert all(e.id.startswith("kg:") for e in entities)
+    assert {ed.edge_type for ed in edges} == {"works_at"}
+    assert all(ed.edge_type not in ("tunnel", "member_of") for ed in edges)
+
+
+def test_graph_kg_only_false_keeps_full_projection(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Default (graph_kg_only=False) is the full snapshot — structural edges
+    plus the KG layer. Guards the default path against the #147 flag."""
+    fake_urlopen_factory({"GET http://daemon/graph": _GRAPH_BODY})
+    a = _adapter(monkeypatch, tmp_path)  # default False
+    _, edges = a.get_graph_snapshot()
+    edtypes = {ed.edge_type for ed in edges}
+    assert "tunnel" in edtypes
+    assert "member_of" in edtypes
+    assert "works_at" in edtypes
+
+
+def test_graph_limit_threads_into_graph_url(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """graph_limit raises the /graph KG sample cap by adding ?limit=N — so the
+    daemon's CTE-bounded RELATION read returns a representative sample (#147)."""
+    fake_urlopen_factory({"GET http://daemon/graph?limit=5000": _GRAPH_BODY})
+    a = _adapter(monkeypatch, tmp_path, graph_kg_only=True, graph_limit=5000)
+    _, edges = a.get_graph_snapshot()
+    # The mock only registers the ?limit=5000 URL; a bare /graph would raise
+    # AssertionError, so reaching here proves the limit was applied.
+    assert {ed.edge_type for ed in edges} == {"works_at"}

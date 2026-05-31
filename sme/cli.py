@@ -153,6 +153,8 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
             "prefer_graph_endpoint", "read_only",
             # #140 — age-fused endpoint selection + candidate-pool strategy
             "search_endpoint", "candidate_strategy",
+            # #147 — real-KG structural measurement (Cat 4/5/8)
+            "graph_kg_only", "graph_limit",
         }),
     ),
     _AdapterSpec(
@@ -506,11 +508,23 @@ def cmd_cat8(args: argparse.Namespace) -> int:
     implied = ImpliedOntology.load(args.implied_ontology)
 
     # Load adapter and pull snapshot
-    adapter_kwargs: dict[str, Any] = {"db_path": args.db, "read_only": True}
+    adapter_kwargs: dict[str, Any] = {"read_only": True}
+    if getattr(args, "db", None):
+        adapter_kwargs["db_path"] = args.db
+    if getattr(args, "api_url", None):
+        adapter_kwargs["api_url"] = args.api_url
+    if getattr(args, "api_key", None):
+        adapter_kwargs["api_key"] = args.api_key
     if args.collection_name:
         adapter_kwargs["collection_name"] = args.collection_name
     if args.kg_path:
         adapter_kwargs["kg_path"] = args.kg_path
+    # #147 — measure the real KG (excludes the structural projection) for the
+    # daemon adapter; dropped for adapters that don't accept the kwargs.
+    if getattr(args, "real_kg", False):
+        adapter_kwargs["graph_kg_only"] = True
+    if getattr(args, "graph_limit", None) is not None:
+        adapter_kwargs["graph_limit"] = args.graph_limit
     adapter = _load_adapter(args.adapter, **adapter_kwargs)
     entities, edges = adapter.get_graph_snapshot()
 
@@ -531,6 +545,17 @@ def cmd_cat8(args: argparse.Namespace) -> int:
                 d = json.load(f)
             cat7["graph_mean_recall"] = d.get("summary", {}).get("mean_recall")
 
+    # Introspection: ask the adapter whether the system can self-report its
+    # own ontology drift. Most adapters return None (no self-report surface),
+    # which keeps introspection at 0.0. The MemPalace daemon adapter fetches
+    # palace-daemon's GET /ontology here.
+    introspection_report = None
+    if not args.no_introspection:
+        try:
+            introspection_report = adapter.get_introspection_report()
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("introspection report fetch failed: %s", e)
+
     library = load_claim_library()
     report = score_cat8(
         implied,
@@ -539,6 +564,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         health,
         cat7_results=cat7,
         claim_library=library,
+        introspection_report=introspection_report,
     )
 
     # Render
@@ -634,10 +660,24 @@ def cmd_cat8(args: argparse.Namespace) -> int:
     print("Introspection")
     print(f"   available checks: {len(report.introspection_available)}")
     print(f"   score:            {report.introspection_score:.1%}")
-    print(
-        "   (most systems have no health-check APIs for type drift, "
-        "schema alignment, or self-testing — this is expected)"
-    )
+    if report.introspection_available:
+        for dim in report.introspection_available:
+            print(f"     ✓ {dim}")
+        if introspection_report:
+            drift = introspection_report.get("drift") or {}
+            if "drift_score" in drift:
+                print(f"   self-reported drift_score: {drift['drift_score']:.1%}")
+            absent = drift.get("declared_edge_types_absent")
+            if absent:
+                print(
+                    "   declared edge types absent at KG layer: "
+                    + ", ".join(absent)
+                )
+    else:
+        print(
+            "   (most systems have no self-report API for type drift, "
+            "schema alignment, or self-testing — this is expected)"
+        )
 
     if args.json:
         Path(args.json).write_text(
@@ -677,6 +717,13 @@ def _load_adapter_from_args(args: argparse.Namespace) -> SMEAdapter:
     timeout = getattr(args, "familiar_timeout", None)
     if timeout is not None:
         adapter_kwargs["timeout_s"] = timeout
+    # #147 — real-KG structural measurement (mempalace-daemon only; dropped
+    # by _load_adapter for adapters that don't accept it).
+    if getattr(args, "real_kg", False):
+        adapter_kwargs["graph_kg_only"] = True
+    graph_limit = getattr(args, "graph_limit", None)
+    if graph_limit is not None:
+        adapter_kwargs["graph_limit"] = graph_limit
     return _load_adapter(args.adapter, **adapter_kwargs)
 
 
@@ -741,6 +788,37 @@ def _add_db_or_api_args(parser: argparse.ArgumentParser) -> None:
         metavar="SECONDS",
         help="(familiar) HTTP timeout for /api/familiar/eval and "
         "/api/familiar/graph. Default 30s.",
+    )
+    _add_real_kg_args(parser)
+
+
+def _add_real_kg_args(parser: argparse.ArgumentParser) -> None:
+    """Add --real-kg / --graph-limit (mempalace-daemon real-KG measurement).
+
+    #147: by default the daemon adapter projects the FULL /graph snapshot —
+    wings/rooms/tunnels/member_of structural scaffold plus a capped KG sample
+    — and the structural edges swamp the topology (98.98% of edges on the live
+    palace), so Cat 4/5/8 measure the scaffold, not the 1.92M-edge RELATION
+    graph. --real-kg projects the knowledge graph ONLY (KG entities +
+    entity→entity RELATION edges); --graph-limit raises the /graph KG sample
+    cap so that sample is representative. Both are no-ops for non-daemon
+    adapters (dropped by _load_adapter)."""
+    parser.add_argument(
+        "--real-kg",
+        action="store_true",
+        help="(mempalace-daemon) measure the real knowledge graph only — KG "
+        "entities + entity→entity RELATION edges — excluding the "
+        "wing/room/tunnel structural projection. Use for honest Cat 4/5/8 "
+        "structural metrics (#147). Pair with --graph-limit.",
+    )
+    parser.add_argument(
+        "--graph-limit",
+        type=int,
+        default=None,
+        metavar="N",
+        help="(mempalace-daemon) raise the /graph KG sample cap to N (default "
+        "daemon-side is 500 entities / 1000 triples — too small for a "
+        "representative RELATION-edge sample on the full palace). e.g. 5000.",
     )
 
 
@@ -921,10 +999,15 @@ def cmd_cat5(args: argparse.Namespace) -> int:
         seeded = [(pair[0], pair[1]) for pair in raw if len(pair) == 2]
 
     adapter_kwargs: dict[str, Any] = {
-        "db_path": args.db,
         "read_only": True,
         "auto_discover": args.auto_discover,
     }
+    if getattr(args, "db", None):
+        adapter_kwargs["db_path"] = args.db
+    if getattr(args, "api_url", None):
+        adapter_kwargs["api_url"] = args.api_url
+    if getattr(args, "api_key", None):
+        adapter_kwargs["api_key"] = args.api_key
     if args.node_tables:
         adapter_kwargs["include_node_tables"] = args.node_tables
     if args.edge_tables:
@@ -933,6 +1016,11 @@ def cmd_cat5(args: argparse.Namespace) -> int:
         adapter_kwargs["kg_path"] = args.kg_path
     if args.collection_name:
         adapter_kwargs["collection_name"] = args.collection_name
+    # #147 — real-KG structural measurement (daemon adapter; dropped for others)
+    if getattr(args, "real_kg", False):
+        adapter_kwargs["graph_kg_only"] = True
+    if getattr(args, "graph_limit", None) is not None:
+        adapter_kwargs["graph_limit"] = args.graph_limit
 
     adapter = _load_adapter(args.adapter, **adapter_kwargs)
     entities, edges = adapter.get_graph_snapshot()
@@ -1939,7 +2027,27 @@ def main(argv: list[str] | None = None) -> int:
         "Compares the system's declared ontology to its actual graph.",
     )
     c8.add_argument("--adapter", required=True)
-    c8.add_argument("--db", required=True, help="path to the adapter's db")
+    c8.add_argument(
+        "--db",
+        default=None,
+        help="path to the adapter's db file (file mode). Optional when "
+        "--api-url is supplied (e.g. mempalace-daemon).",
+    )
+    c8.add_argument(
+        "--api-url",
+        default=None,
+        metavar="URL",
+        help="HTTP base URL for the graph's API (e.g. http://your-daemon-"
+        "host:8085 for the mempalace daemon). Use instead of --db for "
+        "daemon-fronted palaces.",
+    )
+    c8.add_argument(
+        "--api-key",
+        default=None,
+        metavar="KEY",
+        help="(mempalace-daemon) X-API-Key. Defaults to PALACE_API_KEY in "
+        "~/.config/palace-daemon/env, then the process env var.",
+    )
     c8.add_argument(
         "--implied-ontology",
         required=True,
@@ -1968,7 +2076,15 @@ def main(argv: list[str] | None = None) -> int:
         metavar="JSON",
         help="retrieve-results JSON for the system under test (Condition B).",
     )
+    c8.add_argument(
+        "--no-introspection",
+        action="store_true",
+        help="skip the adapter self-report (GET /ontology for the daemon "
+        "adapter). Introspection then scores 0.0 as if no self-report "
+        "surface existed. Use for pure external scoring or offline runs.",
+    )
     c8.add_argument("--json", metavar="PATH", help="write full report as JSON")
+    _add_real_kg_args(c8)
     c8.set_defaults(func=cmd_cat8)
 
     # --- cat4 subcommand ---------------------------------------------

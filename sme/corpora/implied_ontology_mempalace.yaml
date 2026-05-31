@@ -56,6 +56,66 @@ hall_vocabulary:
   - preferences
   - advice
 
+# --- KG relation vocabulary (the SEMANTIC edge types) ----------------
+# Distinct from the structural edge_types above (hall/tunnel/member_of,
+# which are the wing/room navigation scaffold). These are the entity→entity
+# RELATION predicates in the real knowledge graph — the vocabulary Cat 4's
+# edge-type monoculture metric measures when scored over the real KG
+# (graph: kg). The authoritative set is the 39 CANONICAL_RELATIONS in
+# mempalace/kg_canonical_vocab.py, plus an `other` fallback for predicates
+# the extractor couldn't canonicalize.
+#
+# Honest current reality (validated against the live palace, 1,921,600
+# RELATION edges): `other` holds ~55% of edges (the pre-canonicalization
+# sink), normalized edge-type entropy ~0.340. This is a REAL concentration,
+# not the `tunnel` 79.5% measurement artifact that the capped /graph
+# projection produced (see the kg_relation_concentration claim below).
+
+kg_relation_vocabulary:
+  source: "mempalace/kg_canonical_vocab.py CANONICAL_RELATIONS + 'other' fallback"
+  canonical_count: 39
+  canonical:
+    - adds
+    - assigned_to
+    - calls
+    - causes
+    - checks
+    - completed
+    - configures
+    - contains
+    - created_by
+    - creates
+    - deletes
+    - depends_on
+    - derived_from
+    - describes
+    - failed
+    - handles
+    - has_property
+    - implements
+    - imports
+    - is_a
+    - located_at
+    - matches
+    - mentions
+    - modifies
+    - owns
+    - part_of
+    - provides
+    - reads
+    - receives
+    - references
+    - related_to
+    - returns
+    - runs
+    - sends
+    - shows
+    - supports
+    - uses
+    - works_on
+    - writes
+  fallback: other
+
 # --- Structural claims (operationalized via claim library) -----------
 
 structural_claims:
@@ -94,6 +154,31 @@ structural_claims:
     # Matches claim library pattern: "partition.*by.*type|organiz.*by.*type|wing.*type"
     # Operationalized as: type homogeneity within communities > 0.9.
     # The "type" here is the wing partition — a structural-layer property.
+
+  - id: kg_relation_typed_not_other_sink
+    text: "knowledge-graph edges carry typed canonical relations, not a generic catch-all"
+    source: "inferred (kg_canonical_vocab.py declares 39 canonical relations)"
+    graph: kg
+    status: fix_in_flight  # NOT resolved — the prod re-map is JP-gated, not yet applied
+    # Honest CURRENT reality (validated against the live palace, 1,921,600
+    # RELATION edges): the `other` fallback holds ~55% of edges — a real
+    # concentration in the pre-canonicalization corpus, distinct from the
+    # `tunnel` 79.5% MEASUREMENT ARTIFACT the capped /graph projection produced.
+    # The mempalace #336 / #208 canonical-vocab re-map is IN FLIGHT to
+    # redistribute `other` into the 39 canonical relations, targeting <27%.
+    # When the re-map runs (post JP's gate), flip this to status: resolved and
+    # update the figures below to the post-re-map reading. Until then this is a
+    # known, surfaced limitation — not a passing claim.
+    metrics_current:
+      relation_edges: 1921600
+      distinct_relation_types: 237
+      dominant_relation: other
+      dominant_fraction: 0.551          # ~55% — fix in flight (target <0.27)
+      edge_type_entropy_normalized: 0.340
+    # NOTE: not yet operationalized in the claim library (no regex pattern
+    # matches), so Cat 8e reports this as informational/untestable rather than
+    # counting it in the pass rate — by design, until the re-map lands and we
+    # add a "canonical relation coverage" operational definition.
 
   - id: wing_filtering_improves_retrieval
     text: "wing and room filtering improves retrieval by 34%"

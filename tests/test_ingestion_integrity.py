@@ -201,3 +201,65 @@ def test_format_report_shows_collision_degree_and_keeper(duplicates_graph):
             line for line in rendered.splitlines() if f"{losing_id}  (deg=0)" in line
         )
         assert "← keep" not in losing_line
+
+
+# --- #147 follow-up: exact edge-type distribution override ----------
+
+
+def test_edge_type_override_replaces_sampled_counts():
+    """When the caller supplies the exact population distribution (daemon's
+    full RELATION aggregation), 4c metrics come from it — not the sampled
+    edges. Mirrors the #147 finding that a capped /graph sample under-counts
+    the `other` sink + long tail, inflating entropy vs the true reading."""
+    from sme.adapters.base import Edge, Entity
+
+    # A tiny, unrepresentative SAMPLE of edges (would read as near-uniform).
+    entities = [Entity(id="a", name="a", entity_type="kg:entity")]
+    sampled_edges = [
+        Edge(source_id="a", target_id="a", edge_type="contains"),
+        Edge(source_id="a", target_id="a", edge_type="uses"),
+    ]
+    # The EXACT population: `other` dominates, long tail — the real shape.
+    exact = {"other": 1_057_935, "contains": 348_375, "depends_on": 62_249, "is_a": 41_975}
+
+    report = score_ingestion_integrity(
+        entities, sampled_edges, edge_type_counts_override=exact
+    )
+    # Distribution + dominance come from the override, not the 2 sampled edges.
+    assert report.edge_type_counts == dict(
+        sorted(exact.items(), key=lambda kv: -kv[1])
+    )
+    assert report.dominant_edge_type == "other"
+    total = sum(exact.values())
+    assert abs(report.dominant_edge_type_fraction - exact["other"] / total) < 1e-9
+
+
+def test_edge_type_override_none_falls_back_to_sampled():
+    """Override=None (adapter has no exact-distribution capability) keeps the
+    historical behaviour of counting the sampled edges."""
+    from sme.adapters.base import Edge, Entity
+
+    entities = [Entity(id="a", name="a", entity_type="kg:entity")]
+    edges = [
+        Edge(source_id="a", target_id="a", edge_type="contains"),
+        Edge(source_id="a", target_id="a", edge_type="contains"),
+        Edge(source_id="a", target_id="a", edge_type="uses"),
+    ]
+    report = score_ingestion_integrity(
+        entities, edges, edge_type_counts_override=None
+    )
+    assert report.dominant_edge_type == "contains"
+    assert report.edge_type_counts == {"contains": 2, "uses": 1}
+
+
+def test_edge_type_override_empty_falls_back_to_sampled():
+    """An empty override dict is treated as 'no exact data' (falsy) → fall
+    back to the sampled edges rather than reporting a zero-edge graph."""
+    from sme.adapters.base import Edge, Entity
+
+    entities = [Entity(id="a", name="a", entity_type="kg:entity")]
+    edges = [Edge(source_id="a", target_id="a", edge_type="contains")]
+    report = score_ingestion_integrity(
+        entities, edges, edge_type_counts_override={}
+    )
+    assert report.edge_type_counts == {"contains": 1}

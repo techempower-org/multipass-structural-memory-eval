@@ -913,3 +913,54 @@ def test_graph_limit_threads_into_graph_url(
     # The mock only registers the ?limit=5000 URL; a bare /graph would raise
     # AssertionError, so reaching here proves the limit was applied.
     assert {ed.edge_type for ed in edges} == {"works_at"}
+
+
+# --- #147 follow-up: exact RELATION distribution for Cat 4 -----------
+
+
+def test_get_edge_type_distribution_aggregates_cypher_rows(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """POST /cypher returns {rows:[{rt,n}]} from the full RELATION GROUP BY;
+    the adapter projects it to an exact {relation_type: count} map. agtype
+    quoting is stripped."""
+    fake_urlopen_factory({
+        "POST http://daemon/cypher": {
+            "graph": "mempalace_kg",
+            "rows": [
+                {"rt": "other", "n": 1057935},
+                {"rt": "contains", "n": 348375},
+                {"rt": '"is_a"', "n": 41975},  # quoted agtype string
+            ],
+            "count": 3,
+        },
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    dist = a.get_edge_type_distribution()
+    assert dist == {"other": 1057935, "contains": 348375, "is_a": 41975}
+
+
+def test_get_edge_type_distribution_none_when_cypher_unavailable(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """A 503 (chroma backend) / older daemon → None, so Cat 4 falls back to
+    counting the sampled edges."""
+    fake_urlopen_factory({
+        "POST http://daemon/cypher": urllib.error.HTTPError(
+            "http://daemon/cypher", 503, "Service Unavailable", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_edge_type_distribution() is None
+
+
+def test_get_edge_type_distribution_none_on_malformed(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """A 200 response without a usable rows list → None rather than a bogus
+    empty distribution."""
+    fake_urlopen_factory({
+        "POST http://daemon/cypher": {"graph": "mempalace_kg", "count": 0},
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_edge_type_distribution() is None

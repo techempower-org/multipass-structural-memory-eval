@@ -124,13 +124,35 @@ def _hindsight_factory(tmp_path: Path) -> SMEAdapter:
 
 
 def _mem0_factory(tmp_path: Path) -> SMEAdapter:
-    """Mem0Adapter — requires ``mem0`` OSS library; skips when absent."""
-    from sme.adapters.mem0 import Mem0Adapter
+    """Mem0Adapter — requires the ``mem0`` OSS library; skips when absent.
 
+    A bare ``Mem0Adapter()`` builds a default ``mem0.Memory`` which tries to
+    stand up the OpenAI LLM/embedder and raises ``OpenAIError`` without a key
+    (and a local-ollama backend needs a live ollama). The contract test only
+    exercises the SMEAdapter *interface*, not mem0's backend, so inject a
+    minimal stub ``Memory`` via the adapter's ``memory=`` seam — same approach
+    as ``tests/test_mem0_adapter.py``. Skip only when the library is absent."""
     try:
-        return Mem0Adapter()
+        import mem0  # noqa: F401
     except ImportError:
         pytest.skip("mem0 not installed")
+
+    from sme.adapters.mem0 import Mem0Adapter
+
+    class _StubMemory:
+        def add(self, messages, user_id=None, **kw):
+            return {"results": []}
+
+        def search(self, query, filters=None, top_k=10, **kw):
+            return {"results": []}
+
+        def get_all(self, filters=None, **kw):
+            return {"results": []}
+
+        def delete_all(self, user_id=None, filters=None):
+            return None
+
+    return Mem0Adapter(memory=_StubMemory())
 
 
 # Register fork-only adapters here. Keep IDs stable — they show in

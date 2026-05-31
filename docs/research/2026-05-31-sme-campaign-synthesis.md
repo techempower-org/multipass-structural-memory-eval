@@ -110,7 +110,7 @@ All numbers from `baselines/cross_system_multipass_matrix_2026-05-30.json` and t
 | **9a** invocation | 0.983 @ 100% invoke (Opus, Tau2 99.3) | N/A (library) | N/A (library) | N/A (library) | **0.467 @ 7–27% invoke** | N/A |
 
 **Reading the rows:**
-- **Cat 1/2c:** mempalace and OMEGA are within sampling noise of each other (±1–4 questions on n=150). flat and postgres_ingest are *identical* (storage-equivalence, §5.3). flat shows the expected verbatim signature — hop-1 0.852 collapsing to hop-2 0.667, no traversal.
+- **Cat 1/2c:** mempalace and OMEGA land within ~2pp on their *own* R@5 metrics (a descriptive observation, not a tested delta — their per-question hit semantics differ, so §8.2 deliberately declines a CI). flat and postgres_ingest are *identical* (storage-equivalence, CI-confirmed in §5.3/§8.1). flat shows the expected verbatim signature — hop-1 0.852 collapsing to hop-2 0.667, no traversal.
 - **Cat 7:** OMEGA 0.593 ≈ mempalace 0.580 (same reader). flat 0.384 ≈ postgres_ingest 0.392 on LoCoMo (the storage-equivalence QA leg).
 - **Cat 9a — the RLM finding:** Qwen-7B and Llama-70B *both* plateau at 46.7% recall at 7–27% tool-invocation. A 10× parameter gap does not move recall: the ceiling is **willingness to invoke**, not retrieval quality. The orchestrator's Tau2 score (Opus 99.3 → 100% invocation → 98.3% recall) is the load-bearing variable, cross-validating the Tau2-predicts-Cat-9a relationship.
 
@@ -305,7 +305,9 @@ Verbatim-first cohort. Un-provisionable on this harness: `ingest_corpus` raises 
 
 The campaign's informal "±1 question = noise" language is now replaced by formal statistics (#21, `baselines/headline_delta_significance_2026-05-31.json`): **paired bootstrap confidence intervals** (10k resamples on per-question deltas, paired by `question_id`) plus a **Benjamini-Hochberg FDR correction** across the whole metric family (α = 0.05). The section's own honesty story is **two-tier** — some nulls are *CI-confirmed*, others are *descriptive-only* because no committed per-question paired baseline exists. Both are reported as what they are.
 
-### 8.1 CI-backed comparisons (paired per-question, FDR-corrected)
+### 8.1 CI-backed nulls (true paired per-question, FDR-corrected)
+
+These comparisons pair the *same* per-question metric across two conditions, so a bootstrap CI is meaningful. All are non-significant — every CI straddles zero, every adjusted p = 0.84.
 
 | Comparison | metric | Δ (pp) | 95% CI (pp) | n | n_discordant | p_adj | significant? |
 |---|---|---:|---|---:|---:|---:|:--:|
@@ -314,23 +316,20 @@ The campaign's informal "±1 question = noise" language is now replaced by forma
 | Age-fusion (LongMemEval-S strat150) | drawer R@5 | −0.7 | [−5.3, +4.0] | 150 | 13 | 0.84 | No (null) |
 | Age-fusion (LoCoMo daemon) | qa_correct | 0.0 | [−2.0, +2.0] | 250 | 6 | 0.84 | No (null) |
 | Age-fusion (LoCoMo daemon) | drawer R@5 | 0.0 | identical | 250 | 0 | — | definitional 0 |
-| Cross-system mempalace vs OMEGA (strat150) | R@5 | +2.0 | [−2.0, +6.0] | 150 | 9 | 0.84 | No (null) |
 
-**Every CI-backed comparison is non-significant — every CI straddles zero, every adjusted p = 0.84.** Three findings rest on this:
+- **Storage-equivalence is now statistically null, not merely "looks equal" (§5.3).** The +0.4pp postgres-vs-flat QA delta has a 95% CI of [−2.0, +2.8]pp and only **9 of 250 questions discordant** — the runs answer 241/250 identically. **Basis note:** this CI is on the strict-correct per-question vector (abstentions excluded), so its means (postgres 0.264 / flat 0.260) sit below §3's 0.392/0.384, which count correct-abstentions. Both bases agree — the §3 correct-or-abstain delta (+0.8pp) and this strict-correct delta (+0.4pp) are *both* null, same direction. `sme_recall` is byte-identical across all 250 questions (a definitional 0).
+- **Two of the four NULLs (§5.2) are CI-confirmed.** Age-fusion on LongMemEval-S (ΔR@5 −0.7pp, CI [−5.3, +4.0]) and on LoCoMo (ΔQA 0.0pp, CI [−2.0, +2.0]; drawer R@5 byte-identical) are both formally non-significant. These are *true* paired A/Bs — same metric, same questions, one endpoint toggled — so the CI is legitimate.
 
-- **Storage-equivalence is now statistically null, not merely "looks equal" (§5.3).** The +0.4pp postgres-vs-flat QA delta has a 95% CI of [−2.0, +2.8]pp and only **9 of 250 questions discordant** — the runs answer 241/250 identically. The "the storage engine is not the variable" claim is CI-confirmed. **Basis note:** this CI is on the strict-correct per-question vector (abstentions excluded), so its means (postgres 0.264 / flat 0.260) sit below §3's 0.392/0.384, which count correct-abstentions. Both bases agree: the §3 correct-or-abstain delta (+0.8pp) and this strict-correct delta (+0.4pp) are *both* null, same direction. `sme_recall` is byte-identical across all 250 questions (a definitional 0).
-- **Two of the four NULLs (§5.2) are CI-confirmed.** Age-fusion on LongMemEval-S (ΔR@5 −0.7pp, CI [−5.3, +4.0]) and on LoCoMo (ΔQA 0.0pp, CI [−2.0, +2.0]; drawer R@5 byte-identical) are both formally non-significant. The vector-backbone-is-the-lever conclusion holds under correction.
-- **The cross-system mempalace-vs-OMEGA gap is null.** The +2.0pp R@5 lead has CI [−2.0, +6.0], p_adj 0.84 — formally indistinguishable, sharpening §3.1's "within sampling noise" into a tested statement.
+### 8.2 Descriptive-only — point estimates, NO CI (the honest tier)
 
-### 8.2 Descriptive-only (no paired per-question baseline — honestly flagged, NOT CI-backed)
+Three comparisons are **deliberately left without a CI** because the per-question metrics are not paired-comparable, or no committed per-question baseline exists. Computing a CI here would *launder a methodology error into a rigorous-looking number* — so we don't.
 
-Two of the §5.2 NULLs and the §5.1 ladder cannot be CI-tested because no committed per-question paired baseline exists for one or both sides (the artifacts are summary-only):
+- **Cross-system mempalace vs OMEGA R@5 (0.920 vs 0.900)** — `status: descriptive_only`. Reported as **point estimates**, no CI. The `not_comparable_reason` is concrete: mempalace's R@5 is `drawer_hit_at_5` (drawer-level), OMEGA's is `omega_hit_at_5` (native unit), from different runners. Same strat150 subset, but **not the same hit semantics** → not paired-comparable. This is §4.2's comparability caveat made operational — the gate *refused* to emit a CI on incomparable data, which is the framework's honesty enforced in code, not just prose. (The two systems still land within ~2pp on their own metrics, consistent with the "backbone carries retrieval" reading, but that is a descriptive observation, not a tested delta.)
+- **CE-rerank on/off (#103)** — `status: no_paired_baseline`. The R@10-flat / MRR-drops / 3×-slower finding stands as a **descriptive** result; no per-question baseline was committed.
+- **Hybrid-vs-union / graph-leg-inert (#111)** — `status: no_paired_baseline`. The "hybrid ≡ union, graph leg inert" finding is **descriptive** — though it rests on a byte-identical candidate trace, which is stronger evidence of a tie than a statistical near-miss would be, just not a bootstrap CI.
+- **The retrieval-breadth ladder (§5.1, +17.3pp limit5→20)** is a within-system QA ladder, not a paired A/B in this artifact; its weight comes from effect size (17.3pp on n=150 = 26 questions, far outside any plausible noise band), reported as a large descriptive effect, not an FDR-corrected one.
 
-- **CE-rerank on/off (#103)** — `status: no_paired_baseline`. The R@10-flat / MRR-drops / 3×-slower finding stands as a **descriptive** result, not a CI-backed one.
-- **Hybrid-vs-union / graph-leg-inert (#111)** — `status: no_paired_baseline`. The "hybrid ≡ union, graph leg inert" finding is **descriptive** (and is itself a byte-identical-trace observation, which is stronger than a statistical tie, but not a bootstrap CI).
-- **The retrieval-breadth ladder (§5.1, +17.3pp limit5→20)** is a within-system QA accuracy ladder, not a paired A/B delta in this artifact; its significance is argued from effect size (17.3pp on n=150 = 26 questions, well outside any plausible noise band) rather than a committed paired CI. Treat the +17.3pp as a large descriptive effect, not an FDR-corrected one.
-
-**This two-tier split IS the §8 result:** the central equivalence claim and two of the four NULLs are statistically confirmed; the remaining nulls and the ladder are descriptive, and the report says which is which rather than dressing a summary-only finding in CI language.
+**This two-tier split IS the §8 result.** The central equivalence claim and two of the four NULLs are statistically confirmed; the cross-system delta and the remaining nulls are descriptive — and the section names which is which rather than dressing a summary-only or semantically-mismatched finding in CI language. A diagnostic framework that would *decline* to compute a tempting cross-system CI because the units don't match is the strongest possible statement of the measured-vs-claimed discipline this whole report is built on.
 
 ---
 

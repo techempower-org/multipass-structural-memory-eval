@@ -1,5 +1,5 @@
 {
-  "title": "Cross-system structural matrix (all harness systems x SME Cat 1-9)",
+  "title": "Full-field memory-system matrix — published claims vs SME multipass (every survey system)",
   "date": "2026-05-30",
   "author": "Cassia (sme-dreamteam)",
   "issue": "techempower-org/multipass-structural-memory-eval#178 (Tier 3) + #115 (multipass matrix)",
@@ -588,7 +588,7 @@
   "rescore_note": "2026-05-31 (cassia-2, #148): mempalace structural column re-scored over the REAL KG after #147 (real-kg measurement) + #210 + #211 (exact RELATION aggregation). Cat 3/6 flipped from declared-ceiling +1.00 to emergent 0.00 (live palace has no contradicts/supersedes edges). Cat 4 anchored to the full-graph EXACT (0.340 norm / `other` 55.1% / 2.68 bits / 237 types / 248 collisions), overturning the sampled 0.020/98.98%-tunnel artifact. Cat 5/8 published as VERDICT (Cat 5: qualitatively well-connected; Cat 8: hierarchical PASSES) with absolute numbers held pending a server-side computation, because the adapter's --real-kg topology numbers are limit-dependent. All reads were READ-ONLY GET probes against prod familiar:8085; no ingest.",
   "hindsight_note": "2026-05-31 (cassia-2, #146): Hindsight slotted as a VERDICT row per team-lead adjudication. Retrieval/QA cats = 'verified + runnable; full on-harness QA deferred (extraction-throughput-bound, ~150h strat150 ingest)' with the field-reported 91.4% recorded as a field number, NOT an on-harness measurement. The n=12 0.0 attempt was INVALIDATED by a mid-run SIGTERM and is excluded. Structural cats 3/4/5/6/8 = N/A (no graph endpoint). Cross-system headline: extraction-based memory (Hindsight, Mem0) is benchmark-throughput-bound; verbatim-first (mempalace) ingests at ~0 marginal cost -- the cost thesis the public leaderboards hide, now a multi-competitor data point.",
   "mem0_note": "2026-05-31 (cassia-2, #146): Mem0-OSS slotted as a VERDICT row per Solara's #221 verdict. Retrieval/QA cats = verified + runnable, on-harness QA deferred (extraction-throughput-bound, ~9s/ingest warm -> ~18h strat150). Structural cats N/A because GRAPH MEMORY WAS REMOVED FROM mem0 OSS (zero edges) -- a distinct finding from Hindsight's no-endpoint. The matrix is now COMPLETE: mempalace + OMEGA fully scored; Hindsight + Mem0 verdict rows. Cross-system cost-wall finding now has BOTH extraction-cost numbers (Hindsight ~150h, Mem0 ~18h) vs verbatim-first mempalace ~0 marginal cost.",
-  "status": "EXPANDED -- 8 rows across Cat 1-9: 4 memory systems (mempalace, omega, hindsight, mem0) + 1 no-structure control (flat) + 1 Cat 9a orchestrator arm (rlm) + 2 Karpathy baselines wired-but-not-yet-benched (full_context D1, karpathy_compiled D2, all not-run). oracle/random footnoted as diagnostic bounds. Every cell is a real reading or an explicit marker -- no fabricated numbers.",
+  "status": "FULL-FIELD — every survey system as a row, two column-groups (published_field = self-reported survey claims, NOT SME-measured; sme_multipass = our harness, real-or-not-benched). The 8-row SME matrix (categories block) is unchanged + canonical for the measured cells.",
   "expansion_note": "2026-05-31 (cassia-2, #163): expanded from 4 systems to ALL harness-tested systems with honest per-cell coverage. mempalace Cat 4/5/8 flipped verdict->FINAL exact numbers (post re-map/DELETE/networkx). Added: flat (no-structure CONTROL -- real Cat 1/2c/7, structural N/A BY DESIGN), rlm (Cat 9a orchestrator arm -- the 46.7% invocation plateau, structural not-run), full_context (D1) + karpathy_compiled (D2) (Karpathy baselines, wired but not-run). oracle/random adapters present but not run as matrix cells (noted in doc). Every cell is a real reading OR an explicit marker (N/A-no-graph-endpoint / N/A-by-design / N/A-no-harness / not-run / emergent / verified-qa-deferred) -- NO fabricated numbers.",
   "not_benched_footnote": "oracle_retrieval (ceiling) + random_retrieval (floor) adapters are present in the registry but were not run as matrix cells -- they are diagnostic BOUNDS, not products, and the reader_trueoracle_* baselines are a reader-config experiment, not an oracle-adapter Cat run. Footnoted, not given rows. (full_context D1 / karpathy_compiled D2 ARE shown as explicit wired-but-not-benched rows.)",
   "distinct_na_structural_reasons": {
@@ -601,5 +601,549 @@
     "not_benched_rows_distinct": "The full_context (D1) + karpathy_compiled (D2) rows are ALL not-run. They MUST render visually + textually unmistakable as 'wired / not yet benched' (distinct muted/italic treatment + a 'not run' pill), so they read as 'the harness has these adapters, they haven't been benched' and NOT as data-gaps in a measured system. Do not let an all-'not-run' row look like a measured system that scored blanks.",
     "role_grouping": "Group rows by system_roles: memory_system (mempalace/OMEGA/Hindsight/Mem0) vs baseline_control (flat) vs diagnostic_arm (rlm) vs baseline_condition_not_benched (full_context/karpathy_compiled). Label so it doesn't read as competing products.",
     "position": "Render at the TOP of the site, repositioned as the lead matrix (replacing the prior 4-system table)."
-  }
+  },
+  "field_roster": {
+    "mempalace": {
+      "status": "benched_on_multipass",
+      "display": "MemPalace (techempower-org fork)",
+      "published_field": {
+        "longmemeval_qa": "-- (R@5 only: 0.984 held-out hybrid v4 / 96.6% upstream ChromaDB baseline; no E2E QA)",
+        "locomo_qa": "-- (R@10 88.9% upstream, retrieval-only)",
+        "beam_1m": "--",
+        "answer_model": "n/a (retrieval-only published)",
+        "verification": "indie (upstream 96.6% R@5 repro'd) / self (fork)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) Appendix A (fork) + §2 LongMemEval",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Fork publishes R@5 (0.984 held-out) + jp-realm 78.33% recall; NO published E2E QA. Upstream 96.6% R@5 is a ChromaDB baseline (palace features hurt it: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%). This is the ONLY published_field where SME provides the missing real measurements."
+      }
+    },
+    "omega": {
+      "status": "benched_on_multipass",
+      "display": "OMEGA",
+      "published_field": {
+        "longmemeval_qa": "95.4%",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "GPT-4.1",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) line 68/444 + Appendix A; omegamax.co/benchmarks",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "#1 on its self-leaderboard; solo dev, self-reported only. MemoryStress 38.3%. SME measured OMEGA on-harness at R@5 0.900 / QA 0.593 (o4-mini) — NOT comparable to the 95.4% (GPT-4.1)."
+      }
+    },
+    "hindsight": {
+      "status": "benched_on_multipass",
+      "display": "Hindsight",
+      "published_field": {
+        "longmemeval_qa": "91.4% (Gemini-3 Pro) / 89.0% (OSS-120B)",
+        "locomo_qa": "89.61% (Gemini-3) / 85.67% (OSS-120B)",
+        "beam_1m": "73.9%",
+        "beam_10m": "64.1%",
+        "answer_model": "Gemini 3 Pro",
+        "verification": "indie (Virginia Tech + Washington Post) + paper (arXiv:2512.12818)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 71/103/120/447 + Appendix A",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Best independently-verified published numbers in the field. PersonaMem 86.6%/LifeBenchEN 71.5%. SME bench = verified+runnable, on-harness QA deferred (extraction-throughput-bound)."
+      }
+    },
+    "mem0": {
+      "status": "benched_on_multipass",
+      "display": "Mem0-OSS",
+      "published_field": {
+        "longmemeval_qa": "OSS: 67.8% (old alg) — platform v3 (cloud) claims 94.4-94.8%",
+        "locomo_qa": "OSS: 61.4-68.5% (indie) — platform v3 claims 92.5%",
+        "beam_1m": "OSS README: 64.1% — platform v3 claims 70.1%",
+        "beam_10m": "OSS: 48.6% — platform v3: 50.5%",
+        "answer_model": "undisclosed",
+        "verification": "indie (True Memory paper + Hindsight repo tested OSS) / self (platform)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 109/111/121-122/204-213 + §'Mem0 Score Discrepancies'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "CRITICAL platform-vs-OSS split: the high 92-94% numbers are Mem0 PLATFORM v3 (cloud, new alg); OSS (what we benched, what True Memory/Hindsight tested) is 61-68% LoCoMo. The survey flags this is 'almost never made explicit.' SME benched the OSS package (verified+runnable, QA deferred)."
+      }
+    },
+    "flat": {
+      "status": "benched_on_multipass",
+      "display": "flat (no-structure control)",
+      "published_field": {
+        "longmemeval_qa": "n/a (internal control, not a product)",
+        "locomo_qa": "n/a",
+        "beam_1m": "n/a",
+        "answer_model": "n/a",
+        "verification": "none (SME-internal control)",
+        "source": "SME-internal",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Not a surveyed product — SME's no-structure baseline. No published field claims by construction."
+      }
+    },
+    "rlm": {
+      "status": "benched_on_multipass",
+      "display": "rlm (Cat 9a orchestrator arm)",
+      "published_field": {
+        "longmemeval_qa": "n/a (SME diagnostic arm, not a product)",
+        "locomo_qa": "n/a",
+        "beam_1m": "n/a",
+        "answer_model": "Qwen-7B / Llama-70B",
+        "verification": "none (SME-internal)",
+        "source": "SME-internal",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Not a surveyed product — SME's Cat 9a orchestrator-invocation probe (the 46.7% plateau / 7-27% invocation). No published field claims."
+      }
+    },
+    "full_context": {
+      "status": "benched_on_multipass",
+      "display": "full_context (Karpathy D1)",
+      "published_field": {
+        "longmemeval_qa": "n/a — methodology baseline; cf. survey's full-context GPT-4o 60.2% LongMemEval reference",
+        "locomo_qa": "n/a (cf. full-context ~52-66% LoCoMo reference)",
+        "beam_1m": "n/a",
+        "answer_model": "n/a",
+        "verification": "none (Karpathy-style context baseline)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §1 (full-context baseline references)",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Not a product — the whole-vault-in-context baseline. SME row is wired-but-not-benched. The survey's full-context GPT-4o reference (60.2% LongMemEval) is the spiritual comparator."
+      }
+    },
+    "karpathy_compiled": {
+      "status": "benched_on_multipass",
+      "display": "karpathy_compiled (Karpathy D2)",
+      "published_field": {
+        "longmemeval_qa": "n/a — methodology baseline (LLM-compiled wiki)",
+        "locomo_qa": "n/a",
+        "beam_1m": "n/a",
+        "answer_model": "n/a",
+        "verification": "none",
+        "source": "SME-internal (Karpathy D2 condition)",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Not a product — LLM-compiled-wiki context baseline. SME row wired-but-not-benched."
+      }
+    },
+    "longhand": {
+      "status": "bench_in_flight",
+      "display": "Longhand",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none (no published benchmarks)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) (Longhand: 'No benchmarks published', line 85/128)",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. Longhand publishes no quantitative benchmarks."
+      },
+      "sme_status": "bench-in-flight (#164, Twilight)"
+    },
+    "postgres_ingest": {
+      "status": "bench_in_flight",
+      "display": "postgres_ingest",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none (no published benchmarks)",
+        "source": "n/a (SME-internal verbatim-first adapter)",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. "
+      },
+      "sme_status": "bench-in-flight (#164, Twilight)"
+    },
+    "ladybugdb": {
+      "status": "bench_in_flight",
+      "display": "LadybugDB",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none (no published benchmarks)",
+        "source": "n/a (SME-internal verbatim-first adapter)",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. "
+      },
+      "sme_status": "bench-in-flight (#164, Twilight)"
+    },
+    "mem0_platform_v3": {
+      "status": "published_field_only",
+      "display": "Mem0 Platform V3",
+      "published_field": {
+        "longmemeval_qa": "94.4%",
+        "locomo_qa": "92.5%",
+        "beam_1m": "70.1%",
+        "beam_10m": "50.5%",
+        "answer_model": "undisclosed 'production stack'",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 70/101/121/445",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Mem0 CLOUD platform v3 (new alg) — distinct from the OSS package SME benched. Cloud-only, not locally runnable."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "mastra": {
+      "status": "published_field_only",
+      "display": "Mastra",
+      "published_field": {
+        "longmemeval_qa": "94.87%",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "GPT-5-mini",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 69/446",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Not in MemPalace README originally; added by survey."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "true_memory_pro": {
+      "status": "published_field_only",
+      "display": "True Memory Pro",
+      "published_field": {
+        "longmemeval_qa": "87.8%",
+        "locomo_qa": "93.0%",
+        "beam_1m": "76.6%",
+        "beam_10m": "65.0% (prelim)",
+        "answer_model": "gpt-4.1-mini",
+        "verification": "paper (arXiv:2605.04897)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 81/99/118/448",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Pro adds HyDE + larger reranker. 56-config ablation: 53/56 >90% LoCoMo (3.2pp spread) — architecture > component choice. No code release."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "true_memory_base": {
+      "status": "published_field_only",
+      "display": "True Memory Base",
+      "published_field": {
+        "longmemeval_qa": "85.5%",
+        "locomo_qa": "92.0%",
+        "beam_1m": "74.9%",
+        "answer_model": "gpt-4.1-mini",
+        "verification": "paper (arXiv:2605.04897)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 82/100/119/449",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "supermemory": {
+      "status": "published_field_only",
+      "display": "Supermemory",
+      "published_field": {
+        "longmemeval_qa": "81.6% (GPT-4o) / 85.2% (Gemini-3) / 84.6% (GPT-5)",
+        "locomo_qa": "65.4% (per True Memory paper)",
+        "beam_1m": "--",
+        "answer_model": "GPT-4o / Gemini-3 / GPT-5",
+        "verification": "indie (Hindsight repo + True Memory paper)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 78/110/389-392",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "ConvoMem #1 claim, no score published."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "everos_evermind": {
+      "status": "published_field_only",
+      "display": "EverOS Evermind",
+      "published_field": {
+        "longmemeval_qa": "83.0%",
+        "locomo_qa": "93.05% (EverCore) / 92.73% (HyperMem)",
+        "beam_1m": "--",
+        "answer_model": "undisclosed",
+        "verification": "self (open eval data on HuggingFace)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 79/98/451 + Appendix A",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "EverMemBench (internal). Eval data published (EverMemOS_Eval_Results)."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "engram_paper": {
+      "status": "published_field_only",
+      "display": "Engram Paper",
+      "published_field": {
+        "longmemeval_qa": "71.4%",
+        "locomo_qa": "77.55%",
+        "beam_1m": "--",
+        "answer_model": "GPT-4o-mini",
+        "verification": "paper (arXiv:2511.12960)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 83/107/452",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "ACADEMIC paper ENGRAM — distinct from EngramX/NickCirv (token-reduction only). ~99% token reduction vs full context."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "zep_graphiti": {
+      "status": "published_field_only",
+      "display": "Zep Graphiti",
+      "published_field": {
+        "longmemeval_qa": "71.2% (GPT-4o) / 63.8% (GPT-4o-mini)",
+        "locomo_qa": "75.14% (Hindsight repo)",
+        "beam_1m": "--",
+        "answer_model": "GPT-4o",
+        "verification": "self (blog) + paper (arXiv:2501.13956) + indie (LoCoMo via Hindsight)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 80/106/453",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "DMR 94.8% (GPT-4-Turbo) on MemGPT's original metric."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "celiums": {
+      "status": "published_field_only",
+      "display": "Celiums",
+      "published_field": {
+        "longmemeval_qa": "62.3%",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "Opus (best of 5)",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 84/454/424-429",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "HONEST methodology: 100% retrieval, 62.3% QA — proves the R@5≠QA gap (the synthesis ceiling, not retrieval)."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "memmachine": {
+      "status": "published_field_only",
+      "display": "Memmachine",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "91.7%",
+        "beam_1m": "--",
+        "answer_model": "gpt-4.1-mini",
+        "verification": "paper (arXiv:2604.04853)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) line 102",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "In survey LoCoMo table, not in README; surfaced for completeness."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "memobase": {
+      "status": "published_field_only",
+      "display": "Memobase",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "75.78%",
+        "beam_1m": "--",
+        "answer_model": "undisclosed",
+        "verification": "indie (Hindsight benchmarks)",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) line 105",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "In survey LoCoMo table (indie via Hindsight repo); not in README."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "agentmemory": {
+      "status": "published_field_only",
+      "display": "Agentmemory",
+      "published_field": {
+        "longmemeval_qa": "-- (R@5 95.2% / R@10 98.6% / MRR 88.2% — RETRIEVAL ONLY, not QA)",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "n/a (retrieval only)",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 72/396-399/457",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "R@5 only (all-MiniLM-L6-v2). Survey §3: R@5 is NOT comparable to QA accuracy."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "engram_2": {
+      "status": "published_field_only",
+      "display": "Engram 2",
+      "published_field": {
+        "longmemeval_qa": "-- (R@5 0.990 / R@10 0.998 / MRR 0.946 — RETRIEVAL)",
+        "locomo_qa": "74.5% (STRICT judge GPT-5.4, 200q subset)",
+        "beam_1m": "--",
+        "answer_model": "GPT-5.4 (strict judge, LoCoMo only)",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 73/108/401-406/456",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "R@5 retrieval (Gemini Embed 2 + FTS5 + RRF) + a LoCoMo QA w/ a NON-STANDARD strict judge (not comparable to standard-judge LoCoMo). Distinct from academic ENGRAM."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "ai_memory": {
+      "status": "published_field_only",
+      "display": "Ai Memory",
+      "published_field": {
+        "longmemeval_qa": "-- (R@5 97.8% / R@10 99.0% / R@20 99.8% — RETRIEVAL)",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "n/a (retrieval only)",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 76/408-413/458",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "R@5 only, smart tier w/ LLM query expansion; all-local models. Not QA."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "mcp_memory_service": {
+      "status": "published_field_only",
+      "display": "Mcp Memory Service",
+      "published_field": {
+        "longmemeval_qa": "-- (R@5 80.4% turn / 86.0% session — RETRIEVAL)",
+        "locomo_qa": "-- (R@5 49.7% — RETRIEVAL)",
+        "beam_1m": "--",
+        "answer_model": "n/a (retrieval only)",
+        "verification": "self",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) lines 77/112/415-422/459",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "R@5 only (all-MiniLM-L6-v2). DevBench R@5 91.1%. Not QA."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "open_brain_ob1": {
+      "status": "no_published_data",
+      "display": "Open Brain Ob1",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Cost-optimization metrics only (73% invocation reduction); no retrieval/QA benchmarks."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "claude_mem": {
+      "status": "no_published_data",
+      "display": "Claude Mem",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "~10x token-savings claim; evals/swebench dir exists but no scores published."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "letta_memgpt": {
+      "status": "no_published_data",
+      "display": "Letta Memgpt",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Context-Bench is a MODEL eval, not a memory-system eval; no memory benchmarks. (MemGPT DMR 93.4% is the old metric.)"
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "cognee": {
+      "status": "no_published_data",
+      "display": "Cognee",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "arXiv paper linked but no benchmark numbers in README."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "caviraoss_openmemory": {
+      "status": "no_published_data",
+      "display": "Caviraoss Openmemory",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Feature comparison only; no published benchmarks."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "engramx_nickcirv": {
+      "status": "no_published_data",
+      "display": "Engramx Nickcirv",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Token-reduction benchmarks (89% savings) only; no retrieval/QA. Distinct from academic ENGRAM paper."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    },
+    "iai_mcp": {
+      "status": "no_published_data",
+      "display": "Iai Mcp",
+      "published_field": {
+        "longmemeval_qa": "--",
+        "locomo_qa": "--",
+        "beam_1m": "--",
+        "answer_model": "--",
+        "verification": "none",
+        "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) §'Systems With No Published Benchmark Results'",
+        "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
+        "note": "Verbatim recall >=99% @10K items, latency <100ms; LongMemEval-S run EXISTS but score WITHHELD."
+      },
+      "sme_status": "not-benched — no SME multipass adapter run for this system"
+    }
+  },
+  "field_status_groups": {
+    "benched_on_multipass": [
+      "mempalace",
+      "omega",
+      "hindsight",
+      "mem0",
+      "flat",
+      "rlm",
+      "full_context",
+      "karpathy_compiled"
+    ],
+    "bench_in_flight": [
+      "longhand",
+      "postgres_ingest",
+      "ladybugdb"
+    ],
+    "published_field_only": [
+      "mem0_platform_v3",
+      "mastra",
+      "true_memory_pro",
+      "true_memory_base",
+      "supermemory",
+      "everos_evermind",
+      "engram_paper",
+      "zep_graphiti",
+      "celiums",
+      "memmachine",
+      "memobase",
+      "agentmemory",
+      "engram_2",
+      "ai_memory",
+      "mcp_memory_service"
+    ],
+    "no_published_data": [
+      "open_brain_ob1",
+      "claude_mem",
+      "letta_memgpt",
+      "cognee",
+      "caviraoss_openmemory",
+      "engramx_nickcirv",
+      "iai_mcp"
+    ]
+  },
+  "comparability_caveats": {
+    "R@K_vs_QA": "R@5 retrieval recall (MemPalace upstream, agentmemory, engram-2, ai-memory, mcp-memory-service) is NOT comparable to E2E QA accuracy (OMEGA, Mem0, Hindsight, True Memory, EverOS, Zep, Supermemory). Celiums proved 100% retrieval can = 62.3% QA. (survey §3)",
+    "answer_model_swing": "~24pp swing on the SAME benchmark between answer models (GPT-4.1 95.4% vs GPT-4o-mini 71.4%). No apples-to-apples QA exists unless the answer model is held constant. (survey §3)",
+    "platform_vs_oss": "Mem0's 92-94% are the CLOUD platform v3 (new alg); the OSS package is 61-68% LoCoMo. Survey: 'almost never made explicit.' Label every Mem0 number platform-vs-OSS.",
+    "locomo_subset": "LoCoMo question count varies (~1,540 full vs 200/300 subsets); adversarial category often skipped (Hindsight skips it); engram-2 uses a NON-STANDARD strict GPT-5.4 judge. LoCoMo cross-comparisons unreliable without exact subset+judge. (survey §3)",
+    "judge_variation": "Most use GPT-4o judge (LongMemEval protocol); engram-2 strict GPT-5.4, EverMind GPT-OSS-120b@temp0. Not interchangeable.",
+    "mempalace_upstream_controversy": "Upstream 96.6% R@5 is a ChromaDB baseline (no palace features; enabling them HURTS: rooms -7.2pp, AAAK -12.4pp; BM25 alone 93.8%); LoCoMo 100% is structurally guaranteed at top-50. The fork publishes 0.984 R@5 held-out (no E2E QA). (survey §'MemPalace Upstream Benchmark Controversy')"
+  },
+  "field_roster_note": "2026-05-31 (cassia-2, #165): FULL-FIELD view. Every system in the survey (memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md) is a row, with TWO column-groups NEVER conflated: published_field = THEIR self-reported survey claims (verbatim, cited, answer-model + verification labeled, 'NOT SME-measured'); sme_multipass = OUR harness readings (the `categories` block) ONLY for benched systems, 'not-benched' elsewhere. Status groups: benched_on_multipass (6 + the 8-row matrix systems), bench_in_flight (longhand/postgres_ingest/ladybugdb via Twilight #164), published_field_only (survey numbers, no SME adapter), no_published_data (in the field, no numbers). NO fabrication: published cells are verbatim survey, sme cells are real or not-benched. Carries comparability_caveats (R@K≠QA, ~24pp answer-model swing, platform-vs-OSS, LoCoMo-subset, judge-variation) for luna-2 callouts. Epic #234."
 }

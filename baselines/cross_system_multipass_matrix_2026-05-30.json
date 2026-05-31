@@ -1,5 +1,5 @@
 {
-  "title": "Cross-system structural matrix (ALL tested systems x SME Cat 1-9)",
+  "title": "Cross-system structural matrix (6 data-backed systems x SME Cat 1-9)",
   "date": "2026-05-30",
   "author": "Cassia (sme-dreamteam)",
   "issue": "techempower-org/multipass-structural-memory-eval#178 (Tier 3) + #115 (multipass matrix)",
@@ -10,9 +10,7 @@
     "hindsight",
     "mem0",
     "flat",
-    "rlm",
-    "full_context",
-    "karpathy_compiled"
+    "rlm"
   ],
   "system_roles": {
     "mempalace": {
@@ -38,17 +36,9 @@
     "rlm": {
       "group": "diagnostic_arm",
       "label": "DIAGNOSTIC ARM — Cat 9a orchestrator-invocation probe (measures the model in front of the memory, not a memory product)"
-    },
-    "full_context": {
-      "group": "baseline_condition",
-      "label": "BASELINE — Karpathy condition D1 (whole-vault-in-context; methodology baseline, not a product)"
-    },
-    "karpathy_compiled": {
-      "group": "baseline_condition",
-      "label": "BASELINE — Karpathy condition D2 (LLM-compiled wiki; methodology baseline, not a product)"
     }
   },
-  "roles_note": "Group labels so the matrix reads honestly: memory_system = an actual memory product under test (mempalace, OMEGA = substrates; Hindsight, Mem0 = extraction competitors). baseline_control = flat, the no-structure floor the structural delta is measured AGAINST. baseline_condition = the Karpathy D1/D2 context-construction conditions (methodology baselines). diagnostic_arm = rlm, the Cat 9a orchestrator probe (it measures the MODEL's invocation behaviour, not a memory product). oracle_retrieval (ceiling) + random_retrieval (floor) are diagnostic BOUNDS, not products -- adapters present but not run as matrix cells, noted in the doc. Do NOT read this as '8 competing products'.",
+  "roles_note": "Group labels so the matrix reads honestly: memory_system = an actual memory product under test (mempalace, OMEGA = substrates; Hindsight, Mem0 = extraction competitors). baseline_control = flat, the no-structure floor the structural delta is measured AGAINST. diagnostic_arm = rlm, the Cat 9a orchestrator probe (measures the MODEL's invocation behaviour, not a memory product). Wired-but-unbenched adapters (Karpathy D1/D2, oracle/random controls) are in not_benched_footnote, NOT given rows. Do NOT read this as '6 competing products' -- 4 systems + 1 control + 1 diagnostic arm.",
   "scoreability_legend": {
     "scoreable": "the cat is meaningfully runnable against this system",
     "N/A-no-graph": "system exposes no graph/edges; structural cat cannot be evaluated",
@@ -101,16 +91,6 @@
         "metric": "mean_recall (jp-realm)",
         "scoreability": "scoreable",
         "note": "RLM (Qwen-7B and Llama-70B) both mean_recall 0.467 on jp-realm-v0.1 -- full-recall 10/30 (qwen7b) / 6/30 (llama70b). The ~10x parameter difference does NOT move recall: both ceiling at willingness-to-invoke, not retrieval (see Cat 9a)."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "2c": {
@@ -154,16 +134,6 @@
         "metric": "by-hop available",
         "scoreability": "scoreable",
         "note": "RLM by-hop present in the same jp-realm baselines; the headline Cat 9a finding (invocation plateau) is the load-bearing RLM reading, not multi-hop."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "3": {
@@ -204,16 +174,6 @@
         "value": null,
         "scoreability": "not-run",
         "note": "RLM was run as the Cat 9a invocation arm on jp-realm, not through the structural cats. No contradiction-detection reading exists."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "4": {
@@ -257,16 +217,6 @@
         "value": null,
         "scoreability": "not-run",
         "note": "not run through Cat 4."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "5": {
@@ -311,16 +261,6 @@
         "value": null,
         "scoreability": "not-run",
         "note": "not run through Cat 5."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "6": {
@@ -359,16 +299,6 @@
         "value": null,
         "scoreability": "not-run",
         "note": "not run through Cat 6."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "7": {
@@ -409,16 +339,6 @@
         "value": null,
         "scoreability": "not-run",
         "note": "not run through Cat 7 (token-efficiency/QA)."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "8": {
@@ -464,16 +384,6 @@
         "value": null,
         "scoreability": "not-run",
         "note": "not run through Cat 8."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "9a": {
@@ -511,16 +421,6 @@
         "scoreability": "scoreable",
         "invocation_rate": "7-27%",
         "note": "THE RLM finding: Qwen-7B and Llama-70B both plateau at 46.7% recall with 7-27% tool-invocation -- the ceiling is WILLINGNESS TO INVOKE, not retrieval. This is the low rung of the Cat 9a Tau2 ladder (gemma4 41.7 -> qwen3.5 75.0 -> opus-4-8 98.3); RLM is the cautionary arm showing parameter count doesn't fix invocation. Cf. mempalace+opus-4-8 = 0.983 / 100% invocation on the same corpus."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     },
     "9b": {
@@ -552,16 +452,6 @@
         "value": null,
         "scoreability": "N/A-no-harness",
         "note": "RLM exercised as an orchestrator over the retrieval system, not probed for call-through manifest."
-      },
-      "full_context": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "full_context (Karpathy Condition D1 -- whole-vault-in-context): Adapter wired in the registry (sme/conditions/full_context.py) as the Karpathy D1 control, but NOT yet run through any SME cat on a shared corpus. No baseline reading exists for any cat."
-      },
-      "karpathy_compiled": {
-        "value": null,
-        "scoreability": "not-run",
-        "note": "karpathy_compiled (Karpathy Condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but NOT yet run through any SME cat. No baseline reading exists for any cat."
       }
     }
   },
@@ -588,6 +478,13 @@
   "rescore_note": "2026-05-31 (cassia-2, #148): mempalace structural column re-scored over the REAL KG after #147 (real-kg measurement) + #210 + #211 (exact RELATION aggregation). Cat 3/6 flipped from declared-ceiling +1.00 to emergent 0.00 (live palace has no contradicts/supersedes edges). Cat 4 anchored to the full-graph EXACT (0.340 norm / `other` 55.1% / 2.68 bits / 237 types / 248 collisions), overturning the sampled 0.020/98.98%-tunnel artifact. Cat 5/8 published as VERDICT (Cat 5: qualitatively well-connected; Cat 8: hierarchical PASSES) with absolute numbers held pending a server-side computation, because the adapter's --real-kg topology numbers are limit-dependent. All reads were READ-ONLY GET probes against prod familiar:8085; no ingest.",
   "hindsight_note": "2026-05-31 (cassia-2, #146): Hindsight slotted as a VERDICT row per team-lead adjudication. Retrieval/QA cats = 'verified + runnable; full on-harness QA deferred (extraction-throughput-bound, ~150h strat150 ingest)' with the field-reported 91.4% recorded as a field number, NOT an on-harness measurement. The n=12 0.0 attempt was INVALIDATED by a mid-run SIGTERM and is excluded. Structural cats 3/4/5/6/8 = N/A (no graph endpoint). Cross-system headline: extraction-based memory (Hindsight, Mem0) is benchmark-throughput-bound; verbatim-first (mempalace) ingests at ~0 marginal cost -- the cost thesis the public leaderboards hide, now a multi-competitor data point.",
   "mem0_note": "2026-05-31 (cassia-2, #146): Mem0-OSS slotted as a VERDICT row per Solara's #221 verdict. Retrieval/QA cats = verified + runnable, on-harness QA deferred (extraction-throughput-bound, ~9s/ingest warm -> ~18h strat150). Structural cats N/A because GRAPH MEMORY WAS REMOVED FROM mem0 OSS (zero edges) -- a distinct finding from Hindsight's no-endpoint. The matrix is now COMPLETE: mempalace + OMEGA fully scored; Hindsight + Mem0 verdict rows. Cross-system cost-wall finding now has BOTH extraction-cost numbers (Hindsight ~150h, Mem0 ~18h) vs verbatim-first mempalace ~0 marginal cost.",
-  "status": "EXPANDED -- 8 systems (mempalace, omega, hindsight, mem0, flat, rlm, full_context, karpathy_compiled) across Cat 1-9; honest per-cell coverage (real reading or explicit no-graph/by-design/no-harness/not-run marker).",
-  "expansion_note": "2026-05-31 (cassia-2, #163): expanded from 4 systems to ALL harness-tested systems with honest per-cell coverage. mempalace Cat 4/5/8 flipped verdict->FINAL exact numbers (post re-map/DELETE/networkx). Added: flat (no-structure CONTROL -- real Cat 1/2c/7, structural N/A BY DESIGN), rlm (Cat 9a orchestrator arm -- the 46.7% invocation plateau, structural not-run), full_context (D1) + karpathy_compiled (D2) (Karpathy baselines, wired but not-run). oracle/random adapters present but not run as matrix cells (noted in doc). Every cell is a real reading OR an explicit marker (N/A-no-graph-endpoint / N/A-by-design / N/A-no-harness / not-run / emergent / verified-qa-deferred) -- NO fabricated numbers."
+  "status": "EXPANDED -- 6 data-backed systems (mempalace, omega, hindsight, mem0 = memory systems; flat = no-structure control; rlm = Cat 9a orchestrator arm) across Cat 1-9; honest per-cell coverage (real reading or explicit N/A/not-run marker). Wired-but-unbenched adapters (Karpathy D1/D2, oracle/random) noted in a footnote, not padded as empty rows.",
+  "expansion_note": "2026-05-31 (cassia-2, #163): expanded from 4 systems to ALL harness-tested systems with honest per-cell coverage. mempalace Cat 4/5/8 flipped verdict->FINAL exact numbers (post re-map/DELETE/networkx). Added: flat (no-structure CONTROL -- real Cat 1/2c/7, structural N/A BY DESIGN), rlm (Cat 9a orchestrator arm -- the 46.7% invocation plateau, structural not-run), full_context (D1) + karpathy_compiled (D2) (Karpathy baselines, wired but not-run). oracle/random adapters present but not run as matrix cells (noted in doc). Every cell is a real reading OR an explicit marker (N/A-no-graph-endpoint / N/A-by-design / N/A-no-harness / not-run / emergent / verified-qa-deferred) -- NO fabricated numbers.",
+  "not_benched_footnote": "The harness also ships adapters that are WIRED but NOT YET benched through the multipass cats, so they get no matrix row (an all-'not-run' row would read as 'tested but blank' and misrepresent): full_context (Karpathy condition D1, whole-vault-in-context), karpathy_compiled (Karpathy condition D2, LLM-compiled wiki), and the oracle_retrieval (ceiling) / random_retrieval (floor) diagnostic controls. Benching D1/D2 on a shared corpus is a separate run, not blocking this matrix.",
+  "distinct_na_structural_reasons": {
+    "flat": "N/A BY DESIGN -- no-structure control; there is intentionally no graph (it's the baseline the structural delta is measured against).",
+    "hindsight": "N/A NO GRAPH ENDPOINT -- extraction-then-retrieve; serves no standalone graph API at all.",
+    "mem0": "N/A GRAPH LAYER REMOVED -- mem0 OSS *had* a graph-memory layer and the open-source edition dropped it (now flat/vector; hosted platform keeps it).",
+    "note": "Three structural-N/A systems, three DIFFERENT reasons -- that distinction is a feature of the matrix, not noise."
+  }
 }

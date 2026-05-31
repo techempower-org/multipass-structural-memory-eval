@@ -196,6 +196,9 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--content-rules", default="upstream-exact",
                    choices=["sme-rich", "upstream-exact"])
     p.add_argument("--n-results", type=int, default=5)
+    p.add_argument("--api-timeout", type=float, default=None,
+                   help="Per-request HTTP timeout (s). Low values let a hung "
+                        "daemon call error-and-continue instead of blocking.")
     p.add_argument("--namespace", default=None, help="ai-memory namespace.")
     p.add_argument("--project", default=None, help="agentmemory base project.")
     p.add_argument("--json", type=Path, default=None)
@@ -227,6 +230,7 @@ def run(args: argparse.Namespace) -> dict:
             "n_results": args.n_results,
             "namespace": args.namespace,
             "project": args.project,
+            "api_timeout": args.api_timeout,
         }
         return _load_adapter(args.adapter, **kwargs)
 

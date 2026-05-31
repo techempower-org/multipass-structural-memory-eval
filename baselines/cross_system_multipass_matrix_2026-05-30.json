@@ -14,6 +14,41 @@
     "full_context",
     "karpathy_compiled"
   ],
+  "system_roles": {
+    "mempalace": {
+      "group": "memory_system",
+      "label": "memory system (verbatim-first substrate)"
+    },
+    "omega": {
+      "group": "memory_system",
+      "label": "memory system (embed + auto-relate substrate)"
+    },
+    "hindsight": {
+      "group": "memory_system",
+      "label": "memory system (extraction-based competitor)"
+    },
+    "mem0": {
+      "group": "memory_system",
+      "label": "memory system (extraction-based competitor, OSS)"
+    },
+    "flat": {
+      "group": "baseline_control",
+      "label": "BASELINE — no-structure control (the floor the structural delta is measured against; not a competitor)"
+    },
+    "rlm": {
+      "group": "diagnostic_arm",
+      "label": "DIAGNOSTIC ARM — Cat 9a orchestrator-invocation probe (measures the model in front of the memory, not a memory product)"
+    },
+    "full_context": {
+      "group": "baseline_condition",
+      "label": "BASELINE — Karpathy condition D1 (whole-vault-in-context; methodology baseline, not a product)"
+    },
+    "karpathy_compiled": {
+      "group": "baseline_condition",
+      "label": "BASELINE — Karpathy condition D2 (LLM-compiled wiki; methodology baseline, not a product)"
+    }
+  },
+  "roles_note": "Group labels so the matrix reads honestly: memory_system = an actual memory product under test (mempalace, OMEGA = substrates; Hindsight, Mem0 = extraction competitors). baseline_control = flat, the no-structure floor the structural delta is measured AGAINST. baseline_condition = the Karpathy D1/D2 context-construction conditions (methodology baselines). diagnostic_arm = rlm, the Cat 9a orchestrator probe (it measures the MODEL's invocation behaviour, not a memory product). oracle_retrieval (ceiling) + random_retrieval (floor) are diagnostic BOUNDS, not products -- adapters present but not run as matrix cells, noted in the doc. Do NOT read this as '8 competing products'.",
   "scoreability_legend": {
     "scoreable": "the cat is meaningfully runnable against this system",
     "N/A-no-graph": "system exposes no graph/edges; structural cat cannot be evaluated",

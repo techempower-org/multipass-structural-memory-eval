@@ -90,16 +90,26 @@ emergent reading; **QA-def** = verified, on-harness QA deferred (extraction-thro
 no structure *by design* (the control); **N/A-harness** = no invocation surface; **—** =
 not run (adapter wired, no baseline reading; an honest coverage gap, not a 0).
 
+⚠️ **This is NOT a leaderboard of 8 competing products.** The roster is grouped by role:
+the **memory systems** (mempalace, OMEGA, Hindsight, Mem0) are the substrates/products
+under test; **flat** is the no-structure *control* (the floor the structural delta is
+measured against); **rlm** is a *diagnostic arm* that probes the orchestrator model's
+invocation behaviour, not a memory product; **full_context / karpathy_compiled** are the
+Karpathy *context-construction baselines*. The controls and baselines frame the range and
+methodology — read them as the axes, not the contestants.
+
 | System | role | 1 | 2c | 3 | 4 | 5 | 6 | 7 | 8 | 9a | 9b |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **mempalace** | substrate (verbatim-first) | ✓ 0.927 | ✓ 0.960 | E 0.00 | ✓ 0.645 | ✓ 61.9% | E 0.00 | ✓ 0.580 | ✓ 0.796 | ✓ 0.983 | ✓ |
-| **OMEGA** | substrate (embed + auto-relate) | ✓ 0.900 | ✓ 0.920 | E 0.50 | ✓ 0.78 | ✓ 1 comp | E 0.00 | ✓ 0.593 | ✓ drift .875 | N/A-harness | N/A-harness |
-| **Hindsight** | competitor (extraction) | QA-def | QA-def | N/A-graph | N/A-graph | N/A-graph | N/A-graph | QA-def | N/A-graph | N/A-harness | N/A-harness |
-| **Mem0-OSS** | competitor (extraction) | QA-def | QA-def | N/A-graph | N/A-graph | N/A-graph | N/A-graph | QA-def | N/A-graph | N/A-harness | N/A-harness |
-| **flat** | **control** (no-structure vector) | ✓ 0.833 | ✓ 0.833 | N/A-design | N/A-design | N/A-design | N/A-design | ✓ 0.384 | N/A-design | N/A-harness | N/A-harness |
-| **rlm** | Cat 9a orchestrator arm | ✓ 0.467 | ✓ | — | — | — | — | — | — | ✓ 0.467 | N/A-harness |
-| **full_context** | Karpathy baseline D1 | — | — | — | — | — | — | — | — | — | — |
-| **karpathy_compiled** | Karpathy baseline D2 | — | — | — | — | — | — | — | — | — | — |
+| *— memory systems (products under test) —* | | | | | | | | | | | |
+| **mempalace** | memory system (verbatim-first substrate) | ✓ 0.927 | ✓ 0.960 | E 0.00 | ✓ 0.645 | ✓ 61.9% | E 0.00 | ✓ 0.580 | ✓ 0.796 | ✓ 0.983 | ✓ |
+| **OMEGA** | memory system (embed + auto-relate substrate) | ✓ 0.900 | ✓ 0.920 | E 0.50 | ✓ 0.78 | ✓ 1 comp | E 0.00 | ✓ 0.593 | ✓ drift .875 | N/A-harness | N/A-harness |
+| **Hindsight** | memory system (extraction competitor) | QA-def | QA-def | N/A-graph | N/A-graph | N/A-graph | N/A-graph | QA-def | N/A-graph | N/A-harness | N/A-harness |
+| **Mem0-OSS** | memory system (extraction competitor) | QA-def | QA-def | N/A-graph | N/A-graph | N/A-graph | N/A-graph | QA-def | N/A-graph | N/A-harness | N/A-harness |
+| *— baselines & diagnostic arms (the axes, not contestants) —* | | | | | | | | | | | |
+| **flat** | BASELINE — no-structure control | ✓ 0.833 | ✓ 0.833 | N/A-design | N/A-design | N/A-design | N/A-design | ✓ 0.384 | N/A-design | N/A-harness | N/A-harness |
+| **rlm** | DIAGNOSTIC ARM — Cat 9a orchestrator probe | ✓ 0.467 | ✓ | — | — | — | — | — | — | ✓ 0.467 | N/A-harness |
+| **full_context** | BASELINE — Karpathy condition D1 (whole-vault-in-context) | — | — | — | — | — | — | — | — | — | — |
+| **karpathy_compiled** | BASELINE — Karpathy condition D2 (LLM-compiled wiki) | — | — | — | — | — | — | — | — | — | — |
 
 **Reading the coverage rows:**
 

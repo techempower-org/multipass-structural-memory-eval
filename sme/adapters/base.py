@@ -341,6 +341,38 @@ class SMEAdapter(ABC):
         """
         return []
 
+    def get_introspection_report(self) -> Optional[dict]:
+        """Return the system's OWN declared-vs-effective ontology drift.
+
+        Used by Category 8's introspection sub-test. Most memory systems
+        have no self-report capability — they cannot tell you what entity
+        types / edge vocabulary they actually hold versus what they claim —
+        so the default returns ``None`` and Cat 8 reports introspection 0.0.
+        That zero is meaningful: it says "this system can't audit its own
+        ontology," distinct from "this system has a bad graph."
+
+        Adapters whose backend exposes a self-report surface override this.
+        The expected shape (see ``MemPalaceDaemonAdapter`` / palace-daemon's
+        ``GET /ontology``)::
+
+            {
+              "declared":  {entity_types, edge_types, hall_vocabulary, ...},
+              "effective": {edge_types, entity_kinds, entities, ...},
+              "drift":     {declared_edge_types_present,
+                            declared_edge_types_absent,
+                            entity_kinds_undeclared,
+                            structure_claim, structure_observed,
+                            drift_score, ...},
+            }
+
+        ``score_cat8`` credits introspection by counting which of the three
+        capability dimensions (effective entity-kind reporting, effective
+        edge-vocabulary reporting, declared-vs-effective drift reporting) the
+        report actually populates — so the score reflects a genuine
+        capability, never a hand-set number.
+        """
+        return None
+
     # --- Lifecycle -----------------------------------------------------
 
     def close(self) -> None:

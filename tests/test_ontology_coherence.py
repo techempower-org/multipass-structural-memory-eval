@@ -26,6 +26,7 @@ from sme.categories.ontology_coherence import (
     ImpliedOntology,
     _score_claim,
     _score_hall_usage,
+    _score_introspection,
     is_untestable,
     load_claim_library,
     match_claim_pattern,
@@ -755,3 +756,105 @@ def test_to_dict_claim_detail_round_trip(empty_claim_library):
     assert detail["id"] == "x"
     assert detail["status"] == "pass"
     assert detail["metrics"]["m"] == 1.0
+
+
+# ── Introspection scoring ──────────────────────────────────────────
+
+
+def _full_introspection_report() -> dict:
+    """A complete GET /ontology-shaped report (all three dimensions)."""
+    return {
+        "declared": {
+            "entity_types": ["wing", "hall", "room", "drawer", "closet", "tunnel"],
+            "edge_types": ["hall", "tunnel", "member_of"],
+        },
+        "effective": {
+            "edge_types": ["MENTIONS"],
+            "entity_kinds": {"PROPER_NOUN": 12000, "TECH_IDENT": 7000},
+            "entities": 267_519,
+            "triples": 0,
+            "mentions": 5_580_000,
+        },
+        "drift": {
+            "declared_edge_types_present": [],
+            "declared_edge_types_absent": ["hall", "tunnel", "member_of"],
+            "entity_kinds_undeclared": ["PROPER_NOUN", "TECH_IDENT"],
+            "structure_claim": "hierarchical",
+            "structure_observed": "not_computed",
+            "drift_score": 1.0,
+        },
+    }
+
+
+def test_introspection_none_scores_zero():
+    """No self-report surface → 0.0 with no available dimensions. This is the
+    meaningful zero distinguishing 'can't audit its own ontology' from 'bad
+    graph' — every system without GET /ontology lands here."""
+    available, score = _score_introspection(None)
+    assert available == []
+    assert score == 0.0
+
+
+def test_introspection_full_report_scores_one():
+    """A report populating all three dimensions (entity kinds, edge vocab,
+    drift) earns full introspection credit."""
+    available, score = _score_introspection(_full_introspection_report())
+    assert set(available) == {
+        "effective_entity_kinds",
+        "effective_edge_vocabulary",
+        "declared_vs_effective_drift",
+    }
+    assert score == pytest.approx(1.0)
+
+
+def test_introspection_partial_report_scores_proportionally():
+    """Only edge vocab + drift present (no entity kinds) → 2/3 credit. The
+    score tracks genuine capability, not a hand-set number."""
+    rep = _full_introspection_report()
+    rep["effective"]["entity_kinds"] = {}  # capability absent
+    available, score = _score_introspection(rep)
+    assert "effective_entity_kinds" not in available
+    assert score == pytest.approx(2 / 3)
+
+
+def test_introspection_drift_score_zero_still_counts():
+    """A drift_score of 0.0 is still a populated drift dimension — the system
+    DID report (and found no drift). Presence of the key, not its value, is
+    what credits the capability."""
+    rep = _full_introspection_report()
+    rep["drift"]["drift_score"] = 0.0
+    available, _ = _score_introspection(rep)
+    assert "declared_vs_effective_drift" in available
+
+
+def test_introspection_malformed_report_scores_zero():
+    """A dict missing effective/drift earns nothing — identical to no surface."""
+    available, score = _score_introspection({"declared": {"entity_types": []}})
+    assert available == []
+    assert score == 0.0
+
+
+def test_score_cat8_threads_introspection_report(empty_claim_library):
+    """score_cat8 surfaces the introspection report through to the scorecard
+    — wiring the adapter self-report into the Cat 8 result."""
+    ont = ImpliedOntology(version="t", source="declared", entity_types=["wing"])
+    report = score_cat8(
+        ont,
+        [_ent("e1", "wing")],
+        [],
+        {},
+        claim_library=empty_claim_library,
+        introspection_report=_full_introspection_report(),
+    )
+    assert report.introspection_score == pytest.approx(1.0)
+    assert "declared_vs_effective_drift" in report.introspection_available
+
+
+def test_score_cat8_default_introspection_is_zero(empty_claim_library):
+    """Omitting the report keeps the historical introspection-0.0 baseline."""
+    ont = ImpliedOntology(version="t", source="declared", entity_types=["wing"])
+    report = score_cat8(
+        ont, [_ent("e1", "wing")], [], {}, claim_library=empty_claim_library,
+    )
+    assert report.introspection_score == 0.0
+    assert report.introspection_available == []

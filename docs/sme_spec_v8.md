@@ -1053,8 +1053,8 @@ The appendix is populated incrementally as standard-corpus integration ([#43]) a
 | **Cat 5 — The Missing Room** | jp-realm-v0.1 (1 structural gap between auth_engineering and privacy_research) | MINE / GraphRAG-Bench integration pending ([#43]) | — |
 | **Cat 6 — The Archive** | jp-realm-v0.1 (1 temporal evolution chain) | LongMemEval cross-validation harness merged | — |
 | **Cat 7 — The Abacus** | jp-realm-v0.1 (8 token-efficiency questions) | — | — |
-| **Cat 7.b — Latency** | PR #33 (in flight) | — | — |
-| **Cat 7 — Cost-per-correct** | PR #34 (in flight) | — | — |
+| **Cat 7.b — Latency** | Shipped (`sme/categories/latency.py`, YCSB percentile distribution) | — | — |
+| **Cat 7 — Cost-per-correct** | Shipped (`sme/eval/pricing.py`, HELM versioned pricing) | — | — |
 | **Cat 8 — The Blueprint** | jp-realm-v0.1 (implied-vs-declared ontology comparison) | — | — |
 | **Cat 9a — The Handshake (invocation)** | gemma4 vs qwen3.5 readings at n=5/n=20, vanilla/forced ([#3]) | Tau2 cross-validation across additional model families pending | — |
 | **Cat 9b — Call-through success** | Implemented in PR #1 | MCP-Bench ESR naming alignment pending ([#41]) | — |

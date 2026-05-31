@@ -3,7 +3,7 @@
 **Date:** 2026-05-30
 **Author:** Cassia (sme-dreamteam)
 **Issue:** [techempower-org/multipass-structural-memory-eval#178](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/178) (Tier 3 — independent multi-system head-to-head) + [#115](https://github.com/techempower-org/multipass-structural-memory-eval/issues/115) (the multipass matrix)
-**Status:** EXPANDED — cross-system structural matrix across the **6 data-backed systems** (#163): 4 memory systems + 1 control + 1 diagnostic arm. Fully scored: mempalace (FINAL exact full-graph, post re-map + junk-DELETE + networkx) + OMEGA. Verdict rows: Hindsight (Iris #220) + Mem0-OSS (Solara #221) — verified + runnable, full QA deferred (extraction-throughput-bound). Baseline/arm: **flat** (no-structure control — real Cat 1/2c/7, structural N/A by design), **rlm** (Cat 9a orchestrator arm — the 46.7% invocation plateau). Wired-but-unbenched adapters (Karpathy D1/D2, oracle/random controls) are footnoted, not padded as empty rows. Every cell is a real reading OR an explicit honest marker — no fabricated numbers.
+**Status:** EXPANDED — cross-system structural matrix across **8 rows** (#163): **6 data-backed systems** (4 memory systems + flat control + rlm diagnostic arm) plus **2 wired-but-not-yet-benched** Karpathy baselines shown explicitly. Fully scored: mempalace (FINAL exact full-graph, post re-map + junk-DELETE + networkx) + OMEGA. Verdict rows: Hindsight (Iris #220) + Mem0-OSS (Solara #221) — verified + runnable, full QA deferred (extraction-throughput-bound). Baseline/arm: **flat** (no-structure control — real Cat 1/2c/7, structural N/A by design), **rlm** (Cat 9a orchestrator arm — the 46.7% invocation plateau). **full_context (D1) + karpathy_compiled (D2)** are surfaced as explicit *"wired, not yet benched"* rows (all not-run). oracle/random controls footnoted as diagnostic bounds. Every cell is a real reading OR an explicit honest marker — no fabricated numbers.
 **Matrix data:** `baselines/cross_system_multipass_matrix_2026-05-30.json` (Luna renders on the site)
 
 ---
@@ -17,11 +17,12 @@ This extends that to the **cross-system** question and then to the **whole harne
 an honest systems × Cat 1–9 grid — showing not just who scored what, but who was run on
 what and what each architecture even *allows*.
 
-The roster is **6 data-backed systems**: two fully-scored substrates (mempalace, OMEGA),
-two extraction competitors as verdict rows (Hindsight, Mem0-OSS), the no-structure
-**control** (flat), and the Cat 9a orchestrator arm (rlm). Two Karpathy context-construction
-baselines (full_context D1, karpathy_compiled D2) and the oracle/random controls are wired
-but unbenched — footnoted, not given empty rows. The headline is *not* a leaderboard — it is
+The roster is **8 rows** — 6 data-backed plus 2 wired-but-not-benched: two fully-scored
+substrates (mempalace, OMEGA), two extraction competitors as verdict rows (Hindsight,
+Mem0-OSS), the no-structure **control** (flat), the Cat 9a orchestrator arm (rlm), and the
+two Karpathy context-construction baselines (full_context D1, karpathy_compiled D2) shown
+explicitly as *wired, not yet benched* (all not-run — surfaced, not buried). The oracle/random
+controls are footnoted as diagnostic bounds. The headline is *not* a leaderboard — it is
 the set of **diagnostic deltas under controlled conditions** that fall out of putting these
 systems through the identical categories, plus the **honest coverage map** of what's been
 measured vs merely wired.
@@ -81,7 +82,7 @@ their rows are **verdicts**, not on-harness QA numbers.
 
 ---
 
-## Full system roster — honest per-cat coverage (6 data-backed systems)
+## Full system roster — honest per-cat coverage (8 rows: 6 data-backed + 2 wired-not-benched)
 
 The point of the expanded view is to show **the whole landscape**: who was run on what,
 and what each architecture even *allows*. Every cell is a real reading **or** an explicit
@@ -109,14 +110,18 @@ methodology — read them as the axes, not the contestants.
 | *— baselines & diagnostic arms (the axes, not contestants) —* | | | | | | | | | | | |
 | **flat** | BASELINE — no-structure control | ✓ 0.833 | ✓ 0.833 | N/A-design | N/A-design | N/A-design | N/A-design | ✓ 0.384 | N/A-design | N/A-harness | N/A-harness |
 | **rlm** | DIAGNOSTIC ARM — Cat 9a orchestrator probe | ✓ 0.467 | ✓ | — | — | — | — | — | — | ✓ 0.467 | N/A-harness |
+| *— Karpathy baselines: WIRED, NOT YET BENCHED (no readings — not data-gaps) —* | | | | | | | | | | | |
+| *full_context* | *BASELINE D1 — wired, not benched* | — | — | — | — | — | — | — | — | — | — |
+| *karpathy_compiled* | *BASELINE D2 — wired, not benched* | — | — | — | — | — | — | — | — | — | — |
 
-> **Wired but not benched (footnote, not rows):** the harness also ships `full_context`
-> (Karpathy condition **D1**, whole-vault-in-context), `karpathy_compiled` (Karpathy
-> condition **D2**, LLM-compiled wiki), and the `oracle_retrieval` (ceiling) /
-> `random_retrieval` (floor) diagnostic controls. These adapters are wired but have **no
-> multipass-cat readings yet**, so they get no row — an all-"not-run" row would read as
-> "tested but blank" and misrepresent. Benching D1/D2 on a shared corpus is a separate run,
-> not blocking this matrix.
+> **Render note (for luna-2):** the two Karpathy rows (`full_context` D1 / `karpathy_compiled`
+> D2) are **all-not-run** — they MUST render visually + textually unmistakable as *"wired,
+> not yet benched"* (muted/italic + a "not run" pill), so they read as *the harness has these
+> adapters, we haven't benched them*, **NOT** as a measured system that scored blanks.
+> **Footnote (not rows):** `oracle_retrieval` (ceiling) + `random_retrieval` (floor) are
+> diagnostic bounds, not products — adapters present but not run as matrix cells (the
+> `reader_trueoracle_*` baselines are a reader-config experiment, not an oracle-adapter Cat
+> run). Benching D1/D2 on a shared corpus is a separate run, not blocking this matrix.
 
 **Three structural-N/A systems, three *different* reasons** — that distinction is a feature
 of the matrix, not noise:
@@ -141,12 +146,17 @@ of the matrix, not noise:
   *willingness to invoke the tool*, not retrieval. It's the low rung of the Tau2 ladder
   (gemma4 41.7 → qwen3.5 75.0 → opus-4-8 98.3); cf. mempalace+opus-4-8 = 0.983 / 100%
   invocation on the same corpus. RLM was run for invocation, not the structural cats (—).
-- **Karpathy D1/D2 + oracle/random controls — footnoted, not rows** (see the callout
-  above). `full_context` (D1), `karpathy_compiled` (D2), `oracle_retrieval` (ceiling) and
-  `random_retrieval` (floor) are wired in the registry but have **no multipass-cat readings**.
-  They're noted rather than given rows because an all-"not-run" row reads as "tested but
-  blank." (The `reader_trueoracle_*` baselines are a reader-config experiment, not an
-  oracle-*adapter* Cat run — another reason not to give oracle a numbered row.)
+- **Karpathy baselines D1/D2 — shown as explicit wired-but-not-benched rows.**
+  `full_context` (D1, whole-vault-in-context) and `karpathy_compiled` (D2, LLM-compiled
+  wiki) are wired in the registry (`sme/conditions/`) with **no multipass-cat readings yet**.
+  They get rows — surfaced as the methodological arm they are — but every cell is `—`
+  (not-run), and the render must mark them unmistakably "wired, not yet benched" so they
+  don't read as a measured system that scored blanks. Benching them on a shared corpus is a
+  separate run.
+- **oracle/random controls — footnoted, not rows.** `oracle_retrieval` (ceiling) and
+  `random_retrieval` (floor) are diagnostic *bounds*, not products; adapters present but not
+  run as matrix cells (the `reader_trueoracle_*` baselines are a reader-config experiment,
+  not an oracle-*adapter* Cat run).
 
 ---
 
@@ -339,10 +349,11 @@ This is a genuine adapter-correctness fix the cross-system pass surfaced — wit
   a distinct finding from Hindsight's no-endpoint (Mem0 *had* a graph layer and the OSS
   edition dropped it).
 
-**The matrix is now EXPANDED across the 6 data-backed systems** (mempalace, OMEGA,
-Hindsight, Mem0 = memory systems; flat = no-structure control; rlm = Cat 9a orchestrator
-arm) — see the full roster table above for honest per-cat coverage; the Karpathy D1/D2 +
-oracle/random adapters are footnoted as wired-but-unbenched. The pass for any future graph-bearing adapter still runs
+**The matrix is now EXPANDED across 8 rows** — 6 data-backed (mempalace, OMEGA, Hindsight,
+Mem0 = memory systems; flat = no-structure control; rlm = Cat 9a orchestrator arm) plus the
+2 Karpathy baselines (full_context D1, karpathy_compiled D2) surfaced as explicit
+*wired-but-not-benched* rows; oracle/random footnoted as diagnostic bounds. See the full
+roster table above for honest per-cat coverage. The pass for any future graph-bearing adapter still runs
 the full structural set on good-dog; the first question to each adapter owner remains
 **"does this system expose typed edges, or is it retrieval/extraction-only?"** —
 retrieval/extraction-only records **N/A — no graph to evaluate** on 3/4/5/6/8 (a finding),

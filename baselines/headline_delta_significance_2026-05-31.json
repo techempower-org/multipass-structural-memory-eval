@@ -1,0 +1,166 @@
+{
+  "schema": "headline_delta_significance/v1",
+  "method": "paired bootstrap CI (sme.stats.paired_bootstrap_ci, 10k resamples) on per-question deltas paired by question_id; BH-FDR (sme.stats.benjamini_hochberg) across the whole metric family.",
+  "alpha": 0.05,
+  "min_paired_n": 30,
+  "comparisons": [
+    {
+      "key": "storage_equivalence_postgres_vs_flat",
+      "description": "LoCoMo E2E: postgres_ingest vs flat baseline (does verbatim columnar storage change QA vs flat?)",
+      "status": "computed",
+      "label_a": "postgres",
+      "path_a": "baselines/locomo10_postgres_e2e_stratified_2026-05-31.json",
+      "label_b": "flat",
+      "path_b": "baselines/locomo10_flat_e2e_stratified_2026-05-29.json",
+      "metrics": [
+        {
+          "metric": "qa_correct",
+          "status": "ok",
+          "non_identical_metric": false,
+          "mean_postgres": 0.264,
+          "mean_flat": 0.26,
+          "delta_pp": 0.4,
+          "ci_low_pp": -2.0,
+          "ci_high_pp": 2.8000000000000003,
+          "n_discordant": 9,
+          "fragile": true,
+          "one_side_all_zero": false,
+          "ci_straddles_zero": true,
+          "p_raw": 0.6054,
+          "n_paired": 250,
+          "n_dropped": 0,
+          "low_n": false,
+          "p_adjusted": 0.8376,
+          "significant": false
+        },
+        {
+          "metric": "sme_recall",
+          "status": "identical",
+          "note": "sme_recall is byte-identical across all 250 paired questions (mean postgres=0.458, flat=0.458) \u2014 the runs share this metric exactly; delta is a definitional 0.",
+          "mean_postgres": 0.45846666666666663,
+          "mean_flat": 0.45846666666666663,
+          "delta_pp": 0.0,
+          "n_paired": 250
+        }
+      ]
+    },
+    {
+      "key": "age_fusion_longmemeval_strat150",
+      "description": "LongMemEval-S strat150: age-fused vs plain search (does temporal fusion lift drawer R@5?)",
+      "status": "computed",
+      "label_a": "age_fused",
+      "path_a": "baselines/longmemeval_s_strat150_age_fused_2026-05-29.json",
+      "label_b": "search",
+      "path_b": "baselines/longmemeval_s_strat150_search_2026-05-29.json",
+      "metrics": [
+        {
+          "metric": "drawer_hit_at_5",
+          "status": "ok",
+          "non_identical_metric": false,
+          "mean_age_fused": 0.92,
+          "mean_search": 0.9266666666666666,
+          "delta_pp": -0.6666666666666667,
+          "ci_low_pp": -5.333333333333334,
+          "ci_high_pp": 4.0,
+          "n_discordant": 13,
+          "fragile": true,
+          "one_side_all_zero": false,
+          "ci_straddles_zero": true,
+          "p_raw": 0.6514,
+          "n_paired": 150,
+          "n_dropped": 0,
+          "low_n": false,
+          "p_adjusted": 0.8376,
+          "significant": false
+        }
+      ]
+    },
+    {
+      "key": "age_fusion_locomo_daemon",
+      "description": "LoCoMo daemon: age-fused vs vector-only (does temporal fusion lift QA / drawer R@5?)",
+      "status": "computed",
+      "label_a": "age_fused",
+      "path_a": "baselines/locomo_daemon_age_fused_2026-05-30.json",
+      "label_b": "vector_only",
+      "path_b": "baselines/locomo_daemon_vector_only_2026-05-30.json",
+      "metrics": [
+        {
+          "metric": "qa_correct",
+          "status": "ok",
+          "non_identical_metric": false,
+          "mean_age_fused": 0.22,
+          "mean_vector_only": 0.22,
+          "delta_pp": 0.0,
+          "ci_low_pp": -2.0,
+          "ci_high_pp": 2.0,
+          "n_discordant": 6,
+          "fragile": true,
+          "one_side_all_zero": false,
+          "ci_straddles_zero": true,
+          "p_raw": 0.8376,
+          "n_paired": 250,
+          "n_dropped": 0,
+          "low_n": false,
+          "p_adjusted": 0.8376,
+          "significant": false
+        },
+        {
+          "metric": "drawer_hit_at_5",
+          "status": "identical",
+          "note": "drawer_hit_at_5 is byte-identical across all 250 paired questions (mean age_fused=0.540, vector_only=0.540) \u2014 the runs share this metric exactly; delta is a definitional 0.",
+          "mean_age_fused": 0.54,
+          "mean_vector_only": 0.54,
+          "delta_pp": 0.0,
+          "n_paired": 250
+        }
+      ]
+    },
+    {
+      "key": "cross_system_mempalace_vs_omega_strat150",
+      "description": "LongMemEval-S strat150 R@5: mempalace (age-fused, drawer-level) vs OMEGA (native) \u2014 headline cross-system delta.",
+      "status": "computed",
+      "label_a": "mempalace",
+      "path_a": "baselines/longmemeval_s_strat150_age_fused_2026-05-29.json",
+      "label_b": "omega",
+      "path_b": "baselines/longmemeval_omega_strat150_r5_2026-05-30.json",
+      "metrics": [
+        {
+          "metric": "r_at_5",
+          "status": "ok",
+          "non_identical_metric": true,
+          "mean_mempalace": 0.92,
+          "mean_omega": 0.9,
+          "delta_pp": 2.0,
+          "ci_low_pp": -2.0,
+          "ci_high_pp": 6.0,
+          "n_discordant": 9,
+          "fragile": true,
+          "one_side_all_zero": false,
+          "ci_straddles_zero": true,
+          "p_raw": 0.2384,
+          "n_paired": 150,
+          "n_dropped": 0,
+          "low_n": false,
+          "p_adjusted": 0.8376,
+          "significant": false
+        }
+      ]
+    },
+    {
+      "key": "ce_rerank_on_off",
+      "description": "Cross-encoder rerank on vs off (R@k / MRR).",
+      "status": "no_paired_baseline",
+      "note": "no committed per-question baseline for one or both sides (artifact is summary-only) \u2014 claim is descriptive, not CI-backed.",
+      "label_a": "rerank_on",
+      "label_b": "rerank_off"
+    },
+    {
+      "key": "candidate_strategy_hybrid_vs_union",
+      "description": "Candidate strategy hybrid vs union (R@k / MRR).",
+      "status": "no_paired_baseline",
+      "note": "no committed per-question baseline for one or both sides (artifact is summary-only) \u2014 claim is descriptive, not CI-backed.",
+      "label_a": "hybrid",
+      "label_b": "union"
+    }
+  ]
+}

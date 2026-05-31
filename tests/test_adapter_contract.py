@@ -23,6 +23,7 @@ from typing import Callable
 import pytest
 
 from sme.adapters.base import (
+    ContradictionPair,
     Edge,
     Entity,
     HarnessDescriptor,
@@ -248,3 +249,65 @@ def test_close_is_idempotent(adapter: SMEAdapter) -> None:
     being called more than once."""
     adapter.close()
     adapter.close()
+
+
+# --- Measurement-feeding optional defaults ----------------------------
+#
+# Three optional methods have *meaningful* defaults that feed category
+# scores: an adapter that doesn't override them must inherit behavior
+# that produces an honest zero, never a fabricated signal. These are the
+# defaults that, if quietly wrong, would inflate Cat 8 introspection or
+# Cat 3 contradiction detection for every non-overriding system.
+
+
+def test_get_introspection_report_default_is_none(adapter: SMEAdapter) -> None:
+    """The ABC default returns ``None`` → Cat 8 scores introspection 0.0
+    ("can't audit its own ontology"). An adapter may override with a dict,
+    but it must never be anything other than ``None`` or a dict — a
+    non-dict truthy value would be silently credited capability dimensions.
+    """
+    report = adapter.get_introspection_report()
+    assert report is None or isinstance(report, dict)
+
+
+def test_get_contradiction_pairs_returns_typed_list(adapter: SMEAdapter) -> None:
+    """The default derives ContradictionPair[] from ``contradicts`` edges
+    in the snapshot. Adapters with no such edges return ``[]`` (Cat 3
+    score 0); the contract is that the return is always a list of
+    ContradictionPair, never raises, and is internally consistent.
+    """
+    pairs = adapter.get_contradiction_pairs()
+    assert isinstance(pairs, list)
+    assert all(isinstance(p, ContradictionPair) for p in pairs)
+    for p in pairs:
+        # source ids must be present and distinct (a contradiction is
+        # between two different claims)
+        assert isinstance(p.source_a, str) and p.source_a
+        assert isinstance(p.source_b, str) and p.source_b
+
+
+def test_default_contradiction_pairs_derive_from_contradicts_edges() -> None:
+    """A snapshot carrying a ``contradicts`` edge must surface exactly one
+    ContradictionPair through the *base-class default* — this is the Cat 3
+    plumbing every adapter inherits for free, so it must fire without any
+    adapter override."""
+
+    class _ContradictingAdapter(MockAdapter):
+        def get_graph_snapshot(self):
+            entities = [
+                Entity(id="x", name="X earns 50k", entity_type="claim"),
+                Entity(id="y", name="X earns 80k", entity_type="claim"),
+                Entity(id="z", name="unrelated", entity_type="claim"),
+            ]
+            edges = [
+                Edge(source_id="x", target_id="y", edge_type="CONTRADICTS"),
+                Edge(source_id="x", target_id="z", edge_type="mentions"),
+            ]
+            return entities, edges
+
+    pairs = _ContradictingAdapter().get_contradiction_pairs()
+    assert len(pairs) == 1
+    pair = pairs[0]
+    # node names resolve into the pair via the default node_names map
+    assert {pair.source_a, pair.source_b} == {"x", "y"}
+    assert pair.claim_b == "X earns 80k"

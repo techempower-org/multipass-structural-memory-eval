@@ -3,7 +3,7 @@
 **Date:** 2026-05-30
 **Author:** Cassia (sme-dreamteam)
 **Issue:** [techempower-org/multipass-structural-memory-eval#178](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/178) (Tier 3 — independent multi-system head-to-head) + [#115](https://github.com/techempower-org/multipass-structural-memory-eval/issues/115) (the multipass matrix)
-**Status:** COMPLETE — first cross-system structural matrix across **4 systems**. mempalace (Muse #115, re-scored over the real KG #148) + OMEGA fully scored; Hindsight (Iris #220) + Mem0-OSS (Solara #221) as verdict rows (verified + runnable; full QA deferred — extraction-throughput-bound).
+**Status:** EXPANDED — cross-system structural matrix across **8 rows** (#163): **6 data-backed systems** (4 memory systems + flat control + rlm diagnostic arm) plus **2 wired-but-not-yet-benched** Karpathy baselines shown explicitly. Fully scored: mempalace (FINAL exact full-graph, post re-map + junk-DELETE + networkx) + OMEGA. Verdict rows: Hindsight (Iris #220) + Mem0-OSS (Solara #221) — verified + runnable, full QA deferred (extraction-throughput-bound). Baseline/arm: **flat** (no-structure control — real Cat 1/2c/7, structural N/A by design), **rlm** (Cat 9a orchestrator arm — the 46.7% invocation plateau). **full_context (D1) + karpathy_compiled (D2)** are surfaced as explicit *"wired, not yet benched"* rows (all not-run). oracle/random controls footnoted as diagnostic bounds. Every cell is a real reading OR an explicit honest marker — no fabricated numbers.
 **Matrix data:** `baselines/cross_system_multipass_matrix_2026-05-30.json` (Luna renders on the site)
 
 ---
@@ -12,13 +12,20 @@
 
 Muse's matrix ([`2026-05-30-multipass-cat-matrix.md`](2026-05-30-multipass-cat-matrix.md))
 answered *"what does **mempalace** know about its own structure?"* across Cat 1–9.
-This extends that to the **cross-system** question: run the **other** memory systems
-through the same categories and build a systems × Cat 1–9 grid. JP scoped this to the
-**adapter-ready 3**: OMEGA (adapter merged), Hindsight (#107) and Mem0 (#185) landing.
+This extends that to the **cross-system** question and then to the **whole harness**: run
+**every memory system the harness actually tested** through the same categories and build
+an honest systems × Cat 1–9 grid — showing not just who scored what, but who was run on
+what and what each architecture even *allows*.
 
-This pass populates the **OMEGA** column end-to-end. The headline is *not* a leaderboard
-— it is the set of **diagnostic deltas under controlled conditions** that fall out of
-putting two substrates through the identical categories.
+The roster is **8 rows** — 6 data-backed plus 2 wired-but-not-benched: two fully-scored
+substrates (mempalace, OMEGA), two extraction competitors as verdict rows (Hindsight,
+Mem0-OSS), the no-structure **control** (flat), the Cat 9a orchestrator arm (rlm), and the
+two Karpathy context-construction baselines (full_context D1, karpathy_compiled D2) shown
+explicitly as *wired, not yet benched* (all not-run — surfaced, not buried). The oracle/random
+controls are footnoted as diagnostic bounds. The headline is *not* a leaderboard — it is
+the set of **diagnostic deltas under controlled conditions** that fall out of putting these
+systems through the identical categories, plus the **honest coverage map** of what's been
+measured vs merely wired.
 
 ## Posture (read before the numbers)
 
@@ -52,11 +59,11 @@ wall").
 | **1** | The Lookup (R@5) | **0.927** | **0.900** | Identical LongMemEval-S strat150 subset + rendering. ΔR@5 = −2.7pp = 4 questions of 150. |
 | **2c** | The Stairway (multi-hop R@5) | **0.960** | **0.920** | cat_2c on the same subset; n=25/cat, ±0.04 = ±1 question (sampling noise). |
 | **3** | The Dissonance (contradiction) | **0.00** *(emergent, real KG)* | **recall 0.50 / prec 0.25** *(emergent)* | **RE-SCORED** (see below): mempalace's live palace KG has **0 contradicts edges** — its enrichment pipeline generates no emergent contradiction structure on real content. The prior **+1.00 was a corpus-declared ceiling** (good-dog-graph reads back hand-seeded edges), now superseded. OMEGA: auto-relate **generated** 4 contradicts edges from good-dog text — caught 1 of 2 ground-truth themes (grain-free DCM ✓, dominance-theory ✗). Both are now emergent reads, but on **different corpora** (live palace vs good-dog). |
-| **4** | The Threshold (ingestion) | coverage 1.00 · **entropy 0.4378** (`other` 28.2%, 236 types) — post canonical re-map | collisions 0 · coverage 1.00 · **entropy 0.78** | **EXACT full-graph + canonical re-map applied** (#211 server-side cypher over 1.92M RELATION edges; mempalace#336/#208 relabel). Norm entropy **0.4378**, dominant `other` **28.2%** (541,438 edges; was 55.1% — 520,043 relabeled out of the sink, 0 deletions), 236 types. Overturns the prior sampled 0.020/98.98%-tunnel reading (capped-projection artifact). The generic `other` no longer dominates. *(Optional JP-gated junk-DELETE pass → ≈0.27/≈0.64/≈41 types; not yet applied.)* OMEGA's good-dog emergent vocab is balanced (0.78). Different corpora — directional. |
-| **5** | The Missing Room (topology) | **305,975 components · largest 63.46% · isolates 20.4%** (exact full-graph) | **1 component · 0 isolates · Betti-1 1** | **EXACT full-graph WCC** (palace-daemon#211 `GET /graph/structural-stats` + SME#223): 305,975 components over 1,156,277 entities, largest **733,753 (63.46%** — well-connected giant component), isolates **236,169 (20.4%)**. Replaces the verdict-only line — the prior 498-component / 44.8%-isolate reading was a capped-projection sampling artifact. OMEGA on a small clean corpus = one fully-connected component (**required an adapter fix** for its edges to resolve). |
+| **4** | The Threshold (ingestion) | coverage 1.00 · **entropy 0.645** (`other` 26.83%, 40 types) — FINAL post re-map + junk-DELETE | collisions 0 · coverage 1.00 · **entropy 0.78** | **FINAL exact full-graph** (#211 cypher over the RELATION set; mempalace#45 re-map + `--drop-code-tokens` DELETE applied). Norm entropy **0.645**, dominant `other` **26.83%** (502,573 edges), **40** distinct types, 1,873,489 edges (1.92M − 48,135 junk code-token edges DELETE'd). SUPERSEDES the intermediate pre-DELETE 0.4378/28.2%/236 reading: the de-monoculture relabel (520k edges off the `other` sink) **plus** the junk-DELETE cut the monoculture 55%→27% and the type tail 237→40. RESOLVED. Both overturn the original capped-projection 0.020/98.98%-tunnel artifact. OMEGA's good-dog emergent vocab is balanced (0.78). Different corpora — directional. |
+| **5** | The Missing Room (topology) | **325,965 components · largest 61.87% · isolates 22.2%** (FINAL exact full-graph) | **1 component · 0 isolates · Betti-1 1** | **FINAL exact full-graph WCC** (post-DELETE re-POST via `GET /graph/structural-stats` + SME#223): 325,965 components over 1,156,314 entities, largest **715,435 (61.87%** — well-connected giant component), isolates **256,782 (22.2%)**. Replaces the verdict-only line and the bogus capped-projection 44.8%-isolate artifact. HONEST NOTE: isolates rose vs pre-DELETE (20.4%→22.2%) because deleting 48k junk code-token edges orphaned ~20k entities whose *only* edge was junk — the cleaner graph honestly reports them isolated. OMEGA on a small clean corpus = one fully-connected component (**required an adapter fix** for its edges to resolve). |
 | **6** | The Archive (supersession) | **0.00** *(emergent, real KG)* | **0.00** *(emergent)* | **RE-SCORED**: mempalace's live palace KG has **0 supersedes edges** → completeness 0.00; the prior +1.00 was the good-dog-graph declared ceiling (8/8 hand-seeded edges, 5 chains), now superseded. OMEGA emitted **0 supersedes** too — its temporal analogue is `evolution` (17 edges), which doesn't normalize to supersedes. **Both land at 0.00 emergent supersession from different roots** — mempalace emits no supersedes edge at all; OMEGA emits a non-canonical temporal type. |
 | **7** | The Abacus (E2E QA) | **0.580** (same-reader) | **0.593** (same-reader) | o4-mini reader + gpt-5.3-chat judge, sme-rich. ≈ parity (+1.3pp), different per-cat profile. NOT comparable to OMEGA's self-reported 95.4% (GPT-4.1 reader). |
-| **8** | The Blueprint (ontology) | hierarchical claim **PASS** *(verdict; modularity pending-networkx on prod)* · **introspection 1.0** (live) | type-cov 0.0* · edge-vocab 0.333 · **drift 0.875** · introspection 0.0 | **VERDICT + introspection now LIVE**: the structural 'hierarchical' claim **PASSES** — modularity ≫0.5 across every sample, refuting the prior **FAIL (modularity 0.009)** capped-projection artifact. Exact full-graph modularity **pending-networkx** (not installed on the familiar daemon; the structural-stats response says so — no fabricated number). Introspection: **now 1.0 — `GET /ontology` is LIVE on the prod daemon** (palace-daemon#205 deployed + restarted; SME scorer #208), self-reporting declared-vs-effective drift. Was 0.0. OMEGA drift 87.5%: its **documented** edge vocab ≠ its **emergent** vocab. *OMEGA 8a type-cov 0% is a corpus-coverage artifact (good-dog notes ingested as default `summary`). |
+| **8** | The Blueprint (ontology) | hierarchical claim **PASS** · **modularity 0.7961** (218 communities) · **introspection 1.0** (live) | type-cov 0.0* · edge-vocab 0.333 · **drift 0.875** · introspection 0.0 | **FINAL exact full-graph**: the structural 'hierarchical' claim **PASSES** with a real number now — modularity **0.7961** across 218 communities (≫0.5), networkx-computed on the full graph after networkx was installed on the familiar daemon and structural-stats re-POSTed. Decisively refutes the prior **FAIL (modularity 0.009)** capped-projection artifact, and replaces the earlier "pending-networkx" verdict. Introspection **1.0** — `GET /ontology` is LIVE on the prod daemon (palace-daemon#205 deployed + restarted; SME scorer #208), self-reporting declared-vs-effective drift (was 0.0). OMEGA drift 87.5%: its **documented** edge vocab ≠ its **emergent** vocab. *OMEGA 8a type-cov 0% is a corpus-coverage artifact (good-dog notes ingested as default `summary`). |
 | **9a** | The Handshake (invocation) | **0.983** (opus-4-8 orch, Tau2 99.3) | **N/A — no harness** | Cat 9a is an **orchestrator-model** property, not a substrate property. mempalace's 0.983 is really opus-4-8's invocation rate in front of it. OMEGA was driven via its library API (no model-in-the-loop), so substrate-level 9a is N/A. |
 | **9b** | Call-through success | reachable (clean floor) | **N/A — no harness** | OmegaAdapter declares no `get_harness_manifest()` (library usage). Empty-manifest = does-not-apply (real finding: OMEGA ships an MCP server, but the SME adapter uses the library path). |
 
@@ -72,6 +79,84 @@ their rows are **verdicts**, not on-harness QA numbers.
 | **1 / 2c / 7** (retrieval + QA) | **verified + runnable; on-harness QA DEFERRED** — extraction-throughput-bound (~60–96 s/session → strat150 ingest ≈ 150 h). Field-reported **91.4%** LongMemEval QA is Hindsight's *own* leaderboard (GPT-4.1-class), **not** an on-harness number. The one n=12 indicative attempt was **INVALIDATED** by a mid-run container SIGTERM (box cleanup, not OOM) — it measured a dead server, so it is **excluded** (not a 0.0). | **verified + runnable; on-harness QA DEFERRED** — adapter verified vs real `mem0ai` 2.0.4 + live smoke green on a local $0 stack (ollama phi4 + nomic-embed-text). Extraction-throughput-bound: warm steady-state **~9 s/ingest → ~18 h** strat150. Extraction is **lossy by design** (smoke stored 3/5 facts). No on-harness QA number slotted. |
 | **3 / 4 / 5 / 6 / 8** (structural) | **N/A — no graph endpoint.** Hindsight exposes no standalone graph API; the adapter's snapshot probes an undocumented `/stats` that current Hindsight doesn't serve → empty. It is an *extraction-then-retrieve* memory, not a queryable typed graph. | **N/A — graph memory REMOVED from mem0 OSS.** `relations` aren't populated; the snapshot returns isolated entities with **zero edges**. Distinct cause from Hindsight: Mem0 OSS *had* a graph layer and the open-source edition **dropped it** — it's now a flat/vector store. (The hosted Mem0 platform keeps graph memory; the OSS package under test does not.) |
 | **9a / 9b** (handshake) | **N/A — no harness** (driven via client API; adapter declares no harness manifest). | **N/A — no harness** (Python client API; adapter declares no harness manifest). |
+
+---
+
+## Full system roster — honest per-cat coverage (8 rows: 6 data-backed + 2 wired-not-benched)
+
+The point of the expanded view is to show **the whole landscape**: who was run on what,
+and what each architecture even *allows*. Every cell is a real reading **or** an explicit
+marker. Legend: ✓ = real number (see the detailed table / verdict rows above); **E** =
+emergent reading; **QA-def** = verified, on-harness QA deferred (extraction-throughput-bound);
+**N/A-graph** = no usable graph (no endpoint, or graph layer removed); **N/A-design** =
+no structure *by design* (the control); **N/A-harness** = no invocation surface; **—** =
+not run (adapter wired, no baseline reading; an honest coverage gap, not a 0).
+
+⚠️ **This is NOT a leaderboard of 8 competing products.** The roster is grouped by role:
+the **memory systems** (mempalace, OMEGA, Hindsight, Mem0) are the substrates/products
+under test; **flat** is the no-structure *control* (the floor the structural delta is
+measured against); **rlm** is a *diagnostic arm* that probes the orchestrator model's
+invocation behaviour, not a memory product; **full_context / karpathy_compiled** are the
+Karpathy *context-construction baselines*. The controls and baselines frame the range and
+methodology — read them as the axes, not the contestants.
+
+| System | role | 1 | 2c | 3 | 4 | 5 | 6 | 7 | 8 | 9a | 9b |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| *— memory systems (products under test) —* | | | | | | | | | | | |
+| **mempalace** | memory system (verbatim-first substrate) | ✓ 0.927 | ✓ 0.960 | E 0.00 | ✓ 0.645 | ✓ 61.9% | E 0.00 | ✓ 0.580 | ✓ 0.796 | ✓ 0.983 | ✓ |
+| **OMEGA** | memory system (embed + auto-relate substrate) | ✓ 0.900 | ✓ 0.920 | E 0.50 | ✓ 0.78 | ✓ 1 comp | E 0.00 | ✓ 0.593 | ✓ drift .875 | N/A-harness | N/A-harness |
+| **Hindsight** | memory system (extraction competitor) | QA-def | QA-def | N/A-graph | N/A-graph | N/A-graph | N/A-graph | QA-def | N/A-graph | N/A-harness | N/A-harness |
+| **Mem0-OSS** | memory system (extraction competitor) | QA-def | QA-def | N/A-graph | N/A-graph | N/A-graph | N/A-graph | QA-def | N/A-graph | N/A-harness | N/A-harness |
+| *— baselines & diagnostic arms (the axes, not contestants) —* | | | | | | | | | | | |
+| **flat** | BASELINE — no-structure control | ✓ 0.833 | ✓ 0.833 | N/A-design | N/A-design | N/A-design | N/A-design | ✓ 0.384 | N/A-design | N/A-harness | N/A-harness |
+| **rlm** | DIAGNOSTIC ARM — Cat 9a orchestrator probe | ✓ 0.467 | ✓ | — | — | — | — | — | — | ✓ 0.467 | N/A-harness |
+| *— Karpathy baselines: WIRED, NOT YET BENCHED (no readings — not data-gaps) —* | | | | | | | | | | | |
+| *full_context* | *BASELINE D1 — wired, not benched* | — | — | — | — | — | — | — | — | — | — |
+| *karpathy_compiled* | *BASELINE D2 — wired, not benched* | — | — | — | — | — | — | — | — | — | — |
+
+> **Render note (for luna-2):** the two Karpathy rows (`full_context` D1 / `karpathy_compiled`
+> D2) are **all-not-run** — they MUST render visually + textually unmistakable as *"wired,
+> not yet benched"* (muted/italic + a "not run" pill), so they read as *the harness has these
+> adapters, we haven't benched them*, **NOT** as a measured system that scored blanks.
+> **Footnote (not rows):** `oracle_retrieval` (ceiling) + `random_retrieval` (floor) are
+> diagnostic bounds, not products — adapters present but not run as matrix cells (the
+> `reader_trueoracle_*` baselines are a reader-config experiment, not an oracle-adapter Cat
+> run). Benching D1/D2 on a shared corpus is a separate run, not blocking this matrix.
+
+**Three structural-N/A systems, three *different* reasons** — that distinction is a feature
+of the matrix, not noise:
+- **flat** → N/A **by design**: it's the no-structure control; there is intentionally no
+  graph (the baseline the structural delta is measured *against*).
+- **Hindsight** → N/A **no graph endpoint**: extraction-then-retrieve; serves no standalone
+  graph API at all.
+- **Mem0-OSS** → N/A **graph layer removed**: it *had* a graph-memory layer and the OSS
+  edition dropped it (now flat/vector; the hosted platform keeps it).
+
+**Reading the coverage rows:**
+
+- **flat** is the **no-structure control** — the floor every structural delta is measured
+  *against*. Its Cat 1 (0.833 mean_recall, jp-realm Cond-A), Cat 2c (by-hop 0.852/0.667 —
+  no depth scaling, the expected flat signature) and Cat 7 (0.384 LoCoMo QA / 665 tok-per-
+  correct) are **real readings**. Its structural cats are **N/A *by design*** — a different
+  N/A from the competitors: there is intentionally no graph; that's what makes it the
+  baseline.
+- **rlm** is the **Cat 9a orchestrator arm**, and it carries the single most important
+  invocation finding: Qwen-7B and Llama-70B **both plateau at 46.7% recall with 7–27%
+  tool-invocation** — a ~10× parameter difference moves nothing, because the ceiling is
+  *willingness to invoke the tool*, not retrieval. It's the low rung of the Tau2 ladder
+  (gemma4 41.7 → qwen3.5 75.0 → opus-4-8 98.3); cf. mempalace+opus-4-8 = 0.983 / 100%
+  invocation on the same corpus. RLM was run for invocation, not the structural cats (—).
+- **Karpathy baselines D1/D2 — shown as explicit wired-but-not-benched rows.**
+  `full_context` (D1, whole-vault-in-context) and `karpathy_compiled` (D2, LLM-compiled
+  wiki) are wired in the registry (`sme/conditions/`) with **no multipass-cat readings yet**.
+  They get rows — surfaced as the methodological arm they are — but every cell is `—`
+  (not-run), and the render must mark them unmistakably "wired, not yet benched" so they
+  don't read as a measured system that scored blanks. Benching them on a shared corpus is a
+  separate run.
+- **oracle/random controls — footnoted, not rows.** `oracle_retrieval` (ceiling) and
+  `random_retrieval` (floor) are diagnostic *bounds*, not products; adapters present but not
+  run as matrix cells (the `reader_trueoracle_*` baselines are a reader-config experiment,
+  not an oracle-*adapter* Cat run).
 
 ---
 
@@ -130,31 +215,35 @@ daemon, no ingest). So the cell is an emergent-vs-emergent *kind*-match, not a c
 A/B. Both systems landing at 0.00 emergent supersession is itself the finding (mempalace
 emits no `supersedes` edge; OMEGA emits a non-canonical `evolution` type).
 
-**Cat 4 — exact + canonical re-map applied, publishable.** Anchored to the **full-graph
-EXACT** distribution (#211 server-side cypher aggregation over the 1.92M-edge RELATION set —
-runs in seconds, not the slow `/graph` sample), now **after the canonical re-map**
-(mempalace#336/#208, relabel-only): normalized entropy **0.4378**, dominant `other` **28.2%**
-(541,438 edges; down from 55.1% — 520,043 edges relabeled out of the sink into the 39
-canonical relations, 0 deletions), 2.68→ higher bits across **236** edge types, total still
-1,921,600. The generic `other` no longer dominates. This **overturns** the sampled
-0.020/98.98%-tunnel reading (capped-projection artifact). *(Optional JP-gated junk-DELETE
-pass would shift to ≈0.27 dominant / ≈0.64 entropy / ≈41 types; not yet applied.)*
-
-**Cat 5 — EXACT full-graph, publishable.** Computed server-side (palace-daemon#211
-`GET /graph/structural-stats` + SME#223 consumer): union-find WCC over the whole 1.92M-edge
-RELATION graph. **305,975 components** over 1,156,277 entities, largest **733,753 (63.46%** —
-a well-connected giant component), isolates **236,169 (20.4%)**. Replaces the verdict-only
-line — the prior 498-component / 44.8%-isolate figure was a capped-projection sampling
+**Cat 4 — FINAL exact full-graph (re-map + junk-DELETE applied), publishable.** Anchored to
+the **full-graph EXACT** distribution (#211 server-side cypher over the RELATION set — runs
+in seconds, not the slow `/graph` sample), now **after both the canonical re-map (mempalace#45)
+and the `--drop-code-tokens` DELETE**: normalized entropy **0.645**, dominant `other` **26.83%**
+(502,573 edges), **40** distinct edge types, 1,873,489 total edges (1.92M − 48,135 junk
+code-token edges DELETE'd). This SUPERSEDES the intermediate **pre-DELETE** reading
+(0.4378 / 28.2% / 236 types, relabel-only): the de-monoculture relabel cut the `other` sink
+55%→~28%, and the junk-DELETE then dropped the long type-tail 236→40 and lifted entropy to
+0.645. RESOLVED (#45). Both overturn the original capped-projection 0.020/98.98%-tunnel
 artifact.
 
-**Cat 8 — hierarchical PASS (verdict) + introspection now LIVE.** The structural
-'hierarchical' claim **PASSES** — modularity ≫0.5 across every sample, decisively refuting
-the prior FAIL (modularity 0.009 was a capped-projection artifact). Exact full-graph
-modularity is **pending-networkx** (not installed on the familiar daemon; the structural-stats
-response notes this — no fabricated number published). **Introspection is now 1.0** — the
-`/ontology` endpoint (palace-daemon#205) is **deployed and live on the prod familiar daemon**
-(restarted), self-reporting declared-vs-effective drift; the SME scorer (#208) credits it.
-Was 0.0.
+**Cat 5 — FINAL exact full-graph WCC (post-DELETE), publishable.** Computed server-side
+(palace-daemon#211 `GET /graph/structural-stats` + SME#223 consumer): union-find WCC over the
+whole RELATION graph, **post-DELETE re-POST**. **325,965 components** over 1,156,314 entities,
+largest **715,435 (61.87%** — a well-connected giant component), isolates **256,782 (22.2%)**.
+Replaces the verdict-only line and the bogus capped-projection 44.8%-isolate artifact.
+**HONEST NOTE:** isolates *rose* vs the pre-DELETE re-POST (20.4%→22.2%) because deleting the
+48k junk code-token edges orphaned ~20k entities whose *only* edge was junk — pre-DELETE they
+were "connected" by noise; the cleaner graph honestly reports them isolated. Not a regression,
+a truer reading.
+
+**Cat 8 — FINAL exact full-graph (modularity computed) + introspection LIVE.** The structural
+'hierarchical' claim **PASSES** with a real number now: modularity **0.7961** across 218
+communities (≫0.5), **networkx-computed on the full graph** after networkx was installed on the
+familiar daemon and structural-stats re-POSTed (#157). This replaces the earlier
+"pending-networkx" verdict and decisively refutes the prior FAIL (modularity 0.009 was a
+capped-projection artifact). **Introspection is now 1.0** — the `/ontology` endpoint
+(palace-daemon#205) is **deployed and live on the prod familiar daemon** (restarted),
+self-reporting declared-vs-effective drift; the SME scorer (#208) credits it. Was 0.0.
 
 All re-score reads were **READ-ONLY GET probes** against prod `familiar:8085`; no ingest
 (the `--real-kg` path issues `/graph` GETs + a `POST /cypher` *read* aggregation only).
@@ -260,8 +349,15 @@ This is a genuine adapter-correctness fix the cross-system pass surfaced — wit
   a distinct finding from Hindsight's no-endpoint (Mem0 *had* a graph layer and the OSS
   edition dropped it).
 
-**The matrix is now COMPLETE across 4 systems** (mempalace, OMEGA, Hindsight, Mem0).
-The pass for any future graph-bearing adapter still runs the full structural set on
-good-dog; the first question to each adapter owner remains **"does this system expose
-typed edges, or is it retrieval/extraction-only?"** — retrieval/extraction-only records
-**N/A — no graph to evaluate** on 3/4/5/6/8 (a finding), as both Hindsight and Mem0 did.
+**The matrix is now EXPANDED across 8 rows** — 6 data-backed (mempalace, OMEGA, Hindsight,
+Mem0 = memory systems; flat = no-structure control; rlm = Cat 9a orchestrator arm) plus the
+2 Karpathy baselines (full_context D1, karpathy_compiled D2) surfaced as explicit
+*wired-but-not-benched* rows; oracle/random footnoted as diagnostic bounds. See the full
+roster table above for honest per-cat coverage. The pass for any future graph-bearing adapter still runs
+the full structural set on good-dog; the first question to each adapter owner remains
+**"does this system expose typed edges, or is it retrieval/extraction-only?"** —
+retrieval/extraction-only records **N/A — no graph to evaluate** on 3/4/5/6/8 (a finding),
+as both Hindsight and Mem0 did. **Next coverage steps** (honest gaps, not failures): run the
+Karpathy baselines (full_context D1 / karpathy_compiled D2) through the retrieval/QA cats on
+a shared corpus to fill their not-run row; the oracle/random controls likewise have adapters
+but no matrix runs yet.

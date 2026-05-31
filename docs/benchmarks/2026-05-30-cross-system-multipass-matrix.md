@@ -5,6 +5,60 @@
 **Issue:** [techempower-org/multipass-structural-memory-eval#178](https://github.com/M0nkeyFl0wer/multipass-structural-memory-eval/issues/178) (Tier 3 — independent multi-system head-to-head) + [#115](https://github.com/techempower-org/multipass-structural-memory-eval/issues/115) (the multipass matrix)
 **Status:** EXPANDED — cross-system structural matrix across **8 rows** (#163): **6 data-backed systems** (4 memory systems + flat control + rlm diagnostic arm) plus **2 wired-but-not-yet-benched** Karpathy baselines shown explicitly. Fully scored: mempalace (FINAL exact full-graph, post re-map + junk-DELETE + networkx) + OMEGA. Verdict rows: Hindsight (Iris #220) + Mem0-OSS (Solara #221) — verified + runnable, full QA deferred (extraction-throughput-bound). Baseline/arm: **flat** (no-structure control — real Cat 1/2c/7, structural N/A by design), **rlm** (Cat 9a orchestrator arm — the 46.7% invocation plateau). **full_context (D1) + karpathy_compiled (D2)** are surfaced as explicit *"wired, not yet benched"* rows (all not-run). oracle/random controls footnoted as diagnostic bounds. Every cell is a real reading OR an explicit honest marker — no fabricated numbers.
 **Matrix data:** `baselines/cross_system_multipass_matrix_2026-05-30.json` (Luna renders on the site)
+**Full-field extension:** the JSON also carries a `field_roster` (#165) — **every memory system in the 2026-05-24 survey** as a row, with two column-groups that are NEVER conflated: `published_field` (their self-reported claims) and `sme_multipass` (our harness). See "Full-field view" below.
+
+---
+
+## Full-field view — published claims vs SME multipass (#165)
+
+JP's directive: show the **whole field**, not just the systems we benched — but never blur
+*"measured by us"* against *"claimed by them."* The JSON's `field_roster` holds **33 systems**
+from the survey (`memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md`), each with
+two strictly separated column-groups:
+
+- **`published_field`** — the system's **self-reported** survey numbers (LongMemEval QA, LoCoMo
+  QA, BEAM-1M/10M, answer-model, verification level, source), transcribed **verbatim** from the
+  survey. Every cell is stamped *"SELF-REPORTED — NOT SME-measured."* We never put our harness
+  numbers here, and we never put their claims in the SME columns.
+- **`sme_multipass`** — **our** Cat 1–9 readings (the `categories` block above), populated **only**
+  for systems we actually benched; **`not-benched`** everywhere else.
+
+### Status groups (`field_status_groups`)
+
+- **benched_on_multipass (8):** mempalace, OMEGA, Hindsight, Mem0-OSS, flat, rlm, full_context,
+  karpathy_compiled — real SME cells (the matrix above).
+- **bench_in_flight (3):** longhand, postgres_ingest, ladybugdb — the verbatim-first cohort
+  Twilight is benching now (#164); their real SME cells drop in when she reports (#169).
+- **published_field_only (15):** mem0-platform-v3, Mastra, True Memory (Pro/Base), Supermemory,
+  EverOS/EverMind, ENGRAM (paper), Zep/Graphiti, Celiums, MemMachine, Memobase, agentmemory,
+  engram-2, ai-memory, mcp-memory-service — survey QA/R@5 numbers, **no SME adapter** → `published_field`
+  filled, `sme_multipass` all `not-benched`.
+- **no_published_data (7):** Open Brain (OB1), claude-mem, Letta/MemGPT, Cognee, CaviraOSS
+  OpenMemory, EngramX (NickCirv), iai-mcp — in the field, no numbers → both groups mostly empty;
+  shown as *"in the field, no published data."*
+
+### Comparability caveats carried in the JSON (`comparability_caveats`) — for the render
+
+The published-field numbers are **not** a leaderboard; the survey's §3 traps travel with them:
+
+1. **R@K ≠ QA.** R@5 retrieval recall (MemPalace upstream, agentmemory, engram-2, ai-memory,
+   mcp-memory-service) is **not** comparable to E2E QA accuracy. Celiums proved 100% retrieval →
+   62.3% QA.
+2. **~24pp answer-model swing** on the same benchmark (GPT-4.1 95.4% vs GPT-4o-mini 71.4%). No
+   apples-to-apples QA without holding the answer model constant.
+3. **Platform vs OSS.** Mem0's 92–94% are the **cloud platform v3**; the **OSS** package (what
+   SME benched, what True Memory/Hindsight tested) is **61–68%** LoCoMo. "Almost never made
+   explicit."
+4. **LoCoMo subset/judge.** Question count varies (~1,540 vs 200/300 subsets); adversarial
+   category often skipped; engram-2 uses a non-standard strict GPT-5.4 judge. LoCoMo
+   cross-comparisons are unreliable without the exact subset + judge.
+5. **MemPalace upstream controversy.** The 96.6% R@5 is a ChromaDB baseline (palace features
+   *hurt* it; BM25 alone 93.8%); the fork publishes 0.984 R@5 held-out and **no E2E QA**.
+
+**The headline the full-field view makes visible:** the published leaderboard is a tangle of
+incomparable metrics, models, and dataset splits — and SME is the only column where the numbers
+were produced under controlled, disclosed conditions. The two column-groups sit side by side so
+the reader can see *exactly* which is which.
 
 ---
 

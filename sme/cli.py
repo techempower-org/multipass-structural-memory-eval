@@ -730,10 +730,32 @@ def cmd_cat8(args: argparse.Namespace) -> int:
             "schema alignment, or self-testing — this is expected)"
         )
 
-    if args.json:
-        Path(args.json).write_text(
-            json.dumps(report.to_dict(), indent=2, default=str)
+    # #147/#152 — the 8e hierarchical modularity above is computed over a
+    # SAMPLED KG snapshot (limit-dependent). When the daemon has the EXACT
+    # full-graph modularity cached, surface it as the publishable Cat 8 figure.
+    full_stats = None
+    if hasattr(adapter, "get_structural_stats"):
+        try:
+            full_stats = adapter.get_structural_stats()
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("full-graph structural stats fetch failed: %s", e)
+    if full_stats and full_stats.get("modularity") is not None:
+        mod = full_stats["modularity"]
+        print("\nEXACT full-graph modularity (Cat 8 hierarchical — publishable)")
+        print(f"   modularity:            {mod:.3f} (over the whole RELATION graph)")
+        print(
+            f"   verdict:               {'PASS' if mod > 0.5 else 'FAIL'} "
+            "(threshold 0.5)"
         )
+        print(
+            "   ↑ exact daemon-side Louvain over all RELATION edges; "
+            "supersedes the\n   sampled 8e modularity above for publication."
+        )
+
+    if args.json:
+        out = report.to_dict()
+        out["full_graph_stats"] = full_stats
+        Path(args.json).write_text(json.dumps(out, indent=2, default=str))
         print(f"\nJSON report written to {args.json}")
 
     adapter.close()
@@ -1187,6 +1209,40 @@ def cmd_cat5(args: argparse.Namespace) -> int:
             "above (folding them in would re-swamp\n  the topology like tunnels did)."
         )
 
+    # #147/#152 — the connectivity reading above is over a SAMPLED snapshot
+    # (the /graph KG slice is biased + limit-dependent). When the daemon has
+    # the EXACT full-graph stats cached (POST /graph/structural-stats, a gated
+    # off-peak run), surface them — these are the publishable Cat 5 figures.
+    full_stats = None
+    if _use_real_kg(args) and hasattr(adapter, "get_structural_stats"):
+        try:
+            full_stats = adapter.get_structural_stats()
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("full-graph structural stats fetch failed: %s", e)
+    if full_stats:
+        lc = full_stats.get("largest_component_size")
+        lcf = full_stats.get("largest_component_fraction")
+        print("\nEXACT full-graph connectivity (Cat 5 — publishable)")
+        print("─" * 60)
+        print(f"  entities:              {_fmt_int(full_stats.get('entities', 0))}")
+        print(f"  RELATION edges:        {_fmt_int(full_stats.get('edges', 0))}")
+        print(f"  components:            {_fmt_int(full_stats.get('component_count', 0))}")
+        print(
+            f"  largest component:     {_fmt_int(lc or 0)}"
+            + (f"  ({lcf*100:.1f}% of entities)" if isinstance(lcf, (int, float)) else "")
+        )
+        print(f"  isolates:              {_fmt_int(full_stats.get('isolate_count', 0))}")
+        print(
+            "  ↑ exact over the whole RELATION graph (daemon-side WCC), "
+            "supersedes the\n  sampled reading above for publication."
+        )
+    elif _use_real_kg(args) and hasattr(adapter, "get_structural_stats"):
+        print(
+            "\n  (exact full-graph Cat 5 stats not yet computed daemon-side — "
+            "the\n  connectivity reading above is SAMPLE-ONLY, not publishable. "
+            "Run the\n  gated POST /graph/structural-stats off-peak to populate.)"
+        )
+
     if args.json:
         out = {
             "adapter": args.adapter,
@@ -1197,6 +1253,7 @@ def cmd_cat5(args: argparse.Namespace) -> int:
             "largest_component_size": report.largest_component_size,
             "isolated_nodes": report.isolated_nodes,
             "mentions_context": mentions_ctx,
+            "full_graph_stats": full_stats,
             "bridges": report.bridges,
             "betti_0_largest": report.betti_0_largest,
             "betti_1_largest": report.betti_1_largest,

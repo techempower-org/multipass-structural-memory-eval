@@ -1026,3 +1026,70 @@ def test_get_mentions_context_none_when_no_kg_stats(
     })
     a = _adapter(monkeypatch, tmp_path)
     assert a.get_mentions_context() is None
+
+
+# --- #152 exact full-graph Cat 5/8 stats (GET /graph/structural-stats) ----
+
+
+_STRUCTURAL_STATS = {
+    "entities": 1156241,
+    "edges": 1921600,
+    "component_count": 50000,
+    "largest_component_size": 800000,
+    "largest_component_fraction": 0.69,
+    "isolate_count": 12000,
+    "component_size_histogram": [800000, 1200],
+    "modularity": 0.72,
+    "modularity_communities": 41,
+    "modularity_note": None,
+}
+
+
+def test_get_structural_stats_reads_cached_daemon_stats(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """The adapter GETs the daemon's cached exact full-graph stats verbatim."""
+    fake_urlopen_factory({
+        "GET http://daemon/graph/structural-stats": _STRUCTURAL_STATS,
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    s = a.get_structural_stats()
+    assert s["modularity"] == 0.72
+    assert s["largest_component_size"] == 800000
+
+
+def test_get_structural_stats_none_on_404_not_yet_computed(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """404 (daemon hasn't run the gated POST) → None; Cat 5/8 fall back to the
+    sampled snapshot. The adapter NEVER POSTs to trigger the heavy compute."""
+    fake_urlopen_factory({
+        "GET http://daemon/graph/structural-stats": urllib.error.HTTPError(
+            "http://daemon/graph/structural-stats", 404, "Not Found", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_structural_stats() is None
+
+
+def test_get_structural_stats_none_on_503(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    fake_urlopen_factory({
+        "GET http://daemon/graph/structural-stats": urllib.error.HTTPError(
+            "http://daemon/graph/structural-stats", 503, "Service Unavailable", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_structural_stats() is None
+
+
+def test_get_structural_stats_none_on_malformed(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """A 200 without component_count isn't a usable stats payload → None."""
+    fake_urlopen_factory({
+        "GET http://daemon/graph/structural-stats": {"modularity": 0.5},
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_structural_stats() is None

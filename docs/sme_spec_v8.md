@@ -1065,7 +1065,7 @@ The appendix is populated incrementally as standard-corpus integration ([#43]) a
 - **Substrate-floor parity with LongMemEval:** R@5 = 0.9660, byte-identical across all 6 question types (substring scorer, no judge). Cross-validation confirms the embedding plumbing matches upstream. Loader-format adds 2.2pp materialization overhead, measured and documented in [#9].
 - **AdaptMem FT-300 independent reproduction:** R@5 = 1.000 on 200q held-out (+0.5pp within published noise of Atakan's 0.995). Confirms encoder-side calibration baseline.
 - **Judge-human agreement on SME corpora:** Not yet measured ([#46]). Until it lands, Cat 6 / judge-scored claims carry no inherited calibration from LongMemEval.
-- **Statistical hygiene:** PR #36 adds paired bootstrap CIs and BH-FDR. Retrofitting CIs onto existing readings is in-flight.
+- **Statistical hygiene:** `sme/stats/` provides paired bootstrap CIs and BH-FDR. The Cat 2c multi-hop readout now wires these in ([#21]): each B−A / B−C recall delta carries a 95% CI, raw + BH-FDR-adjusted p across the hop comparison family, and an n&lt;30 "exploratory" warning. Retrofitting CIs onto the remaining readouts (cat1/4/5/9, retrieve) is in-flight.
 
 ### How to contribute evidence
 

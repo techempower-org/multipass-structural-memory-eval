@@ -31,7 +31,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+from sme.stats import benjamini_hochberg, paired_bootstrap_ci
+
 log = logging.getLogger(__name__)
+
+# Below this paired-sample size, a delta's CI is too wide to publish — warn,
+# don't error (per upstream #21, some hop cells are legitimately small).
+_MIN_PAIRED_N = 30
+
+# Family-wise FDR threshold for the BH correction applied across every
+# hop x {B-A, B-C} delta in one Cat 2c report.
+_DEFAULT_ALPHA = 0.05
 
 
 @dataclass
@@ -55,6 +65,11 @@ class ConditionReport:
     mean_tokens: float
     tokens_per_correct: Optional[float]
     by_hop: dict[int, HopBreakdown]
+    # Per-question recall keyed by question id, grouped by hop. Retained so
+    # deltas between conditions can be scored with a paired bootstrap CI
+    # (#21) — the mean_recall in HopBreakdown discards the per-item spread
+    # the CI needs. hop -> {question_id -> recall}.
+    recall_by_id: dict[int, dict[str, float]] = field(default_factory=dict)
 
 
 @dataclass
@@ -65,6 +80,9 @@ class Cat2cReport:
     delta_B_minus_C: dict[int, dict[str, float]] = field(default_factory=dict)
     # Per-hop ratios (B recall / A recall)
     ratio_B_over_A: dict[int, float] = field(default_factory=dict)
+    # Family-wise FDR threshold used for the BH correction across the deltas
+    # (#21). None when no paired CIs could be computed (e.g. B-only report).
+    alpha: Optional[float] = None
     # Verdict
     verdict: str = ""
     verdict_details: list[str] = field(default_factory=list)
@@ -103,6 +121,7 @@ class Cat2cReport:
             "ratio_B_over_A": {
                 str(h): r for h, r in self.ratio_B_over_A.items()
             },
+            "alpha": self.alpha,
             "verdict": self.verdict,
             "verdict_details": self.verdict_details,
         }
@@ -139,15 +158,21 @@ def _build_condition_report(
         h: {"recall": 0.0, "hit": 0, "tokens": 0.0, "correct": 0, "n": 0}
         for h in by_hop
     }
+    # Per-question recall keyed by id, grouped by hop — kept for paired CIs.
+    recall_by_id: dict[int, dict[str, float]] = {h: {} for h in by_hop}
     for q in questions:
         h = int(q.get("min_hops", 0))
         s = sums[h]
-        s["recall"] += float(q.get("recall", 0.0))
+        recall = float(q.get("recall", 0.0))
+        s["recall"] += recall
         s["hit"] += 1 if q.get("hit") else 0
         s["tokens"] += float(q.get("tokens", 0))
-        if float(q.get("recall", 0.0)) >= 1.0:
+        if recall >= 1.0:
             s["correct"] += 1
         s["n"] += 1
+        qid = q.get("id")
+        if qid is not None:
+            recall_by_id[h][str(qid)] = recall
 
     for h, s in sums.items():
         n = s["n"]
@@ -184,7 +209,88 @@ def _build_condition_report(
         mean_tokens=mean_tokens,
         tokens_per_correct=tokens_per_correct,
         by_hop=by_hop,
+        recall_by_id=recall_by_id,
     )
+
+
+def _paired_recall_ci(
+    cond_b: ConditionReport,
+    cond_other: ConditionReport,
+    hop: int,
+) -> Optional[dict[str, float]]:
+    """Paired bootstrap CI on the per-question recall delta (B − other) at one hop.
+
+    Pairs questions by id (the intersection of ids present in both conditions
+    at this hop), so a missing or reordered question in one condition can't
+    misalign the pairing. Returns the CI in percentage points to match the
+    existing ``recall_delta_pp`` reporting unit, or ``None`` if the conditions
+    share no questions at this hop.
+    """
+    recall_b = cond_b.recall_by_id.get(hop, {})
+    recall_o = cond_other.recall_by_id.get(hop, {})
+    shared = sorted(set(recall_b) & set(recall_o))
+    if not shared:
+        return None
+
+    scores_b = [recall_b[qid] for qid in shared]
+    scores_o = [recall_o[qid] for qid in shared]
+    ci = paired_bootstrap_ci(scores_b, scores_o)
+    n = len(shared)
+    return {
+        "ci_low_pp": ci.ci_lower * 100,
+        "ci_high_pp": ci.ci_upper * 100,
+        "p_raw": ci.p_value_approx,
+        "n_paired": float(n),
+        # warn-not-error: small paired n means the CI is too wide to publish
+        "low_n": 1.0 if n < _MIN_PAIRED_N else 0.0,
+    }
+
+
+def _attach_paired_cis(report: Cat2cReport) -> None:
+    """Attach paired bootstrap CIs to every delta, then BH-FDR across the family.
+
+    The comparison family is every hop × {B−A, B−C} delta computed in this one
+    report. Raw bootstrap p-values are collected across the whole family and
+    corrected together (Benjamini-Hochberg, #21) so that running many hop
+    comparisons doesn't inflate the false-positive rate. Each delta dict gains
+    ci_low_pp / ci_high_pp / p_raw / n_paired / low_n, and after correction
+    p_adjusted / significant.
+    """
+    B = report.conditions.get("B")
+    if B is None:
+        return
+    A = report.conditions.get("A")
+    C = report.conditions.get("C")
+
+    # (delta_dict, p_raw) pairs in a stable order so the BH mapping is
+    # deterministic and we can write the adjusted p back into the same dicts.
+    family: list[dict[str, float]] = []
+
+    def _enrich(other: Optional[ConditionReport], deltas: dict[int, dict]) -> None:
+        if other is None:
+            return
+        for hop, d in deltas.items():
+            ci = _paired_recall_ci(B, other, hop)
+            if ci is None:
+                continue
+            d.update(ci)
+            family.append(d)
+
+    _enrich(A, report.delta_B_minus_A)
+    _enrich(C, report.delta_B_minus_C)
+
+    if not family:
+        return
+
+    fdr = benjamini_hochberg(
+        [d["p_raw"] for d in family], alpha=_DEFAULT_ALPHA
+    )
+    for d, p_adj, rejected in zip(
+        family, fdr.adjusted_p_values, fdr.rejected
+    ):
+        d["p_adjusted"] = p_adj
+        d["significant"] = 1.0 if rejected else 0.0
+    report.alpha = _DEFAULT_ALPHA
 
 
 def score_cat2c(
@@ -245,6 +351,10 @@ def score_cat2c(
                 "recall_delta_pp": (br - cr) * 100,
                 "tokens_delta": bt - ct,
             }
+
+    # Statistical hygiene (#21): attach paired bootstrap CIs to each recall
+    # delta and BH-FDR-correct across the whole hop x {B-A, B-C} family.
+    _attach_paired_cis(report)
 
     # Verdict
     report.verdict, report.verdict_details = _verdict(report)
@@ -354,6 +464,29 @@ def _verdict(report: Cat2cReport) -> tuple[str, list[str]]:
     return verdict, details
 
 
+def _format_delta_line(hop: int, d: dict[str, float]) -> str:
+    """One delta row, with the bootstrap CI bracket and significance marker
+    if they were computed (BEIR-style ``metric ± [CI]``). Falls back to the
+    bare delta when no paired CI is available (e.g. no shared question ids)."""
+    sign = "+" if d["recall_delta_pp"] >= 0 else ""
+    base = (
+        f"    {hop}-hop:  recall {sign}{d['recall_delta_pp']:.1f}pp   "
+        f"tokens {d['tokens_delta']:+.0f}"
+    )
+    if "ci_low_pp" not in d:
+        return base
+
+    ci = f"  [95% CI: {d['ci_low_pp']:.1f}, {d['ci_high_pp']:.1f}pp]"
+    n = int(d.get("n_paired", 0))
+    parts = [base, ci, f"  n={n}"]
+    if "p_adjusted" in d:
+        marker = "*" if d.get("significant", 0.0) >= 1.0 else "ns"
+        parts.append(f"  p_adj={d['p_adjusted']:.3f} {marker}")
+    if d.get("low_n", 0.0) >= 1.0:
+        parts.append(f"  ⚠ n<{_MIN_PAIRED_N}: CI exploratory")
+    return "".join(parts)
+
+
 def format_report(report: Cat2cReport) -> str:
     """Render a readable text scorecard."""
     lines: list[str] = []
@@ -410,21 +543,13 @@ def format_report(report: Cat2cReport) -> str:
         lines.append("")
         lines.append("  B − A (structural + metadata contribution) by hop:")
         for h, d in sorted(report.delta_B_minus_A.items()):
-            sign = "+" if d["recall_delta_pp"] >= 0 else ""
-            lines.append(
-                f"    {h}-hop:  recall {sign}{d['recall_delta_pp']:.1f}pp   "
-                f"tokens {d['tokens_delta']:+.0f}"
-            )
+            lines.append(_format_delta_line(h, d))
 
     if report.delta_B_minus_C:
         lines.append("")
         lines.append("  B − C (structural layer alone) by hop:")
         for h, d in sorted(report.delta_B_minus_C.items()):
-            sign = "+" if d["recall_delta_pp"] >= 0 else ""
-            lines.append(
-                f"    {h}-hop:  recall {sign}{d['recall_delta_pp']:.1f}pp   "
-                f"tokens {d['tokens_delta']:+.0f}"
-            )
+            lines.append(_format_delta_line(h, d))
 
     # Ratio
     if report.ratio_B_over_A:

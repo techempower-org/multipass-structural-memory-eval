@@ -1646,14 +1646,17 @@
 
         <div class="caveat">
           <span class="label">the cost wall &middot; why two QA cells are deferred, not blank</span>
-          <strong>Extraction-based memory systems are benchmark-throughput-bound &mdash;
-          a tradeoff the public leaderboards hide.</strong> Both competitors run an
-          <em>LLM fact-extraction on every session ingest</em>, and LongMemEval-S
-          averages ~48 sessions/question, so the strat150 subset is ~7,200 ingests:
+          <strong>Hindsight ~150h / Mem0 ~18h to benchmark strat150 &mdash; vs
+          verbatim-first mempalace ~0 marginal cost.</strong> That is the
+          leaderboard-hidden headline:
+          <strong>extraction-based memory systems are benchmark-throughput-bound.</strong>
+          Both competitors run an <em>LLM fact-extraction on every session ingest</em>,
+          and LongMemEval-S averages ~48 sessions/question, so the strat150 subset is
+          ~7,200 ingests:
           <strong>Hindsight</strong> at ~60&ndash;96&nbsp;s/session (local phi4, CPU)
-          &rarr; <strong>&asymp;150&nbsp;hours</strong> to benchmark; <strong>Mem0-OSS</strong>
+          &rarr; <strong>~150h</strong> to benchmark; <strong>Mem0-OSS</strong>
           at a warm ~9&nbsp;s/ingest (ollama phi4 extractor) &rarr;
-          <strong>&asymp;18&nbsp;hours</strong>. A verbatim-first system
+          <strong>~18h</strong>. A verbatim-first system
           (<strong>mempalace</strong>) ingests raw text at <strong>~zero marginal
           compute</strong> &mdash; orders of magnitude cheaper to evaluate. That is why
           the apples table publishes their QA as <em>deferred</em> rather than a guessed

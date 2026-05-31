@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-31
 **Author:** Nebula (SME dream-team), synthesizing the full campaign
-**Status:** DRAFT — one TODO-FILL remains: the ai-memory / agentmemory R@5 wave (under #234/#177, benching now), marked clearly inline in §3.1/§6. The bootstrap-CI / FDR significance pass (#21) has **landed** and is folded into §8 (+ back-referenced from §5.2/§5.3). The synthesis is otherwise complete and every number traces to a committed `baselines/` artifact.
+**Status:** FINAL — all inputs landed. The bootstrap-CI / FDR significance pass (#21) is folded into §8; the field retrieval wave (#234/#247) is folded into §3.1 (ai-memory R@5 0.920, benched) and §6 (agentmemory throughput-wall correction). Every number traces to a committed `baselines/` artifact (provenance index appendix).
 **Posture:** Diagnostic, not a leaderboard. Every cell is a controlled reading of one substrate under stated conditions. We never blur *measured* (our harness) against *claimed* (a vendor's self-report), and we never mix R@K retrieval recall with end-to-end QA accuracy.
 
 ---
@@ -19,7 +19,7 @@ Over this campaign SME — the Structural Memory Evaluation framework — was dr
 
 4. **Three structural cells were measurement artifacts; the corrected readings overturn them.** A capped `/graph` projection reported Cat 4 as "98.98% one edge type, normalized entropy 0.020" — a combinatorial `tunnel`-scaffold artifact. The real knowledge graph reads **normalized entropy 0.645**, a **61.87% giant component** (Cat 5), and **Louvain modularity 0.796** (Cat 8, hierarchy PASS). The artifact said "monoculture / fragmented / flat"; the truth is "diverse / connected / hierarchical." This is the framework catching itself.
 
-5. **The field splits cleanly on extraction cost.** Verbatim-first / retrieval-only systems are **$0 marginal to bench** (no LLM at write time). Extraction-based systems (Mem0, Hindsight, Cognee, Graphiti, Letta) hit an **LLM-fact-extraction-per-ingest throughput wall** — Mem0 OSS ≈ 18h, Hindsight ≈ 150h for a full strat150 QA run — making them *verified-but-deferred* rather than freely measured.
+5. **The field splits on ingest cost — along TWO axes.** Verbatim/retrieval-only systems with fast bulk ingest are **$0 marginal to bench** (ai-memory benched at R@5 0.920 — pure FTS5+MiniLM, no graph, level with mempalace). The wall has two independent causes: a **write-time LLM** (Mem0 OSS ≈ 18h, Hindsight ≈ 150h of fact-extraction) *and*, separately, **slow per-item ingest throughput** — agentmemory is LLM-free at write yet still throughput-walled (~15h at ~0.15–0.3 obs/s), a scoping-vs-reality correction (§6.1). "No write-time LLM" is necessary but not sufficient for cheap benching.
 
 ---
 
@@ -102,15 +102,15 @@ All numbers from `baselines/cross_system_multipass_matrix_2026-05-30.json` and t
 
 ### 3.1 Retrieval & QA cats (1, 2c, 7, 9a)
 
-| Cat | mempalace | OMEGA | flat | postgres_ingest | rlm | Hindsight / Mem0 |
-|---|---|---|---|---|---|---|
-| **1** R@5 | **0.927** (daemon /search, strat150) | 0.900 (−2.7pp = 4 q) | 0.833 (jp-realm Cond-A) | 0.833 (==flat) | 0.467 (invocation-capped) | deferred (field 91.4% / 67.8%) |
-| **2c** R@5 | 0.960 (cat_2c) | 0.920 (−1 q noise) | 0.833 (hop-1 0.852 / hop-2 0.667, no depth scaling) | 0.833 (==flat) | by-hop avail | deferred |
-| **7** QA macro | 0.580 (same-reader) | 0.593 (+1.3pp parity) | 0.384 (LoCoMo E2E n=250) | **0.392** (==flat, Δ noise) | n/a | deferred (cost wall) |
-| **9a** invocation | 0.983 @ 100% invoke (Opus, Tau2 99.3) | N/A (library) | N/A (library) | N/A (library) | **0.467 @ 7–27% invoke** | N/A |
+| Cat | mempalace | OMEGA | ai-memory | flat | postgres_ingest | rlm | Hindsight / Mem0 |
+|---|---|---|---|---|---|---|---|
+| **1** R@5 | **0.927** (daemon /search, strat150) | 0.900 (−2.7pp = 4 q) | **0.920** (strat150, session-level) | 0.833 (jp-realm Cond-A) | 0.833 (==flat) | 0.467 (invocation-capped) | deferred (field 91.4% / 67.8%) |
+| **2c** R@5 | 0.960 (cat_2c) | 0.920 (−1 q noise) | 0.960 (cat_2c) | 0.833 (hop-1 0.852 / hop-2 0.667, no depth scaling) | 0.833 (==flat) | by-hop avail | deferred |
+| **7** QA macro | 0.580 (same-reader) | 0.593 (+1.3pp parity) | n/a (retrieval-only) | 0.384 (LoCoMo E2E n=250) | **0.392** (==flat, Δ noise) | n/a | deferred (cost wall) |
+| **9a** invocation | 0.983 @ 100% invoke (Opus, Tau2 99.3) | N/A (library) | N/A (HTTP daemon) | N/A (library) | N/A (library) | **0.467 @ 7–27% invoke** | N/A |
 
 **Reading the rows:**
-- **Cat 1/2c:** mempalace and OMEGA land within ~2pp on their *own* R@5 metrics (a descriptive observation, not a tested delta — their per-question hit semantics differ, so §8.2 deliberately declines a CI). flat and postgres_ingest are *identical* (storage-equivalence, CI-confirmed in §5.3/§8.1). flat shows the expected verbatim signature — hop-1 0.852 collapsing to hop-2 0.667, no traversal.
+- **Cat 1/2c:** mempalace, OMEGA, and **ai-memory** land within ~2pp on their *own* R@5 metrics (descriptive, not a tested delta — their per-question hit semantics differ, so §8.2 deliberately declines a CI). ai-memory's 0.920 strat150 R@5 (R@1 0.80, R@10 0.92, n=150, **0 errors**) is the campaign's third independent brick in the §5.2 thesis: it is **pure SQLite FTS5 + MiniLM, no graph, no write-time LLM**, and it lands *level with mempalace's drawer-level 0.920* — the lexical+vector backbone carries retrieval, the machinery on top does not. Its measured 0.920 sits **5.8pp below its published 0.978** (a defensible measured-vs-claimed gap from the pinned subset + per-question isolation; single-session cat_1 0.853 is the soft spot). flat and postgres_ingest are *identical* (storage-equivalence, CI-confirmed in §5.3/§8.1). flat shows the expected verbatim signature — hop-1 0.852 collapsing to hop-2 0.667, no traversal.
 - **Cat 7:** OMEGA 0.593 ≈ mempalace 0.580 (same reader). flat 0.384 ≈ postgres_ingest 0.392 on LoCoMo (the storage-equivalence QA leg).
 - **Cat 9a — the RLM finding:** Qwen-7B and Llama-70B *both* plateau at 46.7% recall at 7–27% tool-invocation. A 10× parameter gap does not move recall: the ceiling is **willingness to invoke**, not retrieval quality. The orchestrator's Tau2 score (Opus 99.3 → 100% invocation → 98.3% recall) is the load-bearing variable, cross-validating the Tau2-predicts-Cat-9a relationship.
 
@@ -200,7 +200,7 @@ The single most important campaign result. On LongMemEval-S:
 | 4a | **Hybrid graph leg (#111)** | **inert** — zero graph candidates on 12 golden queries; `hybrid` byte-identical to `union`; the only real lever is convex vector/BM25 weight | descriptive only (no paired baseline) | `2026-05-31-hybrid-scorer-weight-tuning.md` |
 | 4b | **Cross-encoder rerank (#103)** | **neutral-to-negative** — R@10 flat at 0.60 across all 3 legs, MRR *drops* (0.299 → 0.293 → 0.284), big CE 3× slower (1523ms vs 555ms) | descriptive only (no paired baseline) | `2026-05-31-ce-rerank-corpus-seeded.md` |
 
-Two of the four NULLs are now **CI-confirmed** non-significant under FDR correction (§8.1); the other two are **descriptive-only** because no committed per-question paired baseline exists (§8.2) — the report keeps that distinction sharp. The convergent message: **the dense-vector + BM25 backbone already does the retrieval work.** Age-fusion is a *targeted* re-ranker (directionally plausible on temporal/knowledge-update categories, but unproven at n=25/category — never reported as an effect). The graph leg and the cross-encoder add latency, not recall. The vector backbone — not the graph, not the reranker — is where retrieval quality lives.
+Two of the four NULLs are now **CI-confirmed** non-significant under FDR correction (§8.1); the other two are **descriptive-only** because no committed per-question paired baseline exists (§8.2) — the report keeps that distinction sharp. The convergent message: **the dense-vector + BM25 backbone already does the retrieval work.** Age-fusion is a *targeted* re-ranker (directionally plausible on temporal/knowledge-update categories, but unproven at n=25/category — never reported as an effect). The graph leg and the cross-encoder add latency, not recall. The vector backbone — not the graph, not the reranker — is where retrieval quality lives. **The field bench corroborates this from the outside:** ai-memory, a pure FTS5+MiniLM store with *no graph at all*, hits R@5 0.920 — level with mempalace's full graph-augmented stack (§3.1). A system with none of the machinery matches the one with all of it, on the same metric and subset.
 
 Two methodology traps were caught in producing these NULLs, both worth preserving:
 - **The n=100 composition artifact.** An early non-stratified n=100 slice showed a +2.0pp age-fusion "win" — but the S corpus is sorted by `question_type`, so the first 100 were 70 single-session + 30 multi-session, zero temporal/KU. The "win" was category composition, not a real effect; it vanished on the stratified n=150. (Filed as #122; fixed by `--stratify-by question_type`.)
@@ -256,17 +256,19 @@ This is the cleanest demonstration of why SME is diagnostic-not-leaderboard: the
 
 ## 6. Cost-wall taxonomy — verbatim-first vs extraction-based
 
-The decisive axis for *whether a system can be benched cheaply* is **write-time extraction cost**, not installability (the #234 scoping finding). Three classes:
+The #234 scoping proposed a single axis — **write-time extraction cost** — for *whether a system can be benched cheaply*. The bench wave refined it to **two axes**: no write-time LLM is *necessary but not sufficient* for cheap benching; **ingest throughput** is a second, independent wall (§6.1). Classes:
 
 | Class | Definition | Marginal cost | Systems |
 |---|---|---|---|
-| **Verbatim / retrieval-only** | embedding/FTS-only at write; no LLM per document | **$0** | flat, postgres_ingest, mempalace, agentmemory, engram-2, ai-memory, mcp-memory-service |
-| **Extraction-based** | LLM fact-extraction per ingest; throughput-bound | **hours** | Mem0-OSS (~9s/ingest warm → **~18h** strat150), Hindsight (~60–96s/session → **~150h**), Cognee, Zep/Graphiti (+Neo4j), Letta |
+| **Verbatim / retrieval-only, cheap** | embedding/FTS-only at write *and* fast bulk ingest | **$0** | flat, postgres_ingest, mempalace, **ai-memory (benched 0.920)**, engram-2, mcp-memory-service |
+| **Throughput-walled** | per-item ingest too slow to bench a full corpus — *whether or not* there is a write-time LLM | **hours** | Mem0-OSS (LLM extraction ~9s/ingest → **~18h** strat150), Hindsight (LLM ~60–96s/session → **~150h**), **agentmemory (NO write-LLM, but ~0.15–0.3 obs/s REST ingest → ~15h**, §6.1), Cognee, Zep/Graphiti (+Neo4j), Letta |
 | **Un-benchable locally** | hosted-only / paper-only / framework-coupled / score-withheld | n/a | Mem0-platform-v3 (cloud), Mastra (framework), Supermemory (hosted), True Memory (no code), Engram-paper, EverOS, Memmachine, Celiums, Open-Brain, Claude-Mem, CaviraOSS, EngramX, iai-mcp |
 
 This is why Hindsight and Mem0-OSS are **verified-qa-deferred** rather than measured: their adapters are confirmed working against the real clients (Hindsight #220/#184; Mem0 vs mem0ai 2.0.4 on a $0 local ollama stack), but a full on-harness QA run is throughput-bound to many hours of LLM extraction. We record the field-reported number plus the deferral reason — never a fabricated on-harness QA number. The famous "OSS / installable" KG frameworks (Cognee, Graphiti, Letta) are installable but land in the extraction class — they are not cheap, and they produce QA rows, not the R@5 headline.
 
-> **TODO-FILL (in-flight, #234/#177, Selene):** the verbatim/retrieval-only wave. ai-memory and agentmemory R@5 on strat150 ($0 local) are benching now. When they land, add two `sme_measured` R@5 rows here and in §3.1 — they are directly comparable to the mempalace 0.927 R@5 headline (both R@5, same subset), no metric-mixing. engram-2 is gated on a cloud-embedding decision (its default embedding is Gemini Embed 2); Cognee/Graphiti/Letta are parked as a deliberate, JP-gated extraction-QA arc.
+### 6.1 Scoping-vs-reality correction: agentmemory is throughput-walled despite being LLM-free at write
+
+The #234 scoping classified **agentmemory** as cheap-(a) on the strength of having *no write-time LLM* (embedding/BM25-only, LLM-compress off by default). The real bench overturned that on a second axis the scoping didn't weigh: **ingest throughput.** agentmemory's per-observation iii-engine REST ingest runs at **~0.15–0.3 obs/s and wedges as the index grows** — at ~70 chunked `observe` calls × ~48 distractor sessions per question, a full strat150 run extrapolates to **~15h**. So agentmemory joins the throughput-walled tier *alongside* Mem0/Hindsight despite being LLM-free at write — a flag-don't-thrash call, not a completed bench. The refinement to the taxonomy: **"no write-time LLM" is necessary but not sufficient for cheap benching; per-item ingest throughput is a second, independent wall.** agentmemory's published 95.2% R@5 stays in the published-field column, **unverified-on-harness (throughput)** — distinct from ai-memory's 0.920, which *is* on-harness. The adapter is built and verified on small loads (committed, #234); a fast-follow with a bulk-ingest path could finish the bench. This is exactly the kind of scoping-estimate-vs-measured-reality gap SME exists to surface — applied to its own provisioning plan.
 
 ---
 
@@ -289,6 +291,12 @@ The floor every structural delta is measured against (R@5 0.833, QA 0.384). Exhi
 
 **postgres_ingest — `sme_measured`, storage-equivalence probe.**
 Identical to flat on both retrieval (0.833) and QA (0.392). Its entire value is the §5.3 finding: the storage engine is not the variable.
+
+**ai-memory — `sme_measured`, field retrieval competitor (#234/#247).**
+Pure SQLite FTS5 + MiniLM, no graph, no write-time LLM. Benched R@5 0.920 on strat150 (n=150, 0 errors) — level with mempalace's drawer-level 0.920, reinforcing "the backbone carries retrieval." Measured 0.920 vs published 0.978 = a 5.8pp measured-vs-claimed gap (subset + per-question isolation; single-session cat_1 0.853 the soft spot). The cheapest, fastest competitor to bench in the whole field.
+
+**agentmemory — adapter built + verified-on-small-loads; on-harness bench throughput-walled (#234).**
+LLM-free at write, yet *not* cheap to bench: per-observation REST ingest ~0.15–0.3 obs/s → ~15h extrapolated for strat150 (§6.1). The scoping-vs-reality correction that added the second axis to the cost-wall taxonomy. Published 95.2% R@5 stays published-field, unverified-on-harness (throughput); a bulk-ingest fast-follow could finish it.
 
 **rlm — `sme_measured`, the Cat 9a orchestrator arm.**
 Carries the invocation finding: 46.7% recall at 7–27% invocation, parameter-count-invariant (7B == 70B). The ceiling is willingness-to-invoke, a failure mode no retrieval benchmark captures.
@@ -357,5 +365,5 @@ Every number above traces to a committed artifact:
 - **Storage-equivalence retrieval:** `baselines/jp_realm_v0_1_{flat,postgres}_condA_*.json`
 - **Cost-wall taxonomy:** `docs/mem0_adapter.md`, `docs/hindsight_adapter.md`, #234 scoping (`scratch/nebula-234/scoping.md`)
 - **Spec / methodology:** `docs/sme_spec_v8.md`
-- **Statistical significance (§8):** `baselines/headline_delta_significance_2026-05-31.json` (#21 / #245) — paired bootstrap CIs + BH-FDR
-- **TODO-FILL pending:** #234/#177 (ai-memory + agentmemory R@5) — last remaining fill
+- **Statistical significance (§8):** `baselines/headline_delta_significance_2026-05-31.json` (#21 / #245 / #246) — paired bootstrap CIs + BH-FDR + the descriptive-only comparability gate
+- **Field retrieval wave (§3.1/§6):** `baselines/longmemeval_s_strat150_ai_memory_2026-05-31.json` (ai-memory R@5 0.920) + agentmemory throughput-wall finding (#234/#247)

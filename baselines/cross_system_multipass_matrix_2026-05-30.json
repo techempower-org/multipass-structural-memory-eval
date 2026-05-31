@@ -127,6 +127,14 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": 0.833,
+        "metric": "mean_recall (jp-realm Condition-A)",
+        "scoreability": "scoreable",
+        "note": "postgres+pgvector verbatim ingest, jp-realm-v0.1 Condition-A (n=30); SAME all-MiniLM-L6-v2 embedding + corpus as flat, ONLY the backend swapped (chroma→postgres+pgvector). mean_recall 0.833, full-recall 21/30 — IDENTICAL to the flat floor. The mempalace-raw ablation: verbatim postgres storage without the palace graph retrieves at the flat floor; mempalace's lift is the GRAPH.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_postgres_condA_2026-05-31.json",
+        "source_type": "sme_measured"
       }
     },
     "2c": {
@@ -196,6 +204,18 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": 0.833,
+        "metric": "mean_recall by-hop (jp-realm Cond-A)",
+        "scoreability": "scoreable",
+        "by_hop": {
+          "1": 0.852,
+          "2": 0.667
+        },
+        "note": "postgres Condition-A by-hop: hop-1 0.852 (n27) / hop-2 0.667 (n3) — identical to flat; no depth scaling (no traversal), the expected verbatim-first signature.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_postgres_condA_2026-05-31.json",
+        "source_type": "sme_measured"
       }
     },
     "3": {
@@ -256,6 +276,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": 0.0,
+        "scoreability": "N/A-by-design",
+        "note": "postgres+pgvector is a vector store with no graph — surfaces no structured contradiction pairs by construction. Same 0.00 floor as flat.",
+        "source": null,
+        "source_type": "sme_measured"
       }
     },
     "4": {
@@ -319,6 +346,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": null,
+        "scoreability": "N/A-by-design",
+        "note": "no graph → no edges to measure for monoculture/dedup. N/A by design (verbatim no-structure substrate, same as flat).",
+        "source": null,
+        "source_type": "sme_measured"
       }
     },
     "5": {
@@ -383,6 +417,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": null,
+        "scoreability": "N/A-by-design",
+        "note": "no graph → no topology. N/A by design.",
+        "source": null,
+        "source_type": "sme_measured"
       }
     },
     "6": {
@@ -441,6 +482,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": 0.0,
+        "scoreability": "N/A-by-design",
+        "note": "no supersedes edges by construction → 0.00 supersession-completeness floor. Same as flat.",
+        "source": null,
+        "source_type": "sme_measured"
       }
     },
     "7": {
@@ -507,6 +555,14 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": null,
+        "metric": "LoCoMo E2E QA accuracy (n=250 stratified, identical subset to flat)",
+        "scoreability": "scoreable",
+        "note": "postgres LoCoMo-10 E2E QA in flight (reader=judge=gpt-5.3-chat, exact 250-q subset flat used). Number lands shortly; compare to flat 0.384 unweighted / 0.4255 weighted.",
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/locomo10_postgres_e2e_stratified_2026-05-31.json",
+        "source_type": "sme_measured"
       }
     },
     "8": {
@@ -572,6 +628,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": null,
+        "scoreability": "N/A-by-design",
+        "note": "no declared ontology / no graph → nothing to check coherence against. N/A by design.",
+        "source": null,
+        "source_type": "sme_measured"
       }
     },
     "9a": {
@@ -627,6 +690,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": null,
+        "scoreability": "N/A-no-harness",
+        "note": "postgres_ingest exposes no harness manifest; driven directly. 9a is an orchestrator property regardless.",
+        "source": null,
+        "source_type": "sme_measured"
       }
     },
     "9b": {
@@ -674,6 +744,13 @@
         "note": "karpathy_compiled (Karpathy condition D2 -- LLM-compiled wiki): Adapter wired (sme/conditions/karpathy_compiled.py + compile-wiki) as the Karpathy D2 control, but not yet run through any SME cat. No baseline reading exists for any cat -- WIRED but NOT YET BENCHED, an honest coverage gap, not a measured 0.",
         "source": null,
         "source_type": "not_run"
+      },
+      "postgres_ingest": {
+        "value": null,
+        "scoreability": "N/A-no-harness",
+        "note": "no get_harness_manifest().",
+        "source": null,
+        "source_type": "sme_measured"
       }
     }
   },
@@ -702,7 +779,7 @@
   "mem0_note": "2026-05-31 (cassia-2, #146): Mem0-OSS slotted as a VERDICT row per Solara's #221 verdict. Retrieval/QA cats = verified + runnable, on-harness QA deferred (extraction-throughput-bound, ~9s/ingest warm -> ~18h strat150). Structural cats N/A because GRAPH MEMORY WAS REMOVED FROM mem0 OSS (zero edges) -- a distinct finding from Hindsight's no-endpoint. The matrix is now COMPLETE: mempalace + OMEGA fully scored; Hindsight + Mem0 verdict rows. Cross-system cost-wall finding now has BOTH extraction-cost numbers (Hindsight ~150h, Mem0 ~18h) vs verbatim-first mempalace ~0 marginal cost.",
   "status": "FULL-FIELD — every survey system as a row, two column-groups (published_field = self-reported survey claims, NOT SME-measured; sme_multipass = our harness, real-or-not-benched). The 8-row SME matrix (categories block) is unchanged + canonical for the measured cells.",
   "expansion_note": "2026-05-31 (cassia-2, #163): expanded from 4 systems to ALL harness-tested systems with honest per-cell coverage. mempalace Cat 4/5/8 flipped verdict->FINAL exact numbers (post re-map/DELETE/networkx). Added: flat (no-structure CONTROL -- real Cat 1/2c/7, structural N/A BY DESIGN), rlm (Cat 9a orchestrator arm -- the 46.7% invocation plateau, structural not-run), full_context (D1) + karpathy_compiled (D2) (Karpathy baselines, wired but not-run). oracle/random adapters present but not run as matrix cells (noted in doc). Every cell is a real reading OR an explicit marker (N/A-no-graph-endpoint / N/A-by-design / N/A-no-harness / not-run / emergent / verified-qa-deferred) -- NO fabricated numbers.",
-  "not_benched_footnote": "oracle_retrieval (ceiling) + random_retrieval (floor) adapters are present in the registry but were not run as matrix cells -- they are diagnostic BOUNDS, not products, and the reader_trueoracle_* baselines are a reader-config experiment, not an oracle-adapter Cat run. Footnoted, not given rows. (full_context D1 / karpathy_compiled D2 ARE shown as explicit wired-but-not-benched rows.)",
+  "not_benched_footnote": "oracle_retrieval (ceiling) + random_retrieval (floor) adapters are present in the registry but were not run as matrix cells -- they are diagnostic BOUNDS, not products, and the reader_trueoracle_* baselines are a reader-config experiment, not an oracle-adapter Cat run. Footnoted, not given rows. (full_context D1 / karpathy_compiled D2 ARE shown as explicit wired-but-not-benched rows.) Also wired-but-not-benched: longhand (Mode-B Claude-Code session archive; ingest_corpus NotImplementedError — no path to load an SME corpus) and ladybugdb (typed-graph reader; reader-only, no .ldb exists, no in-harness ingest path). [#164, Twilight]",
   "distinct_na_structural_reasons": {
     "flat": "N/A BY DESIGN -- no-structure control; there is intentionally no graph (it's the baseline the structural delta is measured against).",
     "hindsight": "N/A NO GRAPH ENDPOINT -- extraction-then-retrieve; serves no standalone graph API at all.",
@@ -982,7 +1059,7 @@
       "arch_category": "compile-upstream"
     },
     "longhand": {
-      "status": "bench_in_flight",
+      "status": "wired_not_benched",
       "display": "Longhand",
       "published_field": {
         "longmemeval_qa": {
@@ -1004,24 +1081,24 @@
         "verification": "none (no published benchmarks)",
         "source": "memorypalace/docs/research/2026-05-24-memory-system-benchmarks.md (2026-05-24) (Longhand: 'No benchmarks published', line 85/128)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
-        "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. Longhand publishes no quantitative benchmarks."
+        "note": "Verbatim-first Claude-Code session archive (Wynelson94/longhand, pip 0.9.3). WIRED into the SME registry but UN-PROVISIONABLE on this harness: the adapter is Mode-B diagnostic-only — ingest_corpus raises NotImplementedError; Longhand only ingests Claude Code session JSONL via its own Stop/SessionEnd hooks, never arbitrary corpora, so there is NO path to load jp-realm/LoCoMo into a longhand store. Footnoted wired-not-benched, alongside Karpathy D1/D2."
       },
       "sme_status": "bench-in-flight (#164, Twilight)",
       "architecture": "verbatim-first (no published benchmarks)",
       "sme_source": {
         "source": null,
-        "source_type": "bench_in_flight"
+        "source_type": "wired_not_benched"
       },
       "arch_category": "verbatim-first"
     },
     "postgres_ingest": {
-      "status": "bench_in_flight",
+      "status": "benched_on_multipass",
       "display": "postgres_ingest",
       "published_field": {
         "longmemeval_qa": {
-          "value": "--",
-          "source": null,
-          "source_type": "none"
+          "value": "R@5 0.966 (LongMemEval-S substrate-parity, n=500; retrieval-only, no E2E QA)",
+          "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/lme_substrate_postgres_2026-05-17.json",
+          "source_type": "sme_measured"
         },
         "locomo_qa": {
           "value": "--",
@@ -1037,18 +1114,18 @@
         "verification": "none (no published benchmarks)",
         "source": "n/a (SME-internal verbatim-first adapter)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
-        "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. "
+        "note": "Verbatim-first cohort, the 'upstream MemPalace raw' ablation — mempalace's own postgres storage WITHOUT the palace graph. SME multipass benched (#164): jp-realm Cond-A Cat 1/2c = 0.833 (IDENTICAL to flat) + LoCoMo Cat 7. R@5 0.966 substrate-parity held as the published_field retrieval number."
       },
-      "sme_status": "bench-in-flight (#164, Twilight)",
-      "architecture": "verbatim-first (postgres ingest)",
+      "sme_status": "benched (#164, Twilight)",
+      "architecture": "verbatim-first (postgres+pgvector ingest; same MiniLM embedding as flat — backend-swap ablation of mempalace’s own raw store)",
       "sme_source": {
-        "source": null,
-        "source_type": "bench_in_flight"
+        "source": "https://github.com/techempower-org/multipass-structural-memory-eval/blob/main/baselines/jp_realm_v0_1_postgres_condA_2026-05-31.json (+ baselines/locomo10_postgres_e2e_stratified_2026-05-31.json)",
+        "source_type": "sme_measured"
       },
       "arch_category": "verbatim-first"
     },
     "ladybugdb": {
-      "status": "bench_in_flight",
+      "status": "wired_not_benched",
       "display": "LadybugDB",
       "published_field": {
         "longmemeval_qa": {
@@ -1070,15 +1147,15 @@
         "verification": "none (no published benchmarks)",
         "source": "n/a (SME-internal verbatim-first adapter)",
         "disclaimer": "SELF-REPORTED by the system's team / survey — NOT SME-measured. Metric/model/judge/subset vary; see comparability_caveats.",
-        "note": "Verbatim-first cohort. SME multipass bench IN FLIGHT (Twilight, #164) — real cells drop in when she reports. "
+        "note": "Schema-agnostic LadybugDB graph reader (real_ladybug, pip 0.15.3, cp312 wheel). NOT verbatim-first — a typed-graph reader (grouped with the verbatim cohort only for the #164 sweep). WIRED into the registry but UN-PROVISIONABLE on this harness: the adapter is a READER only (ingest_corpus raises NotImplementedError); it needs an existing .ldb or a live /search API. No SME .ldb exists, and building one needs the target project's indexer pipeline (not checked out). Footnoted wired-not-benched."
       },
       "sme_status": "bench-in-flight (#164, Twilight)",
       "architecture": "verbatim-first (LadybugDB)",
       "sme_source": {
         "source": null,
-        "source_type": "bench_in_flight"
+        "source_type": "wired_not_benched"
       },
-      "arch_category": "verbatim-first"
+      "arch_category": "hybrid"
     },
     "mem0_platform_v3": {
       "status": "published_field_only",
@@ -1825,13 +1902,10 @@
       "flat",
       "rlm",
       "full_context",
-      "karpathy_compiled"
+      "karpathy_compiled",
+      "postgres_ingest"
     ],
-    "bench_in_flight": [
-      "longhand",
-      "postgres_ingest",
-      "ladybugdb"
-    ],
+    "bench_in_flight": [],
     "published_field_only": [
       "mem0_platform_v3",
       "mastra",

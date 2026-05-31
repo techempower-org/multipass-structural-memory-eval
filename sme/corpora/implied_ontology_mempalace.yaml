@@ -159,26 +159,31 @@ structural_claims:
     text: "knowledge-graph edges carry typed canonical relations, not a generic catch-all"
     source: "inferred (kg_canonical_vocab.py declares 39 canonical relations)"
     graph: kg
-    status: fix_in_flight  # NOT resolved — the prod re-map is JP-gated, not yet applied
-    # Honest CURRENT reality (validated against the live palace, 1,921,600
-    # RELATION edges): the `other` fallback holds ~55% of edges — a real
-    # concentration in the pre-canonicalization corpus, distinct from the
-    # `tunnel` 79.5% MEASUREMENT ARTIFACT the capped /graph projection produced.
-    # The mempalace #336 / #208 canonical-vocab re-map is IN FLIGHT to
-    # redistribute `other` into the 39 canonical relations, targeting <27%.
-    # When the re-map runs (post JP's gate), flip this to status: resolved and
-    # update the figures below to the post-re-map reading. Until then this is a
-    # known, surfaced limitation — not a passing claim.
+    status: resolved (relabel pass)  # mempalace #336/#208 canonical re-map applied to prod
+    # The canonical-vocab re-map ran on the live palace (relabel-only, 0
+    # deletions): 520,043 edges relabeled out of the `other` sink into the 39
+    # canonical relations. The `other` fallback dropped from ~55% → 28.2% — the
+    # generic catch-all no longer dominates. Numbers below are the exact
+    # post-relabel prod state, verified directly against the live AGE graph
+    # (full RELATION GROUP BY) by Sage 2026-05-31.
+    #
+    # The earlier ~55% reading was honest current-state, NOT the `tunnel` 79.5%
+    # MEASUREMENT ARTIFACT (that was the capped /graph projection, a different
+    # graph entirely — fixed separately by the real-KG measurement).
     metrics_current:
-      relation_edges: 1921600
-      distinct_relation_types: 237
+      relation_edges: 1921600           # unchanged — relabel-only, 0 deletions
+      edges_relabeled: 520043           # out of the `other` sink into canonical
+      distinct_relation_types: 236
       dominant_relation: other
-      dominant_fraction: 0.551          # ~55% — fix in flight (target <0.27)
-      edge_type_entropy_normalized: 0.340
-    # NOTE: not yet operationalized in the claim library (no regex pattern
-    # matches), so Cat 8e reports this as informational/untestable rather than
-    # counting it in the pass rate — by design, until the re-map lands and we
-    # add a "canonical relation coverage" operational definition.
+      dominant_fraction: 0.2818         # 541,438 / 1,921,600 (was 0.551)
+      edge_type_entropy_normalized: 0.4378  # was 0.340
+    # OPTIONAL FOLLOW-UP (JP-gated, NOT yet applied): a junk-DELETE pass that
+    # drops ~48K content-free edges would shift these to ~0.2689 dominant /
+    # ~0.64 normalized entropy / ~41 distinct types. JP hasn't decided; if
+    # greenlit it's a one-line follow-up update here.
+    #
+    # NOTE: not operationalized in the claim library (no regex pattern), so
+    # Cat 8e reports this informationally rather than in the pass rate.
 
   - id: wing_filtering_improves_retrieval
     text: "wing and room filtering improves retrieval by 34%"

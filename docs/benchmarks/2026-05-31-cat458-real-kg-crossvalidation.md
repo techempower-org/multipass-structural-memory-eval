@@ -103,9 +103,52 @@ Louvain modularity on the sampled subgraph also drifts with the limit.
    warning so a plain run cannot silently publish the artifact number. Same footgun class as the #140
    silent candidate-strategy no-op.
 
+## Post-re-map prod state (2026-05-31) — recommendations actioned
+
+All three recommendations above have since landed, and the JP-gated prod re-map +
+the server-side full-graph compute have run. These are the **current published
+numbers**, each verified directly against the live AGE graph by Sage (read-only)
+on 2026-05-31 — not the sampled adapter.
+
+**Cat 4 (canonical re-map applied, relabel-only — 0 deletions, 520,043 edges
+relabeled out of the `other` sink):** verified via the full-graph
+`relation_type` GROUP BY.
+
+| metric | before (pre-re-map) | **after (current prod)** |
+|---|---|---|
+| total RELATION edges | 1,921,600 | **1,921,600** (unchanged) |
+| `other` fraction | 0.5505 | **0.2818** (541,438 edges) |
+| normalized entropy | 0.3402 | **0.4378** |
+| distinct relation types | 237 | **236** |
+
+> Optional JP-gated junk-DELETE pass (~48K content-free edges) would further shift
+> these to ≈0.2689 / ≈0.64 / ≈41 types. Not yet decided; a one-line follow-up if greenlit.
+
+**Cat 5 (exact full-graph WCC via `GET /graph/structural-stats`, palace-daemon#211 +
+SME#223):** replaces the bogus capped-`/graph` artifact ("44.8% isolates / 498
+components"). Verified from the cached structural-stats response.
+
+| metric | **current prod (exact)** |
+|---|---|
+| entities | 1,156,277 |
+| RELATION edges | 1,921,600 |
+| largest component | 733,753 (**63.46%** — well-connected giant component) |
+| isolates | 236,169 (**20.4%**) |
+| components | 305,975 |
+
+**Cat 8:**
+- **Introspection 0 → 1** — `GET /ontology` is live on the prod familiar daemon
+  (palace-daemon#205, restarted). The system now self-reports declared-vs-effective drift.
+- **Modularity NOT computed** — `networkx` is not installed on the familiar daemon, so
+  the structural-stats response carries: *"connectivity stats (Cat 5) are exact and
+  dependency-free; modularity (Cat 8) not computed."* Cat 8 publishes the **hierarchy
+  verdict** with modularity marked *pending-networkx* — no fabricated modularity number.
+
 ## Provenance
 
 - #147 (Sage, PR #210) — `kg_only` measurement fix (merged).
 - mempalace#336 (somnia-2) — `other`-sink extraction fix (merged); palace-daemon #208/#150 re-map flag.
 - This note — independent SME-projection-side diagnosis + live direct-cypher cross-validation (#151).
-- Working artifacts: `scratch/cat4-131/diagnosis.md`, `scratch/cat458-xval/`.
+- palace-daemon#211 + SME#223 (Sage) — server-side full-graph Cat 5 WCC + Cat 8 modularity endpoint + consumer.
+- Prod re-map + structural-stats POST driven by team-lead 2026-05-31; numbers verified read-only by Sage.
+- Working artifacts: `scratch/cat4-131/diagnosis.md`, `scratch/cat458-xval/`, familiar `/tmp/structstats.json`.

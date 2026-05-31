@@ -1162,6 +1162,31 @@ def cmd_cat5(args: argparse.Namespace) -> int:
     print("=" * 70)
     print(format_report(report))
 
+    # #147 — Cat 5 measures the RELATION-only graph; surface the MENTIONS
+    # scaffold scale as SEPARATE context (not folded into the component/isolate
+    # counts), so the operator sees what was set aside. Daemon adapter only.
+    mentions_ctx = None
+    if _use_real_kg(args) and hasattr(adapter, "get_mentions_context"):
+        try:
+            mentions_ctx = adapter.get_mentions_context()
+        except Exception as e:  # pragma: no cover - defensive
+            log.warning("MENTIONS context fetch failed: %s", e)
+    if mentions_ctx:
+        rel = mentions_ctx.get("relation_edges")
+        men = mentions_ctx.get("mentions_edges")
+        ents = mentions_ctx.get("entities")
+        print("\nMENTIONS scaffold (context — excluded from the Cat 5 graph)")
+        print("─" * 60)
+        print(f"  KG entities (total):         {_fmt_int(ents) if ents is not None else '?'}")
+        print(f"  RELATION edges (measured):   {_fmt_int(rel) if rel is not None else '?'}")
+        print(f"  MENTIONS edges (set aside):  {_fmt_int(men) if men is not None else '?'}")
+        print(
+            "  MENTIONS is the Drawer→Entity inverted-index scaffold; "
+            "entities reachable\n  only via MENTIONS are honest semantic-layer "
+            "isolates, excluded from the\n  RELATION-only connectivity reading "
+            "above (folding them in would re-swamp\n  the topology like tunnels did)."
+        )
+
     if args.json:
         out = {
             "adapter": args.adapter,
@@ -1171,6 +1196,7 @@ def cmd_cat5(args: argparse.Namespace) -> int:
             "components": report.components,
             "largest_component_size": report.largest_component_size,
             "isolated_nodes": report.isolated_nodes,
+            "mentions_context": mentions_ctx,
             "bridges": report.bridges,
             "betti_0_largest": report.betti_0_largest,
             "betti_1_largest": report.betti_1_largest,

@@ -410,6 +410,39 @@ class MemPalaceDaemonAdapter(SMEAdapter):
                 continue
         return dist or None
 
+    def get_mentions_context(self) -> Optional[dict]:
+        """KG-layer totals for Cat 5's MENTIONS context line.
+
+        Cat 5 measures connectivity over the RELATION-only graph — MENTIONS
+        (the Drawer→Entity inverted-index scaffold, ~6.7M edges) is excluded,
+        because including it re-swamps the topology the way tunnels did. But
+        the operator should still see the scale of what was set aside, so Cat 5
+        reports this as a separate context block (NOT folded into the
+        component/isolate counts).
+
+        Reads ``kg_stats`` straight off ``GET /graph`` (cheap — the daemon
+        already computes it; no extra OOM-prone walk). Returns entity / RELATION
+        / MENTIONS totals, or ``None`` when /graph is unavailable. The exact
+        "entities reachable ONLY via MENTIONS" set-difference isn't computed
+        here — a DISTINCT count over the 6.7M-edge MENTIONS table OOMs AGE the
+        same way the RELATION walk does — so the context is reported as totals,
+        not a fabricated exact figure.
+        """
+        url = f"{self.api_url}/graph"
+        if self.graph_limit is not None:
+            url = f"{url}?limit={int(self.graph_limit)}"
+        body = self._http_get(url)
+        if isinstance(body, QueryResult) or not isinstance(body, dict):
+            return None
+        stats = body.get("kg_stats") or {}
+        if not isinstance(stats, dict) or "mentions" not in stats:
+            return None
+        return {
+            "entities": stats.get("entities"),
+            "relation_edges": stats.get("triples"),
+            "mentions_edges": stats.get("mentions"),
+        }
+
 
     def _snapshot_via_mcp(self) -> tuple[list[Entity], list[Edge]]:
         """Walk the four MCP read tools and project to (entities, edges).

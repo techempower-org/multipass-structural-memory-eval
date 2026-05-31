@@ -964,3 +964,65 @@ def test_get_edge_type_distribution_none_on_malformed(
     })
     a = _adapter(monkeypatch, tmp_path)
     assert a.get_edge_type_distribution() is None
+
+
+# --- #147 Cat 5 MENTIONS context ------------------------------------
+
+
+def test_get_mentions_context_reads_kg_stats(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """Cat 5's MENTIONS context comes straight off /graph kg_stats — entity /
+    RELATION / MENTIONS totals, no extra OOM-prone walk."""
+    fake_urlopen_factory({
+        "GET http://daemon/graph": {
+            "wings": {}, "rooms": [], "tunnels": [],
+            "kg_entities": [], "kg_triples": [], "kg_mentions": [],
+            "kg_stats": {"entities": 1156232, "triples": 1921600, "mentions": 6691737},
+        },
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    ctx = a.get_mentions_context()
+    assert ctx == {
+        "entities": 1156232,
+        "relation_edges": 1921600,
+        "mentions_edges": 6691737,
+    }
+
+
+def test_get_mentions_context_threads_graph_limit(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """When graph_limit is set the context read uses ?limit=N too (same /graph
+    call the snapshot uses)."""
+    fake_urlopen_factory({
+        "GET http://daemon/graph?limit=5000": {
+            "kg_stats": {"entities": 10, "triples": 20, "mentions": 30},
+        },
+    })
+    a = _adapter(monkeypatch, tmp_path, graph_kg_only=True, graph_limit=5000)
+    ctx = a.get_mentions_context()
+    assert ctx["mentions_edges"] == 30
+
+
+def test_get_mentions_context_none_when_graph_unavailable(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    fake_urlopen_factory({
+        "GET http://daemon/graph": urllib.error.HTTPError(
+            "http://daemon/graph", 503, "Service Unavailable", {}, None
+        ),
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_mentions_context() is None
+
+
+def test_get_mentions_context_none_when_no_kg_stats(
+    monkeypatch, tmp_path, fake_urlopen_factory
+):
+    """A /graph payload without kg_stats.mentions → None (don't fabricate)."""
+    fake_urlopen_factory({
+        "GET http://daemon/graph": {"wings": {}, "kg_stats": {}},
+    })
+    a = _adapter(monkeypatch, tmp_path)
+    assert a.get_mentions_context() is None

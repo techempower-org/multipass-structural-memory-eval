@@ -17,6 +17,7 @@ from sme.adapters.base import Edge, Entity
 from sme.categories.ingestion_integrity import default_canonical_key
 from sme.corpus_doctor import (
     DEFECT_TYPES,
+    ID_RECALL_DEFECTS,
     CorpusDoctor,
     run_all_defects,
     verify_defect,
@@ -31,7 +32,13 @@ from sme.corpus_doctor.detectors import (
 @pytest.fixture
 def clean_graph():
     """A small clean graph with NO native defects: 4 entities, all
-    connected in a cycle, distinct canonical names."""
+    connected in a cycle, distinct canonical names.
+
+    Edge types are deliberately DIVERSE (not all one type) so the
+    edge_type_monoculture defect has headroom to raise the dominant
+    fraction — an already-monoculture clean graph is a degenerate case
+    where the signal can't move. Still defect-free for the other
+    categories: no canonical collisions, no isolates, no dangling refs."""
     ents = [
         Entity(id="a", name="Alpha", entity_type="Thing"),
         Entity(id="b", name="Beta", entity_type="Thing"),
@@ -39,10 +46,10 @@ def clean_graph():
         Entity(id="d", name="Delta", entity_type="Thing"),
     ]
     edges = [
-        Edge(source_id="a", target_id="b", edge_type="rel"),
-        Edge(source_id="b", target_id="c", edge_type="rel"),
-        Edge(source_id="c", target_id="d", edge_type="rel"),
-        Edge(source_id="d", target_id="a", edge_type="rel"),
+        Edge(source_id="a", target_id="b", edge_type="rel_ab"),
+        Edge(source_id="b", target_id="c", edge_type="rel_bc"),
+        Edge(source_id="c", target_id="d", edge_type="rel_cd"),
+        Edge(source_id="d", target_id="a", edge_type="rel_da"),
     ]
     return ents, edges
 
@@ -209,7 +216,7 @@ def test_delta_precision_ignores_native_defects():
 def test_verify_rejects_unknown_defect(clean_graph):
     ents, edges = clean_graph
     with pytest.raises(ValueError, match="unknown defect_type"):
-        verify_defect("phantom_edge", ents, edges)
+        verify_defect("not_a_real_defect", ents, edges)
 
 
 # --- integration: real good-dog corpus --------------------------------
@@ -217,12 +224,125 @@ def test_verify_rejects_unknown_defect(clean_graph):
 
 def test_harness_on_good_dog_corpus():
     """Smoke the full loop on the real good-dog graph (has native
-    defects) — proves the harness works beyond a hand-built fixture."""
+    defects) — proves the harness works beyond a hand-built fixture.
+
+    Passes the real source bodies so the phantom_edge path grounds against
+    actual prose; without them the phantom edges still inject+recall, but
+    this exercises the real grounding map too."""
     from sme.corpora import good_dog_graph
 
     ents, edges = good_dog_graph.load_graph()
+    bodies = good_dog_graph.load_source_bodies()
     assert len(ents) > 0 and len(edges) > 0
-    results = run_all_defects(ents, edges, count=5, seed=7)
+    results = run_all_defects(ents, edges, count=5, seed=7, source_bodies=bodies)
+    assert set(results) == set(DEFECT_TYPES)  # all five
     for dt, r in results.items():
         assert r.detected_all, f"{dt} missed {r.missed_ids} on good-dog"
-        assert r.delta_precision == 1.0
+        if dt in ID_RECALL_DEFECTS or dt == "phantom_edge":
+            assert r.delta_precision == 1.0
+
+
+# --- injector: phantom_edge -------------------------------------------
+
+
+def test_inject_phantom_edge_between_real_entities(clean_graph):
+    ents, edges = clean_graph
+    res = CorpusDoctor(seed=1).inject_phantom_edge(ents, edges, count=2)
+    assert len(res.entities) == len(ents)  # no entities added
+    assert len(res.edges) == len(edges) + 2
+    entity_ids = {e.id for e in res.entities}
+    for s, t, _typ in res.expected_phantom_edge_keys():
+        # both endpoints are REAL — distinguishes from broken_ref
+        assert s in entity_ids
+        assert t in entity_ids
+        assert s != t  # no self-loops
+
+
+def test_phantom_edge_source_bodies_are_empty(clean_graph):
+    ents, edges = clean_graph
+    res = CorpusDoctor(seed=1).inject_phantom_edge(ents, edges, count=2)
+    bodies = res.phantom_source_bodies()
+    assert bodies  # at least one note
+    assert all(body == "" for body in bodies.values())
+
+
+def test_phantom_edge_needs_two_entities():
+    ents = [Entity(id="solo", name="Solo", entity_type="Thing")]
+    with pytest.raises(ValueError, match="at least 2 entities"):
+        CorpusDoctor().inject_phantom_edge(ents, [], count=1)
+
+
+def test_verify_phantom_edge_recalls_injected(clean_graph):
+    ents, edges = clean_graph
+    # clean fixture has no source bodies → real edges are skipped, the
+    # injected phantom edges ground against their empty synthetic note.
+    result = verify_defect("phantom_edge", ents, edges, count=3, seed=2)
+    assert result.injected == 3
+    assert result.detected_all, f"missed {result.missed_ids}"
+    assert result.recall == 1.0
+    assert result.delta_precision == 1.0
+
+
+# --- injector: edge_type_monoculture ----------------------------------
+
+
+def test_inject_monoculture_adds_edges_of_one_type(clean_graph):
+    ents, edges = clean_graph
+    res = CorpusDoctor(seed=1).inject_edge_type_monoculture(ents, edges, count=10)
+    assert len(res.entities) == len(ents)  # no entities added
+    assert len(res.edges) == len(edges) + 10
+    mono_type = res.monoculture_type()
+    assert mono_type is not None
+    injected = [e for e in res.edges if e.properties.get("_injected_monoculture")]
+    assert len(injected) == 10
+    assert all(e.edge_type == mono_type for e in injected)
+
+
+def test_monoculture_default_amplifies_existing_dominant():
+    # An all-one-type graph: the default collapse target must be that
+    # existing type (amplify the skew, don't invent a new type).
+    ents = [
+        Entity(id="a", name="Alpha", entity_type="Thing"),
+        Entity(id="b", name="Beta", entity_type="Thing"),
+    ]
+    edges = [
+        Edge(source_id="a", target_id="b", edge_type="rel"),
+        Edge(source_id="b", target_id="a", edge_type="rel"),
+    ]
+    res = CorpusDoctor(seed=1).inject_edge_type_monoculture(ents, edges, count=5)
+    assert res.monoculture_type() == "rel"
+
+
+def test_verify_monoculture_signal_moves(clean_graph):
+    # Give the fixture a diverse edge mix so the dominant fraction has
+    # room to rise when monoculture edges pile onto the top type.
+    ents = [
+        Entity(id="a", name="Alpha", entity_type="Thing"),
+        Entity(id="b", name="Beta", entity_type="Thing"),
+        Entity(id="c", name="Gamma", entity_type="Thing"),
+    ]
+    edges = [
+        Edge(source_id="a", target_id="b", edge_type="rel_x"),
+        Edge(source_id="b", target_id="c", edge_type="rel_y"),
+        Edge(source_id="c", target_id="a", edge_type="rel_z"),
+    ]
+    result = verify_defect("edge_type_monoculture", ents, edges, count=12, seed=3)
+    assert result.detected_all
+    # dominant fraction rose, normalized entropy fell
+    assert (
+        result.signal_dirty["dominant_edge_type_fraction"]
+        > result.signal_clean["dominant_edge_type_fraction"]
+    )
+    assert (
+        result.signal_dirty["edge_type_entropy_normalized"]
+        < result.signal_clean["edge_type_entropy_normalized"]
+    )
+
+
+def test_all_five_defect_types_dispatch(clean_graph):
+    ents, edges = clean_graph
+    assert len(DEFECT_TYPES) == 5
+    doc = CorpusDoctor(seed=3)
+    for dt in DEFECT_TYPES:
+        res = doc.inject(dt, ents, edges, count=1)
+        assert res.defects and res.defects[0].defect_type == dt

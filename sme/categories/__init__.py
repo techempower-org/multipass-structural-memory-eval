@@ -12,6 +12,12 @@ from sme.categories.ingestion_integrity import (
     format_report as format_integrity_report,
     score_ingestion_integrity,
 )
+from sme.categories.phantom_edge import (
+    PhantomEdge,
+    PhantomEdgeReport,
+    format_report as format_phantom_edge_report,
+    score_phantom_edges,
+)
 
 __all__ = [
     "CandidateGap",
@@ -25,4 +31,8 @@ __all__ = [
     "format_integrity_report",
     "Remediation",
     "render_remediations",
+    "PhantomEdge",
+    "PhantomEdgeReport",
+    "score_phantom_edges",
+    "format_phantom_edge_report",
 ]

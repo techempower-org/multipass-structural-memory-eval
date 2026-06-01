@@ -125,6 +125,10 @@ def load_graph(
                         "_table": "good_dog_edge",
                         "evidence": edge.get("evidence") or "",
                         "source_note": source_note,
+                        # Corpus maintainer's own weak-grounding marker —
+                        # the phantom-edge detector (#4) calibrates against
+                        # this. Defaults False when the row doesn't set it.
+                        "needs_grounding": bool(edge.get("needs_grounding")),
                     },
                 )
             )
@@ -133,3 +137,35 @@ def load_graph(
     # Cat 6 plumbing — derive `_superseded_by` from supersedes edges.
     annotate_superseded_edges(edges)
     return entities, edges
+
+
+def load_source_bodies(
+    vault_root: Path | str = VAULT_ROOT,
+) -> dict[str, str]:
+    """Map ``source_note`` → the note's prose body (frontmatter stripped).
+
+    The phantom-edge category (proposed for upstream #4) checks whether
+    each edge is *grounded* in the source files — i.e. whether the prose
+    the edge was extracted alongside actually supports the relation. That
+    check needs the body text, not the frontmatter: the frontmatter is the
+    graph-side declaration (the thing under test), and grounding an edge
+    against the very block that declared it would be circular. The body is
+    the independent source signal.
+
+    Keys match the ``source_note`` value stamped on entities and edges by
+    :func:`load_graph` (the note path relative to ``vault_root``), so a
+    consumer holding an :class:`~sme.adapters.base.Edge` can look up the
+    text it should be grounded in directly.
+    """
+    root = Path(vault_root)
+    bodies: dict[str, str] = {}
+    for note_path in _find_notes(root):
+        try:
+            text = note_path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        source_note = str(note_path.relative_to(root))
+        # Strip the leading YAML frontmatter block; keep the prose body.
+        body = _FRONTMATTER_RE.sub("", text, count=1)
+        bodies[source_note] = body
+    return bodies

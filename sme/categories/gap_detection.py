@@ -37,6 +37,7 @@ from typing import Optional
 import networkx as nx
 
 from sme.adapters.base import Edge, Entity
+from sme.categories._remediation import Remediation, render_remediations
 from sme.topology.analyzer import TopologyAnalyzer
 
 log = logging.getLogger(__name__)
@@ -107,6 +108,11 @@ class GapDetectionReport:
     # which this scorer does not attempt). L3 is achieved whenever the
     # topology layer produces any external gap signal.
     detection_level: str = "L3"
+
+    # Diagnostic actionability (#44): the 'fix this and re-run' half.
+    # Populated by the scorer for every non-healthy signal; empty on a
+    # clean reading.
+    remediations: list[Remediation] = field(default_factory=list)
 
 
 def _structural_bridges(G: nx.MultiDiGraph) -> list[tuple[str, str]]:
@@ -390,7 +396,7 @@ def score_gap_detection(
             (recalled / len(reported_pairs)) if reported_pairs else 0.0
         )
 
-    return GapDetectionReport(
+    report = GapDetectionReport(
         nodes=G.number_of_nodes(),
         edges=G.number_of_edges(),
         components=len(components),
@@ -414,6 +420,8 @@ def score_gap_detection(
         gap_recall=gap_recall,
         gap_precision=gap_precision,
     )
+    report.remediations = _build_remediations(report)
+    return report
 
 
 # --- Interpretive bands -----------------------------------------------
@@ -449,6 +457,108 @@ def _band(value: float, healthy: float, warn: float, *, lower_is_better: bool) -
     if value >= warn:
         return "warning"
     return "concerning"
+
+
+# --- Remediation (#44 — fix this and re-run) --------------------------
+
+
+def _build_remediations(report: GapDetectionReport) -> list[Remediation]:
+    """Attach 'fix this and re-run' guidance to every non-healthy Cat 5
+    signal. Healthy readings produce nothing.
+
+    Mirrors the band logic in ``format_report`` so the remediation list
+    and the Reading prose stay in lockstep. Note the document-centric
+    caveat: a high bridge ratio is structural (not a bug) on a
+    Document→Entity star, so its remediation says to check the graph
+    shape first rather than asserting a defect.
+    """
+    rems: list[Remediation] = []
+    if report.nodes == 0:
+        return rems
+
+    connectivity = report.largest_component_size / report.nodes
+    isolate_pct = report.isolated_nodes / report.nodes
+    bridge_ratio = (len(report.bridges) / report.edges) if report.edges else 0.0
+
+    conn_band = _band(
+        connectivity, _CONNECTIVITY_HEALTHY, _CONNECTIVITY_WARN, lower_is_better=False
+    )
+    if conn_band != "healthy":
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Connectivity {connectivity:.1%} — only "
+                    f"{report.largest_component_size:,} of {report.nodes:,} "
+                    f"entities are in the largest component ({report.components:,} "
+                    "components total)."
+                ),
+                fix=(
+                    "Add cross-document entity linking so the same entity "
+                    "mentioned in two sources resolves to one node and bridges "
+                    "the islands. If the domain is genuinely disjoint (multiple "
+                    "unrelated corpora), this is expected — confirm before acting."
+                ),
+                reverify=(
+                    "Re-run `sme-eval gap`; expect the largest-component fraction "
+                    "to rise and the component count to fall."
+                ),
+                band=conn_band,
+            )
+        )
+
+    iso_band = _band(
+        isolate_pct, _ISOLATE_HEALTHY, _ISOLATE_WARN, lower_is_better=True
+    )
+    if iso_band != "healthy":
+        top_type = ""
+        if report.isolated_by_type:
+            etype, cnt = max(report.isolated_by_type.items(), key=lambda kv: kv[1])
+            top_type = f" (most affected: '{etype}' with {cnt:,})"
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Isolates {isolate_pct:.1%} — {report.isolated_nodes:,} of "
+                    f"{report.nodes:,} entities have no edges{top_type}."
+                ),
+                fix=(
+                    "Stop the extractor promoting bare mentions to entities "
+                    "without a relationship; attach an edge at creation or drop "
+                    "the orphan. The isolated-by-type breakdown names where the "
+                    "drop-off concentrates."
+                ),
+                reverify=(
+                    "Re-run `sme-eval gap`; expect the isolate fraction to fall "
+                    "below the 1% healthy band."
+                ),
+                band=iso_band,
+            )
+        )
+
+    br_band = _band(bridge_ratio, _BRIDGE_HEALTHY, _BRIDGE_WARN, lower_is_better=True)
+    if br_band != "healthy":
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Bridge fragility {bridge_ratio:.1%} — "
+                    f"{len(report.bridges):,} of {report.edges:,} edges are "
+                    "single points of failure (removing one disconnects a "
+                    "subregion)."
+                ),
+                fix=(
+                    "FIRST confirm the graph shape: a Document→Entity star is "
+                    "high-bridge by construction (not a bug). If it's a semantic "
+                    "KG, tighten entity linking so subregions connect through "
+                    "more than one edge."
+                ),
+                reverify=(
+                    "Re-run `sme-eval gap`; expect the bridge ratio to drop as "
+                    "redundant edges appear (only if it was a KG, not a star)."
+                ),
+                band=br_band,
+            )
+        )
+
+    return rems
 
 
 def format_report(report: GapDetectionReport) -> str:
@@ -727,4 +837,7 @@ def format_report(report: GapDetectionReport) -> str:
         "  (L3 = external topology reading; L1/L2 require adapter-side "
         "introspection APIs that most systems don't expose.)"
     )
+
+    lines.extend(render_remediations(report.remediations))
+
     return "\n".join(lines)

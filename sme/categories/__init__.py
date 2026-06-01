@@ -1,3 +1,4 @@
+from sme.categories._remediation import Remediation, render_remediations
 from sme.categories.gap_detection import (
     CandidateGap,
     GapDetectionReport,
@@ -22,4 +23,6 @@ __all__ = [
     "default_canonical_key",
     "score_ingestion_integrity",
     "format_integrity_report",
+    "Remediation",
+    "render_remediations",
 ]

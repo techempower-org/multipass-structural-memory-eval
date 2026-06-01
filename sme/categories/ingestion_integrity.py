@@ -49,6 +49,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 
 from sme.adapters.base import Edge, Entity
+from sme.categories._remediation import Remediation, render_remediations
 from sme.topology.analyzer import TopologyAnalyzer
 
 log = logging.getLogger(__name__)
@@ -142,6 +143,11 @@ class IngestionIntegrityReport:
     dominant_edge_type_fraction: float = 0.0
     per_edge_type_components: dict[str, int] = field(default_factory=dict)
     per_edge_type_edge_counts: dict[str, int] = field(default_factory=dict)
+
+    # Diagnostic actionability (#44): the 'fix this and re-run' half.
+    # Populated by the scorer for every non-healthy signal; empty on a
+    # clean reading.
+    remediations: list[Remediation] = field(default_factory=list)
 
 
 # --- Scorer -----------------------------------------------------------
@@ -263,7 +269,7 @@ def score_ingestion_integrity(
     analyzer = TopologyAnalyzer(entities, edges)
     per_type_components = analyzer.edge_type_components()
 
-    return IngestionIntegrityReport(
+    report = IngestionIntegrityReport(
         entities=n,
         edges=len(edges),
         unique_canonical_keys=len(key_to_ids),
@@ -280,6 +286,112 @@ def score_ingestion_integrity(
         per_edge_type_components=per_type_components,
         per_edge_type_edge_counts=dict(type_counts),
     )
+    report.remediations = _build_remediations(report)
+    return report
+
+
+# --- Remediation (#44 — fix this and re-run) --------------------------
+
+
+def _build_remediations(report: IngestionIntegrityReport) -> list[Remediation]:
+    """Attach 'fix this and re-run' guidance to every non-healthy Cat 4
+    signal. Healthy readings produce nothing — a clean graph needs no fix.
+
+    The bands here mirror the ones ``format_report`` uses for the Reading
+    section, so the remediation list and the prose stay in lockstep.
+    """
+    rems: list[Remediation] = []
+    if report.entities == 0:
+        return rems
+
+    coll_rate = report.canonical_collisions / report.entities
+    coll_band = _band(
+        coll_rate, _COLLISION_HEALTHY, _COLLISION_WARN, lower_is_better=True
+    )
+    if coll_band != "healthy":
+        rems.append(
+            Remediation(
+                finding=(
+                    f"{report.canonical_collisions:,} canonical collisions "
+                    f"({coll_rate:.1%} of entities) — distinct IDs whose names "
+                    "canonicalize to the same key."
+                ),
+                fix=(
+                    "Normalize case + whitespace in the entity-ID function "
+                    "(or run dedup BEFORE entity creation); merge each "
+                    "collision group onto its highest-degree ID (the '← keep' "
+                    "annotation marks it)."
+                ),
+                reverify=(
+                    "Re-ingest and re-run `sme-eval ingest`; expect "
+                    "canonical_collisions to drop toward 0 and the merged "
+                    "entity's degree to rise."
+                ),
+                band=coll_band,
+            )
+        )
+
+    cov_band = _band(
+        report.required_field_coverage,
+        _COVERAGE_HEALTHY,
+        _COVERAGE_WARN,
+        lower_is_better=False,
+    )
+    if cov_band != "healthy":
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Required-field coverage {report.required_field_coverage:.1%} "
+                    f"— {report.required_field_gaps:,} entities missing name or "
+                    "entity_type."
+                ),
+                fix=(
+                    "Guard the extractor so it skips (or quarantines) mentions "
+                    "it can't resolve to a label; don't promote them to "
+                    "entities. Backfill or drop the existing gap nodes."
+                ),
+                reverify=(
+                    "Re-run `sme-eval ingest`; expect required_field_coverage "
+                    "→ ≥99.5% and the gap_examples list to empty out."
+                ),
+                band=cov_band,
+            )
+        )
+
+    if report.edge_type_counts:
+        ne_band = _band(
+            report.edge_type_entropy_normalized,
+            _NORM_ENTROPY_HEALTHY,
+            _NORM_ENTROPY_WARN,
+            lower_is_better=False,
+        )
+        if ne_band != "healthy":
+            rems.append(
+                Remediation(
+                    finding=(
+                        f"Edge-type monoculture — '{report.dominant_edge_type}' "
+                        f"holds {report.dominant_edge_type_fraction:.1%} of edges "
+                        f"(normalized entropy {report.edge_type_entropy_normalized:.2f})."
+                    ),
+                    fix=(
+                        "Check whether the dominant type is a generic fallback "
+                        "bucket (e.g. 'other'/'related'); if so, add deterministic "
+                        "predicate rules to relabel it into the declared "
+                        "vocabulary, then drop junk/no-signal edges. Confirm the "
+                        "reading is real and not an ontology-granularity artifact "
+                        "(report it WITH the type count — Cat 4 is granularity-"
+                        "sensitive, see synthesis §5.5)."
+                    ),
+                    reverify=(
+                        "Re-run `sme-eval ingest`; expect normalized entropy to "
+                        "rise and the dominant fraction to fall toward the "
+                        "declared distribution."
+                    ),
+                    band=ne_band,
+                )
+            )
+
+    return rems
 
 
 # --- Human-readable rendering -----------------------------------------
@@ -457,6 +569,8 @@ def format_report(report: IngestionIntegrityReport) -> str:
                 "showing up in the graph; a generic relation is absorbing "
                 "everything."
             )
+
+    lines.extend(render_remediations(report.remediations))
 
     return "\n".join(lines)
 

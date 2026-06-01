@@ -38,6 +38,7 @@ from typing import Any, Optional
 import yaml
 
 from sme.adapters.base import Edge, Entity
+from sme.categories._remediation import Remediation
 
 log = logging.getLogger(__name__)
 
@@ -130,6 +131,11 @@ class Cat8Report:
     introspection_available: list[str] = field(default_factory=list)
     introspection_score: float = 0.0
 
+    # Diagnostic actionability (#44): the 'fix this and re-run' half.
+    # Populated by the scorer for every non-coherent signal; empty when
+    # declared and effective vocabularies agree.
+    remediations: list[Remediation] = field(default_factory=list)
+
     def to_dict(self) -> dict:
         return {
             "8a_type_coverage": {
@@ -180,6 +186,7 @@ class Cat8Report:
                 "available": self.introspection_available,
                 "score": self.introspection_score,
             },
+            "remediations": [r.to_dict() for r in self.remediations],
         }
 
 
@@ -597,7 +604,124 @@ def score_cat8(
         _score_introspection(introspection_report)
     )
 
+    report.remediations = _build_remediations(report)
+
     return report
+
+
+# ── Remediation (#44 — fix this and re-run) ──────────────────────────
+
+
+# Drift band: fraction of declared vocabulary names not found in the graph.
+# Below 10% reads as coherent; above is worth a fix.
+_DRIFT_WARN = 0.10
+
+
+def _build_remediations(report: Cat8Report) -> list[Remediation]:
+    """Attach 'fix this and re-run' guidance to the incoherent Cat 8
+    signals — declared-but-absent types/edges and overall drift. A graph
+    whose declared and effective vocabularies agree produces nothing.
+
+    The 8b edge-vocabulary item is the "check ingestion rule [Y]" framing
+    the issue calls for: a declared edge type that never appears means the
+    extractor isn't emitting it — a rule that's silently dead.
+    """
+    rems: list[Remediation] = []
+
+    if report.types_missing:
+        missing = ", ".join(report.types_missing[:6])
+        if len(report.types_missing) > 6:
+            missing += f", +{len(report.types_missing) - 6} more"
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Type coverage {report.type_coverage:.0%} — declared entity "
+                    f"types absent from the graph: {missing}."
+                ),
+                fix=(
+                    "Either the extractor never produces these types (fix the "
+                    "extraction prompt / type mapping) or they were dropped from "
+                    "the ontology and the declaration is stale (remove them from "
+                    "the implied-ontology YAML)."
+                ),
+                reverify=(
+                    "Re-run `sme-eval ontology`; expect 8a type_coverage → 1.0 "
+                    "with an empty types_missing list."
+                ),
+                band="warning",
+            )
+        )
+
+    if report.edges_missing:
+        missing = ", ".join(report.edges_missing[:6])
+        if len(report.edges_missing) > 6:
+            missing += f", +{len(report.edges_missing) - 6} more"
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Edge-vocabulary coverage {report.edge_vocabulary_coverage:.0%} "
+                    f"— declared edge types never emitted: {missing}."
+                ),
+                fix=(
+                    "A declared edge type with zero instances is a dead "
+                    "extraction rule — check the ingestion rule that should emit "
+                    "it (is the trigger pattern firing? is it being collapsed "
+                    "into a generic 'other' relation?), or retire the claim."
+                ),
+                reverify=(
+                    "Re-run `sme-eval ontology`; expect 8b edge_vocabulary_coverage "
+                    "to rise and edges_missing to shrink."
+                ),
+                band="warning",
+            )
+        )
+
+    if report.drift_score > _DRIFT_WARN:
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Ontology drift {report.drift_score:.0%} — that fraction of "
+                    "the declared vocabulary isn't in use."
+                ),
+                fix=(
+                    "Reconcile the declaration to reality: drop names the graph "
+                    "never produces, OR fix the extractor to produce them. Drift "
+                    "is the README promising structure the graph doesn't deliver."
+                ),
+                reverify=(
+                    "Re-run `sme-eval ontology`; expect 8d drift_score to fall "
+                    "below 10%."
+                ),
+                band="warning",
+            )
+        )
+
+    if report.concentration_warning:
+        conc = report.entity_type_concentration or {}
+        frac = conc.get("fraction", 0.0)
+        top = conc.get("top_type", "?")
+        rems.append(
+            Remediation(
+                finding=(
+                    f"Entity-type concentration — {frac:.0%} of entities are type "
+                    f"'{top}'."
+                ),
+                fix=(
+                    "Possible under-classification (one type absorbing everything) "
+                    "or an over-specified ontology. Add finer type rules to the "
+                    "extractor, or accept the concentration if the domain is "
+                    "genuinely single-type (report it WITH the type count — Cat 8c "
+                    "concentration is ontology-granularity-sensitive)."
+                ),
+                reverify=(
+                    "Re-run `sme-eval ontology`; expect the dominant-type fraction "
+                    "to fall as classification spreads across the vocabulary."
+                ),
+                band="warning",
+            )
+        )
+
+    return rems
 
 
 # ── Introspection scorer ─────────────────────────────────────────────

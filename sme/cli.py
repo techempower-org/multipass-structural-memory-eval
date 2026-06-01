@@ -2047,6 +2047,140 @@ def cmd_longmem(args: argparse.Namespace) -> int:
     return 0
 
 
+def _load_clean_snapshot(args: argparse.Namespace):
+    """Resolve the clean baseline snapshot for corpus-doctor.
+
+    The default source is the in-tree good-dog-corpus graph (integrity-
+    clean by construction — the calibration baseline). ``--from-adapter``
+    instead pulls the snapshot from any registered adapter, so a real
+    system's graph can be dirtied and re-verified.
+    """
+    if getattr(args, "from_adapter", None):
+        adapter = _load_adapter_from_args(args)
+        try:
+            entities, edges = adapter.get_graph_snapshot()
+        finally:
+            adapter.close()
+        return entities, edges, f"adapter:{args.from_adapter}"
+    from sme.corpora.good_dog_graph import load_graph
+
+    entities, edges = load_graph()
+    return entities, edges, "good-dog-corpus"
+
+
+def cmd_corpus_doctor(args: argparse.Namespace) -> int:
+    """corpus-doctor — inject KNOWN structural defects, verify detection.
+
+    Loads a clean snapshot, injects the chosen pathology/pathologies, and
+    (default) runs the verification harness to confirm Cat 4 / Cat 5
+    recover what was injected. With ``--out-dir`` it also writes the
+    dirtied snapshot and a PROV-O ``defects.jsonl`` manifest.
+    """
+    from sme.categories.corpus_doctor_harness import (
+        format_verification,
+        verify_pathology,
+    )
+    from sme.corpus_doctor import PATHOLOGIES, inject_many, write_manifest
+
+    entities, edges, label = _load_clean_snapshot(args)
+    log.info(
+        "clean snapshot (%s): %d entities, %d edges",
+        label,
+        len(entities),
+        len(edges),
+    )
+
+    requested = args.pathology or sorted(PATHOLOGIES)
+    unknown = [p for p in requested if p not in PATHOLOGIES]
+    if unknown:
+        raise SystemExit(
+            f"unknown pathology/pathologies: {', '.join(unknown)}. "
+            f"implemented: {', '.join(sorted(PATHOLOGIES))}."
+        )
+
+    print()
+    print("=" * 70)
+    print(f" corpus-doctor — clean baseline: {label}")
+    print("=" * 70)
+
+    results = [
+        verify_pathology(
+            entities,
+            edges,
+            p,
+            severity=args.severity,
+            seed=args.seed,
+        )
+        for p in requested
+    ]
+    print(format_verification(results))
+
+    all_detected = all(r.detected for r in results)
+
+    if args.out_dir:
+        out_dir = Path(args.out_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        dirty = inject_many(
+            entities, edges, requested, severity=args.severity, seed=args.seed
+        )
+        snapshot = {
+            "source": label,
+            "severity": args.severity,
+            "seed": args.seed,
+            "pathologies": requested,
+            "entities": [
+                {"id": e.id, "name": e.name, "entity_type": e.entity_type}
+                for e in dirty.entities
+            ],
+            "edges": [
+                {
+                    "source_id": e.source_id,
+                    "target_id": e.target_id,
+                    "edge_type": e.edge_type,
+                }
+                for e in dirty.edges
+            ],
+        }
+        (out_dir / "snapshot.json").write_text(
+            json.dumps(snapshot, indent=2, default=str)
+        )
+        manifest_path = write_manifest(
+            dirty.defects, out_dir / "defects.jsonl"
+        )
+        print()
+        print(f"  Dirty snapshot:  {out_dir / 'snapshot.json'}")
+        print(f"  Defect manifest: {manifest_path} ({len(dirty.defects)} defects)")
+
+    if args.json:
+        out = {
+            "source": label,
+            "severity": args.severity,
+            "seed": args.seed,
+            "results": [
+                {
+                    "pathology": r.pathology,
+                    "category": r.category,
+                    "field": r.field,
+                    "n_defects": r.n_defects,
+                    "clean_reading": r.clean_reading,
+                    "dirty_reading": r.dirty_reading,
+                    "observed_delta": r.observed_delta,
+                    "expected_delta": r.expected_delta,
+                    "recovery_rate": r.recovery_rate,
+                    "detected": r.detected,
+                    "notes": r.notes,
+                }
+                for r in results
+            ],
+            "all_detected": all_detected,
+        }
+        Path(args.json).write_text(json.dumps(out, indent=2, default=str))
+        print(f"\nJSON report written to {args.json}")
+
+    # Non-zero exit when a pathology went undetected so CI can gate on it.
+    return 0 if all_detected else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="sme-eval",
@@ -2780,7 +2914,58 @@ def main(argv: list[str] | None = None) -> int:
     )
     lm.set_defaults(func=cmd_longmem)
 
+    # --- corpus-doctor subcommand ------------------------------------
+
+    cd = sub.add_parser(
+        "corpus-doctor",
+        help="Inject KNOWN structural defects into a clean snapshot and "
+        "verify Cat 4 / Cat 5 recover them (issue #27 calibration loop). "
+        "Pathologies: duplicate_evidence, orphan_inflation, "
+        "monoculture_edge_type.",
+    )
+    cd.add_argument(
+        "--pathology",
+        action="append",
+        metavar="NAME",
+        help="pathology to inject (repeatable). Default: all implemented "
+        "(duplicate_evidence, orphan_inflation, monoculture_edge_type).",
+    )
+    cd.add_argument(
+        "--severity",
+        type=float,
+        default=0.3,
+        help="0..1 severity — scales the count/fraction of injected "
+        "defects (default 0.3).",
+    )
+    cd.add_argument(
+        "--seed", type=int, default=0, help="RNG seed (default 0; deterministic)."
+    )
+    cd.add_argument(
+        "--from-adapter",
+        dest="from_adapter",
+        metavar="ADAPTER",
+        help="pull the clean snapshot from this adapter instead of the "
+        "in-tree good-dog-corpus graph. Adapter db/api flags also apply.",
+    )
+    cd.add_argument(
+        "--out-dir",
+        metavar="DIR",
+        help="write the dirtied snapshot.json + PROV-O defects.jsonl "
+        "manifest here.",
+    )
+    cd.add_argument(
+        "--json", metavar="PATH", help="write the verification report as JSON."
+    )
+    # Adapter name lives under --from-adapter; the shared db/api flags need
+    # an `adapter` attribute for _load_adapter_from_args. Bridge it.
+    _add_db_or_api_args(cd)
+    cd.set_defaults(func=cmd_corpus_doctor)
+
     args = parser.parse_args(argv)
+    # _load_adapter_from_args reads args.adapter; corpus-doctor exposes the
+    # adapter name as --from-adapter, so mirror it across when present.
+    if getattr(args, "command", None) == "corpus-doctor":
+        args.adapter = getattr(args, "from_adapter", None)
     logging.basicConfig(
         level=logging.INFO if args.verbose else logging.WARNING,
         format="%(levelname)s %(name)s: %(message)s",

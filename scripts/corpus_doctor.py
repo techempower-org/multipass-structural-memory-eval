@@ -7,10 +7,12 @@ category recalled the KNOWN injected defects. Exit code is non-zero if
 any injected defect went undetected — so this doubles as a CI guard that
 the categories still detect what they claim to.
 
-Defect types (first slice of upstream M0nkeyFl0wer#27):
-  duplicate_entity → Cat 4a canonical-collision dedup
-  orphan_node      → Cat 5 isolated-node detection
-  broken_ref       → referential-integrity check
+Defect types (upstream M0nkeyFl0wer#27, extended in #4 follow-up):
+  duplicate_entity      → Cat 4a canonical-collision dedup
+  orphan_node           → Cat 5 isolated-node detection
+  broken_ref            → referential-integrity check
+  phantom_edge          → phantom-edge grounding (upstream #4)
+  edge_type_monoculture → Cat 4c monoculture (scalar signal)
 
 The default corpus is the committed good-dog graph (no download, no
 daemon, no API key — constitutional: lightweight and locally runnable).
@@ -36,10 +38,16 @@ from sme.corpus_doctor import DEFECT_TYPES, run_all_defects  # noqa: E402
 
 
 def _load_clean_graph():
-    """Load the default clean corpus (good-dog graph)."""
+    """Load the default clean corpus (good-dog graph) + its source bodies.
+
+    Returns ``(entities, edges, source_bodies)``. The source bodies feed
+    the phantom_edge grounding check; the other defects ignore them.
+    """
     from sme.corpora import good_dog_graph
 
-    return good_dog_graph.load_graph()
+    entities, edges = good_dog_graph.load_graph()
+    source_bodies = good_dog_graph.load_source_bodies()
+    return entities, edges, source_bodies
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
@@ -71,12 +79,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_arg_parser().parse_args(argv)
-    entities, edges = _load_clean_graph()
+    entities, edges, source_bodies = _load_clean_graph()
     defect_types = tuple(args.defect) if args.defect else None
 
     results = run_all_defects(
         entities, edges, count=args.count, seed=args.seed,
-        defect_types=defect_types,
+        defect_types=defect_types, source_bodies=source_bodies,
     )
 
     all_detected = all(r.detected_all for r in results.values())
@@ -95,6 +103,9 @@ def main(argv: list[str] | None = None) -> int:
                     "delta_precision": r.delta_precision,
                     "detected_all": r.detected_all,
                     "missed_ids": r.missed_ids,
+                    # scalar-signal defects carry a before/after reading
+                    "signal_clean": r.signal_clean,
+                    "signal_dirty": r.signal_dirty,
                 }
                 for dt, r in results.items()
             },

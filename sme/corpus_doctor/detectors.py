@@ -14,6 +14,16 @@ against the injection manifest:
   - orphan_node      → ids with no incident edges
   - broken_ref       → target ids referenced by an edge but absent from
                        the entity set (dangling references)
+
+Two defects don't fit the uniform ``(entities, edges) -> set[str]`` shape
+and have their own detector signatures (the harness special-cases them):
+
+  - phantom_edge          → needs the source prose bodies to ground edges;
+                            returns flagged ``(src, dst, type)`` edge keys,
+                            not entity ids. See :func:`detect_phantom_edges`.
+  - edge_type_monoculture → a SCALAR signal (Cat 4c dominant-edge fraction
+                            / entropy), not a set of ids. Graded by the
+                            harness via :func:`monoculture_signal`.
 """
 from __future__ import annotations
 
@@ -79,10 +89,72 @@ def detect_broken_refs(entities: list[Entity], edges: list[Edge]) -> set[str]:
     return dangling
 
 
-# defect_type → detector function. The harness uses this to pick the
-# detector for a given injection without a branch per defect type.
+def detect_phantom_edges(
+    entities: list[Entity],
+    edges: list[Edge],
+    source_bodies: dict[str, str],
+    *,
+    min_overlap: float = 0.5,
+) -> set[tuple[str, str, str]]:
+    """``(source_id, target_id, edge_type)`` keys of edges the phantom-edge
+    detector flags as ungrounded.
+
+    Wraps :func:`sme.categories.phantom_edge.score_phantom_edges` and
+    projects its ``phantom_edges`` list down to comparable edge keys, so
+    the harness can score recall the same way it does for id-recall
+    defects. Returns edge keys (not entity ids) because a phantom edge is
+    a defect of the EDGE, not of either endpoint — both endpoints exist.
+
+    ``source_bodies`` must include the body for every edge's
+    ``source_note`` (an empty body for injected phantom edges); edges
+    whose note is absent are skipped by the scorer, not flagged.
+
+    ``example_limit`` is raised to cover all edges so detection is not
+    truncated by the report's display cap.
+    """
+    from sme.categories.phantom_edge import score_phantom_edges
+
+    report = score_phantom_edges(
+        entities,
+        edges,
+        source_bodies,
+        min_overlap=min_overlap,
+        example_limit=len(edges) + 1,
+    )
+    return {
+        (pe.source_id, pe.target_id, pe.edge_type) for pe in report.phantom_edges
+    }
+
+
+def monoculture_signal(entities: list[Entity], edges: list[Edge]) -> dict[str, float]:
+    """Cat 4c monoculture reading as a scalar signal.
+
+    Returns ``{dominant_edge_type_fraction, edge_type_entropy_normalized}``
+    — the two numbers the monoculture defect should move (fraction UP,
+    normalized entropy DOWN). Unlike the id-recall detectors, monoculture
+    has no per-id "defective" set; the harness compares this reading on
+    the corrupted graph against the clean baseline.
+    """
+    from sme.categories.ingestion_integrity import score_ingestion_integrity
+
+    report = score_ingestion_integrity(entities, edges)
+    return {
+        "dominant_edge_type_fraction": report.dominant_edge_type_fraction,
+        "edge_type_entropy_normalized": report.edge_type_entropy_normalized,
+    }
+
+
+# defect_type → detector function for the uniform id-recall defects. The
+# harness uses this to pick the detector without a branch per type.
+# phantom_edge and edge_type_monoculture are NOT here — they have
+# non-uniform signatures (source bodies / scalar signal) the harness
+# special-cases.
 DETECTORS = {
     "duplicate_entity": detect_duplicate_entities,
     "orphan_node": detect_orphan_nodes,
     "broken_ref": detect_broken_refs,
 }
+
+# Defects graded by id-recall (the DETECTORS map). The other two defect
+# types are graded by their own harness paths.
+ID_RECALL_DEFECTS = frozenset(DETECTORS)

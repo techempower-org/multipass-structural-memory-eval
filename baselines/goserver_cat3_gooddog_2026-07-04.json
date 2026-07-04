@@ -1,0 +1,18 @@
+{
+  "category": "cat_3_contradiction",
+  "seeded_pairs": 0,
+  "surfaced_pairs": 0,
+  "surfaced_seeded": 0,
+  "structural_detection_rate": 0.0,
+  "structural_precision": 0.0,
+  "flat_detection_rate": 0.0,
+  "flat_precision": 0.0,
+  "detection_delta": 0.0,
+  "detection_level": "structured",
+  "contradiction_pairs": 0,
+  "seeded_pair_keys": [],
+  "matched_pair_keys": [],
+  "pairs": [],
+  "adapter": "mempalace-server",
+  "source": "http://localhost:8000"
+}

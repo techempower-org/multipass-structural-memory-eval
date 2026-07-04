@@ -1,0 +1,261 @@
+<title>Field Catalog — AI Memory Systems</title>
+<style>
+  :root{
+    --paper:#F5F6F4; --paper-2:#EDEFEA; --ink:#1C2430; --ink-soft:#4A5462;
+    --rule:#C9CEC6; --blue:#2D5C8F; --stamp:#A8352C; --green:#3E6B4F; --amber:#8A6D2F;
+    --card:#FBFCFA; --shadow:0 1px 2px rgba(28,36,48,.07),0 6px 18px -8px rgba(28,36,48,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#10161E; --paper-2:#0B1016; --ink:#DDE3E8; --ink-soft:#93A0AE;
+      --rule:#2A3542; --blue:#7FA8D4; --stamp:#D4645A; --green:#7FAE8F; --amber:#C9A45C;
+      --card:#161E28; --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px -10px rgba(0,0,0,.6);
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Iowan Old Style','Palatino Linotype',Palatino,'URW Palladio L','Book Antiqua',Georgia,serif;
+    line-height:1.55; font-size:17px;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:48px 24px 80px}
+  a{color:var(--blue); text-decoration-thickness:1px; text-underline-offset:2px}
+  a:focus-visible{outline:2px solid var(--blue); outline-offset:2px; border-radius:2px}
+  .label{
+    font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif;
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft);
+  }
+  .mono{font-family:'Ubuntu Mono','DejaVu Sans Mono',Menlo,Consolas,monospace; font-variant-numeric:tabular-nums}
+
+  /* ── Catalog header ─────────────────────────────── */
+  header{border-top:3px double var(--ink); border-bottom:1px solid var(--rule); padding:26px 0 22px; margin-bottom:14px}
+  header .label{color:var(--stamp)}
+  h1{font-size:clamp(34px,6vw,52px); line-height:1.04; margin:10px 0 12px; font-weight:600; letter-spacing:-.01em; text-wrap:balance}
+  .thesis{max-width:62ch; color:var(--ink-soft); font-size:18px; margin:0}
+  .thesis strong{color:var(--ink)}
+  .cardno{float:right; text-align:right; color:var(--ink-soft)}
+  .cardno .mono{font-size:13px}
+
+  /* ── Axis note ─────────────────────────────────── */
+  .axis{display:flex; gap:14px; flex-wrap:wrap; align-items:center; padding:14px 0 6px; border-bottom:1px solid var(--rule); margin-bottom:40px}
+  .badge{
+    font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; padding:3px 9px; border-radius:2px; border:1px solid currentColor; white-space:nowrap;
+  }
+  .b-r5{color:var(--blue)} .b-qa{color:var(--green)} .b-self{color:var(--amber)} .b-gone{color:var(--stamp)}
+  .axis p{margin:0; font-size:14.5px; color:var(--ink-soft); max-width:58ch}
+
+  /* ── Sections ──────────────────────────────────── */
+  section{margin-bottom:56px}
+  h2{font-size:15px; font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--ink); border-bottom:1px solid var(--rule); padding-bottom:8px; margin:0 0 20px}
+  h2 .count{color:var(--ink-soft); font-weight:400}
+
+  /* ── The deaccessioned card ────────────────────── */
+  .gone{
+    position:relative; background:var(--card); border:1px solid var(--rule); border-radius:3px;
+    box-shadow:var(--shadow); padding:26px 28px; overflow:hidden;
+  }
+  .gone::after{
+    content:"DEACCESSIONED"; position:absolute; top:26px; right:-38px; transform:rotate(24deg);
+    font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; font-weight:700; font-size:15px; letter-spacing:.28em;
+    color:var(--stamp); border:3px solid var(--stamp); padding:5px 44px; opacity:.82; border-radius:2px;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .gone::after{animation:stamp .38s cubic-bezier(.2,1.6,.4,1) .45s backwards}
+    @keyframes stamp{from{transform:rotate(24deg) scale(2.4); opacity:0} to{transform:rotate(24deg) scale(1); opacity:.82}}
+  }
+  .gone h3{margin:0 0 2px; font-size:26px}
+  .gone .sub{color:var(--ink-soft); margin:0 0 16px; font-size:15px}
+  .ledger{border-collapse:collapse; width:100%; font-size:14.5px}
+  .ledger td{padding:6px 14px 6px 0; border-bottom:1px dotted var(--rule); vertical-align:top}
+  .ledger td:first-child{white-space:nowrap; width:1%; color:var(--ink-soft); font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase; padding-top:9px}
+  .gone .note{margin:16px 0 0; font-style:italic; color:var(--ink-soft); font-size:15px; max-width:60ch}
+
+  /* ── Catalog cards ─────────────────────────────── */
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px}
+  .card{
+    background:var(--card); border:1px solid var(--rule); border-radius:3px; box-shadow:var(--shadow);
+    padding:18px 20px 16px; display:flex; flex-direction:column; gap:8px; position:relative;
+    border-top:3px solid var(--rule);
+  }
+  .card.hot{border-top-color:var(--blue)}
+  .rank{position:absolute; top:12px; right:16px; font-size:13px; color:var(--ink-soft)}
+  .card h3{margin:0; font-size:20px; line-height:1.15; padding-right:34px}
+  .card h3 a{color:inherit; text-decoration:none}
+  .card h3 a:hover{color:var(--blue); text-decoration:underline}
+  .who{margin:0; font-size:13px; color:var(--ink-soft)}
+  .stack{margin:0; font-size:13.5px; color:var(--ink-soft)}
+  .claim{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin:2px 0}
+  .claim .num{font-size:19px; font-weight:600}
+  .why{margin:2px 0 0; font-size:14.5px; max-width:52ch}
+  .meta{margin-top:auto; padding-top:10px; border-top:1px dotted var(--rule); display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .meta a{font-size:13px}
+
+  /* ── Bench strip ───────────────────────────────── */
+  .bench{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px}
+  .slot{background:var(--paper-2); border:1px dashed var(--rule); border-radius:3px; padding:14px 16px}
+  .slot .label{display:block; margin-bottom:6px}
+  .slot p{margin:0; font-size:14.5px}
+  .chip{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; vertical-align:1px}
+  .c-live{background:var(--green)} .c-run{background:var(--amber)} .c-wait{background:var(--ink-soft)}
+
+  footer{border-top:3px double var(--ink); margin-top:70px; padding-top:16px; font-size:13.5px; color:var(--ink-soft)}
+  footer p{margin:4px 0; max-width:75ch}
+  @media (max-width:560px){ .gone::after{right:-52px; font-size:12px} }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="cardno">
+    <span class="label">Drawer</span><br>
+    <span class="mono">MEM · 2026-07-03</span>
+  </div>
+  <span class="label">Field catalog · techempower-org / mempalace</span>
+  <h1>The Memory Systems Worth Watching</h1>
+  <p class="thesis">Every entry verified against our own research corpus — <strong>411K drawers of production palace</strong>, the multipass structural eval, and the benchmark-methodology record. The claims below say <strong>which metric</strong> they are, because most of this field's score inflation lives in that omission.</p>
+</header>
+
+<div class="axis">
+  <span class="badge b-r5">R@5 · retrieval</span>
+  <span class="badge b-qa">QA · end-to-end</span>
+  <span class="badge b-self">self-reported</span>
+  <span class="badge b-gone">withdrawn</span>
+  <p>Retrieval recall (“was the right document in the top 5?”) runs 20–30 points hotter than end-to-end QA (“did the agent answer correctly?”). Comparing one to the other is the field’s favorite accidental lie.</p>
+</div>
+
+<section>
+  <h2>The one that vanished</h2>
+  <div class="gone">
+    <h3>engram-2</h3>
+    <p class="sub">Boris Djordjevic · 199 Biotechnologies (199.bio) · Rust CLI</p>
+    <table class="ledger">
+      <tr><td>Claimed</td><td class="mono">LongMemEval-S R@5 <strong>0.990</strong> · R@10 0.998 · MRR 0.946 — config: Gemini&nbsp;Embed&nbsp;2 + FTS5 + RRF (not the pure-local mode) · LoCoMo-QA 74.5% (strict judge, 200q subset)</td></tr>
+      <tr><td>Entered orbit</td><td>Posted by <span class="mono">@longevityboris</span> in MemPalace <a href="https://github.com/MemPalace/mempalace/issues/29">issue #29</a>, Apr 11 — the benchmark-methodology wars</td></tr>
+      <tr><td>Last seen</td><td>Apr 12, 2026 (dial481 browsing its <span class="mono">feat/mlx-reranker</span> branch)</td></tr>
+      <tr><td>Gone by</td><td>Jun 10, 2026 — 404 recorded in our commit <span class="mono">9781ce5</span>; zero Wayback snapshots; no surviving forks, crate, or package</td></tr>
+      <tr><td>Survives in</td><td>Our palace’s verbatim capture of its README claims, and these notes</td></tr>
+    </table>
+    <p class="note">A memory system whose only remaining memory is inside ours. The highest R@5 ever claimed in this field is now unverifiable — which, by the standards everyone here holds everyone else to, means it’s a footnote.</p>
+  </div>
+</section>
+
+<section>
+  <h2>On our bench right now</h2>
+  <div class="bench">
+    <div class="slot">
+      <span class="label"><span class="chip c-live"></span>Go server · sefodo26</span>
+      <p>Postgres + pgvector + Apache AGE — <em>our production substrate, independently reinvented.</em> Live on katana, smoke-tested, 37 MCP tools. <a href="https://github.com/sefodo26/mempalace-server">repo</a> · <a href="https://github.com/MemPalace/mempalace/discussions/1856">discussion #1856</a></p>
+    </div>
+    <div class="slot">
+      <span class="label"><span class="chip c-live"></span>SME adapters · merged</span>
+      <p>Go server + engram (TS) adapters merged (#255–257). Structural three-way complete — <a href="phase1.html">Phase 1 results</a>. QA axis next.</p>
+    </div>
+    <div class="slot">
+      <span class="label"><span class="chip c-wait"></span>Upstream ask · open</span>
+      <p>Our divergence map + upstreaming offer is live as <a href="https://github.com/MemPalace/mempalace/discussions/1918">discussion #1918</a>. Awaiting maintainer picks.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Next most interesting <span class="count">· ranked</span></h2>
+  <div class="cards">
+
+    <div class="card hot"><span class="rank mono">01</span>
+      <h3><a href="https://github.com/omega-memory/core">OMEGA</a></h3>
+      <p class="who">omega-memory · open-core (Apache 2.0)</p>
+      <p class="stack">SQLite + ONNX, zero external deps, 25 MCP tools, AES-256-GCM at rest</p>
+      <p class="claim"><span class="num mono">95.4%</span><span class="badge b-qa">QA</span><span class="badge b-self">self</span></p>
+      <p class="why">The only local-first system claiming to beat the frontier on <em>end-to-end</em> QA. If that number survives a hostile rerun, it’s the story of the year; if not, it’s our best target practice.</p>
+      <p class="meta"><a href="https://github.com/omega-memory/core">github.com/omega-memory/core</a></p>
+    </div>
+
+    <div class="card hot"><span class="rank mono">02</span>
+      <h3><a href="https://github.com/vectorize-io/hindsight">Hindsight</a></h3>
+      <p class="who">vectorize.io · Virginia Tech / Washington Post lineage</p>
+      <p class="stack">retain / recall / reflect ops; auto-updating “mental models”; Docker</p>
+      <p class="claim"><span class="num mono">91.4%</span><span class="badge b-qa">QA</span></p>
+      <p class="why">The most credible QA number in the field — indie-verified, arXiv-backed, and they run a public benchmark repo that scores <em>other</em> systems too. The adult in the room.</p>
+      <p class="meta"><a href="https://github.com/vectorize-io/hindsight-benchmarks">their benchmark repo</a></p>
+    </div>
+
+    <div class="card hot"><span class="rank mono">03</span>
+      <h3><a href="https://github.com/rohitg00/agentmemory">agentmemory</a></h3>
+      <p class="who">@rohitg00 · 9.4K★ · 53 MCP tools</p>
+      <p class="stack">BM25 + vector + KG triple-stream, RRF fusion, token-budgeted injection</p>
+      <p class="claim"><span class="num mono">95.2%</span><span class="badge b-r5">R@5</span></p>
+      <p class="why">Labels its metrics honestly, reproduced MemPalace’s numbers independently, and wrote the methodology review (<a href="https://github.com/MemPalace/mempalace/discussions/747">#747</a>) the whole field needed. Our most natural benchmarking peer.</p>
+      <p class="meta"><a href="https://github.com/rohitg00/agentmemory">github.com/rohitg00/agentmemory</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">04</span>
+      <h3><a href="https://github.com/tonitangpotato/engram-ai">engram-ai</a></h3>
+      <p class="who">@tonitangpotato · Rust core, on crates.io as <span class="mono">engramai</span></p>
+      <p class="stack">ACT-R activation, Ebbinghaus forgetting, Hebbian learning; FTS5, no embedder required</p>
+      <p class="claim"><span class="badge b-self">unbenchmarked</span></p>
+      <p class="why">The cognitive-science bet: memory strength as an <em>activation model</em>, not a similarity score. Opposite pole to our verbatim thesis — which is exactly why it belongs in the cohort.</p>
+      <p class="meta"><a href="https://github.com/tonitangpotato/engram-ai">github.com/tonitangpotato/engram-ai</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">05</span>
+      <h3><a href="https://github.com/Gentleman-Programming/engram">engram (Go)</a></h3>
+      <p class="who">Gentleman-Programming</p>
+      <p class="stack">Single Go binary; SQLite + FTS5; CLI, HTTP, MCP, <em>and</em> a TUI</p>
+      <p class="claim"><span class="badge b-self">unbenchmarked</span></p>
+      <p class="why">Agent-agnostic and deterministic — the closest living relative to what the vanished engram-2 claimed to be. Easiest possible SME stand-up: one binary, no embed server.</p>
+      <p class="meta"><a href="https://github.com/Gentleman-Programming/engram">github.com/Gentleman-Programming/engram</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">06</span>
+      <h3><a href="https://github.com/199-biotechnologies/engram">engram (TS)</a></h3>
+      <p class="who">Boris Djordjevic · 199.bio — engram-2’s author, current artifact</p>
+      <p class="stack">TS MCP server; BM25 + LEAF embeddings (Transformers.js) + KG; Ebbinghaus decay</p>
+      <p class="claim"><span class="badge b-self">unbenchmarked</span></p>
+      <p class="why">What 199-bio ships <em>now</em>. Benchmarking it live is the closest we can get to testing the vanished 0.990 claim’s lineage. Forked; adapter queued.</p>
+      <p class="meta"><a href="https://www.npmjs.com/package/@199-bio/engram">npm @199-bio/engram</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">07</span>
+      <h3><a href="https://github.com/alphaonedev/ai-memory-mcp">ai-memory</a></h3>
+      <p class="who">alphaonedev · Rust binary · 43 MCP tools</p>
+      <p class="stack">SQLite FTS5, tiered TTL, autonomous curator daemon, Ed25519 attestation</p>
+      <p class="claim"><span class="num mono">97.8%</span><span class="badge b-r5">R@5</span><span class="badge b-self">self</span></p>
+      <p class="why">Cryptographic attestation of memories is a genuinely novel axis — provenance as a first-class feature. The self-reported score needs the usual haircut.</p>
+      <p class="meta"><a href="https://github.com/alphaonedev/ai-memory-mcp">github.com/alphaonedev/ai-memory-mcp</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">08</span>
+      <h3><a href="https://github.com/letta-ai/letta">Letta</a></h3>
+      <p class="who">letta-ai (née MemGPT) · ~22.8K★</p>
+      <p class="stack">V1 rework (Mar ’26); core/recall/archival tiers; new memory-first coding agent</p>
+      <p class="claim"><span class="badge b-qa">QA-class</span></p>
+      <p class="why">The incumbent mid-rearchitecture — heartbeats deprecated, MCP moving client-side. Watching <em>which</em> memory ideas survive their own rewrite is free research.</p>
+      <p class="meta"><a href="https://github.com/letta-ai/letta-code">letta-code</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">09</span>
+      <h3><a href="https://github.com/edg-l/engram-mcp">engram-mcp</a></h3>
+      <p class="who">@edg-l · Rust</p>
+      <p class="stack">Branch-aware session handoffs; local ONNX embeddings; SQLite semantic search</p>
+      <p class="claim"><span class="badge b-self">unbenchmarked</span></p>
+      <p class="why">“Branch-aware handoff” is a coding-agent-shaped memory primitive nobody else has — memory keyed to <em>git state</em>, not just time. Small, sharp idea.</p>
+      <p class="meta"><a href="https://github.com/edg-l/engram-mcp">github.com/edg-l/engram-mcp</a></p>
+    </div>
+
+    <div class="card"><span class="rank mono">10</span>
+      <h3><a href="https://github.com/thedotmack/claude-mem">claude-mem</a></h3>
+      <p class="who">thedotmack · 89K★ — the popular vote</p>
+      <p class="stack">SQLite + ChromaDB; AI-compressed summaries; explicitly non-verbatim</p>
+      <p class="claim"><span class="badge b-self">unbenchmarked</span></p>
+      <p class="why">The anti-thesis at scale: derivative memory with the largest community in the space. Every recall failure it ships is quiet evidence for the verbatim side of the axis.</p>
+      <p class="meta"><a href="https://github.com/thedotmack/claude-mem">github.com/thedotmack/claude-mem</a></p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p><strong>Provenance.</strong> Claims and statuses verified 2026-07-03 against <a href="https://github.com/techempower-org/mempalace/blob/main/docs/research/2026-05-24-memory-system-benchmarks.md">our benchmark-methodology research</a>, <a href="https://github.com/techempower-org/mempalace/blob/main/docs/ECOSYSTEM.md">ECOSYSTEM.md</a>, the <a href="https://github.com/techempower-org/multipass-structural-memory-eval/tree/main/docs">multipass eval findings</a>, and live GitHub/Wayback/crates/npm archaeology performed today.</p>
+  <p>Metric badges follow the retrieval-vs-QA distinction argued in MemPalace <a href="https://github.com/MemPalace/mempalace/discussions/747">discussion #747</a>. Systems marked <em>self-reported</em> have published numbers we could not independently confirm.</p>
+</footer>
+</div>

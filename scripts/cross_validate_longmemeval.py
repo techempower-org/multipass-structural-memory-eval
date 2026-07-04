@@ -96,6 +96,7 @@ def _stratified_cap(questions: list, n: int, field: str) -> list:
     head-to-head apples-to-apples.
     """
     from collections import defaultdict
+
     groups: dict = defaultdict(list)
     for q in questions:
         key = getattr(q, field, None)
@@ -122,6 +123,7 @@ AdapterFactory = Callable[[Path], SMEAdapter]
 
 def _make_full_context_adapter(per_q_vault: Path) -> SMEAdapter:
     from sme.conditions.full_context import FullContextAdapter
+
     return FullContextAdapter(per_q_vault)
 
 
@@ -260,7 +262,8 @@ def _make_mempalace_adapter(per_q_vault: Path) -> SMEAdapter:  # pragma: no cove
 
 
 def _make_mempalace_daemon_adapter_factory(
-    *, api_url: Optional[str] = None,
+    *,
+    api_url: Optional[str] = None,
     api_key: Optional[str] = None,
     kind: Optional[str] = None,
 ) -> AdapterFactory:  # pragma: no cover — network-dependent
@@ -368,6 +371,43 @@ def _make_karpathy_compiled_adapter(per_q_vault: Path) -> SMEAdapter:
     return KarpathyCompiledAdapter(compiled_dir)
 
 
+def _make_mempalace_server_adapter(
+    _per_q_vault: Path,
+) -> SMEAdapter:  # pragma: no cover — network-dependent
+    """Go MemPalace server (sefodo26) — per-question isolation via full wipe.
+
+    The adapter's ``reset_before_ingest`` wipes the target server before each
+    question's haystack loads, mirroring the reference benchmark's
+    reset-store-per-question methodology. Point it at a DISPOSABLE eval
+    instance (docker-compose default), never a store you care about.
+    Config: MEMPALACE_SERVER_URL / MEMPALACE_SERVER_API_KEY env vars.
+    """
+    import os as _os
+
+    from sme.adapters.mempalace_server_adapter import MemPalaceServerAdapter
+
+    adapter = MemPalaceServerAdapter(
+        api_url=_os.environ.get("MEMPALACE_SERVER_URL", "http://localhost:8000"),
+        api_key=_os.environ.get("MEMPALACE_SERVER_API_KEY", "local-dev-key-change-me"),
+        reset_before_ingest=True,
+        read_only=False,
+    )
+    # Factory contract: the run loop only builds + queries, so the factory
+    # ingests the per-question haystack itself (hindsight pattern).
+    # source_file = session id (file stem) → the adapter surfaces it as
+    # Entity.id, which is what the session-level R@K scorer matches.
+    corpus: list[dict] = []
+    for md_file in sorted(_per_q_vault.glob("*.md")):
+        text = md_file.read_text(encoding="utf-8", errors="replace")
+        if text.strip():
+            corpus.append({"content": text, "source_file": md_file.stem})
+    if corpus:
+        ing = adapter.ingest_corpus(corpus)
+        if ing.get("errors"):
+            raise RuntimeError(f"mempalace-server ingest errors: {ing['errors'][:3]}")
+    return adapter
+
+
 _ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "full-context": _make_full_context_adapter,
     "flat": _make_flat_adapter,
@@ -376,10 +416,12 @@ _ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "omega": _make_omega_adapter,
     "hindsight": _make_hindsight_adapter,
     "postgres": _make_postgres_adapter,
+    "mempalace-server": _make_mempalace_server_adapter,
 }
 
 
 # --- Scoring helpers --------------------------------------------------------
+
 
 def sme_substring_recall(retrieved: str, expected: list[str]) -> tuple[float, list[str]]:
     """Substring-match the SME way: count how many expected sources
@@ -418,15 +460,16 @@ def judge_label_to_correct(label: str) -> Optional[bool]:
 # are plain factual correctness, which IS the base template, so they map to a
 # base-template type. adversarial is handled separately via is_abstention.
 _LOCOMO_TO_JUDGE_TYPE = {
-    "single-hop": "single-session-user",   # base correctness template
-    "multi-hop": "multi-session",           # base correctness template
-    "open-domain": "multi-session",         # base correctness template
-    "temporal": "temporal-reasoning",       # base + off-by-one-days tolerance
+    "single-hop": "single-session-user",  # base correctness template
+    "multi-hop": "multi-session",  # base correctness template
+    "open-domain": "multi-session",  # base correctness template
+    "temporal": "temporal-reasoning",  # base + off-by-one-days tolerance
     # adversarial -> abstention is driven by is_abstention, not this map.
 }
 
 
 # --- Reader pass ------------------------------------------------------------
+
 
 def generate_hypothesis(
     question: str,
@@ -449,6 +492,7 @@ def generate_hypothesis(
 
 
 # --- Per-question loop ------------------------------------------------------
+
 
 def run_one_question(
     q: LMEQuestion,
@@ -474,9 +518,7 @@ def run_one_question(
     """
     # 1. Materialize ONLY this question to a per-question dir
     out_dir = work_dir / q.question_id
-    materialize_sme_corpus(
-        [q], out_dir, max_questions=1, content_rules=content_rules
-    )
+    materialize_sme_corpus([q], out_dir, max_questions=1, content_rules=content_rules)
     per_q_vault = out_dir / "vault" / q.question_id
 
     # 2. Build adapter
@@ -574,7 +616,7 @@ def _score_and_judge(
     # comparison so per-session retrieval recall is real; the raw ids are
     # still stored verbatim on the record for provenance.
     def _norm_id(rid: str) -> str:
-        return rid[len("chunk:"):] if rid.startswith("chunk:") else rid
+        return rid[len("chunk:") :] if rid.startswith("chunk:") else rid
 
     norm_ids = [_norm_id(rid) for rid in retrieved_entity_ids]
     rank_1 = norm_ids[0] if norm_ids else None
@@ -614,10 +656,7 @@ def _score_and_judge(
         record["judge"] = None
         return record
 
-    qtype_for_judge = (
-        "abstention" if is_abstention
-        else (judge_question_type or question_type)
-    )
+    qtype_for_judge = "abstention" if is_abstention else (judge_question_type or question_type)
 
     if skip_reader:
         # Hand the judge the raw retrieval (option (a) in the planning
@@ -625,7 +664,8 @@ def _score_and_judge(
         hypothesis = ctx[:8000]  # cap to keep judge prompt manageable
     else:
         hypothesis = generate_hypothesis(
-            question, ctx,
+            question,
+            ctx,
             reader_model=reader_model,
             client=reader_client,
         )
@@ -644,6 +684,7 @@ def _score_and_judge(
 
 
 # --- LoCoMo per-sample loop -------------------------------------------------
+
 
 def run_locomo_questions(
     questions: list[Any],  # list[LoCoMoQuestion]
@@ -731,9 +772,7 @@ def run_locomo_questions(
                     reader_client=reader_client,
                     judge_client=judge_client,
                     capture_context=capture_context,
-                    judge_question_type=_LOCOMO_TO_JUDGE_TYPE.get(
-                        q.question_type
-                    ),
+                    judge_question_type=_LOCOMO_TO_JUDGE_TYPE.get(q.question_type),
                     extra_fields={
                         "sample_id": q.sample_id,
                         "locomo_category": q.category,
@@ -743,7 +782,10 @@ def run_locomo_questions(
                 records.append(rec)
                 log.info(
                     "[%s] %s (%s / %s)",
-                    sample_id, q.question_id, q.question_type, q.sme_category,
+                    sample_id,
+                    q.question_id,
+                    q.question_type,
+                    q.sme_category,
                 )
         finally:
             try:
@@ -858,7 +900,10 @@ def run_beam_questions(
                 records.append(rec)
                 log.info(
                     "[%s] %s (%s / %s)",
-                    conv_id, q.question_id, q.ability_type, q.sme_category,
+                    conv_id,
+                    q.question_id,
+                    q.ability_type,
+                    q.sme_category,
                 )
         finally:
             try:
@@ -869,6 +914,7 @@ def run_beam_questions(
 
 
 # --- Aggregation ------------------------------------------------------------
+
 
 def _empty_category_slot() -> dict[str, Any]:
     return {
@@ -940,32 +986,34 @@ def aggregate(records: list[dict]) -> dict:
         _accumulate_usage(total_usage, judge.get("usage") or {})
 
         if _is_disagreement(r["sme_recall"], judge_label_to_correct(label)):
-            disagreements.append({
-                "question_id": r["question_id"],
-                "sme_category": cat,
-                "sme_recall": r["sme_recall"],
-                "judge_label": label,
-                "judge_rationale": judge.get("rationale", ""),
-            })
+            disagreements.append(
+                {
+                    "question_id": r["question_id"],
+                    "sme_category": cat,
+                    "sme_recall": r["sme_recall"],
+                    "judge_label": label,
+                    "judge_rationale": judge.get("rationale", ""),
+                }
+            )
 
     per_cat = {}
     for cat, slot in sorted(by_cat.items()):
         n = slot["n"]
         judged = (
-            slot["judge_correct"] + slot["judge_incorrect"]
-            + slot["judge_partial"] + slot["judge_abstain"]
+            slot["judge_correct"]
+            + slot["judge_incorrect"]
+            + slot["judge_partial"]
+            + slot["judge_abstain"]
         )
         sme_recall_mean = slot["sme_recall_sum"] / n if n else 0.0
         judge_correct_rate = (
-            (slot["judge_correct"] + slot["judge_abstain"]) / judged
-            if judged else None
+            (slot["judge_correct"] + slot["judge_abstain"]) / judged if judged else None
         )
         per_cat[cat] = {
             "n": n,
             "sme_recall_mean": round(sme_recall_mean, 4),
             "judge_correct_rate": (
-                round(judge_correct_rate, 4)
-                if judge_correct_rate is not None else None
+                round(judge_correct_rate, 4) if judge_correct_rate is not None else None
             ),
             "judge_label_counts": {
                 "CORRECT": slot["judge_correct"],
@@ -989,14 +1037,16 @@ def aggregate(records: list[dict]) -> dict:
     for r in records:
         if r.get("hit_at_1") is False:
             qtype = r.get("question_type", "unknown")
-            r1_misses.append({
-                "question_id": r["question_id"],
-                "question_type": qtype,
-                "retrieved_rank_1": r.get("retrieved_rank_1"),
-                "expected_sources": r.get("expected_sources", []),
-                "hit_at_5": r.get("hit_at_5"),
-                "hit_at_10": r.get("hit_at_10"),
-            })
+            r1_misses.append(
+                {
+                    "question_id": r["question_id"],
+                    "question_type": qtype,
+                    "retrieved_rank_1": r.get("retrieved_rank_1"),
+                    "expected_sources": r.get("expected_sources", []),
+                    "hit_at_5": r.get("hit_at_5"),
+                    "hit_at_10": r.get("hit_at_10"),
+                }
+            )
             r1_miss_by_type[qtype] = r1_miss_by_type.get(qtype, 0) + 1
 
     return {
@@ -1019,6 +1069,7 @@ def aggregate(records: list[dict]) -> dict:
 
 # --- Main -------------------------------------------------------------------
 
+
 def build_arg_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         description=(
@@ -1027,88 +1078,128 @@ def build_arg_parser() -> argparse.ArgumentParser:
             "report per-category disagreement."
         ),
     )
-    p.add_argument("--dataset", required=True, type=Path,
-                   help="Path to the dataset JSON. For --corpus longmemeval: "
-                        "longmemeval_oracle.json (or _s / _m). For --corpus "
-                        "locomo: locomo10.json. For --corpus beam: a cached "
-                        "per-bucket BEAM split (e.g. beam_100K.json) or the "
-                        "committed sample (sme/corpora/beam/sample/"
-                        "beam_100K_sample.json).")
-    p.add_argument("--corpus", default="longmemeval",
-                   choices=["longmemeval", "locomo", "beam"],
-                   help="Dataset shape. 'longmemeval' (default) = one "
-                        "haystack per question. 'locomo' = one conversation "
-                        "per sample shared by that sample's questions; "
-                        "questions are grouped by sample_id and ingested "
-                        "per sample, and adversarial (cat-5) items are judged "
-                        "abstention-aware. 'beam' = one (very long) "
-                        "conversation per conversation_id shared by its 20 "
-                        "probing questions; grouped + ingested per "
-                        "conversation, graded at a token --bucket, and "
-                        "abstention items judged abstention-aware.")
-    p.add_argument("--bucket", default="100K",
-                   choices=["100K", "500K", "1M", "10M"],
-                   help="BEAM token bucket (only used with --corpus beam). "
-                        "The same conversation at a different bucket is a "
-                        "different retrieval problem, so the bucket is "
-                        "recorded on every record.")
-    p.add_argument("--beam-n-results", type=int, default=5,
-                   help="BEAM per-query retrieval depth (top-K sessions; "
-                        "only used with --corpus beam). Default 5 returns "
-                        "the whole conversation at the 100K bucket (3-5 "
-                        "sessions). At 500K/1M (~10 sessions, >500K/>1M "
-                        "tokens) set this low (2-3) so the retrieved top-K "
-                        "fits the reader window.")
-    p.add_argument("--adapter", required=True,
-                   choices=sorted(_ADAPTER_FACTORIES),
-                   help="SME adapter to run.")
-    p.add_argument("--max-questions", type=int, default=None,
-                   help="Smoke-test cap on number of questions. NOTE: the "
-                        "oracle/S corpora are question_type-sorted, so a bare "
-                        "cap is a single-category slice — pair with "
-                        "--stratify-by or --shuffle (#122). longmemeval only.")
-    p.add_argument("--shuffle", type=int, default=None, metavar="SEED",
-                   help="Deterministically shuffle questions (with SEED) before "
-                        "the --max-questions cap, so the cap is not a single-"
-                        "category slice. longmemeval corpus only.")
-    p.add_argument("--stratify-by", default=None, metavar="FIELD",
-                   help="Stratify the --max-questions cap across this question "
-                        "field (e.g. question_type) — even round-robin per "
-                        "category for representative coverage (#122). Matches the "
-                        "mempalace-daemon strat150 baseline. longmemeval only.")
-    p.add_argument("--reader-model", default="gpt-4o-mini",
-                   help="Model used to turn retrieved context into an "
-                        "answer the judge can score. Default kept as "
-                        "gpt-4o-mini for back-compat with prior runs; "
-                        "the `sme-eval longmemeval` CLI defaults to "
-                        "gpt-4.1-mini per issue #17.")
-    p.add_argument("--judge-model", default="gpt-4o-2024-08-06",
-                   help="LongMemEval judge model.")
-    p.add_argument("--skip-judge", action="store_true",
-                   help="Run SME-only — no reader, no judge, no API key "
-                        "required.")
-    p.add_argument("--skip-reader", action="store_true",
-                   help="Skip the reader pass; feed raw retrieval to the "
-                        "judge (diagnostic mode).")
-    p.add_argument("--out", type=Path, default=None,
-                   help="Where to write the report JSON.")
-    p.add_argument("--work-dir", type=Path, default=None,
-                   help="Where per-question vaults are materialized "
-                        "(default: tmpdir).")
-    p.add_argument("--content-rules", default="sme-rich",
-                   choices=["sme-rich", "upstream-exact"],
-                   help="Session rendering rules. 'sme-rich' (default) = "
-                        "frontmatter + role headers + user + assistant turns. "
-                        "'upstream-exact' = user turns only, no metadata — "
-                        "matches upstream protocol per #54 / #51.")
+    p.add_argument(
+        "--dataset",
+        required=True,
+        type=Path,
+        help="Path to the dataset JSON. For --corpus longmemeval: "
+        "longmemeval_oracle.json (or _s / _m). For --corpus "
+        "locomo: locomo10.json. For --corpus beam: a cached "
+        "per-bucket BEAM split (e.g. beam_100K.json) or the "
+        "committed sample (sme/corpora/beam/sample/"
+        "beam_100K_sample.json).",
+    )
+    p.add_argument(
+        "--corpus",
+        default="longmemeval",
+        choices=["longmemeval", "locomo", "beam"],
+        help="Dataset shape. 'longmemeval' (default) = one "
+        "haystack per question. 'locomo' = one conversation "
+        "per sample shared by that sample's questions; "
+        "questions are grouped by sample_id and ingested "
+        "per sample, and adversarial (cat-5) items are judged "
+        "abstention-aware. 'beam' = one (very long) "
+        "conversation per conversation_id shared by its 20 "
+        "probing questions; grouped + ingested per "
+        "conversation, graded at a token --bucket, and "
+        "abstention items judged abstention-aware.",
+    )
+    p.add_argument(
+        "--bucket",
+        default="100K",
+        choices=["100K", "500K", "1M", "10M"],
+        help="BEAM token bucket (only used with --corpus beam). "
+        "The same conversation at a different bucket is a "
+        "different retrieval problem, so the bucket is "
+        "recorded on every record.",
+    )
+    p.add_argument(
+        "--beam-n-results",
+        type=int,
+        default=5,
+        help="BEAM per-query retrieval depth (top-K sessions; "
+        "only used with --corpus beam). Default 5 returns "
+        "the whole conversation at the 100K bucket (3-5 "
+        "sessions). At 500K/1M (~10 sessions, >500K/>1M "
+        "tokens) set this low (2-3) so the retrieved top-K "
+        "fits the reader window.",
+    )
+    p.add_argument(
+        "--adapter", required=True, choices=sorted(_ADAPTER_FACTORIES), help="SME adapter to run."
+    )
+    p.add_argument(
+        "--max-questions",
+        type=int,
+        default=None,
+        help="Smoke-test cap on number of questions. NOTE: the "
+        "oracle/S corpora are question_type-sorted, so a bare "
+        "cap is a single-category slice — pair with "
+        "--stratify-by or --shuffle (#122). longmemeval only.",
+    )
+    p.add_argument(
+        "--shuffle",
+        type=int,
+        default=None,
+        metavar="SEED",
+        help="Deterministically shuffle questions (with SEED) before "
+        "the --max-questions cap, so the cap is not a single-"
+        "category slice. longmemeval corpus only.",
+    )
+    p.add_argument(
+        "--stratify-by",
+        default=None,
+        metavar="FIELD",
+        help="Stratify the --max-questions cap across this question "
+        "field (e.g. question_type) — even round-robin per "
+        "category for representative coverage (#122). Matches the "
+        "mempalace-daemon strat150 baseline. longmemeval only.",
+    )
+    p.add_argument(
+        "--reader-model",
+        default="gpt-4o-mini",
+        help="Model used to turn retrieved context into an "
+        "answer the judge can score. Default kept as "
+        "gpt-4o-mini for back-compat with prior runs; "
+        "the `sme-eval longmemeval` CLI defaults to "
+        "gpt-4.1-mini per issue #17.",
+    )
+    p.add_argument("--judge-model", default="gpt-4o-2024-08-06", help="LongMemEval judge model.")
+    p.add_argument(
+        "--skip-judge",
+        action="store_true",
+        help="Run SME-only — no reader, no judge, no API key required.",
+    )
+    p.add_argument(
+        "--skip-reader",
+        action="store_true",
+        help="Skip the reader pass; feed raw retrieval to the judge (diagnostic mode).",
+    )
+    p.add_argument("--out", type=Path, default=None, help="Where to write the report JSON.")
+    p.add_argument(
+        "--work-dir",
+        type=Path,
+        default=None,
+        help="Where per-question vaults are materialized (default: tmpdir).",
+    )
+    p.add_argument(
+        "--content-rules",
+        default="sme-rich",
+        choices=["sme-rich", "upstream-exact"],
+        help="Session rendering rules. 'sme-rich' (default) = "
+        "frontmatter + role headers + user + assistant turns. "
+        "'upstream-exact' = user turns only, no metadata — "
+        "matches upstream protocol per #54 / #51.",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     return p
 
 
-def run(args: argparse.Namespace,
-        *,
-        reader_client: Optional[Any] = None,
-        judge_client: Optional[Any] = None) -> dict:
+def run(
+    args: argparse.Namespace,
+    *,
+    reader_client: Optional[Any] = None,
+    judge_client: Optional[Any] = None,
+) -> dict:
     """Programmatic entry point — used by tests."""
     factory = _ADAPTER_FACTORIES[args.adapter]
 
@@ -1125,6 +1216,7 @@ def run(args: argparse.Namespace,
     try:
         if corpus == "locomo":
             from sme.corpora.locomo import load_questions as load_locomo
+
             records = run_locomo_questions(
                 list(load_locomo(args.dataset)),
                 adapter_factory=factory,
@@ -1139,6 +1231,7 @@ def run(args: argparse.Namespace,
             )
         elif corpus == "beam":
             from sme.corpora.beam import load_questions as load_beam
+
             bucket = getattr(args, "bucket", "100K")
             records = run_beam_questions(
                 list(load_beam(args.dataset, bucket=bucket)),
@@ -1165,18 +1258,20 @@ def run(args: argparse.Namespace,
             stratify_by = getattr(args, "stratify_by", None)
             if shuffle_seed is not None:
                 import random
+
                 random.Random(shuffle_seed).shuffle(questions)
             if args.max_questions is not None:
                 if stratify_by:
-                    questions = _stratified_cap(
-                        questions, args.max_questions, stratify_by
-                    )
+                    questions = _stratified_cap(questions, args.max_questions, stratify_by)
                 else:
                     questions = questions[: args.max_questions]
             for i, q in enumerate(questions):
                 log.info(
                     "[%d] %s (%s / %s)",
-                    i, q.question_id, q.question_type, q.sme_category,
+                    i,
+                    q.question_id,
+                    q.question_type,
+                    q.sme_category,
                 )
                 rec = run_one_question(
                     q,
@@ -1201,11 +1296,9 @@ def run(args: argparse.Namespace,
             "dataset": str(args.dataset),
             "corpus": corpus,
             "bucket": (getattr(args, "bucket", None) if corpus == "beam" else None),
-            "beam_n_results": (getattr(args, "beam_n_results", 5)
-                               if corpus == "beam" else None),
+            "beam_n_results": (getattr(args, "beam_n_results", 5) if corpus == "beam" else None),
             "adapter": args.adapter,
-            "reader_model": (None if args.skip_reader or args.skip_judge
-                             else args.reader_model),
+            "reader_model": (None if args.skip_reader or args.skip_judge else args.reader_model),
             "judge_model": (None if args.skip_judge else args.judge_model),
             "skip_judge": bool(args.skip_judge),
             "skip_reader": bool(args.skip_reader),

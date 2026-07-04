@@ -186,7 +186,8 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         loader=_mempalace_server_loader,
         accepts=frozenset({
             "api_url", "api_key", "tenant", "wing", "room", "n_results",
-            "max_distance", "api_timeout", "reset_before_ingest", "read_only",
+            "max_distance", "api_timeout", "reset_before_ingest",
+            "kg_entity_limit", "read_only",
         }),
     ),
     _AdapterSpec(

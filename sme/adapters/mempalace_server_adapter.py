@@ -58,6 +58,7 @@ from sme.adapters.base import (
     ProbeResult,
     QueryResult,
     SMEAdapter,
+    annotate_superseded_edges,
 )
 
 log = logging.getLogger(__name__)
@@ -68,6 +69,8 @@ DEFAULT_TENANT = "default"
 DEFAULT_WING = "sme"
 DEFAULT_TIMEOUT = 60.0
 REST_BASE = "/mp/api/v1"
+MCP_ENDPOINT = "/mp/mcp"  # stateless JSON-RPC (no initialize/session needed)
+DEFAULT_KG_ENTITY_LIMIT = 100  # server caps kg_search_entities at 100
 _LIST_PAGE = 100  # server clamps list limit to <=100
 _RESET_MAX_PAGES = 100_000  # safety cap so a stuck delete can't spin forever
 
@@ -115,6 +118,7 @@ class MemPalaceServerAdapter(SMEAdapter):
         max_distance: Optional[float] = None,
         api_timeout: float = DEFAULT_TIMEOUT,
         reset_before_ingest: bool = True,
+        kg_entity_limit: int = DEFAULT_KG_ENTITY_LIMIT,
         read_only: bool = False,
     ) -> None:
         resolved_url = (
@@ -141,6 +145,12 @@ class MemPalaceServerAdapter(SMEAdapter):
         self.max_distance = max_distance
         self.api_timeout = api_timeout
         self.reset_before_ingest = reset_before_ingest
+        self.kg_entity_limit = kg_entity_limit
+        # Which substrate the last get_graph_snapshot returned: "kg" (real
+        # AGE entity graph), "taxonomy" (wing/room scaffold fallback),
+        # "empty", or "unknown" (not yet called). Surfaced in the harness
+        # manifest so a run's structural basis is attributable.
+        self._graph_basis = "unknown"
 
     # --- SMEAdapter required methods ----------------------------------
 
@@ -312,19 +322,130 @@ class MemPalaceServerAdapter(SMEAdapter):
         )
 
     def get_graph_snapshot(self) -> tuple[list[Entity], list[Edge]]:
-        """Project the server's wing→room taxonomy into a structural graph.
+        """Return the server's real knowledge graph, falling back to the
+        wing/room taxonomy scaffold.
 
-        ``GET /mp/api/v1/taxonomy`` returns ``{wing: {room: count}}``; that
-        is reshaped into the daemon ``/graph`` payload shape and handed to
-        the shared ``project_graph`` so the wing / room / ``member_of``
-        projection is identical to the daemon and familiar adapters. The
-        entity-graph (AGE) layer is not walked here — like the daemon
-        adapter's MCP path, KG entities aren't listable without a seed
-        query — so this is the structural scaffold, honestly labelled.
+        Primary basis is the **AGE entity graph** (entities + typed
+        relations), enumerated over MCP — the honest analog of an emergent
+        graph and comparable to other adapters' KG snapshots. When that
+        graph is empty or unavailable (older server / AGE not installed),
+        the wing/room ``/taxonomy`` projection is used instead so the
+        structural categories still have a substrate. ``self._graph_basis``
+        records which was returned (``kg`` / ``taxonomy`` / ``empty``) and
+        is surfaced in the harness manifest for run attribution.
 
-        Returns ``([], [])`` on any transport error (a missing snapshot
-        zeroes structural-category scores rather than raising).
+        Note: the Go server performs NO automatic entity extraction from
+        drawer content — its KG is populated only by explicit
+        ``kg_add_entity`` / ``kg_add_relation`` calls. So a drawer-only
+        ingest yields an empty KG here (→ taxonomy basis); a populated KG
+        is read faithfully.
+
+        Never raises — returns ``([], [])`` if both bases are unavailable.
         """
+        kg = self._kg_snapshot_via_mcp()
+        if kg is not None and kg[0]:
+            self._graph_basis = "kg"
+            return kg
+        tax = self._taxonomy_snapshot()
+        self._graph_basis = "taxonomy" if tax[0] else "empty"
+        return tax
+
+    def _kg_snapshot_via_mcp(self) -> Optional[tuple[list[Entity], list[Edge]]]:
+        """Enumerate the AGE entity graph over MCP → ``(entities, edges)``.
+
+        ``kg_search_entities`` with an empty query lists all entities (the
+        server's Cypher does ``name CONTAINS ''`` → matches everything, cap
+        ``kg_entity_limit`` ≤ 100); ``kg_get_entity`` per entity yields its
+        in/out relations, deduplicated across endpoints. Returns ``None``
+        when the KG layer is unavailable (AGE not installed / transport
+        error) so the caller falls back, or ``([], [])`` when the graph is
+        reachable but empty.
+        """
+        search = self._mcp_call(
+            "mempalace_kg_search_entities",
+            {"query": "", "limit": self.kg_entity_limit},
+        )
+        if search is None:
+            return None  # AGE unavailable / transport error → caller falls back
+        ent_list = search.get("entities") if isinstance(search, dict) else None
+        if not ent_list:
+            return [], []  # reachable but empty
+
+        entities: list[Entity] = []
+        present: set[str] = set()
+        names: list[str] = []
+        for e in ent_list:
+            if not isinstance(e, dict):
+                continue
+            name = e.get("name")
+            if not name:
+                continue
+            nid = f"kg:{name}"
+            if nid in present:
+                continue
+            present.add(nid)
+            names.append(name)
+            entities.append(
+                Entity(
+                    id=nid,
+                    name=str(name),
+                    entity_type=f"kg:{e.get('entity_type') or 'entity'}",
+                    properties={
+                        "_table": "kg_entity",
+                        "description": e.get("description"),
+                    },
+                )
+            )
+
+        edges: list[Edge] = []
+        seen: set[tuple] = set()
+        for name in names:
+            got = self._mcp_call("mempalace_kg_get_entity", {"name": name})
+            if not isinstance(got, dict):
+                continue
+            for r in got.get("relations") or []:
+                if not isinstance(r, dict):
+                    continue
+                frm, to, rtype = r.get("from"), r.get("to"), r.get("type")
+                if not frm or not to:
+                    continue
+                key = (frm, rtype, to)
+                if key in seen:
+                    continue
+                seen.add(key)
+                edges.append(
+                    Edge(
+                        source_id=f"kg:{frm}",
+                        target_id=f"kg:{to}",
+                        edge_type=rtype or "related",
+                        properties={"_table": "kg_relation"},
+                    )
+                )
+
+        # Internal consistency: a relation may reference an entity beyond the
+        # enumerated cap — synthesize a minimal node so every edge endpoint
+        # resolves (mirrors _graph_mapping's kg_only endpoint synthesis).
+        for e in edges:
+            for endpoint in (e.source_id, e.target_id):
+                if endpoint not in present:
+                    present.add(endpoint)
+                    entities.append(
+                        Entity(
+                            id=endpoint,
+                            name=endpoint.split("kg:", 1)[-1],
+                            entity_type="kg:entity",
+                            properties={"_table": "kg_entity", "_endpoint_only": True},
+                        )
+                    )
+        # Cat 6 plumbing parity with project_graph: stamp _superseded_by on
+        # edges from a superseded entity (derived from supersedes-typed edges).
+        annotate_superseded_edges(edges)
+        return entities, edges
+
+    def _taxonomy_snapshot(self) -> tuple[list[Entity], list[Edge]]:
+        """Wing/room structural scaffold from ``GET /mp/api/v1/taxonomy``,
+        projected via the shared ``project_graph`` (identical to the daemon
+        and familiar adapters). ``([], [])`` on transport error."""
         body = self._http("GET", f"{REST_BASE}/taxonomy")
         if isinstance(body, QueryResult) or not isinstance(body, dict):
             return [], []
@@ -449,9 +570,12 @@ class MemPalaceServerAdapter(SMEAdapter):
                 probe_fn=self._probe_mcp_health,
                 description="MCP-over-HTTP endpoint (JSON-RPC tools/call).",
                 properties={
-                    "endpoint": f"{self.api_url}/mp/mcp",
+                    "endpoint": f"{self.api_url}{MCP_ENDPOINT}",
                     "transport": "streamable-http",
                     "health": f"{self.api_url}/mp/mcp/health",
+                    # Structural basis the last get_graph_snapshot used
+                    # (kg / taxonomy / empty / unknown) — run attribution.
+                    "graph_basis": self._graph_basis,
                 },
             ),
             HarnessDescriptor(
@@ -523,6 +647,41 @@ class MemPalaceServerAdapter(SMEAdapter):
             return QueryResult(
                 answer="", context_string="", error=f"INTERNAL: {e}"
             )
+
+    def _mcp_call(self, tool: str, arguments: dict) -> Optional[dict]:
+        """Call an MCP tool via ``POST /mp/mcp`` (stateless JSON-RPC — no
+        initialize/session needed) and return the parsed JSON object from
+        ``result.content[0].text``.
+
+        Returns ``None`` on any failure (transport error, JSON-RPC error —
+        e.g. AGE not installed, missing/blank content, bad JSON) so callers
+        can treat "KG unavailable" uniformly and fall back.
+        """
+        envelope = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {"name": tool, "arguments": arguments},
+        }
+        body = self._http("POST", MCP_ENDPOINT, envelope)
+        if isinstance(body, QueryResult) or not isinstance(body, dict):
+            return None
+        if body.get("error"):
+            return None
+        result = body.get("result")
+        if not isinstance(result, dict):
+            return None
+        content = result.get("content") or []
+        if not content or not isinstance(content[0], dict):
+            return None
+        text = content[0].get("text", "")
+        if not text:
+            return {}
+        try:
+            parsed = json.loads(text)
+        except (ValueError, TypeError):
+            return None
+        return parsed if isinstance(parsed, dict) else None
 
     def close(self) -> None:
         """Stateless HTTP client — nothing to release."""

@@ -245,6 +245,13 @@ class QueryResult:
     # If query() fails, set this instead of raising. SME distinguishes
     # "errored" from "answered wrong" in the scorecard.
     error: Optional[str] = None
+    # --- Efficiency / overlay fields (added 2026-06) ------------------
+    # Wall-clock latency measured by the harness layer (ms).
+    # Adapters may populate this; the harness overwrites it.
+    latency_ms: float = 0.0
+    # Number of interaction turns the adapter took to produce this result.
+    # Single-turn adapters default to 1; multi-turn retrieval increments.
+    interaction_turns: int = 1
 
 
 class SMEAdapter(ABC):

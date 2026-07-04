@@ -1,0 +1,233 @@
+{
+  "8a_type_coverage": {
+    "score": 0.3333333333333333,
+    "declared": [
+      "closet",
+      "drawer",
+      "hall",
+      "room",
+      "tunnel",
+      "wing"
+    ],
+    "found": [
+      "room",
+      "wing"
+    ],
+    "missing": [
+      "closet",
+      "drawer",
+      "hall",
+      "tunnel"
+    ],
+    "undeclared": []
+  },
+  "8b_edge_vocabulary": {
+    "score": 0.3333333333333333,
+    "declared": [
+      "hall",
+      "member_of",
+      "tunnel"
+    ],
+    "found": [
+      "member_of"
+    ],
+    "missing": [
+      "hall",
+      "tunnel"
+    ],
+    "undeclared": []
+  },
+  "8c_schema_alignment": {
+    "entity_type_distribution": {
+      "wing": 2,
+      "room:untyped": 1
+    },
+    "edge_type_distribution": {
+      "member_of": 1
+    },
+    "edge_type_entropy_bits": 0.0,
+    "entity_type_concentration": {
+      "top_type": "wing",
+      "count": 2,
+      "total": 3,
+      "fraction": 0.6666666666666666
+    },
+    "warning": null
+  },
+  "8d_drift": {
+    "score": 0.6666666666666666,
+    "declared": [
+      "closet",
+      "drawer",
+      "hall",
+      "member_of",
+      "room",
+      "tunnel",
+      "wing"
+    ],
+    "effective": [
+      "member_of",
+      "room:untyped",
+      "wing"
+    ],
+    "hall_usage": {
+      "total_drawers": 0,
+      "populated_count": 0,
+      "fraction_populated": 0.0,
+      "declared_vocabulary": [
+        "facts",
+        "events",
+        "discoveries",
+        "preferences",
+        "advice"
+      ],
+      "distribution": {},
+      "in_vocabulary_fraction": 0.0
+    }
+  },
+  "8e_claims": {
+    "pass_rate": 0.0,
+    "tested": 4,
+    "passed": 0,
+    "untestable": 5,
+    "detail": [
+      {
+        "id": "hierarchical_organization",
+        "text": "memories organized hierarchically into wings > halls > rooms > drawers",
+        "status": "fail",
+        "definition": "1. Compute Louvain modularity on full graph.\n2. Fit power-law to degree distribution via powerlaw package.\n3. KS test: p < 0.05 confirms power-law fit.\nPass if modularity > 0.5 AND power-law confirmed.",
+        "metrics": {
+          "graph": "kg",
+          "modularity": 0.0,
+          "powerlaw_note": "powerlaw package not installed; modularity checked alone"
+        },
+        "notes": "modularity=0.000 (threshold 0.5) [graph=kg requested but no KG snapshot supplied; scored over structural projection]"
+      },
+      {
+        "id": "cross_wing_tunnels",
+        "text": "tunnels connect rooms from different wings",
+        "status": "fail",
+        "definition": "1. Run Louvain community detection.\n2. Count edges where source and target are in different communities.\n3. Compute density = inter_community_edges / total_edges.\nPass if density > 0.",
+        "metrics": {
+          "graph": "structural",
+          "inter_community_edges": 0,
+          "inter_community_density": 0.0
+        },
+        "notes": "0 inter-community edges (0.0%)"
+      },
+      {
+        "id": "partitioned_by_type",
+        "text": "entities are partitioned by type into wings (people and projects)",
+        "status": "fail",
+        "definition": "1. Run Louvain community detection.\n2. For each community, find the most common entity_type.\n3. Compute homogeneity = count(most_common_type) / community_size.\n4. Average across communities (weighted by size).\nPass if average homogeneity > 0.9.",
+        "metrics": {
+          "graph": "structural",
+          "type_homogeneity": 0.6666666666666666
+        },
+        "notes": "weighted homogeneity 66.7% (threshold 90%)"
+      },
+      {
+        "id": "kg_relation_typed_not_other_sink",
+        "text": "knowledge-graph edges carry typed canonical relations, not a generic catch-all",
+        "status": "untestable",
+        "definition": "no library pattern matched",
+        "metrics": {},
+        "notes": ""
+      },
+      {
+        "id": "wing_filtering_improves_retrieval",
+        "text": "wing and room filtering improves retrieval by 34%",
+        "status": "skipped",
+        "definition": "Defer to Category 7 results.\nPass if Condition B (graph) pairwise win rate > 55% vs Condition A (flat).",
+        "metrics": {},
+        "notes": "no Cat 7 data available \u2014 pass --cat7-results"
+      },
+      {
+        "id": "wing_filtering_is_not_a_moat",
+        "text": "metadata filtering is a standard ChromaDB feature, not a novel retrieval mechanism",
+        "status": "skipped",
+        "definition": "Passes if the structural condition (B) performs within \u00b110pp\nof the flat baseline (A) on retrieval recall. The retraction\nis saying \"this isn't a moat\" \u2014 so \"near flat\" is correct.\nA large positive delta would mean the retraction is wrong\n(filtering IS a moat). A large negative delta would mean\nthe retraction is *also* wrong but in the other direction\n(filtering is actively harmful, not just non-moat).",
+        "metrics": {},
+        "notes": "no Cat 7 data passed"
+      },
+      {
+        "id": "wing_plus_room_34pct",
+        "text": "wing + room filtering yields 94.8% R@10 (+34%)",
+        "status": "untestable",
+        "definition": "no library pattern matched",
+        "metrics": {},
+        "notes": ""
+      },
+      {
+        "id": "wing_plus_hall_24pct",
+        "text": "wing + hall filtering yields 84.8% R@10 (+24%)",
+        "status": "untestable",
+        "definition": "no library pattern matched",
+        "metrics": {},
+        "notes": ""
+      },
+      {
+        "id": "five_standard_halls",
+        "text": "drawers are tagged with one of 5 standard hall types",
+        "status": "fail",
+        "definition": "fraction of drawers with non-empty hall >= 0.5",
+        "metrics": {
+          "total_drawers": 0,
+          "populated_count": 0,
+          "fraction_populated": 0.0,
+          "declared_vocabulary": [
+            "facts",
+            "events",
+            "discoveries",
+            "preferences",
+            "advice"
+          ],
+          "distribution": {},
+          "in_vocabulary_fraction": 0.0
+        },
+        "notes": "0/0 drawers have hall set (0.0%)"
+      },
+      {
+        "id": "closets_summarize_drawers",
+        "text": "closets are summaries pointing back to the original drawers",
+        "status": "untestable",
+        "definition": "vocabulary existence claim \u2014 no structural operationalization",
+        "metrics": {},
+        "notes": ""
+      },
+      {
+        "id": "closets_achieve_96pct_recall",
+        "text": "closets achieve 96.6% recall in benchmarks",
+        "status": "untestable",
+        "definition": "vocabulary existence claim \u2014 no structural operationalization",
+        "metrics": {},
+        "notes": ""
+      }
+    ]
+  },
+  "introspection": {
+    "available": [],
+    "score": 0.0
+  },
+  "remediations": [
+    {
+      "finding": "Type coverage 33% \u2014 declared entity types absent from the graph: closet, drawer, hall, tunnel.",
+      "fix": "Either the extractor never produces these types (fix the extraction prompt / type mapping) or they were dropped from the ontology and the declaration is stale (remove them from the implied-ontology YAML).",
+      "reverify": "Re-run `sme-eval ontology`; expect 8a type_coverage \u2192 1.0 with an empty types_missing list.",
+      "band": "warning"
+    },
+    {
+      "finding": "Edge-vocabulary coverage 33% \u2014 declared edge types never emitted: hall, tunnel.",
+      "fix": "A declared edge type with zero instances is a dead extraction rule \u2014 check the ingestion rule that should emit it (is the trigger pattern firing? is it being collapsed into a generic 'other' relation?), or retire the claim.",
+      "reverify": "Re-run `sme-eval ontology`; expect 8b edge_vocabulary_coverage to rise and edges_missing to shrink.",
+      "band": "warning"
+    },
+    {
+      "finding": "Ontology drift 67% \u2014 that fraction of the declared vocabulary isn't in use.",
+      "fix": "Reconcile the declaration to reality: drop names the graph never produces, OR fix the extractor to produce them. Drift is the README promising structure the graph doesn't deliver.",
+      "reverify": "Re-run `sme-eval ontology`; expect 8d drift_score to fall below 10%.",
+      "band": "warning"
+    }
+  ],
+  "full_graph_stats": null
+}

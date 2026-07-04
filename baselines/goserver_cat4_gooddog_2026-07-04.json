@@ -1,0 +1,22 @@
+{
+  "adapter": "mempalace-server",
+  "source": "http://localhost:8000",
+  "entities": 3,
+  "edges": 1,
+  "unique_canonical_keys": 3,
+  "canonical_collisions": 0,
+  "collision_groups": [],
+  "required_field_gaps": 0,
+  "required_field_coverage": 1.0,
+  "gap_examples": [],
+  "edge_type_counts": {
+    "member_of": 1
+  },
+  "edge_type_entropy_bits": 0.0,
+  "edge_type_entropy_normalized": 0.0,
+  "dominant_edge_type": "member_of",
+  "dominant_edge_type_fraction": 1.0,
+  "per_edge_type_components": {
+    "member_of": 2
+  }
+}

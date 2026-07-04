@@ -35,6 +35,10 @@ def test_query_returns_n_results_items() -> None:
     for ent in result.retrieved_entities:
         assert ent.name.startswith("file_")
         assert ent.entity_type == "random_selection"
+        # Entity IDs track the corpus item's intrinsic id, not a loop
+        # index, so per-ID downstream analysis (Cat 4/Cat 5) can map a
+        # returned entity back to the source corpus item.
+        assert ent.id.startswith("random:item_")
     # Context string is non-empty and contains source labels.
     assert result.context_string
     assert "[1]" in result.context_string

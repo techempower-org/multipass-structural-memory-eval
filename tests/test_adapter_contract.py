@@ -135,11 +135,27 @@ def _full_context_factory(tmp_path: Path) -> SMEAdapter:
     return FullContextAdapter(vault)
 
 
+def _random_retrieval_factory(tmp_path: Path) -> SMEAdapter:
+    """RandomRetrievalAdapter (TREC lower bound) — pure in-memory, no env."""
+    from sme.adapters.random_retrieval import RandomRetrievalAdapter
+
+    return RandomRetrievalAdapter()
+
+
+def _oracle_retrieval_factory(tmp_path: Path) -> SMEAdapter:
+    """OracleRetrievalAdapter (TREC upper bound) — pure in-memory, no env."""
+    from sme.adapters.oracle_retrieval import OracleRetrievalAdapter
+
+    return OracleRetrievalAdapter()
+
+
 # Register adapters here. Keep IDs stable — they show in pytest output.
 ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "mock": _mock_factory,
     "flat_baseline": _flat_baseline_factory,
     "full_context": _full_context_factory,
+    "random_retrieval": _random_retrieval_factory,
+    "oracle_retrieval": _oracle_retrieval_factory,
 }
 
 
@@ -169,6 +185,11 @@ def test_query_returns_QueryResult(adapter: SMEAdapter) -> None:
     assert isinstance(result.answer, str)
     # ``error`` is Optional[str]; type, not presence.
     assert result.error is None or isinstance(result.error, str)
+    # Overlay fields (2026-06) — safe defaults, backward compatible
+    assert isinstance(result.latency_ms, (int, float))
+    assert result.latency_ms >= 0
+    assert isinstance(result.interaction_turns, int)
+    assert result.interaction_turns >= 1
 
 
 def test_query_without_n_results_kwarg(adapter: SMEAdapter) -> None:

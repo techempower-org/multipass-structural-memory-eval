@@ -45,8 +45,7 @@ def _adapter(**over):
 
 
 def test_default_construction_uses_docker_compose_defaults(monkeypatch):
-    for var in ("MEMPALACE_SERVER_URL", "MEMPALACE_SERVER_API_KEY",
-                "MEMPALACE_SERVER_TENANT"):
+    for var in ("MEMPALACE_SERVER_URL", "MEMPALACE_SERVER_API_KEY", "MEMPALACE_SERVER_TENANT"):
         monkeypatch.delenv(var, raising=False)
     a = MemPalaceServerAdapter()
     assert a.api_url == "http://localhost:8000"
@@ -92,15 +91,24 @@ def test_ingest_maps_fields_and_counts(fake_urlopen_factory):
     fake_urlopen_factory({f"POST {BASE}/mp/api/v1/drawers": add_route})
     a = _adapter(wing="fallback-wing")
     result = a.ingest_corpus(
-        [{"id": "doc-1", "text": "hello world", "wing": "projects",
-          "room": "decisions", "source_file": "d1.md"}]
+        [
+            {
+                "id": "doc-1",
+                "text": "hello world",
+                "wing": "projects",
+                "room": "decisions",
+                "source_file": "d1.md",
+            }
+        ]
     )
     assert result["entities_created"] == 1
     assert result["edges_created"] == 0
     assert result["errors"] == []
     assert captured["body"] == {
-        "wing": "projects", "room": "decisions",
-        "content": "hello world", "source_file": "d1.md",
+        "wing": "projects",
+        "room": "decisions",
+        "content": "hello world",
+        "source_file": "d1.md",
         "added_by": "sme",
     }
     assert captured["auth"] == "Bearer test-key"
@@ -115,13 +123,17 @@ def test_ingest_content_field_precedence(fake_urlopen_factory):
 
     fake_urlopen_factory({f"POST {BASE}/mp/api/v1/drawers": add_route})
     a = _adapter()
-    a.ingest_corpus([
-        {"id": "1", "document": "from-document", "content": "c", "text": "t"},
-        {"id": "2", "content": "from-content", "text": "t"},
-        {"id": "3", "text": "from-text"},
-    ])
+    a.ingest_corpus(
+        [
+            {"id": "1", "document": "from-document", "content": "c", "text": "t"},
+            {"id": "2", "content": "from-content", "text": "t"},
+            {"id": "3", "text": "from-text"},
+        ]
+    )
     assert [b["content"] for b in bodies] == [
-        "from-document", "from-content", "from-text",
+        "from-document",
+        "from-content",
+        "from-text",
     ]
 
 
@@ -134,29 +146,42 @@ def test_ingest_room_falls_back_to_session_then_id(fake_urlopen_factory):
 
     fake_urlopen_factory({f"POST {BASE}/mp/api/v1/drawers": add_route})
     a = _adapter(wing="w", room=None)
-    a.ingest_corpus([
-        {"id": "id-1", "text": "a", "session_id": "sess-9"},  # session wins
-        {"id": "id-2", "text": "b"},                          # id used
-    ])
+    a.ingest_corpus(
+        [
+            {"id": "id-1", "text": "a", "session_id": "sess-9"},  # session wins
+            {"id": "id-2", "text": "b"},  # id used
+        ]
+    )
     assert [b["room"] for b in bodies] == ["sess-9", "id-2"]
 
 
 def test_ingest_counts_bullets(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/drawers":
-            {"success": True, "bullets_stored": 3, "bullets_total": 3,
-             "wing": "w", "room": "r"},
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/drawers": {
+                "success": True,
+                "bullets_stored": 3,
+                "bullets_total": 3,
+                "wing": "w",
+                "room": "r",
+            },
+        }
+    )
     a = _adapter()
     result = a.ingest_corpus([{"id": "1", "text": "- a\n- b\n- c"}])
     assert result["entities_created"] == 3
 
 
 def test_ingest_already_exists_counts_zero(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/drawers":
-            {"success": True, "reason": "already_exists", "drawer_id": "abc"},
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/drawers": {
+                "success": True,
+                "reason": "already_exists",
+                "drawer_id": "abc",
+            },
+        }
+    )
     a = _adapter()
     result = a.ingest_corpus([{"id": "1", "text": "dup"}])
     assert result["entities_created"] == 0
@@ -171,9 +196,7 @@ def test_ingest_skips_blank_content(fake_urlopen_factory):
 
 
 def test_ingest_http_error_captured_not_raised(fake_urlopen_factory):
-    err = urllib.error.HTTPError(
-        f"{BASE}/mp/api/v1/drawers", 500, "Server Error", {}, None
-    )
+    err = urllib.error.HTTPError(f"{BASE}/mp/api/v1/drawers", 500, "Server Error", {}, None)
     fake_urlopen_factory({f"POST {BASE}/mp/api/v1/drawers": err})
     a = _adapter()
     result = a.ingest_corpus([{"id": "1", "text": "boom"}])
@@ -198,11 +221,13 @@ def test_ingest_resets_wing_first_when_enabled(fake_urlopen_factory):
         seq.append(("add", req.full_url))
         return {"success": True, "drawer_id": "new"}
 
-    fake_urlopen_factory({
-        f"GET {BASE}/mp/api/v1/drawers": list_route,
-        f"DELETE {BASE}/mp/api/v1/drawers/old1": del_route,
-        f"POST {BASE}/mp/api/v1/drawers": add_route,
-    })
+    fake_urlopen_factory(
+        {
+            f"GET {BASE}/mp/api/v1/drawers": list_route,
+            f"DELETE {BASE}/mp/api/v1/drawers/old1": del_route,
+            f"POST {BASE}/mp/api/v1/drawers": add_route,
+        }
+    )
     a = _adapter(wing="scoped", reset_before_ingest=True)
     result = a.ingest_corpus([{"id": "1", "text": "fresh"}])
     kinds = [k for k, _ in seq]
@@ -221,23 +246,36 @@ def _search_body(results):
 
 
 def test_query_happy_path(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/search": _search_body([
-            {
-                "drawer_id": "d-1", "wing": "projects", "room": "decisions",
-                "similarity": 0.87, "distance": 0.13, "content": "We use JWT.",
-                "filed_at": "2026-07-03T00:00:00Z", "source_file": "auth.md",
-                "metadata": {"wing": "projects", "room": "decisions"},
-            },
-        ]),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/search": _search_body(
+                [
+                    {
+                        "drawer_id": "d-1",
+                        "wing": "projects",
+                        "room": "decisions",
+                        "similarity": 0.87,
+                        "distance": 0.13,
+                        "content": "We use JWT.",
+                        "filed_at": "2026-07-03T00:00:00Z",
+                        "source_file": "auth.md",
+                        "metadata": {"wing": "projects", "room": "decisions"},
+                    },
+                ]
+            ),
+        }
+    )
     a = _adapter()
     r = a.query("auth?", n_results=3)
     assert r.error is None
     assert "We use JWT." in r.context_string
     assert len(r.retrieved_entities) == 1
     e = r.retrieved_entities[0]
-    assert e.id == "d-1"
+    # Retrieval scorers match Entity.id against corpus/session ids, which
+    # ingest stores in source_file — so the id is the source stem, with the
+    # server's content-hash drawer id kept in properties for provenance.
+    assert e.id == "auth"
+    assert e.properties["drawer_id"] == "d-1"
     assert e.properties["wing"] == "projects"
     assert e.properties["room"] == "decisions"
     assert e.properties["similarity"] == 0.87
@@ -248,18 +286,22 @@ def test_query_happy_path(fake_urlopen_factory):
 
 
 def test_query_without_n_results_kwarg(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/search": _search_body([]),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/search": _search_body([]),
+        }
+    )
     a = _adapter()
     r = a.query("anything")
     assert isinstance(r, QueryResult)
 
 
 def test_query_no_results_sets_error(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/search": _search_body([]),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/search": _search_body([]),
+        }
+    )
     a = _adapter()
     r = a.query("nothing here")
     assert r.context_string == ""
@@ -311,9 +353,7 @@ def test_query_max_distance_included_when_set(fake_urlopen_factory):
 
 
 def test_query_auth_error_no_raise(fake_urlopen_factory):
-    err = urllib.error.HTTPError(
-        f"{BASE}/mp/api/v1/search", 401, "Unauthorized", {}, None
-    )
+    err = urllib.error.HTTPError(f"{BASE}/mp/api/v1/search", 401, "Unauthorized", {}, None)
     fake_urlopen_factory({f"POST {BASE}/mp/api/v1/search": err})
     a = _adapter()
     r = a.query("q")
@@ -322,10 +362,11 @@ def test_query_auth_error_no_raise(fake_urlopen_factory):
 
 
 def test_query_connection_error_no_raise(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/search":
-            urllib.error.URLError("Connection refused"),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/search": urllib.error.URLError("Connection refused"),
+        }
+    )
     a = _adapter()
     r = a.query("q")
     assert r.error and r.error.startswith("CONNECTION:")
@@ -345,36 +386,39 @@ def _mcp_route(entities=None, relations_by_entity=None, error=None):
         env = json.loads(req.data.decode())
         rid = env.get("id")
         if error is not None:
-            return {"jsonrpc": "2.0", "id": rid,
-                    "error": {"code": -32603, "message": error}}
+            return {"jsonrpc": "2.0", "id": rid, "error": {"code": -32603, "message": error}}
         name = env["params"]["name"]
         args = env["params"].get("arguments", {})
         if name == "mempalace_kg_search_entities":
             payload = {"entities": entities, "count": len(entities)}
         elif name == "mempalace_kg_get_entity":
             ename = args.get("name")
-            payload = {"entity": {"name": ename},
-                       "relations": relations_by_entity.get(ename, [])}
+            payload = {"entity": {"name": ename}, "relations": relations_by_entity.get(ename, [])}
         else:
             payload = {"ok": True}
-        return {"jsonrpc": "2.0", "id": rid,
-                "result": {"content": [{"type": "text", "text": json.dumps(payload)}]}}
+        return {
+            "jsonrpc": "2.0",
+            "id": rid,
+            "result": {"content": [{"type": "text", "text": json.dumps(payload)}]},
+        }
 
     return route
 
 
 def test_graph_snapshot_from_taxonomy(fake_urlopen_factory):
     # KG empty → deterministic fallback to the wing/room taxonomy snapshot.
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(entities=[]),
-        f"GET {BASE}/mp/api/v1/taxonomy": {
-            "total": 6,
-            "taxonomy": {
-                "projects": {"decisions": 3, "notes": 2},
-                "people": {"jp": 1},
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(entities=[]),
+            f"GET {BASE}/mp/api/v1/taxonomy": {
+                "total": 6,
+                "taxonomy": {
+                    "projects": {"decisions": 3, "notes": 2},
+                    "people": {"jp": 1},
+                },
             },
-        },
-    })
+        }
+    )
     a = _adapter()
     entities, edges = a.get_graph_snapshot()
     ids = {e.id for e in entities}
@@ -391,13 +435,13 @@ def test_graph_snapshot_from_taxonomy(fake_urlopen_factory):
 
 
 def test_graph_snapshot_error_returns_empty(fake_urlopen_factory):
-    err = urllib.error.HTTPError(
-        f"{BASE}/mp/api/v1/taxonomy", 500, "Server Error", {}, None
+    err = urllib.error.HTTPError(f"{BASE}/mp/api/v1/taxonomy", 500, "Server Error", {}, None)
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(entities=[]),  # KG empty
+            f"GET {BASE}/mp/api/v1/taxonomy": err,  # taxonomy errors
+        }
     )
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(entities=[]),  # KG empty
-        f"GET {BASE}/mp/api/v1/taxonomy": err,            # taxonomy errors
-    })
     a = _adapter()
     entities, edges = a.get_graph_snapshot()
     assert entities == []
@@ -408,20 +452,22 @@ def test_graph_snapshot_error_returns_empty(fake_urlopen_factory):
 
 
 def test_graph_snapshot_from_kg(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(
-            entities=[
-                {"name": "Sarah", "entity_type": "person"},
-                {"name": "Acme", "entity_type": "organization"},
-            ],
-            relations_by_entity={
-                "Sarah": [{"type": "works_at", "from": "Sarah", "to": "Acme"}],
-                "Acme": [{"type": "works_at", "from": "Sarah", "to": "Acme"}],
-            },
-        ),
-        # taxonomy present too — but KG is non-empty so it must NOT be used.
-        f"GET {BASE}/mp/api/v1/taxonomy": {"total": 9, "taxonomy": {"w": {"r": 9}}},
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(
+                entities=[
+                    {"name": "Sarah", "entity_type": "person"},
+                    {"name": "Acme", "entity_type": "organization"},
+                ],
+                relations_by_entity={
+                    "Sarah": [{"type": "works_at", "from": "Sarah", "to": "Acme"}],
+                    "Acme": [{"type": "works_at", "from": "Sarah", "to": "Acme"}],
+                },
+            ),
+            # taxonomy present too — but KG is non-empty so it must NOT be used.
+            f"GET {BASE}/mp/api/v1/taxonomy": {"total": 9, "taxonomy": {"w": {"r": 9}}},
+        }
+    )
     a = _adapter()
     entities, edges = a.get_graph_snapshot()
     ids = {e.id for e in entities}
@@ -436,10 +482,12 @@ def test_graph_snapshot_from_kg(fake_urlopen_factory):
 
 def test_graph_snapshot_kg_unavailable_falls_back_to_taxonomy(fake_urlopen_factory):
     # AGE not installed → kg_search_entities returns a JSON-RPC error.
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(error="knowledge graph not available"),
-        f"GET {BASE}/mp/api/v1/taxonomy": {"total": 1, "taxonomy": {"w": {"r": 1}}},
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(error="knowledge graph not available"),
+            f"GET {BASE}/mp/api/v1/taxonomy": {"total": 1, "taxonomy": {"w": {"r": 1}}},
+        }
+    )
     a = _adapter()
     entities, edges = a.get_graph_snapshot()
     assert a._graph_basis == "taxonomy"
@@ -448,14 +496,16 @@ def test_graph_snapshot_kg_unavailable_falls_back_to_taxonomy(fake_urlopen_facto
 
 def test_graph_snapshot_kg_synthesizes_missing_endpoint(fake_urlopen_factory):
     # A relation points to an entity beyond the enumerated set → synthesize it.
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(
-            entities=[{"name": "Sarah", "entity_type": "person"}],
-            relations_by_entity={
-                "Sarah": [{"type": "knows", "from": "Sarah", "to": "Ghost"}],
-            },
-        ),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(
+                entities=[{"name": "Sarah", "entity_type": "person"}],
+                relations_by_entity={
+                    "Sarah": [{"type": "knows", "from": "Sarah", "to": "Ghost"}],
+                },
+            ),
+        }
+    )
     a = _adapter()
     entities, edges = a.get_graph_snapshot()
     ids = {e.id for e in entities}
@@ -467,22 +517,24 @@ def test_graph_snapshot_kg_synthesizes_missing_endpoint(fake_urlopen_factory):
 def test_kg_contradiction_pairs_via_base_default(fake_urlopen_factory):
     # A CONTRADICTS-typed KG relation → base-class get_contradiction_pairs
     # derives one pair from the KG snapshot (no override needed).
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(
-            entities=[
-                {"name": "salary_50k", "entity_type": "claim"},
-                {"name": "salary_80k", "entity_type": "claim"},
-            ],
-            relations_by_entity={
-                "salary_50k": [
-                    {"type": "CONTRADICTS", "from": "salary_50k", "to": "salary_80k"}
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(
+                entities=[
+                    {"name": "salary_50k", "entity_type": "claim"},
+                    {"name": "salary_80k", "entity_type": "claim"},
                 ],
-                "salary_80k": [
-                    {"type": "CONTRADICTS", "from": "salary_50k", "to": "salary_80k"}
-                ],
-            },
-        ),
-    })
+                relations_by_entity={
+                    "salary_50k": [
+                        {"type": "CONTRADICTS", "from": "salary_50k", "to": "salary_80k"}
+                    ],
+                    "salary_80k": [
+                        {"type": "CONTRADICTS", "from": "salary_50k", "to": "salary_80k"}
+                    ],
+                },
+            ),
+        }
+    )
     a = _adapter()
     pairs = a.get_contradiction_pairs()
     assert len(pairs) == 1
@@ -490,12 +542,14 @@ def test_kg_contradiction_pairs_via_base_default(fake_urlopen_factory):
 
 
 def test_graph_basis_recorded_in_harness_manifest(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/mcp": _mcp_route(
-            entities=[{"name": "A", "entity_type": "concept"}],
-            relations_by_entity={"A": []},
-        ),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/mcp": _mcp_route(
+                entities=[{"name": "A", "entity_type": "concept"}],
+                relations_by_entity={"A": []},
+            ),
+        }
+    )
     a = _adapter()
     a.get_graph_snapshot()  # sets basis = kg
     mcp = next(d for d in a.get_harness_manifest() if d.kind == "mcp_resource")
@@ -519,11 +573,13 @@ def test_reset_lists_and_deletes(fake_urlopen_factory):
         deleted.append(req.full_url.rsplit("/", 1)[-1])
         return {"success": True, "drawer_id": deleted[-1]}
 
-    fake_urlopen_factory({
-        f"GET {BASE}/mp/api/v1/drawers": list_route,
-        f"DELETE {BASE}/mp/api/v1/drawers/d1": del_route,
-        f"DELETE {BASE}/mp/api/v1/drawers/d2": del_route,
-    })
+    fake_urlopen_factory(
+        {
+            f"GET {BASE}/mp/api/v1/drawers": list_route,
+            f"DELETE {BASE}/mp/api/v1/drawers/d1": del_route,
+            f"DELETE {BASE}/mp/api/v1/drawers/d2": del_route,
+        }
+    )
     a = _adapter()
     n = a.reset()
     assert n == 2
@@ -531,10 +587,11 @@ def test_reset_lists_and_deletes(fake_urlopen_factory):
 
 
 def test_reset_unreachable_returns_zero_no_raise(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"GET {BASE}/mp/api/v1/drawers":
-            urllib.error.URLError("Connection refused"),
-    })
+    fake_urlopen_factory(
+        {
+            f"GET {BASE}/mp/api/v1/drawers": urllib.error.URLError("Connection refused"),
+        }
+    )
     a = _adapter()
     assert a.reset() == 0
 
@@ -551,11 +608,15 @@ def test_get_ontology_source_typed():
 
 
 def test_get_flat_retrieval_delegates_to_query(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"POST {BASE}/mp/api/v1/search": _search_body([
-            {"drawer_id": "d1", "content": "hi", "wing": "w", "room": "r"},
-        ]),
-    })
+    fake_urlopen_factory(
+        {
+            f"POST {BASE}/mp/api/v1/search": _search_body(
+                [
+                    {"drawer_id": "d1", "content": "hi", "wing": "w", "room": "r"},
+                ]
+            ),
+        }
+    )
     a = _adapter()
     r = a.get_flat_retrieval("hi")
     assert isinstance(r, QueryResult)
@@ -581,9 +642,11 @@ def test_harness_mcp_probe_success(fake_urlopen_factory):
 
 
 def test_harness_probe_failure_no_raise(fake_urlopen_factory):
-    fake_urlopen_factory({
-        f"GET {BASE}/mp/mcp/health": urllib.error.URLError("down"),
-    })
+    fake_urlopen_factory(
+        {
+            f"GET {BASE}/mp/mcp/health": urllib.error.URLError("down"),
+        }
+    )
     a = _adapter()
     mcp = next(d for d in a.get_harness_manifest() if d.kind == "mcp_resource")
     res = mcp.probe_fn()
@@ -604,9 +667,7 @@ def test_close_is_idempotent():
 # --- Live integration (opt-in) ----------------------------------------
 
 
-@pytest.mark.skipif(
-    not _LIVE, reason="set MEMPALACE_SERVER_LIVE=1 to run against a live Go server"
-)
+@pytest.mark.skipif(not _LIVE, reason="set MEMPALACE_SERVER_LIVE=1 to run against a live Go server")
 def test_live_ingest_search_reset_roundtrip():
     """End-to-end against a real server: ingest → search → snapshot → reset.
 
@@ -618,12 +679,12 @@ def test_live_ingest_search_reset_roundtrip():
     if not mcp.probe_fn().success:
         pytest.skip("Go MemPalace server not reachable")
     try:
-        res = a.ingest_corpus([
-            {"id": "live-1", "text": "The capital of France is Paris.",
-             "room": "geo-1"},
-            {"id": "live-2", "text": "The Eiffel Tower stands in Paris.",
-             "room": "geo-2"},
-        ])
+        res = a.ingest_corpus(
+            [
+                {"id": "live-1", "text": "The capital of France is Paris.", "room": "geo-1"},
+                {"id": "live-2", "text": "The Eiffel Tower stands in Paris.", "room": "geo-2"},
+            ]
+        )
         assert res["entities_created"] >= 1, res
         q = a.query("Where is the Eiffel Tower?", n_results=5)
         # Either we retrieved something, or the server honestly reports none;
@@ -635,9 +696,7 @@ def test_live_ingest_search_reset_roundtrip():
         a.reset(wing="sme_selftest")
 
 
-@pytest.mark.skipif(
-    not _LIVE, reason="set MEMPALACE_SERVER_LIVE=1 to run against a live Go server"
-)
+@pytest.mark.skipif(not _LIVE, reason="set MEMPALACE_SERVER_LIVE=1 to run against a live Go server")
 def test_live_kg_snapshot_reads_real_entity_graph():
     """Seed the AGE entity graph explicitly (kg_add_entity/relation), then
     confirm get_graph_snapshot reads it back with basis='kg'. Proves the
@@ -647,24 +706,31 @@ def test_live_kg_snapshot_reads_real_entity_graph():
     mcp = next(d for d in a.get_harness_manifest() if d.kind == "mcp_resource")
     if not mcp.probe_fn().success:
         pytest.skip("Go MemPalace server not reachable")
-    seeded = a._mcp_call("mempalace_kg_add_entity",
-                         {"name": "SME_KGProbe_Sarah", "entity_type": "person"})
+    seeded = a._mcp_call(
+        "mempalace_kg_add_entity", {"name": "SME_KGProbe_Sarah", "entity_type": "person"}
+    )
     if seeded is None:
         pytest.skip("AGE entity graph not available on this server")
     try:
-        a._mcp_call("mempalace_kg_add_entity",
-                    {"name": "SME_KGProbe_Acme", "entity_type": "organization"})
-        a._mcp_call("mempalace_kg_add_relation", {
-            "from_entity": "SME_KGProbe_Sarah",
-            "relation_type": "works_at",
-            "to_entity": "SME_KGProbe_Acme",
-        })
+        a._mcp_call(
+            "mempalace_kg_add_entity", {"name": "SME_KGProbe_Acme", "entity_type": "organization"}
+        )
+        a._mcp_call(
+            "mempalace_kg_add_relation",
+            {
+                "from_entity": "SME_KGProbe_Sarah",
+                "relation_type": "works_at",
+                "to_entity": "SME_KGProbe_Acme",
+            },
+        )
         entities, edges = a.get_graph_snapshot()
         assert a._graph_basis == "kg", a._graph_basis
         names = {e.name for e in entities}
         assert "SME_KGProbe_Sarah" in names and "SME_KGProbe_Acme" in names
-        assert any(e.source_id == "kg:SME_KGProbe_Sarah"
-                   and e.target_id == "kg:SME_KGProbe_Acme" for e in edges)
+        assert any(
+            e.source_id == "kg:SME_KGProbe_Sarah" and e.target_id == "kg:SME_KGProbe_Acme"
+            for e in edges
+        )
     finally:
         a._mcp_call("mempalace_kg_delete_entity", {"name": "SME_KGProbe_Sarah"})
         a._mcp_call("mempalace_kg_delete_entity", {"name": "SME_KGProbe_Acme"})

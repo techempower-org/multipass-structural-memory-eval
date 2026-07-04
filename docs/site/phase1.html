@@ -1,0 +1,86 @@
+<title>Phase 1 — OMEGA vs mempalace vs Go server</title>
+<style>
+  :root{
+    --paper:#F5F6F4; --paper-2:#EDEFEA; --ink:#1C2430; --ink-soft:#4A5462;
+    --rule:#C9CEC6; --blue:#2D5C8F; --stamp:#A8352C; --green:#3E6B4F; --amber:#8A6D2F;
+    --card:#FBFCFA; --shadow:0 1px 2px rgba(28,36,48,.07),0 6px 18px -8px rgba(28,36,48,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#10161E; --paper-2:#0B1016; --ink:#DDE3E8; --ink-soft:#93A0AE;
+      --rule:#2A3542; --blue:#7FA8D4; --stamp:#D4645A; --green:#7FAE8F; --amber:#C9A45C;
+      --card:#161E28; --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px -10px rgba(0,0,0,.6);
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Iowan Old Style','Palatino Linotype',Palatino,'URW Palladio L','Book Antiqua',Georgia,serif;
+    line-height:1.55; font-size:17px}
+  .wrap{max-width:980px; margin:0 auto; padding:44px 24px 80px}
+  a{color:var(--blue); text-underline-offset:2px}
+  .label{font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft)}
+  .mono{font-family:'Ubuntu Mono','DejaVu Sans Mono',Menlo,Consolas,monospace; font-variant-numeric:tabular-nums}
+  header{border-top:3px double var(--ink); border-bottom:1px solid var(--rule); padding:24px 0 20px; margin-bottom:26px}
+  h1{font-size:clamp(30px,5vw,44px); line-height:1.06; margin:8px 0 10px; font-weight:600; text-wrap:balance}
+  .thesis{max-width:64ch; color:var(--ink-soft); font-size:17px; margin:0}
+  h2{font-size:14px; font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; font-weight:600; border-bottom:1px solid var(--rule); padding-bottom:8px; margin:44px 0 16px}
+  .basis{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px; margin-bottom:8px}
+  .b{background:var(--paper-2); border:1px dashed var(--rule); border-radius:3px; padding:12px 15px; font-size:14px}
+  .b .label{display:block; margin-bottom:5px}
+  .tablebox{overflow-x:auto; border:1px solid var(--rule); border-radius:3px; background:var(--card); box-shadow:var(--shadow)}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:640px}
+  th,td{padding:10px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+  th{font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); font-weight:600; background:var(--paper-2)}
+  td.num{font-family:'Ubuntu Mono','DejaVu Sans Mono',Menlo,Consolas,monospace; font-variant-numeric:tabular-nums}
+  .good{color:var(--green); font-weight:600} .bad{color:var(--stamp); font-weight:600} .na{color:var(--ink-soft); font-style:italic}
+  .pill{font-family:Ubuntu,'DejaVu Sans',system-ui,sans-serif; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; padding:2px 8px; border-radius:2px; border:1px solid currentColor; white-space:nowrap}
+  .p-good{color:var(--green)} .p-warn{color:var(--amber)} .p-gone{color:var(--stamp)} .p-info{color:var(--blue)}
+  .findings{display:grid; gap:14px}
+  .f{background:var(--card); border:1px solid var(--rule); border-left:3px solid var(--blue); border-radius:3px; padding:14px 18px; box-shadow:var(--shadow)}
+  .f.warn{border-left-color:var(--amber)} .f.crit{border-left-color:var(--stamp)}
+  .f h3{margin:0 0 4px; font-size:17px}
+  .f p{margin:0; font-size:14.5px; color:var(--ink-soft); max-width:74ch}
+  footer{border-top:3px double var(--ink); margin-top:56px; padding-top:14px; font-size:13.5px; color:var(--ink-soft)}
+  footer p{margin:4px 0; max-width:78ch}
+</style>
+<div class="wrap">
+<header>
+  <span class="label">Phase 1 · structural categories · no-LLM · 2026-07-03</span>
+  <h1>OMEGA vs mempalace vs the Go server</h1>
+  <p class="thesis">Deterministic SME structural readings — contradiction detection, ingestion integrity, topology, supersession, ontology coherence. Phase 2 (LLM-judged QA, the hostile rerun of OMEGA's 95.4% claim) is gated on API-spend approval. <a href="catalog.html">← Field Catalog</a> · <a href="index.html">SME site</a></p>
+</header>
+
+<h2>Column bases — read this first</h2>
+<div class="basis">
+  <div class="b"><span class="label">OMEGA · <span class="pill p-good">measured</span></span>omega-memory 1.4.15, isolated store. Good-dog vault (24 notes) ingested; edges are OMEGA's own <em>emergent</em> auto-relate output.</div>
+  <div class="b"><span class="label">mempalace fork · <span class="pill p-good">measured</span></span>Production palace via daemon (412K drawers), <em>real AGE knowledge graph</em>, 10K-edge representative sample (full KG ≈ 59K edges). Read-only. Same posture as the 2026-05-31 baselines.</div>
+  <div class="b"><span class="label">Go server · <span class="pill p-good">measured (basis-attributed)</span></span>Good-dog ingested (server wiped first). Adapter now reads the real AGE KG (basis-attributed) — and the KG is <em>empty by design</em>: the Go server does <strong>no auto-extraction</strong>; its graph fills only via explicit <span class="mono">kg_add</span>. The structural cells are honest <span class="mono">basis=taxonomy</span> readings of that capability difference.</div>
+</div>
+
+<h2>Readings</h2>
+<div class="tablebox"><table>
+  <tr><th>Reading</th><th>OMEGA<br><span style="text-transform:none">good-dog emergent</span></th><th>mempalace<br><span style="text-transform:none">real KG (sample)</span></th><th>Go server<br><span style="text-transform:none">basis=taxonomy (no auto-extraction)</span></th></tr>
+  <tr><td>Graph size (entities / edges)</td><td class="num">18 / 54</td><td class="num">12,659 / 10,000*</td><td class="num na">3 / 1 †</td></tr>
+  <tr><td>Cat 4 — canonical collisions</td><td class="num good">0</td><td class="num bad">222</td><td class="num na">n/m †</td></tr>
+  <tr><td>Cat 4 — required-field coverage</td><td class="num good">1.00</td><td class="num good">1.00</td><td class="num">1.00 †</td></tr>
+  <tr><td>Cat 4 — edge-type entropy (bits)</td><td class="num">1.24</td><td class="num good">3.43</td><td class="num na">0.0 †</td></tr>
+  <tr><td>Cat 5 — components / largest</td><td class="num good">1 / 18</td><td class="num bad">6,072 / 3,900*</td><td class="num na">2 / 2 †</td></tr>
+  <tr><td>Cat 3 — structural contradiction detection</td><td class="num good">1.00 <span class="pill p-info">Δ+1.00 vs flat</span></td><td class="num na">0 pairs — no contradicts edge type in prod KG</td><td class="num na">n/m †</td></tr>
+  <tr><td>Cat 3 — vs good-dog ground truth (theme recall)</td><td class="num">0.50 <span class="pill p-warn">caught DCM, missed dominance</span></td><td class="num na">different basis</td><td class="num na">emergent KG empty — no extraction</td></tr>
+  <tr><td>Cat 6 — supersession completeness</td><td class="num na">0 seeded — corpus text carries none emergently</td><td class="num na">no supersedes edge type</td><td class="num na">n/m †</td></tr>
+</table></div>
+<p style="font-size:13px; color:var(--ink-soft); margin-top:8px">* 10K-edge representative sample (CLI default); fragmentation partly reflects sampling. † basis=taxonomy reading — the adapter reads the real KG first (SME #257), which is empty because the server has no auto-extraction; cells reflect that capability difference, not an adapter gap.</p>
+
+<h2>What Phase 1 actually established</h2>
+<div class="findings">
+  <div class="f"><h3>OMEGA is a disciplined structural citizen at toy scale</h3><p>Single connected component, zero collisions, and its emergent contradicts edges surface all 4 of its own pairs (structural Δ+1.00 over flat) — but only half the ground-truth contradiction themes. The 95.4% QA claim remains untested until Phase 2.</p></div>
+  <div class="f warn"><h3>New fork finding: 222 canonical collisions in the production KG</h3><p>The real palace graph carries 222 canonical-key collisions and heavy fragmentation in the sampled read (6,072 components). Some fragmentation is sampling artifact; the collisions are real and actionable — entity-canonicalization follow-up material (composes with the kg_canonical_* write-pass).</p></div>
+  <div class="f crit"><h3>Measured: the Go server does no automatic knowledge-graph extraction</h3><p>Verified in source and live (SME #257): <span class="mono">add_drawer</span> never populates the AGE graph — only explicit <span class="mono">kg_add_entity/kg_add_relation</span> does. So on a raw-text corpus its emergent graph is empty, vs OMEGA's auto-related 18/54 and our fork's write-through LLM triple extraction. A real three-way capability difference — extraction (fork) vs auto-relate (OMEGA) vs storage-only (Go) — now attributable via the recorded snapshot basis. Plus two integrator gotchas: deterministic-ID idempotency and bullet-list splitting.</p></div>
+  <div class="f"><h3>Cat 3/6 zeros on mempalace are basis, not failure</h3><p>The production KG's edge vocabulary doesn't include <span class="mono">contradicts</span>/<span class="mono">supersedes</span> — those semantics live in good-dog-style seeded corpora. Matching the 05-30 matrix's honesty rules: those cells are “no such channel,” not “detected nothing.”</p></div>
+</div>
+
+<footer>
+  <p><strong>Provenance.</strong> All JSONs in the session scratch (<span class="mono">phase1/</span>): omega × 6 (incl. emergent report + ground-truth Cat 3), mempalace real-KG × 5, go-server × 5. Runners: <span class="mono">run_omega_good_dog_structural.py</span> (existing) and its new twin <span class="mono">run_mempalace_server_good_dog_structural.py</span> (same rows, same scorer). OMEGA 1.4.15 · palace-daemon @ familiar (read-only) · Go server @ localhost:8000 (disposable instance, wiped).</p>
+  <p>Phase 2 (pending approval): Cat 9 + LongMemEval QA with reader gpt-4o-mini / judge gpt-4.1-mini — the actual hostile rerun of OMEGA's 95.4%.</p>
+</footer>
+</div>

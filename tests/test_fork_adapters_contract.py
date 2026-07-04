@@ -140,6 +140,22 @@ def _mempalace_server_factory(tmp_path: Path) -> SMEAdapter:
     )
 
 
+def _engram_factory(tmp_path: Path) -> SMEAdapter:
+    """EngramAdapter (TypeScript MCP server) with no runtime available.
+
+    engram_path unset and no injected transport → ingest/query degrade to
+    error-bearing results, and get_graph_snapshot reads a nonexistent
+    SQLite DB → ([], []). Constructs and runs the whole contract clean with
+    no Node runtime."""
+    from sme.adapters.engram_adapter import EngramAdapter
+
+    return EngramAdapter(
+        engram_path=None,
+        db_path=str(tmp_path / "engramdb"),
+        reset_before_ingest=False,
+    )
+
+
 def _mem0_factory(tmp_path: Path) -> SMEAdapter:
     """Mem0Adapter — requires the ``mem0`` OSS library; skips when absent.
 
@@ -183,6 +199,7 @@ ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "hindsight": _hindsight_factory,
     "mem0": _mem0_factory,
     "mempalace_server": _mempalace_server_factory,
+    "engram": _engram_factory,
 }
 
 

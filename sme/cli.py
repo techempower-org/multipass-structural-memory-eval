@@ -62,6 +62,12 @@ def _mempalace_server_loader() -> type[SMEAdapter]:
     return MemPalaceServerAdapter
 
 
+def _engram_loader() -> type[SMEAdapter]:
+    from sme.adapters.engram_adapter import EngramAdapter
+
+    return EngramAdapter
+
+
 def _rlm_loader() -> type[SMEAdapter]:
     from sme.adapters.rlm_adapter import RlmAdapter
 
@@ -187,6 +193,15 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
         accepts=frozenset({
             "api_url", "api_key", "tenant", "wing", "room", "n_results",
             "max_distance", "api_timeout", "reset_before_ingest", "read_only",
+        }),
+    ),
+    _AdapterSpec(
+        aliases=("engram", "engram-ts"),
+        loader=_engram_loader,
+        accepts=frozenset({
+            "engram_path", "node_bin", "db_path", "n_results", "include_graph",
+            "importance", "reset_before_ingest", "startup_timeout",
+            "call_timeout", "read_only",
         }),
     ),
     _AdapterSpec(

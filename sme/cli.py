@@ -168,87 +168,160 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
     _AdapterSpec(
         aliases=("ladybugdb", "ladybug"),
         loader=_ladybugdb_loader,
-        accepts=frozenset({
-            "db_path", "read_only", "buffer_pool_size",
-            "include_node_tables", "include_edge_tables", "auto_discover",
-            "skip_infrastructure", "api_url", "default_query_mode",
-            "api_timeout",
-        }),
+        accepts=frozenset(
+            {
+                "db_path",
+                "read_only",
+                "buffer_pool_size",
+                "include_node_tables",
+                "include_edge_tables",
+                "auto_discover",
+                "skip_infrastructure",
+                "api_url",
+                "default_query_mode",
+                "api_timeout",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("mempalace-daemon", "mempalace_daemon"),
         loader=_mempalace_daemon_loader,
-        accepts=frozenset({
-            "api_url", "api_key", "env_file", "kind", "api_timeout",
-            "prefer_graph_endpoint", "read_only",
-            # #140 — age-fused endpoint selection + candidate-pool strategy
-            "search_endpoint", "candidate_strategy",
-            # #147 — real-KG structural measurement (Cat 4/5/8)
-            "graph_kg_only", "graph_limit",
-        }),
+        accepts=frozenset(
+            {
+                "api_url",
+                "api_key",
+                "env_file",
+                "kind",
+                "api_timeout",
+                "prefer_graph_endpoint",
+                "read_only",
+                # #140 — age-fused endpoint selection + candidate-pool strategy
+                "search_endpoint",
+                "candidate_strategy",
+                # #147 — real-KG structural measurement (Cat 4/5/8)
+                "graph_kg_only",
+                "graph_limit",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("mempalace-server", "mempalace_server", "mp-server"),
         loader=_mempalace_server_loader,
-        accepts=frozenset({
-            "api_url", "api_key", "tenant", "wing", "room", "n_results",
-            "max_distance", "api_timeout", "reset_before_ingest",
-            "kg_entity_limit", "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "api_url",
+                "api_key",
+                "tenant",
+                "wing",
+                "room",
+                "n_results",
+                "max_distance",
+                "api_timeout",
+                "reset_before_ingest",
+                "kg_entity_limit",
+                "read_only",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("engram", "engram-ts"),
         loader=_engram_loader,
-        accepts=frozenset({
-            "engram_path", "node_bin", "db_path", "n_results", "include_graph",
-            "importance", "reset_before_ingest", "startup_timeout",
-            "call_timeout", "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "engram_path",
+                "node_bin",
+                "db_path",
+                "n_results",
+                "include_graph",
+                "importance",
+                "reset_before_ingest",
+                "startup_timeout",
+                "call_timeout",
+                "read_only",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("rlm",),
         loader=_rlm_loader,
-        accepts=frozenset({
-            "api_url", "api_key", "backend", "backend_kwargs",
-            "environment", "verbose", "kind", "timeout_s",
-        }),
+        accepts=frozenset(
+            {
+                "api_url",
+                "api_key",
+                "backend",
+                "backend_kwargs",
+                "environment",
+                "verbose",
+                "kind",
+                "timeout_s",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("longhand",),
         loader=_longhand_loader,
-        accepts=frozenset({
-            "bin_path", "home_dir", "n_results", "timeout_s", "project",
-        }),
+        accepts=frozenset(
+            {
+                "bin_path",
+                "home_dir",
+                "n_results",
+                "timeout_s",
+                "project",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("postgres-ingest", "postgres_ingest", "postgres"),
         loader=_postgres_ingest_loader,
-        accepts=frozenset({
-            "dsn", "table_name", "n_results", "mempalace_path", "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "dsn",
+                "table_name",
+                "n_results",
+                "mempalace_path",
+                "read_only",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("familiar",),
         loader=_familiar_loader,
-        accepts=frozenset({
-            "base_url", "timeout_s", "mock_inference", "opener",
-        }),
+        accepts=frozenset(
+            {
+                "base_url",
+                "timeout_s",
+                "mock_inference",
+                "opener",
+            }
+        ),
         rename={"api_url": "base_url"},
     ),
     _AdapterSpec(
         aliases=("mempalace",),
         loader=_mempalace_loader,
-        accepts=frozenset({
-            "db_path", "read_only", "kg_path", "collection_name",
-            "include_kg", "include_drawers", "max_drawer_nodes",
-        }),
+        accepts=frozenset(
+            {
+                "db_path",
+                "read_only",
+                "kg_path",
+                "collection_name",
+                "include_kg",
+                "include_drawers",
+                "max_drawer_nodes",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("flat", "flat_baseline"),
         loader=_flat_loader,
-        accepts=frozenset({
-            "db_path", "read_only", "collection_name", "n_results",
-        }),
+        accepts=frozenset(
+            {
+                "db_path",
+                "read_only",
+                "collection_name",
+                "n_results",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("full-context", "full_context"),
@@ -259,26 +332,44 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
     _AdapterSpec(
         aliases=("omega",),
         loader=_omega_loader,
-        accepts=frozenset({
-            "omega_home", "db_path", "default_memory_type", "n_results",
-            "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "omega_home",
+                "db_path",
+                "default_memory_type",
+                "n_results",
+                "read_only",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("hindsight",),
         loader=_hindsight_loader,
-        accepts=frozenset({
-            "base_url", "bank_id", "api_key", "n_results", "use_reflect",
-            "api_timeout", "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "base_url",
+                "bank_id",
+                "api_key",
+                "n_results",
+                "use_reflect",
+                "api_timeout",
+                "read_only",
+            }
+        ),
         rename={"api_url": "base_url"},
     ),
     _AdapterSpec(
         aliases=("mem0", "mem0_oss"),
         loader=_mem0_loader,
-        accepts=frozenset({
-            "config", "user_id", "n_results", "memory", "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "config",
+                "user_id",
+                "n_results",
+                "memory",
+                "read_only",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("karpathy-compiled", "karpathy_compiled"),
@@ -305,18 +396,30 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
     _AdapterSpec(
         aliases=("ai-memory", "ai_memory", "aimemory"),
         loader=_ai_memory_loader,
-        accepts=frozenset({
-            "api_url", "namespace", "tier", "n_results", "api_timeout",
-            "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "api_url",
+                "namespace",
+                "tier",
+                "n_results",
+                "api_timeout",
+                "read_only",
+            }
+        ),
     ),
     _AdapterSpec(
         aliases=("agentmemory", "agent-memory", "agent_memory"),
         loader=_agentmemory_loader,
-        accepts=frozenset({
-            "api_url", "project", "n_results", "api_timeout",
-            "include_lessons", "read_only",
-        }),
+        accepts=frozenset(
+            {
+                "api_url",
+                "project",
+                "n_results",
+                "api_timeout",
+                "include_lessons",
+                "read_only",
+            }
+        ),
     ),
 )
 
@@ -376,7 +479,7 @@ def _print_report(
     print(f"  components:           {_fmt_int(health['components'])}")
     print(
         f"  largest component:    {_fmt_int(health['largest_component_size'])}"
-        f"  ({health['largest_component_ratio']*100:.1f}% of nodes)"
+        f"  ({health['largest_component_ratio'] * 100:.1f}% of nodes)"
     )
     print(f"  isolated nodes:       {_fmt_int(health['isolated_nodes'])}")
     print(f"  avg degree:           {health['avg_degree']:.2f}")
@@ -393,8 +496,7 @@ def _print_report(
         print(f"  {et:35s} {c:>8,}   ({pct:5.1f}%)")
     print(f"\n  edge type entropy:    {health['edge_type_entropy_bits']:.2f} bits")
     print(
-        "                        (higher = more diverse vocabulary; "
-        "low bits indicate monoculture)"
+        "                        (higher = more diverse vocabulary; low bits indicate monoculture)"
     )
 
     print("\nCommunity structure (Louvain)")
@@ -402,14 +504,12 @@ def _print_report(
     print(f"  modularity:           {community.modularity:.3f}")
     print(
         f"  inter-community:      {_fmt_int(community.inter_community_edges)} edges  "
-        f"({community.inter_community_ratio*100:.1f}%)"
+        f"({community.inter_community_ratio * 100:.1f}%)"
     )
     print(f"  top sizes:            {community.sizes[:10]}")
 
     print("\nPer-edge-type component count  (Cat 4c monoculture signal)")
-    for et, n_comp in sorted(
-        edge_type_components.items(), key=lambda kv: -kv[1]
-    )[:15]:
+    for et, n_comp in sorted(edge_type_components.items(), key=lambda kv: -kv[1])[:15]:
         print(f"  {et:35s} {n_comp:>8,}  components")
 
     if betti is not None:
@@ -433,9 +533,7 @@ def _print_report(
                 print(f"  max H1 persistence:   {betti.max_h1_persistence:.2f} hops")
                 print("  top H1 bars (birth, death, persistence):")
                 for b, d, p in betti.h1_bars[:10]:
-                    print(
-                        f"    birth={b:5.2f}  death={d:5.2f}  persistence={p:5.2f}"
-                    )
+                    print(f"    birth={b:5.2f}  death={d:5.2f}  persistence={p:5.2f}")
             else:
                 print("  no H1 features found — graph is acyclic / tree-like")
 
@@ -496,10 +594,7 @@ def _print_report(
             elif kind == "rel":
                 print(f"  rel tables:           {', '.join(entry['tables'])}")
             elif kind == "entity_edge_types":
-                print(
-                    "  entity_type vocab:    "
-                    + (", ".join(entry["values"]) or "<none>")
-                )
+                print("  entity_type vocab:    " + (", ".join(entry["values"]) or "<none>"))
             else:
                 # Generic shape: print whatever list-valued keys are there
                 for key, val in entry.items():
@@ -514,6 +609,7 @@ def _print_report(
         if doc:
             # Wrap to 66 cols under a "documentation:" label
             import textwrap
+
             print("  documentation:")
             for line in textwrap.wrap(doc, width=66):
                 print(f"    {line}")
@@ -746,8 +842,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
             if getattr(kg_adapter, "graph_kg_only", False):
                 kg_entities, kg_edges = kg_adapter.get_graph_snapshot()
                 log.info(
-                    "Cat 8 KG snapshot for graph=kg claims: %d entities, "
-                    "%d edges",
+                    "Cat 8 KG snapshot for graph=kg claims: %d entities, %d edges",
                     len(kg_entities),
                     len(kg_edges),
                 )
@@ -799,7 +894,9 @@ def cmd_cat8(args: argparse.Namespace) -> int:
     print(f"   found:      {len(report.edges_found)}  ({', '.join(report.edges_found) or '—'})")
     print(f"   missing:    {len(report.edges_missing)}  ({', '.join(report.edges_missing) or '—'})")
     if report.edges_undeclared:
-        print(f"   undeclared: {len(report.edges_undeclared)}  ({', '.join(report.edges_undeclared[:8])}{'...' if len(report.edges_undeclared) > 8 else ''})")
+        print(
+            f"   undeclared: {len(report.edges_undeclared)}  ({', '.join(report.edges_undeclared[:8])}{'...' if len(report.edges_undeclared) > 8 else ''})"
+        )
     print(f"   coverage:   {report.edge_vocabulary_coverage:.1%}")
 
     print("\n8c Schema-data alignment")
@@ -822,8 +919,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         print("\n   Hall usage (MemPalace-specific):")
         print(f"     total drawers:         {hu['total_drawers']}")
         print(
-            f"     drawers with hall set: {hu['populated_count']}  "
-            f"({hu['fraction_populated']:.1%})"
+            f"     drawers with hall set: {hu['populated_count']}  ({hu['fraction_populated']:.1%})"
         )
         print(f"     declared vocabulary:   {', '.join(hu['declared_vocabulary'])}")
         if hu["distribution"]:
@@ -847,7 +943,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
             "skipped": "-",
         }.get(c.status, "?")
         print(f"   {marker} [{c.status:10s}] {c.claim_id}")
-        print(f"        \"{c.claim_text}\"")
+        print(f'        "{c.claim_text}"')
         if c.operational_definition:
             op_short = " ".join(c.operational_definition.split())[:100]
             print(f"        op:    {op_short}")
@@ -855,8 +951,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
             print(f"        note:  {c.notes}")
         if c.metrics:
             short_metrics = {
-                k: (round(v, 3) if isinstance(v, float) else v)
-                for k, v in c.metrics.items()
+                k: (round(v, 3) if isinstance(v, float) else v) for k, v in c.metrics.items()
             }
             print(f"        data:  {short_metrics}")
         print()
@@ -914,10 +1009,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
                 print(f"   self-reported drift_score: {drift['drift_score']:.1%}")
             absent = drift.get("declared_edge_types_absent")
             if absent:
-                print(
-                    "   declared edge types absent at KG layer: "
-                    + ", ".join(absent)
-                )
+                print("   declared edge types absent at KG layer: " + ", ".join(absent))
     else:
         print(
             "   (most systems have no self-report API for type drift, "
@@ -937,10 +1029,7 @@ def cmd_cat8(args: argparse.Namespace) -> int:
         mod = full_stats["modularity"]
         print("\nEXACT full-graph modularity (Cat 8 hierarchical — publishable)")
         print(f"   modularity:            {mod:.3f} (over the whole RELATION graph)")
-        print(
-            f"   verdict:               {'PASS' if mod > 0.5 else 'FAIL'} "
-            "(threshold 0.5)"
-        )
+        print(f"   verdict:               {'PASS' if mod > 0.5 else 'FAIL'} (threshold 0.5)")
         print(
             "   ↑ exact daemon-side Louvain over all RELATION edges; "
             "supersedes the\n   sampled 8e modularity above for publication."
@@ -1010,8 +1099,7 @@ def _add_db_or_api_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--db",
         default=None,
-        help="path to the adapter's db file (file mode). Optional when "
-        "--api-url is supplied.",
+        help="path to the adapter's db file (file mode). Optional when --api-url is supplied.",
     )
     parser.add_argument(
         "--api-url",
@@ -1051,16 +1139,14 @@ def _add_db_or_api_args(parser: argparse.ArgumentParser) -> None:
         "--no-mock",
         dest="mock_inference",
         action="store_false",
-        help="(familiar) run inference; for future Cat 9 work where the "
-        "model writes the answer.",
+        help="(familiar) run inference; for future Cat 9 work where the model writes the answer.",
     )
     parser.add_argument(
         "--familiar-timeout",
         type=float,
         default=None,
         metavar="SECONDS",
-        help="(familiar) HTTP timeout for /api/familiar/eval and "
-        "/api/familiar/graph. Default 30s.",
+        help="(familiar) HTTP timeout for /api/familiar/eval and /api/familiar/graph. Default 30s.",
     )
     _add_real_kg_args(parser)
 
@@ -1147,15 +1233,12 @@ def cmd_cat4(args: argparse.Namespace) -> int:
     # without the capability return None and Cat 4 counts the sampled edges.
     # Skipped under --structural-projection (the scaffold opt-out).
     edge_type_override = None
-    if _use_real_kg(args) and hasattr(
-        adapter, "get_edge_type_distribution"
-    ):
+    if _use_real_kg(args) and hasattr(adapter, "get_edge_type_distribution"):
         try:
             edge_type_override = adapter.get_edge_type_distribution()
             if edge_type_override:
                 log.info(
-                    "Cat 4 using exact RELATION distribution: %d types, "
-                    "%d edges",
+                    "Cat 4 using exact RELATION distribution: %d types, %d edges",
                     len(edge_type_override),
                     sum(edge_type_override.values()),
                 )
@@ -1174,9 +1257,7 @@ def cmd_cat4(args: argparse.Namespace) -> int:
 
     bcubed = None
     if args.gold_aliases:
-        bcubed = score_alias_resolution_against_gold(
-            report, entities, args.gold_aliases
-        )
+        bcubed = score_alias_resolution_against_gold(report, entities, args.gold_aliases)
         print()
         print("Cat 4a — Alias resolution vs gold registry (B-Cubed)")
         print("─" * 60)
@@ -1423,7 +1504,7 @@ def cmd_cat5(args: argparse.Namespace) -> int:
         print(f"  components:            {_fmt_int(full_stats.get('component_count', 0))}")
         print(
             f"  largest component:     {_fmt_int(lc or 0)}"
-            + (f"  ({lcf*100:.1f}% of entities)" if isinstance(lcf, (int, float)) else "")
+            + (f"  ({lcf * 100:.1f}% of entities)" if isinstance(lcf, (int, float)) else "")
         )
         print(f"  isolates:              {_fmt_int(full_stats.get('isolate_count', 0))}")
         print(
@@ -1489,7 +1570,9 @@ def cmd_cat3(args: argparse.Namespace) -> int:
     surfaced = adapter.get_contradiction_pairs()
     log.info(
         "snapshot: %d entities, %d edges; %d contradiction pairs surfaced",
-        len(entities), len(edges), len(surfaced),
+        len(entities),
+        len(edges),
+        len(surfaced),
     )
 
     report = score_cat3(
@@ -1563,9 +1646,7 @@ def cmd_cat2c(args: argparse.Namespace) -> int:
     print(format_report(report))
 
     if args.json:
-        Path(args.json).write_text(
-            json.dumps(report.to_dict(), indent=2, default=str)
-        )
+        Path(args.json).write_text(json.dumps(report.to_dict(), indent=2, default=str))
         print(f"JSON report written to {args.json}")
 
     return 0
@@ -1808,14 +1889,12 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
     per_question: list[dict] = []
     print()
     print("=" * 80)
-    print(f" Retrieval test — adapter={args.adapter} corpus={qdoc.get('version','?')}")
+    print(f" Retrieval test — adapter={args.adapter} corpus={qdoc.get('version', '?')}")
     print(f" n_results={args.n_results}  questions={len(questions)}")
     print("=" * 80)
 
     query_params = inspect.signature(adapter.query).parameters
-    has_var_keyword = any(
-        p.kind == inspect.Parameter.VAR_KEYWORD for p in query_params.values()
-    )
+    has_var_keyword = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in query_params.values())
 
     for q in questions:
         qid = q.get("id", "?")
@@ -1832,7 +1911,15 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
             result = adapter.query(text, **query_kwargs)
         except Exception as e:  # pragma: no cover
             result = type(
-                "QR", (), {"answer": "", "context_string": "", "error": str(e), "retrieved_entities": [], "retrieval_path": []}
+                "QR",
+                (),
+                {
+                    "answer": "",
+                    "context_string": "",
+                    "error": str(e),
+                    "retrieved_entities": [],
+                    "retrieval_path": [],
+                },
             )()
         elapsed = time.time() - t0
 
@@ -1852,7 +1939,7 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
         status = "✓" if recall >= 1.0 else ("~" if hit else "✗")
         print(
             f"\n{qid}  (hops={min_hops})  {status}  recall={recall:.2f}  "
-            f"tokens={tokens}  {elapsed*1000:.0f}ms{path_note}"
+            f"tokens={tokens}  {elapsed * 1000:.0f}ms{path_note}"
         )
         print(f"  Q: {text}")
         print(f"  expected: {expected}")
@@ -1916,9 +2003,7 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
         avg_recall = sum(pq["recall"] for pq in group) / n if n else 0.0
         hit_rate = sum(1 for pq in group if pq["hit"]) / n if n else 0.0
         avg_tokens = sum(pq["tokens"] for pq in group) / n if n else 0.0
-        print(
-            f"{hops:>6}  {n:>4}  {avg_recall:>7.2%}  {hit_rate:>9.2%}  {avg_tokens:>8.0f}"
-        )
+        print(f"{hops:>6}  {n:>4}  {avg_recall:>7.2%}  {hit_rate:>9.2%}  {avg_tokens:>8.0f}")
 
     total_n = len(per_question)
     total_recall = sum(pq["recall"] for pq in per_question) / total_n if total_n else 0.0
@@ -1952,9 +2037,7 @@ def cmd_retrieve(args: argparse.Namespace) -> int:
                 "partial_hit": sum(1 for pq in per_question if pq["hit"]),
                 "mean_recall": total_recall,
                 "mean_tokens": total_tokens / total_n if total_n else 0.0,
-                "tokens_per_correct_answer": (
-                    tokens_per_correct if correct_count else None
-                ),
+                "tokens_per_correct_answer": (tokens_per_correct if correct_count else None),
                 "by_hop": {
                     str(h): {
                         "n": len(g),
@@ -1987,14 +2070,13 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     import os
     from datetime import datetime, timezone
     from sme.eval.candidate_strategy import (
-        DEFAULT_STRATEGIES, probe_rerank, run_eval, run_eval_multi_limit,
+        DEFAULT_STRATEGIES,
+        probe_rerank,
+        run_eval,
+        run_eval_multi_limit,
     )
 
-    api_url = (
-        args.api_url
-        or os.environ.get("PALACE_DAEMON_URL")
-        or "http://localhost:8085"
-    )
+    api_url = args.api_url or os.environ.get("PALACE_DAEMON_URL") or "http://localhost:8085"
     api_key = args.api_key or os.environ.get("PALACE_API_KEY")
     if not api_key:
         log.error("--api-key required (or set PALACE_API_KEY)")
@@ -2025,8 +2107,10 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     # Multi-limit sweep path
     if args.limits:
         report_core = run_eval_multi_limit(
-            api_url=api_url, api_key=api_key,
-            queries=queries, strategies=strategies,
+            api_url=api_url,
+            api_key=api_key,
+            queries=queries,
+            strategies=strategies,
             limits=list(args.limits),
             progress=_progress,
         )
@@ -2047,14 +2131,15 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
 
         print()
         print("=" * 60)
-        print(f"  diagnostic: candidate_strategy  n: {len(queries)}  "
-              f"limits: {list(args.limits)}")
+        print(f"  diagnostic: candidate_strategy  n: {len(queries)}  limits: {list(args.limits)}")
         for limit, summary in report["summary_by_limit"].items():
             print(f"\n  limit={limit}:")
             for s, blk in summary["per_strategy"].items():
                 if blk.get("n", 0):
-                    print(f"    {s:10}  R@5={blk['R@5']:.3f}  R@10={blk['R@10']:.3f}  "
-                          f"MRR={blk['MRR']:.3f}  p50={blk['p50_ms']:.0f}ms")
+                    print(
+                        f"    {s:10}  R@5={blk['R@5']:.3f}  R@10={blk['R@10']:.3f}  "
+                        f"MRR={blk['MRR']:.3f}  p50={blk['p50_ms']:.0f}ms"
+                    )
 
         if args.json:
             args.json.parent.mkdir(parents=True, exist_ok=True)
@@ -2064,7 +2149,8 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
 
     # Single-limit path (unchanged)
     report_core = run_eval(
-        api_url=api_url, api_key=api_key,
+        api_url=api_url,
+        api_key=api_key,
         queries=queries,
         strategies=strategies,
         limit=args.limit,
@@ -2090,9 +2176,11 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
     print(f"  diagnostic: candidate_strategy  n: {len(queries)}  limit: {args.limit}")
     for s, blk in s_map.items():
         if blk.get("n", 0):
-            print(f"  {s:10}  R@5={blk['R@5']:.3f}  R@10={blk['R@10']:.3f}  "
-                  f"MRR={blk['MRR']:.3f}  p50={blk['p50_ms']:.0f}ms  "
-                  f"p95={blk['p95_ms']:.0f}ms")
+            print(
+                f"  {s:10}  R@5={blk['R@5']:.3f}  R@10={blk['R@10']:.3f}  "
+                f"MRR={blk['MRR']:.3f}  p50={blk['p50_ms']:.0f}ms  "
+                f"p95={blk['p95_ms']:.0f}ms"
+            )
 
     # Strategy-flip table — the #57 actionable diagnostic
     flips = report["summary"]["strategy_flips"]
@@ -2105,8 +2193,10 @@ def cmd_candidate_strategy(args: argparse.Namespace) -> int:
             new_n = len(fl["new_hits"])
             lost_n = len(fl["lost_hits"])
             same_n = fl["unchanged_count"]
-            print(f"    {pair:20}  moved_up={up}  moved_down={dn}  "
-                  f"new_hits={new_n}  lost_hits={lost_n}  same={same_n}")
+            print(
+                f"    {pair:20}  moved_up={up}  moved_down={dn}  "
+                f"new_hits={new_n}  lost_hits={lost_n}  same={same_n}"
+            )
 
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
@@ -2132,6 +2222,7 @@ def cmd_longmem(args: argparse.Namespace) -> int:
     a partial reading is possible without API access.
     """
     import sys as _sys
+
     _scripts_dir = str(Path(__file__).resolve().parent.parent / "scripts")
     if _scripts_dir not in _sys.path:
         _sys.path.insert(0, _scripts_dir)
@@ -2169,6 +2260,7 @@ def cmd_longmem(args: argparse.Namespace) -> int:
     out_path = args.json
     if out_path is None:
         import datetime as _dt
+
         ts = _dt.datetime.now().strftime("%Y%m%dT%H%M%S")
         out_path = Path(f"longmem_{args.adapter}_{ts}.json")
     Path(out_path).write_text(json.dumps(report, indent=2, default=str))
@@ -2179,10 +2271,7 @@ def cmd_longmem(args: argparse.Namespace) -> int:
 
     print()
     print("=" * 78)
-    print(
-        f" LongMemEval E2E — adapter={args.adapter}  "
-        f"n={summary['total_questions']}"
-    )
+    print(f" LongMemEval E2E — adapter={args.adapter}  n={summary['total_questions']}")
     print("=" * 78)
     print(f"\n{'category':22s} {'n':>4} {'R@5':>8} {'QA-acc':>8} {'gap':>8}")
     for cat, slot in dual.get("per_category", {}).items():
@@ -2190,10 +2279,7 @@ def cmd_longmem(args: argparse.Namespace) -> int:
         gap = slot.get("retrieval_qa_gap")
         qa_str = f"{qa:>7.2%}" if qa is not None else "    n/a"
         gap_str = f"{gap:+.3f}" if gap is not None else "  n/a"
-        print(
-            f"{cat:22s} {slot['n']:>4} "
-            f"{slot['sme_recall_mean']:>7.2%} {qa_str} {gap_str:>8}"
-        )
+        print(f"{cat:22s} {slot['n']:>4} {slot['sme_recall_mean']:>7.2%} {qa_str} {gap_str:>8}")
     overall_qa = overall.get("qa_accuracy")
     overall_gap = overall.get("retrieval_qa_gap")
     overall_qa_str = f"{overall_qa:>7.2%}" if overall_qa is not None else "    n/a"
@@ -2268,8 +2354,7 @@ def main(argv: list[str] | None = None) -> int:
     ana.add_argument(
         "--collection-name",
         metavar="NAME",
-        help="(mempalace adapter) ChromaDB collection name. "
-        "Defaults to mempalace_drawers.",
+        help="(mempalace adapter) ChromaDB collection name. Defaults to mempalace_drawers.",
     )
     ana.add_argument(
         "--betti",
@@ -2379,8 +2464,7 @@ def main(argv: list[str] | None = None) -> int:
         "--age-fused",
         dest="age_fused",
         action="store_true",
-        help="(mempalace-daemon) shorthand for "
-        "--search-endpoint /search/age-fused.",
+        help="(mempalace-daemon) shorthand for --search-endpoint /search/age-fused.",
     )
     ret.add_argument(
         "--candidate-strategy",
@@ -2433,16 +2517,14 @@ def main(argv: list[str] | None = None) -> int:
         "--no-mock",
         dest="mock_inference",
         action="store_false",
-        help="(familiar) run inference; for future Cat 9 work where the "
-        "model writes the answer.",
+        help="(familiar) run inference; for future Cat 9 work where the model writes the answer.",
     )
     ret.add_argument(
         "--familiar-timeout",
         type=float,
         default=None,
         metavar="SECONDS",
-        help="(familiar) HTTP timeout for /api/familiar/eval and "
-        "/api/familiar/graph. Default 30s.",
+        help="(familiar) HTTP timeout for /api/familiar/eval and /api/familiar/graph. Default 30s.",
     )
     ret.add_argument(
         "--eval-generative",
@@ -2657,8 +2739,7 @@ def main(argv: list[str] | None = None) -> int:
         "--betti-max-nodes",
         type=int,
         default=2000,
-        help="skip homology when the largest component exceeds this size. "
-        "Default: 2000.",
+        help="skip homology when the largest component exceeds this size. Default: 2000.",
     )
     c5.add_argument(
         "--min-component-size",
@@ -2697,15 +2778,19 @@ def main(argv: list[str] | None = None) -> int:
     c3.add_argument("--adapter", required=True)
     _add_db_or_api_args(c3)
     c3.add_argument(
-        "--collection-name", metavar="NAME",
+        "--collection-name",
+        metavar="NAME",
         help="(mempalace/flat) ChromaDB collection name",
     )
     c3.add_argument(
-        "--kg-path", metavar="PATH",
+        "--kg-path",
+        metavar="PATH",
         help="(mempalace) SQLite knowledge graph path override",
     )
     c3.add_argument(
-        "--flat-detection-rate", type=float, default=0.0,
+        "--flat-detection-rate",
+        type=float,
+        default=0.0,
         help="flat-baseline contradiction detection rate for the "
         "(structural − flat) delta. Default 0.0 — a flat retriever "
         "surfaces no structured pairs by construction.",
@@ -2725,15 +2810,19 @@ def main(argv: list[str] | None = None) -> int:
     c6.add_argument("--adapter", required=True)
     _add_db_or_api_args(c6)
     c6.add_argument(
-        "--collection-name", metavar="NAME",
+        "--collection-name",
+        metavar="NAME",
         help="(mempalace/flat) ChromaDB collection name",
     )
     c6.add_argument(
-        "--kg-path", metavar="PATH",
+        "--kg-path",
+        metavar="PATH",
         help="(mempalace) SQLite knowledge graph path override",
     )
     c6.add_argument(
-        "--flat-completeness", type=float, default=0.0,
+        "--flat-completeness",
+        type=float,
+        default=0.0,
         help="flat-baseline supersession completeness for the "
         "(structural − flat) delta. Default 0.0 — a flat retriever has "
         "no edges and no _superseded_by field.",
@@ -2749,9 +2838,7 @@ def main(argv: list[str] | None = None) -> int:
         "Compares Condition A (flat) / B (full pipeline) / C (structure "
         "disabled) by hop depth.",
     )
-    c2c.add_argument(
-        "--flat", metavar="JSON", help="retrieve-results JSON for Condition A"
-    )
+    c2c.add_argument("--flat", metavar="JSON", help="retrieve-results JSON for Condition A")
     c2c.add_argument(
         "--graph",
         required=True,
@@ -2765,9 +2852,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     c2c.add_argument("--flat-label", help="custom label for Condition A")
     c2c.add_argument("--graph-label", help="custom label for Condition B")
-    c2c.add_argument(
-        "--no-structure-label", help="custom label for Condition C"
-    )
+    c2c.add_argument("--no-structure-label", help="custom label for Condition C")
     c2c.add_argument("--json", metavar="PATH", help="write full report as JSON")
     c2c.set_defaults(func=cmd_cat2c)
 
@@ -2850,39 +2935,50 @@ def main(argv: list[str] | None = None) -> int:
     cs = sub.add_parser(
         "candidate-strategy",
         help="A/B/C ablation of palace-daemon's candidate retrieval "
-             "strategies (vector / union / hybrid). Reports per-strategy "
-             "R@5/10, MRR, latency, and a strategy-flip diagnostic.",
+        "strategies (vector / union / hybrid). Reports per-strategy "
+        "R@5/10, MRR, latency, and a strategy-flip diagnostic.",
     )
     cs.add_argument(
-        "--queries", required=True, type=Path,
+        "--queries",
+        required=True,
+        type=Path,
         help="Labeled query JSON (palace-daemon rerank_eval_queries shape).",
     )
     cs.add_argument(
-        "--api-url", default=None,
-        help="Daemon base URL. Defaults to PALACE_DAEMON_URL env or "
-             "http://localhost:8085.",
+        "--api-url",
+        default=None,
+        help="Daemon base URL. Defaults to PALACE_DAEMON_URL env or http://localhost:8085.",
     )
     cs.add_argument(
-        "--api-key", default=None,
+        "--api-key",
+        default=None,
         help="X-API-Key for the daemon. Defaults to PALACE_API_KEY env.",
     )
     cs.add_argument(
-        "--strategies", nargs="+", default=None,
+        "--strategies",
+        nargs="+",
+        default=None,
         help="Strategies to ablate (default: vector union hybrid).",
     )
     cs.add_argument(
-        "--limit", type=int, default=None,
-        help="Per-query candidate pool size (default: 20). Mutually "
-             "exclusive with --limits.",
+        "--limit",
+        type=int,
+        default=None,
+        help="Per-query candidate pool size (default: 20). Mutually exclusive with --limits.",
     )
     cs.add_argument(
-        "--limits", type=int, nargs="+", default=None,
+        "--limits",
+        type=int,
+        nargs="+",
+        default=None,
         help="Multi-limit sweep — runs each strategy at every K in the "
-             "list (e.g. --limits 5 10 20 50). Shows how the top-K cliff "
-             "shifts across strategies. Mutually exclusive with --limit.",
+        "list (e.g. --limits 5 10 20 50). Shows how the top-K cliff "
+        "shifts across strategies. Mutually exclusive with --limit.",
     )
     cs.add_argument(
-        "--json", type=Path, default=None,
+        "--json",
+        type=Path,
+        default=None,
         help="Output JSON path.",
     )
     cs.set_defaults(func=cmd_candidate_strategy)
@@ -2892,38 +2988,38 @@ def main(argv: list[str] | None = None) -> int:
     lm = sub.add_parser(
         "longmemeval",
         help="Run LongMemEval E2E QA through an SME adapter — reports "
-             "both R@5 retrieval recall and judge-scored QA accuracy "
-             "plus the retrieval/QA gap per category.",
+        "both R@5 retrieval recall and judge-scored QA accuracy "
+        "plus the retrieval/QA gap per category.",
     )
     lm.add_argument(
         "--adapter",
         required=True,
         help="Adapter to run the LongMemEval haystack through. The harness "
-             "currently wires {full-context, flat, karpathy-compiled, "
-             "mempalace, mempalace-daemon}.",
+        "currently wires {full-context, flat, karpathy-compiled, "
+        "mempalace, mempalace-daemon}.",
     )
     lm.add_argument(
         "--questions",
         required=True,
         metavar="JSON",
         help="Path to the dataset JSON. --corpus longmemeval (default): "
-             "longmemeval_oracle.json / _s / _m. --corpus locomo: "
-             "locomo10.json.",
+        "longmemeval_oracle.json / _s / _m. --corpus locomo: "
+        "locomo10.json.",
     )
     lm.add_argument(
         "--corpus",
         default="longmemeval",
         choices=["longmemeval", "locomo"],
         help="Dataset shape. 'longmemeval' (default) = one haystack per "
-             "question. 'locomo' = one conversation per sample (questions "
-             "grouped by sample_id, ingested per sample; cat-5 adversarial "
-             "judged abstention-aware). Composes with --age-fused / --kind.",
+        "question. 'locomo' = one conversation per sample (questions "
+        "grouped by sample_id, ingested per sample; cat-5 adversarial "
+        "judged abstention-aware). Composes with --age-fused / --kind.",
     )
     lm.add_argument(
         "--answer-model",
         default="gpt-4.1-mini",
         help="Reader model (turns retrieved context into an answer the "
-             "judge can score). Default: gpt-4.1-mini.",
+        "judge can score). Default: gpt-4.1-mini.",
     )
     lm.add_argument(
         "--judge",
@@ -2940,14 +3036,14 @@ def main(argv: list[str] | None = None) -> int:
         "--skip-judge",
         action="store_true",
         help="Skip reader + judge entirely. Reports R@5 only — useful "
-             "for an API-key-free retrieval-only run.",
+        "for an API-key-free retrieval-only run.",
     )
     lm.add_argument(
         "--skip-reader",
         action="store_true",
         help="Feed the raw retrieved context to the judge instead of "
-             "running a reader pass. Diagnostic mode — not apples-to-apples "
-             "with published LongMemEval numbers.",
+        "running a reader pass. Diagnostic mode — not apples-to-apples "
+        "with published LongMemEval numbers.",
     )
     lm.add_argument(
         "--json",

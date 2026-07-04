@@ -121,21 +121,9 @@ class MemPalaceServerAdapter(SMEAdapter):
         kg_entity_limit: int = DEFAULT_KG_ENTITY_LIMIT,
         read_only: bool = False,
     ) -> None:
-        resolved_url = (
-            api_url
-            or os.environ.get("MEMPALACE_SERVER_URL")
-            or DEFAULT_API_URL
-        )
-        resolved_key = (
-            api_key
-            or os.environ.get("MEMPALACE_SERVER_API_KEY")
-            or DEFAULT_API_KEY
-        )
-        resolved_tenant = (
-            tenant
-            or os.environ.get("MEMPALACE_SERVER_TENANT")
-            or DEFAULT_TENANT
-        )
+        resolved_url = api_url or os.environ.get("MEMPALACE_SERVER_URL") or DEFAULT_API_URL
+        resolved_key = api_key or os.environ.get("MEMPALACE_SERVER_API_KEY") or DEFAULT_API_KEY
+        resolved_tenant = tenant or os.environ.get("MEMPALACE_SERVER_TENANT") or DEFAULT_TENANT
         self.api_url = resolved_url.rstrip("/")
         self.api_key = resolved_key
         self.tenant = resolved_tenant
@@ -178,12 +166,7 @@ class MemPalaceServerAdapter(SMEAdapter):
         created = 0
         existed = 0
         for row in corpus:
-            content = (
-                row.get("document")
-                or row.get("content")
-                or row.get("text")
-                or ""
-            )
+            content = row.get("document") or row.get("content") or row.get("text") or ""
             if not str(content).strip():
                 continue
             meta = row.get("metadata") or {}
@@ -293,12 +276,17 @@ class MemPalaceServerAdapter(SMEAdapter):
             raw_id = hit.get("drawer_id") or hit.get("id")
             drawer_id = str(raw_id) if raw_id is not None else f"drawer_hit:{i}"
             label = source_label or drawer_id
-            context_parts.append(
-                f"[{i + 1}] [{wing_name}/{room_name}] {label}\n{content}"
-            )
+            # Retrieval scorers (LongMemEval cross-validation) match
+            # ``Entity.id`` against the corpus/session ids supplied at
+            # ingest, which this adapter stores in ``source_file``. The
+            # server's own drawer id is a content hash and can never match,
+            # so surface the source stem as the entity id and keep the
+            # drawer hash in properties for provenance.
+            entity_id = Path(source_file).stem if source_file else drawer_id
+            context_parts.append(f"[{i + 1}] [{wing_name}/{room_name}] {label}\n{content}")
             retrieved.append(
                 Entity(
-                    id=drawer_id,
+                    id=entity_id,
                     name=label,
                     entity_type=f"drawer:{room_name}",
                     properties={
@@ -308,6 +296,7 @@ class MemPalaceServerAdapter(SMEAdapter):
                         "similarity": hit.get("similarity"),
                         "distance": hit.get("distance"),
                         "source_file": source_file,
+                        "drawer_id": drawer_id,
                         "rank": i + 1,
                     },
                 )
@@ -540,8 +529,11 @@ class MemPalaceServerAdapter(SMEAdapter):
                 {
                     "kind": "hall_vocabulary",
                     "values": [
-                        "facts", "events", "discoveries",
-                        "preferences", "advice",
+                        "facts",
+                        "events",
+                        "discoveries",
+                        "preferences",
+                        "advice",
                     ],
                 },
             ],
@@ -594,9 +586,7 @@ class MemPalaceServerAdapter(SMEAdapter):
         latency_ms = (time.perf_counter() - t0) * 1000.0
         if isinstance(body, QueryResult):
             return ProbeResult(success=False, latency_ms=latency_ms, error=body.error)
-        return ProbeResult(
-            success=True, latency_ms=latency_ms, output=json.dumps(body)[:200]
-        )
+        return ProbeResult(success=True, latency_ms=latency_ms, output=json.dumps(body)[:200])
 
     def _probe_rest_search(self) -> ProbeResult:
         """A minimal authenticated search — read-only, mutates nothing."""
@@ -609,8 +599,9 @@ class MemPalaceServerAdapter(SMEAdapter):
 
     # --- HTTP plumbing ------------------------------------------------
 
-    def _http(self, method: str, path: str, payload: Optional[dict] = None,
-              *, auth: bool = True) -> Any:
+    def _http(
+        self, method: str, path: str, payload: Optional[dict] = None, *, auth: bool = True
+    ) -> Any:
         """Issue an HTTP request, returning parsed JSON on 2xx or a
         ``QueryResult`` carrying an ``error`` string on any failure.
 
@@ -640,13 +631,9 @@ class MemPalaceServerAdapter(SMEAdapter):
                 err = f"HTTP {e.code}: {detail}"
             return QueryResult(answer="", context_string="", error=err)
         except (urllib.error.URLError, TimeoutError, OSError) as e:
-            return QueryResult(
-                answer="", context_string="", error=f"CONNECTION: {e}"
-            )
+            return QueryResult(answer="", context_string="", error=f"CONNECTION: {e}")
         except Exception as e:  # pragma: no cover - defensive
-            return QueryResult(
-                answer="", context_string="", error=f"INTERNAL: {e}"
-            )
+            return QueryResult(answer="", context_string="", error=f"INTERNAL: {e}")
 
     def _mcp_call(self, tool: str, arguments: dict) -> Optional[dict]:
         """Call an MCP tool via ``POST /mp/mcp`` (stateless JSON-RPC — no

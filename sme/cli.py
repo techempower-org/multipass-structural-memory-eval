@@ -56,6 +56,12 @@ def _mempalace_daemon_loader() -> type[SMEAdapter]:
     return MemPalaceDaemonAdapter
 
 
+def _mempalace_server_loader() -> type[SMEAdapter]:
+    from sme.adapters.mempalace_server_adapter import MemPalaceServerAdapter
+
+    return MemPalaceServerAdapter
+
+
 def _rlm_loader() -> type[SMEAdapter]:
     from sme.adapters.rlm_adapter import RlmAdapter
 
@@ -173,6 +179,14 @@ _ADAPTER_REGISTRY: tuple[_AdapterSpec, ...] = (
             "search_endpoint", "candidate_strategy",
             # #147 — real-KG structural measurement (Cat 4/5/8)
             "graph_kg_only", "graph_limit",
+        }),
+    ),
+    _AdapterSpec(
+        aliases=("mempalace-server", "mempalace_server", "mp-server"),
+        loader=_mempalace_server_loader,
+        accepts=frozenset({
+            "api_url", "api_key", "tenant", "wing", "room", "n_results",
+            "max_distance", "api_timeout", "reset_before_ingest", "read_only",
         }),
     ),
     _AdapterSpec(

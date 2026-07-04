@@ -123,6 +123,23 @@ def _hindsight_factory(tmp_path: Path) -> SMEAdapter:
     return HindsightAdapter(base_url="http://127.0.0.1:0", api_timeout=0.5)
 
 
+def _mempalace_server_factory(tmp_path: Path) -> SMEAdapter:
+    """MemPalaceServerAdapter (Go server) against an unreachable URL.
+
+    Constructs without connecting; every method degrades gracefully when
+    the server is absent (query/ingest return error-bearing results,
+    get_graph_snapshot returns ([], [])), so the contract runs clean with
+    no live server. ``127.0.0.1:0`` fails fast on connect."""
+    from sme.adapters.mempalace_server_adapter import MemPalaceServerAdapter
+
+    return MemPalaceServerAdapter(
+        api_url="http://127.0.0.1:0",
+        api_key="contract-test",
+        api_timeout=0.5,
+        reset_before_ingest=False,
+    )
+
+
 def _mem0_factory(tmp_path: Path) -> SMEAdapter:
     """Mem0Adapter — requires the ``mem0`` OSS library; skips when absent.
 
@@ -165,6 +182,7 @@ ADAPTER_FACTORIES: dict[str, AdapterFactory] = {
     "omega": _omega_factory,
     "hindsight": _hindsight_factory,
     "mem0": _mem0_factory,
+    "mempalace_server": _mempalace_server_factory,
 }
 
 

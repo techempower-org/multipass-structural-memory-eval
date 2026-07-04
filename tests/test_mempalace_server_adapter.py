@@ -334,8 +334,39 @@ def test_query_connection_error_no_raise(fake_urlopen_factory):
 # --- get_graph_snapshot ----------------------------------------------
 
 
+def _mcp_route(entities=None, relations_by_entity=None, error=None):
+    """Build a fake_urlopen callable for POST /mp/mcp that dispatches on the
+    JSON-RPC tool name (params.name) and returns the standard MCP envelope
+    ({result:{content:[{type:text,text:<json>}]}}), or a JSON-RPC error."""
+    entities = entities or []
+    relations_by_entity = relations_by_entity or {}
+
+    def route(req):
+        env = json.loads(req.data.decode())
+        rid = env.get("id")
+        if error is not None:
+            return {"jsonrpc": "2.0", "id": rid,
+                    "error": {"code": -32603, "message": error}}
+        name = env["params"]["name"]
+        args = env["params"].get("arguments", {})
+        if name == "mempalace_kg_search_entities":
+            payload = {"entities": entities, "count": len(entities)}
+        elif name == "mempalace_kg_get_entity":
+            ename = args.get("name")
+            payload = {"entity": {"name": ename},
+                       "relations": relations_by_entity.get(ename, [])}
+        else:
+            payload = {"ok": True}
+        return {"jsonrpc": "2.0", "id": rid,
+                "result": {"content": [{"type": "text", "text": json.dumps(payload)}]}}
+
+    return route
+
+
 def test_graph_snapshot_from_taxonomy(fake_urlopen_factory):
+    # KG empty → deterministic fallback to the wing/room taxonomy snapshot.
     fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(entities=[]),
         f"GET {BASE}/mp/api/v1/taxonomy": {
             "total": 6,
             "taxonomy": {
@@ -356,17 +387,119 @@ def test_graph_snapshot_from_taxonomy(fake_urlopen_factory):
         assert edge.target_id in ids
     # rooms link to their wing via member_of
     assert any(e.edge_type == "member_of" for e in edges)
+    assert a._graph_basis == "taxonomy"
 
 
 def test_graph_snapshot_error_returns_empty(fake_urlopen_factory):
     err = urllib.error.HTTPError(
         f"{BASE}/mp/api/v1/taxonomy", 500, "Server Error", {}, None
     )
-    fake_urlopen_factory({f"GET {BASE}/mp/api/v1/taxonomy": err})
+    fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(entities=[]),  # KG empty
+        f"GET {BASE}/mp/api/v1/taxonomy": err,            # taxonomy errors
+    })
     a = _adapter()
     entities, edges = a.get_graph_snapshot()
     assert entities == []
     assert edges == []
+
+
+# --- get_graph_snapshot: real KG via MCP (kg-first, taxonomy fallback) ---
+
+
+def test_graph_snapshot_from_kg(fake_urlopen_factory):
+    fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(
+            entities=[
+                {"name": "Sarah", "entity_type": "person"},
+                {"name": "Acme", "entity_type": "organization"},
+            ],
+            relations_by_entity={
+                "Sarah": [{"type": "works_at", "from": "Sarah", "to": "Acme"}],
+                "Acme": [{"type": "works_at", "from": "Sarah", "to": "Acme"}],
+            },
+        ),
+        # taxonomy present too — but KG is non-empty so it must NOT be used.
+        f"GET {BASE}/mp/api/v1/taxonomy": {"total": 9, "taxonomy": {"w": {"r": 9}}},
+    })
+    a = _adapter()
+    entities, edges = a.get_graph_snapshot()
+    ids = {e.id for e in entities}
+    assert a._graph_basis == "kg"
+    assert "kg:Sarah" in ids and "kg:Acme" in ids
+    assert "wing:w" not in ids  # taxonomy NOT used
+    assert len(edges) == 1  # relation deduped across both endpoints
+    assert edges[0].edge_type == "works_at"
+    for e in edges:
+        assert e.source_id in ids and e.target_id in ids
+
+
+def test_graph_snapshot_kg_unavailable_falls_back_to_taxonomy(fake_urlopen_factory):
+    # AGE not installed → kg_search_entities returns a JSON-RPC error.
+    fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(error="knowledge graph not available"),
+        f"GET {BASE}/mp/api/v1/taxonomy": {"total": 1, "taxonomy": {"w": {"r": 1}}},
+    })
+    a = _adapter()
+    entities, edges = a.get_graph_snapshot()
+    assert a._graph_basis == "taxonomy"
+    assert any(e.id == "wing:w" for e in entities)
+
+
+def test_graph_snapshot_kg_synthesizes_missing_endpoint(fake_urlopen_factory):
+    # A relation points to an entity beyond the enumerated set → synthesize it.
+    fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(
+            entities=[{"name": "Sarah", "entity_type": "person"}],
+            relations_by_entity={
+                "Sarah": [{"type": "knows", "from": "Sarah", "to": "Ghost"}],
+            },
+        ),
+    })
+    a = _adapter()
+    entities, edges = a.get_graph_snapshot()
+    ids = {e.id for e in entities}
+    assert "kg:Ghost" in ids  # synthesized
+    for e in edges:
+        assert e.source_id in ids and e.target_id in ids
+
+
+def test_kg_contradiction_pairs_via_base_default(fake_urlopen_factory):
+    # A CONTRADICTS-typed KG relation → base-class get_contradiction_pairs
+    # derives one pair from the KG snapshot (no override needed).
+    fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(
+            entities=[
+                {"name": "salary_50k", "entity_type": "claim"},
+                {"name": "salary_80k", "entity_type": "claim"},
+            ],
+            relations_by_entity={
+                "salary_50k": [
+                    {"type": "CONTRADICTS", "from": "salary_50k", "to": "salary_80k"}
+                ],
+                "salary_80k": [
+                    {"type": "CONTRADICTS", "from": "salary_50k", "to": "salary_80k"}
+                ],
+            },
+        ),
+    })
+    a = _adapter()
+    pairs = a.get_contradiction_pairs()
+    assert len(pairs) == 1
+    assert {pairs[0].source_a, pairs[0].source_b} == {"kg:salary_50k", "kg:salary_80k"}
+
+
+def test_graph_basis_recorded_in_harness_manifest(fake_urlopen_factory):
+    fake_urlopen_factory({
+        f"POST {BASE}/mp/mcp": _mcp_route(
+            entities=[{"name": "A", "entity_type": "concept"}],
+            relations_by_entity={"A": []},
+        ),
+    })
+    a = _adapter()
+    a.get_graph_snapshot()  # sets basis = kg
+    mcp = next(d for d in a.get_harness_manifest() if d.kind == "mcp_resource")
+    assert mcp.properties["graph_basis"] == "kg"
 
 
 # --- reset ------------------------------------------------------------
@@ -500,3 +633,38 @@ def test_live_ingest_search_reset_roundtrip():
         assert isinstance(entities, list) and isinstance(edges, list)
     finally:
         a.reset(wing="sme_selftest")
+
+
+@pytest.mark.skipif(
+    not _LIVE, reason="set MEMPALACE_SERVER_LIVE=1 to run against a live Go server"
+)
+def test_live_kg_snapshot_reads_real_entity_graph():
+    """Seed the AGE entity graph explicitly (kg_add_entity/relation), then
+    confirm get_graph_snapshot reads it back with basis='kg'. Proves the
+    real-KG path end-to-end (the server does no auto-extraction, so we must
+    populate the KG ourselves to exercise it). Cleans up its own entities."""
+    a = MemPalaceServerAdapter()
+    mcp = next(d for d in a.get_harness_manifest() if d.kind == "mcp_resource")
+    if not mcp.probe_fn().success:
+        pytest.skip("Go MemPalace server not reachable")
+    seeded = a._mcp_call("mempalace_kg_add_entity",
+                         {"name": "SME_KGProbe_Sarah", "entity_type": "person"})
+    if seeded is None:
+        pytest.skip("AGE entity graph not available on this server")
+    try:
+        a._mcp_call("mempalace_kg_add_entity",
+                    {"name": "SME_KGProbe_Acme", "entity_type": "organization"})
+        a._mcp_call("mempalace_kg_add_relation", {
+            "from_entity": "SME_KGProbe_Sarah",
+            "relation_type": "works_at",
+            "to_entity": "SME_KGProbe_Acme",
+        })
+        entities, edges = a.get_graph_snapshot()
+        assert a._graph_basis == "kg", a._graph_basis
+        names = {e.name for e in entities}
+        assert "SME_KGProbe_Sarah" in names and "SME_KGProbe_Acme" in names
+        assert any(e.source_id == "kg:SME_KGProbe_Sarah"
+                   and e.target_id == "kg:SME_KGProbe_Acme" for e in edges)
+    finally:
+        a._mcp_call("mempalace_kg_delete_entity", {"name": "SME_KGProbe_Sarah"})
+        a._mcp_call("mempalace_kg_delete_entity", {"name": "SME_KGProbe_Acme"})

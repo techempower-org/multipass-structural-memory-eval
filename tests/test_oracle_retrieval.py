@@ -41,6 +41,13 @@ def test_query_returns_expected_sources_for_known_question() -> None:
     assert len(result.retrieved_entities) == 1
     assert result.retrieved_entities[0].name == "Paris is the capital of France."
     assert result.retrieved_entities[0].entity_type == "oracle_source"
+    # Entity ID tracks the gold source string, not a loop index, so
+    # per-ID downstream analysis (Cat 4/Cat 5) can map back to the
+    # source.
+    assert (
+        result.retrieved_entities[0].id
+        == "oracle:Paris is the capital of France."
+    )
 
 
 def test_query_returns_all_expected_sources() -> None:

@@ -222,18 +222,23 @@ def _good_dog_report(min_overlap: float = 0.5) -> PhantomEdgeReport:
 
 def test_good_dog_loads_and_checks_every_edge():
     """All good-dog edges carry a source_note that resolves to a body —
-    none should fall into edges_missing_source."""
+    none should fall into edges_missing_source.
+
+    Counts track the good-dog corpus expansion (upstream 54→62 sources /
+    v0.3): 469 edges across 62 vault notes, every one grounded to a source.
+    """
     report = _good_dog_report()
-    assert report.edges_total == 164
-    assert report.edges_checked == 164
+    assert report.edges_total == 469
+    assert report.edges_checked == 469
     assert report.edges_missing_source == 0
 
 
 def test_good_dog_needs_grounding_flag_propagates():
     """The loader must propagate needs_grounding onto edges so the
-    detector can calibrate — there are 14 such edges in the corpus."""
+    detector can calibrate — there are 39 such edges in the expanded
+    corpus (good-dog 54→62 / v0.3)."""
     report = _good_dog_report()
-    assert report.flagged_total == 14
+    assert report.flagged_total == 39
 
 
 def test_good_dog_calibration_delta():

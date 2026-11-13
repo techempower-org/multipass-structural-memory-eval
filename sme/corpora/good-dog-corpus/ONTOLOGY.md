@@ -94,7 +94,7 @@ The rules in `ontology.yaml` are deliberately heterogeneous because the underlyi
 - **Byline / affiliation phrase rules** for `authored_by` and `affiliated_with`. Pattern matching on author and affiliation fields.
 - **Topic-match rules** for `subject_of`. Title or abstract subject extraction. Also marked `requires_human_grounding: true` for the same reason as contradiction — distinguishing "primarily about" from "mentions in passing" is not currently solvable by lexical rules alone.
 
-The heterogeneity is the point. Cat 10 (phantom edges) is not a single threshold; it's a per-edge-type contract about what counts as evidence, and the corpus is the first place that contract gets written down.
+The heterogeneity is the point. Cat 4g (phantom edges) is not a single threshold; it's a per-edge-type contract about what counts as evidence, and the corpus is the first place that contract gets written down.
 
 ---
 
@@ -122,7 +122,7 @@ The ontology was designed against the published SME categories, not retrofitted 
 | Cat 4 (ingestion integrity / alias resolution) | `alias_of` | GSD / German Shepherd / Alsatian collapse |
 | Cat 6 (temporal) | `supersedes` | Pet food recall lifecycle: announced → investigated → resolved |
 | Cat 8 (ontology coherence) | the entire schema vs the built graph | Did the corpus build the graph it claimed it would? |
-| Cat 10 (phantom edges) | `evidence_rule` field on every edge type | First worked example of per-edge-type evidence registration |
+| Cat 4g (phantom edges) | `evidence_rule` field on every edge type | First worked example of per-edge-type evidence registration |
 
 The corpus deliberately seeds material for each category: contradiction pairs in `vault/veterinary_research/` and `vault/behavioral_research/`, alias pairs in `vault/breed_standards/`, temporal chains in `vault/nutrition_safety/` (recall lifecycles) and `vault/behavioral_research/` (training methodology evolution), and cross-domain hop chains spanning `vault/veterinary_research/` → `vault/municipal_policy/` → `vault/community_journalism/`.
 
@@ -142,6 +142,61 @@ Extensions should be opened as issues against the SME repo with `[good-dog-corpu
 
 ---
 
+## 8. Precision vs. recall: the domain/range tradeoff (why the built graph is sparse)
+
+Every edge type in §3 carries a tight `direction:` (domain → range). That tightness is deliberate — it is what makes the phantom-edge probe (§4) meaningful: an edge whose endpoints violate its declared domain/range is rejected at write time as a grade-locality violation, before it can pollute the graph. The schema is **precision-first**.
+
+The cost of that choice is **recall**, and it is large enough to be worth stating plainly. Building the type-pair reachability matrix from `ontology.yaml` (which ordered `(source_type, target_type)` pairs does *any* edge type admit?) shows:
+
+- **44 of the 64 type-pairs are inexpressible** — no edge type connects them in that direction.
+- **`concept` is a near-sink.** The only edge type with `concept` as its *source* is `alias_of` — and that is `same_type: true` and registry-proposed, not freely LLM-extracted. A concept can be pointed *at* (by `publication` via `mentions`/`subject_of`, by `organization` via `regulates`) but can essentially **never originate a relation.**
+- **`event` is nearly the same** — its only outgoing edge type is `located_in` (event → location).
+
+In the demo corpus, `concept` (≈37% of entities) and `event` (≈20%) together are **~57% of all nodes** — and the majority of them structurally *cannot start an edge*. An LLM reading dog-science prose naturally proposes concept-centric relations ("dominance theory → superseded by → positive reinforcement", "BSL → targets → pit bulls"). Almost all of those are `concept → concept` or `concept → X`, have no valid edge type, and are correctly grade-dropped.
+
+The attrition this produces is measured and consistent across extraction backends:
+
+| Extraction backend | Edges proposed | Edges persisted | Dropped |
+|---|---|---|---|
+| qwen3:14b (remote GPU) | 547 | 143 | ~74% |
+| gemma3:12b (remote GPU) | 304 | 59 | ~81% |
+
+**This is the ontology working as designed, not a bug.** The sparse, high-confidence graph is the deliberate output of a precision-first schema built to test phantom-edge detection. It sits at the opposite end of the spectrum from the repo's *built-in default* ontology (root `ONTOLOGY.md`), which keeps permissive `*`-direction associative edges (`ASSOCIATED_WITH`, `SUPPORTS`, `CONFLICTS_WITH`) and so yields a denser, lower-precision graph.
+
+**If you want density from this corpus** — e.g. for a graph-traversal demo rather than a phantom-edge eval — give conceptual relations a home by adding one associative edge type:
+
+```yaml
+  - id: related_to
+    direction: "concept -> concept"   # or "* -> *" for maximal recall
+    description: "Associative link between concepts (SKOS related); recall over precision"
+```
+
+That single addition recovers most of the dropped edges. The tradeoff it makes is explicit: it reopens the recall the strict schema closed, at the cost of weakening the phantom-edge contract (an associative `* -> *` edge can no longer be grade-checked). Bump the `version` field if you take it — it is a different point on the precision/recall curve, not a bugfix.
+
+---
+
 ## Status
 
-v0.1, drafted 2026-04-30. Subject to revision as the corpus content fills in and edge cases surface. Major revisions will be reflected in `ontology.yaml`'s `version` field and a changelog appended to this document.
+v0.2, 2026-06-04. Drafted v0.1 2026-04-30. Subject to revision as the corpus content fills in and edge cases surface. Major revisions are reflected in `ontology.yaml`'s `version` field and the changelog below.
+
+---
+
+## Changelog
+
+### v0.2 (2026-06-04) — OntoClean/OntoQA audit pass
+
+An OntoClean (rigidity/identity/unity) + OntoQA/WiseOWL structural audit found the schema sound — 7/8 entity types are clean rigid sortals with no anti-rigid roles masquerading as kinds — and surfaced three edge-level fixes, all applied here (entity types unchanged, so the entity-resolution gold set stays valid):
+
+1. **Split the overloaded `member_of`** (the v0.1 review flag). One label was carrying two relations with incompatible endpoint identity: `breed -> breed` and `person -> organization`. Now `member_of` is **person → organization** (= schema.org `memberOf`), and breed grouping moved to a new **`grouped_under` (breed → breed)** edge (SKOS `broader` semantics) — which also gives the otherwise-flat ontology (RR≈1.0, no `is-a`) a taxonomic spine.
+2. **Constrained `alias_of` to same-type** via a new `same_type: true` schema flag. An alias never crosses an entity type (`Hill's`[organization] ≠ `Hill's Science Diet`[product]); this is the SKOS `altLabel` / `owl:sameAs` / entity-resolution relation, registry- and resolver-proposed rather than freely LLM-extracted.
+3. **Fixed `OR` → `|` in `regulates`, `subject_of`, `located_in`.** The YAML loader splits alternation on `|`; the v0.1 `"product OR concept"` strings silently parsed as a single unknown type, leaving those edges unconstrained. They now carry their intended domain/range.
+
+**Standardized-framework alignment (interop, not replacement).** The schema stays the source of truth; these are the published vocabularies each part maps onto, for interoperability:
+
+| good-dog type/edge | Aligns to |
+|---|---|
+| person / organization / product / location / event | schema.org `Person` / `Organization` / `Product` / `Place` / `Event` |
+| publication, `authored_by` | Dublin Core (`creator`, `subject`), FRBR, schema.org `CreativeWork` |
+| concept, `alias_of`, `grouped_under` | SKOS (`Concept`, `altLabel`, `broader`) |
+| `cites` / `supersedes` / `contradicts` | CiTO (Citation Typing Ontology); `supersedes` also PROV-O |
+| `event` (vs continuant types) | BFO/DOLCE continuant↔occurrent split (noted, not modeled — a demo doesn't need a top-level upper ontology) |

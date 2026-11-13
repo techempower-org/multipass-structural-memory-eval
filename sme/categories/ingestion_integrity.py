@@ -54,6 +54,11 @@ from sme.topology.analyzer import TopologyAnalyzer
 
 log = logging.getLogger(__name__)
 
+# Max per-ID degree lines rendered inside a single collision group before
+# the formatter truncates with a footer. Pathological groups (10+ IDs on the
+# same canonical key) would otherwise blow up the report.
+COLLISION_GROUP_ID_RENDER_LIMIT = 10
+
 
 # --- Canonicalization -------------------------------------------------
 
@@ -85,6 +90,11 @@ _COVERAGE_WARN = 0.95       # 95-99.5% warning
 
 _NORM_ENTROPY_HEALTHY = 0.80
 _NORM_ENTROPY_WARN = 0.50
+
+# Edge types with fewer than this many edges are flagged "sparse" in the
+# 4c monoculture render — their per-type component counts are too noisy
+# to read as a monoculture signal.
+_SPARSE_EDGE_THRESHOLD = 5
 
 
 def _band(value: float, healthy: float, warn: float, *, lower_is_better: bool) -> str:
@@ -420,11 +430,20 @@ def format_report(report: IngestionIntegrityReport) -> str:
         )
         if group.id_degrees:
             max_degree = max(group.id_degrees.values())
-            for eid, deg in sorted(
-                group.id_degrees.items(), key=lambda kv: -kv[1]
-            ):
-                marker = "   ← keep" if deg == max_degree else ""
+            # Deterministic keeper: among IDs tied at max degree, keep the
+            # lexicographically smallest ID so the marker is unique and
+            # stable across runs on the same graph.
+            keeper_id = min(
+                eid for eid, deg in group.id_degrees.items() if deg == max_degree
+            )
+            # Sort by descending degree, tie-broken by ID for determinism.
+            ranked = sorted(group.id_degrees.items(), key=lambda kv: (-kv[1], kv[0]))
+            for eid, deg in ranked[:COLLISION_GROUP_ID_RENDER_LIMIT]:
+                marker = "   ← keep" if eid == keeper_id else ""
                 lines.append(f"                  {eid}  (deg={deg}){marker}")
+            hidden = len(ranked) - COLLISION_GROUP_ID_RENDER_LIMIT
+            if hidden > 0:
+                lines.append(f"                  ... and {hidden} more")
     if len(report.collision_groups) > 5:
         lines.append(
             f"    ... +{len(report.collision_groups) - 5} more collision groups"
@@ -464,18 +483,20 @@ def format_report(report: IngestionIntegrityReport) -> str:
     if report.per_edge_type_components:
         lines.append("")
         lines.append("  Per-edge-type edges + components (4c monoculture signal):")
-        sparse_threshold = 5
         combined = sorted(
             report.per_edge_type_components.items(),
-            key=lambda kv: -report.per_edge_type_edge_counts.get(kv[0], 0),
+            key=lambda kv: (
+                -report.per_edge_type_edge_counts.get(kv[0], 0),
+                kv[0],
+            ),
         )
         for etype, ncomp in combined[:10]:
             ne = report.per_edge_type_edge_counts.get(etype, 0)
             edge_word = "edge" if ne == 1 else "edges"
             comp_word = "component" if ncomp == 1 else "components"
             annotation = (
-                f"  [sparse — <{sparse_threshold} edges]"
-                if ne < sparse_threshold
+                f"  [sparse — <{_SPARSE_EDGE_THRESHOLD} edges]"
+                if ne < _SPARSE_EDGE_THRESHOLD
                 else ""
             )
             lines.append(

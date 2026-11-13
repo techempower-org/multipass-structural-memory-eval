@@ -32,8 +32,8 @@ def test_pricing_table_cost_for_tokens():
 
 def test_cost_per_correct_basic():
     result = cost_per_correct(1.0, 10, 100)
-    assert result["cost_per_correct_usd"] == 0.1
-    assert result["cost_per_query_usd"] == 0.01
+    assert result["cost_per_correct_usd"] == pytest.approx(0.1)
+    assert result["cost_per_query_usd"] == pytest.approx(0.01)
 
 def test_cost_per_correct_zero_correct():
     result = cost_per_correct(1.0, 0, 100)
